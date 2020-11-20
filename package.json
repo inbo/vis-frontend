@@ -4,7 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --outputPath=dist/local",
+    "builddev": "ng build --configuration=dev --outputPath=dist/dev",
+    "builduat": "ng build --configuration=dev --outputPath=dist/uat",
+    "buildprod": "ng build --prod --outputPath=dist/prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
