@@ -8,7 +8,6 @@ import {Title} from "@angular/platform-browser";
   templateUrl: './dashboard-page.component.html'
 })
 export class DashboardPageComponent implements OnInit {
-
   links: NavigationLink[] = GlobalConstants.links;
 
   constructor(private titleService: Title) {
