@@ -6,5 +6,6 @@ module.exports = (isProd) => ({
     },
     theme: {},
     plugins: [
+      require('@tailwindcss/typography'),
     ]
 });
