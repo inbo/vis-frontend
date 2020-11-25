@@ -31,7 +31,7 @@ tasks {
   val distZipLocal by creating(Zip::class) {
     dependsOn("npm_run_build")
 
-    archiveBaseName.set("visuilocal")
+    archiveBaseName.set("vis-ui-local")
 
     from("dist/local") {
       into("/")
@@ -45,7 +45,7 @@ tasks {
   val distZipDev by creating(Zip::class) {
     dependsOn("npm_run_builddev")
 
-    archiveBaseName.set("visbirdsuidev")
+    archiveBaseName.set("vis-ui-dev")
 
     from("dist/dev") {
       into("/")
@@ -59,7 +59,7 @@ tasks {
   val distZipUat by creating(Zip::class) {
     dependsOn("npm_run_builduat")
 
-    archiveBaseName.set("visbirdsuiuat")
+    archiveBaseName.set("vis-ui-uat")
 
     from("dist/uat") {
       into("/")
@@ -73,7 +73,7 @@ tasks {
   val distZipProd by creating(Zip::class) {
     dependsOn("npm_run_buildprod")
 
-    archiveBaseName.set("visbirdsuiprod")
+    archiveBaseName.set("vis-ui-prod")
 
     from("dist/prod") {
       into("/")
