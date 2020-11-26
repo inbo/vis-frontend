@@ -5,17 +5,17 @@ import {Title} from "@angular/platform-browser";
 import {BreadcrumbLink} from "../shared-ui/breadcrumb/BreadcrumbLinks";
 
 @Component({
-  selector: 'app-dashboard-page',
-  templateUrl: './dashboard-page.component.html'
+  selector: 'fish-index-page',
+  templateUrl: './fish-index-page.component.html'
 })
-export class DashboardPageComponent implements OnInit {
+export class FishIndexPageComponent implements OnInit {
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Home', url: '/dashboard'},
+    {title: 'Visindex', url: '/visindex'}
   ]
 
   constructor(private titleService: Title) {
-    this.titleService.setTitle("VIS Dashboard")
+    this.titleService.setTitle("Visindex")
   }
 
   ngOnInit(): void {

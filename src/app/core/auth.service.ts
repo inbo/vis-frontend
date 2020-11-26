@@ -169,7 +169,7 @@ export class AuthService {
   }
 
   public get username() {
-    return this.oauthService.getIdentityClaims()['username']
+    return this.oauthService.getIdentityClaims()['preferred_username']
   }
 
   public get picture() {

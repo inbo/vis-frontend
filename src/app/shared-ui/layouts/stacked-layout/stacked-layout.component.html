@@ -1,0 +1,96 @@
+<nav class="bg-pink-500" aria-label="Global">
+  <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex items-center px-2 lg:px-0">
+        <div class="flex-shrink-0 flex items-center">
+          <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-white.svg" alt="Workflow">
+        </div>
+        <div class="hidden lg:ml-8 lg:flex lg:space-x-4">
+          <a *ngFor="let nl of navigationLinks" [routerLink]="nl.url"
+             class="rounded-md py-2 px-3 text-sm font-medium text-white hover:bg-pink-400">
+            {{nl.title}}
+          </a>
+        </div>
+      </div>
+      <div class="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
+        <div class="max-w-lg w-full lg:max-w-xs">
+          <label for="search" class="sr-only">Search</label>
+          <div class="relative text-white focus-within:text-gray-400">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <!-- Heroicon name: search -->
+              <svg class="flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <input id="search" class="block w-full bg-pink-400 border-transparent py-2 pl-10 pr-3 text-base leading-5 placeholder-white focus:outline-none focus:bg-white focus:ring-0 focus:border-white focus:text-gray-900 focus:placeholder-gray-400 sm:text-sm rounded-md" placeholder="Zoek project" type="search">
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center lg:hidden">
+        <!-- Mobile menu button -->
+        <button (click)="isOpen = !isOpen" class="inline-flex items-center justify-center p-2 rounded-md text-pink-200 hover:text-white hover:bg-pink-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-expanded="false">
+          <span class="sr-only">Open menu</span>
+          <svg [class.hidden]="isOpen" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg [class.hidden]="!isOpen" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="hidden lg:ml-4 lg:flex lg:items-center">
+        <button class="flex-shrink-0 bg-pink-500 p-1 text-pink-200 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-pink-500 focus:ring-white">
+          <span class="sr-only">Meldingen</span>
+          <!-- Heroicon name: bell -->
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+        </button>
+
+        <!-- Profile dropdown -->
+        <profile-dropdown></profile-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <!--
+    Mobile menu, toggle classes based on menu state.
+
+    Menu open: "block", Menu closed: "hidden"
+  -->
+  <div [class.hidden]="!isOpen" class="lg:hidden">
+    <div class="pt-2 pb-3 px-2 space-y-1">
+      <a *ngFor="let nl of navigationLinks" [routerLink]="nl.url" class="block rounded-md py-2 px-3 text-base font-medium text-white hover:text-white hover:bg-pink-400">{{nl.title}}</a>
+    </div>
+    <div class="pt-4 pb-3 border-t border-pink-500">
+      <div class="flex items-center px-4">
+        <div class="flex-shrink-0">
+          <img *ngIf="picture" class="h-10 w-10 rounded-full" [src]="picture" alt="">
+          <div *ngIf="!picture" class="flex items-center justify-center w-10 h-10 bg-gray-300 rounded-full flex-shrink-0">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="ml-3">
+          <div class="text-base font-medium text-white">{{fullName}}</div>
+          <div class="text-sm font-medium text-pink-200">{{username}}</div>
+        </div>
+        <button class="ml-auto flex-shrink-0 bg-pink-500 rounded-full p-1 text-pink-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-pink-500 focus:ring-white">
+          <span class="sr-only">View notifications</span>
+          <!-- Heroicon name: bell -->
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+        </button>
+      </div>
+      <div class="mt-3 px-2">
+        <a routerLink="/profiel" class="block rounded-md py-2 px-3 text-base font-medium text-pink-200 hover:text-white hover:bg-pink-400">Profiel</a>
+
+        <a (click)="logout" class="block rounded-md py-2 px-3 text-base font-medium text-pink-200 hover:text-white hover:bg-pink-400">Sign out</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<ng-content select="[slot=content]"></ng-content>

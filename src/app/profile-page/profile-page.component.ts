@@ -1,21 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import {NavigationLink} from "../shared-ui/layouts/NavigationLinks";
 import {GlobalConstants} from "../GlobalConstants";
-import {Title} from "@angular/platform-browser";
 import {BreadcrumbLink} from "../shared-ui/breadcrumb/BreadcrumbLinks";
+import {Title} from "@angular/platform-browser";
 
 @Component({
-  selector: 'app-dashboard-page',
-  templateUrl: './dashboard-page.component.html'
+  selector: 'profile-page',
+  templateUrl: './profile-page.component.html'
 })
-export class DashboardPageComponent implements OnInit {
+export class ProfilePageComponent implements OnInit {
+
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Home', url: '/dashboard'},
+    {title: 'Mijn profiel', url: '/profiel'},
   ]
 
   constructor(private titleService: Title) {
-    this.titleService.setTitle("VIS Dashboard")
+    this.titleService.setTitle("Mijn V.I.S profiel")
   }
 
   ngOnInit(): void {

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NavigationLink} from "./NavigationLinks";
+import {NavigationLink} from "../NavigationLinks";
 
 @Component({
   selector: 'sidebar-layout',
