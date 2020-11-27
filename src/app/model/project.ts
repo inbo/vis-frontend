@@ -5,8 +5,8 @@ export interface Project {
   location: string
   province: string
   area: string
-  start: string
-  end: string
+  start: Date
+  end: Date
 }
 
 

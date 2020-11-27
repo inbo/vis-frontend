@@ -5,6 +5,9 @@ import {Title} from "@angular/platform-browser";
 import {BreadcrumbLink} from "../../shared-ui/breadcrumb/BreadcrumbLinks";
 import {Project} from "../../model/project";
 import {VisService} from "../../vis.service";
+import {AsyncPage} from "../../shared-ui/paging-async/asyncPage";
+import {Observable, of} from "rxjs";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-projects-overview-page',
@@ -12,26 +15,33 @@ import {VisService} from "../../vis.service";
 })
 export class ProjectsOverviewPageComponent implements OnInit {
 
+  loading: boolean = false;
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
     {title: 'Projecten', url: '/projecten'}
   ]
 
-  projects: Project[];
-  pagedProjects: Project[];
+  pager: AsyncPage<Project>;
+  projects: Observable<Project[]>;
 
-  constructor(private titleService: Title, private visService: VisService) {
+  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router) {
     this.titleService.setTitle("Projecten")
   }
 
-  onChangePage(pageOfItems: Array<any>) {
-    this.pagedProjects = pageOfItems;
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe((params) => {
+      this.getProjects(params.page ? params.page : 1, params.size ? params.size : 20)
+    });
   }
 
-  ngOnInit(): void {
-    this.visService.getProjects().subscribe(value => {
-      this.projects = value;
-    })
+  getProjects(page: number, size: number) {
+    this.loading = true;
+    this.projects = of([])
+    this.visService.getProjects(page, size).subscribe((value) => {
+      this.pager = value;
+      this.projects = of(value.content);
+      this.loading = false;
+    });
   }
 
 }

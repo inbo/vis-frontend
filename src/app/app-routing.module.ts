@@ -12,13 +12,13 @@ import {ProfilePageComponent} from "./profile-page/profile-page.component";
 
 const routes: Routes = [
   {path: '', component: WelcomePageComponent, pathMatch: 'full'},
-  {path: 'dashboard', component: DashboardPageComponent},
-  {path: 'projecten', component: ProjectsOverviewPageComponent},
-  {path: 'locaties', component: LocationOverviewPageComponent},
-  {path: 'vissoorten', component: FishSpeciesOverviewPageComponent},
-  {path: 'methoden', component: MethodsOverviewPageComponent},
-  {path: 'visindex', component: FishIndexPageComponent},
-  {path: 'profiel', component: ProfilePageComponent},
+  {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten', component: ProjectsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'locaties', component: LocationOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'vissoorten', component: FishSpeciesOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'methoden', component: MethodsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'visindex', component: FishIndexPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'profiel', component: ProfilePageComponent, canActivate: [AuthGuardWithForcedLogin]},
 ];
 
 @NgModule({

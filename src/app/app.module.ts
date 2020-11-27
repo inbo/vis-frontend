@@ -21,6 +21,7 @@ import { BreadcrumbComponent } from './shared-ui/breadcrumb/breadcrumb.component
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import {PagingAsyncComponent} from "./shared-ui/paging-async/paging-async.component";
 import {PagingComponent} from "./shared-ui/paging/paging.component";
+import {LoadingSpinnerComponent} from "./shared-ui/loading-spinner/loading-spinner.component";
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import {PagingComponent} from "./shared-ui/paging/paging.component";
     BreadcrumbComponent,
     ProfilePageComponent,
     PagingAsyncComponent,
-    PagingComponent
+    PagingComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     CommonModule,

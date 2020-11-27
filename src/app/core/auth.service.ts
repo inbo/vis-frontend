@@ -165,15 +165,18 @@ export class AuthService {
   }
 
   public get fullName() {
-    return this.oauthService.getIdentityClaims()['given_name'] + " " + this.oauthService.getIdentityClaims()['family_name'];
+    let identityClaims = this.oauthService.getIdentityClaims();
+    return identityClaims == null ? '' : identityClaims['given_name'] + " " + identityClaims['family_name'];
   }
 
   public get username() {
-    return this.oauthService.getIdentityClaims()['preferred_username']
+    let identityClaims = this.oauthService.getIdentityClaims();
+    return identityClaims == null ? '' : identityClaims['preferred_username']
   }
 
   public get picture() {
-    return this.oauthService.getIdentityClaims()['picture'];
+    let identityClaims = this.oauthService.getIdentityClaims();
+    return identityClaims == null ? '' : identityClaims['picture'];
   }
 
 }
