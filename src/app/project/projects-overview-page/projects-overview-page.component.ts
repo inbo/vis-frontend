@@ -3,6 +3,8 @@ import {NavigationLink} from "../../shared-ui/layouts/NavigationLinks";
 import {GlobalConstants} from "../../GlobalConstants";
 import {Title} from "@angular/platform-browser";
 import {BreadcrumbLink} from "../../shared-ui/breadcrumb/BreadcrumbLinks";
+import {Project} from "../../model/project";
+import {VisService} from "../../vis.service";
 
 @Component({
   selector: 'app-projects-overview-page',
@@ -15,11 +17,21 @@ export class ProjectsOverviewPageComponent implements OnInit {
     {title: 'Projecten', url: '/projecten'}
   ]
 
-  constructor(private titleService: Title) {
+  projects: Project[];
+  pagedProjects: Project[];
+
+  constructor(private titleService: Title, private visService: VisService) {
     this.titleService.setTitle("Projecten")
   }
 
+  onChangePage(pageOfItems: Array<any>) {
+    this.pagedProjects = pageOfItems;
+  }
+
   ngOnInit(): void {
+    this.visService.getProjects().subscribe(value => {
+      this.projects = value;
+    })
   }
 
 }

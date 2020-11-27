@@ -19,6 +19,8 @@ import { MethodsOverviewPageComponent } from './method/methods-overview-page/met
 import { FishIndexPageComponent } from './fish-index-page/fish-index-page.component';
 import { BreadcrumbComponent } from './shared-ui/breadcrumb/breadcrumb.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
+import {PagingAsyncComponent} from "./shared-ui/paging-async/paging-async.component";
+import {PagingComponent} from "./shared-ui/paging/paging.component";
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
     MethodsOverviewPageComponent,
     FishIndexPageComponent,
     BreadcrumbComponent,
-    ProfilePageComponent
+    ProfilePageComponent,
+    PagingAsyncComponent,
+    PagingComponent
   ],
   imports: [
     CommonModule,
