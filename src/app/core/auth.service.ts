@@ -179,4 +179,17 @@ export class AuthService {
     return identityClaims == null ? '' : identityClaims['picture'];
   }
 
+  public get email() {
+    let identityClaims = this.oauthService.getIdentityClaims();
+    return identityClaims == null ? '' : identityClaims['email'];
+  }
+
+  public get clientRoles() {
+    let identityClaims = this.oauthService.getIdentityClaims();
+    let roles = identityClaims == null ? [] : identityClaims['client_roles'].map(role => {
+      return role.replace('ROLE_', '')
+    });
+    return roles;
+  }
+
 }

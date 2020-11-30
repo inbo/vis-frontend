@@ -42,7 +42,7 @@ import {LoadingSpinnerComponent} from "./shared-ui/loading-spinner/loading-spinn
     ProfilePageComponent,
     PagingAsyncComponent,
     PagingComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
   ],
   imports: [
     CommonModule,
