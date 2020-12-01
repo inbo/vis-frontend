@@ -23,4 +23,8 @@ export class VisService {
   getProject(projectCode: string) {
     return this.http.get<Project>(environment.apiUrl + '/api/project/' + projectCode)
   }
+
+  updateProject(code: string, formData: Object) {
+    return this.http.put(environment.apiUrl + '/api/project/' + code, formData);
+  }
 }

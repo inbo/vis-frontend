@@ -29,7 +29,11 @@ import {ProjectHabitatPageComponent} from './project/project-habitat-page/projec
 import {ProjectMethodsPageComponent} from './project/project-methods-page/project-methods-page.component';
 import {ProjectFishSpeciesPageComponent} from './project/project-fish-species-page/project-fish-species-page.component';
 import {ProjectPicturesPageComponent} from './project/project-pictures-page/project-pictures-page.component';
-import { ProjectTabsComponent } from './project/project-tabs/project-tabs.component';
+import {ProjectTabsComponent} from './project/project-tabs/project-tabs.component';
+import {ProjectDetailEditPageComponent} from './project/project-detail-edit-page/project-detail-edit-page.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ToggleWithIconComponent} from './shared-ui/toggle-with-icon/toggle-with-icon.component';
+import { DatepickerComponent } from './shared-ui/datepicker/datepicker.component';
 
 
 @NgModule({
@@ -59,13 +63,18 @@ import { ProjectTabsComponent } from './project/project-tabs/project-tabs.compon
     ProjectFishSpeciesPageComponent,
     ProjectPicturesPageComponent,
     ProjectTabsComponent,
+    ProjectDetailEditPageComponent,
+    ToggleWithIconComponent,
+    DatepickerComponent,
   ],
   imports: [
     CommonModule,
     BrowserModule,
     AppRoutingModule,
     CoreModule.forRoot(),
-    NgTransitionModule
+    NgTransitionModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

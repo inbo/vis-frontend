@@ -22,9 +22,10 @@ export class ProjectDetailPageComponent implements OnInit {
   project: Project;
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router) {
-    this.titleService.setTitle("Project " + this.activatedRoute.snapshot.params.projectCode)
-
-    this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => this.project = value)
+    this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
+      this.titleService.setTitle(value.name)
+      this.project = value
+    })
 
   }
 
