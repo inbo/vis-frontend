@@ -34,6 +34,8 @@ import {ProjectDetailEditPageComponent} from './project/project-detail-edit-page
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ToggleWithIconComponent} from './shared-ui/toggle-with-icon/toggle-with-icon.component';
 import { DatepickerComponent } from './shared-ui/datepicker/datepicker.component';
+import { ReleaseNotesPageComponent } from './release-notes/release-notes-page/release-notes-page.component';
+import { ReleaseNotesPopupComponent } from './release-notes/release-notes-popup/release-notes-popup.component';
 
 
 @NgModule({
@@ -66,6 +68,8 @@ import { DatepickerComponent } from './shared-ui/datepicker/datepicker.component
     ProjectDetailEditPageComponent,
     ToggleWithIconComponent,
     DatepickerComponent,
+    ReleaseNotesPageComponent,
+    ReleaseNotesPopupComponent,
   ],
   imports: [
     CommonModule,

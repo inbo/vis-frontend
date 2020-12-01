@@ -1,7 +1,6 @@
 import {Component, forwardRef, ViewChild} from '@angular/core';
 import pikaday from 'pikaday'
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
-import moment from 'moment';
 
 @Component({
   selector: 'datepicker',

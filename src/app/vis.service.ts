@@ -21,10 +21,18 @@ export class VisService {
   }
 
   getProject(projectCode: string) {
-    return this.http.get<Project>(environment.apiUrl + '/api/project/' + projectCode)
+    return this.http.get<Project>(environment.apiUrl + '/api/project/' + projectCode);
   }
 
   updateProject(code: string, formData: Object) {
     return this.http.put(environment.apiUrl + '/api/project/' + code, formData);
+  }
+
+  getLatestRelease() {
+    return this.http.get<string>(environment.apiUrl + '/api/releases/latest');
+  }
+
+  hasUserReadLatestReleaseNotes() {
+    return this.http.get<boolean>(environment.apiUrl + '/api/releases/read');
   }
 }
