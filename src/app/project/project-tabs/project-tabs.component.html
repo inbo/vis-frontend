@@ -1,0 +1,41 @@
+<div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
+  <div class="sm:hidden">
+    <label for="tabs" class="sr-only">Select a tab</label>
+    <select id="tabs" name="tabs" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md">
+      <option selected>Details</option>
+      <option>Waarnemingen</option>
+      <option>Locaties</option>
+      <option>Habitat</option>
+      <option>Methoden</option>
+      <option>Vissoorten</option>
+      <option>Foto's</option>
+    </select>
+  </div>
+  <div class="hidden sm:block">
+    <div class="border-b border-gray-200">
+      <nav class="-mb-px flex space-x-8" aria-label="Tabs" >
+        <a [routerLink]="['/projecten', projectCode]" [routerLinkActiveOptions]="{exact: true}" routerLinkActive #rla="routerLinkActive" [ngClass]="rla.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+          Details
+        </a>
+        <a [routerLink]="['/projecten', projectCode, 'waarnemingen']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive #rla2="routerLinkActive" [ngClass]="rla2.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+          Waarnemingen
+        </a>
+        <a [routerLink]="['/projecten', projectCode, 'locaties']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive #rla3="routerLinkActive" [ngClass]="rla3.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+          Locaties
+        </a>
+        <a [routerLink]="['/projecten', projectCode, 'habitat']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive #rla4="routerLinkActive" [ngClass]="rla4.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+          Habitat
+        </a>
+        <a [routerLink]="['/projecten', projectCode, 'methoden']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive #rla5="routerLinkActive" [ngClass]="rla5.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+          Methoden
+        </a>
+        <a [routerLink]="['/projecten', projectCode, 'vissoorten']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive #rla6="routerLinkActive" [ngClass]="rla6.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+          Vissoorten
+        </a>
+        <a [routerLink]="['/projecten', projectCode, 'afbeeldingen']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive #rla7="routerLinkActive" [ngClass]="rla7.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+          Foto's
+        </a>
+      </nav>
+    </div>
+  </div>
+</div>

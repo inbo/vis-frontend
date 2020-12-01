@@ -1,4 +1,9 @@
+interface ProjectCode {
+  value: string
+}
+
 export interface Project {
+  code: ProjectCode
   name: string
   description: string
   status: string

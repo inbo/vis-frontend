@@ -20,4 +20,7 @@ export class VisService {
     return this.http.get<AsyncPage<Project>>(environment.apiUrl + '/api/projects', {params});
   }
 
+  getProject(projectCode: string) {
+    return this.http.get<Project>(environment.apiUrl + '/api/project/' + projectCode)
+  }
 }

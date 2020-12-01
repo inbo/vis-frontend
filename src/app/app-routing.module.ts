@@ -9,11 +9,25 @@ import {FishSpeciesOverviewPageComponent} from "./fish-specie/fish-species-overv
 import {MethodsOverviewPageComponent} from "./method/methods-overview-page/methods-overview-page.component";
 import {FishIndexPageComponent} from "./fish-index-page/fish-index-page.component";
 import {ProfilePageComponent} from "./profile-page/profile-page.component";
+import {ProjectDetailPageComponent} from "./project/project-detail-page/project-detail-page.component";
+import {ProjectObservationsPageComponent} from "./project/project-observations-page/project-observations-page.component";
+import {ProjectHabitatPageComponent} from "./project/project-habitat-page/project-habitat-page.component";
+import {ProjectMethodsPageComponent} from "./project/project-methods-page/project-methods-page.component";
+import {ProjectFishSpeciesPageComponent} from "./project/project-fish-species-page/project-fish-species-page.component";
+import {ProjectPicturesPageComponent} from "./project/project-pictures-page/project-pictures-page.component";
+import {ProjectLocationsPageComponent} from "./project/project-locations-page/project-locations-page.component";
 
 const routes: Routes = [
   {path: '', component: WelcomePageComponent, pathMatch: 'full'},
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten', component: ProjectsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode', component: ProjectDetailPageComponent, canActivate: [AuthGuardWithForcedLogin], pathMatch: 'full'},
+  {path: 'projecten/:projectCode/waarnemingen', component: ProjectObservationsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/locaties', component: ProjectLocationsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/habitat', component: ProjectHabitatPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/methoden', component: ProjectMethodsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/vissoorten', component: ProjectFishSpeciesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/afbeeldingen', component: ProjectPicturesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'locaties', component: LocationOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'vissoorten', component: FishSpeciesOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'methoden', component: MethodsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
