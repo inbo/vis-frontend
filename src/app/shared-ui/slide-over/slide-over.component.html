@@ -1,0 +1,42 @@
+<div [class.hidden]="!isOpen" class="fixed inset-0 overflow-hidden">
+  <div class="absolute inset-0 overflow-hidden">
+    <section class="absolute inset-y-0 pl-16 max-w-full right-0 flex" aria-labelledby="slide-over-heading">
+      <div class="w-screen max-w-md"
+           [ngTransition]="isOpen"
+           ngTransitionEnter="transform transition ease-in-out duration-500 sm:duration-700"
+           ngTransitionEnterStart="translate-x-full"
+           ngTransitionEnterEnd="translate-x-0"
+           ngTransitionLeave="transform transition ease-in-out duration-500 sm:duration-700"
+           ngTransitionLeaveStart="translate-x-0"
+           ngTransitionLeaveEnd="translate-x-full">
+        <form class="h-full divide-y divide-gray-200 flex flex-col bg-white shadow-xl">
+          <div class="flex-1 h-0 overflow-y-auto">
+            <div class="py-6 px-4 bg-pink-700 sm:px-6">
+              <div class="flex items-center justify-between">
+                <h2 id="slide-over-heading" class="text-lg font-medium text-white">
+                  <ng-content select="[slot=title]"></ng-content>
+                </h2>
+                <div class="ml-3 h-7 flex items-center">
+                  <button (click)="close()" class="bg-pink-700 rounded-md text-pink-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
+                    <span class="sr-only">Close panel</span>
+                    <!-- Heroicon name: x -->
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="mt-1">
+                <p class="text-sm text-pink-300">
+                  <ng-content select="[slot=description]"></ng-content>
+                </p>
+              </div>
+            </div>
+            <ng-content select="[slot=content]"></ng-content>
+          </div>
+          <ng-content select="[slot=buttons]"></ng-content>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>

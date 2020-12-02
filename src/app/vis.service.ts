@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../environments/environment';
-import {Project} from "./model/project";
+import {Project} from "./project/model/project";
 import {AsyncPage} from "./shared-ui/paging-async/asyncPage";
 
 @Injectable({

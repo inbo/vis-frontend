@@ -1,19 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NavigationLink} from "../../shared-ui/layouts/NavigationLinks";
 import {GlobalConstants} from "../../GlobalConstants";
 import {Title} from "@angular/platform-browser";
 import {BreadcrumbLink} from "../../shared-ui/breadcrumb/BreadcrumbLinks";
-import {Project} from "../../model/project";
+import {Project} from "../model/project";
 import {VisService} from "../../vis.service";
 import {AsyncPage} from "../../shared-ui/paging-async/asyncPage";
 import {Observable, of} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
+import {ProjectAddComponent} from "../project-add/project-add.component";
 
 @Component({
   selector: 'app-projects-overview-page',
   templateUrl: './projects-overview-page.component.html'
 })
 export class ProjectsOverviewPageComponent implements OnInit {
+  @ViewChild(ProjectAddComponent) projectAddComponent;
 
   loading: boolean = false;
   links: NavigationLink[] = GlobalConstants.links;
@@ -23,6 +25,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
 
   pager: AsyncPage<Project>;
   projects: Observable<Project[]>;
+  isAddProjectOpen: boolean = false;
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router) {
     this.titleService.setTitle("Projecten")
@@ -44,4 +47,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
     });
   }
 
+  openAddProject() {
+    this.projectAddComponent.open();
+  }
 }

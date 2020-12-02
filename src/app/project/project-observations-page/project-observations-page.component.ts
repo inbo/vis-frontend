@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {NavigationLink} from "../../shared-ui/layouts/NavigationLinks";
 import {GlobalConstants} from "../../GlobalConstants";
 import {BreadcrumbLink} from "../../shared-ui/breadcrumb/BreadcrumbLinks";
-import {Project} from "../../model/project";
+import {Project} from "../model/project";
 import {Title} from "@angular/platform-browser";
 import {VisService} from "../../vis.service";
 import {ActivatedRoute, Router} from "@angular/router";

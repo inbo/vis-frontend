@@ -5,7 +5,7 @@ import {BreadcrumbLink} from "../../shared-ui/breadcrumb/BreadcrumbLinks";
 import {Title} from "@angular/platform-browser";
 import {VisService} from "../../vis.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Project} from "../../model/project";
+import {Project} from "../model/project";
 
 @Component({
   selector: 'project-detail-page',

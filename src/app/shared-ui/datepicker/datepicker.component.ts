@@ -57,8 +57,13 @@ export class DatepickerComponent implements ControlValueAccessor {
       dateFormat: "d-m-Y",
       mode: 'range',
       onChange: function(selectedDates, dateStr, instance) {
-        _this.selectedDates = selectedDates;
-        _this.dateValueChanged();
+        if (selectedDates.length == 2) {
+          _this.selectedDates = selectedDates;
+          _this.dateValueChanged();
+        } else {
+          _this.selectedDates = [];
+          _this.dateValueChanged();
+        }
       },
     });
 
