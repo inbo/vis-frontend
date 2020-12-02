@@ -12,7 +12,7 @@ export class ReleaseNotesPopupComponent implements OnInit {
   private hasUserReadLatestReleaseNotes: boolean;
 
   constructor(private visService: VisService, private router: Router) {
-    this.visService.getLatestRelease().subscribe(value => this.currentReleaseNotes = value)
+    this.visService.getCurrentRelease().subscribe(value => this.currentReleaseNotes = value)
   }
 
   ngOnInit(): void {

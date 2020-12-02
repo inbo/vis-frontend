@@ -29,12 +29,12 @@ export class VisService {
     return this.http.put(environment.apiUrl + '/api/project/' + code, formData);
   }
 
-  getLatestRelease() {
-    return this.http.get<string>(environment.apiUrl + '/api/releases/latest');
+  getCurrentRelease() {
+    return this.http.get<string>(environment.apiUrl + '/api/releases/current');
   }
 
-  getLatestReleaseVersion() {
-    return this.http.get<string>(environment.apiUrl + '/api/releases/latest/version');
+  getLatestRelease() {
+    return this.http.get<string>(environment.apiUrl + '/api/releases/latest');
   }
 
   hasUserReadLatestReleaseNotes() {

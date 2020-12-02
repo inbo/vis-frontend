@@ -33,7 +33,7 @@ export class ReleaseNotesPageComponent implements OnInit {
   loadReleases() {
     const release = this.activatedRoute.snapshot.params.release;
     if (!release) {
-      this.visService.getLatestReleaseVersion().subscribe(value => {
+      this.visService.getLatestRelease().subscribe(value => {
         this.router.navigate(['/releases/' + value]);
       })
     } else {
