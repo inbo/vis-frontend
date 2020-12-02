@@ -36,8 +36,7 @@ export class ProjectDetailEditPageComponent implements OnInit {
         name: [null, [Validators.required, Validators.maxLength(200)]],
         description: [null, [Validators.maxLength(2000)]],
         status: [false, []],
-        start: [null, [Validators.required]],
-        end: [null, [Validators.required]],
+        period: [null, [Validators.required]],
       });
 
     this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe((value: Project) => {
@@ -46,8 +45,7 @@ export class ProjectDetailEditPageComponent implements OnInit {
       this.projectForm.get('name').patchValue(value.name);
       this.projectForm.get('description').patchValue(value.description);
       this.projectForm.get('status').patchValue(value.status === 'ACTIVE');
-      this.projectForm.get('start').patchValue(new Date(value.start));
-      this.projectForm.get('end').patchValue(new Date(value.end));
+      this.projectForm.get('period').patchValue([new Date(value.start), new Date(value.end)]);
     });
   }
 
@@ -59,6 +57,7 @@ export class ProjectDetailEditPageComponent implements OnInit {
 
     const formData = {...this.projectForm.getRawValue(), code: this.project.code.value};
 
+    console.log(formData)
     this.visService.updateProject(this.project.code.value, formData).subscribe(
       (response) => {
         this.isSuccessNotificationOpen = true;
@@ -74,8 +73,7 @@ export class ProjectDetailEditPageComponent implements OnInit {
     this.projectForm.get('name').patchValue(this.project.name);
     this.projectForm.get('description').patchValue(this.project.description);
     this.projectForm.get('status').patchValue(this.project.status === 'ACTIVE');
-    this.projectForm.get('start').patchValue(new Date(this.project.start));
-    this.projectForm.get('end').patchValue(new Date(this.project.end));
+    this.projectForm.get('period').patchValue([new Date(this.project.start), new Date(this.project.end)]);
   }
 
 
@@ -91,11 +89,7 @@ export class ProjectDetailEditPageComponent implements OnInit {
     return this.projectForm.get('status');
   }
 
-  get start() {
-    return this.projectForm.get('start');
-  }
-
-  get end() {
-    return this.projectForm.get('end');
+  get period() {
+    return this.projectForm.get('period');
   }
 }
