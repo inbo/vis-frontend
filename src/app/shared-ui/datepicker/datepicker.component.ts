@@ -1,7 +1,6 @@
 import {Component, forwardRef, ViewChild} from '@angular/core';
-import pikaday from 'pikaday'
+import flatpickr from "flatpickr";
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
-import moment from 'moment';
 
 @Component({
   selector: 'datepicker',
@@ -17,18 +16,16 @@ import moment from 'moment';
 export class DatepickerComponent implements ControlValueAccessor {
   private selectedDate: Date = new Date();
 
-  private picker: pikaday;
-
   @ViewChild('datepicker') input;
 
   private onChange: Function;
   private onTouch: Function;
+  private fp: any;
 
   writeValue(obj: Date): void {
-
     this.selectedDate = obj;
-      if (this.picker !== undefined) {
-        this.picker.setDate(obj, true);
+      if (this.fp !== undefined) {
+        this.fp.setDate(obj);
       }
   }
 
@@ -41,8 +38,7 @@ export class DatepickerComponent implements ControlValueAccessor {
   }
 
   dateValueChanged(): void {
-    this.picker.setDate(this.selectedDate, true);
-    this.onChange(this.selectedDate)
+    this.onChange(this.selectedDate);
   }
 
   constructor() {
@@ -53,33 +49,17 @@ export class DatepickerComponent implements ControlValueAccessor {
 
   ngAfterViewInit() {
     let _this = this;
-    this.picker = new pikaday({
-      onSelect: function (date) {
-        _this.selectedDate = new Date(date);
+
+    this.fp = flatpickr(this.input.nativeElement, {
+      onChange: function(selectedDates, dateStr, instance) {
+        _this.selectedDate = selectedDates[0];
         _this.dateValueChanged();
       },
-      format: 'DD/MM/YYYY',
-      reposition: false,
-      position: 'bottom left',
-      field: this.input.nativeElement,
-      // yearRange: [this.minYear, this.maxYear],
-      theme: 'date-input',
-      keyboardInput: true,
-      firstDay: 1,
-      defaultDate: this.selectedDate,
-      setDefaultDate: true,
-      i18n: {
-        previousMonth: 'Vorige',
-        nextMonth: 'Volgende',
-        months: ['Jan', 'Feb', 'Maa', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
-        weekdays: ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
-        weekdaysShort: ['Zo', 'Ma', 'Di', 'Woe', 'Do', 'Vr', 'Za']
-      }
-    })
+    });
+
   }
 
   reset() {
-    this.selectedDate = null;
-    this.dateValueChanged();
+    this.fp.clear();
   }
 }

@@ -54,9 +54,9 @@ export class ProjectDetailEditPageComponent implements OnInit {
   saveProject() {
     this.submitted = true;
     if (this.projectForm.invalid) {
-
       return;
     }
+
     const formData = {...this.projectForm.getRawValue(), code: this.project.code.value};
 
     this.visService.updateProject(this.project.code.value, formData).subscribe(
