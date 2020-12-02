@@ -36,6 +36,7 @@ import {ToggleWithIconComponent} from './shared-ui/toggle-with-icon/toggle-with-
 import { DatepickerComponent } from './shared-ui/datepicker/datepicker.component';
 import { ReleaseNotesPageComponent } from './release-notes/release-notes-page/release-notes-page.component';
 import { ReleaseNotesPopupComponent } from './release-notes/release-notes-popup/release-notes-popup.component';
+import { ReleaseNotesTabsComponent } from './release-notes/release-notes-tabs/release-notes-tabs.component';
 
 
 @NgModule({
@@ -70,6 +71,7 @@ import { ReleaseNotesPopupComponent } from './release-notes/release-notes-popup/
     DatepickerComponent,
     ReleaseNotesPageComponent,
     ReleaseNotesPopupComponent,
+    ReleaseNotesTabsComponent,
   ],
   imports: [
     CommonModule,

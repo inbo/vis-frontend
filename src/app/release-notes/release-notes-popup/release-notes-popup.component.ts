@@ -9,6 +9,7 @@ import {VisService} from '../../vis.service';
 export class ReleaseNotesPopupComponent implements OnInit {
   showReleaseNotes: boolean;
   currentReleaseNotes: string;
+  private hasUserReadLatestReleaseNotes: boolean;
 
   constructor(private visService: VisService, private router: Router) {
     this.visService.getLatestRelease().subscribe(value => this.currentReleaseNotes = value)
@@ -17,12 +18,13 @@ export class ReleaseNotesPopupComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.subscribe(async (routerData) => {
       if (routerData instanceof ResolveEnd) {
-        this.showReleaseNotes = routerData.url !== '/' && routerData.url !== '/releases' && await this.visService.hasUserReadLatestReleaseNotes().toPromise()
+        this.hasUserReadLatestReleaseNotes = this.hasUserReadLatestReleaseNotes ? this.hasUserReadLatestReleaseNotes : await this.visService.hasUserReadLatestReleaseNotes().toPromise();
+        this.showReleaseNotes = routerData.url !== '/' && !routerData.url.startsWith('/releases') && !this.hasUserReadLatestReleaseNotes
       }
     })
   }
 
   read(): void {
-    this.showReleaseNotes = false;
+    this.visService.userReadLatestReleaseNotes().subscribe(value => this.showReleaseNotes = false)
   }
 }
