@@ -3,5 +3,5 @@
 @import 'tailwindcss/utilities';
 
 @import 'flatpickr/dist/flatpickr.css';
-/* You can add global styles to this file, and also import other style files */
-
+@import 'flatpickr/dist/themes/light.css';
+@import 'flatpickr-tailwind.css';
