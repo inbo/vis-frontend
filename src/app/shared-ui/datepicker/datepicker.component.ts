@@ -1,5 +1,7 @@
 import {Component, forwardRef, ViewChild} from '@angular/core';
 import flatpickr from "flatpickr";
+import { Dutch } from "flatpickr/dist/l10n/nl.js"
+
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 
 @Component({
@@ -51,6 +53,7 @@ export class DatepickerComponent implements ControlValueAccessor {
     let _this = this;
 
     this.fp = flatpickr(this.input.nativeElement, {
+      'locale': Dutch,
       onChange: function(selectedDates, dateStr, instance) {
         _this.selectedDate = selectedDates[0];
         _this.dateValueChanged();
