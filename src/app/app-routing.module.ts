@@ -17,6 +17,7 @@ import {ProjectFishSpeciesPageComponent} from "./project/project-fish-species-pa
 import {ProjectPicturesPageComponent} from "./project/project-pictures-page/project-pictures-page.component";
 import {ProjectLocationsPageComponent} from "./project/project-locations-page/project-locations-page.component";
 import {ProjectDetailEditPageComponent} from "./project/project-detail-edit-page/project-detail-edit-page.component";
+import {ReleaseNotesPageComponent} from './release-notes/release-notes-page/release-notes-page.component';
 
 const routes: Routes = [
   {path: '', component: WelcomePageComponent, pathMatch: 'full'},
@@ -35,6 +36,8 @@ const routes: Routes = [
   {path: 'methoden', component: MethodsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'visindex', component: FishIndexPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'profiel', component: ProfilePageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'releases', component: ReleaseNotesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'releases/:release', component: ReleaseNotesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
 ];
 
 @NgModule({

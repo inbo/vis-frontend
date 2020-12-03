@@ -4,6 +4,7 @@ import {environment} from '../environments/environment';
 import {Project} from "./project/model/project";
 import {AsyncPage} from "./shared-ui/paging-async/asyncPage";
 import {Observable} from "rxjs";
+import {Releases} from './release-notes/model/releases';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class VisService {
   }
 
   getProject(projectCode: string) {
-    return this.http.get<Project>(environment.apiUrl + '/api/project/' + projectCode)
+    return this.http.get<Project>(environment.apiUrl + '/api/project/' + projectCode);
   }
 
   updateProject(code: string, formData: Object) {
@@ -35,5 +36,25 @@ export class VisService {
 
   checkIfProjectExists(projectCode: any) : Observable<any> {
     return this.http.get<any>(environment.apiUrl + '/api/validation/project/code/' + projectCode)
+  }
+
+  getCurrentRelease() {
+    return this.http.get<string>(environment.apiUrl + '/api/releases/current');
+  }
+
+  getLatestRelease() {
+    return this.http.get<string>(environment.apiUrl + '/api/releases/latest');
+  }
+
+  hasUserReadLatestReleaseNotes() {
+    return this.http.get<boolean>(environment.apiUrl + '/api/releases/read');
+  }
+
+  userReadLatestReleaseNotes() {
+    return this.http.post<void>(environment.apiUrl + '/api/releases/read', {});
+  }
+
+  getReleases(release: any) {
+    return this.http.get<Releases>(environment.apiUrl + '/api/releases/' + release);
   }
 }
