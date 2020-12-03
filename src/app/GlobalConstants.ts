@@ -8,7 +8,6 @@ export class GlobalConstants {
     {title: 'Vissoorten', url: '/vissoorten', sublinks: []},
     {title: 'Methoden', url: '/methoden', sublinks: []},
     {title: 'Visindex', url: '/visindex', sublinks: []},
-    {title: 'Wat is er nieuw?', url: '/releases', sublinks: []},
   ];
 
 }
