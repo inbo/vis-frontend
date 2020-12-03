@@ -36,6 +36,7 @@ import {ToggleWithIconComponent} from './shared-ui/toggle-with-icon/toggle-with-
 import { DatepickerComponent } from './shared-ui/datepicker/datepicker.component';
 import { SlideOverComponent } from './shared-ui/slide-over/slide-over.component';
 import { ProjectAddComponent } from './project/project-add/project-add.component';
+import {AlertModule} from "./_alert";
 import { ReleaseNotesPageComponent } from './release-notes/release-notes-page/release-notes-page.component';
 import { ReleaseNotesPopupComponent } from './release-notes/release-notes-popup/release-notes-popup.component';
 import { ReleaseNotesTabsComponent } from './release-notes/release-notes-tabs/release-notes-tabs.component';
@@ -85,6 +86,7 @@ import { ReleaseNotesTabsComponent } from './release-notes/release-notes-tabs/re
     NgTransitionModule,
     FormsModule,
     ReactiveFormsModule,
+    AlertModule
   ],
   providers: [],
   bootstrap: [AppComponent]

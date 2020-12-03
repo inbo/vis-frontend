@@ -3,15 +3,17 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {Project} from "./project/model/project";
 import {AsyncPage} from "./shared-ui/paging-async/asyncPage";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {Releases} from './release-notes/model/releases';
+import {AlertService} from "./_alert";
+import {catchError} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class VisService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private alertService: AlertService) {
   }
 
   getProjects(page: number, size: number) {
@@ -19,19 +21,35 @@ export class VisService {
       .set('page', page.toString())
       .set('pageSize', size.toString());
 
-    return this.http.get<AsyncPage<Project>>(environment.apiUrl + '/api/projects', {params});
+    return this.http.get<AsyncPage<Project>>(environment.apiUrl + '/api/projects', {params})
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return err;
+      }));
   }
 
   getProject(projectCode: string) {
-    return this.http.get<Project>(environment.apiUrl + '/api/project/' + projectCode);
+    return this.http.get<Project>(environment.apiUrl + '/api/project/' + projectCode)
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return err
+      }));
   }
 
   updateProject(code: string, formData: Object) {
-    return this.http.put(environment.apiUrl + '/api/project/' + code, formData);
+    return this.http.put(environment.apiUrl + '/api/project/' + code, formData)
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return err
+      }));
   }
 
   createProject(formData: Object) {
-    return this.http.post(environment.apiUrl + '/api/projects/create', formData);
+    return this.http.post(environment.apiUrl + '/api/projects/create', formData)
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return err
+      }));
   }
 
   checkIfProjectExists(projectCode: any) : Observable<any> {

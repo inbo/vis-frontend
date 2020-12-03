@@ -4,6 +4,7 @@ import {VisService} from "../../vis.service";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
+import {AlertService} from "../../_alert";
 
 @Component({
   selector: 'project-add',
@@ -16,7 +17,10 @@ export class ProjectAddComponent implements OnInit {
 
   submitted: boolean;
 
+  options = {};
+
   constructor(private visService: VisService, private formBuilder: FormBuilder, private router: Router) {
+
   }
 
   ngOnInit(): void {
@@ -42,13 +46,11 @@ export class ProjectAddComponent implements OnInit {
 
     const formData = this.createProjectForm.getRawValue();
 
-    debugger;
     this.visService.createProject(formData).subscribe(
       (response) => {
         this.isOpen = false;
         this.router.navigateByUrl('/projecten/' + formData.code);
-      },
-      (error) => console.log(error)
+      }
     );
   }
 
@@ -60,7 +62,7 @@ export class ProjectAddComponent implements OnInit {
   codeValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return this.visService.checkIfProjectExists(control.value)
-        .pipe(map(result => result.valid ? {"unique": true} : null ));
+        .pipe(map(result => result.valid ? {"unique": true} : null));
     };
   }
 
