@@ -17,8 +17,6 @@ export class ProjectAddComponent implements OnInit {
 
   submitted: boolean;
 
-  options = {};
-
   constructor(private visService: VisService, private formBuilder: FormBuilder, private router: Router) {
 
   }

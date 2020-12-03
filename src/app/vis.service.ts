@@ -24,7 +24,7 @@ export class VisService {
     return this.http.get<AsyncPage<Project>>(environment.apiUrl + '/api/projects', {params})
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return err;
+        return [];
       }));
   }
 
@@ -32,7 +32,7 @@ export class VisService {
     return this.http.get<Project>(environment.apiUrl + '/api/project/' + projectCode)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return err
+        return []
       }));
   }
 
@@ -40,7 +40,7 @@ export class VisService {
     return this.http.put(environment.apiUrl + '/api/project/' + code, formData)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return err
+        return []
       }));
   }
 
@@ -48,31 +48,55 @@ export class VisService {
     return this.http.post(environment.apiUrl + '/api/projects/create', formData)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return err
+        return []
       }));
   }
 
   checkIfProjectExists(projectCode: any) : Observable<any> {
     return this.http.get<any>(environment.apiUrl + '/api/validation/project/code/' + projectCode)
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return []
+      }));
   }
 
   getCurrentRelease() {
-    return this.http.get<string>(environment.apiUrl + '/api/releases/current');
+    return this.http.get<string>(environment.apiUrl + '/api/releases/current')
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return []
+      }));
   }
 
   getLatestRelease() {
-    return this.http.get<string>(environment.apiUrl + '/api/releases/latest');
+    return this.http.get<string>(environment.apiUrl + '/api/releases/latest')
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return []
+      }));
   }
 
   hasUserReadLatestReleaseNotes() {
-    return this.http.get<boolean>(environment.apiUrl + '/api/releases/read');
+    return this.http.get<boolean>(environment.apiUrl + '/api/releases/read')
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return []
+      }));
   }
 
   userReadLatestReleaseNotes() {
-    return this.http.post<void>(environment.apiUrl + '/api/releases/read', {});
+    return this.http.post<void>(environment.apiUrl + '/api/releases/read', {})
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return []
+      }));
   }
 
   getReleases(release: any) {
-    return this.http.get<Releases>(environment.apiUrl + '/api/releases/' + release);
+    return this.http.get<Releases>(environment.apiUrl + '/api/releases/' + release)
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return []
+      }));
   }
 }

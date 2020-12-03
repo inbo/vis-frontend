@@ -25,7 +25,6 @@ export class ProjectsOverviewPageComponent implements OnInit {
 
   pager: AsyncPage<Project>;
   projects: Observable<Project[]>;
-  isAddProjectOpen: boolean = false;
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router) {
     this.titleService.setTitle("Projecten")

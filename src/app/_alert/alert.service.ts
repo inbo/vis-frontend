@@ -13,24 +13,24 @@ export class AlertService {
     return this.subject.asObservable().pipe(filter(x => x && x.id === id));
   }
 
-  success(title: string, message: string, options?: any) {
-    this.alert(new Alert({ ...options, type: AlertType.Success, title, message }));
+  success(title: string, message: string, autoClose: boolean = true) {
+    this.alert(new Alert({ autoClose, type: AlertType.Success, title, message }));
   }
 
-  error(title: string, message: string, options?: any) {
-    this.alert(new Alert({ ...options, type: AlertType.Error, title, message }));
+  error(title: string, message: string, autoClose: boolean = true) {
+    this.alert(new Alert({ autoClose, type: AlertType.Error, title, message }));
   }
 
-  unexpectedError(options?: any) {
-    this.alert(new Alert({ ...options, type: AlertType.Error, title: 'Onverwachte fout', message: 'Neem contact op met een verantwoordelijke om dit probleem te melden.' }));
+  unexpectedError(autoClose: boolean = true) {
+    this.alert(new Alert({ autoClose, type: AlertType.Error, title: 'Onverwachte fout', message: 'Neem contact op met een verantwoordelijke om dit probleem te melden.' }));
   }
 
-  info(title: string, message: string, options?: any) {
-    this.alert(new Alert({ ...options, type: AlertType.Info, title, message }));
+  info(title: string, message: string, autoClose: boolean = true) {
+    this.alert(new Alert({ autoClose, type: AlertType.Info, title, message }));
   }
 
-  warn(title: string, message: string, options?: any) {
-    this.alert(new Alert({ ...options, type: AlertType.Warning, title, message }));
+  warn(title: string, message: string, autoClose: boolean = true) {
+    this.alert(new Alert({ autoClose, type: AlertType.Warning, title, message }));
   }
 
   // main alert method
