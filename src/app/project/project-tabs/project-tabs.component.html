@@ -1,14 +1,14 @@
 <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
   <div class="sm:hidden">
     <label for="tabs" class="sr-only">Select a tab</label>
-    <select id="tabs" name="tabs" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md">
-      <option selected>Details</option>
-      <option>Waarnemingen</option>
-      <option>Locaties</option>
-      <option>Habitat</option>
-      <option>Methoden</option>
-      <option>Vissoorten</option>
-      <option>Foto's</option>
+    <select [(ngModel)]="currentUrl" #navigationSelect (change)="navigate(navigationSelect.value)" id="tabs" name="tabs" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md">
+      <option [value]="'/projecten/' + projectCode">Details</option>
+      <option [value]="'/projecten/' + projectCode + '/waarnemingen'">Waarnemingen</option>
+      <option [value]="'/projecten/' + projectCode + '/locaties'">Locaties</option>
+      <option [value]="'/projecten/' + projectCode + '/habitat'">Habitat</option>
+      <option [value]="'/projecten/' + projectCode + '/methoden'">Methoden</option>
+      <option [value]="'/projecten/' + projectCode + '/vissoorten'">Vissoorten</option>
+      <option [value]="'/projecten/' + projectCode + '/afbeeldingen'">Foto's</option>
     </select>
   </div>
   <div class="hidden sm:block">

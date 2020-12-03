@@ -1,7 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {VisService} from "../../vis.service";
 import {Router} from "@angular/router";
+import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'project-add',
@@ -18,45 +20,68 @@ export class ProjectAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.createPersonForm = this.formBuilder.group({
-    //   id: [null],
-    //   lastName: [null, [Validators.required]],
-    //   firstName: [null, [Validators.required]],
-    //   userName: [null, [Validators.required]],
-    //   email: [null, [Validators.email]],
-    //   phone: '',
-    //   streetInfo: '',
-    //   postalCode: '',
-    //   city: '',
-    //   active: false,
-    //   comment: [null, [Validators.maxLength(255)]]
-    // });
+    this.createProjectForm = this.formBuilder.group({
+      code: [null, [Validators.required, Validators.maxLength(15)], [this.codeValidator()]],
+      name: ['', [Validators.required, Validators.maxLength(200)]],
+      description: ['', [Validators.maxLength(2000)]],
+      status: [true, []],
+      period: [[], [Validators.required]],
+    });
   }
 
   open() {
     this.isOpen = true;
   }
 
-  createPerson() {
+  createProject() {
     this.submitted = true;
 
-    // if (this.createPersonForm.invalid) {
-    //   return;
-    // }
-    //
-    // const formData = {personDto: this.createPersonForm.getRawValue()};
-    // formData.personDto.startDate = new Date();
-    // this.waterbirdsService.postCreatePerson(formData).subscribe(
-    //   (response) => {
-    //     this.isAddPersonOpen = false;
-    //     this.router.navigateByUrl('/v2/people/' + response.id);
-    //   },
-    //   (error) => console.log(error)
-    // );
+    if (this.createProjectForm.invalid) {
+      return;
+    }
+
+    const formData = this.createProjectForm.getRawValue();
+
+    debugger;
+    this.visService.createProject(formData).subscribe(
+      (response) => {
+        this.isOpen = false;
+        this.router.navigateByUrl('/projecten/' + formData.code);
+      },
+      (error) => console.log(error)
+    );
   }
 
   cancel() {
     this.isOpen = false;
     this.submitted = false;
   }
+
+  codeValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return this.visService.checkIfProjectExists(control.value)
+        .pipe(map(result => result.valid ? {"unique": true} : null ));
+    };
+  }
+
+  get code() {
+    return this.createProjectForm.get('code');
+  }
+
+  get name() {
+    return this.createProjectForm.get('name');
+  }
+
+  get description() {
+    return this.createProjectForm.get('description');
+  }
+
+  get status() {
+    return this.createProjectForm.get('status');
+  }
+
+  get period() {
+    return this.createProjectForm.get('period');
+  }
+
 }

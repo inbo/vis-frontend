@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'project-tabs',
@@ -7,10 +8,15 @@ import {Component, Input, OnInit} from '@angular/core';
 export class ProjectTabsComponent implements OnInit {
 
   @Input() projectCode : string;
+  currentUrl: string;
 
-  constructor() { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.currentUrl = "/" + this.activatedRoute.snapshot.url.join("/")
   }
 
+  navigate(location: string) {
+    this.router.navigate([location]);
+  }
 }
