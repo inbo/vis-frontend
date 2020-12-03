@@ -40,6 +40,7 @@ import {AlertModule} from "./_alert";
 import { ReleaseNotesPageComponent } from './release-notes/release-notes-page/release-notes-page.component';
 import { ReleaseNotesPopupComponent } from './release-notes/release-notes-popup/release-notes-popup.component';
 import { ReleaseNotesTabsComponent } from './release-notes/release-notes-tabs/release-notes-tabs.component';
+import { TextCounterComponent } from './shared-ui/text-counter/text-counter.component';
 
 
 @NgModule({
@@ -77,6 +78,7 @@ import { ReleaseNotesTabsComponent } from './release-notes/release-notes-tabs/re
     ReleaseNotesPageComponent,
     ReleaseNotesPopupComponent,
     ReleaseNotesTabsComponent,
+    TextCounterComponent,
   ],
   imports: [
     CommonModule,
