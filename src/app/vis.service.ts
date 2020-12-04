@@ -16,10 +16,16 @@ export class VisService {
   constructor(private http: HttpClient, private alertService: AlertService) {
   }
 
-  getProjects(page: number, size: number) {
+  getProjects(page: number, size: number, filter: any) {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('pageSize', size.toString());
+
+    Object.keys(filter).forEach(function (key, index) {
+      if (filter[key] !== null) {
+        params = params.set(key, filter[key].toString())
+      }
+    });
 
     return this.http.get<AsyncPage<Project>>(environment.apiUrl + '/api/projects', {params})
       .pipe(catchError(err => {

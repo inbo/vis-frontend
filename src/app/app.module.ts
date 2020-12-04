@@ -41,6 +41,7 @@ import { ReleaseNotesPageComponent } from './release-notes/release-notes-page/re
 import { ReleaseNotesPopupComponent } from './release-notes/release-notes-popup/release-notes-popup.component';
 import { ReleaseNotesTabsComponent } from './release-notes/release-notes-tabs/release-notes-tabs.component';
 import { TextCounterComponent } from './shared-ui/text-counter/text-counter.component';
+import {ExpandableFilterComponent} from "./shared-ui/expandable-filter/expandable-filter.component";
 
 
 @NgModule({
@@ -79,6 +80,7 @@ import { TextCounterComponent } from './shared-ui/text-counter/text-counter.comp
     ReleaseNotesPopupComponent,
     ReleaseNotesTabsComponent,
     TextCounterComponent,
+    ExpandableFilterComponent
   ],
   imports: [
     CommonModule,
