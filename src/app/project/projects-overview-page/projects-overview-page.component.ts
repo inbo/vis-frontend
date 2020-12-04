@@ -38,7 +38,8 @@ export class ProjectsOverviewPageComponent implements OnInit {
       {
         name: [queryParams.name],
         description: [queryParams.description],
-        status: [queryParams.status]
+        status: [queryParams.status],
+        sort: [queryParams.sort]
       },
     );
 
@@ -46,6 +47,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
       this.filterForm.get('name').patchValue(params.name ? params.name : '')
       this.filterForm.get('description').patchValue(params.description ? params.description : '')
       this.filterForm.get('status').patchValue(params.status ? params.status : '')
+      this.filterForm.get('sort').patchValue(params.sort ? params.sort : '')
 
       this.advancedFilterIsVisible = (params.description !== undefined && params.description !== '')
     });

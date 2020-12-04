@@ -33,29 +33,18 @@
             <div class="flex items-center">
               <select formControlName="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md">
                 <option value="">Actief / Niet actief</option>
-                <option value="ACTIVE" selected>Actief</option>
+                <option value="ACTIVE">Actief</option>
                 <option value="INACTIVE">Niet actief</option>
               </select>
             </div>
             <div class="self-center">
+              <select formControlName="sort" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md">
+                <option value="">Sorteren op ...</option>
+                <option value="name">Naam</option>
+                <option value="status">Status</option>
+                <option value="start">Periode</option>
+              </select>
             </div>
-
-
-<!--            <div>-->
-<!--              <div class="mt-1 rounded-md shadow-sm">-->
-<!--                <select formControlName="sort" aria-label="Sort"-->
-<!--                        class="mt-1 form-select block w-full pl-3 pr-10 py-2 text-base leading-6 border-gray-300 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5 transition ease-in-out duration-150">-->
-<!--                  <option value="">Sorteren op ...</option>-->
-<!--                  <option value="firstName">Voornaam</option>-->
-<!--                  <option value="lastName">Achternaam</option>-->
-<!--                  <option value="email">Email</option>-->
-<!--                  <option value="phone">Telefoon</option>-->
-<!--                  <option value="streetInfo">Straat</option>-->
-<!--                  <option value="postalCode">Postcode</option>-->
-<!--                  <option value="city">Gemeente</option>-->
-<!--                </select>-->
-<!--              </div>-->
-<!--            </div>-->
           </ng-container>
 
           <ng-container slot="advanced">
