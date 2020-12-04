@@ -37,13 +37,15 @@ export class ProjectsOverviewPageComponent implements OnInit {
     this.filterForm = formBuilder.group(
       {
         name: [queryParams.name],
-        description: [queryParams.description]
+        description: [queryParams.description],
+        status: [queryParams.status]
       },
     );
 
     this.activatedRoute.queryParams.subscribe((params) => {
       this.filterForm.get('name').patchValue(params.name ? params.name : '')
       this.filterForm.get('description').patchValue(params.description ? params.description : '')
+      this.filterForm.get('status').patchValue(params.status ? params.status : '')
 
       this.advancedFilterIsVisible = (params.description !== undefined && params.description !== '')
     });

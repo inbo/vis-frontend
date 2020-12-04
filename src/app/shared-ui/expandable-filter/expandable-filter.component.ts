@@ -44,6 +44,7 @@ export class ExpandableFilterComponent implements OnInit, OnChanges {
   }
 
   filter() {
+    console.log('emit filter clicked')
       this.searchClicked.emit(true);
   }
 }

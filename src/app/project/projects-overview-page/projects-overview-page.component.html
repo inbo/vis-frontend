@@ -29,7 +29,15 @@
                 <input type="text" formControlName="name" placeholder="Naam ..." class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
               </div>
             </div>
-            <div class="col-span-2 self-center">
+
+            <div class="flex items-center">
+              <select formControlName="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md">
+                <option value="">Actief / Niet actief</option>
+                <option value="ACTIVE" selected>Actief</option>
+                <option value="INACTIVE">Niet actief</option>
+              </select>
+            </div>
+            <div class="self-center">
             </div>
 
 
@@ -54,7 +62,7 @@
 
             <div class="self-center">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input type="text" formControlName="description" placeholder="Omschrijving ..." class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
+                <input type="text" formControlName="description" placeholder="Omschrijving ..." class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
               </div>
             </div>
 
