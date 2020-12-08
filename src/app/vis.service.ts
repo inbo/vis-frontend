@@ -106,8 +106,16 @@ export class VisService {
       }));
   }
 
-  exportProjects() {
-    this.http.get(`${environment.apiUrl}/api/projects/export`, {observe: 'response', responseType: 'blob'})
+  exportProjects(filter: any) {
+    let params = new HttpParams()
+
+    Object.keys(filter).forEach(function (key, index) {
+      if (filter[key] !== null) {
+        params = params.set(key, filter[key].toString())
+      }
+    });
+
+    this.http.get(`${environment.apiUrl}/api/projects/export`, {params, observe: 'response', responseType: 'blob'})
       .subscribe(res =>{
         this.downLoadFile(res)
       });
