@@ -32,4 +32,7 @@ export class ProjectDetailPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  exportProject() {
+    this.visService.exportProject(this.activatedRoute.snapshot.params.projectCode)
+  }
 }
