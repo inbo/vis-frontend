@@ -49,4 +49,9 @@ export class ProjectsOverviewPageComponent implements OnInit {
   openAddProject() {
     this.projectAddComponent.open();
   }
+
+  // TODO add filters
+  exportProjects() {
+    this.visService.exportProjects()
+  }
 }

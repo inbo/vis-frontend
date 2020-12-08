@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {Project} from "./project/model/project";
 import {AsyncPage} from "./shared-ui/paging-async/asyncPage";
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {Releases} from './release-notes/model/releases';
 import {AlertService} from "./_alert";
 import {catchError} from "rxjs/operators";
@@ -52,7 +52,7 @@ export class VisService {
       }));
   }
 
-  checkIfProjectExists(projectCode: any) : Observable<any> {
+  checkIfProjectExists(projectCode: any): Observable<any> {
     return this.http.get<any>(environment.apiUrl + '/api/validation/project/code/' + projectCode)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
@@ -98,5 +98,22 @@ export class VisService {
         this.alertService.unexpectedError();
         return []
       }));
+  }
+
+  exportProjects() {
+    this.http.get(`${environment.apiUrl}/api/projects/export`, {observe: 'response', responseType: 'blob'})
+      .subscribe(res =>{
+        this.downLoadFile(res)
+      });
+  }
+
+  downLoadFile(res: HttpResponse<Blob>) {
+    const contentDisposition = res.headers.get('content-disposition');
+    const filename = contentDisposition.split(';')[1].split('filename')[1].split('=')[1].trim().replace(/\"/g, '');
+    let url = window.URL.createObjectURL(res.body);
+    let link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
   }
 }
