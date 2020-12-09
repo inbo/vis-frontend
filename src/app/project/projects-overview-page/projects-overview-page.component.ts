@@ -88,4 +88,8 @@ export class ProjectsOverviewPageComponent implements OnInit {
 
     this.getProjects(1, 20)
   }
+
+  exportProjects() {
+    this.visService.exportProjects(this.filterForm.getRawValue())
+  }
 }
