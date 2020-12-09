@@ -9,17 +9,18 @@ import {VisService} from '../../vis.service';
 export class ReleaseNotesPopupComponent implements OnInit {
   showReleaseNotes: boolean;
   currentReleaseNotes: string;
-  private hasUserReadLatestReleaseNotes: boolean;
 
   constructor(private visService: VisService, private router: Router) {
-    this.visService.getCurrentRelease().subscribe(value => this.currentReleaseNotes = value)
   }
 
   ngOnInit(): void {
     this.router.events.subscribe(async (routerData) => {
       if (routerData instanceof ResolveEnd) {
-        this.hasUserReadLatestReleaseNotes = this.hasUserReadLatestReleaseNotes ? this.hasUserReadLatestReleaseNotes : await this.visService.hasUserReadLatestReleaseNotes().toPromise();
-        this.showReleaseNotes = routerData.url !== '/' && !routerData.url.startsWith('/releases') && !this.hasUserReadLatestReleaseNotes
+        this.showReleaseNotes = !['/', ''].includes(routerData.url.split('?')[0])
+          && !routerData.url.startsWith('/releases') && !await this.visService.hasUserReadLatestReleaseNotes().toPromise()
+        if (this.showReleaseNotes) {
+          this.visService.getCurrentRelease().subscribe(value => this.currentReleaseNotes = value)
+        }
       }
     })
   }

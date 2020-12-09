@@ -69,7 +69,6 @@ export class VisService {
   getCurrentRelease() {
     return this.http.get<string>(environment.apiUrl + '/api/releases/current')
       .pipe(catchError(err => {
-        this.alertService.unexpectedError();
         return []
       }));
   }
@@ -85,7 +84,6 @@ export class VisService {
   hasUserReadLatestReleaseNotes() {
     return this.http.get<boolean>(environment.apiUrl + '/api/releases/read')
       .pipe(catchError(err => {
-        this.alertService.unexpectedError();
         return []
       }));
   }
