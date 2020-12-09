@@ -116,19 +116,28 @@ export class VisService {
     });
 
     this.http.get(`${environment.apiUrl}/api/projects/export`, {params, observe: 'response', responseType: 'blob'})
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return []
+      }))
       .subscribe(res =>{
-        this.downLoadFile(res)
-      });
+        this.downloadFile(res)
+      })
+
   }
 
   exportProject(code: String) {
     this.http.get(`${environment.apiUrl}/api/projects/${code}/export`, {observe: 'response', responseType: 'blob'})
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return []
+      }))
       .subscribe(res =>{
-        this.downLoadFile(res)
+        this.downloadFile(res)
       });
   }
 
-  private downLoadFile(res: HttpResponse<Blob>) {
+  private downloadFile(res: HttpResponse<Blob>) {
     const contentDisposition = res.headers.get('content-disposition');
     const filename = contentDisposition.split(';')[1].split('filename')[1].split('=')[1].trim().replace(/\"/g, '');
     let url = window.URL.createObjectURL(res.body);
