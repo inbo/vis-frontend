@@ -41,6 +41,12 @@ export class ExpandableFilterComponent implements OnInit, OnChanges {
       event.preventDefault();
       this.reset();
     }
+
+    if (event.ctrlKey && event.code === 'KeyE') {
+      event.preventDefault();
+      this.advancedFilterIsVisible = !this.advancedFilterIsVisible;
+
+    }
   }
 
   filter() {
