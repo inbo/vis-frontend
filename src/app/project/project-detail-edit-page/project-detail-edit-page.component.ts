@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {NavigationLink} from "../../shared-ui/layouts/NavigationLinks";
 import {GlobalConstants} from "../../GlobalConstants";
 import {BreadcrumbLink} from "../../shared-ui/breadcrumb/BreadcrumbLinks";
@@ -7,12 +7,13 @@ import {Title} from "@angular/platform-browser";
 import {VisService} from "../../vis.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {HasUnsavedData} from "../../core/core.interface";
 
 @Component({
   selector: 'project-detail-edit-page',
   templateUrl: './project-detail-edit-page.component.html'
 })
-export class ProjectDetailEditPageComponent implements OnInit {
+export class ProjectDetailEditPageComponent implements OnInit, HasUnsavedData {
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
     {title: 'Projecten', url: '/projecten'},
@@ -74,8 +75,20 @@ export class ProjectDetailEditPageComponent implements OnInit {
     this.projectForm.get('description').patchValue(this.project.description);
     this.projectForm.get('status').patchValue(this.project.status === 'ACTIVE');
     this.projectForm.get('period').patchValue([new Date(this.project.start), new Date(this.project.end)]);
+    this.projectForm.reset(this.projectForm.value)
   }
 
+
+  @HostListener('window:beforeunload', ['$event'])
+  public onPageUnload($event: BeforeUnloadEvent) {
+    if (this.projectForm.dirty) {
+      $event.returnValue = true;
+    }
+  }
+
+  hasUnsavedData(): boolean {
+    return this.projectForm.dirty
+  }
 
   get name() {
     return this.projectForm.get('name');

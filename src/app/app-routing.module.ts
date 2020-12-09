@@ -18,13 +18,14 @@ import {ProjectPicturesPageComponent} from "./project/project-pictures-page/proj
 import {ProjectLocationsPageComponent} from "./project/project-locations-page/project-locations-page.component";
 import {ProjectDetailEditPageComponent} from "./project/project-detail-edit-page/project-detail-edit-page.component";
 import {ReleaseNotesPageComponent} from './release-notes/release-notes-page/release-notes-page.component';
+import {HasUnsavedDataGuard} from "./core/unsaved-changes-guard.service";
 
 const routes: Routes = [
   {path: '', component: WelcomePageComponent, pathMatch: 'full'},
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten', component: ProjectsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode', component: ProjectDetailPageComponent, canActivate: [AuthGuardWithForcedLogin], pathMatch: 'full'},
-  {path: 'projecten/:projectCode/bewerk', component: ProjectDetailEditPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/bewerk', component: ProjectDetailEditPageComponent, canActivate: [AuthGuardWithForcedLogin], canDeactivate: [HasUnsavedDataGuard]},
   {path: 'projecten/:projectCode/waarnemingen', component: ProjectObservationsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/locaties', component: ProjectLocationsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/habitat', component: ProjectHabitatPageComponent, canActivate: [AuthGuardWithForcedLogin]},
