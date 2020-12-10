@@ -135,6 +135,25 @@ export class VisService {
       });
   }
 
+  getMethods(page: number, size: number, filter: any) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', size.toString());
+
+    Object.keys(filter).forEach(function (key, index) {
+      if (filter[key] !== null) {
+        params = params.set(key, filter[key].toString())
+      }
+    });
+
+    return this.http.get<AsyncPage<Project>>(environment.apiUrl + '/api/methods', {params})
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return [];
+      }));
+
+  }
+
   private downloadFile(res: HttpResponse<Blob>) {
     const contentDisposition = res.headers.get('content-disposition');
     const filename = contentDisposition.split(';')[1].split('filename')[1].split('=')[1].trim().replace(/\"/g, '');

@@ -10,6 +10,7 @@ export class ExpandableFilterComponent implements OnInit, OnChanges {
 
   @Input() formGroup: FormGroup;
   @Input() showAdvancedFilterAtStartup: boolean;
+  @Input() showAdvancedFilter: boolean = true;
   @Output() searchClicked = new EventEmitter<boolean>();
   @Output() resetClicked = new EventEmitter<boolean>();
 
