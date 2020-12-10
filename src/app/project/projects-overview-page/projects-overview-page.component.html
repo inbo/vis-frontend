@@ -108,11 +108,8 @@
                           <span >{{project.description}}</span>
                         </td>
                         <td class="px-6 py-4  text-sm text-gray-900">
-                          <span *ngIf="project.status === 'ACTIVE'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                            Actief
-                          </span>
-                          <span *ngIf="project.status === 'INACTIVE'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                            Inactief
+                          <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" [ngClass]="project.status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
+                            {{ 'project.status.'+ project.status | translate }}
                           </span>
                         </td>
                         <td class="px-6 py-4  text-sm text-gray-900">

@@ -1,6 +1,9 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {HttpClient} from "@angular/common/http";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {SidebarLayoutComponent} from './shared-ui/layouts/sidebar-layout/sidebar-layout.component';
@@ -42,6 +45,7 @@ import { ReleaseNotesPopupComponent } from './release-notes/release-notes-popup/
 import { ReleaseNotesTabsComponent } from './release-notes/release-notes-tabs/release-notes-tabs.component';
 import { TextCounterComponent } from './shared-ui/text-counter/text-counter.component';
 import {ExpandableFilterComponent} from "./shared-ui/expandable-filter/expandable-filter.component";
+
 
 
 @NgModule({
@@ -90,10 +94,22 @@ import {ExpandableFilterComponent} from "./shared-ui/expandable-filter/expandabl
     NgTransitionModule,
     FormsModule,
     ReactiveFormsModule,
-    AlertModule
+    AlertModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      },
+      defaultLanguage: 'nl'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
+}
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
 }
