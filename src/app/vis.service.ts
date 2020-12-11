@@ -118,7 +118,7 @@ export class VisService {
         this.alertService.unexpectedError();
         return []
       }))
-      .subscribe(res =>{
+      .subscribe(res => {
         this.downloadFile(res)
       })
 
@@ -130,9 +130,13 @@ export class VisService {
         this.alertService.unexpectedError();
         return []
       }))
-      .subscribe(res =>{
+      .subscribe(res => {
         this.downloadFile(res)
       });
+  }
+
+  translations(lang: string) {
+    return this.http.get<any>(`${environment.apiUrl}/translations/` + lang);
   }
 
   private downloadFile(res: HttpResponse<Blob>) {
