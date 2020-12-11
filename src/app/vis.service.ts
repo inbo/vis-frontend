@@ -167,4 +167,22 @@ export class VisService {
     link.download = filename;
     link.click();
   }
+
+  getObservations(projectCode: string, page: number, size: number, filter: any) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', size.toString());
+
+    Object.keys(filter).forEach(function (key, index) {
+      if (filter[key] !== null) {
+        params = params.set(key, filter[key].toString())
+      }
+    });
+
+    return this.http.get<AsyncPage<Project>>(environment.apiUrl + '/api/project/' + projectCode + "/observations", {params})
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return [];
+      }));
+  }
 }

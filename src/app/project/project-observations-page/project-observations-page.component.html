@@ -7,10 +7,53 @@
       <project-tabs [projectCode]="project?.code?.value"></project-tabs>
 
       <div class="px-4 py-8 sm:px-0">
-        <div class="h-96">
-          <p>Binnenkort beschikbaar</p>
+          <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="grid grid-cols-6">
+              <div class="col-span-2 py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                  <!-- This example requires Tailwind CSS v2.0+ -->
+                  <div class="bg-white shadow overflow-hidden sm:rounded-md">
+                    <ul class="divide-y divide-gray-200">
+                      <li>
+                        <div *ngIf="loading" class="block hover:bg-gray-50">
+                          <div class="flex items-center px-4 py-4 sm:px-6">
+                            <loading-spinner></loading-spinner>
+                          </div>
+                        </div>
+                      </li>
+
+                      <li *ngFor="let observation of observations | async">
+                        <a href="#" class="block hover:bg-gray-50">
+                          <div class="flex items-center px-4 py-4 sm:px-6">
+                            <div class="min-w-0 flex-1 flex items-center">
+                              <div class="min-w-0 flex-1 px-4">
+                                <div>
+                                  <p class="text-sm font-medium text-pink-600 truncate">{{observation.occurrence | date:'dd/MM/yyyy'}} {{observation.status}}</p>
+                                  <p class="mt-2 flex items-center text-sm text-gray-500">
+                                    <span class="truncate">{{observation.method}}</span>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                            <div>
+                              <!-- Heroicon name: chevron-right -->
+                              <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                              </svg>
+                            </div>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <paging-async [pager]="pager"></paging-async>
+                </div>
+              </div>
+              <div>Metingen</div>
+            </div>
+          </div>
         </div>
-      </div>
     </div>
   </div>
 </stacked-layout>
