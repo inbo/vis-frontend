@@ -45,6 +45,7 @@ import { ReleaseNotesPopupComponent } from './release-notes/release-notes-popup/
 import { ReleaseNotesTabsComponent } from './release-notes/release-notes-tabs/release-notes-tabs.component';
 import { TextCounterComponent } from './shared-ui/text-counter/text-counter.component';
 import {ExpandableFilterComponent} from "./shared-ui/expandable-filter/expandable-filter.component";
+import { ObservationStatusPillComponent } from './observations/observation-status-pill/observation-status-pill.component';
 
 
 
@@ -84,7 +85,8 @@ import {ExpandableFilterComponent} from "./shared-ui/expandable-filter/expandabl
     ReleaseNotesPopupComponent,
     ReleaseNotesTabsComponent,
     TextCounterComponent,
-    ExpandableFilterComponent
+    ExpandableFilterComponent,
+    ObservationStatusPillComponent
   ],
   imports: [
     CommonModule,

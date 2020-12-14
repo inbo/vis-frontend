@@ -170,16 +170,10 @@ export class VisService {
     link.click();
   }
 
-  getObservations(projectCode: string, page: number, size: number, filter: any) {
+  getObservations(projectCode: string, page: number, size: number) {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
-
-    Object.keys(filter).forEach(function (key, index) {
-      if (filter[key] !== null) {
-        params = params.set(key, filter[key].toString())
-      }
-    });
 
     return this.http.get<AsyncPage<Observation>>(environment.apiUrl + '/api/project/' + projectCode + "/observations", {params})
       .pipe(catchError(err => {

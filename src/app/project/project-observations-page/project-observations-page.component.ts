@@ -28,13 +28,9 @@ export class ProjectObservationsPageComponent implements OnInit {
   project: Project;
 
   loading: boolean = false;
-
   pager: AsyncPage<Observation>;
   observations: Observable<Observation[]>;
   selectedObservation: Observation;
-
-  filterForm: FormGroup;
-  advancedFilterIsVisible: boolean = false;
 
   loadingMeasurments: boolean = false;
   pagerMeasurements: AsyncPage<Measurement>;
@@ -45,54 +41,52 @@ export class ProjectObservationsPageComponent implements OnInit {
     this.titleService.setTitle("Waarnemingen voor " + this.activatedRoute.snapshot.params.projectCode)
     this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => this.project = value)
 
-    let queryParams = activatedRoute.snapshot.queryParams;
-    this.filterForm = formBuilder.group(
-      {
-        name: [queryParams.name],
-        description: [queryParams.description],
-        status: [queryParams.status],
-        sort: [queryParams.sort]
-      },
-    );
-
     this.activatedRoute.queryParams.subscribe((params) => {
-      this.filterForm.get('name').patchValue(params.name ? params.name : '')
-      this.filterForm.get('description').patchValue(params.description ? params.description : '')
-      this.filterForm.get('status').patchValue(params.status ? params.status : '')
-      this.filterForm.get('sort').patchValue(params.sort ? params.sort : '')
-
-      this.advancedFilterIsVisible = (params.description !== undefined && params.description !== '')
+      this.getObservations(params.page ? params.page : 1, params.size ? params.size : 5)
     });
 
   }
 
   ngOnInit(): void {
-    const params = this.activatedRoute.snapshot.params
-    this.getObservations(params.page ? params.page : 1, params.size ? params.size : 5)
   }
 
   getObservations(page: number, size: number) {
-    this.loading = true;
-    this.observations = of([])
 
-    this.visService.getObservations(this.activatedRoute.snapshot.params.projectCode, page, size, this.filterForm.getRawValue()).subscribe((value) => {
-      this.pager = value;
-      this.observations = of(value.content);
-      this.loading = false;
+    const queryParams = this.activatedRoute.snapshot.queryParams
 
-      if (value.content[0] !== null && value.content[0] !== undefined) {
-        this.selectedObservation = value.content[0];
-        this.getMeasurements(1, 15)
-      }
-    });
+    let currentPage = this.pager?.pageable.pageNumber + 1;
+    let newPage = parseInt(queryParams.page) ? queryParams.page : 1;
+
+    if (this.pager === undefined || currentPage !== newPage) {
+      this.loading = true;
+      this.observations = of([])
+
+      this.visService.getObservations(this.activatedRoute.snapshot.params.projectCode, page, size).subscribe((value) => {
+        this.pager = value;
+        this.observations = of(value.content);
+        this.loading = false;
+
+        if (value.content[0] !== null && value.content[0] !== undefined) {
+          this.selectedObservation = value.content[0];
+          const params = this.activatedRoute.snapshot.queryParams
+          if (params.waarneming) {
+            let selected = value.content.find(c => c.observationId.value === parseInt(params.waarneming));
+            if (selected) {
+              this.selectedObservation = selected;
+            }
+          }
+
+          this.loadMeasurements(!params['meting_page'] ? 0 : params['meting_page'], !params['meting_page'] ? 15 : params['meting_size'])
+        } else {
+          this.selectedObservation = null;
+        }
+      });
+    } else {
+      this.loadMeasurements(!queryParams['meting_page'] ? 0 : queryParams['meting_page'], !queryParams['meting_page'] ? 15 : queryParams['meting_size'])
+    }
   }
 
-  selectObservation(observation: Observation) {
-    this.selectedObservation = observation;
-    this.getMeasurements(1, 15);
-  }
-
-  getMeasurements(page: number, size: number) {
+  loadMeasurements(page: number, size: number) {
     if (this.selectedObservation === undefined) {
       return;
     }
@@ -109,10 +103,8 @@ export class ProjectObservationsPageComponent implements OnInit {
     });
   }
 
-
-  filter() {
-    let rawValue = this.filterForm.getRawValue();
-    const queryParams: Params = {...rawValue, page: 1};
+  selectObservation(observation: Observation) {
+    const queryParams: Params = {meting_page: 1, meting_size: 15, waarneming: observation.observationId.value};
 
     this.router.navigate(
       [],
@@ -121,15 +113,5 @@ export class ProjectObservationsPageComponent implements OnInit {
         queryParams: queryParams,
         queryParamsHandling: 'merge'
       });
-
-    this.getObservations(1, 20)
-  }
-
-  navigatedObservations(event: any) {
-    this.getObservations(event.page, event.size)
-  }
-
-  navigatedMeasurements(event: any) {
-    this.getMeasurements(event.page, event.size)
   }
 }
