@@ -2,5 +2,15 @@
   "project.status": {
     "ACTIVE": "Actief",
     "INACTIVE": "Inactief"
+  },
+  "observation.status": {
+    "COMPLETE": "Volledig",
+    "DELETED": "Verwijderd",
+    "ASSIGNED": "Toegewezen",
+    "ENTERED": "Invoer",
+    "INVALID": "Ongeldig",
+    "NEW": "Nieuw",
+    "PLANNED": "Gepland",
+    "VALID": "Geldig"
   }
 }
