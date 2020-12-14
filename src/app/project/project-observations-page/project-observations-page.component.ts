@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NavigationLink} from "../../shared-ui/layouts/NavigationLinks";
 import {GlobalConstants} from "../../GlobalConstants";
 import {BreadcrumbLink} from "../../shared-ui/breadcrumb/BreadcrumbLinks";
@@ -10,9 +10,10 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {Observable, of} from "rxjs";
 import {AsyncPage} from "../../shared-ui/paging-async/asyncPage";
 import {Observation} from "../model/observation";
+import {Measurement} from "../model/measurement";
 
 @Component({
-  selector: 'app-project-observations-page',
+  selector: 'project-observations-page',
   templateUrl: './project-observations-page.component.html'
 })
 export class ProjectObservationsPageComponent implements OnInit {
@@ -30,10 +31,15 @@ export class ProjectObservationsPageComponent implements OnInit {
 
   pager: AsyncPage<Observation>;
   observations: Observable<Observation[]>;
+  selectedObservation: Observation;
 
   filterForm: FormGroup;
   advancedFilterIsVisible: boolean = false;
 
+  loadingMeasurments: boolean = false;
+  pagerMeasurements: AsyncPage<Measurement>;
+  measurements: Observable<Measurement[]>;
+  emptyMeasurementCells: Array<number>;
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {
     this.titleService.setTitle("Waarnemingen voor " + this.activatedRoute.snapshot.params.projectCode)
@@ -61,9 +67,8 @@ export class ProjectObservationsPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe((params) => {
-      this.getObservations(params.page ? params.page : 1, params.size ? params.size : 20)
-    });
+    const params = this.activatedRoute.snapshot.params
+    this.getObservations(params.page ? params.page : 1, params.size ? params.size : 5)
   }
 
   getObservations(page: number, size: number) {
@@ -74,6 +79,33 @@ export class ProjectObservationsPageComponent implements OnInit {
       this.pager = value;
       this.observations = of(value.content);
       this.loading = false;
+
+      if (value.content[0] !== null && value.content[0] !== undefined) {
+        this.selectedObservation = value.content[0];
+        this.getMeasurements(1, 15)
+      }
+    });
+  }
+
+  selectObservation(observation: Observation) {
+    this.selectedObservation = observation;
+    this.getMeasurements(1, 15);
+  }
+
+  getMeasurements(page: number, size: number) {
+    if (this.selectedObservation === undefined) {
+      return;
+    }
+
+    this.loadingMeasurments = true;
+    this.measurements = of([])
+    this.emptyMeasurementCells = Array(15)
+
+    this.visService.getMeasurements(this.activatedRoute.snapshot.params.projectCode, this.selectedObservation.observationId, page, size).subscribe((value) => {
+      this.pagerMeasurements = value;
+      this.measurements = of(value.content);
+      this.loadingMeasurments = false;
+      this.emptyMeasurementCells = Array(15 - value.content.length);
     });
   }
 
@@ -93,4 +125,11 @@ export class ProjectObservationsPageComponent implements OnInit {
     this.getObservations(1, 20)
   }
 
+  navigatedObservations(event: any) {
+    this.getObservations(event.page, event.size)
+  }
+
+  navigatedMeasurements(event: any) {
+    this.getMeasurements(event.page, event.size)
+  }
 }

@@ -7,6 +7,8 @@ import {Observable} from "rxjs";
 import {Releases} from './release-notes/model/releases';
 import {AlertService} from "./_alert";
 import {catchError} from "rxjs/operators";
+import {Measurement} from "./project/model/measurement";
+import {Observation, ObservationId} from "./project/model/observation";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +21,7 @@ export class VisService {
   getProjects(page: number, size: number, filter: any) {
     let params = new HttpParams()
       .set('page', page.toString())
-      .set('pageSize', size.toString());
+      .set('size', size.toString());
 
     Object.keys(filter).forEach(function (key, index) {
       if (filter[key] !== null) {
@@ -152,7 +154,7 @@ export class VisService {
   getObservations(projectCode: string, page: number, size: number, filter: any) {
     let params = new HttpParams()
       .set('page', page.toString())
-      .set('pageSize', size.toString());
+      .set('size', size.toString());
 
     Object.keys(filter).forEach(function (key, index) {
       if (filter[key] !== null) {
@@ -160,7 +162,19 @@ export class VisService {
       }
     });
 
-    return this.http.get<AsyncPage<Project>>(environment.apiUrl + '/api/project/' + projectCode + "/observations", {params})
+    return this.http.get<AsyncPage<Observation>>(environment.apiUrl + '/api/project/' + projectCode + "/observations", {params})
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return [];
+      }));
+  }
+
+  getMeasurements(projectCode: string, observationId: ObservationId, page: number, size: number) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<AsyncPage<Measurement>>(`${environment.apiUrl}/api/project/${projectCode}/observations/${observationId.value}/measurements`, {params})
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];

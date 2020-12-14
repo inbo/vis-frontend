@@ -8,13 +8,16 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 })
 export class PagingAsyncComponent {
   @Input() pager: AsyncPage<any>;
+  @Input() pageProperty: string = 'page';
+  @Input() sizeProperty: string = 'size';
+  @Output() pageClicked = new EventEmitter<any>();
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
 
   }
 
   setPage(page: number, size: number) {
-    const queryParams: Params = {page: page};
+    const queryParams: Params = {[this.pageProperty]: page, [this.sizeProperty]: size};
 
     this.router.navigate(
       [],
@@ -23,6 +26,8 @@ export class PagingAsyncComponent {
         queryParams: queryParams,
         queryParamsHandling: 'merge'
       });
+
+    this.pageClicked.emit({page, size})
   }
 
   next() {
