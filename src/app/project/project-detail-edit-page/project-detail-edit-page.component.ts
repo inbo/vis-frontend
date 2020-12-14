@@ -58,7 +58,6 @@ export class ProjectDetailEditPageComponent implements OnInit, HasUnsavedData {
 
     const formData = this.projectForm.getRawValue();
 
-    console.log(formData)
     this.visService.updateProject(this.project.code.value, formData).subscribe(
       (response) => {
         this.isSuccessNotificationOpen = true;

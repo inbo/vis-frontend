@@ -6,7 +6,7 @@ import {Project} from "../model/project";
 import {Title} from "@angular/platform-browser";
 import {VisService} from "../../vis.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
 import {Observable, of} from "rxjs";
 import {AsyncPage} from "../../shared-ui/paging-async/asyncPage";
 import {Observation} from "../model/observation";
@@ -37,6 +37,8 @@ export class ProjectObservationsPageComponent implements OnInit {
   measurements: Observable<Measurement[]>;
   emptyMeasurementCells: Array<number>;
 
+  resetParams: Params;
+
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {
     this.titleService.setTitle("Waarnemingen voor " + this.activatedRoute.snapshot.params.projectCode)
     this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => this.project = value)
@@ -44,6 +46,11 @@ export class ProjectObservationsPageComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((params) => {
       this.getObservations(params.page ? params.page : 1, params.size ? params.size : 5)
     });
+
+    const queryParams = this.activatedRoute.snapshot.queryParams
+    const page = !queryParams['meting_page'] ? 0 : queryParams['meting_page'];
+    const size = !queryParams['meting_page'] ? 15 : queryParams['meting_size'];
+    this.resetParams = {meting_page: page, meting_size: size};
 
   }
 
@@ -55,9 +62,9 @@ export class ProjectObservationsPageComponent implements OnInit {
     const queryParams = this.activatedRoute.snapshot.queryParams
 
     let currentPage = this.pager?.pageable.pageNumber + 1;
-    let newPage = parseInt(queryParams.page) ? queryParams.page : 1;
+    let newPage = queryParams.page ? queryParams.page : 1;
 
-    if (this.pager === undefined || currentPage !== newPage) {
+    if (this.pager === undefined || currentPage !== parseInt(newPage)) {
       this.loading = true;
       this.observations = of([])
 
@@ -67,26 +74,32 @@ export class ProjectObservationsPageComponent implements OnInit {
         this.loading = false;
 
         if (value.content[0] !== null && value.content[0] !== undefined) {
-          this.selectedObservation = value.content[0];
-          const params = this.activatedRoute.snapshot.queryParams
-          if (params.waarneming) {
-            let selected = value.content.find(c => c.observationId.value === parseInt(params.waarneming));
-            if (selected) {
-              this.selectedObservation = selected;
-            }
-          }
-
-          this.loadMeasurements(!params['meting_page'] ? 0 : params['meting_page'], !params['meting_page'] ? 15 : params['meting_size'])
+          this.setSelectedObservation();
+          this.loadMeasurements()
         } else {
           this.selectedObservation = null;
         }
       });
     } else {
-      this.loadMeasurements(!queryParams['meting_page'] ? 0 : queryParams['meting_page'], !queryParams['meting_page'] ? 15 : queryParams['meting_size'])
+      this.setSelectedObservation();
+      this.loadMeasurements()
     }
   }
 
-  loadMeasurements(page: number, size: number) {
+  private setSelectedObservation() {
+    this.observations.subscribe(value => {
+      this.selectedObservation = value[0];
+      const params = this.activatedRoute.snapshot.queryParams
+      if (params.waarneming) {
+        let selected = value.find(c => c.observationId.value === parseInt(params.waarneming));
+        if (selected) {
+          this.selectedObservation = selected;
+        }
+      }
+    });
+  }
+
+  loadMeasurements() {
     if (this.selectedObservation === undefined) {
       return;
     }
@@ -94,6 +107,10 @@ export class ProjectObservationsPageComponent implements OnInit {
     this.loadingMeasurments = true;
     this.measurements = of([])
     this.emptyMeasurementCells = Array(15)
+
+    const queryParams = this.activatedRoute.snapshot.queryParams
+    const page = !queryParams['meting_page'] ? 0 : queryParams['meting_page'];
+    const size = !queryParams['meting_page'] ? 15 : queryParams['meting_size'];
 
     this.visService.getMeasurements(this.activatedRoute.snapshot.params.projectCode, this.selectedObservation.observationId, page, size).subscribe((value) => {
       this.pagerMeasurements = value;

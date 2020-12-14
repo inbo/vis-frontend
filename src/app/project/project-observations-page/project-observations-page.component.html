@@ -51,7 +51,7 @@
 
                               </div>
                               <p class="mt-2 flex items-center text-sm text-gray-500">
-                                <span class="truncate">{{observation.method}}</span>
+                                <span class="truncate">{{'method.' + observation.method + '.group' | translate}}</span>
                               </p>
                             </div>
                           </div>
@@ -67,7 +67,7 @@
                   </ul>
                 </div>
 
-                <paging-async [pager]="pager"></paging-async>
+                <paging-async [resetParams]="resetParams" [pager]="pager"></paging-async>
               </div>
             </div>
             <div class="col-span-full md:col-span-7 py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">

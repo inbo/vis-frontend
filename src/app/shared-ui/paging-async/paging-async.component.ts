@@ -10,6 +10,7 @@ export class PagingAsyncComponent {
   @Input() pager: AsyncPage<any>;
   @Input() pageProperty: string = 'page';
   @Input() sizeProperty: string = 'size';
+  @Input() resetParams: Params = {};
   @Output() pageClicked = new EventEmitter<any>();
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
@@ -17,7 +18,7 @@ export class PagingAsyncComponent {
   }
 
   setPage(page: number, size: number) {
-    const queryParams: Params = {[this.pageProperty]: page, [this.sizeProperty]: size};
+    const queryParams: Params = {...this.resetParams, [this.pageProperty]: page, [this.sizeProperty]: size};
 
     this.router.navigate(
       [],
