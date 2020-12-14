@@ -137,6 +137,25 @@ export class VisService {
       });
   }
 
+  getMethods(page: number, size: number, filter: any) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    Object.keys(filter).forEach(function (key, index) {
+      if (filter[key] !== null) {
+        params = params.set(key, filter[key].toString())
+      }
+    });
+
+    return this.http.get<AsyncPage<Project>>(environment.apiUrl + '/api/methods', {params})
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return [];
+      }));
+
+  }
+
   translations(lang: string) {
     return this.http.get<any>(`${environment.apiUrl}/translations/` + lang);
   }
