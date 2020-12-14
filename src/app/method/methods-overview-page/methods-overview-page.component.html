@@ -26,11 +26,11 @@
               <select formControlName="group" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md">
                 <!--TODO localization-->
                 <option value="">Groep</option>
-                <option value="SOIL">Bodem visserij</option>
-                <option value="ELECTRIC">Elektrisch</option>
-                <option value="TRAP">Fuiken</option>
-                <option value="NET">Netten</option>
-                <option value="OTHER">Overige</option>
+                <option value="SOIL">{{'method.group.SOIL' | translate}}</option>
+                <option value="ELECTRIC">{{'method.group.ELECTRIC' | translate}}</option>
+                <option value="TRAP">{{'method.group.TRAP' | translate}}</option>
+                <option value="NET">{{'method.group.NET' | translate}}</option>
+                <option value="OTHER">{{'method.group.OTHER' | translate}}</option>
               </select>
             </div>
           </ng-container>
@@ -68,10 +68,10 @@
                         {{method.code}}
                       </td>
                       <td class="px-6 py-4  text-sm text-gray-900">
-                        {{method.group}}
+                        {{'method.group.' + method.group | translate}}
                       </td>
                       <td class="px-6 py-4  text-sm text-gray-900">
-                        {{method.description}}
+                        {{'method.' + method.code | translate}}
                       </td>
                     </tr>
 
@@ -86,27 +86,25 @@
           <div class="lg:hidden bg-white shadow overflow-hidden sm:rounded-md">
             <ul class="divide-y divide-gray-200">
               <li *ngFor="let method of methods | async">
-                <a [routerLink]="['/projecten', method.code.value]" class="block hover:bg-gray-50">
-                  <div class="px-4 py-4 sm:px-6">
-                    <div class="flex items-center justify-between">
-                      <p class="text-sm font-medium text-pink-600 truncate">
-                        {{method.code}}
-                      </p>
-                    </div>
-                    <div class="mt-2 sm:flex sm:justify-between">
+                <div class="px-4 py-4 sm:px-6">
+                  <div class="flex items-center justify-between">
+                    <p class="text-sm font-medium text-pink-600 truncate">
+                      {{method.code}}
+                    </p>
+                  </div>
+                  <div class="mt-2 sm:flex sm:justify-between">
+                    <div class="sm:flex">
                       <div class="sm:flex">
-                        <div class="sm:flex">
-                          <p class="flex items-center text-sm text-gray-500">
-                            {{method.group}}
-                          </p>
-                          <p class="flex items-center text-sm text-gray-500">
-                            {{method.description}}
-                          </p>
-                        </div>
+                        <p class="flex items-center text-sm text-gray-500">
+                          {{'method.group.' + method.group | translate}}
+                        </p>
+                        <p class="flex items-center text-sm text-gray-500">
+                          {{'method.' + method.code | translate}}
+                        </p>
                       </div>
                     </div>
                   </div>
-                </a>
+                </div>
               </li>
             </ul>
             <paging-async [pager]="pager"></paging-async>
