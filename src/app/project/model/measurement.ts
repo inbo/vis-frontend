@@ -3,7 +3,10 @@ interface MeasurementId {
 }
 
 export interface Measurement {
-  measurementId: MeasurementId
+  measurementId: MeasurementId;
+  taxonId: number;
+  length: number;
+  weight: number;
 }
 
 
