@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build --outputPath=dist/local",
     "builddev": "ng build --configuration=dev --outputPath=dist/dev",
-    "builduat": "ng build --configuration=dev --outputPath=dist/uat",
+    "builduat": "ng build --configuration=uat --outputPath=dist/uat",
     "buildprod": "ng build --prod --outputPath=dist/prod",
     "test": "ng test",
     "lint": "ng lint",
