@@ -22,16 +22,17 @@
               </div>
             </div>
 
-            <div class="flex items-center">
-              <select formControlName="group" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md">
-                <!--TODO localization-->
-                <option value="">Groep</option>
-                <option value="SOIL">{{'method.group.SOIL' | translate}}</option>
-                <option value="ELECTRIC">{{'method.group.ELECTRIC' | translate}}</option>
-                <option value="TRAP">{{'method.group.TRAP' | translate}}</option>
-                <option value="NET">{{'method.group.NET' | translate}}</option>
-                <option value="OTHER">{{'method.group.OTHER' | translate}}</option>
-              </select>
+            <div class="self-center ">
+              <div class="mt-1 sm:mt-0 sm:col-span-2">
+                <select formControlName="group" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md">
+                  <option value="">Groep</option>
+                  <option value="B" [translate]="'method.group.B'"></option>
+                  <option value="E" [translate]="'method.group.E'"></option>
+                  <option value="F" [translate]="'method.group.F'"></option>
+                  <option value="N" [translate]="'method.group.N'"></option>
+                  <option value="O" [translate]="'method.group.O'"></option>
+                </select>
+              </div>
             </div>
           </ng-container>
         </expandable-filter>
@@ -68,7 +69,7 @@
                         {{method.code}}
                       </td>
                       <td class="px-6 py-4  text-sm text-gray-900">
-                        {{'method.group.' + method.group | translate}}
+                        {{'method.' + method.code + '.group' | translate}}
                       </td>
                       <td class="px-6 py-4  text-sm text-gray-900">
                         {{'method.' + method.code | translate}}
@@ -96,7 +97,7 @@
                     <div class="sm:flex">
                       <div class="sm:flex">
                         <p class="flex items-center text-sm text-gray-500">
-                          {{'method.group.' + method.group | translate}}
+                          {{'method.' + method.code + '.group' | translate}}
                         </p>
                         <p class="flex items-center text-sm text-gray-500">
                           {{'method.' + method.code | translate}}
