@@ -6,6 +6,7 @@ import {Project} from "../model/project";
 import {Title} from "@angular/platform-browser";
 import {VisService} from "../../vis.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {ProjectMethod} from '../model/project-method';
 
 @Component({
   selector: 'app-project-methods-page',
@@ -20,13 +21,15 @@ export class ProjectMethodsPageComponent implements OnInit {
     {title: 'Details', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode}
   ]
 
+  loading: boolean = false;
   project: Project;
+  methods: ProjectMethod[]
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router) {
     this.titleService.setTitle("Project " + this.activatedRoute.snapshot.params.projectCode)
 
     this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => this.project = value)
-
+    this.visService.getProjectMethods(this.activatedRoute.snapshot.params.projectCode).subscribe(value => this.methods = value)
   }
 
   ngOnInit(): void {

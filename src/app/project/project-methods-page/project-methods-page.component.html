@@ -6,9 +6,70 @@
 
       <project-tabs [projectCode]="project?.code?.value"></project-tabs>
 
+      <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
+        <!-- This example requires Tailwind CSS v2.0+ -->
+        <div class="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Project details
+          </h3>
+        </div>
+
+      </div>
+
       <div class="px-4 py-8 sm:px-0">
-        <div class="h-96">
-          <p>Binnenkort beschikbaar</p>
+        <div class="hidden lg:block flex flex-col">
+          <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+              <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                <table class="min-w-full divide-y divide-gray-200 table-fixed">
+                  <thead>
+                  <tr>
+                    <th scope="col" class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Methode
+                    </th>
+                    <th scope="col" class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Methodegroep
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+
+                  <tr *ngFor="let method of methods; let index = index" [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">
+                    <td class="px-6 py-4  text-sm text-gray-900">
+                      {{method.methodCode}}
+                    </td>
+                    <td class="px-6 py-4  text-sm text-gray-900">
+                      {{'method.' + method.methodCode + '.group' | translate}}
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:hidden bg-white shadow overflow-hidden sm:rounded-md">
+          <ul class="divide-y divide-gray-200">
+            <li *ngFor="let method of methods">
+              <div class="px-4 py-4 sm:px-6">
+                <div class="flex items-center justify-between">
+                  <p class="text-sm font-medium text-pink-600 truncate">
+                    {{method.methodCode}}
+                  </p>
+                </div>
+                <div class="mt-2 sm:flex sm:justify-between">
+                  <div class="sm:flex">
+                    <div class="sm:flex">
+                      <p class="flex items-center text-sm text-gray-500">
+                        {{'method.' + method.methodCode + '.group' | translate}}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

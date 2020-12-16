@@ -9,6 +9,7 @@ import {AlertService} from "./_alert";
 import {catchError} from "rxjs/operators";
 import {Measurement} from "./project/model/measurement";
 import {Observation, ObservationId} from "./project/model/observation";
+import {ProjectMethod} from './project/model/project-method';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,7 @@ export class VisService {
   }
 
   getProject(projectCode: string) {
-    return this.http.get<Project>(environment.apiUrl + '/api/project/' + projectCode)
+    return this.http.get<Project>(environment.apiUrl + '/api/projects/' + projectCode)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return []
@@ -45,7 +46,7 @@ export class VisService {
   }
 
   updateProject(code: string, formData: Object) {
-    return this.http.put(environment.apiUrl + '/api/project/' + code, formData)
+    return this.http.put(environment.apiUrl + '/api/projects/' + code, formData)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return []
@@ -175,7 +176,7 @@ export class VisService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.http.get<AsyncPage<Observation>>(environment.apiUrl + '/api/project/' + projectCode + "/observations", {params})
+    return this.http.get<AsyncPage<Observation>>(environment.apiUrl + '/api/projects/' + projectCode + "/observations", {params})
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];
@@ -187,10 +188,18 @@ export class VisService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.http.get<AsyncPage<Measurement>>(`${environment.apiUrl}/api/project/${projectCode}/observations/${observationId.value}/measurements`, {params})
+    return this.http.get<AsyncPage<Measurement>>(`${environment.apiUrl}/api/projects/${projectCode}/observations/${observationId.value}/measurements`, {params})
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];
+      }));
+  }
+
+  getProjectMethods(projectCode: any) {
+    return this.http.get<ProjectMethod[]>(`${environment.apiUrl}/api/projects/${projectCode}/methods`)
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return []
       }));
   }
 }
