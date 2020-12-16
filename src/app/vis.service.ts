@@ -10,6 +10,7 @@ import {catchError} from "rxjs/operators";
 import {Measurement} from "./project/model/measurement";
 import {Observation, ObservationId} from "./project/model/observation";
 import {ProjectMethod} from './project/model/project-method';
+import {Method} from './method/model/method';
 
 @Injectable({
   providedIn: 'root'
@@ -149,7 +150,7 @@ export class VisService {
       }
     });
 
-    return this.http.get<AsyncPage<Project>>(environment.apiUrl + '/api/methods', {params})
+    return this.http.get<AsyncPage<Method>>(environment.apiUrl + '/api/methods', {params})
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];
@@ -200,6 +201,22 @@ export class VisService {
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return []
+      }));
+  }
+
+  getAllMethods() {
+    return this.http.get<Method[]>(environment.apiUrl + '/api/methods/all')
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return [];
+      }));
+  }
+
+  updateProjectMethods(projectCode: String, methods: ProjectMethod[]) {
+    return this.http.post(`${environment.apiUrl}/api/projects/${projectCode}/methods`, methods)
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return [];
       }));
   }
 }
