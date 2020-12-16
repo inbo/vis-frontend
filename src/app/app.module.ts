@@ -47,6 +47,14 @@ import { TextCounterComponent } from './shared-ui/text-counter/text-counter.comp
 import {ExpandableFilterComponent} from "./shared-ui/expandable-filter/expandable-filter.component";
 import { ObservationStatusPillComponent } from './observations/observation-status-pill/observation-status-pill.component';
 import {VisService} from "./vis.service";
+import { ObservationDetailPageComponent } from './observations/observation-detail-page/observation-detail-page.component';
+import { ObservationTabsComponent } from './observations/observation-tabs/observation-tabs.component';
+import { ObservationParticularitiesPageComponent } from './observations/observation-particularities-page/observation-particularities-page.component';
+import { ObservationParametersPageComponent } from './observations/observation-parameters-page/observation-parameters-page.component';
+import { ObservationMethodPageComponent } from './observations/observation-method-page/observation-method-page.component';
+import { ObservationHabitatPageComponent } from './observations/observation-habitat-page/observation-habitat-page.component';
+import { ObservationTrajectPageComponent } from './observations/observation-traject-page/observation-traject-page.component';
+import { ObservationMeasurementsPageComponent } from './observations/observation-measurements-page/observation-measurements-page.component';
 
 
 
@@ -87,7 +95,15 @@ import {VisService} from "./vis.service";
     ReleaseNotesTabsComponent,
     TextCounterComponent,
     ExpandableFilterComponent,
-    ObservationStatusPillComponent
+    ObservationStatusPillComponent,
+    ObservationDetailPageComponent,
+    ObservationTabsComponent,
+    ObservationParticularitiesPageComponent,
+    ObservationParametersPageComponent,
+    ObservationMethodPageComponent,
+    ObservationHabitatPageComponent,
+    ObservationTrajectPageComponent,
+    ObservationMeasurementsPageComponent
   ],
   imports: [
     CommonModule,

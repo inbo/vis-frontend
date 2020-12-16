@@ -131,4 +131,8 @@ export class ProjectObservationsPageComponent implements OnInit {
         queryParamsHandling: 'merge'
       });
   }
+
+  navigateToObservationDetail() {
+    this.router.navigate(["/projecten", this.project.code.value, "waarnemingen", this.selectedObservation.observationId.value])
+  }
 }

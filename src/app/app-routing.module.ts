@@ -19,6 +19,13 @@ import {ProjectLocationsPageComponent} from "./project/project-locations-page/pr
 import {ProjectDetailEditPageComponent} from "./project/project-detail-edit-page/project-detail-edit-page.component";
 import {ReleaseNotesPageComponent} from './release-notes/release-notes-page/release-notes-page.component';
 import {HasUnsavedDataGuard} from "./core/unsaved-changes-guard.service";
+import {ObservationDetailPageComponent} from "./observations/observation-detail-page/observation-detail-page.component";
+import {ObservationParametersPageComponent} from "./observations/observation-parameters-page/observation-parameters-page.component";
+import {ObservationParticularitiesPageComponent} from "./observations/observation-particularities-page/observation-particularities-page.component";
+import {ObservationMethodPageComponent} from "./observations/observation-method-page/observation-method-page.component";
+import {ObservationHabitatPageComponent} from "./observations/observation-habitat-page/observation-habitat-page.component";
+import {ObservationTrajectPageComponent} from "./observations/observation-traject-page/observation-traject-page.component";
+import {ObservationMeasurementsPageComponent} from "./observations/observation-measurements-page/observation-measurements-page.component";
 
 const routes: Routes = [
   {path: '', component: WelcomePageComponent, pathMatch: 'full'},
@@ -32,6 +39,13 @@ const routes: Routes = [
   {path: 'projecten/:projectCode/methoden', component: ProjectMethodsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/vissoorten', component: ProjectFishSpeciesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/afbeeldingen', component: ProjectPicturesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:observationId', component: ObservationDetailPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:observationId/bijzonderheden', component: ObservationParticularitiesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:observationId/parameters', component: ObservationParametersPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:observationId/methode', component: ObservationMethodPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:observationId/habitat', component: ObservationHabitatPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:observationId/traject', component: ObservationTrajectPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:observationId/metingen', component: ObservationMeasurementsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'locaties', component: LocationOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'vissoorten', component: FishSpeciesOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'methoden', component: MethodsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
