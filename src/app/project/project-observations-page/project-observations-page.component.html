@@ -80,7 +80,7 @@
                       <!-- This example requires Tailwind CSS v2.0+ -->
                       <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
                         <h3 class="text-lg leading-6 font-medium text-gray-900">
-                          Individuele metingen
+                          Metingen
                         </h3>
                       </div>
 
@@ -89,7 +89,10 @@
                         <thead class="bg-gray-50">
                           <tr>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Taxon
+                              Soort
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Aantal
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                               Lengte
@@ -104,15 +107,18 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                               {{"taxon.id." + measurement.taxonId | translate}}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                              {{measurement.amount}}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                               {{measurement.length}}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                               {{measurement.weight}}
                             </td>
                           </tr>
                           <tr class="hidden md:table-row" *ngFor="let i of emptyMeasurementCells">
-                            <td colspan="3" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            <td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                               &nbsp;
                             </td>
                           </tr>

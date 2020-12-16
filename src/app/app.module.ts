@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 
-import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
 import {HttpClient} from "@angular/common/http";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {AppRoutingModule} from './app-routing.module';
@@ -46,6 +46,7 @@ import { ReleaseNotesTabsComponent } from './release-notes/release-notes-tabs/re
 import { TextCounterComponent } from './shared-ui/text-counter/text-counter.component';
 import {ExpandableFilterComponent} from "./shared-ui/expandable-filter/expandable-filter.component";
 import { ObservationStatusPillComponent } from './observations/observation-status-pill/observation-status-pill.component';
+import {VisService} from "./vis.service";
 
 
 
@@ -106,7 +107,14 @@ import { ObservationStatusPillComponent } from './observations/observation-statu
       defaultLanguage: 'nl'
     })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFactory,
+      deps: [TranslateService, VisService],
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
@@ -114,4 +122,14 @@ export class AppModule {
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
+}
+
+export function appInitializerFactory(translate: TranslateService, visService: VisService) {
+  return () => {
+    return visService.translations('nl').subscribe(value => {
+      translate.setTranslation('nl', value, true);
+      translate.setDefaultLang('nl');
+      return translate.use('nl').toPromise();
+    })
+  };
 }

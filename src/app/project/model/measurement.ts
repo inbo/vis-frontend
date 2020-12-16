@@ -5,6 +5,7 @@ interface MeasurementId {
 export interface Measurement {
   measurementId: MeasurementId;
   taxonId: number;
+  amount: number;
   length: number;
   weight: number;
 }
