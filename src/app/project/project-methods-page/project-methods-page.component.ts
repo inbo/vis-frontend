@@ -25,7 +25,7 @@ export class ProjectMethodsPageComponent implements OnInit {
   showEditTaxa = false;
   loading: boolean = false;
   project: Project;
-  methods: ProjectMethod[]
+  methods: String[]
   allMethods: Method[]
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router) {
@@ -43,14 +43,14 @@ export class ProjectMethodsPageComponent implements OnInit {
   }
 
   isSelected(method: Method) {
-    return this.methods.some(item => item.methodCode === method.code);
+    return this.methods.some(item => item === method.code);
   }
 
   selectedChanged(event: any, item: Method) {
     if (event.target.checked) {
-      this.methods.push({id: null, projectCode: this.activatedRoute.snapshot.params.projectCode, methodCode: item.code});
+      this.methods.push(item.code);
     } else {
-      this.methods = this.methods.filter(method => method.methodCode !== item.code);
+      this.methods = this.methods.filter(method => method !== item.code);
     }
   }
 

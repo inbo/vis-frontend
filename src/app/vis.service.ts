@@ -197,7 +197,7 @@ export class VisService {
   }
 
   getProjectMethods(projectCode: any) {
-    return this.http.get<ProjectMethod[]>(`${environment.apiUrl}/api/projects/${projectCode}/methods`)
+    return this.http.get<String[]>(`${environment.apiUrl}/api/projects/${projectCode}/methods`)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return []
@@ -212,7 +212,7 @@ export class VisService {
       }));
   }
 
-  updateProjectMethods(projectCode: String, methods: ProjectMethod[]) {
+  updateProjectMethods(projectCode: String, methods: String[]) {
     return this.http.post(`${environment.apiUrl}/api/projects/${projectCode}/methods`, methods)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
