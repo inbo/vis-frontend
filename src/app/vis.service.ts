@@ -9,6 +9,7 @@ import {AlertService} from "./_alert";
 import {catchError} from "rxjs/operators";
 import {Measurement} from "./project/model/measurement";
 import {Observation, ObservationId} from "./project/model/observation";
+import {Parameters} from "./project/model/parameters";
 
 @Injectable({
   providedIn: 'root'
@@ -188,6 +189,14 @@ export class VisService {
       .set('size', size.toString());
 
     return this.http.get<AsyncPage<Measurement>>(`${environment.apiUrl}/api/project/${projectCode}/observations/${observationId.value}/measurements`, {params})
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return [];
+      }));
+  }
+
+  getParameters(projectCode: string, observationId: ObservationId) {
+    return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/observations/${observationId}/parameters`)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];
