@@ -11,6 +11,7 @@ import {Measurement} from "./project/model/measurement";
 import {Observation, ObservationId} from "./project/model/observation";
 import {ProjectMethod} from './project/model/project-method';
 import {Method} from './method/model/method';
+import {Parameters} from "./project/model/parameters";
 
 @Injectable({
   providedIn: 'root'
@@ -214,6 +215,14 @@ export class VisService {
 
   updateProjectMethods(projectCode: String, methods: String[]) {
     return this.http.post(`${environment.apiUrl}/api/projects/${projectCode}/methods`, methods)
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return [];
+      }));
+  }
+
+  getParameters(projectCode: string, observationId: ObservationId) {
+    return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/observations/${observationId}/parameters`)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];
