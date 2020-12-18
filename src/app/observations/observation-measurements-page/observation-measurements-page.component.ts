@@ -6,6 +6,9 @@ import {Project} from "../../project/model/project";
 import {Title} from "@angular/platform-browser";
 import {VisService} from "../../vis.service";
 import {ActivatedRoute} from "@angular/router";
+import {AsyncPage} from "../../shared-ui/paging-async/asyncPage";
+import {Measurement} from "../../project/model/measurement";
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'app-observation-measurements-page',
@@ -23,18 +26,37 @@ export class ObservationMeasurementsPageComponent implements OnInit {
   ]
 
   project: Project;
+
+  projectCode: any;
   observationId: any;
+
+  loading: boolean = false;
+  pager: AsyncPage<Measurement>;
+  measurements: Observable<Measurement[]>;
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute) {
     this.observationId = this.activatedRoute.snapshot.params.observationId;
+    this.projectCode = this.activatedRoute.snapshot.params.projectCode
     this.titleService.setTitle('Waarneming metingen ' + this.activatedRoute.snapshot.params.observationId)
     this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
       this.project = value
-    })
-
+    });
   }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe((params) => {
+      this.loadMeasurements(params.page ? params.page : 1, params.size ? params.size : 20)
+    });
+  }
+
+  loadMeasurements(page: number, size: number) {
+    this.loading = true;
+    this.measurements = of([])
+    this.visService.getMeasurements(this.projectCode, this.observationId, page, size).subscribe((value) => {
+      this.pager = value;
+      this.measurements = of(value.content);
+      this.loading = false;
+    });
   }
 
 }

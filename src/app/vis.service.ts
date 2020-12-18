@@ -183,12 +183,12 @@ export class VisService {
       }));
   }
 
-  getMeasurements(projectCode: string, observationId: ObservationId, page: number, size: number) {
+  getMeasurements(projectCode: string, observationId: any, page: number, size: number) {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.http.get<AsyncPage<Measurement>>(`${environment.apiUrl}/api/project/${projectCode}/observations/${observationId.value}/measurements`, {params})
+    return this.http.get<AsyncPage<Measurement>>(`${environment.apiUrl}/api/project/${projectCode}/observations/${observationId}/measurements`, {params})
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];

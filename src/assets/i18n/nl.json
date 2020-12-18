@@ -12,5 +12,17 @@
     "NEW": "Nieuw",
     "PLANNED": "Gepland",
     "VALID": "Geldig"
+  },
+  "gender": {
+    "MALE": "M",
+    "FEMALE": "V",
+    "UNKNOWN": "O"
+  },
+  "lengthType": {
+    "short": {
+      "STANDARD": "SL",
+      "FORK":"FL",
+      "TOTAL": "TL"
+    }
   }
 }

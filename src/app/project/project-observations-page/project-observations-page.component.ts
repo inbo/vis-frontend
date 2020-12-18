@@ -112,7 +112,7 @@ export class ProjectObservationsPageComponent implements OnInit {
     const page = !queryParams['meting_page'] ? 0 : queryParams['meting_page'];
     const size = !queryParams['meting_page'] ? 15 : queryParams['meting_size'];
 
-    this.visService.getMeasurements(this.activatedRoute.snapshot.params.projectCode, this.selectedObservation.observationId, page, size).subscribe((value) => {
+    this.visService.getMeasurements(this.activatedRoute.snapshot.params.projectCode, this.selectedObservation.observationId.value, page, size).subscribe((value) => {
       this.pagerMeasurements = value;
       this.measurements = of(value.content);
       this.loadingMeasurments = false;
