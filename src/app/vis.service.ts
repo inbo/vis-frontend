@@ -10,6 +10,7 @@ import {catchError} from "rxjs/operators";
 import {Measurement} from "./project/model/measurement";
 import {Observation, ObservationId} from "./project/model/observation";
 import {Parameters} from "./project/model/parameters";
+import {Taxon} from './fish-specie/model/taxon';
 
 @Injectable({
   providedIn: 'root'
@@ -197,6 +198,24 @@ export class VisService {
 
   getParameters(projectCode: string, observationId: ObservationId) {
     return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/observations/${observationId}/parameters`)
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return [];
+      }));
+  }
+
+  getTaxon(page: number, size: number, filter: any) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    Object.keys(filter).forEach(function (key, index) {
+      if (filter[key] !== null) {
+        params = params.set(key, filter[key].toString())
+      }
+    });
+
+    return this.http.get<AsyncPage<Taxon>>(environment.apiUrl + '/api/taxon', {params})
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];
