@@ -6,11 +6,176 @@
 
       <project-tabs [projectCode]="project?.code?.value"></project-tabs>
 
-      <div class="px-4 py-8 sm:px-0">
-        <div class="h-96">
-          <p>Binnenkort beschikbaar</p>
+      <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
+        <!-- This example requires Tailwind CSS v2.0+ -->
+        <div class="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Methoden
+          </h3>
+        </div>
+
+      </div>
+
+      <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-lg" [class.hidden]="showEditTaxa">
+
+        <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
+          <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-no-wrap">
+            <div class="ml-4 mt-4">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Geselecteerde methoden
+              </h3>
+              <p class="mt-1 text-sm leading-5 text-gray-500">
+                Alle methoden die tot de lijst behoren. Klik op bewerken om de lijst aan te passen.
+              </p>
+            </div>
+            <div class="ml-4 mt-4 flex-shrink-0">
+                        <span class="inline-flex rounded-md shadow-sm">
+                            <button type="button" (click)="this.showEditTaxa = true"
+                                    class="relative inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-pink-600 hover:bg-pink-500 focus:outline-none focus:shadow-outline-pink focus:border-pink-700 active:bg-pink-700">
+                                Bewerken
+                            </button>
+                        </span>
+            </div>
+          </div>
+        </div>
+
+        <ul aria-disabled="true">
+          <li *ngFor="let method of methods">
+                    <span
+                      class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
+                        <div class="px-4 py-4 sm:px-6">
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm leading-5 font-medium text-gray-600 truncate">
+                                    {{'method.' + method | translate}} ({{method}})
+                                </div>
+                                <div class="ml-2 flex-shrink-0 flex">
+                                    <span
+                                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        {{'method.' + method + '.group' | translate}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-lg" [class.hidden]="!showEditTaxa">
+
+        <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
+          <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-no-wrap">
+            <div class="ml-4 mt-4">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Bewerk soorten
+              </h3>
+              <p class="mt-1 text-sm leading-5 text-gray-500">
+                Selecteer alle soorten die tot tot de lijst behoren.
+              </p>
+            </div>
+            <div class="ml-4 mt-4 flex-shrink-0">
+                        <span class="inline-flex rounded-md shadow-sm">
+                            <button type="button" (click)="this.saveProjectMethods()"
+                                    class="relative inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-pink-600 hover:bg-pink-500 focus:outline-none focus:shadow-outline-pink focus:border-pink-700 active:bg-pink-700">
+                                Bewaren
+                            </button>
+                        </span>
+            </div>
+          </div>
+        </div>
+        <ul aria-disabled="true">
+          <li *ngFor="let method of allMethods">
+            <span
+              class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
+                <div class="px-4 py-4 sm:px-6">
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm leading-5 font-medium text-gray-600 truncate">
+                            {{'method.' + method.code | translate}} ({{method.code}}) - {{'method.' + method.code + '.group' | translate}}
+                        </div>
+                        <div class="ml-2 flex-shrink-0 flex">
+                            <div class="flex items-center h-5">
+                                <input (change)="selectedChanged($event, method)"
+                                       [attr.checked]="isSelected(method) ? 'selected' : null" type="checkbox"
+                                       class="form-checkbox h-4 w-4 text-pink-600 transition duration-150 ease-in-out">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </span>
+          </li>
+        </ul>
+        <div class="bg-white px-4 py-5 border-t border-gray-200 sm:px-6">
+          <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-no-wrap">
+            <div class="ml-4 mt-4">
+            </div>
+            <div class="ml-4 mt-4 flex-shrink-0">
+                        <span class="inline-flex rounded-md shadow-sm">
+                            <button type="button" (click)="this.saveProjectMethods()"
+                                    class="relative inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-pink-600 hover:bg-pink-500 focus:outline-none focus:shadow-outline-pink focus:border-pink-700 active:bg-pink-700">
+                                Bewaren
+                            </button>
+                        </span>
+            </div>
+          </div>
         </div>
       </div>
+
+<!--      <div class="px-4 py-8 sm:px-0">-->
+<!--        <div class="hidden lg:block flex flex-col">-->
+<!--          <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">-->
+<!--            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">-->
+<!--              <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">-->
+<!--                <table class="min-w-full divide-y divide-gray-200 table-fixed">-->
+<!--                  <thead>-->
+<!--                  <tr>-->
+<!--                    <th scope="col" class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
+<!--                      Methode-->
+<!--                    </th>-->
+<!--                    <th scope="col" class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
+<!--                      Methodegroep-->
+<!--                    </th>-->
+<!--                  </tr>-->
+<!--                  </thead>-->
+<!--                  <tbody>-->
+
+<!--                  <tr *ngFor="let method of methods; let index = index" [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">-->
+<!--                    <td class="px-6 py-4  text-sm text-gray-900">-->
+<!--                      {{method.methodCode}}-->
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4  text-sm text-gray-900">-->
+<!--                      {{'method.' + method.methodCode + '.group' | translate}}-->
+<!--                    </td>-->
+<!--                  </tr>-->
+<!--                  </tbody>-->
+<!--                </table>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="lg:hidden bg-white shadow overflow-hidden sm:rounded-md">-->
+<!--          <ul class="divide-y divide-gray-200">-->
+<!--            <li *ngFor="let method of methods">-->
+<!--              <div class="px-4 py-4 sm:px-6">-->
+<!--                <div class="flex items-center justify-between">-->
+<!--                  <p class="text-sm font-medium text-pink-600 truncate">-->
+<!--                    {{method.methodCode}}-->
+<!--                  </p>-->
+<!--                </div>-->
+<!--                <div class="mt-2 sm:flex sm:justify-between">-->
+<!--                  <div class="sm:flex">-->
+<!--                    <div class="sm:flex">-->
+<!--                      <p class="flex items-center text-sm text-gray-500">-->
+<!--                        {{'method.' + method.methodCode + '.group' | translate}}-->
+<!--                      </p>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
   </div>
 </stacked-layout>
