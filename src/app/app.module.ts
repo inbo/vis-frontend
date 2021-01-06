@@ -26,7 +26,7 @@ import {PagingAsyncComponent} from "./shared-ui/paging-async/paging-async.compon
 import {PagingComponent} from "./shared-ui/paging/paging.component";
 import {LoadingSpinnerComponent} from "./shared-ui/loading-spinner/loading-spinner.component";
 import {ProjectDetailPageComponent} from './project/project-detail-page/project-detail-page.component';
-import {ProjectObservationsPageComponent} from './project/project-observations-page/project-observations-page.component';
+import {ProjectSurveyEventsPageComponent} from './project/project-survey-events-page/project-survey-events-page.component';
 import {ProjectLocationsPageComponent} from './project/project-locations-page/project-locations-page.component';
 import {ProjectHabitatPageComponent} from './project/project-habitat-page/project-habitat-page.component';
 import {ProjectMethodsPageComponent} from './project/project-methods-page/project-methods-page.component';
@@ -36,26 +36,25 @@ import {ProjectTabsComponent} from './project/project-tabs/project-tabs.componen
 import {ProjectDetailEditPageComponent} from './project/project-detail-edit-page/project-detail-edit-page.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ToggleWithIconComponent} from './shared-ui/toggle-with-icon/toggle-with-icon.component';
-import { DatepickerComponent } from './shared-ui/datepicker/datepicker.component';
-import { SlideOverComponent } from './shared-ui/slide-over/slide-over.component';
-import { ProjectAddComponent } from './project/project-add/project-add.component';
+import {DatepickerComponent} from './shared-ui/datepicker/datepicker.component';
+import {SlideOverComponent} from './shared-ui/slide-over/slide-over.component';
+import {ProjectAddComponent} from './project/project-add/project-add.component';
 import {AlertModule} from "./_alert";
-import { ReleaseNotesPageComponent } from './release-notes/release-notes-page/release-notes-page.component';
-import { ReleaseNotesPopupComponent } from './release-notes/release-notes-popup/release-notes-popup.component';
-import { ReleaseNotesTabsComponent } from './release-notes/release-notes-tabs/release-notes-tabs.component';
-import { TextCounterComponent } from './shared-ui/text-counter/text-counter.component';
+import {ReleaseNotesPageComponent} from './release-notes/release-notes-page/release-notes-page.component';
+import {ReleaseNotesPopupComponent} from './release-notes/release-notes-popup/release-notes-popup.component';
+import {ReleaseNotesTabsComponent} from './release-notes/release-notes-tabs/release-notes-tabs.component';
+import {TextCounterComponent} from './shared-ui/text-counter/text-counter.component';
 import {ExpandableFilterComponent} from "./shared-ui/expandable-filter/expandable-filter.component";
-import { ObservationStatusPillComponent } from './observations/observation-status-pill/observation-status-pill.component';
+import {SurveyEventStatusPillComponent} from './survey-events/survey-event-status-pill/survey-event-status-pill.component';
 import {VisService} from "./vis.service";
-import { ObservationDetailPageComponent } from './observations/observation-detail-page/observation-detail-page.component';
-import { ObservationTabsComponent } from './observations/observation-tabs/observation-tabs.component';
-import { ObservationParticularitiesPageComponent } from './observations/observation-particularities-page/observation-particularities-page.component';
-import { ObservationParametersPageComponent } from './observations/observation-parameters-page/observation-parameters-page.component';
-import { ObservationMethodPageComponent } from './observations/observation-method-page/observation-method-page.component';
-import { ObservationHabitatPageComponent } from './observations/observation-habitat-page/observation-habitat-page.component';
-import { ObservationTrajectPageComponent } from './observations/observation-traject-page/observation-traject-page.component';
-import { ObservationMeasurementsPageComponent } from './observations/observation-measurements-page/observation-measurements-page.component';
-
+import {SurveyEventDetailPageComponent} from './survey-events/survey-event-detail-page/survey-event-detail-page.component';
+import {SurveyEventTabsComponent} from './survey-events/survey-event-tabs/survey-event-tabs.component';
+import {SurveyEventParticularitiesPageComponent} from './survey-events/survey-event-particularities-page/survey-event-particularities-page.component';
+import {SurveyEventParametersPageComponent} from './survey-events/survey-event-parameters-page/survey-event-parameters-page.component';
+import {SurveyEventMethodPageComponent} from './survey-events/survey-event-method-page/survey-event-method-page.component';
+import {SurveyEventHabitatPageComponent} from './survey-events/survey-event-habitat-page/survey-event-habitat-page.component';
+import {SurveyEventTrajectPageComponent} from './survey-events/survey-event-traject-page/survey-event-traject-page.component';
+import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
 
 
 @NgModule({
@@ -78,7 +77,7 @@ import { ObservationMeasurementsPageComponent } from './observations/observation
     PagingComponent,
     LoadingSpinnerComponent,
     ProjectDetailPageComponent,
-    ProjectObservationsPageComponent,
+    ProjectSurveyEventsPageComponent,
     ProjectLocationsPageComponent,
     ProjectHabitatPageComponent,
     ProjectMethodsPageComponent,
@@ -95,15 +94,15 @@ import { ObservationMeasurementsPageComponent } from './observations/observation
     ReleaseNotesTabsComponent,
     TextCounterComponent,
     ExpandableFilterComponent,
-    ObservationStatusPillComponent,
-    ObservationDetailPageComponent,
-    ObservationTabsComponent,
-    ObservationParticularitiesPageComponent,
-    ObservationParametersPageComponent,
-    ObservationMethodPageComponent,
-    ObservationHabitatPageComponent,
-    ObservationTrajectPageComponent,
-    ObservationMeasurementsPageComponent
+    SurveyEventStatusPillComponent,
+    SurveyEventDetailPageComponent,
+    SurveyEventTabsComponent,
+    SurveyEventParticularitiesPageComponent,
+    SurveyEventParametersPageComponent,
+    SurveyEventMethodPageComponent,
+    SurveyEventHabitatPageComponent,
+    SurveyEventTrajectPageComponent,
+    SurveyEventMeasurementsPageComponent
   ],
   imports: [
     CommonModule,

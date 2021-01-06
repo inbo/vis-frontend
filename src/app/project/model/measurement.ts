@@ -8,6 +8,9 @@ export interface Measurement {
   amount: number;
   length: number;
   weight: number;
+  comment: string;
+  gender: string;
+  lengthType: string;
 }
 
 

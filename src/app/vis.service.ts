@@ -8,10 +8,10 @@ import {Releases} from './release-notes/model/releases';
 import {AlertService} from "./_alert";
 import {catchError} from "rxjs/operators";
 import {Measurement} from "./project/model/measurement";
-import {Observation, ObservationId} from "./project/model/observation";
+import {SurveyEvent, SurveyEventId} from "./project/model/surveyEvent";
+import {Parameters} from "./project/model/parameters";
 import {ProjectMethod} from './project/model/project-method';
 import {Method} from './method/model/method';
-import {Parameters} from "./project/model/parameters";
 
 @Injectable({
   providedIn: 'root'
@@ -173,24 +173,24 @@ export class VisService {
     link.click();
   }
 
-  getObservations(projectCode: string, page: number, size: number) {
+  getSurveyEvents(projectCode: string, page: number, size: number) {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.http.get<AsyncPage<Observation>>(environment.apiUrl + '/api/projects/' + projectCode + "/observations", {params})
+    return this.http.get<AsyncPage<SurveyEvent>>(environment.apiUrl + '/api/project/' + projectCode + "/surveyevents", {params})
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];
       }));
   }
 
-  getMeasurements(projectCode: string, observationId: ObservationId, page: number, size: number) {
+  getMeasurements(projectCode: string, surveyEventId: any, page: number, size: number) {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.http.get<AsyncPage<Measurement>>(`${environment.apiUrl}/api/projects/${projectCode}/observations/${observationId.value}/measurements`, {params})
+    return this.http.get<AsyncPage<Measurement>>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`, {params})
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];
@@ -221,8 +221,8 @@ export class VisService {
       }));
   }
 
-  getParameters(projectCode: string, observationId: ObservationId) {
-    return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/observations/${observationId}/parameters`)
+  getParameters(projectCode: string, surveyEventId: SurveyEventId) {
+    return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];

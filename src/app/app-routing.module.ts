@@ -10,7 +10,7 @@ import {MethodsOverviewPageComponent} from "./method/methods-overview-page/metho
 import {FishIndexPageComponent} from "./fish-index-page/fish-index-page.component";
 import {ProfilePageComponent} from "./profile-page/profile-page.component";
 import {ProjectDetailPageComponent} from "./project/project-detail-page/project-detail-page.component";
-import {ProjectObservationsPageComponent} from "./project/project-observations-page/project-observations-page.component";
+import {ProjectSurveyEventsPageComponent} from "./project/project-survey-events-page/project-survey-events-page.component";
 import {ProjectHabitatPageComponent} from "./project/project-habitat-page/project-habitat-page.component";
 import {ProjectMethodsPageComponent} from "./project/project-methods-page/project-methods-page.component";
 import {ProjectFishSpeciesPageComponent} from "./project/project-fish-species-page/project-fish-species-page.component";
@@ -19,13 +19,13 @@ import {ProjectLocationsPageComponent} from "./project/project-locations-page/pr
 import {ProjectDetailEditPageComponent} from "./project/project-detail-edit-page/project-detail-edit-page.component";
 import {ReleaseNotesPageComponent} from './release-notes/release-notes-page/release-notes-page.component';
 import {HasUnsavedDataGuard} from "./core/unsaved-changes-guard.service";
-import {ObservationDetailPageComponent} from "./observations/observation-detail-page/observation-detail-page.component";
-import {ObservationParametersPageComponent} from "./observations/observation-parameters-page/observation-parameters-page.component";
-import {ObservationParticularitiesPageComponent} from "./observations/observation-particularities-page/observation-particularities-page.component";
-import {ObservationMethodPageComponent} from "./observations/observation-method-page/observation-method-page.component";
-import {ObservationHabitatPageComponent} from "./observations/observation-habitat-page/observation-habitat-page.component";
-import {ObservationTrajectPageComponent} from "./observations/observation-traject-page/observation-traject-page.component";
-import {ObservationMeasurementsPageComponent} from "./observations/observation-measurements-page/observation-measurements-page.component";
+import {SurveyEventDetailPageComponent} from "./survey-events/survey-event-detail-page/survey-event-detail-page.component";
+import {SurveyEventParametersPageComponent} from "./survey-events/survey-event-parameters-page/survey-event-parameters-page.component";
+import {SurveyEventParticularitiesPageComponent} from "./survey-events/survey-event-particularities-page/survey-event-particularities-page.component";
+import {SurveyEventMethodPageComponent} from "./survey-events/survey-event-method-page/survey-event-method-page.component";
+import {SurveyEventHabitatPageComponent} from "./survey-events/survey-event-habitat-page/survey-event-habitat-page.component";
+import {SurveyEventTrajectPageComponent} from "./survey-events/survey-event-traject-page/survey-event-traject-page.component";
+import {SurveyEventMeasurementsPageComponent} from "./survey-events/survey-event-measurements-page/survey-event-measurements-page.component";
 
 const routes: Routes = [
   {path: '', component: WelcomePageComponent, pathMatch: 'full'},
@@ -33,19 +33,19 @@ const routes: Routes = [
   {path: 'projecten', component: ProjectsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode', component: ProjectDetailPageComponent, canActivate: [AuthGuardWithForcedLogin], pathMatch: 'full'},
   {path: 'projecten/:projectCode/bewerk', component: ProjectDetailEditPageComponent, canActivate: [AuthGuardWithForcedLogin], canDeactivate: [HasUnsavedDataGuard]},
-  {path: 'projecten/:projectCode/waarnemingen', component: ProjectObservationsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen', component: ProjectSurveyEventsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/locaties', component: ProjectLocationsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/habitat', component: ProjectHabitatPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/methoden', component: ProjectMethodsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/vissoorten', component: ProjectFishSpeciesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/afbeeldingen', component: ProjectPicturesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/waarnemingen/:observationId', component: ObservationDetailPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/waarnemingen/:observationId/bijzonderheden', component: ObservationParticularitiesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/waarnemingen/:observationId/parameters', component: ObservationParametersPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/waarnemingen/:observationId/methode', component: ObservationMethodPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/waarnemingen/:observationId/habitat', component: ObservationHabitatPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/waarnemingen/:observationId/traject', component: ObservationTrajectPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/waarnemingen/:observationId/metingen', component: ObservationMeasurementsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId', component: SurveyEventDetailPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/bijzonderheden', component: SurveyEventParticularitiesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/parameters', component: SurveyEventParametersPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/methode', component: SurveyEventMethodPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/habitat', component: SurveyEventHabitatPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/traject', component: SurveyEventTrajectPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/metingen', component: SurveyEventMeasurementsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'locaties', component: LocationOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'vissoorten', component: FishSpeciesOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'methoden', component: MethodsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},

@@ -3,7 +3,7 @@
     "ACTIVE": "Actief",
     "INACTIVE": "Inactief"
   },
-  "observation.status": {
+  "surveyEvent.status": {
     "COMPLETE": "Volledig",
     "DELETED": "Verwijderd",
     "ASSIGNED": "Toegewezen",
@@ -12,5 +12,35 @@
     "NEW": "Nieuw",
     "PLANNED": "Gepland",
     "VALID": "Geldig"
+  },
+  "gender": {
+    "MALE": "M",
+    "FEMALE": "V",
+    "UNKNOWN": "O",
+    "null": ""
+  },
+  "gender": {
+    "MALE": "M",
+    "FEMALE": "V",
+    "UNKNOWN": "O",
+    "null": "",
+    "full": {
+      "MALE": "Mannelijk",
+      "FEMALE": "Vrouwelijk",
+      "UNKNOWN": "Onzijdig",
+      "null": ""
+    }
+  },
+  "lengthType": {
+    "short": {
+      "STANDARD": "SL",
+      "FORK":"FL",
+      "TOTAL": "TL"
+    },
+    "long": {
+      "STANDARD": "Standaardlengte",
+      "FORK":"Vorklengte",
+      "TOTAL": "Totale lengte"
+    }
   }
 }
