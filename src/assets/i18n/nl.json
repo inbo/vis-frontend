@@ -3,7 +3,7 @@
     "ACTIVE": "Actief",
     "INACTIVE": "Inactief"
   },
-  "observation.status": {
+  "surveyEvent.status": {
     "COMPLETE": "Volledig",
     "DELETED": "Verwijderd",
     "ASSIGNED": "Toegewezen",
