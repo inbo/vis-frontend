@@ -10,6 +10,8 @@ import {catchError} from "rxjs/operators";
 import {Measurement} from "./project/model/measurement";
 import {SurveyEvent, SurveyEventId} from "./project/model/surveyEvent";
 import {Parameters} from "./project/model/parameters";
+import {Taxon} from './fish-specie/model/taxon';
+import {TaxonGroup} from './fish-specie/model/taxon-group';
 
 @Injectable({
   providedIn: 'root'
@@ -197,6 +199,32 @@ export class VisService {
 
   getParameters(projectCode: string, surveyEventId: SurveyEventId) {
     return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`)
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return [];
+      }));
+  }
+
+  getTaxon(page: number, size: number, filter: any) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    Object.keys(filter).forEach(function (key, index) {
+      if (filter[key] !== null) {
+        params = params.set(key, filter[key].toString())
+      }
+    });
+
+    return this.http.get<AsyncPage<Taxon>>(environment.apiUrl + '/api/taxon', {params})
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return [];
+      }));
+  }
+
+  getTaxonGroups() {
+    return this.http.get<AsyncPage<TaxonGroup>>(environment.apiUrl + '/api/taxon/groups')
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];
