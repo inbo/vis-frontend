@@ -10,7 +10,7 @@
         <!-- This example requires Tailwind CSS v2.0+ -->
         <div class="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Project details
+            Methoden
           </h3>
         </div>
 
@@ -22,10 +22,10 @@
           <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-no-wrap">
             <div class="ml-4 mt-4">
               <h3 class="text-lg leading-6 font-medium text-gray-900">
-                Geselecteerde soorten
+                Geselecteerde methoden
               </h3>
               <p class="mt-1 text-sm leading-5 text-gray-500">
-                Alle soorten die tot de lijst behoren. Klik op bewerken om de lijst aan te passen.
+                Alle methoden die tot de lijst behoren. Klik op bewerken om de lijst aan te passen.
               </p>
             </div>
             <div class="ml-4 mt-4 flex-shrink-0">
@@ -46,7 +46,7 @@
                         <div class="px-4 py-4 sm:px-6">
                             <div class="flex items-center justify-between">
                                 <div class="text-sm leading-5 font-medium text-gray-600 truncate">
-                                    {{method}}
+                                    {{'method.' + method | translate}} ({{method}})
                                 </div>
                                 <div class="ml-2 flex-shrink-0 flex">
                                     <span
@@ -90,7 +90,7 @@
                 <div class="px-4 py-4 sm:px-6">
                     <div class="flex items-center justify-between">
                         <div class="text-sm leading-5 font-medium text-gray-600 truncate">
-                            {{method.code}} - {{'method.' + method.code + '.group' | translate}}
+                            {{'method.' + method.code | translate}} ({{method.code}}) - {{'method.' + method.code + '.group' | translate}}
                         </div>
                         <div class="ml-2 flex-shrink-0 flex">
                             <div class="flex items-center h-5">
