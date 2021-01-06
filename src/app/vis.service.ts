@@ -11,6 +11,7 @@ import {Measurement} from "./project/model/measurement";
 import {Observation, ObservationId} from "./project/model/observation";
 import {Parameters} from "./project/model/parameters";
 import {Taxon} from './fish-specie/model/taxon';
+import {TaxonGroup} from './fish-specie/model/taxon-group';
 
 @Injectable({
   providedIn: 'root'
@@ -216,6 +217,14 @@ export class VisService {
     });
 
     return this.http.get<AsyncPage<Taxon>>(environment.apiUrl + '/api/taxon', {params})
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return [];
+      }));
+  }
+
+  getTaxonGroups() {
+    return this.http.get<AsyncPage<TaxonGroup>>(environment.apiUrl + '/api/taxon/groups')
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];

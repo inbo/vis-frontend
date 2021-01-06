@@ -35,10 +35,11 @@
                 <input type="text" formControlName="nameScientific" placeholder="Wetenschappelijke naam ..." class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
               </div>
             </div>
-            <div class="self-center">
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input type="text" formControlName="taxonGroup" placeholder="Groep ..." class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
-              </div>
+            <div class="flex items-center">
+              <select formControlName="taxonGroupCode" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md">
+                <option value="">Groep</option>
+                <option *ngFor="let taxonGroup of taxonGroups" value="{{taxonGroup.code.value}}">{{taxonGroup.name}}</option>
+              </select>
             </div>
           </ng-container>
 

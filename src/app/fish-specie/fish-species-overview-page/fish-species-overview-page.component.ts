@@ -9,6 +9,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {VisService} from '../../vis.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Taxon} from '../model/taxon';
+import {TaxonGroup} from '../model/taxon-group';
 
 @Component({
   selector: 'app-fish-species-overview-page',
@@ -25,6 +26,7 @@ export class FishSpeciesOverviewPageComponent implements OnInit {
 
   pager: AsyncPage<Taxon>;
   taxon: Observable<Taxon[]>;
+  taxonGroups: TaxonGroup[]
 
   filterForm: FormGroup;
   advancedFilterIsVisible: boolean = false;
@@ -37,7 +39,7 @@ export class FishSpeciesOverviewPageComponent implements OnInit {
       {
         nameDutch: [queryParams.nameDutch],
         nameScientific: [queryParams.nameScientific],
-        taxonGroup: [queryParams.taxonGroup],
+        taxonGroupCode: [queryParams.taxonGroupCode],
         taxonCode: [queryParams.taxonCode]
       },
     );
@@ -45,7 +47,7 @@ export class FishSpeciesOverviewPageComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((params) => {
       this.filterForm.get('nameDutch').patchValue(params.nameDutch ? params.nameDutch : '')
       this.filterForm.get('nameScientific').patchValue(params.nameScientific ? params.nameScientific : '')
-      this.filterForm.get('taxonGroup').patchValue(params.taxonGroup ? params.taxonGroup : '')
+      this.filterForm.get('taxonGroupCode').patchValue(params.taxonGroupCode ? params.taxonGroupCode : '')
       this.filterForm.get('taxonCode').patchValue(params.taxonCode ? params.taxonCode : '')
 
       this.advancedFilterIsVisible = (params.taxonCode !== undefined && params.taxonCode !== '')
@@ -57,6 +59,8 @@ export class FishSpeciesOverviewPageComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((params) => {
       this.getTaxon(params.page ? params.page : 1, params.size ? params.size : 20)
     });
+
+    this.visService.getTaxonGroups().subscribe((value => this.taxonGroups = value))
   }
 
   getTaxon(page: number, size: number) {
