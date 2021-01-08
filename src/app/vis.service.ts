@@ -13,6 +13,7 @@ import {Parameters} from "./project/model/parameters";
 import {Method} from './method/model/method';
 import {Taxon} from './fish-specie/model/taxon';
 import {TaxonGroup} from './fish-specie/model/taxon-group';
+import {Habitat} from "./survey-events/model/habitat";
 import {TaxonDetail} from './fish-specie/model/taxon-detail';
 
 @Injectable({
@@ -262,6 +263,22 @@ export class VisService {
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];
+      }));
+  }
+
+  getHabitat(projectCode: string, surveyEventId: SurveyEventId) {
+    return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`)
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return [];
+      }));
+  }
+
+  updateHabitat(projectCode: string, surveyEventId: any, formData: Object) {
+    return this.http.put(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`, formData)
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return []
       }));
   }
 }

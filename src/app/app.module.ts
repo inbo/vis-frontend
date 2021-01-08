@@ -61,6 +61,8 @@ import {SurveyEventMethodPageComponent} from './survey-events/survey-event-metho
 import {SurveyEventHabitatPageComponent} from './survey-events/survey-event-habitat-page/survey-event-habitat-page.component';
 import {SurveyEventTrajectPageComponent} from './survey-events/survey-event-traject-page/survey-event-traject-page.component';
 import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
+import { RadioGroupComponent } from './shared-ui/radio-group/radio-group.component';
+import { SurveyEventHabitatEditPageComponent } from './survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component';
 import { FishSpeciesDetailPageComponent } from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
 import {MyMissingTranslationHandler} from './missing-translation-handler';
 
@@ -110,6 +112,8 @@ import {MyMissingTranslationHandler} from './missing-translation-handler';
     SurveyEventHabitatPageComponent,
     SurveyEventTrajectPageComponent,
     SurveyEventMeasurementsPageComponent,
+    RadioGroupComponent,
+    SurveyEventHabitatEditPageComponent,
     FishSpeciesDetailPageComponent
   ],
   imports: [

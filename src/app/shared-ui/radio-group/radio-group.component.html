@@ -1,0 +1,20 @@
+<fieldset>
+  <legend class="sr-only">
+    {{name}}
+  </legend>
+
+  <div class="-space-y-px md:flex">
+    <!-- On: "bg-pink-50 border-pink-200 z-10", Off: "border-gray-200" -->
+    <div *ngFor="let option of options; let i = index" class="relative border p-4 flex" [class.bg-pink-50.border-pink-200.z-10]="option.value === selectedValue" [class.border-gray-200]="option.value !== selectedValue">
+      <div class="flex items-center h-5">
+        <input (change)="onClick()" [value]="option.value" [(ngModel)]="selectedValue" [id]="name + '-' + i" [name]="name" type="radio" class="focus:ring-pink-500 h-4 w-4 text-pink-600 cursor-pointer border-gray-300">
+      </div>
+      <label [for]="name + '-' + i" class="ml-3 flex flex-col cursor-pointer">
+        <!-- On: "text-pink-900", Off: "text-gray-900" -->
+        <span class="block text-sm font-medium" [class.text-pink-900]="option.value === selectedValue" [class.text-gray-900]="option.value !== selectedValue">
+          {{option.text}}
+        </span>
+      </label>
+    </div>
+  </div>
+</fieldset>
