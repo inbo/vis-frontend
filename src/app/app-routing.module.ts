@@ -26,6 +26,7 @@ import {SurveyEventMethodPageComponent} from "./survey-events/survey-event-metho
 import {SurveyEventHabitatPageComponent} from "./survey-events/survey-event-habitat-page/survey-event-habitat-page.component";
 import {SurveyEventTrajectPageComponent} from "./survey-events/survey-event-traject-page/survey-event-traject-page.component";
 import {SurveyEventMeasurementsPageComponent} from "./survey-events/survey-event-measurements-page/survey-event-measurements-page.component";
+import {SurveyEventHabitatEditPageComponent} from "./survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component";
 
 const routes: Routes = [
   {path: '', component: WelcomePageComponent, pathMatch: 'full'},
@@ -44,6 +45,7 @@ const routes: Routes = [
   {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/parameters', component: SurveyEventParametersPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/methode', component: SurveyEventMethodPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/habitat', component: SurveyEventHabitatPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/habitat/bewerk', component: SurveyEventHabitatEditPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/traject', component: SurveyEventTrajectPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/metingen', component: SurveyEventMeasurementsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'locaties', component: LocationOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},

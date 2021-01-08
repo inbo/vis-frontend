@@ -14,6 +14,7 @@ import {ProjectMethod} from './project/model/project-method';
 import {Method} from './method/model/method';
 import {Taxon} from './fish-specie/model/taxon';
 import {TaxonGroup} from './fish-specie/model/taxon-group';
+import {Habitat} from "./survey-events/model/habitat";
 
 @Injectable({
   providedIn: 'root'
@@ -251,6 +252,14 @@ export class VisService {
 
   getTaxonGroups() {
     return this.http.get<AsyncPage<TaxonGroup>>(environment.apiUrl + '/api/taxon/groups')
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return [];
+      }));
+  }
+
+  getHabitat(projectCode: string, surveyEventId: SurveyEventId) {
+    return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];

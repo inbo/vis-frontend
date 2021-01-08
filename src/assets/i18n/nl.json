@@ -3,15 +3,123 @@
     "ACTIVE": "Actief",
     "INACTIVE": "Inactief"
   },
-  "surveyEvent.status": {
-    "COMPLETE": "Volledig",
-    "DELETED": "Verwijderd",
-    "ASSIGNED": "Toegewezen",
-    "ENTERED": "Invoer",
-    "INVALID": "Ongeldig",
-    "NEW": "Nieuw",
-    "PLANNED": "Gepland",
-    "VALID": "Geldig"
+  "surveyEvent": {
+    "status": {
+      "COMPLETE": "Volledig",
+      "DELETED": "Verwijderd",
+      "ASSIGNED": "Toegewezen",
+      "ENTERED": "Invoer",
+      "INVALID": "Ongeldig",
+      "NEW": "Nieuw",
+      "PLANNED": "Gepland",
+      "VALID": "Geldig"
+    },
+    "habitat": {
+      "waterLevel": {
+        "LOW": "laag",
+        "NORMAL": "Normaal",
+        "HIGH": "Hoog",
+        "null": ""
+      },
+      "shelter": {
+        "MANY": "Zeer veel",
+        "SOME": "Veel",
+        "MODERATE": "Matig",
+        "FEW": "Weinig",
+        "NONE": "Geen",
+        "null": ""
+      },
+      "minDepth": "Minimum diepte (m)",
+      "maxDepth": "Maximum diepte (m)",
+      "pool": {
+        "true": "Aanwezig",
+        "false": "Afwezig",
+        "null": ""
+      },
+      "rapids": {
+        "true": "Aanwezig",
+        "false": "Afwezig",
+        "null": ""
+      },
+      "creeks": {
+        "true": "Aanwezig",
+        "false": "Afwezig",
+        "null": ""
+      },
+      "shore": {
+        "REINFORCED": "Verstevigd",
+        "PARTIALLY_REINFORCED": "Gedeeltelijk verstevigd",
+        "NATURAL": "Natuurlijk",
+        "null": ""
+      },
+      "slope": {
+        "GENTLE": "Flauw",
+        "MODERATE": "Matig",
+        "STEEP": "Steil",
+        "null": ""
+      },
+      "agriculture": {
+        "NONE": "Geen",
+        "ONE": "Eén",
+        "BOTH": "Beide",
+        "null": ""
+      },
+      "meadow": {
+        "NONE": "Geen",
+        "ONE": "Eén",
+        "BOTH": "Beide",
+        "null": ""
+      },
+      "trees": {
+        "NONE": "Geen",
+        "LOWER_10": "<10",
+        "BETWEEN_10_50": ">10 & <50",
+        "HIGHER_50": ">50",
+        "null": ""
+      },
+      "buildings": {
+        "NONE": "Geen",
+        "LOWER_5": "<5",
+        "BETWEEN_5_10": ">5 & <10",
+        "HIGHER_10": ">10"
+      },
+      "industry": {
+        "true": "Aanwezig",
+        "false": "Afwezig",
+        "null": ""
+      },
+      "loop": {
+        "DISTURBED": "Verstoord",
+        "MODERATE": "Matig",
+        "NOT_DISTURBED": "Niet verstoord",
+        "null": ""
+      },
+      "soil": {
+        "SAND": "Zand",
+        "CLAY": "Klei",
+        "GRAVEL": "Grint",
+        "MUD": "Modder",
+        "SILT": "Slib",
+        "STONES": "Stenen",
+        "OTHER": "Andere"
+      },
+      "bottleneck": {
+        "DECAY": "Verval",
+        "MILL": "Molen",
+        "DIVER": "Duiker",
+        "RESERVOIR": "Spaarbekken",
+        "MOTORWAY": "Autosnelweg",
+        "LOCK": "Sluis",
+        "WEIR": "Stuw",
+        "UNDEFINED": "Onbepaald"
+      },
+      "vegetation": {
+        "FLOATING_AQUATIC_PLANTS": "Vlottende waterplanten",
+        "SOIL_AQUATIC_PLANTS": "Bodem waterplanten",
+        "THREAD_ALGAE": "Draadalgen",
+        "OTHERS": "Andere"
+      }
+    }
   },
   "gender": {
     "MALE": "M",
@@ -34,12 +142,12 @@
   "lengthType": {
     "short": {
       "STANDARD": "SL",
-      "FORK":"FL",
+      "FORK": "FL",
       "TOTAL": "TL"
     },
     "long": {
       "STANDARD": "Standaardlengte",
-      "FORK":"Vorklengte",
+      "FORK": "Vorklengte",
       "TOTAL": "Totale lengte"
     }
   }

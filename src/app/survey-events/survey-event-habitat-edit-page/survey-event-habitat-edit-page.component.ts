@@ -12,10 +12,10 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {HabitatOptionsService} from "../habitat-options.service";
 
 @Component({
-  selector: 'app-survey-event-habitat-page',
-  templateUrl: './survey-event-habitat-page.component.html'
+  selector: 'app-survey-event-habitat-edit-page',
+  templateUrl: './survey-event-habitat-edit-page.component.html'
 })
-export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
+export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy {
 
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [

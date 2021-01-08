@@ -1,0 +1,88 @@
+<stacked-layout [navigationLinks]="links">
+  <div slot="content">
+    <breadcrumb [breadcrumbLinks]="breadcrumbLinks"></breadcrumb>
+
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+      <survey-event-tabs [projectCode]="project?.code?.value" [surveyEventId]="surveyEventId"></survey-event-tabs>
+
+      <div class="px-4 py-8 sm:px-0">
+
+        <div>
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Habitat
+          </h3>
+          <p class="mt-1 max-w-2xl text-sm text-gray-500">
+            Een korte beschrijving (TODO)
+          </p>
+        </div>
+
+        <form [formGroup]="habitatForm">
+          <fieldset disabled="disabled">
+            <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+              <div class="sm:col-span-6">
+                <label class="block text-sm font-medium text-gray-700">Waterpeil</label>
+                <div class="mt-1">
+                  <radio-group name="waterLevel" [options]="habitatOptions.waterLevels" formControlName="waterLevel"></radio-group>
+                </div>
+              </div>
+
+              <div class="sm:col-span-6">
+                <label class="block text-sm font-medium text-gray-700">Schuilplaatsen</label>
+                <div class="mt-1">
+                  <radio-group name="shelters" [options]="habitatOptions.shelters" formControlName="shelters"></radio-group>
+                </div>
+              </div>
+
+
+              <div class="sm:col-span-6">
+                <label class="block text-sm font-medium text-gray-700">Oever</label>
+                <div class="mt-1">
+                  <radio-group name="shore" [options]="habitatOptions.shore" formControlName="shore"></radio-group>
+                </div>
+              </div>
+
+              <div class="sm:col-span-6">
+                <label class="block text-sm font-medium text-gray-700">Talud helling</label>
+                <div class="mt-1">
+                  <radio-group name="slope" [options]="habitatOptions.slope" formControlName="slope"></radio-group>
+                </div>
+              </div>
+
+              <div class="sm:col-span-6">
+                <label class="block text-sm font-medium text-gray-700">Landbouw (velden) in omgeving traject tot 50m van oever:</label>
+                <div class="mt-1">
+                  <radio-group name="meadow" [options]="habitatOptions.meadow" formControlName="meadow"></radio-group>
+                </div>
+              </div>
+
+              <div class="sm:col-span-6">
+                <label class="block text-sm font-medium text-gray-700">Bomen in omgeving traject tot 20 m van oever</label>
+                <div class="mt-1">
+                  <radio-group name="trees" [options]="habitatOptions.trees" formControlName="trees"></radio-group>
+                </div>
+              </div>
+
+              <div class="sm:col-span-6">
+                <label class="block text-sm font-medium text-gray-700">Bebouwing in omgeving traject tot 50 m van oever	</label>
+                <div class="mt-1">
+                  <radio-group name="buildings" [options]="habitatOptions.buildings" formControlName="buildings"></radio-group>
+                </div>
+              </div>
+
+              <div class="sm:col-span-6">
+                <label class="block text-sm font-medium text-gray-700">Loop</label>
+                <div class="mt-1">
+                  <radio-group name="loop" [options]="habitatOptions.loop" formControlName="loop"></radio-group>
+                </div>
+              </div>
+
+
+
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</stacked-layout>

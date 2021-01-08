@@ -7,11 +7,155 @@
       <survey-event-tabs [projectCode]="project?.code?.value" [surveyEventId]="surveyEventId"></survey-event-tabs>
 
       <div class="px-4 py-8 sm:px-0">
-        <div class="h-96">
-          <p>Binnenkort beschikbaar</p>
-        </div>
-      </div>
 
+        <div>
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Habitat
+          </h3>
+          <p class="mt-1 max-w-2xl text-sm text-gray-500">
+            Een korte beschrijving (TODO)
+          </p>
+        </div>
+
+        <div class="mt-5 border-t border-gray-200">
+          <dl class="sm:divide-y sm:divide-gray-200">
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <dt class="text-sm font-medium text-gray-500">
+                Waterpeil
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.waterLevel">{{'surveyEvent.habitat.waterLevel.' + habitat.waterLevel | translate}}</span>
+              </dd>
+            </div>
+
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <dt class="text-sm font-medium text-gray-500">
+                Schuilplaatsen
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.shelters">{{'surveyEvent.habitat.shelter.' + habitat.shelters | translate}}</span>
+              </dd>
+            </div>
+
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <dt class="text-sm font-medium text-gray-500">
+                Oever
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.shore">{{'surveyEvent.habitat.shore.' + habitat.shore | translate}}</span>
+              </dd>
+            </div>
+
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <dt class="text-sm font-medium text-gray-500">
+                Talud helling
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.slope">{{'surveyEvent.habitat.slope.' + habitat.slope | translate}}</span>
+              </dd>
+            </div>
+
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <dt class="text-sm font-medium text-gray-500">
+                Landbouw (velden) in omgeving traject tot 50m van oever
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.agriculture">{{'surveyEvent.habitat.agriculture.' + habitat.agriculture | translate}}</span>
+              </dd>
+            </div>
+
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <dt class="text-sm font-medium text-gray-500">
+                Bomen in omgeving traject tot 20 m van oever
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.trees">{{'surveyEvent.habitat.trees.' + habitat.trees | translate}}</span>
+              </dd>
+            </div>
+
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <dt class="text-sm font-medium text-gray-500">
+                Bebouwing in omgeving traject tot 50 m van oever
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.buildings">{{'surveyEvent.habitat.buildings.' + habitat.buildings | translate}}</span>
+              </dd>
+            </div>
+
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <dt class="text-sm font-medium text-gray-500">
+                Loop
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.loop">{{'surveyEvent.habitat.loop.' + habitat.loop | translate}}</span>
+              </dd>
+            </div>
+
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <dt class="text-sm font-medium text-gray-500">
+                Poelen
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.pool">{{'surveyEvent.habitat.pool.' + habitat.pool | translate}}</span>
+              </dd>
+            </div>
+
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <dt class="text-sm font-medium text-gray-500">
+                Stroomversnellingen
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.rapids">{{'surveyEvent.habitat.rapids.' + habitat.rapids | translate}}</span>
+              </dd>
+            </div>
+
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <dt class="text-sm font-medium text-gray-500">
+                Bochten
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.creeks">{{'surveyEvent.habitat.creeks.' + habitat.creeks | translate}}</span>
+              </dd>
+            </div>
+
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <dt class="text-sm font-medium text-gray-500">
+                Bodem
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.soils">
+                  <span *ngFor="let v of habitat.soils; let last = last">{{'surveyEvent.habitat.soil.' + v | translate}}<span *ngIf="!last">, </span></span>
+                </span>
+              </dd>
+            </div>
+
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <dt class="text-sm font-medium text-gray-500">
+                Knelpunt in omgeving van het traject
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.bottlenecks">
+                    <span *ngFor="let v of habitat.bottlenecks; let last = last">{{'surveyEvent.habitat.bottleneck.' + v | translate}}<span *ngIf="!last">, </span></span>
+                </span>
+              </dd>
+            </div>
+
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <dt class="text-sm font-medium text-gray-500">
+                Vegetatie
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.vegetations">
+                  <span *ngFor="let v of habitat.vegetations; let last = last">{{'surveyEvent.habitat.vegetation.' + v | translate}}<span *ngIf="!last">, </span></span>
+                </span>
+              </dd>
+            </div>
+
+          </dl>
+        </div>
+
+
+      </div>
     </div>
   </div>
 </stacked-layout>
