@@ -7,14 +7,15 @@
       <survey-event-tabs [projectCode]="project?.code?.value" [surveyEventId]="surveyEventId"></survey-event-tabs>
 
       <div class="px-4 py-8 sm:px-0">
-
-        <div>
+        <div class="pb-5 sm:flex sm:items-center sm:justify-between">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Habitat
+            Habitat details
           </h3>
-          <p class="mt-1 max-w-2xl text-sm text-gray-500">
-            Een korte beschrijving (TODO)
-          </p>
+          <div class="mt-3 flex sm:mt-0 sm:ml-4">
+            <a [routerLink]="['/projecten', project?.code?.value, 'waarnemingen', surveyEventId, 'habitat', 'bewerk']" type="button" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+              Bewerken
+            </a>
+          </div>
         </div>
 
         <div class="mt-5 border-t border-gray-200">
