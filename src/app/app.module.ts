@@ -1,7 +1,13 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {APP_INITIALIZER, Injectable, NgModule} from '@angular/core';
 
-import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
+import {
+  MissingTranslationHandler,
+  MissingTranslationHandlerParams,
+  TranslateLoader,
+  TranslateModule,
+  TranslateService
+} from '@ngx-translate/core';
 import {HttpClient} from "@angular/common/http";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {AppRoutingModule} from './app-routing.module';
@@ -55,7 +61,8 @@ import {SurveyEventMethodPageComponent} from './survey-events/survey-event-metho
 import {SurveyEventHabitatPageComponent} from './survey-events/survey-event-habitat-page/survey-event-habitat-page.component';
 import {SurveyEventTrajectPageComponent} from './survey-events/survey-event-traject-page/survey-event-traject-page.component';
 import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
-
+import { FishSpeciesDetailPageComponent } from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
+import {MyMissingTranslationHandler} from './missing-translation-handler';
 
 @NgModule({
   declarations: [
@@ -102,7 +109,8 @@ import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event
     SurveyEventMethodPageComponent,
     SurveyEventHabitatPageComponent,
     SurveyEventTrajectPageComponent,
-    SurveyEventMeasurementsPageComponent
+    SurveyEventMeasurementsPageComponent,
+    FishSpeciesDetailPageComponent
   ],
   imports: [
     CommonModule,
@@ -128,6 +136,10 @@ import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event
       useFactory: appInitializerFactory,
       deps: [TranslateService, VisService],
       multi: true
+    },
+    {
+      provide: MissingTranslationHandler,
+      useClass: MyMissingTranslationHandler
     }
   ],
   bootstrap: [AppComponent]

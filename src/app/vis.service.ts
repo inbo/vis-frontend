@@ -10,10 +10,10 @@ import {catchError} from "rxjs/operators";
 import {Measurement} from "./project/model/measurement";
 import {SurveyEvent, SurveyEventId} from "./project/model/surveyEvent";
 import {Parameters} from "./project/model/parameters";
-import {ProjectMethod} from './project/model/project-method';
 import {Method} from './method/model/method';
 import {Taxon} from './fish-specie/model/taxon';
 import {TaxonGroup} from './fish-specie/model/taxon-group';
+import {TaxonDetail} from './fish-specie/model/taxon-detail';
 
 @Injectable({
   providedIn: 'root'
@@ -231,7 +231,7 @@ export class VisService {
       }));
   }
 
-  getTaxon(page: number, size: number, filter: any) {
+  getTaxa(page: number, size: number, filter: any) {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
@@ -242,7 +242,15 @@ export class VisService {
       }
     });
 
-    return this.http.get<AsyncPage<Taxon>>(environment.apiUrl + '/api/taxon', {params})
+    return this.http.get<AsyncPage<Taxon>>(`${environment.apiUrl}/api/taxon`, {params})
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return [];
+      }));
+  }
+
+  getTaxon(id: number) {
+    return this.http.get<TaxonDetail>(`${environment.apiUrl}/api/taxon/${id}`)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];
@@ -250,7 +258,7 @@ export class VisService {
   }
 
   getTaxonGroups() {
-    return this.http.get<AsyncPage<TaxonGroup>>(environment.apiUrl + '/api/taxon/groups')
+    return this.http.get<AsyncPage<TaxonGroup>>(`${environment.apiUrl}/api/taxon/groups`)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];

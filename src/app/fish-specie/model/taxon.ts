@@ -1,12 +1,6 @@
 import {TaxonGroup} from './taxon-group';
-
-interface TaxonId {
-  value: number
-}
-
-interface TaxonCode {
-  value: string
-}
+import {TaxonId} from './taxon-id';
+import {TaxonCode} from './taxon-code';
 
 export interface Taxon {
   id: TaxonId,
