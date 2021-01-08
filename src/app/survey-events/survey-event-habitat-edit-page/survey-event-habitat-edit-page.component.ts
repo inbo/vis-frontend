@@ -54,6 +54,9 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         buildings: [null],
         industry: [null],
         loop: [null],
+        soils: [null],
+        bottlenecks: [null],
+        vegetations: [null],
       });
 
     this.projectSubscription$ = this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
@@ -70,6 +73,9 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         this.habitatForm.get('buildings').patchValue(value1.buildings);
         this.habitatForm.get('industry').patchValue(value1.industry);
         this.habitatForm.get('loop').patchValue(value1.loop);
+        this.habitatForm.get('soils').patchValue(value1.soils);
+        this.habitatForm.get('bottlenecks').patchValue(value1.bottlenecks);
+        this.habitatForm.get('vegetations').patchValue(value1.vegetations);
       });
     });
   }
@@ -96,6 +102,9 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         this.habitatForm.get('buildings').patchValue(response.buildings);
         this.habitatForm.get('industry').patchValue(response.industry);
         this.habitatForm.get('loop').patchValue(response.loop);
+        this.habitatForm.get('soils').patchValue(response.soils);
+        this.habitatForm.get('bottlenecks').patchValue(response.bottlenecks);
+        this.habitatForm.get('vegetations').patchValue(response.vegetations);
         this.habitatForm.reset(this.habitatForm.value)
       }
     );
@@ -114,6 +123,9 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     this.habitatForm.get('buildings').patchValue(this.habitat.buildings);
     this.habitatForm.get('industry').patchValue(this.habitat.industry);
     this.habitatForm.get('loop').patchValue(this.habitat.loop);
+    this.habitatForm.get('soils').patchValue(this.habitat.soils);
+    this.habitatForm.get('bottlenecks').patchValue(this.habitat.bottlenecks);
+    this.habitatForm.get('vegetations').patchValue(this.habitat.vegetations);
     this.habitatForm.reset(this.habitatForm.value)
   }
 
@@ -171,6 +183,18 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
 
   get loop() {
     return this.habitatForm.get('loop');
+  }
+
+  get soils() {
+    return this.habitatForm.get('soils');
+  }
+
+  get bottlenecks() {
+    return this.habitatForm.get('bottlenecks');
+  }
+
+  get vegetations() {
+    return this.habitatForm.get('vegetations');
   }
 
 }

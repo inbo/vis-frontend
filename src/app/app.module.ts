@@ -57,6 +57,7 @@ import {SurveyEventTrajectPageComponent} from './survey-events/survey-event-traj
 import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
 import { RadioGroupComponent } from './shared-ui/radio-group/radio-group.component';
 import { SurveyEventHabitatEditPageComponent } from './survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component';
+import { CheckGroupComponent } from './shared-ui/check-group/check-group.component';
 
 
 @NgModule({
@@ -106,7 +107,8 @@ import { SurveyEventHabitatEditPageComponent } from './survey-events/survey-even
     SurveyEventTrajectPageComponent,
     SurveyEventMeasurementsPageComponent,
     RadioGroupComponent,
-    SurveyEventHabitatEditPageComponent
+    SurveyEventHabitatEditPageComponent,
+    CheckGroupComponent
   ],
   imports: [
     CommonModule,

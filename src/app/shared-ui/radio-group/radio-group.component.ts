@@ -44,7 +44,9 @@ export class RadioGroupComponent implements ControlValueAccessor {
   }
 
 
-  onClick() {
+  onClick($event: Event) {
+    let value = ($event.target as HTMLInputElement).value;
+    this.selectedValue = value;
     this.onChange(this.selectedValue);
   }
 }
