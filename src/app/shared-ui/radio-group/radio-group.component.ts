@@ -44,4 +44,7 @@ export class RadioGroupComponent implements ControlValueAccessor {
   }
 
 
+  onClick() {
+    this.onChange(this.selectedValue);
+  }
 }

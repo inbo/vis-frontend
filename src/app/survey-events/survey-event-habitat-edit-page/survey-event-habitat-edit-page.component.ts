@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {NavigationLink} from "../../shared-ui/layouts/NavigationLinks";
 import {GlobalConstants} from "../../GlobalConstants";
 import {BreadcrumbLink} from "../../shared-ui/breadcrumb/BreadcrumbLinks";
@@ -10,12 +10,14 @@ import {Subscription} from "rxjs";
 import {Habitat} from "../model/habitat";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {HabitatOptionsService} from "../habitat-options.service";
+import {HasUnsavedData} from "../../core/core.interface";
+import {AlertService} from "../../_alert";
 
 @Component({
   selector: 'app-survey-event-habitat-edit-page',
   templateUrl: './survey-event-habitat-edit-page.component.html'
 })
-export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy {
+export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {
 
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
@@ -32,8 +34,9 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy {
   private habitatSubscription$: Subscription;
   habitat: Habitat;
   habitatForm: FormGroup;
+  submitted: boolean;
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService) {
+  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService, private alertService: AlertService) {
     this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
     this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.snapshot.params.surveyEventId);
   }
@@ -69,6 +72,60 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy {
         this.habitatForm.get('loop').patchValue(value1.loop);
       });
     });
+  }
+
+  saveHabitat() {
+    this.submitted = true;
+    if (this.habitatForm.invalid) {
+      return;
+    }
+
+    const formData = this.habitatForm.getRawValue();
+
+    this.visService.updateHabitat(this.project.code.value, this.surveyEventId, formData).subscribe(
+      (response) => {
+        this.alertService.success("Succesvol bewaard", "");
+        this.habitat = response;
+        this.habitatForm.get('waterLevel').patchValue(response.waterLevel);
+        this.habitatForm.get('shelters').patchValue(response.shelters);
+        this.habitatForm.get('shore').patchValue(response.shore);
+        this.habitatForm.get('slope').patchValue(response.slope);
+        this.habitatForm.get('agriculture').patchValue(response.agriculture);
+        this.habitatForm.get('meadow').patchValue(response.meadow);
+        this.habitatForm.get('trees').patchValue(response.trees);
+        this.habitatForm.get('buildings').patchValue(response.buildings);
+        this.habitatForm.get('industry').patchValue(response.industry);
+        this.habitatForm.get('loop').patchValue(response.loop);
+        this.habitatForm.reset(this.habitatForm.value)
+      }
+    );
+  }
+
+  reset() {
+    this.submitted = false;
+
+    this.habitatForm.get('waterLevel').patchValue(this.habitat.waterLevel);
+    this.habitatForm.get('shelters').patchValue(this.habitat.shelters);
+    this.habitatForm.get('shore').patchValue(this.habitat.shore);
+    this.habitatForm.get('slope').patchValue(this.habitat.slope);
+    this.habitatForm.get('agriculture').patchValue(this.habitat.agriculture);
+    this.habitatForm.get('meadow').patchValue(this.habitat.meadow);
+    this.habitatForm.get('trees').patchValue(this.habitat.trees);
+    this.habitatForm.get('buildings').patchValue(this.habitat.buildings);
+    this.habitatForm.get('industry').patchValue(this.habitat.industry);
+    this.habitatForm.get('loop').patchValue(this.habitat.loop);
+    this.habitatForm.reset(this.habitatForm.value)
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  public onPageUnload($event: BeforeUnloadEvent) {
+    if (this.habitatForm.dirty) {
+      $event.returnValue = true;
+    }
+  }
+
+  hasUnsavedData(): boolean {
+    return this.habitatForm.dirty
   }
 
   ngOnDestroy(): void {

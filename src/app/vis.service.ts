@@ -265,4 +265,12 @@ export class VisService {
         return [];
       }));
   }
+
+  updateHabitat(projectCode: string, surveyEventId: any, formData: Object) {
+    return this.http.put(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`, formData)
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return []
+      }));
+  }
 }
