@@ -25,7 +25,6 @@ export class ProjectDetailEditPageComponent implements OnInit, HasUnsavedData {
   projectForm: FormGroup;
   project: Project;
   submitted: boolean;
-  isSuccessNotificationOpen: boolean;
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {
 
@@ -60,7 +59,8 @@ export class ProjectDetailEditPageComponent implements OnInit, HasUnsavedData {
 
     this.visService.updateProject(this.project.code.value, formData).subscribe(
       (response) => {
-        this.isSuccessNotificationOpen = true;
+        this.project = response;
+        this.reset();
         this.router.navigate(['/projecten', this.project.code.value])
       },
       (error) => console.log(error)
