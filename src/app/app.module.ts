@@ -8,6 +8,8 @@ import {
   TranslateModule,
   TranslateService
 } from '@ngx-translate/core';
+
+import {IMaskModule} from 'angular-imask';
 import {HttpClient} from "@angular/common/http";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {AppRoutingModule} from './app-routing.module';
@@ -127,6 +129,7 @@ import { CheckGroupComponent } from './shared-ui/check-group/check-group.compone
     FormsModule,
     ReactiveFormsModule,
     AlertModule,
+    IMaskModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

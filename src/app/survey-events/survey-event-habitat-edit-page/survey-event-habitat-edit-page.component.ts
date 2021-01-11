@@ -8,7 +8,7 @@ import {VisService} from "../../vis.service";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription} from "rxjs";
 import {Habitat} from "../model/habitat";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, ValidatorFn} from "@angular/forms";
 import {HabitatOptionsService} from "../habitat-options.service";
 import {HasUnsavedData} from "../../core/core.interface";
 import {AlertService} from "../../_alert";
@@ -36,14 +36,25 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
   habitatForm: FormGroup;
   submitted: boolean;
 
+  public numberMask: any = {
+    mask: Number,  // enable number mask
+    scale: 1,  // digits after point, 0 for integers
+    signed: false,  // disallow negative
+    thousandsSeparator: '',  // any single char
+    radix: ',',  // fractional delimiter
+  };
+
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService, private alertService: AlertService) {
     this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
     this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.snapshot.params.surveyEventId);
+
   }
 
   ngOnInit(): void {
     this.habitatForm = this.formBuilder.group(
       {
+        minDepth: [''],
+        maxDepth: [''],
         waterLevel: [null],
         shelters: [null],
         shore: [null],
@@ -57,12 +68,16 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         soils: [null],
         bottlenecks: [null],
         vegetations: [null],
+      }, {
+        validator: this.depthValidator
       });
 
     this.projectSubscription$ = this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
       this.project = value
       this.habitatSubscription$ = this.visService.getHabitat(this.project.code.value, this.surveyEventId).subscribe(value1 => {
         this.habitat = value1;
+        this.habitatForm.get('minDepth').patchValue(value1.minDepth === null ? '' : value1.minDepth.toString());
+        this.habitatForm.get('maxDepth').patchValue(value1.maxDepth === null ? '' : value1.maxDepth.toString());
         this.habitatForm.get('waterLevel').patchValue(value1.waterLevel);
         this.habitatForm.get('shelters').patchValue(value1.shelters);
         this.habitatForm.get('shore').patchValue(value1.shore);
@@ -92,6 +107,8 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
       (response) => {
         this.alertService.success("Succesvol bewaard", "");
         this.habitat = response;
+        this.habitatForm.get('maxDepth').patchValue(response.minDepth === null ? '' : response.minDepth.toString());
+        this.habitatForm.get('maxDepth').patchValue(response.maxDepth === null ? '' : response.maxDepth.toString());
         this.habitatForm.get('waterLevel').patchValue(response.waterLevel);
         this.habitatForm.get('shelters').patchValue(response.shelters);
         this.habitatForm.get('shore').patchValue(response.shore);
@@ -126,6 +143,8 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     this.habitatForm.get('soils').patchValue(this.habitat.soils);
     this.habitatForm.get('bottlenecks').patchValue(this.habitat.bottlenecks);
     this.habitatForm.get('vegetations').patchValue(this.habitat.vegetations);
+    this.habitatForm.get('minDepth').patchValue(this.habitat.minDepth === null ? '' : this.habitat.minDepth.toString());
+    this.habitatForm.get('maxDepth').patchValue(this.habitat.maxDepth === null ? '' : this.habitat.maxDepth.toString());
     this.habitatForm.reset(this.habitatForm.value)
   }
 
@@ -195,6 +214,36 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
 
   get vegetations() {
     return this.habitatForm.get('vegetations');
+  }
+
+  get minDepth() {
+    return this.habitatForm.get('minDepth');
+  }
+
+  get maxDepth() {
+    return this.habitatForm.get('maxDepth');
+  }
+
+  depthValidator(form: FormGroup): ValidatorFn {
+    const minDepth = form.controls['minDepth'].value;
+    const maxDepth = form.controls['maxDepth'].value;
+
+    if (!isNaN(minDepth) && !isNaN(maxDepth) && minDepth !== '' && maxDepth !== '') {
+      if (maxDepth < minDepth) {
+        form.controls['minDepth'].setErrors({depth: true});
+        form.controls['maxDepth'].setErrors({depth: true});
+        // @ts-ignore
+        return {depth: true};
+      }
+    }
+
+    form.controls['minDepth'].setErrors(null);
+    form.controls['maxDepth'].setErrors(null);
+
+    // @ts-ignore
+    return null;
+
+
   }
 
 }
