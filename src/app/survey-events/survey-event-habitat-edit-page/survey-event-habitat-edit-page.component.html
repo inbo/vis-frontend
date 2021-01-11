@@ -48,6 +48,13 @@
               <div class="sm:col-span-6">
                 <label class="block text-sm font-medium text-gray-700">Landbouw (velden) in omgeving traject tot 50m van oever:</label>
                 <div class="mt-1">
+                  <radio-group name="agriculture" [options]="habitatOptions.agriculture" formControlName="agriculture"></radio-group>
+                </div>
+              </div>
+
+              <div class="sm:col-span-6">
+                <label class="block text-sm font-medium text-gray-700">Weide in omgeving traject (voor dieren) tot 50 m van oever</label>
+                <div class="mt-1">
                   <radio-group name="meadow" [options]="habitatOptions.meadow" formControlName="meadow"></radio-group>
                 </div>
               </div>
@@ -70,6 +77,27 @@
                 <label class="block text-sm font-medium text-gray-700">Loop</label>
                 <div class="mt-1">
                   <radio-group name="loop" [options]="habitatOptions.loop" formControlName="loop"></radio-group>
+                </div>
+              </div>
+
+              <div class="sm:col-span-6">
+                <label class="block text-sm font-medium text-gray-700">Bodem</label>
+                <div class="mt-1">
+                  <check-group name="soils" [options]="habitatOptions.soil" formControlName="soils"></check-group>
+                </div>
+              </div>
+
+              <div class="sm:col-span-6">
+                <label class="block text-sm font-medium text-gray-700">Knelpunt in omgeving van het traject</label>
+                <div class="mt-1">
+                  <check-group name="bottlenecks" [options]="habitatOptions.bottlenecks" formControlName="bottlenecks"></check-group>
+                </div>
+              </div>
+
+              <div class="sm:col-span-6">
+                <label class="block text-sm font-medium text-gray-700">Vegetatie</label>
+                <div class="mt-1">
+                  <check-group name="vegetations" [options]="habitatOptions.vegetations" formControlName="vegetations"></check-group>
                 </div>
               </div>
 

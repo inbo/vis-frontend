@@ -65,6 +65,7 @@ import { RadioGroupComponent } from './shared-ui/radio-group/radio-group.compone
 import { SurveyEventHabitatEditPageComponent } from './survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component';
 import { FishSpeciesDetailPageComponent } from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
 import {MyMissingTranslationHandler} from './missing-translation-handler';
+import { CheckGroupComponent } from './shared-ui/check-group/check-group.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import {MyMissingTranslationHandler} from './missing-translation-handler';
     SurveyEventMeasurementsPageComponent,
     RadioGroupComponent,
     SurveyEventHabitatEditPageComponent,
+    CheckGroupComponent,
     FishSpeciesDetailPageComponent
   ],
   imports: [
