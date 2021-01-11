@@ -61,8 +61,10 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
         ph: ['', []],
         flowRate: ['', []],
         turbidity: ['', []],
+        turbidityOutOfRange: [false, []],
         secchi: ['', []],
-        salinity: ['', []]
+        salinity: ['', []],
+        width: ['', []]
       });
 
     this.visService.getParameters(this.activatedRoute.snapshot.params.projectCode, this.activatedRoute.snapshot.params.surveyEventId)
@@ -76,8 +78,10 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
         this.parametersForm.get('ph').patchValue(value.ph !== null ? value.ph.toString() : '')
         this.parametersForm.get('flowRate').patchValue(value.flowRate !== null ? value.flowRate.toString() : '')
         this.parametersForm.get('turbidity').patchValue(value.turbidity !== null ? value.turbidity.toString() : '')
+        this.parametersForm.get('turbidityOutOfRange').patchValue(value.turbidityOutOfRange)
         this.parametersForm.get('secchi').patchValue(value.secchi !== null ? value.secchi.toString() : '')
         this.parametersForm.get('salinity').patchValue(value.salinity !== null ? value.salinity.toString() : '')
+        this.parametersForm.get('width').patchValue(value.width !== null ? value.width.toString() : '')
       })
   }
 
@@ -110,8 +114,10 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
     this.parametersForm.get('ph').patchValue(this.parameters.ph !== null ? this.parameters.ph.toString() : '')
     this.parametersForm.get('flowRate').patchValue(this.parameters.flowRate !== null ? this.parameters.flowRate.toString() : '')
     this.parametersForm.get('turbidity').patchValue(this.parameters.turbidity !== null ? this.parameters.turbidity.toString() : '')
+    this.parametersForm.get('turbidityOutOfRange').patchValue(this.parameters.turbidityOutOfRange)
     this.parametersForm.get('secchi').patchValue(this.parameters.secchi !== null ? this.parameters.secchi.toString() : '')
     this.parametersForm.get('salinity').patchValue(this.parameters.salinity !== null ? this.parameters.salinity.toString() : '')
+    this.parametersForm.get('width').patchValue(this.parameters.width !== null ? this.parameters.width.toString() : '')
     this.parametersForm.reset(this.parametersForm.value)
   }
 
@@ -160,12 +166,20 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
     return this.parametersForm.get('turbidity');
   }
 
+  get turbidityOutOfRange() {
+    return this.parametersForm.get('turbidityOutOfRange');
+  }
+
   get secchi() {
     return this.parametersForm.get('secchi');
   }
 
   get salinity() {
     return this.parametersForm.get('salinity');
+  }
+
+  get width() {
+    return this.parametersForm.get('width');
   }
 
   ngOnDestroy(): void {
@@ -183,6 +197,12 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
       radix: ',',
       min: min,
       max: max
+    }
+  }
+
+  outOfRangeChanged($event: Event) {
+    if (($event.target as HTMLInputElement).checked) {
+      this.parametersForm.get('turbidity').patchValue('')
     }
   }
 }

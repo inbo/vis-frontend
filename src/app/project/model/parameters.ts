@@ -7,8 +7,10 @@ export interface Parameters {
   ph: number;
   flowRate: number;
   turbidity: number;
+  turbidityOutOfRange: boolean;
   secchi: number;
   salinity: number;
+  width: number;
 }
 
 

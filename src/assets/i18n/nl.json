@@ -4,6 +4,9 @@
     "INACTIVE": "Inactief"
   },
   "surveyEvent": {
+    "turbidity": {
+      "outOfRange": "Buiten bereik"
+    },
     "status": {
       "COMPLETE": "Volledig",
       "DELETED": "Verwijderd",
