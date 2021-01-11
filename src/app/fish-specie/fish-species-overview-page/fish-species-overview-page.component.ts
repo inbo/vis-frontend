@@ -66,7 +66,7 @@ export class FishSpeciesOverviewPageComponent implements OnInit {
   getTaxon(page: number, size: number) {
     this.loading = true;
     this.taxon = of([])
-    this.visService.getTaxon(page, size, this.filterForm.getRawValue()).subscribe((value) => {
+    this.visService.getTaxa(page, size, this.filterForm.getRawValue()).subscribe((value) => {
       this.pager = value;
       value.content.forEach(item => {
         item.taxonGroupText = item.taxonGroups.map(taxonGroup => taxonGroup.name).join(', ');

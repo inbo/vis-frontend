@@ -27,6 +27,7 @@ import {SurveyEventHabitatPageComponent} from "./survey-events/survey-event-habi
 import {SurveyEventTrajectPageComponent} from "./survey-events/survey-event-traject-page/survey-event-traject-page.component";
 import {SurveyEventMeasurementsPageComponent} from "./survey-events/survey-event-measurements-page/survey-event-measurements-page.component";
 import {SurveyEventHabitatEditPageComponent} from "./survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component";
+import {FishSpeciesDetailPageComponent} from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
 
 const routes: Routes = [
   {path: '', component: WelcomePageComponent, pathMatch: 'full'},
@@ -50,6 +51,7 @@ const routes: Routes = [
   {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/metingen', component: SurveyEventMeasurementsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'locaties', component: LocationOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'vissoorten', component: FishSpeciesOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'vissoorten/:taxonId', component: FishSpeciesDetailPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'methoden', component: MethodsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'visindex', component: FishIndexPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'profiel', component: ProfilePageComponent, canActivate: [AuthGuardWithForcedLogin]},

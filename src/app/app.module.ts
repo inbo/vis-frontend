@@ -1,7 +1,13 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {APP_INITIALIZER, Injectable, NgModule} from '@angular/core';
 
-import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
+import {
+  MissingTranslationHandler,
+  MissingTranslationHandlerParams,
+  TranslateLoader,
+  TranslateModule,
+  TranslateService
+} from '@ngx-translate/core';
 import {HttpClient} from "@angular/common/http";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {AppRoutingModule} from './app-routing.module';
@@ -57,8 +63,9 @@ import {SurveyEventTrajectPageComponent} from './survey-events/survey-event-traj
 import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
 import { RadioGroupComponent } from './shared-ui/radio-group/radio-group.component';
 import { SurveyEventHabitatEditPageComponent } from './survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component';
+import { FishSpeciesDetailPageComponent } from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
+import {MyMissingTranslationHandler} from './missing-translation-handler';
 import { CheckGroupComponent } from './shared-ui/check-group/check-group.component';
-
 
 @NgModule({
   declarations: [
@@ -108,7 +115,8 @@ import { CheckGroupComponent } from './shared-ui/check-group/check-group.compone
     SurveyEventMeasurementsPageComponent,
     RadioGroupComponent,
     SurveyEventHabitatEditPageComponent,
-    CheckGroupComponent
+    CheckGroupComponent,
+    FishSpeciesDetailPageComponent
   ],
   imports: [
     CommonModule,
@@ -134,6 +142,10 @@ import { CheckGroupComponent } from './shared-ui/check-group/check-group.compone
       useFactory: appInitializerFactory,
       deps: [TranslateService, VisService],
       multi: true
+    },
+    {
+      provide: MissingTranslationHandler,
+      useClass: MyMissingTranslationHandler
     }
   ],
   bootstrap: [AppComponent]

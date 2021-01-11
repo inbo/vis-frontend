@@ -102,7 +102,7 @@
                       </td>
 
                       <td class="px-6 py-4  text-right text-sm font-medium">
-<!--                        <a [routerLink]="['/taxon', item.id.value]" class="text-pink-600 hover:text-pink-900">Detail</a>-->
+                        <a [routerLink]="['/vissoorten', item.id.value]" class="text-pink-600 hover:text-pink-900">Detail</a>
                       </td>
                     </tr>
 
@@ -117,7 +117,7 @@
           <div class="lg:hidden bg-white shadow overflow-hidden sm:rounded-md">
             <ul class="divide-y divide-gray-200">
               <li *ngFor="let item of taxon | async">
-                <a [routerLink]="['/taxon', item.id.value]" class="block hover:bg-gray-50">
+                <a [routerLink]="['/vissoorten', item.id.value]" class="block hover:bg-gray-50">
                   <div class="px-4 py-4 sm:px-6">
                     <div class="flex items-center justify-between">
                       <p class="text-sm font-medium text-pink-600 truncate">
