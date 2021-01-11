@@ -281,4 +281,13 @@ export class VisService {
         return []
       }));
   }
+
+  updateParameters(projectCode: string, surveyEventId: any, formData: Object) {
+    return this.http.put(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`, formData)
+      .pipe(catchError(err => {
+        this.alertService.unexpectedError();
+        return []
+      }));
+  }
+
 }

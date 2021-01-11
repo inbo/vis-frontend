@@ -68,6 +68,7 @@ import { SurveyEventHabitatEditPageComponent } from './survey-events/survey-even
 import { FishSpeciesDetailPageComponent } from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
 import {MyMissingTranslationHandler} from './missing-translation-handler';
 import { CheckGroupComponent } from './shared-ui/check-group/check-group.component';
+import { SurveyEventParametersEditPageComponent } from './survey-events/survey-event-parameters-edit-page/survey-event-parameters-edit-page.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +119,8 @@ import { CheckGroupComponent } from './shared-ui/check-group/check-group.compone
     RadioGroupComponent,
     SurveyEventHabitatEditPageComponent,
     CheckGroupComponent,
-    FishSpeciesDetailPageComponent
+    FishSpeciesDetailPageComponent,
+    SurveyEventParametersEditPageComponent
   ],
   imports: [
     CommonModule,

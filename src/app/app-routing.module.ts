@@ -28,6 +28,7 @@ import {SurveyEventTrajectPageComponent} from "./survey-events/survey-event-traj
 import {SurveyEventMeasurementsPageComponent} from "./survey-events/survey-event-measurements-page/survey-event-measurements-page.component";
 import {SurveyEventHabitatEditPageComponent} from "./survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component";
 import {FishSpeciesDetailPageComponent} from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
+import {SurveyEventParametersEditPageComponent} from "./survey-events/survey-event-parameters-edit-page/survey-event-parameters-edit-page.component";
 
 const routes: Routes = [
   {path: '', component: WelcomePageComponent, pathMatch: 'full'},
@@ -44,6 +45,7 @@ const routes: Routes = [
   {path: 'projecten/:projectCode/waarnemingen/:surveyEventId', component: SurveyEventDetailPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/bijzonderheden', component: SurveyEventParticularitiesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/parameters', component: SurveyEventParametersPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/parameters/bewerk', component: SurveyEventParametersEditPageComponent, canActivate: [AuthGuardWithForcedLogin], canDeactivate: [HasUnsavedDataGuard]},
   {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/methode', component: SurveyEventMethodPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/habitat', component: SurveyEventHabitatPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/habitat/bewerk', component: SurveyEventHabitatEditPageComponent, canActivate: [AuthGuardWithForcedLogin], canDeactivate: [HasUnsavedDataGuard]},

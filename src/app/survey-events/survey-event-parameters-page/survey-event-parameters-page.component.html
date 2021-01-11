@@ -10,13 +10,15 @@
       <div class="px-4 py-8 sm:px-0">
         <!-- This example requires Tailwind CSS v2.0+ -->
         <div>
-          <div>
+          <div class="pb-5 sm:flex sm:items-center sm:justify-between">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
-              Parameters
+              Parameter details
             </h3>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">
-              Een korte beschrijving (TODO)
-            </p>
+            <div class="mt-3 flex sm:mt-0 sm:ml-4">
+              <a [routerLink]="['/projecten', project?.code?.value, 'waarnemingen', surveyEventId, 'parameters', 'bewerk']" type="button" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+                Bewerken
+              </a>
+            </div>
           </div>
           <div class="mt-5 border-t border-gray-200">
             <dl class="sm:divide-y sm:divide-gray-200">
@@ -25,7 +27,7 @@
                   Zuurstof mg/l
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <span *ngIf="parameters.oxygen">{{parameters?.oxygen}}</span>
+                  <span *ngIf="parameters?.oxygen">{{parameters?.oxygen}}</span>
                 </dd>
               </div>
 
@@ -34,7 +36,7 @@
                   Zuurstof %
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <span *ngIf="parameters.oxygenPercentage">{{parameters?.oxygenPercentage}} %</span>
+                  <span *ngIf="parameters?.oxygenPercentage">{{parameters?.oxygenPercentage}} %</span>
                 </dd>
               </div>
 
@@ -43,7 +45,7 @@
                   Gemiddelde diepte (m)
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <span *ngIf="parameters.averageDepth">{{parameters?.averageDepth}}</span>
+                  <span *ngIf="parameters?.averageDepth">{{parameters?.averageDepth}}</span>
                 </dd>
               </div>
 
@@ -52,7 +54,7 @@
                   Watertemperatuur (°C)
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <span *ngIf="parameters.temperature">{{parameters?.temperature}}</span>
+                  <span *ngIf="parameters?.temperature">{{parameters?.temperature}}</span>
                 </dd>
               </div>
 
@@ -61,7 +63,7 @@
                   Conductiviteit (uS/cm)
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <span *ngIf="parameters.conductivity">{{parameters?.conductivity}}</span>
+                  <span *ngIf="parameters?.conductivity">{{parameters?.conductivity}}</span>
                 </dd>
               </div>
 
@@ -70,7 +72,7 @@
                   pH
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <span *ngIf="parameters.ph">{{parameters?.ph}}</span>
+                  <span *ngIf="parameters?.ph">{{parameters?.ph}}</span>
                 </dd>
               </div>
 
@@ -79,7 +81,7 @@
                   Stroomsnelheid (m/s)
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <span *ngIf="parameters.flowRate">{{parameters?.flowRate}}</span>
+                  <span *ngIf="parameters?.flowRate">{{parameters?.flowRate}}</span>
                 </dd>
               </div>
 
@@ -88,7 +90,7 @@
                   Turbiditeit (NTU)
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <span *ngIf="parameters.turbidity">{{parameters?.turbidity}}</span>
+                  <span *ngIf="parameters?.turbidity">{{parameters?.turbidity}}</span>
                 </dd>
               </div>
 
@@ -97,7 +99,7 @@
                   Secchi (cm)
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <span *ngIf="parameters.secchi">{{parameters?.secchi}}</span>
+                  <span *ngIf="parameters?.secchi">{{parameters?.secchi}}</span>
                 </dd>
               </div>
 
@@ -106,7 +108,7 @@
                   Zoutgehalte (°/oo)
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <span *ngIf="parameters.salinity">{{parameters?.salinity}}</span>
+                  <span *ngIf="parameters?.salinity">{{parameters?.salinity}}</span>
                 </dd>
               </div>
             </dl>

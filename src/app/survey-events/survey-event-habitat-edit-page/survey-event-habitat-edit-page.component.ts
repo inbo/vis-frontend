@@ -37,11 +37,11 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
   submitted: boolean;
 
   public numberMask: any = {
-    mask: Number,  // enable number mask
-    scale: 1,  // digits after point, 0 for integers
-    signed: false,  // disallow negative
-    thousandsSeparator: '',  // any single char
-    radix: ',',  // fractional delimiter
+    mask: Number,
+    scale: 1,
+    signed: false,
+    thousandsSeparator: '',
+    radix: ',',
   };
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService, private alertService: AlertService) {
