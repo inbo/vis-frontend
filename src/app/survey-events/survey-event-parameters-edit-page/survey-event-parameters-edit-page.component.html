@@ -41,7 +41,7 @@
                   Gemiddelde diepte (m)
                 </label>
                 <div class="mt-1">
-                  <input [imask]="numberMask(1, -99.99, 99.99)" [unmask]="true" formControlName="averageDepth" type="text" name="averageDepth" id="averageDepth" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                  <input [imask]="numberMask(1, -9.9, 9.9)" [unmask]="true" formControlName="averageDepth" type="text" name="averageDepth" id="averageDepth" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
                 </div>
               </div>
               <div class="sm:col-span-4">
@@ -49,7 +49,7 @@
                   Watertemperatuur (°C)
                 </label>
                 <div class="mt-1">
-                  <input [imask]="numberMask(1, -99.99, 99.99)" [unmask]="true" formControlName="temperature" type="text" name="temperature" id="temperature" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                  <input [imask]="numberMask(1, -99.9, 99.9)" [unmask]="true" formControlName="temperature" type="text" name="temperature" id="temperature" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
                 </div>
               </div>
               <div class="sm:col-span-4">
@@ -57,7 +57,7 @@
                   Conductiviteit (uS/cm)
                 </label>
                 <div class="mt-1">
-                  <input [imask]="numberMask(0, -99.99, 99.99)" [unmask]="true" formControlName="conductivity" type="text" name="conductivity" id="conductivity" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                  <input [imask]="numberMask(0, -99999, 99999)" [unmask]="true" formControlName="conductivity" type="text" name="conductivity" id="conductivity" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
                 </div>
               </div>
               <div class="sm:col-span-4">
@@ -73,7 +73,7 @@
                   Stroomsnelheid (m/s)
                 </label>
                 <div class="mt-1">
-                  <input [imask]="numberMask(1, -99.99, 99.99)" [unmask]="true" formControlName="flowRate" type="text" name="flowRate" id="flowRate" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                  <input [imask]="numberMask(1, -9.9, 9.9)" [unmask]="true" formControlName="flowRate" type="text" name="flowRate" id="flowRate" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
                 </div>
               </div>
               <div class="sm:col-span-4">
@@ -81,7 +81,7 @@
                   Turbiditeit (NTU)
                 </label>
                 <div class="mt-1">
-                  <input [class.bg-gray-50]="turbidityOutOfRange.value === true" [attr.disabled]="turbidityOutOfRange.value === true ? 'disabled': null" [imask]="numberMask(1, -99.99, 99.99)" [unmask]="true" formControlName="turbidity" type="text" name="turbidity" id="turbidity" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                  <input [class.bg-gray-50]="turbidityOutOfRange.value === true" [attr.disabled]="turbidityOutOfRange.value === true ? 'disabled': null" [imask]="numberMask(1, -99.9, 99.9)" [unmask]="true" formControlName="turbidity" type="text" name="turbidity" id="turbidity" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
                   <div class="relative flex items-start mt-1">
                     <div class="flex items-center h-5">
                       <input formControlName="turbidityOutOfRange" (change)="outOfRangeChanged($event)" id="turbidityOutOfRange" name="turbidityOutOfRange" type="checkbox" class="focus:ring-pink-500 h-4 w-4 text-pink-600 border-gray-300 rounded">
@@ -97,7 +97,7 @@
                   Secchi (cm)
                 </label>
                 <div class="mt-1">
-                  <input [imask]="numberMask(1, -99.99, 99.99)" [unmask]="true" formControlName="secchi" type="text" name="secchi" id="secchi" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                  <input [imask]="numberMask(1, -9.9, 9.9)" [unmask]="true" formControlName="secchi" type="text" name="secchi" id="secchi" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
                 </div>
               </div>
               <div class="sm:col-span-4">
@@ -105,7 +105,7 @@
                   Zoutgehalte (°/oo)
                 </label>
                 <div class="mt-1">
-                  <input [imask]="numberMask(2, -99.99, 99.99)" [unmask]="true" formControlName="salinity" type="text" name="salinity" id="salinity" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                  <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="salinity" type="text" name="salinity" id="salinity" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
                 </div>
               </div>
               <div class="sm:col-span-4">
