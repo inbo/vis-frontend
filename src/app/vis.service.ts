@@ -1,20 +1,20 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import {environment} from '../environments/environment';
-import {Project} from "./project/model/project";
+import {Project} from "./vis/project/model/project";
 import {AsyncPage} from "./shared-ui/paging-async/asyncPage";
 import {Observable} from "rxjs";
 import {Releases} from './release-notes/model/releases';
 import {AlertService} from "./_alert";
 import {catchError} from "rxjs/operators";
-import {Measurement} from "./project/model/measurement";
-import {SurveyEvent, SurveyEventId} from "./project/model/surveyEvent";
-import {Parameters} from "./project/model/parameters";
-import {Method} from './method/model/method';
-import {Taxon} from './fish-specie/model/taxon';
-import {TaxonGroup} from './fish-specie/model/taxon-group';
-import {Habitat} from "./survey-events/model/habitat";
-import {TaxonDetail} from './fish-specie/model/taxon-detail';
+import {Measurement} from "./vis/project/model/measurement";
+import {SurveyEvent, SurveyEventId} from "./vis/project/model/surveyEvent";
+import {Parameters} from "./vis/project/model/parameters";
+import {Method} from './vis/method/model/method';
+import {Taxon} from './vis/fish-specie/model/taxon';
+import {TaxonGroup} from './vis/fish-specie/model/taxon-group';
+import {Habitat} from "./vis/survey-events/model/habitat";
+import {TaxonDetail} from './vis/fish-specie/model/taxon-detail';
 
 @Injectable({
   providedIn: 'root'

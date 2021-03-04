@@ -1,0 +1,119 @@
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {NavigationLink} from "../../../shared-ui/layouts/NavigationLinks";
+import {GlobalConstants} from "../../../GlobalConstants";
+import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
+import {Project} from "../../project/model/project";
+import {Title} from "@angular/platform-browser";
+import {VisService} from "../../../vis.service";
+import {ActivatedRoute} from "@angular/router";
+import {Subscription} from "rxjs";
+import {Habitat} from "../model/habitat";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {HabitatOptionsService} from "../habitat-options.service";
+
+@Component({
+  selector: 'app-survey-event-habitat-page',
+  templateUrl: './survey-event-habitat-page.component.html'
+})
+export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
+
+  links: NavigationLink[] = GlobalConstants.links;
+  breadcrumbLinks: BreadcrumbLink[] = [
+    {title: 'Projecten', url: '/projecten'},
+    {title: this.activatedRoute.snapshot.params.projectCode, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
+    {title: 'Waarnemingen', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen'},
+    {title: this.activatedRoute.snapshot.params.surveyEventId, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/' + this.activatedRoute.snapshot.params.surveyEventId},
+    {title: 'Habitat', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/' + this.activatedRoute.snapshot.params.surveyEventId + '/habitat'}
+  ]
+
+  project: Project;
+  surveyEventId: any;
+  private projectSubscription$: Subscription;
+  private habitatSubscription$: Subscription;
+  habitat: Habitat;
+  habitatForm: FormGroup;
+
+  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService) {
+    this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
+    this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.snapshot.params.surveyEventId);
+  }
+
+  ngOnInit(): void {
+    this.habitatForm = this.formBuilder.group(
+      {
+        waterLevel: [null],
+        shelters: [null],
+        shore: [null],
+        slope: [null],
+        agriculture: [null],
+        meadow: [null],
+        trees: [null],
+        buildings: [null],
+        industry: [null],
+        loop: [null],
+      });
+
+    this.projectSubscription$ = this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
+      this.project = value
+      this.habitatSubscription$ = this.visService.getHabitat(this.project.code.value, this.surveyEventId).subscribe(value1 => {
+        this.habitat = value1;
+        this.habitatForm.get('waterLevel').patchValue(value1.waterLevel);
+        this.habitatForm.get('shelters').patchValue(value1.shelters);
+        this.habitatForm.get('shore').patchValue(value1.shore);
+        this.habitatForm.get('slope').patchValue(value1.slope);
+        this.habitatForm.get('agriculture').patchValue(value1.agriculture);
+        this.habitatForm.get('meadow').patchValue(value1.meadow);
+        this.habitatForm.get('trees').patchValue(value1.trees);
+        this.habitatForm.get('buildings').patchValue(value1.buildings);
+        this.habitatForm.get('industry').patchValue(value1.industry);
+        this.habitatForm.get('loop').patchValue(value1.loop);
+      });
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.projectSubscription$.unsubscribe();
+    this.habitatSubscription$.unsubscribe();
+  }
+
+  get waterLevel() {
+    return this.habitatForm.get('waterLevel');
+  }
+
+  get shelters() {
+    return this.habitatForm.get('shelters');
+  }
+
+  get shore() {
+    return this.habitatForm.get('shore');
+  }
+
+  get slope() {
+    return this.habitatForm.get('slope');
+  }
+
+  get agriculture() {
+    return this.habitatForm.get('agriculture');
+  }
+
+  get meadow() {
+    return this.habitatForm.get('meadow');
+  }
+
+  get trees() {
+    return this.habitatForm.get('trees');
+  }
+
+  get buildings() {
+    return this.habitatForm.get('buildings');
+  }
+
+  get industry() {
+    return this.habitatForm.get('industry');
+  }
+
+  get loop() {
+    return this.habitatForm.get('loop');
+  }
+
+}
