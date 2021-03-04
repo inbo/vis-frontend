@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {APP_INITIALIZER, NgModule} from '@angular/core';
 
 import {MissingTranslationHandler, TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -17,6 +17,7 @@ import {LandingPageModule} from "./landing-page/landing-page.module";
 import {SharedUiModule} from "./shared-ui/shared-ui.module";
 import {VisModule} from "./vis/vis.module";
 import {ReleaseNotesModule} from "./release-notes/release-notes.module";
+import {environment} from "../environments/environment";
 
 @NgModule({
   declarations: [
@@ -32,14 +33,15 @@ import {ReleaseNotesModule} from "./release-notes/release-notes.module";
     FormsModule,
     ReactiveFormsModule,
     AlertModule,
-
+    HttpClientModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       },
-      defaultLanguage: 'nl'
+      defaultLanguage: 'nl',
+      useDefaultLang: true
     }),
     SharedUiModule,
     VisModule,
@@ -47,12 +49,6 @@ import {ReleaseNotesModule} from "./release-notes/release-notes.module";
     AppRoutingModule
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializerFactory,
-      deps: [TranslateService, VisService],
-      multi: true
-    },
     {
       provide: MissingTranslationHandler,
       useClass: MyMissingTranslationHandler
@@ -64,15 +60,5 @@ export class AppModule {
 }
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
-}
-
-export function appInitializerFactory(translate: TranslateService, visService: VisService) {
-  return () => {
-    return visService.translations('nl').subscribe(value => {
-      translate.setTranslation('nl', value, true);
-      translate.setDefaultLang('nl');
-      return translate.use('nl').toPromise();
-    })
-  };
+  return new TranslateHttpLoader(http, `${environment.apiUrl}/translations/`, "");
 }
