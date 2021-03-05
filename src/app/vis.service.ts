@@ -13,7 +13,6 @@ import {Parameters} from "./vis/project/model/parameters";
 import {Method} from './vis/method/model/method';
 import {Taxon} from './vis/fish-specie/model/taxon';
 import {TaxonGroup} from './vis/fish-specie/model/taxon-group';
-import {Habitat} from "./vis/survey-events/model/habitat";
 import {TaxonDetail} from './vis/fish-specie/model/taxon-detail';
 
 @Injectable({
@@ -250,7 +249,7 @@ export class VisService {
       }));
   }
 
-  getTaxon(id: number) {
+  getTaxon(id: number) : Observable<TaxonDetail> {
     return this.http.get<TaxonDetail>(`${environment.apiUrl}/api/taxon/${id}`)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();

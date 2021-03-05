@@ -6,12 +6,16 @@ import {TaxonDetail} from '../model/taxon-detail';
 import {Title} from '@angular/platform-browser';
 import {VisService} from '../../../vis.service';
 import {ActivatedRoute} from '@angular/router';
+import {flatMap, map, pluck, take, toArray} from "rxjs/operators";
+import {Observable, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-fish-species-detail-page',
   templateUrl: './fish-species-detail-page.component.html',
 })
 export class FishSpeciesDetailPageComponent implements OnInit {
+
+  private subscription = new Subscription();
 
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
@@ -23,14 +27,15 @@ export class FishSpeciesDetailPageComponent implements OnInit {
     {title: 'Details', url: '/vissoorten/' + this.activatedRoute.snapshot.params.taxonId}
   ]
 
-  taxon: TaxonDetail;
+  taxon$: Observable<TaxonDetail>;
+  private taxonGroups$: Observable<string[]>;
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute) {
-    this.visService.getTaxon(this.activatedRoute.snapshot.params.taxonId).subscribe(value => {
-      this.titleService.setTitle(value.code.value)
-      value.taxonGroupText = value.taxonGroups.map(taxonGroup => taxonGroup.name).join(', ');
-      this.taxon = value
-    })
+    this.taxon$ = this.visService.getTaxon(this.activatedRoute.snapshot.params.taxonId);
+    this.taxonGroups$ = this.taxon$.pipe(take(1), flatMap(value => value.taxonGroups), map(value => value.name), toArray());
+
+    const taxonCode$ = this.taxon$.pipe(take(1), pluck("code", "value"));
+    this.subscription.add(taxonCode$.subscribe(code => this.titleService.setTitle(code)));
   }
 
   ngOnInit(): void {
