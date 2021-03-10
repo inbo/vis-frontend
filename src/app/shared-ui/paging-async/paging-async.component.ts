@@ -1,7 +1,10 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {AsyncPage} from './asyncPage';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 
+/**
+ *
+ */
 @Component({
   selector: 'paging-async',
   templateUrl: './paging-async.component.html'
@@ -11,7 +14,6 @@ export class PagingAsyncComponent {
   @Input() pageProperty: string = 'page';
   @Input() sizeProperty: string = 'size';
   @Input() resetParams: Params = {};
-  @Output() pageClicked = new EventEmitter<any>();
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
 
@@ -27,8 +29,6 @@ export class PagingAsyncComponent {
         queryParams: queryParams,
         queryParamsHandling: 'merge'
       });
-
-    this.pageClicked.emit({page, size})
   }
 
   next() {

@@ -34,7 +34,7 @@ import {SurveyEventParametersEditPageComponent} from "./survey-events/survey-eve
 import {SharedUiModule} from "../shared-ui/shared-ui.module";
 import {IMaskModule} from "angular-imask";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {TranslateDirective, TranslateModule} from "@ngx-translate/core";
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
