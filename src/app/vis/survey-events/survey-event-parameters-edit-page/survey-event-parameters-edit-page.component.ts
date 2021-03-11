@@ -29,7 +29,6 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
   private updateSubscription$: Subscription;
 
   surveyEventId: any;
-  project: Project;
 
   parameters: Parameters;
   parametersForm: FormGroup;
@@ -38,10 +37,6 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private router: Router) {
     this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
     this.titleService.setTitle('Bewerken waarneming parameters ' + this.activatedRoute.snapshot.params.surveyEventId)
-
-    this.projectSubscription$ = this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
-      this.project = value
-    });
 
     this.parametersSubscription$ = this.visService.getParameters(this.activatedRoute.snapshot.params.projectCode, this.activatedRoute.snapshot.params.surveyEventId)
       .subscribe(value => {
@@ -93,9 +88,8 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
 
     const formData = this.parametersForm.getRawValue();
 
-    this.updateSubscription$ = this.visService.updateParameters(this.project.code.value, this.surveyEventId, formData).subscribe(
+    this.updateSubscription$ = this.visService.updateParameters(this.activatedRoute.snapshot.params.projectCode.value, this.surveyEventId, formData).subscribe(
       (response) => {
-        this.project = response;
         this.reset();
         this.router.navigate(['/projecten', this.activatedRoute.snapshot.params.projectCode, 'waarnemingen', this.activatedRoute.snapshot.params.surveyEventId, 'parameters']);
       },

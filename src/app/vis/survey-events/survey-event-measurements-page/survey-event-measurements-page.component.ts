@@ -25,8 +25,6 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
     {title: 'Metingen', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/' + this.activatedRoute.snapshot.params.surveyEventId + '/metingen'}
   ]
 
-  project: Project;
-
   projectCode: any;
   surveyEventId: any;
 
@@ -38,9 +36,6 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
     this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
     this.projectCode = this.activatedRoute.snapshot.params.projectCode
     this.titleService.setTitle('Waarneming metingen ' + this.activatedRoute.snapshot.params.surveyEventId)
-    this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
-      this.project = value
-    });
   }
 
   ngOnInit(): void {

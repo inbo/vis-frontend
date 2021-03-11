@@ -26,7 +26,7 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
     {title: 'Habitat', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/' + this.activatedRoute.snapshot.params.surveyEventId + '/habitat'}
   ]
 
-  project: Project;
+  projectCode: string;
   surveyEventId: any;
   private projectSubscription$: Subscription;
   private habitatSubscription$: Subscription;
@@ -39,6 +39,7 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.projectCode = this.activatedRoute.snapshot.params.projectCode;
     this.habitatForm = this.formBuilder.group(
       {
         waterLevel: [null],
@@ -54,8 +55,7 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
       });
 
     this.projectSubscription$ = this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
-      this.project = value
-      this.habitatSubscription$ = this.visService.getHabitat(this.project.code.value, this.surveyEventId).subscribe(value1 => {
+      this.habitatSubscription$ = this.visService.getHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId).subscribe(value1 => {
         this.habitat = value1;
         this.habitatForm.get('waterLevel').patchValue(value1.waterLevel);
         this.habitatForm.get('shelters').patchValue(value1.shelters);

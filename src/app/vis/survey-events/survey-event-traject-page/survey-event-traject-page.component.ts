@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NavigationLink} from "../../../shared-ui/layouts/NavigationLinks";
 import {GlobalConstants} from "../../../GlobalConstants";
 import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
-import {Project} from "../../project/model/project";
 import {Title} from "@angular/platform-browser";
 import {VisService} from "../../../vis.service";
 import {ActivatedRoute} from "@angular/router";
-import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-survey-event-traject-page',
@@ -23,13 +21,8 @@ export class SurveyEventTrajectPageComponent implements OnInit {
     {title: 'Traject', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/' + this.activatedRoute.snapshot.params.surveyEventId + '/traject'}
   ]
 
-  project: Observable<Project>;
-  surveyEventId: any;
-
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute) {
-    this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
     this.titleService.setTitle('Waarneming traject ' + this.activatedRoute.snapshot.params.surveyEventId)
-    this.project = this.visService.getProject(this.activatedRoute.snapshot.params.projectCode);
 
   }
 

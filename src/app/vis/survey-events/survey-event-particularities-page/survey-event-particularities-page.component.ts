@@ -22,16 +22,9 @@ export class SurveyEventParticularitiesPageComponent implements OnInit {
     {title: 'Bijzonderheden', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/' + this.activatedRoute.snapshot.params.surveyEventId + '/bijzonderheden'}
   ]
 
-  project: Project;
-  surveyEventId: any;
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute) {
-    this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
     this.titleService.setTitle('Waarneming bijzonderheden ' + this.activatedRoute.snapshot.params.surveyEventId)
-    this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
-      this.project = value
-    })
-
   }
 
   ngOnInit(): void {

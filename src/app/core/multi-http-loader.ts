@@ -1,7 +1,7 @@
 import {HttpClient} from "@angular/common/http";
 import {TranslateLoader} from "@ngx-translate/core";
 import {forkJoin, Observable, of} from "rxjs";
-import {catchError, map} from "rxjs/operators";
+import {catchError, map, tap} from "rxjs/operators";
 import deepmerge from "deepmerge";
 
 export interface ITranslationResource {

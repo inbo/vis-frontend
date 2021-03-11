@@ -2,7 +2,6 @@ import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {NavigationLink} from "../../../shared-ui/layouts/NavigationLinks";
 import {GlobalConstants} from "../../../GlobalConstants";
 import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
-import {Project} from "../../project/model/project";
 import {Title} from "@angular/platform-browser";
 import {VisService} from "../../../vis.service";
 import {ActivatedRoute} from "@angular/router";
@@ -28,7 +27,6 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     {title: 'Habitat', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/' + this.activatedRoute.snapshot.params.surveyEventId + '/habitat'}
   ]
 
-  project: Project;
   surveyEventId: any;
   private projectSubscription$: Subscription;
   private habitatSubscription$: Subscription;
@@ -73,8 +71,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
       });
 
     this.projectSubscription$ = this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
-      this.project = value
-      this.habitatSubscription$ = this.visService.getHabitat(this.project.code.value, this.surveyEventId).subscribe(value1 => {
+      this.habitatSubscription$ = this.visService.getHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId).subscribe(value1 => {
         this.habitat = value1;
         this.habitatForm.get('minDepth').patchValue(value1.minDepth === null ? '' : value1.minDepth.toString());
         this.habitatForm.get('maxDepth').patchValue(value1.maxDepth === null ? '' : value1.maxDepth.toString());
@@ -103,7 +100,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
 
     const formData = this.habitatForm.getRawValue();
 
-    this.visService.updateHabitat(this.project.code.value, this.surveyEventId, formData).subscribe(
+    this.visService.updateHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId, formData).subscribe(
       (response) => {
         this.alertService.success("Succesvol bewaard", "");
         this.habitat = response;
