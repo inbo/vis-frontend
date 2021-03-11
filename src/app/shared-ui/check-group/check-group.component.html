@@ -10,7 +10,7 @@
       </div>
       <label [for]="name + '-' + i" class="ml-3 flex flex-col cursor-pointer">
         <span class="block text-sm font-medium" [class.text-pink-900]="isChecked(option.value)" [class.text-gray-900]="!isChecked(option.value)">
-          {{option.text}}
+           {{option.text | translate}}
         </span>
       </label>
     </div>
