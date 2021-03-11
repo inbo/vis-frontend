@@ -8,14 +8,16 @@ import {SurveyEventId} from "../../project/model/surveyEvent";
 })
 export class SurveyEventTabsComponent implements OnInit {
 
-  @Input() projectCode : string;
-  @Input() surveyEventId : SurveyEventId;
   currentUrl: string;
+  surveyEventId: any;
+  projectCode: string;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.currentUrl = "/" + this.activatedRoute.snapshot.url.join("/")
+    this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
+    this.projectCode = this.activatedRoute.snapshot.params.projectCode;
   }
 
   navigate(location: string) {

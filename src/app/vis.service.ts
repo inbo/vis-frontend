@@ -41,8 +41,8 @@ export class VisService {
       }));
   }
 
-  getProject(projectCode: string) {
-    return this.http.get<Project>(environment.apiUrl + '/api/projects/' + projectCode)
+  getProject(projectCode: string) : Observable<Project> {
+    return this.http.get<Project>(`${environment.apiUrl}/api/projects/${projectCode}`)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return []

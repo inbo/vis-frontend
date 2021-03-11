@@ -1,11 +1,11 @@
-import { HttpClientModule } from '@angular/common/http';
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import { AuthConfig, OAuthModule, OAuthModuleConfig, OAuthStorage } from 'angular-oauth2-oidc';
-import { authConfig } from './auth-config';
-import { AuthGuardWithForcedLogin } from './auth-guard-with-forced-login.service';
-import { AuthGuard } from './auth-guard.service';
-import { authModuleConfig } from './auth-module-config';
-import { AuthService } from './auth.service';
+import {HttpClientModule} from '@angular/common/http';
+import {ModuleWithProviders, NgModule, Optional, SkipSelf} from '@angular/core';
+import {AuthConfig, OAuthModule, OAuthModuleConfig, OAuthStorage} from 'angular-oauth2-oidc';
+import {authConfig} from './auth-config';
+import {AuthGuardWithForcedLogin} from './auth-guard-with-forced-login.service';
+import {AuthGuard} from './auth-guard.service';
+import {authModuleConfig} from './auth-module-config';
+import {AuthService} from './auth.service';
 import {HasUnsavedDataGuard} from "./unsaved-changes-guard.service";
 
 // We need a factory since localStorage is not available at AOT build time
@@ -30,14 +30,14 @@ export class CoreModule {
     return {
       ngModule: CoreModule,
       providers: [
-        { provide: AuthConfig, useValue: authConfig },
-        { provide: OAuthModuleConfig, useValue: authModuleConfig },
-        { provide: OAuthStorage, useFactory: storageFactory },
+        {provide: AuthConfig, useValue: authConfig},
+        {provide: OAuthModuleConfig, useValue: authModuleConfig},
+        {provide: OAuthStorage, useFactory: storageFactory},
       ]
     };
   }
 
-  constructor (@Optional() @SkipSelf() parentModule: CoreModule) {
+  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
     if (parentModule) {
       throw new Error('CoreModule is already loaded. Import it in the AppModule only');
     }

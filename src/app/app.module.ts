@@ -3,7 +3,6 @@ import {APP_INITIALIZER, NgModule} from '@angular/core';
 
 import {MissingTranslationHandler, TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
-import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {NgTransitionModule} from "ng-transition";
@@ -18,6 +17,8 @@ import {SharedUiModule} from "./shared-ui/shared-ui.module";
 import {VisModule} from "./vis/vis.module";
 import {ReleaseNotesModule} from "./release-notes/release-notes.module";
 import {environment} from "../environments/environment";
+import {Observable} from "rxjs";
+import {MultiTranslateHttpLoader} from "./core/multi-http-loader";
 
 @NgModule({
   declarations: [
@@ -60,5 +61,8 @@ export class AppModule {
 }
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, `${environment.apiUrl}/translations/`, "");
+  return new MultiTranslateHttpLoader(http, [
+    {prefix: "./assets/i18n/", suffix: ".json"},
+    {prefix: `${environment.apiUrl}/translations/`, suffix: ""},
+  ]);
 }

@@ -18,6 +18,7 @@ import {CheckGroupComponent} from "./check-group/check-group.component";
 import {NgTransitionModule} from "ng-transition";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -54,12 +55,13 @@ import {RouterModule} from "@angular/router";
     RadioGroupComponent,
     CheckGroupComponent,
   ],
-  imports: [
-    RouterModule,
-    CommonModule,
-    NgTransitionModule,
-    FormsModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        RouterModule,
+        CommonModule,
+        NgTransitionModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule
+    ]
 })
 export class SharedUiModule { }

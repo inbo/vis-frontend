@@ -110,7 +110,7 @@
                 Groep
               </dt>
               <dd class="mt-1 text-sm text-gray-900">
-                {{(taxonGroups$ | async).join(', ')}}
+                {{(taxonGroups$ | async)?.join(', ')}}
               </dd>
             </div>
           </dl>

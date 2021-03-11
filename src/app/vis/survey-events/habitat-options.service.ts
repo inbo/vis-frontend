@@ -38,10 +38,9 @@ export class HabitatOptionsService {
   }
 
   private createOption(x: string, value: string) {
-    let text = undefined;
-    const subscription = this.translate.get('surveyEvent.habitat.' + x + '.' + value).pipe(take(1)).subscribe(translated => text = translated);
-    subscription.unsubscribe();
+    let text = `surveyEvent.habitat.${x}.${value}`;
     let newVar = {value: value, text: text};
+    console.log(newVar);
     return newVar;
   }
 
