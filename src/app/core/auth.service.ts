@@ -1,18 +1,20 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 import {OAuthErrorEvent, OAuthService} from 'angular-oauth2-oidc';
-import {BehaviorSubject, combineLatest, Observable, ReplaySubject} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, ReplaySubject, Subscription} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 
 @Injectable({providedIn: 'root'})
-export class AuthService {
+export class AuthService implements OnDestroy {
 
   private isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject$.asObservable();
 
   private isDoneLoadingSubject$ = new ReplaySubject<boolean>();
   public isDoneLoading$ = this.isDoneLoadingSubject$.asObservable();
+
+  private subscription = new Subscription();
 
   /**
    * Publishes `true` if and only if (a) all the asynchronous initial
@@ -29,20 +31,26 @@ export class AuthService {
     this.isDoneLoading$
   ]).pipe(map(values => values.every(b => b)));
 
+
+  ngOnDestroy(): void {
+  }
+
   private navigateToLoginPage() {
     this.router.navigateByUrl('/');
   }
 
   constructor(private oauthService: OAuthService, private router: Router) {
-    this.oauthService.events.subscribe(event => {
-      if (environment.showDebugInformation) {
-        if (event instanceof OAuthErrorEvent) {
-          console.error('OAuthErrorEvent Object:', event);
-        } else {
-          console.warn('OAuthEvent Object:', event);
+    this.subscription.add(
+      this.oauthService.events.subscribe(event => {
+        if (environment.showDebugInformation) {
+          if (event instanceof OAuthErrorEvent) {
+            console.error('OAuthErrorEvent Object:', event);
+          } else {
+            console.warn('OAuthEvent Object:', event);
+          }
         }
-      }
-    });
+      })
+    );
 
     // TODO: Improve this setup. See: https://github.com/jeroenheijmans/sample-angular-oauth2-oidc-with-auth-guards/issues/2
     window.addEventListener('storage', (event) => {
@@ -59,18 +67,24 @@ export class AuthService {
       }
     });
 
-    this.oauthService.events
-      .subscribe(_ => {
-        this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken());
-      });
+    this.subscription.add(
+      this.oauthService.events
+        .subscribe(_ => {
+          this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken());
+        })
+    );
 
-    this.oauthService.events
-      .pipe(filter(e => ['token_received'].includes(e.type)))
-      .subscribe(e => this.oauthService.loadUserProfile());
+    this.subscription.add(
+      this.oauthService.events
+        .pipe(filter(e => ['token_received'].includes(e.type)))
+        .subscribe(e => this.oauthService.loadUserProfile())
+    );
 
-    this.oauthService.events
-      .pipe(filter(e => ['session_terminated', 'session_error'].includes(e.type)))
-      .subscribe(e => this.navigateToLoginPage());
+    this.subscription.add(
+      this.oauthService.events
+        .pipe(filter(e => ['session_terminated', 'session_error'].includes(e.type)))
+        .subscribe(e => this.navigateToLoginPage())
+    );
 
     this.oauthService.setupAutomaticSilentRefresh();
   }

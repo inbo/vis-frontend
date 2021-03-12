@@ -120,6 +120,7 @@ export class VisService {
       }
     });
 
+    //TODO subscribed is not closed
     this.http.get(`${environment.apiUrl}/api/projects/export`, {params, observe: 'response', responseType: 'blob'})
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
@@ -132,6 +133,7 @@ export class VisService {
   }
 
   exportProject(code: String) {
+    //TODO subscribed is not closed
     this.http.get(`${environment.apiUrl}/api/projects/${code}/export`, {observe: 'response', responseType: 'blob'})
       .pipe(catchError(err => {
         this.alertService.unexpectedError();

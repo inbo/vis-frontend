@@ -7,13 +7,14 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class ProjectTabsComponent implements OnInit {
 
-  @Input() projectCode : string;
+  projectCode : string;
   currentUrl: string;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.currentUrl = "/" + this.activatedRoute.snapshot.url.join("/")
+    this.projectCode = this.activatedRoute.snapshot.params.projectCode;
   }
 
   navigate(location: string) {

@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {NavigationLink} from "../../../shared-ui/layouts/NavigationLinks";
 import {GlobalConstants} from "../../../GlobalConstants";
 import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
@@ -8,12 +8,13 @@ import {VisService} from "../../../vis.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HasUnsavedData} from "../../../core/core.interface";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'project-detail-edit-page',
   templateUrl: './project-detail-edit-page.component.html'
 })
-export class ProjectDetailEditPageComponent implements OnInit, HasUnsavedData {
+export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
     {title: 'Projecten', url: '/projecten'},
@@ -25,6 +26,8 @@ export class ProjectDetailEditPageComponent implements OnInit, HasUnsavedData {
   projectForm: FormGroup;
   project: Project;
   submitted: boolean;
+
+  private subscription = new Subscription();
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {
 
@@ -39,14 +42,20 @@ export class ProjectDetailEditPageComponent implements OnInit, HasUnsavedData {
         period: [null, [Validators.required]],
       });
 
-    this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe((value: Project) => {
-      this.titleService.setTitle(value.name)
-      this.project = value;
-      this.projectForm.get('name').patchValue(value.name);
-      this.projectForm.get('description').patchValue(value.description);
-      this.projectForm.get('status').patchValue(value.status === 'ACTIVE');
-      this.projectForm.get('period').patchValue([new Date(value.start), new Date(value.end)]);
-    });
+    this.subscription.add(
+      this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe((value: Project) => {
+        this.titleService.setTitle(value.name)
+        this.project = value;
+        this.projectForm.get('name').patchValue(value.name);
+        this.projectForm.get('description').patchValue(value.description);
+        this.projectForm.get('status').patchValue(value.status === 'ACTIVE');
+        this.projectForm.get('period').patchValue([new Date(value.start), new Date(value.end)]);
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   saveProject() {
@@ -57,13 +66,15 @@ export class ProjectDetailEditPageComponent implements OnInit, HasUnsavedData {
 
     const formData = this.projectForm.getRawValue();
 
-    this.visService.updateProject(this.project.code.value, formData).subscribe(
-      (response) => {
-        this.project = response;
-        this.reset();
-        this.router.navigate(['/projecten', this.project.code.value])
-      },
-      (error) => console.log(error)
+    this.subscription.add(
+      this.visService.updateProject(this.project.code.value, formData).subscribe(
+        (response) => {
+          this.project = response;
+          this.reset();
+          this.router.navigate(['/projecten', this.project.code.value])
+        },
+        (error) => console.log(error)
+      )
     );
   }
 

@@ -1,19 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationLink} from "../../../shared-ui/layouts/NavigationLinks";
 import {GlobalConstants} from "../../../GlobalConstants";
 import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
-import {Project} from "../model/project";
 import {Title} from "@angular/platform-browser";
 import {VisService} from "../../../vis.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ProjectMethod} from '../model/project-method';
 import {Method} from '../../method/model/method';
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-project-methods-page',
   templateUrl: './project-methods-page.component.html'
 })
-export class ProjectMethodsPageComponent implements OnInit {
+export class ProjectMethodsPageComponent implements OnInit, OnDestroy {
 
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
@@ -24,22 +23,31 @@ export class ProjectMethodsPageComponent implements OnInit {
 
   showEditTaxa = false;
   loading: boolean = false;
-  project: Project;
-  methods: String[]
-  allMethods: Method[]
+  methods: String[];
+  allMethods: Method[];
+
+  private subscription = new Subscription();
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router) {
     this.titleService.setTitle("Project " + this.activatedRoute.snapshot.params.projectCode)
 
-    this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => this.project = value)
-    this.visService.getProjectMethods(this.activatedRoute.snapshot.params.projectCode).subscribe(value => this.methods = value)
-    this.visService.getAllMethods().subscribe(value => {
-      this.allMethods = value;
-      debugger
-    })
+    this.subscription.add(
+      this.visService.getProjectMethods(this.activatedRoute.snapshot.params.projectCode).subscribe(value => this.methods = value)
+    );
+
+    this.subscription.add(
+      this.visService.getAllMethods().subscribe(value => {
+        this.allMethods = value;
+      })
+    )
+
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   isSelected(method: Method) {

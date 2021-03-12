@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {VisService} from "../../../vis.service";
 import {Router} from "@angular/router";
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {map} from "rxjs/operators";
 import {AlertService} from "../../../_alert";
 
@@ -10,12 +10,14 @@ import {AlertService} from "../../../_alert";
   selector: 'project-add',
   templateUrl: './project-add.component.html'
 })
-export class ProjectAddComponent implements OnInit {
+export class ProjectAddComponent implements OnInit, OnDestroy {
 
   createProjectForm: FormGroup;
   isOpen = false;
 
   submitted: boolean;
+
+  private subscription = new Subscription();
 
   constructor(private visService: VisService, private formBuilder: FormBuilder, private router: Router) {
 
@@ -31,6 +33,10 @@ export class ProjectAddComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   open() {
     this.isOpen = true;
   }
@@ -44,11 +50,13 @@ export class ProjectAddComponent implements OnInit {
 
     const formData = this.createProjectForm.getRawValue();
 
-    this.visService.createProject(formData).subscribe(
-      (response) => {
-        this.isOpen = false;
-        this.router.navigateByUrl('/projecten/' + formData.code);
-      }
+    this.subscription.add(
+      this.visService.createProject(formData).subscribe(
+        (response) => {
+          this.isOpen = false;
+          this.router.navigateByUrl('/projecten/' + formData.code);
+        }
+      )
     );
   }
 

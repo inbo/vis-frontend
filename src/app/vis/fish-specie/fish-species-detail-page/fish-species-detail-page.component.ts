@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
@@ -13,7 +13,7 @@ import {Observable, Subscription} from "rxjs";
   selector: 'app-fish-species-detail-page',
   templateUrl: './fish-species-detail-page.component.html',
 })
-export class FishSpeciesDetailPageComponent implements OnInit {
+export class FishSpeciesDetailPageComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
@@ -39,6 +39,10 @@ export class FishSpeciesDetailPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }

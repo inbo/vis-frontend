@@ -6,7 +6,7 @@ import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
 import {Project} from "../model/project";
 import {VisService} from "../../../vis.service";
 import {AsyncPage} from "../../../shared-ui/paging-async/asyncPage";
-import {Observable, of} from "rxjs";
+import {Observable, of, Subscription} from "rxjs";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {ProjectAddComponent} from "../project-add/project-add.component";
 import {FormBuilder, FormGroup} from "@angular/forms";
@@ -30,6 +30,8 @@ export class ProjectsOverviewPageComponent implements OnInit {
   filterForm: FormGroup;
   advancedFilterIsVisible: boolean = false;
 
+  private subscription = new Subscription();
+
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {
     this.titleService.setTitle("Projecten")
 
@@ -43,31 +45,37 @@ export class ProjectsOverviewPageComponent implements OnInit {
       },
     );
 
-    this.activatedRoute.queryParams.subscribe((params) => {
-      this.filterForm.get('name').patchValue(params.name ? params.name : '')
-      this.filterForm.get('description').patchValue(params.description ? params.description : '')
-      this.filterForm.get('status').patchValue(params.status ? params.status : '')
-      this.filterForm.get('sort').patchValue(params.sort ? params.sort : '')
+    this.subscription.add(
+      this.activatedRoute.queryParams.subscribe((params) => {
+        this.filterForm.get('name').patchValue(params.name ? params.name : '')
+        this.filterForm.get('description').patchValue(params.description ? params.description : '')
+        this.filterForm.get('status').patchValue(params.status ? params.status : '')
+        this.filterForm.get('sort').patchValue(params.sort ? params.sort : '')
 
-      this.advancedFilterIsVisible = (params.description !== undefined && params.description !== '')
-    });
+        this.advancedFilterIsVisible = (params.description !== undefined && params.description !== '')
+      })
+    );
 
   }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe((params) => {
-      this.getProjects(params.page ? params.page : 1, params.size ? params.size : 20)
-    });
+    this.subscription.add(
+      this.activatedRoute.queryParams.subscribe((params) => {
+        this.getProjects(params.page ? params.page : 1, params.size ? params.size : 20)
+      })
+    );
   }
 
   getProjects(page: number, size: number) {
     this.loading = true;
-    this.projects = of([])
-    this.visService.getProjects(page, size, this.filterForm.getRawValue()).subscribe((value) => {
-      this.pager = value;
-      this.projects = of(value.content);
-      this.loading = false;
-    });
+    this.projects = of([]);
+    this.subscription.add(
+      this.visService.getProjects(page, size, this.filterForm.getRawValue()).subscribe((value) => {
+        this.pager = value;
+        this.projects = of(value.content);
+        this.loading = false;
+      })
+    );
   }
 
   openAddProject() {
