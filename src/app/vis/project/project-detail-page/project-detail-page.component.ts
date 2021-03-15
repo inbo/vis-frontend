@@ -7,12 +7,14 @@ import {VisService} from '../../../vis.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Project} from '../model/project';
 import {Subscription} from 'rxjs';
+import {Role} from "../../../core/_models/role";
 
 @Component({
   selector: 'app-project-detail-page',
   templateUrl: './project-detail-page.component.html'
 })
 export class ProjectDetailPageComponent implements OnInit, OnDestroy {
+  public role = Role;
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
     {title: 'Projecten', url: '/projecten'},

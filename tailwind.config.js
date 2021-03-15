@@ -11,6 +11,11 @@ module.exports = (isProd) => ({
       }
     },
   },
+  variants: {
+    extend: {
+      opacity: ['disabled'],
+    }
+  },
   plugins: [
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),

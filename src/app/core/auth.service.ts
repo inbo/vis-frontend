@@ -222,4 +222,7 @@ export class AuthService implements OnDestroy {
     return currentRoles;
   }
 
+  public hasRole(role: Role): boolean {
+    return this.clientRoles.indexOf(role) >= 0;
+  }
 }
