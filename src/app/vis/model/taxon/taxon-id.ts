@@ -1,3 +1,3 @@
 export interface TaxonId {
-  value: number
+  value: number;
 }

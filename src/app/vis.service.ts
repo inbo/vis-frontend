@@ -1,19 +1,19 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import {environment} from '../environments/environment';
-import {Project} from "./vis/project/model/project";
-import {AsyncPage} from "./shared-ui/paging-async/asyncPage";
-import {Observable} from "rxjs";
+import {Project} from './vis/project/model/project';
+import {AsyncPage} from './shared-ui/paging-async/asyncPage';
+import {Observable} from 'rxjs';
 import {Releases} from './release-notes/model/releases';
-import {AlertService} from "./_alert";
-import {catchError} from "rxjs/operators";
-import {Measurement} from "./vis/project/model/measurement";
-import {SurveyEvent, SurveyEventId} from "./vis/project/model/surveyEvent";
-import {Parameters} from "./vis/project/model/parameters";
+import {AlertService} from './_alert';
+import {catchError} from 'rxjs/operators';
+import {Measurement} from './vis/project/model/measurement';
+import {SurveyEvent, SurveyEventId} from './vis/project/model/surveyEvent';
+import {Parameters} from './vis/project/model/parameters';
 import {Method} from './vis/method/model/method';
-import {Taxon} from './vis/fish-specie/model/taxon';
-import {TaxonGroup} from './vis/fish-specie/model/taxon-group';
-import {TaxonDetail} from './vis/fish-specie/model/taxon-detail';
+import {TaxonDetail} from './vis/model/taxon/taxon-detail';
+import {TaxonGroup} from './vis/model/taxon/taxon-group';
+import {Taxon} from './vis/model/taxon/taxon';
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +28,9 @@ export class VisService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    Object.keys(filter).forEach(function (key, index) {
+    Object.keys(filter).forEach(function(key, index) {
       if (filter[key] !== null) {
-        params = params.set(key, filter[key].toString())
+        params = params.set(key, filter[key].toString());
       }
     });
 
@@ -41,11 +41,11 @@ export class VisService {
       }));
   }
 
-  getProject(projectCode: string) : Observable<Project> {
+  getProject(projectCode: string): Observable<Project> {
     return this.http.get<Project>(`${environment.apiUrl}/api/projects/${projectCode}`)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return []
+        return [];
       }));
   }
 
@@ -53,7 +53,7 @@ export class VisService {
     return this.http.put(environment.apiUrl + '/api/projects/' + code, formData)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return []
+        return [];
       }));
   }
 
@@ -61,7 +61,7 @@ export class VisService {
     return this.http.post(environment.apiUrl + '/api/projects/create', formData)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return []
+        return [];
       }));
   }
 
@@ -69,14 +69,14 @@ export class VisService {
     return this.http.get<any>(environment.apiUrl + '/api/validation/project/code/' + projectCode)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return []
+        return [];
       }));
   }
 
   getCurrentRelease() {
     return this.http.get<string>(environment.apiUrl + '/api/releases/current')
       .pipe(catchError(err => {
-        return []
+        return [];
       }));
   }
 
@@ -84,14 +84,14 @@ export class VisService {
     return this.http.get<string>(environment.apiUrl + '/api/releases/latest')
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return []
+        return [];
       }));
   }
 
   hasUserReadLatestReleaseNotes() {
     return this.http.get<boolean>(environment.apiUrl + '/api/releases/read')
       .pipe(catchError(err => {
-        return []
+        return [];
       }));
   }
 
@@ -99,7 +99,7 @@ export class VisService {
     return this.http.post<void>(environment.apiUrl + '/api/releases/read', {})
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return []
+        return [];
       }));
   }
 
@@ -107,40 +107,40 @@ export class VisService {
     return this.http.get<Releases>(environment.apiUrl + '/api/releases/' + release)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return []
+        return [];
       }));
   }
 
   exportProjects(filter: any) {
-    let params = new HttpParams()
+    let params = new HttpParams();
 
-    Object.keys(filter).forEach(function (key, index) {
+    Object.keys(filter).forEach(function(key, index) {
       if (filter[key] !== null) {
-        params = params.set(key, filter[key].toString())
+        params = params.set(key, filter[key].toString());
       }
     });
 
-    //TODO subscribed is not closed
+    // TODO subscribed is not closed
     this.http.get(`${environment.apiUrl}/api/projects/export`, {params, observe: 'response', responseType: 'blob'})
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return []
+        return [];
       }))
       .subscribe(res => {
-        this.downloadFile(res)
-      })
+        this.downloadFile(res);
+      });
 
   }
 
   exportProject(code: String) {
-    //TODO subscribed is not closed
+    // TODO subscribed is not closed
     this.http.get(`${environment.apiUrl}/api/projects/${code}/export`, {observe: 'response', responseType: 'blob'})
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return []
+        return [];
       }))
       .subscribe(res => {
-        this.downloadFile(res)
+        this.downloadFile(res);
       });
   }
 
@@ -149,9 +149,9 @@ export class VisService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    Object.keys(filter).forEach(function (key, index) {
+    Object.keys(filter).forEach(function(key, index) {
       if (filter[key] !== null) {
-        params = params.set(key, filter[key].toString())
+        params = params.set(key, filter[key].toString());
       }
     });
 
@@ -170,19 +170,19 @@ export class VisService {
   private downloadFile(res: HttpResponse<Blob>) {
     const contentDisposition = res.headers.get('content-disposition');
     const filename = contentDisposition.split(';')[1].split('filename')[1].split('=')[1].trim().replace(/\"/g, '');
-    let url = window.URL.createObjectURL(res.body);
-    let link = document.createElement('a');
+    const url = window.URL.createObjectURL(res.body);
+    const link = document.createElement('a');
     link.href = url;
     link.download = filename;
     link.click();
   }
 
   getSurveyEvents(projectCode: string, page: number, size: number) {
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.http.get<AsyncPage<SurveyEvent>>(environment.apiUrl + '/api/project/' + projectCode + "/surveyevents", {params})
+    return this.http.get<AsyncPage<SurveyEvent>>(environment.apiUrl + '/api/project/' + projectCode + '/surveyevents', {params})
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
         return [];
@@ -190,7 +190,7 @@ export class VisService {
   }
 
   getMeasurements(projectCode: string, surveyEventId: any, page: number, size: number) {
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
 
@@ -205,7 +205,7 @@ export class VisService {
     return this.http.get<String[]>(`${environment.apiUrl}/api/projects/${projectCode}/methods`)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return []
+        return [];
       }));
   }
 
@@ -238,9 +238,9 @@ export class VisService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    Object.keys(filter).forEach(function (key, index) {
+    Object.keys(filter).forEach(function(key, index) {
       if (filter[key] !== null) {
-        params = params.set(key, filter[key].toString())
+        params = params.set(key, filter[key].toString());
       }
     });
 
@@ -251,7 +251,7 @@ export class VisService {
       }));
   }
 
-  getTaxon(id: number) : Observable<TaxonDetail> {
+  getTaxon(id: number): Observable<TaxonDetail> {
     return this.http.get<TaxonDetail>(`${environment.apiUrl}/api/taxon/${id}`)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
@@ -279,7 +279,7 @@ export class VisService {
     return this.http.put(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`, formData)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return []
+        return [];
       }));
   }
 
@@ -287,7 +287,7 @@ export class VisService {
     return this.http.put(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`, formData)
       .pipe(catchError(err => {
         this.alertService.unexpectedError();
-        return []
+        return [];
       }));
   }
 

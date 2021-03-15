@@ -2,12 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {TaxonDetail} from '../model/taxon-detail';
 import {Title} from '@angular/platform-browser';
 import {VisService} from '../../../vis.service';
 import {ActivatedRoute} from '@angular/router';
-import {flatMap, map, pluck, take, toArray} from "rxjs/operators";
-import {Observable, Subscription} from "rxjs";
+import {flatMap, map, pluck, take, toArray} from 'rxjs/operators';
+import {Observable, Subscription} from 'rxjs';
+import {TaxonDetail} from '../../model/taxon/taxon-detail';
 
 @Component({
   selector: 'app-fish-species-detail-page',
@@ -25,7 +25,7 @@ export class FishSpeciesDetailPageComponent implements OnInit, OnDestroy {
       url: '/vissoorten/' + this.activatedRoute.snapshot.params.taxonId
     },
     {title: 'Details', url: '/vissoorten/' + this.activatedRoute.snapshot.params.taxonId}
-  ]
+  ];
 
   taxon$: Observable<TaxonDetail>;
   private taxonGroups$: Observable<string[]>;
@@ -34,7 +34,7 @@ export class FishSpeciesDetailPageComponent implements OnInit, OnDestroy {
     this.taxon$ = this.visService.getTaxon(this.activatedRoute.snapshot.params.taxonId);
     this.taxonGroups$ = this.taxon$.pipe(take(1), flatMap(value => value.taxonGroups), map(value => value.name), toArray());
 
-    const taxonCode$ = this.taxon$.pipe(take(1), pluck("code", "value"));
+    const taxonCode$ = this.taxon$.pipe(take(1), pluck('code', 'value'));
     this.subscription.add(taxonCode$.subscribe(code => this.titleService.setTitle(code)));
   }
 
