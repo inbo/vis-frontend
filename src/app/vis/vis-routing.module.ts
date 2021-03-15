@@ -1,34 +1,34 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {DashboardPageComponent} from "./dashboard-page/dashboard-page.component";
-import {AuthGuardWithForcedLogin} from "../core/auth-guard-with-forced-login.service";
-import {ProjectsOverviewPageComponent} from "./project/projects-overview-page/projects-overview-page.component";
-import {ProjectDetailPageComponent} from "./project/project-detail-page/project-detail-page.component";
-import {ProjectDetailEditPageComponent} from "./project/project-detail-edit-page/project-detail-edit-page.component";
-import {HasUnsavedDataGuard} from "../core/unsaved-changes-guard.service";
-import {ProjectSurveyEventsPageComponent} from "./project/project-survey-events-page/project-survey-events-page.component";
-import {ProjectLocationsPageComponent} from "./project/project-locations-page/project-locations-page.component";
-import {ProjectHabitatPageComponent} from "./project/project-habitat-page/project-habitat-page.component";
-import {ProjectMethodsPageComponent} from "./project/project-methods-page/project-methods-page.component";
-import {ProjectFishSpeciesPageComponent} from "./project/project-fish-species-page/project-fish-species-page.component";
-import {ProjectPicturesPageComponent} from "./project/project-pictures-page/project-pictures-page.component";
-import {SurveyEventDetailPageComponent} from "./survey-events/survey-event-detail-page/survey-event-detail-page.component";
-import {SurveyEventParticularitiesPageComponent} from "./survey-events/survey-event-particularities-page/survey-event-particularities-page.component";
-import {SurveyEventParametersPageComponent} from "./survey-events/survey-event-parameters-page/survey-event-parameters-page.component";
-import {SurveyEventParametersEditPageComponent} from "./survey-events/survey-event-parameters-edit-page/survey-event-parameters-edit-page.component";
-import {SurveyEventMethodPageComponent} from "./survey-events/survey-event-method-page/survey-event-method-page.component";
-import {SurveyEventHabitatPageComponent} from "./survey-events/survey-event-habitat-page/survey-event-habitat-page.component";
-import {SurveyEventHabitatEditPageComponent} from "./survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component";
-import {SurveyEventTrajectPageComponent} from "./survey-events/survey-event-traject-page/survey-event-traject-page.component";
-import {SurveyEventMeasurementsPageComponent} from "./survey-events/survey-event-measurements-page/survey-event-measurements-page.component";
-import {LocationOverviewPageComponent} from "./location/location-overview-page/location-overview-page.component";
-import {FishSpeciesOverviewPageComponent} from "./fish-specie/fish-species-overview-page/fish-species-overview-page.component";
-import {FishSpeciesDetailPageComponent} from "./fish-specie/fish-species-detail-page/fish-species-detail-page.component";
-import {MethodsOverviewPageComponent} from "./method/methods-overview-page/methods-overview-page.component";
-import {FishIndexPageComponent} from "./fish-index-page/fish-index-page.component";
-import {ProfilePageComponent} from "./profile-page/profile-page.component";
-import {RoleGuard} from "../core/role-guard.service";
-import {Role} from "../core/_models/role";
+import {DashboardPageComponent} from './dashboard-page/dashboard-page.component';
+import {AuthGuardWithForcedLogin} from '../core/auth-guard-with-forced-login.service';
+import {ProjectsOverviewPageComponent} from './project/projects-overview-page/projects-overview-page.component';
+import {ProjectDetailPageComponent} from './project/project-detail-page/project-detail-page.component';
+import {ProjectDetailEditPageComponent} from './project/project-detail-edit-page/project-detail-edit-page.component';
+import {HasUnsavedDataGuard} from '../core/unsaved-changes-guard.service';
+import {ProjectSurveyEventsPageComponent} from './project/project-survey-events-page/project-survey-events-page.component';
+import {ProjectLocationsPageComponent} from './project/project-locations-page/project-locations-page.component';
+import {ProjectHabitatPageComponent} from './project/project-habitat-page/project-habitat-page.component';
+import {ProjectMethodsPageComponent} from './project/project-methods-page/project-methods-page.component';
+import {ProjectFishSpeciesPageComponent} from './project/project-fish-species-page/project-fish-species-page.component';
+import {ProjectPicturesPageComponent} from './project/project-pictures-page/project-pictures-page.component';
+import {SurveyEventDetailPageComponent} from './survey-events/survey-event-detail-page/survey-event-detail-page.component';
+import {SurveyEventParticularitiesPageComponent} from './survey-events/survey-event-particularities-page/survey-event-particularities-page.component';
+import {SurveyEventParametersPageComponent} from './survey-events/survey-event-parameters-page/survey-event-parameters-page.component';
+import {SurveyEventParametersEditPageComponent} from './survey-events/survey-event-parameters-edit-page/survey-event-parameters-edit-page.component';
+import {SurveyEventMethodPageComponent} from './survey-events/survey-event-method-page/survey-event-method-page.component';
+import {SurveyEventHabitatPageComponent} from './survey-events/survey-event-habitat-page/survey-event-habitat-page.component';
+import {SurveyEventHabitatEditPageComponent} from './survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component';
+import {SurveyEventTrajectPageComponent} from './survey-events/survey-event-traject-page/survey-event-traject-page.component';
+import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
+import {LocationOverviewPageComponent} from './location/location-overview-page/location-overview-page.component';
+import {FishSpeciesOverviewPageComponent} from './fish-specie/fish-species-overview-page/fish-species-overview-page.component';
+import {FishSpeciesDetailPageComponent} from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
+import {MethodsOverviewPageComponent} from './method/methods-overview-page/methods-overview-page.component';
+import {FishIndexPageComponent} from './fish-index-page/fish-index-page.component';
+import {ProfilePageComponent} from './profile-page/profile-page.component';
+import {RoleGuard} from '../core/role-guard.service';
+import {Role} from '../core/_models/role';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -39,7 +39,7 @@ const routes: Routes = [
     component: ProjectDetailEditPageComponent,
     canActivate: [AuthGuardWithForcedLogin, RoleGuard],
     canDeactivate: [HasUnsavedDataGuard],
-    data: { roles: [Role.EditProject] }
+    data: {roles: [Role.EditProject]}
   },
   {path: 'projecten/:projectCode/waarnemingen', component: ProjectSurveyEventsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/locaties', component: ProjectLocationsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
