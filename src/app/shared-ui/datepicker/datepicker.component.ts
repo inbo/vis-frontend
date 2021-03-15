@@ -1,11 +1,11 @@
-import {Component, forwardRef, ViewChild} from '@angular/core';
-import flatpickr from "flatpickr";
-import { Dutch } from "flatpickr/dist/l10n/nl.js"
+import {AfterViewInit, Component, forwardRef, OnInit, ViewChild} from '@angular/core';
+import flatpickr from 'flatpickr';
+import {Dutch} from 'flatpickr/dist/l10n/nl.js';
 
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
-  selector: 'datepicker',
+  selector: 'app-datepicker',
   templateUrl: './datepicker.component.html',
   providers: [
     {
@@ -15,7 +15,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
     }
   ]
 })
-export class DatepickerComponent implements ControlValueAccessor {
+export class DatepickerComponent implements ControlValueAccessor, OnInit, AfterViewInit {
   private selectedDates: Date[];
 
   @ViewChild('datepicker') input;
@@ -26,9 +26,9 @@ export class DatepickerComponent implements ControlValueAccessor {
 
   writeValue(obj: Date[]): void {
     this.selectedDates = obj;
-      if (this.fp !== undefined) {
-        this.fp.setDate(obj);
-      }
+    if (this.fp !== undefined) {
+      this.fp.setDate(obj);
+    }
   }
 
   registerOnChange(fn: Function): void {
@@ -50,14 +50,14 @@ export class DatepickerComponent implements ControlValueAccessor {
   }
 
   ngAfterViewInit() {
-    let _this = this;
+    const _this = this;
 
     this.fp = flatpickr(this.input.nativeElement, {
       locale: Dutch,
-      dateFormat: "d-m-Y",
+      dateFormat: 'd-m-Y',
       mode: 'range',
-      onChange: function(selectedDates, dateStr, instance) {
-        if (selectedDates.length == 2) {
+      onChange: (selectedDates) => {
+        if (selectedDates.length === 2) {
           _this.selectedDates = selectedDates;
           _this.dateValueChanged();
         } else {

@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NavigationLink} from "../../../shared-ui/layouts/NavigationLinks";
-import {GlobalConstants} from "../../../GlobalConstants";
-import {Title} from "@angular/platform-browser";
-import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
+import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
+import {GlobalConstants} from '../../../GlobalConstants';
+import {Title} from '@angular/platform-browser';
+import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Observable, of, Subscription} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -20,23 +20,24 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
     {title: 'Vissoorten', url: '/vissoorten'},
-  ]
+  ];
 
-  loading: boolean = false;
+  loading = false;
 
   pager: AsyncPage<Taxon>;
   taxon: Observable<Taxon[]>;
-  taxonGroups: TaxonGroup[]
+  taxonGroups: TaxonGroup[];
 
   filterForm: FormGroup;
-  advancedFilterIsVisible: boolean = false;
+  advancedFilterIsVisible = false;
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {
-    this.titleService.setTitle("Vissoorten")
+  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router,
+              formBuilder: FormBuilder) {
+    this.titleService.setTitle('Vissoorten');
 
-    let queryParams = activatedRoute.snapshot.queryParams;
+    const queryParams = activatedRoute.snapshot.queryParams;
     this.filterForm = formBuilder.group(
       {
         nameDutch: [queryParams.nameDutch],
@@ -48,12 +49,12 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
-        this.filterForm.get('nameDutch').patchValue(params.nameDutch ? params.nameDutch : '')
-        this.filterForm.get('nameScientific').patchValue(params.nameScientific ? params.nameScientific : '')
-        this.filterForm.get('taxonGroupCode').patchValue(params.taxonGroupCode ? params.taxonGroupCode : '')
-        this.filterForm.get('taxonCode').patchValue(params.taxonCode ? params.taxonCode : '')
+        this.filterForm.get('nameDutch').patchValue(params.nameDutch ? params.nameDutch : '');
+        this.filterForm.get('nameScientific').patchValue(params.nameScientific ? params.nameScientific : '');
+        this.filterForm.get('taxonGroupCode').patchValue(params.taxonGroupCode ? params.taxonGroupCode : '');
+        this.filterForm.get('taxonCode').patchValue(params.taxonCode ? params.taxonCode : '');
 
-        this.advancedFilterIsVisible = (params.taxonCode !== undefined && params.taxonCode !== '')
+        this.advancedFilterIsVisible = (params.taxonCode !== undefined && params.taxonCode !== '');
       })
     );
 
@@ -62,13 +63,13 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
-        this.getTaxon(params.page ? params.page : 1, params.size ? params.size : 20)
+        this.getTaxon(params.page ? params.page : 1, params.size ? params.size : 20);
       })
     );
 
     this.subscription.add(
       this.visService.getTaxonGroups().subscribe((value => this.taxonGroups = value))
-    )
+    );
 
   }
 
@@ -78,13 +79,13 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
 
   getTaxon(page: number, size: number) {
     this.loading = true;
-    this.taxon = of([])
+    this.taxon = of([]);
     this.subscription.add(
       this.visService.getTaxa(page, size, this.filterForm.getRawValue()).subscribe((value) => {
         this.pager = value;
         value.content.forEach(item => {
           item.taxonGroupText = item.taxonGroups.map(taxonGroup => taxonGroup.name).join(', ');
-        })
+        });
         this.taxon = of(value.content);
         this.loading = false;
       })
@@ -92,17 +93,17 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
   }
 
   filter() {
-    let rawValue = this.filterForm.getRawValue();
+    const rawValue = this.filterForm.getRawValue();
     const queryParams: Params = {...rawValue, page: 1};
 
     this.router.navigate(
       [],
       {
         relativeTo: this.activatedRoute,
-        queryParams: queryParams,
+        queryParams,
         queryParamsHandling: 'merge'
-      });
+      }).then();
 
-    this.getTaxon(1, 20)
+    this.getTaxon(1, 20);
   }
 }

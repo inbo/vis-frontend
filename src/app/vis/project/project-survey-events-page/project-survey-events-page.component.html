@@ -1,10 +1,10 @@
-<stacked-layout [navigationLinks]="links">
+<app-stacked-layout [navigationLinks]="links">
   <div slot="content">
-    <breadcrumb [breadcrumbLinks]="breadcrumbLinks"></breadcrumb>
+    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-      <project-tabs></project-tabs>
+      <app-project-tabs></app-project-tabs>
 
       <div class="px-4 py-8 sm:px-0">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -35,7 +35,7 @@
                     <li>
                       <div *ngIf="loading" class="block hover:bg-gray-50">
                         <div class="flex items-center px-4 py-4 sm:px-6">
-                          <loading-spinner></loading-spinner>
+                          <app-loading-spinner></app-loading-spinner>
                         </div>
                       </div>
                     </li>
@@ -47,7 +47,7 @@
                             <div class="w-full">
                               <div class="text-sm font-medium text-pink-600 truncate flex justify-between">
                                 <div>{{surveyEvent.occurrence | date:'dd/MM/yyyy'}}</div>
-                                <survey-event-status-pill [surveyEvent]="surveyEvent"></survey-event-status-pill>
+                                <app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>
 
                               </div>
                               <p class="mt-2 flex items-center text-sm text-gray-500">
@@ -67,7 +67,7 @@
                   </ul>
                 </div>
 
-                <paging-async [resetParams]="resetParams" [pager]="pager"></paging-async>
+                <app-paging-async [resetParams]="resetParams" [pager]="pager"></app-paging-async>
               </div>
             </div>
             <div class="col-span-full md:col-span-7 py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -124,7 +124,7 @@
                           </tr>
                         </tbody>
                       </table>
-                      <paging-async [pageProperty]="'meting_page'" [sizeProperty]="'meting_size'" [pager]="pagerMeasurements"></paging-async>
+                      <app-paging-async [pageProperty]="'meting_page'" [sizeProperty]="'meting_size'" [pager]="pagerMeasurements"></app-paging-async>
                     </div>
                   </div>
                 </div>
@@ -137,4 +137,4 @@
       </div>
     </div>
   </div>
-</stacked-layout>
+</app-stacked-layout>

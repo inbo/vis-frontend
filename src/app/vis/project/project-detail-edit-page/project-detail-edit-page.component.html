@@ -1,10 +1,10 @@
-<stacked-layout [navigationLinks]="links">
+<app-stacked-layout [navigationLinks]="links">
   <div slot="content">
-    <breadcrumb [breadcrumbLinks]="breadcrumbLinks"></breadcrumb>
+    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <project-tabs></project-tabs>
+      <app-project-tabs></app-project-tabs>
 
       <div class="px-4 pt-8 pb-4 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
         <!-- This example requires Tailwind CSS v2.0+ -->
@@ -38,7 +38,7 @@
                 </div>
                 <div class="flex justify-between">
                   <p class="mt-2 text-sm text-gray-500">Beschrijf het project in een aantal zinnen</p>
-                  <text-counter [max]="2000" [text]="description.value"></text-counter>
+                  <app-text-counter [max]="2000" [text]="description.value"></app-text-counter>
                 </div>
                 <p *ngIf="submitted && description.errors" class="mt-2 text-sm text-red-600">Beschrijving mag max 2000 karakters lang zijn</p>
               </div>
@@ -48,7 +48,7 @@
                   Actief
                 </label>
                 <div class="mt-1">
-                  <toggle-with-icon formControlName="status"></toggle-with-icon>
+                  <app-toggle-with-icon formControlName="status"></app-toggle-with-icon>
                 </div>
               </div>
 
@@ -57,7 +57,7 @@
                   Periode
                 </label>
                 <div class="mt-1">
-                  <datepicker formControlName="period"></datepicker>
+                  <app-datepicker formControlName="period"></app-datepicker>
                   <p *ngIf="submitted && period.errors" class="mt-2 text-sm text-red-600">Periode is verplicht</p>
                 </div>
               </div>
@@ -80,4 +80,4 @@
       </form>
     </div>
   </div>
-</stacked-layout>
+</app-stacked-layout>

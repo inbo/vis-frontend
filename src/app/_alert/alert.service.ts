@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
+import {filter} from 'rxjs/operators';
 
-import { Alert, AlertType } from './alert.model';
+import {Alert, AlertType} from './alert.model';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class AlertService {
   private subject = new Subject<Alert>();
   private defaultId = 'default-alert';
@@ -14,23 +14,28 @@ export class AlertService {
   }
 
   success(title: string, message: string, autoClose: boolean = true) {
-    this.alert(new Alert({ autoClose, type: AlertType.Success, title, message }));
+    this.alert(new Alert({autoClose, type: AlertType.Success, title, message}));
   }
 
   error(title: string, message: string, autoClose: boolean = true) {
-    this.alert(new Alert({ autoClose, type: AlertType.Error, title, message }));
+    this.alert(new Alert({autoClose, type: AlertType.Error, title, message}));
   }
 
   unexpectedError(autoClose: boolean = true) {
-    this.alert(new Alert({ autoClose, type: AlertType.Error, title: 'Onverwachte fout', message: 'Neem contact op met een verantwoordelijke om dit probleem te melden.' }));
+    this.alert(new Alert({
+      autoClose,
+      type: AlertType.Error,
+      title: 'Onverwachte fout',
+      message: 'Neem contact op met een verantwoordelijke om dit probleem te melden.'
+    }));
   }
 
   info(title: string, message: string, autoClose: boolean = true) {
-    this.alert(new Alert({ autoClose, type: AlertType.Info, title, message }));
+    this.alert(new Alert({autoClose, type: AlertType.Info, title, message}));
   }
 
   warn(title: string, message: string, autoClose: boolean = true) {
-    this.alert(new Alert({ autoClose, type: AlertType.Warning, title, message }));
+    this.alert(new Alert({autoClose, type: AlertType.Warning, title, message}));
   }
 
   // main alert method

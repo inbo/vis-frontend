@@ -1,4 +1,4 @@
-import {NavigationLink} from "./shared-ui/layouts/NavigationLinks";
+import {NavigationLink} from './shared-ui/layouts/NavigationLinks';
 
 export class GlobalConstants {
   public static links: NavigationLink[] = [

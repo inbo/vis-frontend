@@ -4,9 +4,7 @@ import {AuthGuardWithForcedLogin} from "./core/auth-guard-with-forced-login.serv
 import {ReleaseNotesPageComponent} from './release-notes/release-notes-page/release-notes-page.component';
 import {RoleGuard} from "./core/role-guard.service";
 
-const routes: Routes = [
-
-];
+const routes: Routes = [];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,6 +1,6 @@
-<stacked-layout [navigationLinks]="links">
+<app-stacked-layout [navigationLinks]="links">
   <div slot="content">
-    <breadcrumb [breadcrumbLinks]="breadcrumbLinks"></breadcrumb>
+    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
     <main>
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
@@ -14,7 +14,7 @@
 
         </div>
 
-        <expandable-filter [formGroup]="filterForm" (searchClicked)="filter()" (resetClicked)="filter()" [showAdvancedFilter]="false">
+        <app-expandable-filter [formGroup]="filterForm" (searchClicked)="filter()" (resetClicked)="filter()" [showAdvancedFilter]="false">
           <ng-container slot="simple">
             <div class="self-center">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -35,7 +35,7 @@
               </div>
             </div>
           </ng-container>
-        </expandable-filter>
+        </app-expandable-filter>
 
 
         <div class="px-4 py-8 sm:px-0">
@@ -60,7 +60,7 @@
                     <tbody>
                     <tr>
                       <td *ngIf="loading" class="px-3 py-4" colspan="8">
-                        <loading-spinner></loading-spinner>
+                        <app-loading-spinner></app-loading-spinner>
                       </td>
                     </tr>
 
@@ -78,7 +78,7 @@
 
                     </tbody>
                   </table>
-                  <paging-async [pager]="pager"></paging-async>
+                  <app-paging-async [pager]="pager"></app-paging-async>
                 </div>
               </div>
             </div>
@@ -108,11 +108,11 @@
                 </div>
               </li>
             </ul>
-            <paging-async [pager]="pager"></paging-async>
+            <app-paging-async [pager]="pager"></app-paging-async>
           </div>
         </div>
       </div>
     </main>
   </div>
 
-</stacked-layout>
+</app-stacked-layout>

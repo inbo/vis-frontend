@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Pager } from './pager'
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Pager} from './pager';
 
 @Component({
-  selector: 'paging',
+  selector: 'app-paging',
   templateUrl: './paging.component.html'
 })
-export class PagingComponent implements OnInit {
+export class PagingComponent implements OnInit, OnChanges {
 
   @Input() items: Array<any>;
   @Output() changePage = new EventEmitter<any>(true);
@@ -34,18 +34,18 @@ export class PagingComponent implements OnInit {
     this.pager = this.paginate(this.items.length, page, this.pageSize, this.maxPages);
 
     // get new page of items from items array
-    var pageOfItems = this.items.slice(this.pager.startIndex, this.pager.endIndex + 1);
+    const pageOfItems = this.items.slice(this.pager.startIndex, this.pager.endIndex + 1);
 
     // call change page function in parent component
     this.changePage.emit(pageOfItems);
   }
 
   next() {
-    this.setPage(this.pager.currentPage + 1)
+    this.setPage(this.pager.currentPage + 1);
   }
 
   previous() {
-    this.setPage(this.pager.currentPage - 1)
+    this.setPage(this.pager.currentPage - 1);
   }
 
   paginate(
@@ -54,7 +54,7 @@ export class PagingComponent implements OnInit {
     pageSize: number = 10,
     maxPages: number = 10) {
     // calculate total pages
-    let totalPages = Math.ceil(totalItems / pageSize);
+    const totalPages = Math.ceil(totalItems / pageSize);
 
     // ensure current page isn't out of range
     if (currentPage < 1) {
@@ -63,15 +63,16 @@ export class PagingComponent implements OnInit {
       currentPage = totalPages;
     }
 
-    let startPage: number, endPage: number;
+    let startPage: number;
+    let endPage: number;
     if (totalPages <= maxPages) {
       // total pages less than max so show all pages
       startPage = 1;
       endPage = totalPages;
     } else {
       // total pages more than max so calculate start and end pages
-      let maxPagesBeforeCurrentPage = Math.floor(maxPages / 2);
-      let maxPagesAfterCurrentPage = Math.ceil(maxPages / 2) - 1;
+      const maxPagesBeforeCurrentPage = Math.floor(maxPages / 2);
+      const maxPagesAfterCurrentPage = Math.ceil(maxPages / 2) - 1;
       if (currentPage <= maxPagesBeforeCurrentPage) {
         // current page near the start
         startPage = 1;
@@ -88,23 +89,23 @@ export class PagingComponent implements OnInit {
     }
 
     // calculate start and end item indexes
-    let startIndex = (currentPage - 1) * pageSize;
-    let endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
 
     // create an array of pages to ng-repeat in the pager control
-    let pages = Array.from(Array((endPage + 1) - startPage).keys()).map(i => startPage + i);
+    const pages = Array.from(Array((endPage + 1) - startPage).keys()).map(i => startPage + i);
 
     // return object with all pager properties required by the view
     return {
-      totalItems: totalItems,
-      currentPage: currentPage,
-      pageSize: pageSize,
-      totalPages: totalPages,
-      startPage: startPage,
-      endPage: endPage,
-      startIndex: startIndex,
-      endIndex: endIndex,
-      pages: pages
+      totalItems,
+      currentPage,
+      pageSize,
+      totalPages,
+      startPage,
+      endPage,
+      startIndex,
+      endIndex,
+      pages
     };
   }
 

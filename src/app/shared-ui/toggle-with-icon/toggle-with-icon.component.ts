@@ -1,8 +1,8 @@
-import {Component, forwardRef, Input, OnInit, ViewChild} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {Component} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
-  selector: 'toggle-with-icon',
+  selector: 'app-toggle-with-icon',
   templateUrl: './toggle-with-icon.component.html',
   providers: [
     {
@@ -13,7 +13,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
   ]
 })
 export class ToggleWithIconComponent implements ControlValueAccessor {
-  on: boolean = false;
+  on = false;
 
   private onChange: Function;
   private onTouch: Function;
@@ -31,7 +31,7 @@ export class ToggleWithIconComponent implements ControlValueAccessor {
   }
 
   dateValueChanged(): void {
-    this.onChange(this.on)
+    this.onChange(this.on);
   }
 
   toggle() {

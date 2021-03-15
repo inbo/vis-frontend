@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {CanDeactivate} from '@angular/router';
-import {HasUnsavedData} from "./core.interface";
+import {HasUnsavedData} from './core.interface';
 
 @Injectable()
 export class HasUnsavedDataGuard implements CanDeactivate<any> {

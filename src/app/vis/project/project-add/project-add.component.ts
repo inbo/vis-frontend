@@ -1,13 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {VisService} from "../../../vis.service";
-import {Router} from "@angular/router";
-import {Observable, Subscription} from "rxjs";
-import {map} from "rxjs/operators";
-import {AlertService} from "../../../_alert";
+import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {VisService} from '../../../vis.service';
+import {Router} from '@angular/router';
+import {Observable, Subscription} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
-  selector: 'project-add',
+  selector: 'app-project-add',
   templateUrl: './project-add.component.html'
 })
 export class ProjectAddComponent implements OnInit, OnDestroy {
@@ -68,7 +67,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
   codeValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return this.visService.checkIfProjectExists(control.value)
-        .pipe(map(result => result.valid ? {"unique": true} : null));
+        .pipe(map(result => result.valid ? {unique: true} : null));
     };
   }
 

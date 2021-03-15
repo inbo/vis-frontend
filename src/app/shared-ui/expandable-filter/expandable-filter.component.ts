@@ -1,16 +1,16 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormGroup} from "@angular/forms";
+import {FormGroup} from '@angular/forms';
 
 @Component({
-  selector: 'expandable-filter',
+  selector: 'app-expandable-filter',
   templateUrl: './expandable-filter.component.html'
 })
 export class ExpandableFilterComponent implements OnInit, OnChanges {
-  advancedFilterIsVisible: boolean = false;
+  advancedFilterIsVisible = false;
 
   @Input() formGroup: FormGroup;
   @Input() showAdvancedFilterAtStartup: boolean;
-  @Input() showAdvancedFilter: boolean = true;
+  @Input() showAdvancedFilter = true;
   @Output() searchClicked = new EventEmitter<boolean>();
   @Output() resetClicked = new EventEmitter<boolean>();
 
@@ -19,7 +19,8 @@ export class ExpandableFilterComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.showAdvancedFilterAtStartup !== undefined && changes.showAdvancedFilterAtStartup.currentValue !== changes.showAdvancedFilterAtStartup.previousValue) {
+    if (changes.showAdvancedFilterAtStartup !== undefined &&
+      changes.showAdvancedFilterAtStartup.currentValue !== changes.showAdvancedFilterAtStartup.previousValue) {
       this.advancedFilterIsVisible = changes.showAdvancedFilterAtStartup.currentValue;
     }
   }
@@ -51,6 +52,6 @@ export class ExpandableFilterComponent implements OnInit, OnChanges {
   }
 
   filter() {
-      this.searchClicked.emit(true);
+    this.searchClicked.emit(true);
   }
 }

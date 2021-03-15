@@ -1,14 +1,15 @@
-import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'release-notes-tabs',
+  selector: 'app-release-notes-tabs',
   templateUrl: './release-notes-tabs.component.html'
 })
 export class ReleaseNotesTabsComponent implements OnInit {
 
   @Input() releases: string[];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

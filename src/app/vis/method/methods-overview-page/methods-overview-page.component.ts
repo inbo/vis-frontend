@@ -1,14 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NavigationLink} from "../../../shared-ui/layouts/NavigationLinks";
-import {GlobalConstants} from "../../../GlobalConstants";
-import {Title} from "@angular/platform-browser";
-import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
-import {AsyncPage} from "../../../shared-ui/paging-async/asyncPage";
-import {Method} from "../model/method";
-import {Observable, of, Subscription} from "rxjs";
-import { FormGroup, FormBuilder } from '@angular/forms';
-import {VisService} from "../../../vis.service";
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
+import {GlobalConstants} from '../../../GlobalConstants';
+import {Title} from '@angular/platform-browser';
+import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
+import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
+import {Method} from '../model/method';
+import {Observable, of, Subscription} from 'rxjs';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {VisService} from '../../../vis.service';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 
 @Component({
   selector: 'app-methods-overview-page',
@@ -19,9 +19,9 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
     {title: 'Methodes', url: '/methodes'},
-  ]
+  ];
 
-  loading: boolean = false;
+  loading = false;
   pager: AsyncPage<Method>;
   methods: Observable<Method[]>;
 
@@ -29,10 +29,11 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {
-    this.titleService.setTitle("Methodes")
+  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router,
+              private formBuilder: FormBuilder) {
+    this.titleService.setTitle('Methodes');
 
-    let queryParams = activatedRoute.snapshot.queryParams;
+    const queryParams = activatedRoute.snapshot.queryParams;
     this.filterForm = formBuilder.group(
       {
         code: [queryParams.code],
@@ -42,8 +43,8 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
-        this.filterForm.get('code').patchValue(params.code ? params.code : '')
-        this.filterForm.get('group').patchValue(params.group ? params.group : '')
+        this.filterForm.get('code').patchValue(params.code ? params.code : '');
+        this.filterForm.get('group').patchValue(params.group ? params.group : '');
       })
     );
   }
@@ -51,7 +52,7 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
-        this.getMethods(params.page ? params.page : 1, params.size ? params.size : 20)
+        this.getMethods(params.page ? params.page : 1, params.size ? params.size : 20);
       })
     );
   }
@@ -62,7 +63,7 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
 
   getMethods(page: number, size: number) {
     this.loading = true;
-    this.methods = of([])
+    this.methods = of([]);
     this.subscription.add(
       this.visService.getMethods(page, size, this.filterForm.getRawValue()).subscribe((value) => {
         this.pager = value;
@@ -73,18 +74,18 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
   }
 
   filter() {
-    let rawValue = this.filterForm.getRawValue();
+    const rawValue = this.filterForm.getRawValue();
     const queryParams: Params = {...rawValue, page: 1};
 
     this.router.navigate(
       [],
       {
         relativeTo: this.activatedRoute,
-        queryParams: queryParams,
+        queryParams,
         queryParamsHandling: 'merge'
-      });
+      }).then();
 
-    this.getMethods(1, 20)
+    this.getMethods(1, 20);
   }
 
 }

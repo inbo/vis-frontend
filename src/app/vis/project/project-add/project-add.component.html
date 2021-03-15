@@ -1,5 +1,5 @@
 <form [formGroup]="createProjectForm">
-  <slide-over (isOpenChange)="cancel()" [(isOpen)]="isOpen">
+  <app-slide-over (isOpenChange)="cancel()" [(isOpen)]="isOpen">
     <span slot="title">Nieuw project</span>
     <div slot="content">
       <div class="flex-1 flex flex-col justify-between">
@@ -35,7 +35,7 @@
               </div>
               <div class="flex justify-between">
                 <p class="mt-2 text-sm text-gray-500">Beschrijf het project in een aantal zinnen</p>
-                <text-counter [max]="2000" [text]="description.value"></text-counter>
+                <app-text-counter [max]="2000" [text]="description.value"></app-text-counter>
               </div>
               <p *ngIf="submitted && description.errors" class="mt-2 text-sm text-red-600">Beschrijving mag max 2000 karakters lang zijn</p>
             </div>
@@ -45,7 +45,7 @@
                 Periode
               </label>
               <div class="mt-1">
-                <datepicker formControlName="period"></datepicker>
+                <app-datepicker formControlName="period"></app-datepicker>
                 <p *ngIf="submitted && period.errors" class="mt-2 text-sm text-red-600">Periode is verplicht</p>
               </div>
             </div>
@@ -55,7 +55,7 @@
                 Actief
               </label>
               <div class="mt-1">
-                <toggle-with-icon formControlName="status"></toggle-with-icon>
+                <app-toggle-with-icon formControlName="status"></app-toggle-with-icon>
               </div>
             </div>
           </div>
@@ -76,5 +76,5 @@
         </span>
       </div>
     </div>
-  </slide-over>
+  </app-slide-over>
 </form>

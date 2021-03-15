@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NavigationLink} from "../../../shared-ui/layouts/NavigationLinks";
-import {GlobalConstants} from "../../../GlobalConstants";
-import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
-import {Title} from "@angular/platform-browser";
-import {VisService} from "../../../vis.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
+import {GlobalConstants} from '../../../GlobalConstants';
+import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
+import {Title} from '@angular/platform-browser';
+import {VisService} from '../../../vis.service';
+import {ActivatedRoute} from '@angular/router';
 import {Method} from '../../method/model/method';
-import {Subscription} from "rxjs";
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-project-methods-page',
@@ -19,17 +19,17 @@ export class ProjectMethodsPageComponent implements OnInit, OnDestroy {
     {title: 'Projecten', url: '/projecten'},
     {title: this.activatedRoute.snapshot.params.projectCode, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
     {title: 'Details', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode}
-  ]
+  ];
 
   showEditTaxa = false;
-  loading: boolean = false;
-  methods: String[];
+  loading = false;
+  methods: string[];
   allMethods: Method[];
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router) {
-    this.titleService.setTitle("Project " + this.activatedRoute.snapshot.params.projectCode)
+  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute) {
+    this.titleService.setTitle('Project ' + this.activatedRoute.snapshot.params.projectCode);
 
     this.subscription.add(
       this.visService.getProjectMethods(this.activatedRoute.snapshot.params.projectCode).subscribe(value => this.methods = value)
@@ -39,7 +39,7 @@ export class ProjectMethodsPageComponent implements OnInit, OnDestroy {
       this.visService.getAllMethods().subscribe(value => {
         this.allMethods = value;
       })
-    )
+    );
 
   }
 
@@ -66,6 +66,6 @@ export class ProjectMethodsPageComponent implements OnInit, OnDestroy {
     this.visService.updateProjectMethods(this.activatedRoute.snapshot.params.projectCode, this.methods).subscribe(value => {
       this.methods = value;
       this.showEditTaxa = false;
-    })
+    });
   }
 }

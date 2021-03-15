@@ -1,10 +1,10 @@
-<stacked-layout [navigationLinks]="links">
+<app-stacked-layout [navigationLinks]="links">
   <div slot="content">
-    <breadcrumb [breadcrumbLinks]="breadcrumbLinks"></breadcrumb>
+    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-      <project-tabs></project-tabs>
+      <app-project-tabs></app-project-tabs>
 
       <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
         <!-- This example requires Tailwind CSS v2.0+ -->
@@ -178,4 +178,4 @@
 <!--      </div>-->
     </div>
   </div>
-</stacked-layout>
+</app-stacked-layout>

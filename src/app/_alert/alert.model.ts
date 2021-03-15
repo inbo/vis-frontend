@@ -3,9 +3,9 @@ export class Alert {
   type: AlertType;
   title: string;
   message: string;
-  autoClose: boolean = true;
+  autoClose = true;
 
-  constructor(init?:Partial<Alert>) {
+  constructor(init?: Partial<Alert>) {
     Object.assign(this, init);
   }
 }

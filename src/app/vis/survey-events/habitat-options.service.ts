@@ -1,9 +1,21 @@
 import {Injectable} from '@angular/core';
-import {RadioOption} from "../../shared-ui/radio-group/radioOption";
-import {Agriculture, Bottleneck, Buildings, Loop, Meadow, Shelter, Shore, Slope, Soil, Trees, Vegetation, WaterLevel} from "./model/habitat";
-import {TranslateService} from "@ngx-translate/core";
-import {take} from "rxjs/operators";
-import {CheckOption} from "../../shared-ui/check-group/checkOption";
+import {RadioOption} from '../../shared-ui/radio-group/radioOption';
+import {
+  Agriculture,
+  Bottleneck,
+  Buildings,
+  Loop,
+  Meadow,
+  Shelter,
+  Shore,
+  Slope,
+  Soil,
+  Trees,
+  Vegetation,
+  WaterLevel
+} from './model/habitat';
+import {TranslateService} from '@ngx-translate/core';
+import {CheckOption} from '../../shared-ui/check-group/checkOption';
 
 @Injectable({
   providedIn: 'root'
@@ -22,24 +34,25 @@ export class HabitatOptionsService {
   private _bottlenecks: CheckOption[];
   private _vegetations: CheckOption[];
 
-  constructor(private translate: TranslateService) {
-    this._waterLevels = Object.keys(WaterLevel).filter(value => isNaN(Number(value))).map(value => this.createOption("waterLevel", value))
-    this._shelters = Object.keys(Shelter).filter(value => isNaN(Number(value))).map(value => this.createOption("shelter", value))
-    this._agriculture = Object.keys(Agriculture).filter(value => isNaN(Number(value))).map(value => this.createOption("agriculture", value))
-    this._buildings = Object.keys(Buildings).filter(value => isNaN(Number(value))).map(value => this.createOption("buildings", value))
-    this._loop = Object.keys(Loop).filter(value => isNaN(Number(value))).map(value => this.createOption("loop", value))
-    this._meadow = Object.keys(Meadow).filter(value => isNaN(Number(value))).map(value => this.createOption("meadow", value))
-    this._shore = Object.keys(Shore).filter(value => isNaN(Number(value))).map(value => this.createOption("shore", value))
-    this._slope = Object.keys(Slope).filter(value => isNaN(Number(value))).map(value => this.createOption("slope", value))
-    this._trees = Object.keys(Trees).filter(value => isNaN(Number(value))).map(value => this.createOption("trees", value))
-    this._soil = Object.keys(Soil).filter(value => isNaN(Number(value))).map(value => this.createOption("soil", value))
-    this._bottlenecks = Object.keys(Bottleneck).filter(value => isNaN(Number(value))).map(value => this.createOption("bottleneck", value))
-    this._vegetations = Object.keys(Vegetation).filter(value => isNaN(Number(value))).map(value => this.createOption("vegetation", value))
+  constructor() {
+    this._waterLevels = Object.keys(WaterLevel).filter(value => isNaN(Number(value))).map(value => this.createOption('waterLevel', value));
+    this._shelters = Object.keys(Shelter).filter(value => isNaN(Number(value))).map(value => this.createOption('shelter', value));
+    this._agriculture = Object.keys(Agriculture).filter(value => isNaN(Number(value))).map(value =>
+      this.createOption('agriculture', value));
+    this._buildings = Object.keys(Buildings).filter(value => isNaN(Number(value))).map(value => this.createOption('buildings', value));
+    this._loop = Object.keys(Loop).filter(value => isNaN(Number(value))).map(value => this.createOption('loop', value));
+    this._meadow = Object.keys(Meadow).filter(value => isNaN(Number(value))).map(value => this.createOption('meadow', value));
+    this._shore = Object.keys(Shore).filter(value => isNaN(Number(value))).map(value => this.createOption('shore', value));
+    this._slope = Object.keys(Slope).filter(value => isNaN(Number(value))).map(value => this.createOption('slope', value));
+    this._trees = Object.keys(Trees).filter(value => isNaN(Number(value))).map(value => this.createOption('trees', value));
+    this._soil = Object.keys(Soil).filter(value => isNaN(Number(value))).map(value => this.createOption('soil', value));
+    this._bottlenecks = Object.keys(Bottleneck).filter(value => isNaN(Number(value))).map(value => this.createOption('bottleneck', value));
+    this._vegetations = Object.keys(Vegetation).filter(value => isNaN(Number(value))).map(value => this.createOption('vegetation', value));
   }
 
   private createOption(x: string, value: string) {
-    let text = `surveyEvent.habitat.${x}.${value}`;
-    let newVar = {value: value, text: text};
+    const text = `surveyEvent.habitat.${x}.${value}`;
+    const newVar = {value, text};
     console.log(newVar);
     return newVar;
   }

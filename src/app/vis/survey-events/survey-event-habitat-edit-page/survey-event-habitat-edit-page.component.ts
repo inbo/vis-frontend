@@ -1,16 +1,16 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {NavigationLink} from "../../../shared-ui/layouts/NavigationLinks";
-import {GlobalConstants} from "../../../GlobalConstants";
-import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
-import {Title} from "@angular/platform-browser";
-import {VisService} from "../../../vis.service";
-import {ActivatedRoute} from "@angular/router";
-import {Subscription} from "rxjs";
-import {Habitat} from "../model/habitat";
-import {FormBuilder, FormGroup, ValidatorFn} from "@angular/forms";
-import {HabitatOptionsService} from "../habitat-options.service";
-import {HasUnsavedData} from "../../../core/core.interface";
-import {AlertService} from "../../../_alert";
+import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
+import {GlobalConstants} from '../../../GlobalConstants';
+import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
+import {Title} from '@angular/platform-browser';
+import {VisService} from '../../../vis.service';
+import {ActivatedRoute} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {Habitat} from '../model/habitat';
+import {FormBuilder, FormGroup, ValidatorFn} from '@angular/forms';
+import {HabitatOptionsService} from '../habitat-options.service';
+import {HasUnsavedData} from '../../../core/core.interface';
+import {AlertService} from '../../../_alert';
 
 @Component({
   selector: 'app-survey-event-habitat-edit-page',
@@ -23,9 +23,17 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     {title: 'Projecten', url: '/projecten'},
     {title: this.activatedRoute.snapshot.params.projectCode, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
     {title: 'Waarnemingen', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen'},
-    {title: this.activatedRoute.snapshot.params.surveyEventId, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/' + this.activatedRoute.snapshot.params.surveyEventId},
-    {title: 'Habitat', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/' + this.activatedRoute.snapshot.params.surveyEventId + '/habitat'}
-  ]
+    {
+      title: this.activatedRoute.snapshot.params.surveyEventId,
+      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
+        + this.activatedRoute.snapshot.params.surveyEventId
+    },
+    {
+      title: 'Habitat',
+      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
+        + this.activatedRoute.snapshot.params.surveyEventId + '/habitat'
+    }
+  ];
 
   surveyEventId: any;
   private projectSubscription$: Subscription;
@@ -42,7 +50,8 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     radix: ',',
   };
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService, private alertService: AlertService) {
+  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute,
+              private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService, private alertService: AlertService) {
     this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
     this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.snapshot.params.surveyEventId);
 
@@ -70,25 +79,26 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         validator: this.depthValidator
       });
 
-    this.projectSubscription$ = this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
-      this.habitatSubscription$ = this.visService.getHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId).subscribe(value1 => {
-        this.habitat = value1;
-        this.habitatForm.get('minDepth').patchValue(value1.minDepth === null ? '' : value1.minDepth.toString());
-        this.habitatForm.get('maxDepth').patchValue(value1.maxDepth === null ? '' : value1.maxDepth.toString());
-        this.habitatForm.get('waterLevel').patchValue(value1.waterLevel);
-        this.habitatForm.get('shelters').patchValue(value1.shelters);
-        this.habitatForm.get('shore').patchValue(value1.shore);
-        this.habitatForm.get('slope').patchValue(value1.slope);
-        this.habitatForm.get('agriculture').patchValue(value1.agriculture);
-        this.habitatForm.get('meadow').patchValue(value1.meadow);
-        this.habitatForm.get('trees').patchValue(value1.trees);
-        this.habitatForm.get('buildings').patchValue(value1.buildings);
-        this.habitatForm.get('industry').patchValue(value1.industry);
-        this.habitatForm.get('loop').patchValue(value1.loop);
-        this.habitatForm.get('soils').patchValue(value1.soils);
-        this.habitatForm.get('bottlenecks').patchValue(value1.bottlenecks);
-        this.habitatForm.get('vegetations').patchValue(value1.vegetations);
-      });
+    this.projectSubscription$ = this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(() => {
+      this.habitatSubscription$ = this.visService.getHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId)
+        .subscribe(value1 => {
+          this.habitat = value1;
+          this.habitatForm.get('minDepth').patchValue(value1.minDepth === null ? '' : value1.minDepth.toString());
+          this.habitatForm.get('maxDepth').patchValue(value1.maxDepth === null ? '' : value1.maxDepth.toString());
+          this.habitatForm.get('waterLevel').patchValue(value1.waterLevel);
+          this.habitatForm.get('shelters').patchValue(value1.shelters);
+          this.habitatForm.get('shore').patchValue(value1.shore);
+          this.habitatForm.get('slope').patchValue(value1.slope);
+          this.habitatForm.get('agriculture').patchValue(value1.agriculture);
+          this.habitatForm.get('meadow').patchValue(value1.meadow);
+          this.habitatForm.get('trees').patchValue(value1.trees);
+          this.habitatForm.get('buildings').patchValue(value1.buildings);
+          this.habitatForm.get('industry').patchValue(value1.industry);
+          this.habitatForm.get('loop').patchValue(value1.loop);
+          this.habitatForm.get('soils').patchValue(value1.soils);
+          this.habitatForm.get('bottlenecks').patchValue(value1.bottlenecks);
+          this.habitatForm.get('vegetations').patchValue(value1.vegetations);
+        });
     });
   }
 
@@ -102,7 +112,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
 
     this.visService.updateHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId, formData).subscribe(
       (response) => {
-        this.alertService.success("Succesvol bewaard", "");
+        this.alertService.success('Succesvol bewaard', '');
         this.habitat = response;
         this.habitatForm.get('maxDepth').patchValue(response.minDepth === null ? '' : response.minDepth.toString());
         this.habitatForm.get('maxDepth').patchValue(response.maxDepth === null ? '' : response.maxDepth.toString());
@@ -119,7 +129,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         this.habitatForm.get('soils').patchValue(response.soils);
         this.habitatForm.get('bottlenecks').patchValue(response.bottlenecks);
         this.habitatForm.get('vegetations').patchValue(response.vegetations);
-        this.habitatForm.reset(this.habitatForm.value)
+        this.habitatForm.reset(this.habitatForm.value);
       }
     );
   }
@@ -142,7 +152,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     this.habitatForm.get('vegetations').patchValue(this.habitat.vegetations);
     this.habitatForm.get('minDepth').patchValue(this.habitat.minDepth === null ? '' : this.habitat.minDepth.toString());
     this.habitatForm.get('maxDepth').patchValue(this.habitat.maxDepth === null ? '' : this.habitat.maxDepth.toString());
-    this.habitatForm.reset(this.habitatForm.value)
+    this.habitatForm.reset(this.habitatForm.value);
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -153,7 +163,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
   }
 
   hasUnsavedData(): boolean {
-    return this.habitatForm.dirty
+    return this.habitatForm.dirty;
   }
 
   ngOnDestroy(): void {
@@ -222,20 +232,20 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
   }
 
   depthValidator(form: FormGroup): ValidatorFn {
-    const minDepth = form.controls['minDepth'].value;
-    const maxDepth = form.controls['maxDepth'].value;
+    const minDepth = form.controls.minDepth.value;
+    const maxDepth = form.controls.maxDepth.value;
 
     if (!isNaN(minDepth) && !isNaN(maxDepth) && minDepth !== '' && maxDepth !== '') {
       if (maxDepth < minDepth) {
-        form.controls['minDepth'].setErrors({depth: true});
-        form.controls['maxDepth'].setErrors({depth: true});
+        form.controls.minDepth.setErrors({depth: true});
+        form.controls.maxDepth.setErrors({depth: true});
         // @ts-ignore
         return {depth: true};
       }
     }
 
-    form.controls['minDepth'].setErrors(null);
-    form.controls['maxDepth'].setErrors(null);
+    form.controls.minDepth.setErrors(null);
+    form.controls.maxDepth.setErrors(null);
 
     // @ts-ignore
     return null;

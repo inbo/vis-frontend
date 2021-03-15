@@ -4,17 +4,17 @@ import {GlobalConstants} from '../../GlobalConstants';
 import {BreadcrumbLink} from '../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {VisService} from '../../vis.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from "rxjs";
+import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'release-notes-page',
+  selector: 'app-release-notes-page',
   templateUrl: './release-notes-page.component.html'
 })
 export class ReleaseNotesPageComponent implements OnInit, OnDestroy {
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
     {title: 'Release notes', url: '/releases'}
-  ]
+  ];
   releaseAsHtml: string;
   releases: string[];
   private currentRelease: string;
@@ -24,8 +24,8 @@ export class ReleaseNotesPageComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.activatedRoute.params.subscribe(res => {
         if (!res.release || res.release !== this.currentRelease) {
-          this.loadReleases()
-          this.currentRelease = res.release
+          this.loadReleases();
+          this.currentRelease = res.release;
         }
       })
     );
@@ -44,16 +44,16 @@ export class ReleaseNotesPageComponent implements OnInit, OnDestroy {
     if (!release) {
       this.subscription.add(
         this.visService.getLatestRelease().subscribe(value => {
-          this.router.navigate(['/releases/' + value]);
+          this.router.navigate(['/releases/' + value]).then();
         })
-      )
+      );
     } else {
       this.subscription.add(
         this.visService.getReleases(release).subscribe(value => {
           this.releaseAsHtml = value.releaseAsHtml;
           this.releases = value.releaseVersions.reverse();
         })
-      )
+      );
     }
   }
 

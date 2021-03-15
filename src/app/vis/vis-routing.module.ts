@@ -47,15 +47,53 @@ const routes: Routes = [
   {path: 'projecten/:projectCode/methoden', component: ProjectMethodsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/vissoorten', component: ProjectFishSpeciesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/afbeeldingen', component: ProjectPicturesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId', component: SurveyEventDetailPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/bijzonderheden', component: SurveyEventParticularitiesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/parameters', component: SurveyEventParametersPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/parameters/bewerk', component: SurveyEventParametersEditPageComponent, canActivate: [AuthGuardWithForcedLogin], canDeactivate: [HasUnsavedDataGuard]},
-  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/methode', component: SurveyEventMethodPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/habitat', component: SurveyEventHabitatPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/habitat/bewerk', component: SurveyEventHabitatEditPageComponent, canActivate: [AuthGuardWithForcedLogin], canDeactivate: [HasUnsavedDataGuard]},
-  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/traject', component: SurveyEventTrajectPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/waarnemingen/:surveyEventId/metingen', component: SurveyEventMeasurementsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {
+    path: 'projecten/:projectCode/waarnemingen/:surveyEventId',
+    component: SurveyEventDetailPageComponent,
+    canActivate: [AuthGuardWithForcedLogin]
+  },
+  {
+    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/bijzonderheden',
+    component: SurveyEventParticularitiesPageComponent,
+    canActivate: [AuthGuardWithForcedLogin]
+  },
+  {
+    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/parameters',
+    component: SurveyEventParametersPageComponent,
+    canActivate: [AuthGuardWithForcedLogin]
+  },
+  {
+    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/parameters/bewerk',
+    component: SurveyEventParametersEditPageComponent,
+    canActivate: [AuthGuardWithForcedLogin],
+    canDeactivate: [HasUnsavedDataGuard]
+  },
+  {
+    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/methode',
+    component: SurveyEventMethodPageComponent,
+    canActivate: [AuthGuardWithForcedLogin]
+  },
+  {
+    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/habitat',
+    component: SurveyEventHabitatPageComponent,
+    canActivate: [AuthGuardWithForcedLogin]
+  },
+  {
+    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/habitat/bewerk',
+    component: SurveyEventHabitatEditPageComponent,
+    canActivate: [AuthGuardWithForcedLogin],
+    canDeactivate: [HasUnsavedDataGuard]
+  },
+  {
+    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/traject',
+    component: SurveyEventTrajectPageComponent,
+    canActivate: [AuthGuardWithForcedLogin]
+  },
+  {
+    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/metingen',
+    component: SurveyEventMeasurementsPageComponent,
+    canActivate: [AuthGuardWithForcedLogin]
+  },
   {path: 'locaties', component: LocationOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'vissoorten', component: FishSpeciesOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'vissoorten/:taxonId', component: FishSpeciesDetailPageComponent, canActivate: [AuthGuardWithForcedLogin]},

@@ -78,13 +78,13 @@ export class AuthService implements OnDestroy {
     this.subscription.add(
       this.oauthService.events
         .pipe(filter(e => ['token_received'].includes(e.type)))
-        .subscribe(e => this.oauthService.loadUserProfile())
+        .subscribe(() => this.oauthService.loadUserProfile())
     );
 
     this.subscription.add(
       this.oauthService.events
         .pipe(filter(e => ['session_terminated', 'session_error'].includes(e.type)))
-        .subscribe(e => this.navigateToLoginPage())
+        .subscribe(() => this.navigateToLoginPage())
     );
 
     this.oauthService.setupAutomaticSilentRefresh();
@@ -180,22 +180,22 @@ export class AuthService implements OnDestroy {
   }
 
   public get fullName() {
-    let identityClaims = this.oauthService.getIdentityClaims();
-    return identityClaims == null ? '' : identityClaims['given_name'] + " " + identityClaims['family_name'];
+    const identityClaims = this.oauthService.getIdentityClaims();
+    return identityClaims == null ? '' : `${identityClaims['given_name']} ${identityClaims['family_name']}`;
   }
 
   public get username() {
-    let identityClaims = this.oauthService.getIdentityClaims();
-    return identityClaims == null ? '' : identityClaims['preferred_username']
+    const identityClaims = this.oauthService.getIdentityClaims();
+    return identityClaims == null ? '' : identityClaims['preferred_username'];
   }
 
   public get picture() {
-    let identityClaims = this.oauthService.getIdentityClaims();
+    const identityClaims = this.oauthService.getIdentityClaims();
     return identityClaims == null ? '' : identityClaims['picture'];
   }
 
   public get email() {
-    let identityClaims = this.oauthService.getIdentityClaims();
+    const identityClaims = this.oauthService.getIdentityClaims();
     return identityClaims == null ? '' : identityClaims['email'];
   }
 

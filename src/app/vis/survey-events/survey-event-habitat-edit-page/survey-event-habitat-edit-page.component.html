@@ -1,10 +1,10 @@
-<stacked-layout [navigationLinks]="links">
+<app-stacked-layout [navigationLinks]="links">
   <div slot="content">
-    <breadcrumb [breadcrumbLinks]="breadcrumbLinks"></breadcrumb>
+    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-      <survey-event-tabs></survey-event-tabs>
+      <app-survey-event-tabs></app-survey-event-tabs>
 
       <div class="px-4 py-8 sm:px-0">
 
@@ -35,14 +35,14 @@
             <div class="sm:col-span-6">
               <label class="block text-sm font-medium text-gray-700">Waterpeil</label>
               <div class="mt-1">
-                <radio-group name="waterLevel" [options]="habitatOptions.waterLevels" formControlName="waterLevel"></radio-group>
+                <app-radio-group name="waterLevel" [options]="habitatOptions.waterLevels" formControlName="waterLevel"></app-radio-group>
               </div>
             </div>
 
             <div class="sm:col-span-6">
               <label class="block text-sm font-medium text-gray-700">Schuilplaatsen</label>
               <div class="mt-1">
-                <radio-group name="shelters" [options]="habitatOptions.shelters" formControlName="shelters"></radio-group>
+                <app-radio-group name="shelters" [options]="habitatOptions.shelters" formControlName="shelters"></app-radio-group>
               </div>
             </div>
 
@@ -50,70 +50,70 @@
             <div class="sm:col-span-6">
               <label class="block text-sm font-medium text-gray-700">Oever</label>
               <div class="mt-1">
-                <radio-group name="shore" [options]="habitatOptions.shore" formControlName="shore"></radio-group>
+                <app-radio-group name="shore" [options]="habitatOptions.shore" formControlName="shore"></app-radio-group>
               </div>
             </div>
 
             <div class="sm:col-span-6">
               <label class="block text-sm font-medium text-gray-700">Talud helling</label>
               <div class="mt-1">
-                <radio-group name="slope" [options]="habitatOptions.slope" formControlName="slope"></radio-group>
+                <app-radio-group name="slope" [options]="habitatOptions.slope" formControlName="slope"></app-radio-group>
               </div>
             </div>
 
             <div class="sm:col-span-6">
               <label class="block text-sm font-medium text-gray-700">Landbouw (velden) in omgeving traject tot 50m van oever:</label>
               <div class="mt-1">
-                <radio-group name="agriculture" [options]="habitatOptions.agriculture" formControlName="agriculture"></radio-group>
+                <app-radio-group name="agriculture" [options]="habitatOptions.agriculture" formControlName="agriculture"></app-radio-group>
               </div>
             </div>
 
             <div class="sm:col-span-6">
               <label class="block text-sm font-medium text-gray-700">Weide in omgeving traject (voor dieren) tot 50 m van oever</label>
               <div class="mt-1">
-                <radio-group name="meadow" [options]="habitatOptions.meadow" formControlName="meadow"></radio-group>
+                <app-radio-group name="meadow" [options]="habitatOptions.meadow" formControlName="meadow"></app-radio-group>
               </div>
             </div>
 
             <div class="sm:col-span-6">
               <label class="block text-sm font-medium text-gray-700">Bomen in omgeving traject tot 20 m van oever</label>
               <div class="mt-1">
-                <radio-group name="trees" [options]="habitatOptions.trees" formControlName="trees"></radio-group>
+                <app-radio-group name="trees" [options]="habitatOptions.trees" formControlName="trees"></app-radio-group>
               </div>
             </div>
 
             <div class="sm:col-span-6">
               <label class="block text-sm font-medium text-gray-700">Bebouwing in omgeving traject tot 50 m van oever </label>
               <div class="mt-1">
-                <radio-group name="buildings" [options]="habitatOptions.buildings" formControlName="buildings"></radio-group>
+                <app-radio-group name="buildings" [options]="habitatOptions.buildings" formControlName="buildings"></app-radio-group>
               </div>
             </div>
 
             <div class="sm:col-span-6">
               <label class="block text-sm font-medium text-gray-700">Loop</label>
               <div class="mt-1">
-                <radio-group name="loop" [options]="habitatOptions.loop" formControlName="loop"></radio-group>
+                <app-radio-group name="loop" [options]="habitatOptions.loop" formControlName="loop"></app-radio-group>
               </div>
             </div>
 
             <div class="sm:col-span-6">
               <label class="block text-sm font-medium text-gray-700">Bodem</label>
               <div class="mt-1">
-                <check-group name="soils" [options]="habitatOptions.soil" formControlName="soils"></check-group>
+                <app-check-group name="soils" [options]="habitatOptions.soil" formControlName="soils"></app-check-group>
               </div>
             </div>
 
             <div class="sm:col-span-6">
               <label class="block text-sm font-medium text-gray-700">Knelpunt in omgeving van het traject</label>
               <div class="mt-1">
-                <check-group name="bottlenecks" [options]="habitatOptions.bottlenecks" formControlName="bottlenecks"></check-group>
+                <app-check-group name="bottlenecks" [options]="habitatOptions.bottlenecks" formControlName="bottlenecks"></app-check-group>
               </div>
             </div>
 
             <div class="sm:col-span-6">
               <label class="block text-sm font-medium text-gray-700">Vegetatie</label>
               <div class="mt-1">
-                <check-group name="vegetations" [options]="habitatOptions.vegetations" formControlName="vegetations"></check-group>
+                <app-check-group name="vegetations" [options]="habitatOptions.vegetations" formControlName="vegetations"></app-check-group>
               </div>
             </div>
 
@@ -133,4 +133,4 @@
       </div>
     </div>
   </div>
-</stacked-layout>
+</app-stacked-layout>
