@@ -181,22 +181,26 @@ export class AuthService implements OnDestroy {
 
   public get fullName() {
     const identityClaims = this.oauthService.getIdentityClaims();
-    return identityClaims == null ? '' : `${identityClaims['given_name']} ${identityClaims['family_name']}`;
+    // @ts-ignore
+    return identityClaims == null ? '' : `${identityClaims.given_name} ${identityClaims.family_name}`;
   }
 
   public get username() {
     const identityClaims = this.oauthService.getIdentityClaims();
-    return identityClaims == null ? '' : identityClaims['preferred_username'];
+    // @ts-ignore
+    return identityClaims == null ? '' : identityClaims.preferred_username;
   }
 
   public get picture() {
     const identityClaims = this.oauthService.getIdentityClaims();
-    return identityClaims == null ? '' : identityClaims['picture'];
+    // @ts-ignore
+    return identityClaims == null ? '' : identityClaims.picture;
   }
 
   public get email() {
     const identityClaims = this.oauthService.getIdentityClaims();
-    return identityClaims == null ? '' : identityClaims['email'];
+    // @ts-ignore
+    return identityClaims == null ? '' : identityClaims.email;
   }
 
   public get clientRoles(): Role[] {
@@ -204,7 +208,8 @@ export class AuthService implements OnDestroy {
 
     const currentRoles: Role[] = [];
 
-    const roles: string[] = identityClaims == null ? [] : identityClaims['client_roles']
+    // @ts-ignore
+    const roles: string[] = identityClaims == null ? [] : identityClaims.client_roles
       .map(role => role.replace('ROLE_', ''));
 
     roles.forEach(value => {
