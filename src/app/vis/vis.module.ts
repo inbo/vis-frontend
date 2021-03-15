@@ -35,6 +35,7 @@ import {SharedUiModule} from '../shared-ui/shared-ui.module';
 import {IMaskModule} from 'angular-imask';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
+import {RoleEnabledButtonComponent} from './components/role-enabled-button/role-enabled-button.component';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import {TranslateModule} from '@ngx-translate/core';
     SurveyEventMeasurementsPageComponent,
     SurveyEventHabitatEditPageComponent,
     FishSpeciesDetailPageComponent,
-    SurveyEventParametersEditPageComponent
+    SurveyEventParametersEditPageComponent,
+    RoleEnabledButtonComponent
   ],
   imports: [
     CommonModule,
