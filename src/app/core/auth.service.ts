@@ -4,6 +4,7 @@ import {OAuthErrorEvent, OAuthService} from 'angular-oauth2-oidc';
 import {BehaviorSubject, combineLatest, Observable, ReplaySubject, Subscription} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
+import {Role} from "./_models/role";
 
 @Injectable({providedIn: 'root'})
 export class AuthService implements OnDestroy {
@@ -198,12 +199,21 @@ export class AuthService implements OnDestroy {
     return identityClaims == null ? '' : identityClaims['email'];
   }
 
-  public get clientRoles() {
+  public get clientRoles(): Role[] {
     let identityClaims = this.oauthService.getIdentityClaims();
-    let roles = identityClaims == null ? [] : identityClaims['client_roles'].map(role => {
-      return role.replace('ROLE_', '')
+
+    let currentRoles: Role[] = [];
+
+    let roles: string[] = identityClaims == null ? [] : identityClaims['client_roles']
+      .map(role => role.replace('ROLE_', ''));
+
+    roles.forEach(value => {
+      switch (value) {
+        case 'BEWERK_PROJECT': currentRoles.push(Role.EditProject)
+      }
     });
-    return roles;
+
+    return currentRoles;
   }
 
 }

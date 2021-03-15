@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {DashboardPageComponent} from "./dashboard-page/dashboard-page.component";
 import {AuthGuardWithForcedLogin} from "../core/auth-guard-with-forced-login.service";
 import {ProjectsOverviewPageComponent} from "./project/projects-overview-page/projects-overview-page.component";
@@ -27,12 +27,20 @@ import {FishSpeciesDetailPageComponent} from "./fish-specie/fish-species-detail-
 import {MethodsOverviewPageComponent} from "./method/methods-overview-page/methods-overview-page.component";
 import {FishIndexPageComponent} from "./fish-index-page/fish-index-page.component";
 import {ProfilePageComponent} from "./profile-page/profile-page.component";
+import {RoleGuard} from "../core/role-guard.service";
+import {Role} from "../core/_models/role";
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten', component: ProjectsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode', component: ProjectDetailPageComponent, canActivate: [AuthGuardWithForcedLogin], pathMatch: 'full'},
-  {path: 'projecten/:projectCode/bewerk', component: ProjectDetailEditPageComponent, canActivate: [AuthGuardWithForcedLogin], canDeactivate: [HasUnsavedDataGuard]},
+  {
+    path: 'projecten/:projectCode/bewerk',
+    component: ProjectDetailEditPageComponent,
+    canActivate: [AuthGuardWithForcedLogin, RoleGuard],
+    canDeactivate: [HasUnsavedDataGuard],
+    data: { roles: [Role.EditProject] }
+  },
   {path: 'projecten/:projectCode/waarnemingen', component: ProjectSurveyEventsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/locaties', component: ProjectLocationsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/habitat', component: ProjectHabitatPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -60,4 +68,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class VisRoutingModule { }
+export class VisRoutingModule {
+}
