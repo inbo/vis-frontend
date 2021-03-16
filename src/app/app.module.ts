@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {NgTransitionModule} from 'ng-transition';
@@ -18,6 +18,7 @@ import {ReleaseNotesModule} from './release-notes/release-notes.module';
 import {environment} from '../environments/environment';
 import {MultiTranslateHttpLoader} from './core/multi-http-loader';
 import {ErrorsModule} from './errors/errors.module';
+import {HttpErrorInterceptor} from './core/http.error.interceptor';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,12 @@ import {ErrorsModule} from './errors/errors.module';
     {
       provide: MissingTranslationHandler,
       useClass: MyMissingTranslationHandler
-    }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent]
 })

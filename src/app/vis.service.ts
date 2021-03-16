@@ -6,7 +6,6 @@ import {AsyncPage} from './shared-ui/paging-async/asyncPage';
 import {Observable} from 'rxjs';
 import {Releases} from './release-notes/model/releases';
 import {AlertService} from './_alert';
-import {catchError} from 'rxjs/operators';
 import {Measurement} from './vis/project/model/measurement';
 import {SurveyEvent, SurveyEventId} from './vis/project/model/surveyEvent';
 import {Parameters} from './vis/project/model/parameters';
@@ -49,81 +48,43 @@ export class VisService {
   getProjects(page: number, size: number, filter: any) {
     const params = this.getPageParams(page, size, filter);
 
-    return this.http.get<AsyncPage<Project>>(environment.apiUrl + '/api/projects', {params})
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.get<AsyncPage<Project>>(environment.apiUrl + '/api/projects', {params});
   }
 
   getProject(projectCode: string): Observable<Project> {
-    return this.http.get<Project>(`${environment.apiUrl}/api/projects/${projectCode}`)
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.get<Project>(`${environment.apiUrl}/api/projects/${projectCode}`);
   }
 
   updateProject(code: string, formData: any) {
-    return this.http.put(environment.apiUrl + '/api/projects/' + code, formData)
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.put(environment.apiUrl + '/api/projects/' + code, formData);
   }
 
   createProject(formData: any) {
-    return this.http.post(environment.apiUrl + '/api/projects/create', formData)
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.post(environment.apiUrl + '/api/projects/create', formData);
   }
 
   checkIfProjectExists(projectCode: any): Observable<any> {
-    return this.http.get<any>(environment.apiUrl + '/api/validation/project/code/' + projectCode)
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.get<any>(environment.apiUrl + '/api/validation/project/code/' + projectCode);
   }
 
   getCurrentRelease() {
-    return this.http.get<string>(environment.apiUrl + '/api/releases/current')
-      .pipe(catchError(() => {
-        return [];
-      }));
+    return this.http.get<string>(environment.apiUrl + '/api/releases/current');
   }
 
   getLatestRelease() {
-    return this.http.get<string>(environment.apiUrl + '/api/releases/latest')
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.get<string>(environment.apiUrl + '/api/releases/latest');
   }
 
   hasUserReadLatestReleaseNotes() {
-    return this.http.get<boolean>(environment.apiUrl + '/api/releases/read')
-      .pipe(catchError(() => {
-        return [];
-      }));
+    return this.http.get<boolean>(environment.apiUrl + '/api/releases/read');
   }
 
   userReadLatestReleaseNotes() {
-    return this.http.post<void>(environment.apiUrl + '/api/releases/read', {})
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.post<void>(environment.apiUrl + '/api/releases/read', {});
   }
 
   getReleases(release: any) {
-    return this.http.get<Releases>(environment.apiUrl + '/api/releases/' + release)
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.get<Releases>(environment.apiUrl + '/api/releases/' + release);
   }
 
   exportProjects(filter: any) {
@@ -137,10 +98,6 @@ export class VisService {
 
     // TODO subscribed is not closed
     this.http.get(`${environment.apiUrl}/api/projects/export`, {params, observe: 'response', responseType: 'blob'})
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }))
       .subscribe(res => {
         this.downloadFile(res);
       });
@@ -150,10 +107,6 @@ export class VisService {
   exportProject(code: string) {
     // TODO subscribed is not closed
     this.http.get(`${environment.apiUrl}/api/projects/${code}/export`, {observe: 'response', responseType: 'blob'})
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }))
       .subscribe(res => {
         this.downloadFile(res);
       });
@@ -162,11 +115,7 @@ export class VisService {
   getMethods(page: number, size: number, filter: any) {
     const params = this.getPageParams(page, size, filter);
 
-    return this.http.get<AsyncPage<Method>>(environment.apiUrl + '/api/methods', {params})
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.get<AsyncPage<Method>>(environment.apiUrl + '/api/methods', {params});
 
   }
 
@@ -177,103 +126,54 @@ export class VisService {
   getSurveyEvents(projectCode: string, page: number, size: number) {
     const params = this.getPageParams(page, size, null);
 
-    return this.http.get<AsyncPage<SurveyEvent>>(environment.apiUrl + '/api/project/' + projectCode + '/surveyevents', {params})
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.get<AsyncPage<SurveyEvent>>(environment.apiUrl + '/api/project/' + projectCode + '/surveyevents', {params});
   }
 
   getMeasurements(projectCode: string, surveyEventId: any, page: number, size: number) {
     const params = this.getPageParams(page, size, null);
 
-    return this.http.get<AsyncPage<Measurement>>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`, {params})
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.get<AsyncPage<Measurement>>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`, {params});
   }
 
   getProjectMethods(projectCode: any) {
-    return this.http.get<string[]>(`${environment.apiUrl}/api/projects/${projectCode}/methods`)
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.get<string[]>(`${environment.apiUrl}/api/projects/${projectCode}/methods`);
   }
 
   getAllMethods() {
-    return this.http.get<Method[]>(environment.apiUrl + '/api/methods/all')
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.get<Method[]>(environment.apiUrl + '/api/methods/all');
   }
 
   updateProjectMethods(projectCode: string, methods: string[]) {
-    return this.http.post(`${environment.apiUrl}/api/projects/${projectCode}/methods`, methods)
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.post(`${environment.apiUrl}/api/projects/${projectCode}/methods`, methods);
   }
 
   getParameters(projectCode: string, surveyEventId: SurveyEventId) {
-    return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`)
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`);
   }
 
   getTaxa(page: number, size: number, filter: any) {
     const params = this.getPageParams(page, size, filter);
 
-    return this.http.get<AsyncPage<Taxon>>(`${environment.apiUrl}/api/taxon`, {params})
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.get<AsyncPage<Taxon>>(`${environment.apiUrl}/api/taxon`, {params});
   }
 
   getTaxon(id: number): Observable<TaxonDetail> {
-    return this.http.get<TaxonDetail>(`${environment.apiUrl}/api/taxon/${id}`)
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.get<TaxonDetail>(`${environment.apiUrl}/api/taxon/${id}`);
   }
 
   getTaxonGroups() {
-    return this.http.get<AsyncPage<TaxonGroup>>(`${environment.apiUrl}/api/taxon/groups`)
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.get<AsyncPage<TaxonGroup>>(`${environment.apiUrl}/api/taxon/groups`);
   }
 
   getHabitat(projectCode: string, surveyEventId: SurveyEventId) {
-    return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`)
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`);
   }
 
   updateHabitat(projectCode: string, surveyEventId: any, formData: any) {
-    return this.http.put(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`, formData)
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.put(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`, formData);
   }
 
   updateParameters(projectCode: string, surveyEventId: any, formData: any) {
-    return this.http.put(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`, formData)
-      .pipe(catchError(() => {
-        this.alertService.unexpectedError();
-        return [];
-      }));
+    return this.http.put(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`, formData);
   }
-
 }
