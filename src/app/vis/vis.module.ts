@@ -12,7 +12,6 @@ import {ProfilePageComponent} from './profile-page/profile-page.component';
 import {ProjectDetailPageComponent} from './project/project-detail-page/project-detail-page.component';
 import {ProjectSurveyEventsPageComponent} from './project/project-survey-events-page/project-survey-events-page.component';
 import {ProjectLocationsPageComponent} from './project/project-locations-page/project-locations-page.component';
-import {ProjectHabitatPageComponent} from './project/project-habitat-page/project-habitat-page.component';
 import {ProjectMethodsPageComponent} from './project/project-methods-page/project-methods-page.component';
 import {ProjectFishSpeciesPageComponent} from './project/project-fish-species-page/project-fish-species-page.component';
 import {ProjectPicturesPageComponent} from './project/project-pictures-page/project-pictures-page.component';
@@ -50,7 +49,6 @@ import {RoleEnabledButtonComponent} from './components/role-enabled-button/role-
     ProjectDetailPageComponent,
     ProjectSurveyEventsPageComponent,
     ProjectLocationsPageComponent,
-    ProjectHabitatPageComponent,
     ProjectMethodsPageComponent,
     ProjectFishSpeciesPageComponent,
     ProjectPicturesPageComponent,

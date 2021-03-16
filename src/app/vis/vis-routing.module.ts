@@ -8,7 +8,6 @@ import {ProjectDetailEditPageComponent} from './project/project-detail-edit-page
 import {HasUnsavedDataGuard} from '../core/unsaved-changes-guard.service';
 import {ProjectSurveyEventsPageComponent} from './project/project-survey-events-page/project-survey-events-page.component';
 import {ProjectLocationsPageComponent} from './project/project-locations-page/project-locations-page.component';
-import {ProjectHabitatPageComponent} from './project/project-habitat-page/project-habitat-page.component';
 import {ProjectMethodsPageComponent} from './project/project-methods-page/project-methods-page.component';
 import {ProjectFishSpeciesPageComponent} from './project/project-fish-species-page/project-fish-species-page.component';
 import {ProjectPicturesPageComponent} from './project/project-pictures-page/project-pictures-page.component';
@@ -43,7 +42,6 @@ const routes: Routes = [
   },
   {path: 'projecten/:projectCode/waarnemingen', component: ProjectSurveyEventsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/locaties', component: ProjectLocationsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/habitat', component: ProjectHabitatPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/methoden', component: ProjectMethodsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/vissoorten', component: ProjectFishSpeciesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten/:projectCode/afbeeldingen', component: ProjectPicturesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
