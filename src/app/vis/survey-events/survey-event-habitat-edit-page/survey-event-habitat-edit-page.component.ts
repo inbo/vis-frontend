@@ -81,23 +81,23 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
 
     this.projectSubscription$ = this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(() => {
       this.habitatSubscription$ = this.visService.getHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId)
-        .subscribe(value1 => {
-          this.habitat = value1;
-          this.habitatForm.get('minDepth').patchValue(value1.minDepth === null ? '' : value1.minDepth.toString());
-          this.habitatForm.get('maxDepth').patchValue(value1.maxDepth === null ? '' : value1.maxDepth.toString());
-          this.habitatForm.get('waterLevel').patchValue(value1.waterLevel);
-          this.habitatForm.get('shelters').patchValue(value1.shelters);
-          this.habitatForm.get('shore').patchValue(value1.shore);
-          this.habitatForm.get('slope').patchValue(value1.slope);
-          this.habitatForm.get('agriculture').patchValue(value1.agriculture);
-          this.habitatForm.get('meadow').patchValue(value1.meadow);
-          this.habitatForm.get('trees').patchValue(value1.trees);
-          this.habitatForm.get('buildings').patchValue(value1.buildings);
-          this.habitatForm.get('industry').patchValue(value1.industry);
-          this.habitatForm.get('loop').patchValue(value1.loop);
-          this.habitatForm.get('soils').patchValue(value1.soils);
-          this.habitatForm.get('bottlenecks').patchValue(value1.bottlenecks);
-          this.habitatForm.get('vegetations').patchValue(value1.vegetations);
+        .subscribe(value => {
+          this.habitat = value;
+          this.habitatForm.get('minDepth').patchValue(value.minDepth === null ? '' : value.minDepth.toString());
+          this.habitatForm.get('maxDepth').patchValue(value.maxDepth === null ? '' : value.maxDepth.toString());
+          this.habitatForm.get('waterLevel').patchValue(value.waterLevel);
+          this.habitatForm.get('shelters').patchValue(value.shelters);
+          this.habitatForm.get('shore').patchValue(value.shore);
+          this.habitatForm.get('slope').patchValue(value.slope);
+          this.habitatForm.get('agriculture').patchValue(value.agriculture);
+          this.habitatForm.get('meadow').patchValue(value.meadow);
+          this.habitatForm.get('trees').patchValue(value.trees);
+          this.habitatForm.get('buildings').patchValue(value.buildings);
+          this.habitatForm.get('industry').patchValue(value.industry);
+          this.habitatForm.get('loop').patchValue(value.loop);
+          this.habitatForm.get('soils').patchValue(value.soils);
+          this.habitatForm.get('bottlenecks').patchValue(value.bottlenecks);
+          this.habitatForm.get('vegetations').patchValue(value.vegetations);
         });
     });
   }

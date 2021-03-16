@@ -44,4 +44,5 @@ export class FishSpeciesDetailPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
 }

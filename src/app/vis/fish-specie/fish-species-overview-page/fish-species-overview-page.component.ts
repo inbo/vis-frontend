@@ -26,7 +26,7 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
 
   pager: AsyncPage<Taxon>;
   taxon: Observable<Taxon[]>;
-  taxonGroups: TaxonGroup[];
+  taxonGroups: AsyncPage<TaxonGroup>;
 
   filterForm: FormGroup;
   advancedFilterIsVisible = false;
@@ -84,6 +84,7 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
       this.visService.getTaxa(page, size, this.filterForm.getRawValue()).subscribe((value) => {
         this.pager = value;
         value.content.forEach(item => {
+          // @ts-ignore
           item.taxonGroupText = item.taxonGroups.map(taxonGroup => taxonGroup.name).join(', ');
         });
         this.taxon = of(value.content);

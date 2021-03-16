@@ -13,6 +13,7 @@ import {Method} from './vis/method/model/method';
 import {Taxon} from './vis/fish-specie/model/taxon';
 import {TaxonGroup} from './vis/fish-specie/model/taxon-group';
 import {TaxonDetail} from './vis/fish-specie/model/taxon-detail';
+import {Habitat} from './vis/survey-events/model/habitat';
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +57,7 @@ export class VisService {
   }
 
   updateProject(code: string, formData: any) {
-    return this.http.put(environment.apiUrl + '/api/projects/' + code, formData);
+    return this.http.put<Project>(environment.apiUrl + '/api/projects/' + code, formData);
   }
 
   createProject(formData: any) {
@@ -144,7 +145,7 @@ export class VisService {
   }
 
   updateProjectMethods(projectCode: string, methods: string[]) {
-    return this.http.post(`${environment.apiUrl}/api/projects/${projectCode}/methods`, methods);
+    return this.http.post<string[]>(`${environment.apiUrl}/api/projects/${projectCode}/methods`, methods);
   }
 
   getParameters(projectCode: string, surveyEventId: SurveyEventId) {
@@ -166,14 +167,15 @@ export class VisService {
   }
 
   getHabitat(projectCode: string, surveyEventId: SurveyEventId) {
-    return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`);
+    return this.http.get<Habitat>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`);
   }
 
   updateHabitat(projectCode: string, surveyEventId: any, formData: any) {
-    return this.http.put(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`, formData);
+    return this.http.put<Habitat>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`, formData);
   }
 
   updateParameters(projectCode: string, surveyEventId: any, formData: any) {
-    return this.http.put(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`, formData);
+    return this.http.put<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`,
+      formData);
   }
 }

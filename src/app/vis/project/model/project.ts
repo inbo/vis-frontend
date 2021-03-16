@@ -1,18 +1,17 @@
 interface ProjectCode {
-  value: string
+  value: string;
 }
 
 export interface Project {
-  code: ProjectCode
-  name: string
-  description: string
-  status: string
-  location: string
-  province: string
-  area: string
-  start: Date
-  end: Date
-  days: number
+  code: ProjectCode;
+  name: string;
+  description: string;
+  status: string;
+  location: string;
+  province: string;
+  area: string;
+  start: Date;
+  end: Date;
 }
 
 

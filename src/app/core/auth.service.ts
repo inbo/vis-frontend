@@ -212,8 +212,6 @@ export class AuthService implements OnDestroy {
     const roles: string[] = identityClaims == null ? [] : identityClaims.client_roles
       .map(role => role.replace('ROLE_', ''));
 
-    console.log(roles);
-
     roles.forEach(value => {
       switch (value) {
         case 'BEWERK_PROJECT':
