@@ -20,8 +20,9 @@ export class ReleaseNotesPopupComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.router.events.subscribe(async (routerData) => {
         if (routerData instanceof ResolveEnd) {
-          this.showReleaseNotes = !['/', ''].includes(routerData.url.split('?')[0])
-            && !routerData.url.startsWith('/releases') && !await this.visService.hasUserReadLatestReleaseNotes().toPromise();
+          this.showReleaseNotes = !['/', '', '/forbidden', '/not-found', '/internal-server-error', '/service-unavailable']
+              .includes(routerData.url.split('?')[0]) && !routerData.url.startsWith('/releases')
+            && !await this.visService.hasUserReadLatestReleaseNotes().toPromise();
           if (this.showReleaseNotes) {
             this.visService.getCurrentRelease().subscribe(value => this.currentReleaseNotes = value);
           }

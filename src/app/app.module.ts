@@ -17,11 +17,11 @@ import {VisModule} from './vis/vis.module';
 import {ReleaseNotesModule} from './release-notes/release-notes.module';
 import {environment} from '../environments/environment';
 import {MultiTranslateHttpLoader} from './core/multi-http-loader';
+import {ErrorsModule} from './errors/errors.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-
+    AppComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +45,8 @@ import {MultiTranslateHttpLoader} from './core/multi-http-loader';
     SharedUiModule,
     VisModule,
     ReleaseNotesModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ErrorsModule
   ],
   providers: [
     {
@@ -61,6 +62,6 @@ export class AppModule {
 export function HttpLoaderFactory(http: HttpClient) {
   return new MultiTranslateHttpLoader(http, [
     {prefix: './assets/i18n/', suffix: '.json'},
-    {prefix: `${environment.apiUrl}/translations/`, suffix: ''},
+    {prefix: `${environment.apiUrl}/translations/`, suffix: ''}
   ]);
 }
