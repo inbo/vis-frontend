@@ -13,7 +13,7 @@
             Project details
           </h3>
           <div class="mt-3 flex sm:mt-0 sm:ml-4">
-            <app-button [style]="'white'" (click)="exportProject()">Exporteer</app-button>
+            <app-button [style]="'white'" (click)="exportProject()" [role]="role.ExportProject">Exporteer</app-button>
             <app-button [style]="'primary'" class="ml-3" [role]="role.EditProject" [routerLink]="['/projecten', project?.code?.value, 'bewerk']">Bewerken</app-button>
           </div>
         </div>
