@@ -26,9 +26,9 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
         + this.activatedRoute.snapshot.params.surveyEventId
     },
     {
-      title: 'Parameters',
+      title: 'Waterkwaliteitsparameters',
       url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
-        + this.activatedRoute.snapshot.params.surveyEventId + '/parameters'
+        + this.activatedRoute.snapshot.params.surveyEventId + '/waterkwaliteitsparameters'
     }
   ];
   private projectSubscription$: Subscription;
@@ -44,7 +44,7 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder, private router: Router) {
     this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
-    this.titleService.setTitle('Bewerken waarneming parameters ' + this.activatedRoute.snapshot.params.surveyEventId);
+    this.titleService.setTitle('Bewerken waarneming waterkwaliteitsparameters ' + this.activatedRoute.snapshot.params.surveyEventId);
 
     this.parametersSubscription$ = this.visService.getParameters(this.activatedRoute.snapshot.params.projectCode,
       this.activatedRoute.snapshot.params.surveyEventId)
@@ -101,7 +101,7 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
       formData).subscribe(() => {
         this.reset();
         this.router.navigate(['/projecten', this.activatedRoute.snapshot.params.projectCode, 'waarnemingen',
-          this.activatedRoute.snapshot.params.surveyEventId, 'parameters']).then();
+          this.activatedRoute.snapshot.params.surveyEventId, 'waterkwaliteitsparameters']).then();
       },
       (error) => console.log(error)
     );

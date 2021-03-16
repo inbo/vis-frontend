@@ -56,12 +56,12 @@ const routes: Routes = [
     canActivate: [AuthGuardWithForcedLogin]
   },
   {
-    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/parameters',
+    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/waterkwaliteitsparameters',
     component: SurveyEventParametersPageComponent,
     canActivate: [AuthGuardWithForcedLogin]
   },
   {
-    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/parameters/bewerk',
+    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/waterkwaliteitsparameters/bewerk',
     component: SurveyEventParametersEditPageComponent,
     canActivate: [AuthGuardWithForcedLogin],
     canDeactivate: [HasUnsavedDataGuard]

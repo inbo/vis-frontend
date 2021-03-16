@@ -24,9 +24,9 @@ export class SurveyEventParametersPageComponent implements OnInit {
         + this.activatedRoute.snapshot.params.surveyEventId
     },
     {
-      title: 'Parameters',
+      title: 'Waterkwaliteitsparameters',
       url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
-        + this.activatedRoute.snapshot.params.surveyEventId + '/parameters'
+        + this.activatedRoute.snapshot.params.surveyEventId + '/waterkwaliteitsparameters'
     }
   ];
 
@@ -37,7 +37,7 @@ export class SurveyEventParametersPageComponent implements OnInit {
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute) {
     this.projectCode = this.activatedRoute.snapshot.params.projectCode;
     this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
-    this.titleService.setTitle('Waarneming parameters ' + this.activatedRoute.snapshot.params.surveyEventId);
+    this.titleService.setTitle('Waarneming waterkwaliteitsparameters ' + this.activatedRoute.snapshot.params.surveyEventId);
 
     this.visService.getParameters(this.activatedRoute.snapshot.params.projectCode, this.activatedRoute.snapshot.params.surveyEventId)
       .subscribe(value => {
