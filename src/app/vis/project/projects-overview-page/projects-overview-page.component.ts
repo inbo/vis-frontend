@@ -10,6 +10,7 @@ import {Observable, of, Subscription} from 'rxjs';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ProjectAddComponent} from '../project-add/project-add.component';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {Role} from "../../../core/_models/role";
 
 @Component({
   selector: 'app-projects-overview-page',
@@ -17,6 +18,8 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 })
 export class ProjectsOverviewPageComponent implements OnInit {
   @ViewChild(ProjectAddComponent) projectAddComponent;
+
+  role = Role;
 
   loading = false;
   links: NavigationLink[] = GlobalConstants.links;
