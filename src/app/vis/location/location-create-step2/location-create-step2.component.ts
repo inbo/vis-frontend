@@ -5,10 +5,10 @@ import {Title} from "@angular/platform-browser";
 import {LeafletControlLayersConfig} from "@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model";
 
 @Component({
-  selector: 'app-location-create-step1',
-  templateUrl: './location-create-step1.component.html'
+  selector: 'app-location-create-step2',
+  templateUrl: './location-create-step2.component.html'
 })
-export class LocationCreateStep1Component implements OnInit {
+export class LocationCreateStep2Component implements OnInit {
 
   @Input() formGroup;
 
@@ -17,7 +17,6 @@ export class LocationCreateStep1Component implements OnInit {
   layers: Layer[];
 
   selected = {};
-  selectedLayerUrl: string;
 
   service: FeatureLayerService;
 
@@ -34,6 +33,7 @@ export class LocationCreateStep1Component implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('init');
     this.setup();
   }
 
@@ -49,6 +49,7 @@ export class LocationCreateStep1Component implements OnInit {
     this.selectStyle(this.fl3);
 
     this.newLocationLayerGroup = layerGroup()
+    this.newLocationLayerGroup.addLayer(marker(this.formGroup.get('coordinates').value));
 
     this.fl1.metadata((error, metadata) => {
       let uniqueValueInfos = metadata.drawingInfo.renderer.uniqueValueInfos as [any];
@@ -66,8 +67,8 @@ export class LocationCreateStep1Component implements OnInit {
       this.newLocationLayerGroup
     ]
     this.options = {
-      zoom: 12,
-      center: latLng(51.2, 4.14),
+      zoom: 17,
+      center: this.formGroup.get('coordinates').value,
       doubleClickZoom: false
     };
 
@@ -82,10 +83,6 @@ export class LocationCreateStep1Component implements OnInit {
       }
     }
 
-    this.fl1.on('click', this.showFeatureInformation().bind(this));
-    this.fl2.on('click', this.showFeatureInformation().bind(this));
-    this.fl3.on('click', this.showFeatureInformation().bind(this));
-
     this.serverAuth((error, response) => {
       if (error) {
         return;
@@ -96,13 +93,15 @@ export class LocationCreateStep1Component implements OnInit {
       this.layers.push(locationsLayer);
       this.layersControl.overlays.VISpunten = locationsLayer;
 
-      locationsLayer.on('click', this.showFeatureInformation().bind(this));
-
     });
   }
 
   private selectStyle(fl: FeatureLayer) {
     fl.on('click', (e) => {
+      this.formGroup.get('waterway').patchValue(e.propagatedFrom.feature.properties);
+
+      console.log(this.formGroup.get('waterway').value);
+
       if (this.selectedFeature) {
         this.fl1.resetStyle();
         this.fl2.resetStyle();
@@ -128,23 +127,8 @@ export class LocationCreateStep1Component implements OnInit {
       callback);
   }
 
-  private showFeatureInformation() {
-    return function (e) {
-      this.selectedLayerUrl = e.layer.options.url;
-      this.selected = e.propagatedFrom.feature.properties;
-    };
-  }
 
   getSelected() {
     return this.selected;
-  }
-
-  addPoint(e: LeafletMouseEvent) {
-    e.originalEvent.stopPropagation();
-    let m = marker(e.latlng);
-    this.newLocationLayerGroup.clearLayers();
-    this.newLocationLayerGroup.addLayer(m);
-
-    this.formGroup.get('coordinates').patchValue(e.latlng);
   }
 }

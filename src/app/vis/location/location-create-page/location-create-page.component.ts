@@ -4,6 +4,7 @@ import {GlobalConstants} from "../../../GlobalConstants";
 import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
 import {Title} from "@angular/platform-browser";
 import "esri-leaflet-renderers"
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-location-create-page',
@@ -17,11 +18,41 @@ export class LocationCreatePageComponent implements OnInit {
 
   currentStep = 1;
 
-  constructor(private titleService: Title) {
+  formGroup: FormGroup;
+
+  constructor(private titleService: Title, private formBuilder: FormBuilder) {
     this.titleService.setTitle('Locatie toevoegen');
   }
 
   ngOnInit(): void {
+    this.formGroup = this.formBuilder.group(
+      {
+        coordinates: [null, Validators.required],
+        code: [null, [Validators.required, Validators.minLength(1)]],
+        name: [null, [Validators.required, Validators.minLength(1)]],
+        type: [null, [Validators.required]],
+        waterway: [null, [Validators.required]],
+      },
+    );
   }
 
+  isStep1Valid(): boolean {
+    return this.formGroup.get('coordinates').valid
+      && this.formGroup.get('code').valid
+      && this.formGroup.get('name').valid
+      && this.formGroup.get('type').valid
+  }
+
+  isStep2Valid(): boolean {
+    return this.isStep1Valid()
+      && this.formGroup.get('waterway').valid
+  }
+
+  isTypeFlowing() {
+    return this.formGroup.get('type').value === 'flowing'
+  }
+
+  isTypeStationary() {
+    return this.formGroup.get('type').value === 'stationary'
+  }
 }

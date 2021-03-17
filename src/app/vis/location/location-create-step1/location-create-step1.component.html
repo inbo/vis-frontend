@@ -1,15 +1,61 @@
 <div>
-  <div>
-    <div style="height: 400px;"
-         leaflet
-         [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletDoubleClick)="addPoint($event)">
+  <div class="grid grid-cols-6 gap-x-4 text-sm">
+    <div class="col-span-6 md:col-span-4" >
+      <div style="height: 400px;" leaflet [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletDoubleClick)="addPoint($event)">
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 text-sm mt-2">
+        <div *ngFor="let item of legend | keyvalue" class="flex items-center">
+          <div class="w-14 h-1 inline-block center mr-1" [style]="'background-color: rgba(' + item.value + ')'"></div>
+          <span>{{item.key}}</span>
+        </div>
+      </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-sm mt-2">
-      <div *ngFor="let item of legend | keyvalue" class="flex items-center">
-        <div class="w-14 h-1 inline-block center mr-1" [style]="'background-color: rgba(' + item.value + ')'"></div>
-        <span>{{item.key}}</span>
-      </div>
+    <div class="mt-4 md:mt-0 col-span-6 md:col-span-2">
+      <form [formGroup]="formGroup">
+        <div class="grid grid-cols-1 gap-y-6">
+          <div>
+            <label for="code" class="block text-sm font-medium text-gray-700">
+              Meetplaatscode
+            </label>
+            <div class="mt-1">
+              <input formControlName="code" type="text" name="code" id="code" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
+            </div>
+          </div>
+
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">
+              Meetplaatsnaam
+            </label>
+            <div class="mt-1">
+              <input formControlName="name" type="text" name="name" id="name" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
+            </div>
+          </div>
+
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">
+              Type
+            </label>
+            <div class="mt-1">
+              <div class="flex flex-col space-y-4">
+                <div class="flex items-center">
+                  <input formControlName="type" id="flowing" value="flowing" type="radio" class="focus:ring-pink-500 h-4 w-4 text-pink-600 border-gray-300">
+                  <label for="flowing" class="ml-3 block text-sm font-medium text-gray-700">
+                    Stromend water
+                  </label>
+                </div>
+                <div class="flex items-center">
+                  <input formControlName="type" id="stationary" value="stationary" type="radio" class="focus:ring-pink-500 h-4 w-4 text-pink-600 border-gray-300">
+                  <label for="stationary" class="ml-3 block text-sm font-medium text-gray-700">
+                    Stilstaand water
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </form>
     </div>
   </div>
 
@@ -33,9 +79,5 @@
         </div>
       </dl>
     </div>
-  </div>
-
-  <div class="mt-5">
-    <p>{{selectedLayerUrl}}</p>
   </div>
 </div>
