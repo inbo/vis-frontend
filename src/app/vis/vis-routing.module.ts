@@ -28,6 +28,7 @@ import {ProfilePageComponent} from './profile-page/profile-page.component';
 import {RoleGuard} from '../core/role-guard.service';
 import {Role} from '../core/_models/role';
 import {LocationCreatePageComponent} from './location/location-create-page/location-create-page.component';
+import {SurveyEventMeasurementsCreatePageComponent} from './survey-events/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -85,6 +86,11 @@ const routes: Routes = [
   {
     path: 'projecten/:projectCode/waarnemingen/:surveyEventId/metingen',
     component: SurveyEventMeasurementsPageComponent,
+    canActivate: [AuthGuardWithForcedLogin]
+  },
+  {
+    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/metingen/toevoegen',
+    component: SurveyEventMeasurementsCreatePageComponent,
     canActivate: [AuthGuardWithForcedLogin]
   },
   {path: 'locaties', component: LocationOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},

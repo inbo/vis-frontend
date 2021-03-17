@@ -26,6 +26,7 @@ import {SurveyEventMethodPageComponent} from './survey-events/survey-event-metho
 import {SurveyEventHabitatPageComponent} from './survey-events/survey-event-habitat-page/survey-event-habitat-page.component';
 import {SurveyEventTrajectPageComponent} from './survey-events/survey-event-traject-page/survey-event-traject-page.component';
 import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
+import {SurveyEventMeasurementsCreatePageComponent} from './survey-events/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {SurveyEventHabitatEditPageComponent} from './survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component';
 import {FishSpeciesDetailPageComponent} from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
 import {SurveyEventParametersEditPageComponent} from './survey-events/survey-event-parameters-edit-page/survey-event-parameters-edit-page.component';
@@ -34,12 +35,12 @@ import {IMaskModule} from 'angular-imask';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {RoleEnabledButtonComponent} from './components/role-enabled-button/role-enabled-button.component';
-import {LeafletModule} from "@asymmetrik/ngx-leaflet";
-import { LocationCreatePageComponent } from './location/location-create-page/location-create-page.component';
-import { LocationCreateStep1Component } from './location/location-create-step1/location-create-step1.component';
-import { LocationCreateStep2Component } from './location/location-create-step2/location-create-step2.component';
-import { LocationCreateStep3Component } from './location/location-create-step3/location-create-step3.component';
-import { LocationCreateStep4Component } from './location/location-create-step4/location-create-step4.component';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import {LocationCreatePageComponent} from './location/location-create-page/location-create-page.component';
+import {LocationCreateStep1Component} from './location/location-create-step1/location-create-step1.component';
+import {LocationCreateStep2Component} from './location/location-create-step2/location-create-step2.component';
+import {LocationCreateStep3Component} from './location/location-create-step3/location-create-step3.component';
+import {LocationCreateStep4Component} from './location/location-create-step4/location-create-step4.component';
 
 
 @NgModule({
@@ -76,7 +77,8 @@ import { LocationCreateStep4Component } from './location/location-create-step4/l
     LocationCreateStep1Component,
     LocationCreateStep2Component,
     LocationCreateStep3Component,
-    LocationCreateStep4Component
+    LocationCreateStep4Component,
+    SurveyEventMeasurementsCreatePageComponent
   ],
   imports: [
     CommonModule,
