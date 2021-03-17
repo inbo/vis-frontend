@@ -6,7 +6,7 @@
   <div class="-space-y-px md:flex">
     <div *ngFor="let option of options; let i = index" class="relative border p-4 flex md:w-44" [class.bg-pink-50.border-pink-200.z-10]="isChecked(option.value)" [class.border-gray-200]="!isChecked(option.value)">
       <div class="flex items-center h-5">
-        <input [attr.checked]="isChecked(option.value) ? 'checked' : null" (change)="onClick($event)" [value]="option.value" [id]="name + '-' + i" [name]="name" type="checkbox" class="focus:ring-pink-500 h-4 w-4 text-pink-600 cursor-pointer border-gray-300">
+        <input [attr.checked]="isChecked(option.value) ? 'checked' : null" (change)="onClick($event)" [value]="option.value" [id]="name + '-' + i" [name]="name" type="checkbox">
       </div>
       <label [for]="name + '-' + i" class="ml-3 flex flex-col cursor-pointer">
         <span class="block text-sm font-medium" [class.text-pink-900]="isChecked(option.value)" [class.text-gray-900]="!isChecked(option.value)">

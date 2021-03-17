@@ -76,7 +76,7 @@
                   <input [class.bg-gray-50]="turbidityOutOfRange.value === true" [attr.disabled]="turbidityOutOfRange.value === true ? 'disabled': null" [imask]="numberMask(1, -99.9, 99.9)" [unmask]="true" formControlName="turbidity" type="text" name="turbidity" id="turbidity" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
                   <div class="relative flex items-start mt-1">
                     <div class="flex items-center h-5">
-                      <input formControlName="turbidityOutOfRange" (change)="outOfRangeChanged($event)" id="turbidityOutOfRange" name="turbidityOutOfRange" type="checkbox" class="focus:ring-pink-500 h-4 w-4 text-pink-600 border-gray-300 rounded">
+                      <input formControlName="turbidityOutOfRange" (change)="outOfRangeChanged($event)" id="turbidityOutOfRange" name="turbidityOutOfRange" type="checkbox">
                     </div>
                     <div class="ml-3 text-sm">
                       <label for="turbidityOutOfRange" class="font-medium text-gray-700">Buiten bereik</label>
