@@ -12,7 +12,6 @@ import {ProjectMethodsPageComponent} from './project/project-methods-page/projec
 import {ProjectFishSpeciesPageComponent} from './project/project-fish-species-page/project-fish-species-page.component';
 import {ProjectPicturesPageComponent} from './project/project-pictures-page/project-pictures-page.component';
 import {SurveyEventDetailPageComponent} from './survey-events/survey-event-detail-page/survey-event-detail-page.component';
-import {SurveyEventParticularitiesPageComponent} from './survey-events/survey-event-particularities-page/survey-event-particularities-page.component';
 import {SurveyEventParametersPageComponent} from './survey-events/survey-event-parameters-page/survey-event-parameters-page.component';
 import {SurveyEventParametersEditPageComponent} from './survey-events/survey-event-parameters-edit-page/survey-event-parameters-edit-page.component';
 import {SurveyEventMethodPageComponent} from './survey-events/survey-event-method-page/survey-event-method-page.component';
@@ -28,7 +27,7 @@ import {FishIndexPageComponent} from './fish-index-page/fish-index-page.componen
 import {ProfilePageComponent} from './profile-page/profile-page.component';
 import {RoleGuard} from '../core/role-guard.service';
 import {Role} from '../core/_models/role';
-import {LocationCreatePageComponent} from "./location/location-create-page/location-create-page.component";
+import {LocationCreatePageComponent} from './location/location-create-page/location-create-page.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -49,11 +48,6 @@ const routes: Routes = [
   {
     path: 'projecten/:projectCode/waarnemingen/:surveyEventId',
     component: SurveyEventDetailPageComponent,
-    canActivate: [AuthGuardWithForcedLogin]
-  },
-  {
-    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/bijzonderheden',
-    component: SurveyEventParticularitiesPageComponent,
     canActivate: [AuthGuardWithForcedLogin]
   },
   {

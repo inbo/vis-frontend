@@ -21,7 +21,6 @@ import {ProjectAddComponent} from './project/project-add/project-add.component';
 import {SurveyEventStatusPillComponent} from './survey-events/survey-event-status-pill/survey-event-status-pill.component';
 import {SurveyEventDetailPageComponent} from './survey-events/survey-event-detail-page/survey-event-detail-page.component';
 import {SurveyEventTabsComponent} from './survey-events/survey-event-tabs/survey-event-tabs.component';
-import {SurveyEventParticularitiesPageComponent} from './survey-events/survey-event-particularities-page/survey-event-particularities-page.component';
 import {SurveyEventParametersPageComponent} from './survey-events/survey-event-parameters-page/survey-event-parameters-page.component';
 import {SurveyEventMethodPageComponent} from './survey-events/survey-event-method-page/survey-event-method-page.component';
 import {SurveyEventHabitatPageComponent} from './survey-events/survey-event-habitat-page/survey-event-habitat-page.component';
@@ -64,7 +63,6 @@ import { LocationCreateStep4Component } from './location/location-create-step4/l
     SurveyEventStatusPillComponent,
     SurveyEventDetailPageComponent,
     SurveyEventTabsComponent,
-    SurveyEventParticularitiesPageComponent,
     SurveyEventParametersPageComponent,
     SurveyEventMethodPageComponent,
     SurveyEventHabitatPageComponent,

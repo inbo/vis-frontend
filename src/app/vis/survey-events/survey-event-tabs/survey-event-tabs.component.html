@@ -3,7 +3,6 @@
     <label for="tabs" class="sr-only">Select a tab</label>
     <select [(ngModel)]="currentUrl" #navigationSelect (change)="navigate(navigationSelect.value)" id="tabs" name="tabs" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md">
       <option [value]="'/projecten/' + projectCode + '/waarnemingen/' + surveyEventId ">Algemeen</option>
-      <option [value]="'/projecten/' + projectCode + '/waarnemingen/' + surveyEventId + '/bijzonderheden'">Bijzonderheden</option>
       <option [value]="'/projecten/' + projectCode + '/waarnemingen/' + surveyEventId + '/waterkwaliteitsparameters'">Waterkwaliteitsparameters</option>
       <option [value]="'/projecten/' + projectCode + '/waarnemingen/' + surveyEventId + '/methode'">Vismethode</option>
       <option [value]="'/projecten/' + projectCode + '/waarnemingen/' + surveyEventId + '/habitat'">Habitat</option>
@@ -16,9 +15,6 @@
       <nav class="-mb-px flex space-x-8" aria-label="Tabs" >
         <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId]" [routerLinkActiveOptions]="{exact: true}" routerLinkActive #rla="routerLinkActive" [ngClass]="rla.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
           Algemeen
-        </a>
-        <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'bijzonderheden']" routerLinkActive #rla2="routerLinkActive" [ngClass]="rla2.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
-          Bijzonderheden
         </a>
         <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'waterkwaliteitsparameters']" routerLinkActive #rla3="routerLinkActive" [ngClass]="rla3.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
           Waterkwaliteitsparameters
