@@ -1,7 +1,7 @@
 <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
   <div class="sm:hidden">
     <label for="tabs" class="sr-only">Select a tab</label>
-    <select id="tabs" name="tabs" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md">
+    <select id="tabs" name="tabs">
       <option *ngFor="let release of releases; let first = first;" [selected]="first">{{release}}</option>
     </select>
   </div>

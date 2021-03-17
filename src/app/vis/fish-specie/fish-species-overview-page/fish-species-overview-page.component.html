@@ -36,7 +36,7 @@
               </div>
             </div>
             <div class="flex items-center">
-              <select formControlName="taxonGroupCode" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md">
+              <select formControlName="taxonGroupCode" class="mt-1">
                 <option value="">Groep</option>
                 <option *ngFor="let taxonGroup of taxonGroups" value="{{taxonGroup.code.value}}">{{taxonGroup.name}}</option>
               </select>
