@@ -24,6 +24,12 @@
         "HIGH": "Hoog",
         "null": ""
       },
+      "waterlevel": {
+        "LOW": "Laag",
+        "NORMAL": "Normaal",
+        "HIGH": "Hoog",
+        "null": ""
+      },
       "shelter": {
         "MANY": "Zeer veel",
         "SOME": "Veel",

@@ -16,20 +16,11 @@
 
         <form [formGroup]="habitatForm">
           <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-            <div class="sm:col-span-2 lg:col-span-1">
-              <label class="block text-sm font-medium text-gray-700" for="minDepth">Minimum diepte (m)</label>
+            <div class="sm:col-span-6">
+              <label class="block text-sm font-medium text-gray-700">Bodem</label>
               <div class="mt-1">
-                <input formControlName="minDepth" [imask]="numberMask" [unmask]="true" type="text" name="minDepth" id="minDepth" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                <app-check-group name="soils" [options]="habitatOptions.soil" formControlName="soils"></app-check-group>
               </div>
-            </div>
-
-            <div class="sm:col-span-2 lg:col-span-1">
-              <label class="block text-sm font-medium text-gray-700" for="maxDepth">Maximum diepte (m)</label>
-              <div class="mt-1">
-                <input formControlName="maxDepth" [imask]="numberMask" [unmask]="true" type="text" name="maxDepth" id="maxDepth" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
-              </div>
-              <p *ngIf="submitted && maxDepth.errors && maxDepth.errors.depth" class="mt-2 text-sm text-red-600">Max moet groter zijn dan min</p>
-
             </div>
 
             <div class="sm:col-span-6">
@@ -40,12 +31,32 @@
             </div>
 
             <div class="sm:col-span-6">
-              <label class="block text-sm font-medium text-gray-700">Schuilplaatsen</label>
+              <label class="block text-sm font-medium text-gray-700">Natuurlijke schuilplaatsen</label>
               <div class="mt-1">
                 <app-radio-group name="shelters" [options]="habitatOptions.shelters" formControlName="shelters"></app-radio-group>
               </div>
             </div>
 
+            <div class="sm:col-span-6">
+              <label class="block text-sm font-medium text-gray-700">Poelen</label>
+              <div class="mt-1">
+                <app-radio-group name="pool" [options]="habitatOptions.pool" formControlName="pool"></app-radio-group>
+              </div>
+            </div>
+
+            <div class="sm:col-span-6">
+              <label class="block text-sm font-medium text-gray-700">Stroomversnellingen</label>
+              <div class="mt-1">
+                <app-radio-group name="rapids" [options]="habitatOptions.rapids" formControlName="rapids"></app-radio-group>
+              </div>
+            </div>
+
+            <div class="sm:col-span-6">
+              <label class="block text-sm font-medium text-gray-700">Bochten</label>
+              <div class="mt-1">
+                <app-radio-group name="creeks" [options]="habitatOptions.creeks" formControlName="creeks"></app-radio-group>
+              </div>
+            </div>
 
             <div class="sm:col-span-6">
               <label class="block text-sm font-medium text-gray-700">Oever</label>
@@ -55,37 +66,44 @@
             </div>
 
             <div class="sm:col-span-6">
-              <label class="block text-sm font-medium text-gray-700">Talud helling</label>
+              <label class="block text-sm font-medium text-gray-700">Taludhelling</label>
               <div class="mt-1">
                 <app-radio-group name="slope" [options]="habitatOptions.slope" formControlName="slope"></app-radio-group>
               </div>
             </div>
 
             <div class="sm:col-span-6">
-              <label class="block text-sm font-medium text-gray-700">Landbouw (velden) in omgeving traject tot 50m van oever:</label>
+              <label class="block text-sm font-medium text-gray-700">Landbouw</label>
               <div class="mt-1">
                 <app-radio-group name="agriculture" [options]="habitatOptions.agriculture" formControlName="agriculture"></app-radio-group>
               </div>
             </div>
 
             <div class="sm:col-span-6">
-              <label class="block text-sm font-medium text-gray-700">Weide in omgeving traject (voor dieren) tot 50 m van oever</label>
+              <label class="block text-sm font-medium text-gray-700">Weide</label>
               <div class="mt-1">
                 <app-radio-group name="meadow" [options]="habitatOptions.meadow" formControlName="meadow"></app-radio-group>
               </div>
             </div>
 
             <div class="sm:col-span-6">
-              <label class="block text-sm font-medium text-gray-700">Bomen in omgeving traject tot 20 m van oever</label>
+              <label class="block text-sm font-medium text-gray-700">Bomen</label>
               <div class="mt-1">
                 <app-radio-group name="trees" [options]="habitatOptions.trees" formControlName="trees"></app-radio-group>
               </div>
             </div>
 
             <div class="sm:col-span-6">
-              <label class="block text-sm font-medium text-gray-700">Bebouwing in omgeving traject tot 50 m van oever </label>
+              <label class="block text-sm font-medium text-gray-700">Bebouwing</label>
               <div class="mt-1">
                 <app-radio-group name="buildings" [options]="habitatOptions.buildings" formControlName="buildings"></app-radio-group>
+              </div>
+            </div>
+
+            <div class="sm:col-span-6">
+              <label class="block text-sm font-medium text-gray-700">Industrie</label>
+              <div class="mt-1">
+                <app-radio-group name="industry" [options]="habitatOptions.industry" formControlName="industry"></app-radio-group>
               </div>
             </div>
 
@@ -93,13 +111,6 @@
               <label class="block text-sm font-medium text-gray-700">Loop</label>
               <div class="mt-1">
                 <app-radio-group name="loop" [options]="habitatOptions.loop" formControlName="loop"></app-radio-group>
-              </div>
-            </div>
-
-            <div class="sm:col-span-6">
-              <label class="block text-sm font-medium text-gray-700">Bodem</label>
-              <div class="mt-1">
-                <app-check-group name="soils" [options]="habitatOptions.soil" formControlName="soils"></app-check-group>
               </div>
             </div>
 

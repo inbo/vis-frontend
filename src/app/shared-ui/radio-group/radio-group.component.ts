@@ -39,6 +39,10 @@ export class RadioGroupComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.selectedValue);
+    this.options.forEach(value => {
+      console.log(value);
+    });
   }
 
 

@@ -35,13 +35,12 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
 
   projectCode: string;
   surveyEventId: any;
-  private projectSubscription$: Subscription;
   private habitatSubscription$: Subscription;
   habitat: Habitat;
   habitatForm: FormGroup;
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute,
-              private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService) {
+              private formBuilder: FormBuilder) {
     this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
     this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.snapshot.params.surveyEventId);
   }
@@ -62,67 +61,14 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
         loop: [null],
       });
 
-    this.projectSubscription$ = this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(() => {
-      this.habitatSubscription$ = this.visService.getHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId)
-        .subscribe(value1 => {
-          this.habitat = value1;
-          this.habitatForm.get('waterLevel').patchValue(value1.waterLevel);
-          this.habitatForm.get('shelters').patchValue(value1.shelters);
-          this.habitatForm.get('shore').patchValue(value1.shore);
-          this.habitatForm.get('slope').patchValue(value1.slope);
-          this.habitatForm.get('agriculture').patchValue(value1.agriculture);
-          this.habitatForm.get('meadow').patchValue(value1.meadow);
-          this.habitatForm.get('trees').patchValue(value1.trees);
-          this.habitatForm.get('buildings').patchValue(value1.buildings);
-          this.habitatForm.get('industry').patchValue(value1.industry);
-          this.habitatForm.get('loop').patchValue(value1.loop);
-        });
-    });
+    this.habitatSubscription$ = this.visService.getHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId)
+      .subscribe(value => {
+        this.habitat = value;
+        console.log(value)
+      });
   }
 
   ngOnDestroy(): void {
-    this.projectSubscription$.unsubscribe();
     this.habitatSubscription$.unsubscribe();
   }
-
-  get waterLevel() {
-    return this.habitatForm.get('waterLevel');
-  }
-
-  get shelters() {
-    return this.habitatForm.get('shelters');
-  }
-
-  get shore() {
-    return this.habitatForm.get('shore');
-  }
-
-  get slope() {
-    return this.habitatForm.get('slope');
-  }
-
-  get agriculture() {
-    return this.habitatForm.get('agriculture');
-  }
-
-  get meadow() {
-    return this.habitatForm.get('meadow');
-  }
-
-  get trees() {
-    return this.habitatForm.get('trees');
-  }
-
-  get buildings() {
-    return this.habitatForm.get('buildings');
-  }
-
-  get industry() {
-    return this.habitatForm.get('industry');
-  }
-
-  get loop() {
-    return this.habitatForm.get('loop');
-  }
-
 }

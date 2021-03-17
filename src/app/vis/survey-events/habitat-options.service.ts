@@ -4,8 +4,12 @@ import {
   Agriculture,
   Bottleneck,
   Buildings,
+  Creek,
+  Industry,
   Loop,
   Meadow,
+  Pool,
+  Rapid,
   Shelter,
   Shore,
   Slope,
@@ -14,7 +18,6 @@ import {
   Vegetation,
   WaterLevel
 } from './model/habitat';
-import {TranslateService} from '@ngx-translate/core';
 import {CheckOption} from '../../shared-ui/check-group/checkOption';
 
 @Injectable({
@@ -23,8 +26,12 @@ import {CheckOption} from '../../shared-ui/check-group/checkOption';
 export class HabitatOptionsService {
   private _waterLevels: RadioOption[];
   private _shelters: RadioOption[];
+  private _pool: RadioOption[];
+  private _rapids: RadioOption[];
+  private _creeks: RadioOption[];
   private _agriculture: RadioOption[];
   private _buildings: RadioOption[];
+  private _industry: RadioOption[];
   private _loop: RadioOption[];
   private _meadow: RadioOption[];
   private _shore: RadioOption[];
@@ -37,9 +44,13 @@ export class HabitatOptionsService {
   constructor() {
     this._waterLevels = Object.keys(WaterLevel).filter(value => isNaN(Number(value))).map(value => this.createOption('waterLevel', value));
     this._shelters = Object.keys(Shelter).filter(value => isNaN(Number(value))).map(value => this.createOption('shelter', value));
+    this._pool = Object.keys(Pool).filter(value => isNaN(Number(value))).map(value => this.createOption('pool', value));
+    this._rapids = Object.keys(Rapid).filter(value => isNaN(Number(value))).map(value => this.createOption('rapids', value));
+    this._creeks = Object.keys(Creek).filter(value => isNaN(Number(value))).map(value => this.createOption('creeks', value));
     this._agriculture = Object.keys(Agriculture).filter(value => isNaN(Number(value))).map(value =>
       this.createOption('agriculture', value));
     this._buildings = Object.keys(Buildings).filter(value => isNaN(Number(value))).map(value => this.createOption('buildings', value));
+    this._industry = Object.keys(Industry).filter(value => isNaN(Number(value))).map(value => this.createOption('industry', value));
     this._loop = Object.keys(Loop).filter(value => isNaN(Number(value))).map(value => this.createOption('loop', value));
     this._meadow = Object.keys(Meadow).filter(value => isNaN(Number(value))).map(value => this.createOption('meadow', value));
     this._shore = Object.keys(Shore).filter(value => isNaN(Number(value))).map(value => this.createOption('shore', value));
@@ -52,9 +63,7 @@ export class HabitatOptionsService {
 
   private createOption(x: string, value: string) {
     const text = `surveyEvent.habitat.${x}.${value}`;
-    const newVar = {value, text};
-    console.log(newVar);
-    return newVar;
+    return {value, text};
   }
 
   get waterLevels(): RadioOption[] {
@@ -65,12 +74,28 @@ export class HabitatOptionsService {
     return this._shelters;
   }
 
+  get pool(): RadioOption[] {
+    return this._pool;
+  }
+
+  get rapids(): RadioOption[] {
+    return this._rapids;
+  }
+
+  get creeks(): RadioOption[] {
+    return this._creeks;
+  }
+
   get agriculture(): RadioOption[] {
     return this._agriculture;
   }
 
   get buildings(): RadioOption[] {
     return this._buildings;
+  }
+
+  get industry(): RadioOption[] {
+    return this._industry;
   }
 
   get loop(): RadioOption[] {

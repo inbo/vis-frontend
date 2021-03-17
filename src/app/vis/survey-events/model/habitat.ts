@@ -52,6 +52,22 @@ export enum Shelter {
   MANY, SOME, MODERATE, FEW, NONE
 }
 
+export enum Pool {
+  false, true
+}
+
+export enum Rapid {
+  false, true
+}
+
+export enum Creek {
+  false, true
+}
+
+export enum Industry {
+  false, true
+}
+
 export enum WaterLevel {
   LOW, NORMAL, HIGH
 }
@@ -61,9 +77,9 @@ export enum Soil {
 }
 
 export enum Bottleneck {
-  DECAY, MILL, DIVER, RESERVOIR, MOTORWAY, LOCK, WEIR, UNDEFINED
+  DECAY, MILL, UNDEFINED, DIVER, RESERVOIR, MOTORWAY, LOCK, WEIR
 }
 
 export enum Vegetation {
-  FLOATING_AQUATIC_PLANTS, SOIL_AQUATIC_PLANTS, THREAD_ALGAE, OTHERS
+  FLOATING_AQUATIC_PLANTS, SOIL_AQUATIC_PLANTS, THREAD_ALGAE
 }

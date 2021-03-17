@@ -1,5 +1,6 @@
 import {Component, forwardRef, Input, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {CheckOption} from './checkOption';
 
 @Component({
   selector: 'app-check-group',
@@ -14,7 +15,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 })
 export class CheckGroupComponent implements ControlValueAccessor, OnInit {
 
-  @Input() options: string[];
+  @Input() options: CheckOption[];
   @Input() name: string;
 
   private selectedValues: string[];
