@@ -4,12 +4,8 @@ import {
   Agriculture,
   Bottleneck,
   Buildings,
-  Creek,
-  Industry,
   Loop,
   Meadow,
-  Pool,
-  Rapid,
   Shelter,
   Shore,
   Slope,
@@ -24,19 +20,19 @@ import {CheckOption} from '../../shared-ui/check-group/checkOption';
   providedIn: 'root'
 })
 export class HabitatOptionsService {
-  private _waterLevels: RadioOption[];
-  private _shelters: RadioOption[];
-  private _pool: RadioOption[];
-  private _rapids: RadioOption[];
-  private _creeks: RadioOption[];
-  private _agriculture: RadioOption[];
-  private _buildings: RadioOption[];
-  private _industry: RadioOption[];
-  private _loop: RadioOption[];
-  private _meadow: RadioOption[];
-  private _shore: RadioOption[];
-  private _slope: RadioOption[];
-  private _trees: RadioOption[];
+  private _waterLevels: RadioOption<string>[];
+  private _shelters: RadioOption<string>[];
+  private _pool: RadioOption<boolean>[];
+  private _rapids: RadioOption<boolean>[];
+  private _creeks: RadioOption<boolean>[];
+  private _agriculture: RadioOption<string>[];
+  private _buildings: RadioOption<string>[];
+  private _industry: RadioOption<boolean>[];
+  private _loop: RadioOption<string>[];
+  private _meadow: RadioOption<string>[];
+  private _shore: RadioOption<string>[];
+  private _slope: RadioOption<string>[];
+  private _trees: RadioOption<string>[];
   private _soil: CheckOption[];
   private _bottlenecks: CheckOption[];
   private _vegetations: CheckOption[];
@@ -44,13 +40,13 @@ export class HabitatOptionsService {
   constructor() {
     this._waterLevels = Object.keys(WaterLevel).filter(value => isNaN(Number(value))).map(value => this.createOption('waterLevel', value));
     this._shelters = Object.keys(Shelter).filter(value => isNaN(Number(value))).map(value => this.createOption('shelter', value));
-    this._pool = Object.keys(Pool).filter(value => isNaN(Number(value))).map(value => this.createOption('pool', value));
-    this._rapids = Object.keys(Rapid).filter(value => isNaN(Number(value))).map(value => this.createOption('rapids', value));
-    this._creeks = Object.keys(Creek).filter(value => isNaN(Number(value))).map(value => this.createOption('creeks', value));
+    this._pool = [{text: 'surveyEvent.habitat.pool.true', value: true}, {text: 'surveyEvent.habitat.pool.false', value: false}];
+    this._rapids = [{text: 'surveyEvent.habitat.rapids.true', value: true}, {text: 'surveyEvent.habitat.rapids.false', value: false}];
+    this._creeks = [{text: 'surveyEvent.habitat.creeks.true', value: true}, {text: 'surveyEvent.habitat.creeks.false', value: false}];
     this._agriculture = Object.keys(Agriculture).filter(value => isNaN(Number(value))).map(value =>
       this.createOption('agriculture', value));
     this._buildings = Object.keys(Buildings).filter(value => isNaN(Number(value))).map(value => this.createOption('buildings', value));
-    this._industry = Object.keys(Industry).filter(value => isNaN(Number(value))).map(value => this.createOption('industry', value));
+    this._industry = [{text: 'surveyEvent.habitat.industry.true', value: true}, {text: 'surveyEvent.habitat.industry.false', value: false}];
     this._loop = Object.keys(Loop).filter(value => isNaN(Number(value))).map(value => this.createOption('loop', value));
     this._meadow = Object.keys(Meadow).filter(value => isNaN(Number(value))).map(value => this.createOption('meadow', value));
     this._shore = Object.keys(Shore).filter(value => isNaN(Number(value))).map(value => this.createOption('shore', value));
@@ -61,60 +57,60 @@ export class HabitatOptionsService {
     this._vegetations = Object.keys(Vegetation).filter(value => isNaN(Number(value))).map(value => this.createOption('vegetation', value));
   }
 
-  private createOption(x: string, value: string) {
+  private createOption(x: string, value: string) : RadioOption<string> {
     const text = `surveyEvent.habitat.${x}.${value}`;
     return {value, text};
   }
 
-  get waterLevels(): RadioOption[] {
+  get waterLevels(): RadioOption<String>[] {
     return this._waterLevels;
   }
 
-  get shelters(): RadioOption[] {
+  get shelters(): RadioOption<string>[] {
     return this._shelters;
   }
 
-  get pool(): RadioOption[] {
+  get pool(): RadioOption<boolean>[] {
     return this._pool;
   }
 
-  get rapids(): RadioOption[] {
+  get rapids(): RadioOption<boolean>[] {
     return this._rapids;
   }
 
-  get creeks(): RadioOption[] {
+  get creeks(): RadioOption<boolean>[] {
     return this._creeks;
   }
 
-  get agriculture(): RadioOption[] {
+  get agriculture(): RadioOption<string>[] {
     return this._agriculture;
   }
 
-  get buildings(): RadioOption[] {
+  get buildings(): RadioOption<string>[] {
     return this._buildings;
   }
 
-  get industry(): RadioOption[] {
+  get industry(): RadioOption<boolean>[] {
     return this._industry;
   }
 
-  get loop(): RadioOption[] {
+  get loop(): RadioOption<string>[] {
     return this._loop;
   }
 
-  get meadow(): RadioOption[] {
+  get meadow(): RadioOption<string>[] {
     return this._meadow;
   }
 
-  get shore(): RadioOption[] {
+  get shore(): RadioOption<string>[] {
     return this._shore;
   }
 
-  get slope(): RadioOption[] {
+  get slope(): RadioOption<string>[] {
     return this._slope;
   }
 
-  get trees(): RadioOption[] {
+  get trees(): RadioOption<string>[] {
     return this._trees;
   }
 

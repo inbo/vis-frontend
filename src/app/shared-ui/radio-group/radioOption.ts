@@ -1,4 +1,4 @@
-export interface RadioOption {
-  value: string;
+export interface RadioOption<T> {
+  value: T;
   text: string;
 }

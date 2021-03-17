@@ -15,10 +15,10 @@ import {RadioOption} from './radioOption';
 })
 export class RadioGroupComponent implements ControlValueAccessor, OnInit {
 
-  @Input() options: RadioOption[];
+  @Input() options: RadioOption<any>[];
   @Input() name: string;
 
-  selectedValue: string;
+  selectedValue: any;
 
   private onChange: Function;
   private onTouch: Function;

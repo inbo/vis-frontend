@@ -52,22 +52,6 @@ export enum Shelter {
   MANY, SOME, MODERATE, FEW, NONE
 }
 
-export enum Pool {
-  false, true
-}
-
-export enum Rapid {
-  false, true
-}
-
-export enum Creek {
-  false, true
-}
-
-export enum Industry {
-  false, true
-}
-
 export enum WaterLevel {
   LOW, NORMAL, HIGH
 }
