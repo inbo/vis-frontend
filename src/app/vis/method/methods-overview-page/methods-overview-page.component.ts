@@ -38,6 +38,7 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
       {
         code: [queryParams.code],
         group: [queryParams.group],
+        description: [queryParams.description]
       },
     );
 
@@ -45,6 +46,7 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
       this.activatedRoute.queryParams.subscribe((params) => {
         this.filterForm.get('code').patchValue(params.code ? params.code : '');
         this.filterForm.get('group').patchValue(params.group ? params.group : '');
+        this.filterForm.get('description').patchValue(params.description ? params.description : '');
       })
     );
   }
