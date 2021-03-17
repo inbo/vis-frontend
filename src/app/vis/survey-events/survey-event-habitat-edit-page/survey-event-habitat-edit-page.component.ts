@@ -36,11 +36,11 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
   ];
 
   surveyEventId: any;
-  private projectSubscription$: Subscription;
-  private habitatSubscription$: Subscription;
   habitat: Habitat;
   habitatForm: FormGroup;
   submitted: boolean;
+
+  private subscription = new Subscription();
 
   public numberMask: any = {
     mask: Number,
@@ -78,29 +78,26 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         vegetations: [null],
       });
 
-    this.projectSubscription$ = this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(() => {
-      this.habitatSubscription$ = this.visService.getHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId)
-        .subscribe(value => {
-          console.log(value)
-          this.habitat = value;
-          this.habitatForm.get('soils').patchValue(value.soils);
-          this.habitatForm.get('waterLevel').patchValue(value.waterLevel);
-          this.habitatForm.get('shelters').patchValue(value.shelters);
-          this.habitatForm.get('pool').patchValue(value.pool);
-          this.habitatForm.get('rapids').patchValue(value.rapids);
-          this.habitatForm.get('creeks').patchValue(value.creeks);
-          this.habitatForm.get('shore').patchValue(value.shore);
-          this.habitatForm.get('slope').patchValue(value.slope);
-          this.habitatForm.get('agriculture').patchValue(value.agriculture);
-          this.habitatForm.get('meadow').patchValue(value.meadow);
-          this.habitatForm.get('trees').patchValue(value.trees);
-          this.habitatForm.get('buildings').patchValue(value.buildings);
-          this.habitatForm.get('industry').patchValue(value.industry);
-          this.habitatForm.get('loop').patchValue(value.loop);
-          this.habitatForm.get('bottlenecks').patchValue(value.bottlenecks);
-          this.habitatForm.get('vegetations').patchValue(value.vegetations);
-        });
-    });
+    this.subscription.add(this.visService.getHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId)
+      .subscribe(value => {
+        this.habitat = value;
+        this.habitatForm.get('soils').patchValue(value.soils);
+        this.habitatForm.get('waterLevel').patchValue(value.waterLevel);
+        this.habitatForm.get('shelters').patchValue(value.shelters);
+        this.habitatForm.get('pool').patchValue(value.pool);
+        this.habitatForm.get('rapids').patchValue(value.rapids);
+        this.habitatForm.get('creeks').patchValue(value.creeks);
+        this.habitatForm.get('shore').patchValue(value.shore);
+        this.habitatForm.get('slope').patchValue(value.slope);
+        this.habitatForm.get('agriculture').patchValue(value.agriculture);
+        this.habitatForm.get('meadow').patchValue(value.meadow);
+        this.habitatForm.get('trees').patchValue(value.trees);
+        this.habitatForm.get('buildings').patchValue(value.buildings);
+        this.habitatForm.get('industry').patchValue(value.industry);
+        this.habitatForm.get('loop').patchValue(value.loop);
+        this.habitatForm.get('bottlenecks').patchValue(value.bottlenecks);
+        this.habitatForm.get('vegetations').patchValue(value.vegetations);
+      }));
   }
 
   saveHabitat() {
@@ -111,8 +108,8 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
 
     const formData = this.habitatForm.getRawValue();
 
-    this.visService.updateHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId, formData).subscribe(
-      (response) => {
+    this.subscription.add(this.visService.updateHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId, formData)
+      .subscribe((response) => {
         this.alertService.success('Succesvol bewaard', '');
         this.habitat = response;
         this.habitatForm.get('soils').patchValue(response.soils);
@@ -132,8 +129,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         this.habitatForm.get('bottlenecks').patchValue(response.bottlenecks);
         this.habitatForm.get('vegetations').patchValue(response.vegetations);
         this.habitatForm.reset(this.habitatForm.value);
-      }
-    );
+      }));
   }
 
   reset() {
@@ -171,8 +167,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
   }
 
   ngOnDestroy(): void {
-    this.projectSubscription$.unsubscribe();
-    this.habitatSubscription$.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   get soils() {

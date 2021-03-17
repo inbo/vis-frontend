@@ -41,17 +41,18 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
   parametersForm: FormGroup;
   submitted: boolean;
 
+  private subscription = new Subscription();
+
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder, private router: Router) {
     this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
     this.titleService.setTitle('Bewerken waarneming waterkwaliteitsparameters ' + this.activatedRoute.snapshot.params.surveyEventId);
 
-    this.parametersSubscription$ = this.visService.getParameters(this.activatedRoute.snapshot.params.projectCode,
+    this.subscription.add(this.visService.getParameters(this.activatedRoute.snapshot.params.projectCode,
       this.activatedRoute.snapshot.params.surveyEventId)
       .subscribe(value => {
         this.parameters = value;
-      });
-
+      }));
   }
 
   ngOnInit(): void {
@@ -71,22 +72,22 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
         width: ['', []]
       });
 
-    this.visService.getParameters(this.activatedRoute.snapshot.params.projectCode, this.activatedRoute.snapshot.params.surveyEventId)
-      .subscribe(value => {
-        this.parameters = value;
-        this.parametersForm.get('oxygen').patchValue(value.oxygen !== null ? value.oxygen.toString() : '');
-        this.parametersForm.get('oxygenPercentage').patchValue(value.oxygenPercentage !== null ? value.oxygenPercentage.toString() : '');
-        this.parametersForm.get('averageDepth').patchValue(value.averageDepth !== null ? value.averageDepth.toString() : '');
-        this.parametersForm.get('temperature').patchValue(value.temperature !== null ? value.temperature.toString() : '');
-        this.parametersForm.get('conductivity').patchValue(value.conductivity !== null ? value.conductivity.toString() : '');
-        this.parametersForm.get('ph').patchValue(value.ph !== null ? value.ph.toString() : '');
-        this.parametersForm.get('flowRate').patchValue(value.flowRate !== null ? value.flowRate.toString() : '');
-        this.parametersForm.get('turbidity').patchValue(value.turbidity !== null ? value.turbidity.toString() : '');
-        this.parametersForm.get('turbidityOutOfRange').patchValue(value.turbidityOutOfRange);
-        this.parametersForm.get('secchi').patchValue(value.secchi !== null ? value.secchi.toString() : '');
-        this.parametersForm.get('salinity').patchValue(value.salinity !== null ? value.salinity.toString() : '');
-        this.parametersForm.get('width').patchValue(value.width !== null ? value.width.toString() : '');
-      });
+    this.subscription.add(this.visService.getParameters(this.activatedRoute.snapshot.params.projectCode,
+      this.activatedRoute.snapshot.params.surveyEventId).subscribe(value => {
+      this.parameters = value;
+      this.parametersForm.get('oxygen').patchValue(value.oxygen !== null ? value.oxygen.toString() : '');
+      this.parametersForm.get('oxygenPercentage').patchValue(value.oxygenPercentage !== null ? value.oxygenPercentage.toString() : '');
+      this.parametersForm.get('averageDepth').patchValue(value.averageDepth !== null ? value.averageDepth.toString() : '');
+      this.parametersForm.get('temperature').patchValue(value.temperature !== null ? value.temperature.toString() : '');
+      this.parametersForm.get('conductivity').patchValue(value.conductivity !== null ? value.conductivity.toString() : '');
+      this.parametersForm.get('ph').patchValue(value.ph !== null ? value.ph.toString() : '');
+      this.parametersForm.get('flowRate').patchValue(value.flowRate !== null ? value.flowRate.toString() : '');
+      this.parametersForm.get('turbidity').patchValue(value.turbidity !== null ? value.turbidity.toString() : '');
+      this.parametersForm.get('turbidityOutOfRange').patchValue(value.turbidityOutOfRange);
+      this.parametersForm.get('secchi').patchValue(value.secchi !== null ? value.secchi.toString() : '');
+      this.parametersForm.get('salinity').patchValue(value.salinity !== null ? value.salinity.toString() : '');
+      this.parametersForm.get('width').patchValue(value.width !== null ? value.width.toString() : '');
+    }));
   }
 
   saveParameters() {
@@ -97,14 +98,14 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
 
     const formData = this.parametersForm.getRawValue();
 
-    this.updateSubscription$ = this.visService.updateParameters(this.activatedRoute.snapshot.params.projectCode.value, this.surveyEventId,
+    this.subscription.add(this.visService.updateParameters(this.activatedRoute.snapshot.params.projectCode.value, this.surveyEventId,
       formData).subscribe(() => {
         this.reset();
         this.router.navigate(['/projecten', this.activatedRoute.snapshot.params.projectCode, 'waarnemingen',
           this.activatedRoute.snapshot.params.surveyEventId, 'waterkwaliteitsparameters']).then();
       },
       (error) => console.log(error)
-    );
+    ));
   }
 
   reset() {
@@ -190,15 +191,7 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
   }
 
   ngOnDestroy(): void {
-    if (this.projectSubscription$ !== undefined) {
-      this.projectSubscription$.unsubscribe();
-    }
-    if (this.parametersSubscription$ !== undefined) {
-      this.parametersSubscription$.unsubscribe();
-    }
-    if (this.updateSubscription$ !== undefined) {
-      this.updateSubscription$.unsubscribe();
-    }
+    this.subscription.unsubscribe();
   }
 
   numberMask(scale: number, min: number, max: number) {

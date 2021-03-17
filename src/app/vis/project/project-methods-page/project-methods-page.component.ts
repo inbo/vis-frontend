@@ -63,9 +63,10 @@ export class ProjectMethodsPageComponent implements OnInit, OnDestroy {
   }
 
   saveProjectMethods() {
-    this.visService.updateProjectMethods(this.activatedRoute.snapshot.params.projectCode, this.methods).subscribe(value => {
-      this.methods = value;
-      this.showEditTaxa = false;
-    });
+    this.subscription.add(this.visService.updateProjectMethods(this.activatedRoute.snapshot.params.projectCode, this.methods)
+      .subscribe(value => {
+        this.methods = value;
+        this.showEditTaxa = false;
+      }));
   }
 }

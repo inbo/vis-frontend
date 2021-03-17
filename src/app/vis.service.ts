@@ -1,11 +1,10 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {Project} from './vis/project/model/project';
 import {AsyncPage} from './shared-ui/paging-async/asyncPage';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {Releases} from './release-notes/model/releases';
-import {AlertService} from './_alert';
 import {Measurement} from './vis/project/model/measurement';
 import {SurveyEvent, SurveyEventId} from './vis/project/model/surveyEvent';
 import {Parameters} from './vis/project/model/parameters';
@@ -18,9 +17,11 @@ import {Habitat} from './vis/survey-events/model/habitat';
 @Injectable({
   providedIn: 'root'
 })
-export class VisService {
+export class VisService implements OnDestroy {
 
-  constructor(private http: HttpClient, private alertService: AlertService) {
+  private subscription = new Subscription();
+
+  constructor(private http: HttpClient) {
   }
 
   private downloadFile(res: HttpResponse<Blob>) {
@@ -97,20 +98,17 @@ export class VisService {
       }
     });
 
-    // TODO subscribed is not closed
-    this.http.get(`${environment.apiUrl}/api/projects/export`, {params, observe: 'response', responseType: 'blob'})
+    this.subscription.add(this.http.get(`${environment.apiUrl}/api/projects/export`, {params, observe: 'response', responseType: 'blob'})
       .subscribe(res => {
         this.downloadFile(res);
-      });
-
+      }));
   }
 
   exportProject(code: string) {
-    // TODO subscribed is not closed
-    this.http.get(`${environment.apiUrl}/api/projects/${code}/export`, {observe: 'response', responseType: 'blob'})
+    this.subscription.add(this.http.get(`${environment.apiUrl}/api/projects/${code}/export`, {observe: 'response', responseType: 'blob'})
       .subscribe(res => {
         this.downloadFile(res);
-      });
+      }));
   }
 
   getMethods(page: number, size: number, filter: any) {
@@ -177,5 +175,9 @@ export class VisService {
   updateParameters(projectCode: string, surveyEventId: any, formData: any) {
     return this.http.put<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`,
       formData);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

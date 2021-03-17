@@ -8,7 +8,6 @@ import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {Habitat} from '../model/habitat';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {HabitatOptionsService} from '../habitat-options.service';
 
 @Component({
   selector: 'app-survey-event-habitat-page',
@@ -35,9 +34,10 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
 
   projectCode: string;
   surveyEventId: any;
-  private habitatSubscription$: Subscription;
   habitat: Habitat;
   habitatForm: FormGroup;
+
+  private subscription = new Subscription();
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder) {
@@ -61,14 +61,13 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
         loop: [null],
       });
 
-    this.habitatSubscription$ = this.visService.getHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId)
+    this.subscription.add(this.visService.getHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId)
       .subscribe(value => {
         this.habitat = value;
-        console.log(value)
-      });
+      }));
   }
 
   ngOnDestroy(): void {
-    this.habitatSubscription$.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

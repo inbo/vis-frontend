@@ -11,15 +11,16 @@ export class AlertComponent implements OnInit, OnDestroy {
 
   showAlert = false;
   alert: Alert;
-  alertSubscription: Subscription;
-  routeSubscription: Subscription;
+
   private timer: number;
+  private subscription = new Subscription();
+
 
   constructor(private router: Router, private alertService: AlertService) {
   }
 
   ngOnInit() {
-    this.alertSubscription = this.alertService.onAlert(this.id)
+    this.subscription.add(this.alertService.onAlert(this.id)
       .subscribe(alert => {
 
         if (this.timer) {
@@ -35,21 +36,20 @@ export class AlertComponent implements OnInit, OnDestroy {
             return this.showAlert = false;
           }, 3000);
         }
-      });
+      }));
 
     // clear alerts on location change
-    this.routeSubscription = this.router.events.subscribe(event => {
+    this.subscription.add(this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.showAlert = false;
         this.alert = null;
       }
-    });
+    }));
   }
 
   ngOnDestroy() {
     // unsubscribe to avoid memory leaks
-    this.alertSubscription.unsubscribe();
-    this.routeSubscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   removeAlert() {
