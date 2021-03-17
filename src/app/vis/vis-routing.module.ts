@@ -28,6 +28,7 @@ import {FishIndexPageComponent} from './fish-index-page/fish-index-page.componen
 import {ProfilePageComponent} from './profile-page/profile-page.component';
 import {RoleGuard} from '../core/role-guard.service';
 import {Role} from '../core/_models/role';
+import {LocationCreatePageComponent} from "./location/location-create-page/location-create-page.component";
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -93,6 +94,7 @@ const routes: Routes = [
     canActivate: [AuthGuardWithForcedLogin]
   },
   {path: 'locaties', component: LocationOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'locaties/create', component: LocationCreatePageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'vissoorten', component: FishSpeciesOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'vissoorten/:taxonId', component: FishSpeciesDetailPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'methoden', component: MethodsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},

@@ -35,6 +35,9 @@ import {IMaskModule} from 'angular-imask';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {RoleEnabledButtonComponent} from './components/role-enabled-button/role-enabled-button.component';
+import {LeafletModule} from "@asymmetrik/ngx-leaflet";
+import { LocationCreatePageComponent } from './location/location-create-page/location-create-page.component';
+import { LocationCreateStep1Component } from './location/location-create-step1/location-create-step1.component';
 
 
 @NgModule({
@@ -67,7 +70,9 @@ import {RoleEnabledButtonComponent} from './components/role-enabled-button/role-
     SurveyEventHabitatEditPageComponent,
     FishSpeciesDetailPageComponent,
     SurveyEventParametersEditPageComponent,
-    RoleEnabledButtonComponent
+    RoleEnabledButtonComponent,
+    LocationCreatePageComponent,
+    LocationCreateStep1Component
   ],
   imports: [
     CommonModule,
@@ -76,7 +81,8 @@ import {RoleEnabledButtonComponent} from './components/role-enabled-button/role-
     IMaskModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslateModule
+    TranslateModule,
+    LeafletModule
   ]
 })
 export class VisModule {

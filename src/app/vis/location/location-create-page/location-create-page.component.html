@@ -1,0 +1,76 @@
+<app-stacked-layout [navigationLinks]="links">
+  <div slot="content">
+    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
+    <main>
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="px-4 py-8 sm:px-0">
+          <nav aria-label="Progress">
+            <ol class="space-y-4 md:flex md:space-y-0 md:space-x-8">
+              <li class="md:flex-1">
+                <app-step [active]="currentStep >= 1" step="Stap 1" description="Vispunt selecteren"></app-step>
+              </li>
+
+              <li class="md:flex-1">
+                <app-step [active]="currentStep >= 2" step="Stap 2" description="Waterloop"></app-step>
+              </li>
+
+              <li class="md:flex-1">
+                <app-step [active]="currentStep >= 3" step="Stap 3" description="Blauwe laag"></app-step>
+              </li>
+
+              <li class="md:flex-1">
+                <app-step [active]="currentStep >= 4" step="Stap 4" description="Bevestigen"></app-step>
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <div *ngIf="currentStep === 1" class="px-4 py-8 sm:px-0">
+
+          <app-location-create-step1></app-location-create-step1>
+
+          <div class="flex justify-end">
+            <app-button (click)="currentStep = 2" [style]="'primary'">Volgende</app-button>
+          </div>
+        </div>
+
+        <div *ngIf="currentStep === 2" class="px-4 py-8 sm:px-0">
+          <pre>
+              TODO:
+              - Geselecteerd punt tonen
+              - Alle waterlopen tonen
+              - Waterloop selecteren en benodigde info tonen
+            </pre>
+
+
+          <div class="flex justify-end">
+            <app-button (click)="currentStep = 3" [style]="'primary'">Volgende</app-button>
+          </div>
+        </div>
+        <div *ngIf="currentStep === 3" class="px-4 py-8 sm:px-0">
+          <pre>
+              TODO:
+              - Geselecteerd punt tonen
+              - blauwe laag tonen
+              - punt selecteren (optioneel?)
+            </pre>
+
+          <div class="flex justify-end">
+            <app-button (click)="currentStep = 4" [style]="'primary'">Volgende</app-button>
+          </div>
+        </div>
+        <div *ngIf="currentStep === 4" class="px-4 py-8 sm:px-0">
+          <pre>
+              TODO:
+              - Samenvatting tonen en het punt effectief aanmaken (is deze stap nodig of maken we het in de vorige stap al aan?)
+            </pre>
+
+          <div class="flex justify-end">
+            <app-button [style]="'primary'">Aanmaken</app-button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+</app-stacked-layout>

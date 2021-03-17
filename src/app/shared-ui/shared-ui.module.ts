@@ -19,6 +19,7 @@ import {NgTransitionModule} from 'ng-transition';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {TranslateModule} from '@ngx-translate/core';
+import {StepComponent} from './step/step.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {TranslateModule} from '@ngx-translate/core';
     ExpandableFilterComponent,
     RadioGroupComponent,
     CheckGroupComponent,
+    StepComponent,
   ],
   exports: [
     SidebarLayoutComponent,
@@ -54,6 +56,7 @@ import {TranslateModule} from '@ngx-translate/core';
     ExpandableFilterComponent,
     RadioGroupComponent,
     CheckGroupComponent,
+    StepComponent,
   ],
   imports: [
     RouterModule,
