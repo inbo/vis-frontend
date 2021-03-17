@@ -42,15 +42,6 @@
 
               <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt class="text-sm font-medium text-gray-500">
-                  Gemiddelde diepte (m)
-                </dt>
-                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <span *ngIf="parameters?.averageDepth">{{parameters?.averageDepth}}</span>
-                </dd>
-              </div>
-
-              <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-                <dt class="text-sm font-medium text-gray-500">
                   Watertemperatuur (°C)
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -69,19 +60,19 @@
 
               <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt class="text-sm font-medium text-gray-500">
-                  pH
+                  Zoutgehalte (°/oo)
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <span *ngIf="parameters?.ph">{{parameters?.ph}}</span>
+                  <span *ngIf="parameters?.salinity">{{parameters?.salinity}}</span>
                 </dd>
               </div>
 
               <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt class="text-sm font-medium text-gray-500">
-                  Stroomsnelheid (m/s)
+                  pH
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <span *ngIf="parameters?.flowRate">{{parameters?.flowRate}}</span>
+                  <span *ngIf="parameters?.ph">{{parameters?.ph}}</span>
                 </dd>
               </div>
 
@@ -106,10 +97,28 @@
 
               <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt class="text-sm font-medium text-gray-500">
-                  Zoutgehalte (°/oo)
+                  Stroomsnelheid (m/s)
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <span *ngIf="parameters?.salinity">{{parameters?.salinity}}</span>
+                  <span *ngIf="parameters?.flowRate">{{parameters?.flowRate}}</span>
+                </dd>
+              </div>
+
+              <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                  Gemiddelde diepte (m)
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <span *ngIf="parameters?.averageDepth">{{parameters?.averageDepth}}</span>
+                </dd>
+              </div>
+
+              <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                  Breedte (m)
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <span *ngIf="parameters?.width">{{parameters?.width}}</span>
                 </dd>
               </div>
             </dl>

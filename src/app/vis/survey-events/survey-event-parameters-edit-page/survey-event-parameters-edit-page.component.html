@@ -37,14 +37,6 @@
                 </div>
               </div>
               <div class="sm:col-span-4">
-                <label for="averageDepth" class="block text-sm font-medium text-gray-700">
-                  Gemiddelde diepte (m)
-                </label>
-                <div class="mt-1">
-                  <input [imask]="numberMask(1, -9.9, 9.9)" [unmask]="true" formControlName="averageDepth" type="text" name="averageDepth" id="averageDepth" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                </div>
-              </div>
-              <div class="sm:col-span-4">
                 <label for="temperature" class="block text-sm font-medium text-gray-700">
                   Watertemperatuur (°C)
                 </label>
@@ -61,19 +53,19 @@
                 </div>
               </div>
               <div class="sm:col-span-4">
+                <label for="salinity" class="block text-sm font-medium text-gray-700">
+                  Zoutgehalte (°/oo)
+                </label>
+                <div class="mt-1">
+                  <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="salinity" type="text" name="salinity" id="salinity" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                </div>
+              </div>
+              <div class="sm:col-span-4">
                 <label for="ph" class="block text-sm font-medium text-gray-700">
                   pH
                 </label>
                 <div class="mt-1">
                   <input [imask]="numberMask(2, -99.99, 99.99)" [unmask]="true" formControlName="ph" type="text" name="ph" id="ph" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                </div>
-              </div>
-              <div class="sm:col-span-4">
-                <label for="flowRate" class="block text-sm font-medium text-gray-700">
-                  Stroomsnelheid (m/s)
-                </label>
-                <div class="mt-1">
-                  <input [imask]="numberMask(1, -9.9, 9.9)" [unmask]="true" formControlName="flowRate" type="text" name="flowRate" id="flowRate" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
                 </div>
               </div>
               <div class="sm:col-span-4">
@@ -101,23 +93,29 @@
                 </div>
               </div>
               <div class="sm:col-span-4">
-                <label for="salinity" class="block text-sm font-medium text-gray-700">
-                  Zoutgehalte (°/oo)
+                <label for="flowRate" class="block text-sm font-medium text-gray-700">
+                  Stroomsnelheid (m/s)
                 </label>
                 <div class="mt-1">
-                  <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="salinity" type="text" name="salinity" id="salinity" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                  <input [imask]="numberMask(1, -9.9, 9.9)" [unmask]="true" formControlName="flowRate" type="text" name="flowRate" id="flowRate" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
                 </div>
               </div>
               <div class="sm:col-span-4">
-                <label for="salinity" class="block text-sm font-medium text-gray-700">
+                <label for="averageDepth" class="block text-sm font-medium text-gray-700">
+                  Gemiddelde diepte (m)
+                </label>
+                <div class="mt-1">
+                  <input [imask]="numberMask(1, -9.9, 9.9)" [unmask]="true" formControlName="averageDepth" type="text" name="averageDepth" id="averageDepth" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                </div>
+              </div>
+              <div class="sm:col-span-4">
+                <label for="width" class="block text-sm font-medium text-gray-700">
                   Breedte (m)
                 </label>
                 <div class="mt-1">
                   <input [imask]="numberMask(1, 0, 9.99)" [unmask]="true" formControlName="width" type="text" name="width" id="width" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
                 </div>
               </div>
-
-
             </div>
           </div>
 
