@@ -14,6 +14,7 @@ export class LocationCreatePageComponent implements OnInit {
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
     {title: 'Locaties', url: '/locaties'},
+    {title: 'Aanmaken', url: '/locaties/create'},
   ];
 
   currentStep = 1;
