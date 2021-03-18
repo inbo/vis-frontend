@@ -24,7 +24,7 @@
                   Naam
                 </label>
                 <div class="mt-1">
-                  <input formControlName="name" type="text" name="name" id="name" autocomplete="name" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                  <input formControlName="name" type="text" name="name" id="name" autocomplete="name">
                 </div>
                 <p *ngIf="submitted && name.errors" class="mt-2 text-sm text-red-600">Naam is verplicht en mag max 200 karakters lang zijn</p>
               </div>
@@ -34,7 +34,7 @@
                   Beschrijving
                 </label>
                 <div class="mt-1">
-                  <textarea formControlName="description" id="description" name="description" rows="3" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md"></textarea>
+                  <textarea formControlName="description" id="description" name="description" rows="3"></textarea>
                 </div>
                 <div class="flex justify-between">
                   <p class="mt-2 text-sm text-gray-500">Beschrijf het project in een aantal zinnen</p>

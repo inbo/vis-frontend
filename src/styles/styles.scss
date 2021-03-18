@@ -13,4 +13,19 @@
   select {
     @apply block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md
   }
+
+  [type='text'],
+  [type='email'],
+  [type='url'],
+  [type='password'],
+  [type='number'],
+  [type='date'],
+  [type='datetime-local'],
+  [type='month'],
+  [type='tel'],
+  [type='time'],
+  [type='week'],
+  textarea {
+    @apply block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm border-gray-300 rounded-md
+  }
 }
