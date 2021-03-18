@@ -49,7 +49,7 @@ export class LocationCreateStep2Component implements OnInit {
     this.selectStyle(this.fl3);
 
     this.newLocationLayerGroup = layerGroup()
-    this.newLocationLayerGroup.addLayer(marker(this.formGroup.get('coordinates').value));
+    this.newLocationLayerGroup.addLayer(marker(latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value)));
 
     this.fl1.metadata((error, metadata) => {
       let uniqueValueInfos = metadata.drawingInfo.renderer.uniqueValueInfos as [any];
@@ -68,7 +68,7 @@ export class LocationCreateStep2Component implements OnInit {
     ]
     this.options = {
       zoom: 17,
-      center: this.formGroup.get('coordinates').value,
+      center: latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value),
       doubleClickZoom: false
     };
 
@@ -99,8 +99,6 @@ export class LocationCreateStep2Component implements OnInit {
   private selectStyle(fl: FeatureLayer) {
     fl.on('click', (e) => {
       this.formGroup.get('waterway').patchValue(e.propagatedFrom.feature.properties);
-
-      console.log(this.formGroup.get('waterway').value);
 
       if (this.selectedFeature) {
         this.fl1.resetStyle();

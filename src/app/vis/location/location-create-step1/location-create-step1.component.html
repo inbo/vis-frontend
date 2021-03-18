@@ -1,7 +1,7 @@
 <div>
   <div class="grid grid-cols-6 gap-x-4 text-sm">
     <div class="col-span-6 md:col-span-4" >
-      <div style="height: 400px;" leaflet [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletDoubleClick)="addPoint($event)">
+      <div style="height: 400px;" leaflet [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletDoubleClick)="addPoint($event)" [leafletCenter]="center">
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 text-sm mt-2">
         <div *ngFor="let item of legend | keyvalue" class="flex items-center">
@@ -21,6 +21,7 @@
             <div class="mt-1">
               <input formControlName="code" type="text" name="code" id="code" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
             </div>
+            <p *ngIf="formGroup.get('code').touched && formGroup.get('code').invalid" class="mt-2 text-sm text-red-600">Code is verplicht</p>
           </div>
 
           <div>
@@ -30,6 +31,8 @@
             <div class="mt-1">
               <input formControlName="name" type="text" name="name" id="name" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md">
             </div>
+            <p *ngIf="formGroup.get('name').touched && formGroup.get('name').invalid" class="mt-2 text-sm text-red-600">Naam is verplicht</p>
+
           </div>
 
           <div>
@@ -51,7 +54,18 @@
                   </label>
                 </div>
               </div>
+              <p *ngIf="formGroup.get('type').touched && formGroup.get('type').invalid" class="mt-2 text-sm text-red-600">Type is verplicht</p>
             </div>
+          </div>
+
+          <div>
+            <label for="lat" class="block text-sm font-medium text-gray-700">Latitude - Longitude</label>
+            <div class="mt-1 flex space-x-2">
+              <input formControlName="lat" type="text" name="lat" id="lat" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md" >
+              <input formControlName="lng" type="text" name="lng" id="lng" class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 rounded-md" >
+            </div>
+            <p *ngIf="coordinatesAreInvalid()" class="mt-2 text-sm text-red-600">De coördinaten zijn niet geldig</p>
+            <p class="mt-2 text-sm text-gray-500" id="email-description">Dubbelklik op de kaart om een punt te selecteren of voer deze manueel in</p>
           </div>
 
         </div>

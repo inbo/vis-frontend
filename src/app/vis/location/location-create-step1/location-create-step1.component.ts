@@ -1,8 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {basemapLayer, featureLayer, FeatureLayerService, FeatureLayer} from "esri-leaflet";
+import {Component, Input, OnInit} from '@angular/core';
+import {basemapLayer, featureLayer, FeatureLayer, FeatureLayerService} from "esri-leaflet";
 import {LatLng, latLng, Layer, layerGroup, LayerGroup, LeafletMouseEvent, MapOptions, marker,} from "leaflet";
 import {Title} from "@angular/platform-browser";
 import {LeafletControlLayersConfig} from "@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model";
+import {FormGroup} from "@angular/forms";
+import {debounceTime} from "rxjs/operators";
 
 @Component({
   selector: 'app-location-create-step1',
@@ -10,21 +12,22 @@ import {LeafletControlLayersConfig} from "@asymmetrik/ngx-leaflet/src/leaflet/la
 })
 export class LocationCreateStep1Component implements OnInit {
 
-  @Input() formGroup;
+  @Input() formGroup: FormGroup;
 
   options: MapOptions;
   layersControl: LeafletControlLayersConfig;
-  layers: Layer[];
+  center: LatLng;
 
+  layers: Layer[];
   selected = {};
+
   selectedLayerUrl: string;
 
   service: FeatureLayerService;
-
   legend = new Map()
   private newLocationLayerGroup: LayerGroup;
-  private selectedFeature: any;
 
+  private selectedFeature: any;
   private fl1: FeatureLayer;
   private fl2: FeatureLayer;
   private fl3: FeatureLayer;
@@ -40,9 +43,9 @@ export class LocationCreateStep1Component implements OnInit {
   private setup() {
     this.service = new FeatureLayerService({url: 'https://gisservices.inbo.be'});
 
-    this.fl1 = featureLayer({ url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer/0' });
-    this.fl2 = featureLayer({ url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer/1', ignoreRenderer: true });
-    this.fl3 = featureLayer({ url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer/2' });
+    this.fl1 = featureLayer({url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer/0'});
+    this.fl2 = featureLayer({url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer/1', ignoreRenderer: true});
+    this.fl3 = featureLayer({url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer/2'});
 
     this.selectStyle(this.fl1);
     this.selectStyle(this.fl2);
@@ -99,6 +102,42 @@ export class LocationCreateStep1Component implements OnInit {
       locationsLayer.on('click', this.showFeatureInformation().bind(this));
 
     });
+
+    this.formGroup.get('lat').valueChanges
+      .pipe(
+        debounceTime(300)
+      )
+      .subscribe(value => {
+        if (this.formGroup.get('lat').invalid || this.formGroup.get('lng').invalid) {
+          this.newLocationLayerGroup.clearLayers();
+          return;
+        }
+
+        const latlng = latLng(value, this.formGroup.get('lng').value);
+        const m = marker(latlng);
+        this.newLocationLayerGroup.clearLayers();
+        this.newLocationLayerGroup.addLayer(m);
+
+        this.center = latlng
+      })
+
+    this.formGroup.get('lng').valueChanges
+      .pipe(
+        debounceTime(300)
+      )
+      .subscribe(value => {
+        if (this.formGroup.get('lat').invalid || this.formGroup.get('lng').invalid) {
+          this.newLocationLayerGroup.clearLayers();
+          return;
+        }
+
+        const latlng = latLng(this.formGroup.get('lat').value, value);
+        const m = marker(latlng);
+        this.newLocationLayerGroup.clearLayers();
+        this.newLocationLayerGroup.addLayer(m);
+
+        this.center = latlng
+      })
   }
 
   private selectStyle(fl: FeatureLayer) {
@@ -115,7 +154,7 @@ export class LocationCreateStep1Component implements OnInit {
     });
   }
 
-  serverAuth (callback) {
+  serverAuth(callback) {
     this.service.post('/portal/sharing/generateToken',
       {
         username: 'aquatbeheer',
@@ -145,6 +184,11 @@ export class LocationCreateStep1Component implements OnInit {
     this.newLocationLayerGroup.clearLayers();
     this.newLocationLayerGroup.addLayer(m);
 
-    this.formGroup.get('coordinates').patchValue(e.latlng);
+    this.formGroup.get('lat').patchValue(e.latlng.lat, {emitEvent: false});
+    this.formGroup.get('lng').patchValue(e.latlng.lng, {emitEvent: false});
+  }
+
+  coordinatesAreInvalid() {
+    return (this.formGroup.get('lat').touched && this.formGroup.get('lat').invalid) || (this.formGroup.get('lng').touched && this.formGroup.get('lng').invalid)
   }
 }
