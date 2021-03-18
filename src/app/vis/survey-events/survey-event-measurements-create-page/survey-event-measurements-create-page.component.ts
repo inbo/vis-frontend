@@ -72,7 +72,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit {
         document.getElementById(`soort${this.currentNumber}`).focus();
         // Remove listener from previous comment field
         commentField.removeEventListener('keydown', listener);
-        // Add listener to new comment field
+        // Add listener to new comment fieldMethodOverviewSpecifications
         document.getElementById(`commentField${this.currentNumber++}`).addEventListener('keydown', listener);
       }
     };
