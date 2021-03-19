@@ -68,8 +68,8 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, After
   ngAfterViewChecked(): void {
   }
 
-  onKeyPress(event: KeyboardEvent) {
-    if (event.key === 'Tab') {
+  onKeyPress(event: KeyboardEvent, i: number) {
+    if (event.key === 'Tab' && (this.items === undefined || (i+1) == this.items.length)) {
       this.items = this.measurementsForm.get('items') as FormArray;
       this.items.push(this.createItem());
     }
