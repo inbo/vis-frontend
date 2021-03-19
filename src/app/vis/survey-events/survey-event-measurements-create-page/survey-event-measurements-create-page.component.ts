@@ -1,4 +1,4 @@
-import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
@@ -9,7 +9,7 @@ import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
   selector: 'app-survey-event-measurements-create-page',
   templateUrl: './survey-event-measurements-create-page.component.html'
 })
-export class SurveyEventMeasurementsCreatePageComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class SurveyEventMeasurementsCreatePageComponent implements OnInit {
 
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
@@ -36,12 +36,17 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, After
     }
   ];
 
-  measurements = new FormArray([]);
-
-  private hasListener = false;
+  measurementsForm = new FormArray([]);
 
   constructor(private activatedRoute: ActivatedRoute) {
-    this.measurements.push(new FormGroup({
+    this.measurementsForm.push(this.createMeasurementForm());
+  }
+
+  ngOnInit(): void {
+  }
+
+  createMeasurementForm(): FormGroup {
+    return new FormGroup({
       species: new FormControl('', Validators.required),
       length: new FormControl('', Validators.required),
       weight: new FormControl('', Validators.required),
@@ -49,56 +54,12 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, After
       gender: new FormControl('', Validators.required),
       lengthMeasurement: new FormControl('', Validators.required),
       comment: new FormControl('', Validators.required)
-    }));
-  }
-
-  ngOnInit(): void {
-  }
-
-  ngAfterViewInit() {
-    let commentFields = document.getElementsByName('comment');
-    const commentField = commentFields[commentFields.length - 1];
-
-    this.addEventListener(commentField);
-  }
-
-  ngAfterViewChecked(): void {
-    if (this.hasListener) {
-      return;
-    }
-
-    const commentFields = document.getElementsByName('comment');
-    const commentField = commentFields[commentFields.length - 1];
-
-    this.addEventListener(commentField);
-
-    const speciesFields = document.getElementsByName('species');
-    setTimeout(() => {
-      speciesFields[speciesFields.length - 1].focus();
     });
   }
 
-  private addEventListener(commentField: HTMLElement) {
-    const listener = event => {
-      if (event.key === 'Tab') {
-        event.preventDefault();
-
-        this.measurements.push(new FormGroup({
-          species: new FormControl('', Validators.required),
-          length: new FormControl('', Validators.required),
-          weight: new FormControl('', Validators.required),
-          amount: new FormControl('', Validators.required),
-          gender: new FormControl('', Validators.required),
-          lengthMeasurement: new FormControl('', Validators.required),
-          comment: new FormControl('', Validators.required)
-        }));
-
-        commentField.removeEventListener('keydown', listener);
-        this.hasListener = false;
-      }
+  onKeyPress(event: KeyboardEvent, i: number) {
+    if (event.key === 'Tab' && (i + 1) === this.measurementsForm.length) {
+      this.measurementsForm.push(this.createMeasurementForm());
     }
-
-    commentField.addEventListener('keydown', listener);
-    this.hasListener = true;
   }
 }

@@ -39,7 +39,7 @@
                   </tr>
                   </thead>
                   <tbody id="table" class="bg-white divide-y divide-gray-200">
-                    <tr *ngFor="let measurement of measurements.controls">
+                    <tr *ngFor="let measurement of measurementsForm.controls; let i = index;">
                       <ng-container [formGroup]="measurement">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                           <input name="species" formControlName="species" type="text" class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
@@ -61,7 +61,7 @@
                           <input formControlName="lengthMeasurement" type="text" class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          <input name="comment" formControlName="comment" type="text" class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
+                          <input (keydown)="onKeyPress($event, i)" name="comment" formControlName="comment" type="text" class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
                         </td>
                       </ng-container>
                     </tr>
