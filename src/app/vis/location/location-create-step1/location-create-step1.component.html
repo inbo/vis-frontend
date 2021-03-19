@@ -1,7 +1,7 @@
 <div>
   <div class="grid grid-cols-6 gap-x-4 text-sm">
     <div class="col-span-6 md:col-span-4" >
-      <div class="h-96" leaflet [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletDoubleClick)="addPoint($event)" [leafletCenter]="center">
+      <div class="h-96" leaflet [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletMapReady)="onReady($event)" (leafletClick)="clickMap($event)" (leafletDoubleClick)="addPoint($event)" [leafletCenter]="center">
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 text-sm mt-2">
         <div *ngFor="let item of legend | keyvalue" class="flex items-center">

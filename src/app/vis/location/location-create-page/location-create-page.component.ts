@@ -5,6 +5,7 @@ import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
 import {Title} from "@angular/platform-browser";
 import "esri-leaflet-renderers"
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-location-create-page',

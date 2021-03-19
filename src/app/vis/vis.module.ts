@@ -41,7 +41,6 @@ import { LocationCreateStep2Component } from './location/location-create-step2/l
 import { LocationCreateStep3Component } from './location/location-create-step3/location-create-step3.component';
 import { LocationCreateStep4Component } from './location/location-create-step4/location-create-step4.component';
 
-
 @NgModule({
   declarations: [
     DashboardPageComponent,

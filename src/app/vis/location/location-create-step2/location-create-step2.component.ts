@@ -72,14 +72,12 @@ export class LocationCreateStep2Component implements OnInit {
       doubleClickZoom: false
     };
 
+
     this.layersControl = {
       baseLayers: {
         'Open Street Map': basemapLayer1,
       },
       overlays: {
-        'Aslijnen Waterlopen ntzichtbaar': this.fl1,
-        Wlas_20180601: this.fl2,
-        Vhazone_20180601: this.fl3
       }
     }
 

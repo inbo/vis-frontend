@@ -3,8 +3,6 @@
 @import 'flatpickr/dist/themes/light.css';
 @import 'flatpickr-tailwind.css';
 
-@import 'leaflet-inbo.css';
-
 @layer base {
   [type='checkbox'], [type=radio] {
     @apply focus:ring-pink-500 h-4 w-4 text-pink-600 border-gray-300 cursor-pointer
