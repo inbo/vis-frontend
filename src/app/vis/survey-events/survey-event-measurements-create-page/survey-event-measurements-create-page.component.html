@@ -8,6 +8,7 @@
 
       <div class="px-4 py-8 sm:px-0">
         <!-- This example requires Tailwind CSS v2.0+ -->
+        <form [formGroup]="measurementsForm">
         <div class="flex flex-col hidden lg:block">
           <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -39,11 +40,11 @@
                   </tr>
                   </thead>
                   <tbody id="table" class="bg-white divide-y divide-gray-200">
-                    <tr *ngFor="let measurement of measurements.controls">
-                      <ng-container [formGroup]="measurement">
+                    <tr formArrayName="items" *ngFor="let item of measurementsForm.get('items')['controls']; let i = index;">
+                      <ng-container [formGroupName]="i">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                           <input name="species" formControlName="species" type="text" class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
-                          <p *ngIf="(measurement.get('species').dirty || measurement.get('species').touched) && measurement.get('species').errors" class="mt-2 text-sm text-red-600">Soort is verplicht</p>
+                          <p *ngIf="isInvalid(i)" class="mt-2 text-sm text-red-600">Soort is verplicht</p>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                           <input formControlName="length" type="text" class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
@@ -61,7 +62,7 @@
                           <input formControlName="lengthMeasurement" type="text" class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          <input name="comment" formControlName="comment" type="text" class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
+                          <input (keydown)="onKeyPress($event)" name="comment" formControlName="comment" type="text" class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
                         </td>
                       </ng-container>
                     </tr>
@@ -71,7 +72,7 @@
             </div>
           </div>
         </div>
-
+        </form>
         <!-- This example requires Tailwind CSS v2.0+ -->
         <!--<div class="bg-white shadow overflow-hidden sm:rounded-md lg:hidden">
           <ul class="divide-y divide-gray-200">
