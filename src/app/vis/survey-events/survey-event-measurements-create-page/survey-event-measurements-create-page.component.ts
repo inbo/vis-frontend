@@ -3,7 +3,7 @@ import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {ActivatedRoute} from '@angular/router';
-import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-survey-event-measurements-create-page',
@@ -36,17 +36,19 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit {
     }
   ];
 
-  measurementsForm = new FormArray([]);
+  measurementsForm: FormGroup;
 
-  constructor(private activatedRoute: ActivatedRoute) {
-    this.measurementsForm.push(this.createMeasurementForm());
+  constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
+    this.measurementsForm = this.formBuilder.group({
+      items: this.formBuilder.array([this.createItem()])
+    });
   }
 
-  createMeasurementForm(): FormGroup {
-    return new FormGroup({
+  createItem(): FormGroup {
+    return this.formBuilder.group({
       species: new FormControl('', Validators.required),
       length: new FormControl('', Validators.required),
       weight: new FormControl('', Validators.required),
@@ -57,9 +59,14 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit {
     });
   }
 
+  items(): FormArray {
+    return this.measurementsForm.get('items') as FormArray;
+  }
+
   onKeyPress(event: KeyboardEvent, i: number) {
-    if (event.key === 'Tab' && (i + 1) === this.measurementsForm.length) {
-      this.measurementsForm.push(this.createMeasurementForm());
+    if (event.key === 'Tab' && (this.items() === undefined || (i + 1) === this.items().length)) {
+      console.log(this.items());
+      this.items().push(this.createItem());
     }
   }
 }
