@@ -40,6 +40,7 @@ import { LocationCreateStep1Component } from './location/location-create-step1/l
 import { LocationCreateStep2Component } from './location/location-create-step2/location-create-step2.component';
 import { LocationCreateStep3Component } from './location/location-create-step3/location-create-step3.component';
 import { LocationCreateStep4Component } from './location/location-create-step4/location-create-step4.component';
+import { ProjectHeadingComponent } from './project/project-heading/project-heading.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { LocationCreateStep4Component } from './location/location-create-step4/l
     LocationCreateStep1Component,
     LocationCreateStep2Component,
     LocationCreateStep3Component,
-    LocationCreateStep4Component
+    LocationCreateStep4Component,
+    ProjectHeadingComponent
   ],
   imports: [
     CommonModule,
