@@ -14,23 +14,6 @@ import {Subscription} from 'rxjs';
 })
 export class SurveyEventParametersPageComponent implements OnInit, OnDestroy {
 
-  links: NavigationLink[] = GlobalConstants.links;
-  breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Projecten', url: '/projecten'},
-    {title: this.activatedRoute.snapshot.params.projectCode, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
-    {title: 'Waarnemingen', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen'},
-    {
-      title: 'ID: ' + this.activatedRoute.snapshot.params.surveyEventId,
-      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
-        + this.activatedRoute.snapshot.params.surveyEventId
-    },
-    {
-      title: 'Waterkwaliteitsparameters',
-      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
-        + this.activatedRoute.snapshot.params.surveyEventId + '/waterkwaliteitsparameters'
-    }
-  ];
-
   projectCode: string;
   surveyEventId: any;
   parameters: Parameters;
@@ -38,12 +21,12 @@ export class SurveyEventParametersPageComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute) {
-    this.projectCode = this.activatedRoute.snapshot.params.projectCode;
-    this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
-    this.titleService.setTitle('Waarneming waterkwaliteitsparameters ' + this.activatedRoute.snapshot.params.surveyEventId);
+    this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
+    this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
+    this.titleService.setTitle('Waarneming waterkwaliteitsparameters ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
 
-    this.subscription.add(this.visService.getParameters(this.activatedRoute.snapshot.params.projectCode,
-      this.activatedRoute.snapshot.params.surveyEventId).subscribe(value => {
+    this.subscription.add(this.visService.getParameters(this.activatedRoute.parent.snapshot.params.projectCode,
+      this.activatedRoute.parent.snapshot.params.surveyEventId).subscribe(value => {
       this.parameters = value;
     }));
   }

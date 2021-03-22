@@ -1,7 +1,4 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
-import {GlobalConstants} from '../../../GlobalConstants';
-import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {Parameters} from '../../project/model/parameters';
 import {Title} from '@angular/platform-browser';
 import {VisService} from '../../../vis.service';
@@ -14,27 +11,6 @@ import {FormBuilder, FormGroup} from '@angular/forms';
   templateUrl: './survey-event-parameters-edit-page.component.html'
 })
 export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy {
-  links: NavigationLink[] = GlobalConstants.links;
-
-  breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Projecten', url: '/projecten'},
-    {title: this.activatedRoute.snapshot.params.projectCode, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
-    {title: 'Waarnemingen', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen'},
-    {
-      title: 'ID: ' + this.activatedRoute.snapshot.params.surveyEventId,
-      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
-        + this.activatedRoute.snapshot.params.surveyEventId
-    },
-    {
-      title: 'Waterkwaliteitsparameters',
-      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
-        + this.activatedRoute.snapshot.params.surveyEventId + '/waterkwaliteitsparameters'
-    }
-  ];
-  private projectSubscription$: Subscription;
-  private parametersSubscription$: Subscription;
-  private updateSubscription$: Subscription;
-
   surveyEventId: any;
 
   parameters: Parameters;
@@ -45,11 +21,11 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder, private router: Router) {
-    this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
-    this.titleService.setTitle('Bewerken waarneming waterkwaliteitsparameters ' + this.activatedRoute.snapshot.params.surveyEventId);
+    this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
+    this.titleService.setTitle('Bewerken waarneming waterkwaliteitsparameters ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
 
-    this.subscription.add(this.visService.getParameters(this.activatedRoute.snapshot.params.projectCode,
-      this.activatedRoute.snapshot.params.surveyEventId)
+    this.subscription.add(this.visService.getParameters(this.activatedRoute.parent.snapshot.params.projectCode,
+      this.activatedRoute.parent.snapshot.params.surveyEventId)
       .subscribe(value => {
         this.parameters = value;
       }));
@@ -72,8 +48,8 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
         width: ['', []]
       });
 
-    this.subscription.add(this.visService.getParameters(this.activatedRoute.snapshot.params.projectCode,
-      this.activatedRoute.snapshot.params.surveyEventId).subscribe(value => {
+    this.subscription.add(this.visService.getParameters(this.activatedRoute.parent.snapshot.params.projectCode,
+      this.activatedRoute.parent.snapshot.params.surveyEventId).subscribe(value => {
       this.parameters = value;
       this.parametersForm.get('oxygen').patchValue(value.oxygen !== null ? value.oxygen.toString() : '');
       this.parametersForm.get('oxygenPercentage').patchValue(value.oxygenPercentage !== null ? value.oxygenPercentage.toString() : '');
@@ -98,11 +74,11 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
 
     const formData = this.parametersForm.getRawValue();
 
-    this.subscription.add(this.visService.updateParameters(this.activatedRoute.snapshot.params.projectCode.value, this.surveyEventId,
+    this.subscription.add(this.visService.updateParameters(this.activatedRoute.parent.snapshot.params.projectCode.value, this.surveyEventId,
       formData).subscribe(() => {
         this.reset();
-        this.router.navigate(['/projecten', this.activatedRoute.snapshot.params.projectCode, 'waarnemingen',
-          this.activatedRoute.snapshot.params.surveyEventId, 'waterkwaliteitsparameters']).then();
+        this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
+          this.activatedRoute.parent.snapshot.params.surveyEventId, 'waterkwaliteitsparameters']).then();
       },
       (error) => console.log(error)
     ));

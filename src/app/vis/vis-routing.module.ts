@@ -28,6 +28,7 @@ import {ProfilePageComponent} from './profile-page/profile-page.component';
 import {RoleGuard} from '../core/role-guard.service';
 import {Role} from '../core/_models/role';
 import {LocationCreatePageComponent} from './location/location-create-page/location-create-page.component';
+import {SurveyEventComponent} from "./survey-events/survey-event/survey-event.component";
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -47,45 +48,59 @@ const routes: Routes = [
   {path: 'projecten/:projectCode/afbeeldingen', component: ProjectPicturesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {
     path: 'projecten/:projectCode/waarnemingen/:surveyEventId',
-    component: SurveyEventDetailPageComponent,
-    canActivate: [AuthGuardWithForcedLogin]
-  },
-  {
-    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/waterkwaliteitsparameters',
-    component: SurveyEventParametersPageComponent,
-    canActivate: [AuthGuardWithForcedLogin]
-  },
-  {
-    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/waterkwaliteitsparameters/bewerk',
-    component: SurveyEventParametersEditPageComponent,
-    canActivate: [AuthGuardWithForcedLogin],
-    canDeactivate: [HasUnsavedDataGuard]
-  },
-  {
-    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/methode',
-    component: SurveyEventMethodPageComponent,
-    canActivate: [AuthGuardWithForcedLogin]
-  },
-  {
-    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/habitat',
-    component: SurveyEventHabitatPageComponent,
-    canActivate: [AuthGuardWithForcedLogin]
-  },
-  {
-    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/habitat/bewerk',
-    component: SurveyEventHabitatEditPageComponent,
-    canActivate: [AuthGuardWithForcedLogin],
-    canDeactivate: [HasUnsavedDataGuard]
-  },
-  {
-    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/traject',
-    component: SurveyEventTrajectPageComponent,
-    canActivate: [AuthGuardWithForcedLogin]
-  },
-  {
-    path: 'projecten/:projectCode/waarnemingen/:surveyEventId/metingen',
-    component: SurveyEventMeasurementsPageComponent,
-    canActivate: [AuthGuardWithForcedLogin]
+    component: SurveyEventComponent,
+    children: [
+      {
+        path: '',
+        component: SurveyEventDetailPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        data: {name: 'Algemeen', url: ''}
+      },
+      {
+        path: 'waterkwaliteitsparameters',
+        component: SurveyEventParametersPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        data: {name: 'Waterkwaliteitsparameters', url: 'waterkwaliteitsparameters'}
+      },
+      {
+        path: 'waterkwaliteitsparameters/bewerk',
+        component: SurveyEventParametersEditPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        canDeactivate: [HasUnsavedDataGuard],
+        data: {name: 'Waterkwaliteitsparameters', url: 'waterkwaliteitsparameters/bewerk'}
+      },
+      {
+        path: 'methode',
+        component: SurveyEventMethodPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        data: {name: 'Methode', url: 'methode'}
+      },
+      {
+        path: 'habitat',
+        component: SurveyEventHabitatPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        data: {name: 'Hebitat', url: 'habitat'}
+      },
+      {
+        path: 'habitat/bewerk',
+        component: SurveyEventHabitatEditPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        canDeactivate: [HasUnsavedDataGuard],
+        data: {name: 'Hebitat', url: 'habitat/bewerk'}
+      },
+      {
+        path: 'traject',
+        component: SurveyEventTrajectPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        data: {name: 'Traject', url: 'traject'}
+      },
+      {
+        path: 'metingen',
+        component: SurveyEventMeasurementsPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        data: {name: 'Metingen', url: 'metingen'}
+      },
+    ]
   },
   {path: 'locaties', component: LocationOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'locaties/create', component: LocationCreatePageComponent, canActivate: [AuthGuardWithForcedLogin]},

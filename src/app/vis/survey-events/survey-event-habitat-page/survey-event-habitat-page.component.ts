@@ -15,23 +15,6 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 })
 export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
 
-  links: NavigationLink[] = GlobalConstants.links;
-  breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Projecten', url: '/projecten'},
-    {title: this.activatedRoute.snapshot.params.projectCode, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
-    {title: 'Waarnemingen', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen'},
-    {
-      title: 'ID: ' + this.activatedRoute.snapshot.params.surveyEventId,
-      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
-        + this.activatedRoute.snapshot.params.surveyEventId
-    },
-    {
-      title: 'Habitat',
-      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
-        + this.activatedRoute.snapshot.params.surveyEventId + '/habitat'
-    }
-  ];
-
   projectCode: string;
   surveyEventId: any;
   habitat: Habitat;
@@ -41,12 +24,12 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder) {
-    this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
-    this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.snapshot.params.surveyEventId);
+    this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
+    this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
   }
 
   ngOnInit(): void {
-    this.projectCode = this.activatedRoute.snapshot.params.projectCode;
+    this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
     this.habitatForm = this.formBuilder.group(
       {
         waterLevel: [null],
@@ -61,7 +44,7 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
         loop: [null],
       });
 
-    this.subscription.add(this.visService.getHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId)
+    this.subscription.add(this.visService.getHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId)
       .subscribe(value => {
         this.habitat = value;
       }));
