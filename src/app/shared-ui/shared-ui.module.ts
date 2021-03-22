@@ -20,6 +20,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {TranslateModule} from '@ngx-translate/core';
 import {StepComponent} from './step/step.component';
+import {TipComponent} from "./tip/tip.component";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,8 @@ import {StepComponent} from './step/step.component';
     RadioGroupComponent,
     CheckGroupComponent,
     StepComponent,
+    TipComponent,
+
   ],
   exports: [
     SidebarLayoutComponent,

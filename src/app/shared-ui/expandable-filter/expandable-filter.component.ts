@@ -14,6 +14,8 @@ export class ExpandableFilterComponent implements OnInit, OnChanges {
   @Output() searchClicked = new EventEmitter<boolean>();
   @Output() resetClicked = new EventEmitter<boolean>();
 
+  showResetTip: boolean = false;
+
   constructor() {
 
   }

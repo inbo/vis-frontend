@@ -44,6 +44,8 @@ import { ProjectHeadingComponent } from './project/project-heading/project-headi
 import { SurveyEventHeadingComponent } from './survey-events/survey-event-heading/survey-event-heading.component';
 import { SurveyEventComponent } from './survey-events/survey-event/survey-event.component';
 import { ProjectComponent } from './project/project/project.component';
+import { TipComponent } from '../shared-ui/tip/tip.component';
+import {NgTransitionModule} from "ng-transition";
 
 @NgModule({
   declarations: [
@@ -93,7 +95,8 @@ import { ProjectComponent } from './project/project/project.component';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    LeafletModule
+    LeafletModule,
+    NgTransitionModule
   ]
 })
 export class VisModule {
