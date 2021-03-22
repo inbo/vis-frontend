@@ -11,6 +11,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ProjectAddComponent} from '../project-add/project-add.component';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Role} from "../../../core/_models/role";
+import {debounceTime, distinctUntilChanged, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-projects-overview-page',
@@ -37,16 +38,26 @@ export class ProjectsOverviewPageComponent implements OnInit {
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router,
               private formBuilder: FormBuilder) {
+  }
+
+  ngOnInit(): void {
     this.titleService.setTitle('Projecten');
 
-    const queryParams = activatedRoute.snapshot.queryParams;
-    this.filterForm = formBuilder.group(
+    const queryParams = this.activatedRoute.snapshot.queryParams;
+    this.filterForm = this.formBuilder.group(
       {
         name: [queryParams.name],
         description: [queryParams.description],
         status: [queryParams.status],
         sort: [queryParams.sort]
       },
+    );
+
+    this.subscription.add(
+      this.filterForm.valueChanges.pipe(
+        debounceTime(300),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
+        .subscribe(_ => this.filter())
     );
 
     this.subscription.add(
@@ -60,14 +71,6 @@ export class ProjectsOverviewPageComponent implements OnInit {
       })
     );
 
-  }
-
-  ngOnInit(): void {
-    this.subscription.add(
-      this.activatedRoute.queryParams.subscribe((params) => {
-        this.getProjects(params.page ? params.page : 1, params.size ? params.size : 20);
-      })
-    );
   }
 
   getProjects(page: number, size: number) {
@@ -88,6 +91,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
 
   filter() {
     const rawValue = this.filterForm.getRawValue();
+    console.log('filter');
     const queryParams: Params = {...rawValue, page: 1};
 
     this.router.navigate(

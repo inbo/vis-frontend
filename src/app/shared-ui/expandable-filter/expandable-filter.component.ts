@@ -8,6 +8,7 @@ import {FormGroup} from '@angular/forms';
 export class ExpandableFilterComponent implements OnInit, OnChanges {
   advancedFilterIsVisible = false;
 
+  @Input() hideSearchButton: boolean = false;
   @Input() formGroup: FormGroup;
   @Input() showAdvancedFilterAtStartup: boolean;
   @Input() showAdvancedFilter = true;
