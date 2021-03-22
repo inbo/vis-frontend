@@ -93,7 +93,7 @@
                       </tr>
 
                       <tr *ngFor="let project of projects | async; let index = index" [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">
-                        <td class="px-6 py-4  text-sm font-medium text-gray-500">
+                        <td class="px-6 py-4  text-sm text-gray-500">
                           <a [routerLink]="['/projecten', project.code.value]">{{project.name}}</a>
                         </td>
                         <td class="px-6 py-4  text-sm text-gray-500">
