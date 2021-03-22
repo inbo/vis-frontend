@@ -1,140 +1,127 @@
-<app-stacked-layout [navigationLinks]="links">
-  <div slot="content">
-    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
+<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+  <div class="grid grid-cols-12">
+    <div class="col-span-full md:col-span-5 py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
 
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-      <app-project-heading></app-project-heading>
-      <app-project-tabs></app-project-tabs>
+        <div class="bg-white px-4 py-5 sm:px-6">
+          <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
+            <div class="ml-4 mt-4">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Waarnemingen
+              </h3>
+              <p class="mt-1 text-sm text-gray-500">
+                Selecteer een waarneming om de bijhorende metingen te bekijken.
+              </p>
+            </div>
+            <div class="ml-4 mt-4 flex-shrink-0">
+              <button (click)="navigateToSurveyEventDetail()" type="button" class="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+                Bewerk
+              </button>
+            </div>
+          </div>
+        </div>
 
-      <div class="px-4 py-8 sm:px-0">
-        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="grid grid-cols-12">
-            <div class="col-span-full md:col-span-5 py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+        <div class="bg-white shadow overflow-hidden sm:rounded-md">
+          <ul class="divide-y divide-gray-200">
+            <li>
+              <div *ngIf="loading" class="block hover:bg-gray-50">
+                <div class="flex items-center px-4 py-4 sm:px-6">
+                  <app-loading-spinner></app-loading-spinner>
+                </div>
+              </div>
+            </li>
 
-                <div class="bg-white px-4 py-5 sm:px-6">
-                  <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
-                    <div class="ml-4 mt-4">
-                      <h3 class="text-lg leading-6 font-medium text-gray-900">
-                        Waarnemingen
-                      </h3>
-                      <p class="mt-1 text-sm text-gray-500">
-                        Selecteer een waarneming om de bijhorende metingen te bekijken.
+            <li *ngFor="let surveyEvent of surveyEvents | async">
+              <a (click)="selectSurveyEvent(surveyEvent)" class="block hover:bg-gray-50 cursor-pointer" [class.bg-pink-50]="surveyEvent === selectedSurveyEvent">
+                <div class="flex items-center px-4 py-4 sm:px-6">
+                  <div class="min-w-0 flex-1 flex items-center">
+                    <div class="w-full">
+                      <div class="text-sm font-medium text-pink-600 truncate flex justify-between">
+                        <div>{{surveyEvent.occurrence | date:'dd/MM/yyyy'}}</div>
+                        <app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>
+
+                      </div>
+                      <p class="mt-2 flex items-center text-sm text-gray-500">
+                        <span *ngIf="surveyEvent.method" class="truncate">{{'method.' + surveyEvent.method + '.group' | translate}}</span>
                       </p>
                     </div>
-                    <div class="ml-4 mt-4 flex-shrink-0">
-                      <button (click)="navigateToSurveyEventDetail()" type="button" class="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-                        Bewerk
-                      </button>
-                    </div>
+                  </div>
+                  <div>
+                    <!-- Heroicon name: chevron-right -->
+                    <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                    </svg>
                   </div>
                 </div>
+              </a>
+            </li>
+          </ul>
+        </div>
 
-                <div class="bg-white shadow overflow-hidden sm:rounded-md">
-                  <ul class="divide-y divide-gray-200">
-                    <li>
-                      <div *ngIf="loading" class="block hover:bg-gray-50">
-                        <div class="flex items-center px-4 py-4 sm:px-6">
-                          <app-loading-spinner></app-loading-spinner>
-                        </div>
-                      </div>
-                    </li>
+        <app-paging-async [resetParams]="resetParams" [pager]="pager"></app-paging-async>
+      </div>
+    </div>
+    <div class="col-span-full md:col-span-7 py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <!-- This example requires Tailwind CSS v2.0+ -->
+      <div class="flex flex-col">
+        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
 
-                    <li *ngFor="let surveyEvent of surveyEvents | async">
-                      <a (click)="selectSurveyEvent(surveyEvent)" class="block hover:bg-gray-50 cursor-pointer" [class.bg-pink-50]="surveyEvent === selectedSurveyEvent">
-                        <div class="flex items-center px-4 py-4 sm:px-6">
-                          <div class="min-w-0 flex-1 flex items-center">
-                            <div class="w-full">
-                              <div class="text-sm font-medium text-pink-600 truncate flex justify-between">
-                                <div>{{surveyEvent.occurrence | date:'dd/MM/yyyy'}}</div>
-                                <app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>
-
-                              </div>
-                              <p class="mt-2 flex items-center text-sm text-gray-500">
-                                <span *ngIf="surveyEvent.method" class="truncate">{{'method.' + surveyEvent.method + '.group' | translate}}</span>
-                              </p>
-                            </div>
-                          </div>
-                          <div>
-                            <!-- Heroicon name: chevron-right -->
-                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                            </svg>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-
-                <app-paging-async [resetParams]="resetParams" [pager]="pager"></app-paging-async>
-              </div>
-            </div>
-            <div class="col-span-full md:col-span-7 py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <!-- This example requires Tailwind CSS v2.0+ -->
-              <div class="flex flex-col">
-                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                  <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-
-                      <!-- This example requires Tailwind CSS v2.0+ -->
-                      <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900">
-                          Metingen
-                        </h3>
-                      </div>
-
-
-                      <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                          <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Soort
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Aantal
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Lengte
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Gewicht
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                          <tr *ngFor="let measurement of measurements | async">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                              {{"taxon.id." + measurement.taxonId | translate}}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              {{measurement.amount}}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              {{measurement.length}}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              {{measurement.weight}}
-                            </td>
-                          </tr>
-                          <tr class="hidden md:table-row" *ngFor="let i of emptyMeasurementCells">
-                            <td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              &nbsp;
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <app-paging-async [pageProperty]="'meting_page'" [sizeProperty]="'meting_size'" [pager]="pagerMeasurements"></app-paging-async>
-                    </div>
-                  </div>
-                </div>
+              <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                  Metingen
+                </h3>
               </div>
 
-            </div>
 
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Soort
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Aantal
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Lengte
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Gewicht
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <tr *ngFor="let measurement of measurements | async">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {{"taxon.id." + measurement.taxonId | translate}}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {{measurement.amount}}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {{measurement.length}}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {{measurement.weight}}
+                    </td>
+                  </tr>
+                  <tr class="hidden md:table-row" *ngFor="let i of emptyMeasurementCells">
+                    <td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      &nbsp;
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <app-paging-async [pageProperty]="'meting_page'" [sizeProperty]="'meting_size'" [pager]="pagerMeasurements"></app-paging-async>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
+
   </div>
-</app-stacked-layout>
+</div>

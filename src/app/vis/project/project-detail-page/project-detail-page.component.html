@@ -1,59 +1,47 @@
-<app-stacked-layout [navigationLinks]="links">
-  <div slot="content">
-    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
-
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-      <app-project-heading></app-project-heading>
-      <app-project-tabs></app-project-tabs>
-
-      <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-10 divide-y divide-gray-200">
-        <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
-          <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Naam
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{project?.name}}
-              </dd>
-            </div>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Status
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
+<div class="bg-white shadow overflow-hidden sm:rounded-lg mb-10 divide-y divide-gray-200">
+  <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Naam
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{project?.name}}
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Status
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
                 <span *ngIf="project?.status === 'ACTIVE'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                   Actief
                 </span>
-                <span *ngIf="project?.status === 'INACTIVE'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+          <span *ngIf="project?.status === 'INACTIVE'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                   Inactief
                 </span>
-              </dd>
-            </div>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Periode
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{project?.start | date:'dd/MM/yyyy'}} - {{project?.end | date:'dd/MM/yyyy'}}
-              </dd>
-            </div>
-            <div class="sm:col-span-2">
-              <dt class="text-sm font-medium text-gray-500">
-                Beschrijving
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{project?.description}}
-              </dd>
-            </div>
-          </dl>
-        </div>
-        <div class="mt-4 py-4 px-4 flex justify-end sm:px-6">
-          <app-button [style]="'white'" (click)="exportProject()" [role]="role.ExportProject">Exporteer</app-button>
-          <app-button [style]="'primary'" class="ml-3" [role]="role.EditProject" [routerLink]="['/projecten', project?.code?.value, 'bewerk']">Bewerken</app-button>
-        </div>
+        </dd>
       </div>
-
-    </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Periode
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{project?.start | date:'dd/MM/yyyy'}} - {{project?.end | date:'dd/MM/yyyy'}}
+        </dd>
+      </div>
+      <div class="sm:col-span-2">
+        <dt class="text-sm font-medium text-gray-500">
+          Beschrijving
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{project?.description}}
+        </dd>
+      </div>
+    </dl>
   </div>
-</app-stacked-layout>
+  <div class="mt-4 py-4 px-4 flex justify-end sm:px-6">
+    <app-button [style]="'white'" (click)="exportProject()" [role]="role.ExportProject">Exporteer</app-button>
+    <app-button [style]="'primary'" class="ml-3" [role]="role.EditProject" [routerLink]="['/projecten', project?.code?.value, 'bewerk']">Bewerken</app-button>
+  </div>
+</div>

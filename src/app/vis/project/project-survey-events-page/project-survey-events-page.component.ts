@@ -17,13 +17,6 @@ import {Measurement} from '../model/measurement';
 })
 export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
 
-  links: NavigationLink[] = GlobalConstants.links;
-  breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Projecten', url: '/projecten'},
-    {title: this.activatedRoute.snapshot.params.projectCode, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
-    {title: 'Details', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode}
-  ];
-
   project: Project;
 
   loading = false;
@@ -41,7 +34,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router) {
-    this.titleService.setTitle('Waarnemingen voor ' + this.activatedRoute.snapshot.params.projectCode);
+    this.titleService.setTitle(`Waarnemingen voor ${this.activatedRoute.parent.snapshot.params.projectCode}`);
 
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
@@ -74,7 +67,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
       this.surveyEvents = of([]);
 
       this.subscription.add(
-        this.visService.getSurveyEvents(this.activatedRoute.snapshot.params.projectCode, page, size).subscribe((value) => {
+        this.visService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size).subscribe((value) => {
           this.pager = value;
           this.surveyEvents = of(value.content);
           this.loading = false;
@@ -122,7 +115,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
     const size = !queryParams.meting_page ? 15 : queryParams.meting_size;
 
     this.subscription.add(
-      this.visService.getMeasurements(this.activatedRoute.snapshot.params.projectCode, this.selectedSurveyEvent.surveyEventId.value,
+      this.visService.getMeasurements(this.activatedRoute.parent.snapshot.params.projectCode, this.selectedSurveyEvent.surveyEventId.value,
         page, size).subscribe((value) => {
         this.pagerMeasurements = value;
         this.measurements = of(value.content);
@@ -145,7 +138,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
   }
 
   navigateToSurveyEventDetail() {
-    this.router.navigate(['/projecten', this.activatedRoute.snapshot.params.projectCode, 'waarnemingen',
+    this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
       this.selectedSurveyEvent.surveyEventId.value]).then();
   }
 }

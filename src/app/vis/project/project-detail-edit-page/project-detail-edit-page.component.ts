@@ -1,7 +1,4 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
-import {GlobalConstants} from '../../../GlobalConstants';
-import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {Project} from '../model/project';
 import {Title} from '@angular/platform-browser';
 import {VisService} from '../../../vis.service';
@@ -15,14 +12,6 @@ import {Subscription} from 'rxjs';
   templateUrl: './project-detail-edit-page.component.html'
 })
 export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {
-  links: NavigationLink[] = GlobalConstants.links;
-  breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Projecten', url: '/projecten'},
-    {title: this.activatedRoute.snapshot.params.projectCode, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
-    {title: 'Details', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
-    {title: 'Bewerk', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/edit'}
-  ];
-
   projectForm: FormGroup;
   project: Project;
   submitted: boolean;
@@ -44,7 +33,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
       });
 
     this.subscription.add(
-      this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe((value: Project) => {
+      this.visService.getProject(this.activatedRoute.parent.snapshot.params.projectCode).subscribe((value: Project) => {
         this.titleService.setTitle(value.name);
         this.project = value;
         this.projectForm.get('name').patchValue(value.name);

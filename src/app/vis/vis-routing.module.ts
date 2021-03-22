@@ -29,23 +29,35 @@ import {RoleGuard} from '../core/role-guard.service';
 import {Role} from '../core/_models/role';
 import {LocationCreatePageComponent} from './location/location-create-page/location-create-page.component';
 import {SurveyEventComponent} from "./survey-events/survey-event/survey-event.component";
+import {ProjectComponent} from "./project/project/project.component";
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'projecten', component: ProjectsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode', component: ProjectDetailPageComponent, canActivate: [AuthGuardWithForcedLogin], pathMatch: 'full'},
   {
-    path: 'projecten/:projectCode/bewerk',
-    component: ProjectDetailEditPageComponent,
-    canActivate: [AuthGuardWithForcedLogin, RoleGuard],
-    canDeactivate: [HasUnsavedDataGuard],
-    data: {roles: [Role.EditProject]}
+    path: 'projecten/:projectCode',
+    component: ProjectComponent,
+    children: [
+      {
+        path: '',
+        component: ProjectDetailPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        pathMatch: 'full'},
+      {
+        path: 'bewerk',
+        component: ProjectDetailEditPageComponent,
+        canActivate: [AuthGuardWithForcedLogin, RoleGuard],
+        canDeactivate: [HasUnsavedDataGuard],
+        data: {roles: [Role.EditProject]}
+      },
+      {path: 'waarnemingen', component: ProjectSurveyEventsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+      {path: 'locaties', component: ProjectLocationsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+      {path: 'methoden', component: ProjectMethodsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+      {path: 'vissoorten', component: ProjectFishSpeciesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+      {path: 'afbeeldingen', component: ProjectPicturesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+    ]
   },
-  {path: 'projecten/:projectCode/waarnemingen', component: ProjectSurveyEventsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/locaties', component: ProjectLocationsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/methoden', component: ProjectMethodsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/vissoorten', component: ProjectFishSpeciesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'projecten/:projectCode/afbeeldingen', component: ProjectPicturesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+
   {
     path: 'projecten/:projectCode/waarnemingen/:surveyEventId',
     component: SurveyEventComponent,
