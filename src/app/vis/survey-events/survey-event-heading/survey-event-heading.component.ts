@@ -4,6 +4,7 @@ import {Observable, Subscription} from "rxjs";
 import {VisService} from "../../../vis.service";
 import {ActivatedRoute} from "@angular/router";
 import {SurveyEvent} from "../../project/model/surveyEvent";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-survey-event-heading',
@@ -14,7 +15,9 @@ export class SurveyEventHeadingComponent implements OnInit, OnDestroy {
   project: Project;
 
   private subscription = new Subscription();
-  private surveyEvent$: Observable<SurveyEvent>;
+  surveyEvent$: Observable<SurveyEvent>;
+  surveyEventMethodCode$: Observable<string>;
+  surveyEventOccurrence$: Observable<Date>;
 
   constructor(private visService: VisService, private activatedRoute: ActivatedRoute) {
     this.subscription.add(
@@ -24,6 +27,8 @@ export class SurveyEventHeadingComponent implements OnInit, OnDestroy {
     );
 
     this.surveyEvent$ = this.visService.getSurveyEvent(this.activatedRoute.snapshot.params.projectCode, this.activatedRoute.snapshot.params.surveyEventId);
+    this.surveyEventMethodCode$ = this.surveyEvent$.pipe(map(surveyEvent => surveyEvent.method), map(code => 'method.' + code));
+    this.surveyEventOccurrence$ = this.surveyEvent$.pipe(map(surveyEvent => surveyEvent.occurrence));
 
   }
 
