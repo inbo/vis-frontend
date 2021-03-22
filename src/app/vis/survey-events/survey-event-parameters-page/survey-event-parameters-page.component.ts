@@ -20,7 +20,7 @@ export class SurveyEventParametersPageComponent implements OnInit, OnDestroy {
     {title: this.activatedRoute.snapshot.params.projectCode, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
     {title: 'Waarnemingen', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen'},
     {
-      title: this.activatedRoute.snapshot.params.surveyEventId,
+      title: 'ID: ' + this.activatedRoute.snapshot.params.surveyEventId,
       url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
         + this.activatedRoute.snapshot.params.surveyEventId
     },

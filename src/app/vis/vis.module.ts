@@ -41,6 +41,7 @@ import { LocationCreateStep2Component } from './location/location-create-step2/l
 import { LocationCreateStep3Component } from './location/location-create-step3/location-create-step3.component';
 import { LocationCreateStep4Component } from './location/location-create-step4/location-create-step4.component';
 import { ProjectHeadingComponent } from './project/project-heading/project-heading.component';
+import { SurveyEventHeadingComponent } from './survey-events/survey-event-heading/survey-event-heading.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { ProjectHeadingComponent } from './project/project-heading/project-headi
     LocationCreateStep2Component,
     LocationCreateStep3Component,
     LocationCreateStep4Component,
-    ProjectHeadingComponent
+    ProjectHeadingComponent,
+    SurveyEventHeadingComponent,
   ],
   imports: [
     CommonModule,
