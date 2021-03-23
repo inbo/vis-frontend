@@ -75,11 +75,12 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   createItem(species?: any): FormGroup {
     return this.formBuilder.group({
       species: new FormControl(species ?? '', Validators.required),
-      length: new FormControl('', Validators.required),
+      amount: new FormControl(1, Validators.min(1)),
+      length: new FormControl(''),
       weight: new FormControl('', Validators.required),
-      amount: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
       lengthMeasurement: new FormControl('', Validators.required),
+      afvisBeurtNumber: new FormControl(1, Validators.min(1)),
       comment: new FormControl('', Validators.required)
     });
   }
