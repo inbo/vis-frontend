@@ -1,15 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
-import {GlobalConstants} from '../../../GlobalConstants';
-import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {Project} from '../model/project';
 import {Title} from '@angular/platform-browser';
 import {VisService} from '../../../vis.service';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, of, Subscription} from 'rxjs';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {SurveyEvent} from '../model/surveyEvent';
-import {Measurement} from '../model/measurement';
 
 @Component({
   selector: 'app-project-survey-events-page',
@@ -17,35 +12,23 @@ import {Measurement} from '../model/measurement';
 })
 export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
 
-  project: Project;
-
   loading = false;
   pager: AsyncPage<SurveyEvent>;
   surveyEvents: Observable<SurveyEvent[]>;
-  selectedSurveyEvent: SurveyEvent;
-
-  loadingMeasurments = false;
-  pagerMeasurements: AsyncPage<Measurement>;
-  measurements: Observable<Measurement[]>;
-  emptyMeasurementCells: Array<number>;
-
-  resetParams: Params;
 
   private subscription = new Subscription();
+  private projectCode: string;
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router) {
     this.titleService.setTitle(`Waarnemingen voor ${this.activatedRoute.parent.snapshot.params.projectCode}`);
+    this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
 
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
-        this.getSurveyEvents(params.page ? params.page : 1, params.size ? params.size : 5);
+        this.getSurveyEvents(params.page ? params.page : 1, params.size ? params.size : 20);
       })
     );
 
-    const queryParams = this.activatedRoute.snapshot.queryParams;
-    const page = !queryParams.meting_page ? 0 : queryParams.meting_page;
-    const size = !queryParams.meting_page ? 15 : queryParams.meting_size;
-    this.resetParams = {meting_page: page, meting_size: size};
   }
 
   ngOnInit(): void {
@@ -71,74 +54,8 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
           this.pager = value;
           this.surveyEvents = of(value.content);
           this.loading = false;
-
-          if (value.content[0] !== null && value.content[0] !== undefined) {
-            this.setSelectedSurveyEvent();
-            this.loadMeasurements();
-          } else {
-            this.selectedSurveyEvent = null;
-          }
         })
       );
-    } else {
-      this.setSelectedSurveyEvent();
-      this.loadMeasurements();
     }
-  }
-
-  private setSelectedSurveyEvent() {
-    this.subscription.add(
-      this.surveyEvents.subscribe(value => {
-        this.selectedSurveyEvent = value[0];
-        const params = this.activatedRoute.snapshot.queryParams;
-        if (params.waarneming) {
-          const selected = value.find(c => c.surveyEventId.value === parseInt(params.waarneming, 10));
-          if (selected) {
-            this.selectedSurveyEvent = selected;
-          }
-        }
-      })
-    );
-  }
-
-  loadMeasurements() {
-    if (this.selectedSurveyEvent === undefined) {
-      return;
-    }
-
-    this.loadingMeasurments = true;
-    this.measurements = of([]);
-    this.emptyMeasurementCells = Array(15);
-
-    const queryParams = this.activatedRoute.snapshot.queryParams;
-    const page = !queryParams.meting_page ? 0 : queryParams.meting_page;
-    const size = !queryParams.meting_page ? 15 : queryParams.meting_size;
-
-    this.subscription.add(
-      this.visService.getMeasurements(this.activatedRoute.parent.snapshot.params.projectCode, this.selectedSurveyEvent.surveyEventId.value,
-        page, size).subscribe((value) => {
-        this.pagerMeasurements = value;
-        this.measurements = of(value.content);
-        this.loadingMeasurments = false;
-        this.emptyMeasurementCells = Array(15 - value.content.length);
-      })
-    );
-  }
-
-  selectSurveyEvent(surveyEvent: SurveyEvent) {
-    const queryParams: Params = {meting_page: 1, meting_size: 15, waarneming: surveyEvent.surveyEventId.value};
-
-    this.router.navigate(
-      [],
-      {
-        relativeTo: this.activatedRoute,
-        queryParams,
-        queryParamsHandling: 'merge'
-      });
-  }
-
-  navigateToSurveyEventDetail() {
-    this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
-      this.selectedSurveyEvent.surveyEventId.value]).then();
   }
 }
