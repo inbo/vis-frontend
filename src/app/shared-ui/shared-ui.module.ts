@@ -20,6 +20,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {TranslateModule} from '@ngx-translate/core';
 import {StepComponent} from './step/step.component';
+import { SearchableSelectComponent } from './searchable-select/searchable-select.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {StepComponent} from './step/step.component';
     RadioGroupComponent,
     CheckGroupComponent,
     StepComponent,
+    SearchableSelectComponent,
   ],
   exports: [
     SidebarLayoutComponent,
@@ -57,6 +59,7 @@ import {StepComponent} from './step/step.component';
     RadioGroupComponent,
     CheckGroupComponent,
     StepComponent,
+    SearchableSelectComponent,
   ],
   imports: [
     RouterModule,

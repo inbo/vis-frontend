@@ -81,7 +81,7 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.taxon = of([]);
     this.subscription.add(
-      this.visService.getTaxa(page, size, this.filterForm.getRawValue()).subscribe((value) => {
+      this.visService.getFilteredTaxa(page, size, this.filterForm.getRawValue()).subscribe((value) => {
         this.pager = value;
         value.content.forEach(item => {
           // @ts-ignore

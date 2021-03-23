@@ -150,10 +150,19 @@ export class VisService implements OnDestroy {
     return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`);
   }
 
-  getTaxa(page: number, size: number, filter: any) {
+  getTaxa(val: string) {
+    const params = new HttpParams()
+      .set('nameDutch', val)
+      .set('nameScientific', val)
+      .set('taxonCode', val);
+
+    return this.http.get<Taxon[]>(`${environment.apiUrl}/api/taxon`, {params});
+  }
+
+  getFilteredTaxa(page: number, size: number, filter: any) {
     const params = this.getPageParams(page, size, filter);
 
-    return this.http.get<AsyncPage<Taxon>>(`${environment.apiUrl}/api/taxon`, {params});
+    return this.http.get<AsyncPage<Taxon>>(`${environment.apiUrl}/api/taxon/search`, {params});
   }
 
   getTaxon(id: number): Observable<TaxonDetail> {

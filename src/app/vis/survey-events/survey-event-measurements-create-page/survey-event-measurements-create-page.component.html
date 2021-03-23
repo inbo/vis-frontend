@@ -10,9 +10,9 @@
         <!-- This example requires Tailwind CSS v2.0+ -->
         <form [formGroup]="measurementsForm">
           <div class="flex flex-col hidden lg:block">
-            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div style="overflow: inherit" class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                <div style="overflow: inherit" class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                   <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                     <tr>
@@ -50,10 +50,9 @@
                     <tr formArrayName="items" *ngFor="let item of items().controls; let i = index;">
                       <ng-container [formGroupName]="i">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          <input name="species" formControlName="species" type="text"
-                                 class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
-                          <p
-                            *ngIf="(item.get('species').dirty || item.get('species').touched) && item.get('species').errors"
+                          <app-searchable-select formControlName="species" (onSearch)="getSpecies($event)"
+                                                 [options$]="species$"></app-searchable-select>
+                          <p *ngIf="(item.get('species').dirty || item.get('species').touched) && item.get('species').errors"
                             class="mt-2 text-sm text-red-600">Soort is verplicht</p>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -84,13 +83,29 @@
                     </tr>
                     </tbody>
                   </table>
+                  <div slot="buttons" class="flex-shrink-0 px-4 border-t border-gray-200 py-5 sm:px-6">
+                    <div class="space-x-3 flex justify-end">
+                      <span class="inline-flex rounded-md shadow-sm">
+                        <button [routerLink]="['../']" type="button"
+                                class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
+                          Annuleren
+                        </button>
+                      </span>
+                      <span class="inline-flex rounded-md shadow-sm">
+                        <button (click)="createMeasurements()" type="submit"
+                                class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-pink-600 hover:bg-pink-500 focus:outline-none focus:border-pink-700 focus:shadow-outline-pink active:bg-pink-700 transition duration-150 ease-in-out">
+                          Bewaren
+                        </button>
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </form>
         <!-- This example requires Tailwind CSS v2.0+ -->
-        <!--<div class="bg-white shadow overflow-hidden sm:rounded-md lg:hidden">
+        <!--<div class="bg-white shadow sm:rounded-md lg:hidden">
           <ul class="divide-y divide-gray-200">
             <li *ngFor="let measurement of measurements | async">
               <a href="#" class="block hover:bg-gray-50">
