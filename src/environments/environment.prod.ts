@@ -1,4 +1,5 @@
 export const environment = {
+  env: 'prod',
   production: true,
   apiUrl: 'https://vis.inbo.be',
   keycloakClientId: 'vis-prd',

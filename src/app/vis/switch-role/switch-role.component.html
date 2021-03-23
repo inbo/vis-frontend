@@ -1,0 +1,56 @@
+
+<div (click)="isOpen = true" class="fixed bottom-5 right-5 cursor-pointer" [title]="isUsedForDummyRoles() ? 'Dummy rollen zijn actief' : 'Keycloak rollen zijn actief'">
+  <span class="h-14 w-14 inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-pink-100 text-pink-800 border-2" [class.border-red-500]="!isUsedForDummyRoles()" [class.border-green-500]="isUsedForDummyRoles()">
+     <svg class="w-10 w-10 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </svg>
+  </span>
+</div>
+
+<app-slide-over [(isOpen)]="isOpen">
+  <span slot="title">DUMMY ROLLEN</span>
+  <span slot="description">Beperk hier je rollen om de user interface te testen (bepaalde knoppen die inactief worden, ...). Let wel op dit heeft geen enkele invloed op de rollen die in keycloak staan. Enkel beschikbaar op DEV en UAT.</span>
+  <div slot="content">
+    <div class="flex-1 flex flex-col justify-between">
+      <div class="px-4 divide-y divide-gray-200 sm:px-6">
+        <div class="space-y-6 pt-6 pb-5">
+          <div>
+            <div>
+              <div class="flex items-start">
+                <div class="h-5 flex items-center">
+                  <input id="useDummyRoles" type="checkbox" (change)="changeUse($event)" [checked]="isUsedForDummyRoles()" />
+                </div>
+                <div class="ml-3 text-sm">
+                  <label class="font-medium text-gray-700" for="useDummyRoles">Dummy rollen activeren</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-900">
+              Rollen
+            </label>
+            <div class="mt-1 space-y-1">
+              <div *ngFor="let enum of roleValues">
+                <div class="flex items-start">
+                  <div class="h-5 flex items-center">
+                    <input (change)="changeRole(enum, $event)" [id]="enum" type="checkbox" [checked]="isActive(enum)" />
+                  </div>
+                  <div class="ml-3 text-sm">
+                    <label class="font-medium text-gray-700" [for]="enum">{{enum}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex-shrink-0 px-4 border-t border-gray-200 py-5 sm:px-6" slot="buttons">
+    <div class="space-x-3 flex justify-end">
+      <app-button (click)="cancel()">Sluiten</app-button>
+    </div>
+  </div>
+</app-slide-over>

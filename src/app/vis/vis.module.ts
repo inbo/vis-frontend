@@ -35,19 +35,22 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {RoleEnabledButtonComponent} from './components/role-enabled-button/role-enabled-button.component';
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
-import { LocationCreatePageComponent } from './location/location-create-page/location-create-page.component';
-import { LocationCreateStep1Component } from './location/location-create-step1/location-create-step1.component';
-import { LocationCreateStep2Component } from './location/location-create-step2/location-create-step2.component';
-import { LocationCreateStep3Component } from './location/location-create-step3/location-create-step3.component';
-import { LocationCreateStep4Component } from './location/location-create-step4/location-create-step4.component';
-import { ProjectHeadingComponent } from './project/project-heading/project-heading.component';
-import { SurveyEventHeadingComponent } from './survey-events/survey-event-heading/survey-event-heading.component';
-import { SurveyEventComponent } from './survey-events/survey-event/survey-event.component';
-import { ProjectComponent } from './project/project/project.component';
-import { TipComponent } from '../shared-ui/tip/tip.component';
+import {LocationCreatePageComponent} from './location/location-create-page/location-create-page.component';
+import {LocationCreateStep1Component} from './location/location-create-step1/location-create-step1.component';
+import {LocationCreateStep2Component} from './location/location-create-step2/location-create-step2.component';
+import {LocationCreateStep3Component} from './location/location-create-step3/location-create-step3.component';
+import {LocationCreateStep4Component} from './location/location-create-step4/location-create-step4.component';
+import {ProjectHeadingComponent} from './project/project-heading/project-heading.component';
+import {SurveyEventHeadingComponent} from './survey-events/survey-event-heading/survey-event-heading.component';
+import {SurveyEventComponent} from './survey-events/survey-event/survey-event.component';
+import {ProjectComponent} from './project/project/project.component';
 import {NgTransitionModule} from "ng-transition";
+import {SwitchRoleComponent} from "./switch-role/switch-role.component";
 
 @NgModule({
+  exports: [
+    SwitchRoleComponent
+  ],
   declarations: [
     DashboardPageComponent,
     ProjectsOverviewPageComponent,
@@ -86,6 +89,7 @@ import {NgTransitionModule} from "ng-transition";
     SurveyEventHeadingComponent,
     SurveyEventComponent,
     ProjectComponent,
+    SwitchRoleComponent
   ],
   imports: [
     CommonModule,
