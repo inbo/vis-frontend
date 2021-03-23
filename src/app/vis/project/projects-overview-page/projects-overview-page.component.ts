@@ -71,6 +71,11 @@ export class ProjectsOverviewPageComponent implements OnInit {
       })
     );
 
+    this.subscription.add(
+      this.activatedRoute.queryParams.subscribe((params) => {
+        this.getProjects(params.page ? params.page : 1, params.size ? params.size : 20);
+      })
+    );
   }
 
   getProjects(page: number, size: number) {
