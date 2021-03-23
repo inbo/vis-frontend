@@ -3,7 +3,7 @@
     {{name}}
   </legend>
 
-  <div class="-space-y-px md:flex">
+  <div class="-space-y-px md:flex flex-wrap">
     <div *ngFor="let option of options; let i = index" class="relative border p-4 flex md:w-44" [class.bg-pink-50.border-pink-200.z-10]="isChecked(option.value)" [class.border-gray-200]="!isChecked(option.value)">
       <div class="flex items-center h-5">
         <input [attr.checked]="isChecked(option.value) ? 'checked' : null" (change)="onClick($event)" [value]="option.value" [id]="name + '-' + i" [name]="name" type="checkbox">
