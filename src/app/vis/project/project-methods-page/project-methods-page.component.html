@@ -1,60 +1,42 @@
 <div>
-  <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
-    <!-- This example requires Tailwind CSS v2.0+ -->
-    <div class="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
-      <h3 class="text-lg leading-6 font-medium text-gray-900">
-        Methoden
-      </h3>
-    </div>
-
-  </div>
-
-  <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-lg" [class.hidden]="showEditTaxa">
-
-    <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
-      <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-no-wrap">
+  <div class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200" [class.hidden]="showEditTaxa">
+    <div class="px-4 py-5 sm:px-6">
+      <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
         <div class="ml-4 mt-4">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Geselecteerde methoden
+            Methoden
           </h3>
-          <p class="mt-1 text-sm leading-5 text-gray-500">
+          <p class="mt-1 text-sm text-gray-500">
             Alle methoden die tot de lijst behoren. Klik op bewerken om de lijst aan te passen.
           </p>
         </div>
-        <div class="ml-4 mt-4 flex-shrink-0">
-                        <span class="inline-flex rounded-md shadow-sm">
-                            <button type="button" (click)="this.showEditTaxa = true"
-                                    class="relative inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-pink-600 hover:bg-pink-500 focus:outline-none focus:shadow-outline-pink focus:border-pink-700 active:bg-pink-700">
-                                Bewerken
-                            </button>
-                        </span>
-        </div>
       </div>
     </div>
-
     <ul aria-disabled="true">
       <li *ngFor="let method of methods">
-                    <span
-                      class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
-                        <div class="px-4 py-4 sm:px-6">
-                            <div class="flex items-center justify-between">
-                                <div class="text-sm leading-5 font-medium text-gray-600 truncate">
-                                    {{'method.' + method | translate}} ({{method}})
-                                </div>
-                                <div class="ml-2 flex-shrink-0 flex">
-                                    <span
-                                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        {{'method.' + method + '.group' | translate}}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </span>
+        <span class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
+            <div class="px-4 py-4 sm:px-6">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm leading-5 font-medium text-gray-600 truncate">
+                        {{'method.' + method | translate}} ({{method}})
+                    </div>
+                    <div class="ml-2 flex-shrink-0 flex">
+                        <span
+                          class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            {{'method.' + method + '.group' | translate}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </span>
       </li>
     </ul>
+    <div class="px-4 py-4 sm:px-6 flex justify-end">
+      <app-button [style]="'primary'" (click)="this.showEditTaxa = true">Bewerken</app-button>
+    </div>
   </div>
 
-  <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-lg" [class.hidden]="!showEditTaxa">
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg" [class.hidden]="!showEditTaxa">
 
     <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
       <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-no-wrap">
@@ -65,14 +47,6 @@
           <p class="mt-1 text-sm leading-5 text-gray-500">
             Selecteer alle soorten die tot tot de lijst behoren.
           </p>
-        </div>
-        <div class="ml-4 mt-4 flex-shrink-0">
-                        <span class="inline-flex rounded-md shadow-sm">
-                            <button type="button" (click)="this.saveProjectMethods()"
-                                    class="relative inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-pink-600 hover:bg-pink-500 focus:outline-none focus:shadow-outline-pink focus:border-pink-700 active:bg-pink-700">
-                                Bewaren
-                            </button>
-                        </span>
         </div>
       </div>
     </div>
@@ -96,19 +70,8 @@
             </span>
       </li>
     </ul>
-    <div class="bg-white px-4 py-5 border-t border-gray-200 sm:px-6">
-      <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-no-wrap">
-        <div class="ml-4 mt-4">
-        </div>
-        <div class="ml-4 mt-4 flex-shrink-0">
-                        <span class="inline-flex rounded-md shadow-sm">
-                            <button type="button" (click)="this.saveProjectMethods()"
-                                    class="relative inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-pink-600 hover:bg-pink-500 focus:outline-none focus:shadow-outline-pink focus:border-pink-700 active:bg-pink-700">
-                                Bewaren
-                            </button>
-                        </span>
-        </div>
-      </div>
+    <div class="px-4 py-4 sm:px-6 flex justify-end">
+      <app-button [style]="'primary'" (click)="this.saveProjectMethods()">Bewaren</app-button>
     </div>
   </div>
 </div>
