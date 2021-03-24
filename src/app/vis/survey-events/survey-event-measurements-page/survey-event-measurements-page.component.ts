@@ -15,23 +15,6 @@ import {Observable, of} from 'rxjs';
 })
 export class SurveyEventMeasurementsPageComponent implements OnInit {
 
-  links: NavigationLink[] = GlobalConstants.links;
-  breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Projecten', url: '/projecten'},
-    {title: this.activatedRoute.snapshot.params.projectCode, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
-    {title: 'Waarnemingen', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen'},
-    {
-      title: this.activatedRoute.snapshot.params.surveyEventId,
-      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
-        + this.activatedRoute.snapshot.params.surveyEventId
-    },
-    {
-      title: 'Metingen',
-      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
-        + this.activatedRoute.snapshot.params.surveyEventId + '/metingen'
-    }
-  ];
-
   projectCode: any;
   surveyEventId: any;
 
@@ -40,9 +23,9 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
   measurements: Observable<Measurement[]>;
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute) {
-    this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
-    this.projectCode = this.activatedRoute.snapshot.params.projectCode;
-    this.titleService.setTitle('Waarneming metingen ' + this.activatedRoute.snapshot.params.surveyEventId);
+    this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
+    this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
+    this.titleService.setTitle('Waarneming metingen ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
   }
 
   ngOnInit(): void {

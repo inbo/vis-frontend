@@ -18,11 +18,11 @@
 
         </div>
 
-        <app-expandable-filter [formGroup]="filterForm" (searchClicked)="filter()" (resetClicked)="filter()" [showAdvancedFilterAtStartup]="advancedFilterIsVisible">
+        <app-expandable-filter [hideSearchButton]="true" [formGroup]="filterForm" [showAdvancedFilterAtStartup]="advancedFilterIsVisible">
           <ng-container slot="simple">
             <div class="self-center">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input type="text" formControlName="name" placeholder="Naam ..." class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
+                <input type="text" formControlName="name" placeholder="Naam ..." />
               </div>
             </div>
 
@@ -46,7 +46,7 @@
 
             <div class="self-center">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input type="text" formControlName="description" placeholder="Omschrijving ..." class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
+                <input type="text" formControlName="description" placeholder="Omschrijving ..." />
               </div>
             </div>
 
@@ -93,24 +93,24 @@
                       </tr>
 
                       <tr *ngFor="let project of projects | async; let index = index" [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">
-                        <td class="px-6 py-4  text-sm text-gray-900">
-                          {{project.name}}
+                        <td class="px-6 py-4  text-sm text-gray-500">
+                          <a [routerLink]="['/projecten', project.code.value]">{{project.name}}</a>
                         </td>
-                        <td class="px-6 py-4  text-sm text-gray-900">
+                        <td class="px-6 py-4  text-sm text-gray-500">
                           <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" [ngClass]="project.status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
                             {{ 'project.status.'+ project.status | translate }}
                           </span>
                         </td>
-                        <td class="px-6 py-4  text-sm text-gray-900">
+                        <td class="px-6 py-4  text-sm text-gray-500">
                           {{project.location}}
                         </td>
-                        <td class="px-6 py-4  text-sm text-gray-900">
+                        <td class="px-6 py-4  text-sm text-gray-500">
                           {{project.province}}
                         </td>
-                        <td class="px-6 py-4  text-sm text-gray-900">
+                        <td class="px-6 py-4  text-sm text-gray-500">
                           {{project.area}}
                         </td>
-                        <td class="px-6 py-4  text-sm text-gray-900">
+                        <td class="px-6 py-4  text-sm text-gray-500">
                           {{project.start | date:'dd/MM/yyyy'}} - {{project.end | date:'dd/MM/yyyy'}}
                         </td>
 

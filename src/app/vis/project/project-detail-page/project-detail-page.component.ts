@@ -1,10 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
-import {GlobalConstants} from '../../../GlobalConstants';
-import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {Title} from '@angular/platform-browser';
 import {VisService} from '../../../vis.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Project} from '../model/project';
 import {Subscription} from 'rxjs';
 import {Role} from "../../../core/_models/role";
@@ -15,13 +12,6 @@ import {Role} from "../../../core/_models/role";
 })
 export class ProjectDetailPageComponent implements OnInit, OnDestroy {
   public role = Role;
-  links: NavigationLink[] = GlobalConstants.links;
-  breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Projecten', url: '/projecten'},
-    {title: this.activatedRoute.snapshot.params.projectCode, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
-    {title: 'Details', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode}
-  ];
-
   project: Project;
 
   private subscription = new Subscription();
@@ -29,7 +19,7 @@ export class ProjectDetailPageComponent implements OnInit, OnDestroy {
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute) {
     this.subscription.add(
       this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
-        this.titleService.setTitle(value.name);
+        this.titleService.setTitle(`${value.name} detail`);
         this.project = value;
       })
     );

@@ -3,11 +3,31 @@
     <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
     <main>
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
+          <!-- This example requires Tailwind CSS v2.0+ -->
+          <div class="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              Locatie overzicht
+            </h3>
+            <div class="mt-3 flex sm:mt-0 sm:ml-4">
+              <app-button [style]="'primary'" [routerLink]="['/locaties/create']" >Nieuwe locatie</app-button>
+            </div>
+          </div>
+
+        </div>
+
         <div class="px-4 py-8 sm:px-0">
-          <div class="h-96">
-            <p>Binnenkort beschikbaar</p>
+          <div style="height: 400px;" leaflet [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletMapReady)="mapReady($event)">
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-sm mt-2">
+            <div *ngFor="let item of legend | keyvalue" class="flex items-center">
+              <div class="w-14 h-1 inline-block center mr-1" [style]="'background-color: rgba(' + item.value + ')'"></div>
+              <span>{{item.key}}</span>
+            </div>
           </div>
         </div>
+
       </div>
     </main>
   </div>

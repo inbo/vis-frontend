@@ -13,6 +13,7 @@ import {Taxon} from './vis/fish-specie/model/taxon';
 import {TaxonGroup} from './vis/fish-specie/model/taxon-group';
 import {TaxonDetail} from './vis/fish-specie/model/taxon-detail';
 import {Habitat} from './vis/survey-events/model/habitat';
+import {Tip} from "./vis/project/model/tip";
 
 @Injectable({
   providedIn: 'root'
@@ -128,6 +129,10 @@ export class VisService implements OnDestroy {
     return this.http.get<AsyncPage<SurveyEvent>>(environment.apiUrl + '/api/project/' + projectCode + '/surveyevents', {params});
   }
 
+  getSurveyEvent(projectCode: string, surveyEventId: number): Observable<SurveyEvent> {
+    return this.http.get<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}`);
+  }
+
   getMeasurements(projectCode: string, surveyEventId: any, page: number, size: number) {
     const params = this.getPageParams(page, size, null);
 
@@ -184,6 +189,14 @@ export class VisService implements OnDestroy {
   updateParameters(projectCode: string, surveyEventId: any, formData: any) {
     return this.http.put<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`,
       formData);
+  }
+
+  getTip(code: string): Observable<Tip> {
+    return this.http.get<Tip>(`${environment.apiUrl}/api/tips/${code}`);
+  }
+
+  markTipAsRead(code: string) {
+    return this.http.post<Tip>(`${environment.apiUrl}/api/tips/${code}/read`, '');
   }
 
   ngOnDestroy(): void {

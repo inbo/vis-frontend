@@ -1,134 +1,122 @@
-<app-stacked-layout [navigationLinks]="links">
-  <div slot="content">
-    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
-
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-      <app-survey-event-tabs></app-survey-event-tabs>
-
-      <div class="px-4 py-8 sm:px-0">
-        <!-- This example requires Tailwind CSS v2.0+ -->
-        <div class="flex flex-col hidden lg:block">
-          <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                <table class="min-w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-50">
-                    <tr>
-                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Soort
-                      </th>
-                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Lengte
-                      </th>
-                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Gewicht
-                      </th>
-                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Aantal
-                      </th>
-                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Geslacht
-                      </th>
-                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Lengtemaat
-                      </th>
-                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Commentaar
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody class="bg-white divide-y divide-gray-200">
-                    <tr *ngFor="let measurement of measurements | async">
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {{"taxon.id." + measurement.taxonId | translate}}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {{measurement.length}}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {{measurement.weight}}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {{measurement.amount}}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {{'gender.' + measurement.gender | translate}}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {{'lengthType.short.' + measurement.lengthType | translate}}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {{measurement.comment}}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <app-paging-async [pager]="pager"></app-paging-async>
-              </div>
-            </div>
-          </div>
+<div>
+  <!-- This example requires Tailwind CSS v2.0+ -->
+  <div class="flex flex-col hidden lg:block">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Soort
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Lengte
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Gewicht
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Aantal
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Geslacht
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Lengtemaat
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Commentaar
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr *ngFor="let measurement of measurements | async">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  {{"taxon.id." + measurement.taxonId | translate}}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {{measurement.length}}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {{measurement.weight}}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {{measurement.amount}}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {{'gender.' + measurement.gender | translate}}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {{'lengthType.short.' + measurement.lengthType | translate}}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {{measurement.comment}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <app-paging-async [pager]="pager"></app-paging-async>
         </div>
-
-        <!-- This example requires Tailwind CSS v2.0+ -->
-        <div class="bg-white shadow overflow-hidden sm:rounded-md lg:hidden">
-          <ul class="divide-y divide-gray-200">
-            <li *ngFor="let measurement of measurements | async">
-              <a href="#" class="block hover:bg-gray-50">
-                <div class="px-4 py-4 sm:px-6">
-                  <div class="flex items-center justify-between">
-                    <p class="text-sm font-medium text-pink-600 truncate">
-                      {{"taxon.id." + measurement.taxonId | translate}}
-                    </p>
-                    <div class="ml-2 flex-shrink-0 flex">
-                      <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        {{'lengthType.long.' + measurement.lengthType | translate}}
-                      </p>
-                    </div>
-                  </div>
-                  <div class="mt-2 sm:flex sm:justify-between">
-                    <div class="flex">
-                      <p class="flex items-center text-sm text-gray-500">
-                        <!-- Heroicon name: hashtag -->
-                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
-                        </svg>
-                        {{measurement.amount}}
-                      </p>
-                      <p class="flex items-center text-sm text-gray-500 ml-6">
-                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
-                          <path d="M.586 34L16 49.414 49.414 16 34 .586.586 34zM16 46.586L3.414 34 5.5 31.914l4.793 4.793 1.414-1.414L6.914 30.5l3.586-3.586 2.793 2.793 1.414-1.414-2.793-2.793 3.586-3.586 4.793 4.793 1.414-1.414-4.793-4.793 3.586-3.586 2.793 2.793 1.414-1.414-2.793-2.793 3.586-3.586 4.793 4.793 1.414-1.414-4.793-4.793L30.5 6.914l2.793 2.793 1.414-1.414L31.914 5.5 34 3.414 46.586 16 16 46.586z"/>
-                        </svg>
-                        {{measurement.length}}
-                      </p>
-                      <p class="flex items-center text-sm text-gray-500 ml-6">
-                        <!-- Heroicon name: scale -->
-                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path>
-                        </svg>
-                        {{measurement.weight}}
-                      </p>
-                    </div>
-                    <div class="mt-2 flex items-center text-sm text-gray-500">
-                      <p>
-                        {{'gender.full.' + measurement.gender | translate}}
-                      </p>
-                    </div>
-
-                  </div>
-                  <div *ngIf="measurement.comment" class="mt-2 flex items-center text-sm text-gray-500">
-                    <p>
-                      {{measurement.comment}}
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </li>
-          </ul>
-        </div>
-
       </div>
-
     </div>
   </div>
-</app-stacked-layout>
+
+  <!-- This example requires Tailwind CSS v2.0+ -->
+  <div class="bg-white shadow overflow-hidden sm:rounded-md lg:hidden">
+    <ul class="divide-y divide-gray-200">
+      <li *ngFor="let measurement of measurements | async">
+        <a href="#" class="block hover:bg-gray-50">
+          <div class="px-4 py-4 sm:px-6">
+            <div class="flex items-center justify-between">
+              <p class="text-sm font-medium text-pink-600 truncate">
+                {{"taxon.id." + measurement.taxonId | translate}}
+              </p>
+              <div class="ml-2 flex-shrink-0 flex">
+                <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                  {{'lengthType.long.' + measurement.lengthType | translate}}
+                </p>
+              </div>
+            </div>
+            <div class="mt-2 sm:flex sm:justify-between">
+              <div class="flex">
+                <p class="flex items-center text-sm text-gray-500">
+                  <!-- Heroicon name: hashtag -->
+                  <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
+                  </svg>
+                  {{measurement.amount}}
+                </p>
+                <p class="flex items-center text-sm text-gray-500 ml-6">
+                  <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+                    <path d="M.586 34L16 49.414 49.414 16 34 .586.586 34zM16 46.586L3.414 34 5.5 31.914l4.793 4.793 1.414-1.414L6.914 30.5l3.586-3.586 2.793 2.793 1.414-1.414-2.793-2.793 3.586-3.586 4.793 4.793 1.414-1.414-4.793-4.793 3.586-3.586 2.793 2.793 1.414-1.414-2.793-2.793 3.586-3.586 4.793 4.793 1.414-1.414-4.793-4.793L30.5 6.914l2.793 2.793 1.414-1.414L31.914 5.5 34 3.414 46.586 16 16 46.586z"/>
+                  </svg>
+                  {{measurement.length}}
+                </p>
+                <p class="flex items-center text-sm text-gray-500 ml-6">
+                  <!-- Heroicon name: scale -->
+                  <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path>
+                  </svg>
+                  {{measurement.weight}}
+                </p>
+              </div>
+              <div class="mt-2 flex items-center text-sm text-gray-500">
+                <p>
+                  {{'gender.full.' + measurement.gender | translate}}
+                </p>
+              </div>
+
+            </div>
+            <div *ngIf="measurement.comment" class="mt-2 flex items-center text-sm text-gray-500">
+              <p>
+                {{measurement.comment}}
+              </p>
+            </div>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</div>

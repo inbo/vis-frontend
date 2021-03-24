@@ -20,6 +20,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {TranslateModule} from '@ngx-translate/core';
 import {StepComponent} from './step/step.component';
+import {TipComponent} from "./tip/tip.component";
 import { SearchableSelectComponent } from './searchable-select/searchable-select.component';
 
 @NgModule({
@@ -40,6 +41,7 @@ import { SearchableSelectComponent } from './searchable-select/searchable-select
     RadioGroupComponent,
     CheckGroupComponent,
     StepComponent,
+    TipComponent,
     SearchableSelectComponent,
   ],
   exports: [

@@ -1,7 +1,4 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
-import {GlobalConstants} from '../../../GlobalConstants';
-import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {Title} from '@angular/platform-browser';
 import {VisService} from '../../../vis.service';
 import {ActivatedRoute} from '@angular/router';
@@ -17,24 +14,6 @@ import {AlertService} from '../../../_alert';
   templateUrl: './survey-event-habitat-edit-page.component.html'
 })
 export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {
-
-  links: NavigationLink[] = GlobalConstants.links;
-  breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Projecten', url: '/projecten'},
-    {title: this.activatedRoute.snapshot.params.projectCode, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
-    {title: 'Waarnemingen', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen'},
-    {
-      title: this.activatedRoute.snapshot.params.surveyEventId,
-      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
-        + this.activatedRoute.snapshot.params.surveyEventId
-    },
-    {
-      title: 'Habitat',
-      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
-        + this.activatedRoute.snapshot.params.surveyEventId + '/habitat'
-    }
-  ];
-
   surveyEventId: any;
   habitat: Habitat;
   habitatForm: FormGroup;
@@ -52,8 +31,8 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
 
   constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService, private alertService: AlertService) {
-    this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
-    this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.snapshot.params.surveyEventId);
+    this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
+    this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
 
   }
 
@@ -78,7 +57,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         vegetations: [null],
       });
 
-    this.subscription.add(this.visService.getHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId)
+    this.subscription.add(this.visService.getHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId)
       .subscribe(value => {
         this.habitat = value;
         this.habitatForm.get('soils').patchValue(value.soils);
@@ -108,7 +87,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
 
     const formData = this.habitatForm.getRawValue();
 
-    this.subscription.add(this.visService.updateHabitat(this.activatedRoute.snapshot.params.projectCode, this.surveyEventId, formData)
+    this.subscription.add(this.visService.updateHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId, formData)
       .subscribe((response) => {
         this.alertService.success('Succesvol bewaard', '');
         this.habitat = response;

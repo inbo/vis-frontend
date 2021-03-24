@@ -3,6 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  env: 'local',
   production: false,
   apiUrl: 'http://localhost:8080',
   keycloakClientId: 'vis-dev',
