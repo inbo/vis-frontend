@@ -1,105 +1,66 @@
-<form [formGroup]="measurementsForm">
-  <div class="flex flex-col hidden lg:block">
-    <div style="overflow: inherit" class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-        <div style="overflow: inherit" class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-              <tr>
-                <th scope="col"
-                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Soort
-                </th>
-                <th scope="col"
-                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Aantal
-                </th>
-                <th scope="col"
-                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Lengte
-                </th>
-                <th scope="col"
-                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Gewicht
-                </th>
-                <th scope="col"
-                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Geslacht
-                </th>
-                <th scope="col"
-                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Lengtemaat
-                </th>
-                <th scope="col"
-                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Afvisbeurt
-                </th>
-                <th scope="col"
-                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Commentaar
-                </th>
-              </tr>
-            </thead>
-            <tbody id="table" class="bg-white divide-y divide-gray-200">
-              <tr formArrayName="items" *ngFor="let item of items().controls; let i = index;">
-                <ng-container [formGroupName]="i">
-                  <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    <app-searchable-select formControlName="species" (onSearch)="getSpecies($event)"
-                                           [options$]="species$"></app-searchable-select>
-                    <p *ngIf="(item.get('species').dirty || item.get('species').touched) && item.get('species').errors"
-                       class="mt-2 text-sm text-red-600">Soort is verplicht</p>
-                  </td>
-                  <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <input formControlName="amount" type="number"
-                           class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
-                  </td>
-                  <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <input formControlName="length" type="number" [readOnly]="item.get('amount').value > 1"
-                           [class]="item.get('amount').value > 1 ? 'focus:ring-gray-500 focus:border-gray-500 bg-gray-100' : 'focus:ring-pink-500 focus:border-pink-500'"
-                           class="max-w-lg block w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
-                  </td>
-                  <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <input formControlName="weight" type="number"
-                           class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
-                  </td>
-                  <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <input formControlName="gender" type="text"
-                           class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
-                  </td>
-                  <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <input formControlName="lengthMeasurement" type="text"
-                           class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
-                  </td>
-                  <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <input formControlName="afvisBeurtNumber" type="text"
-                           class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
-                  </td>
-                  <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <input (keydown)="onKeyPress($event, i)" name="comment" formControlName="comment" type="text"
-                           class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
-                  </td>
-                </ng-container>
-              </tr>
-            </tbody>
-          </table>
-          <div slot="buttons" class="flex-shrink-0 px-4 border-t border-gray-200 py-5 sm:px-6">
-            <div class="space-x-3 flex justify-end">
-                      <span class="inline-flex rounded-md shadow-sm">
-                        <button [routerLink]="['../']" type="button"
-                                class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
-                          Annuleren
-                        </button>
-                      </span>
-              <span class="inline-flex rounded-md shadow-sm">
-                        <button (click)="createMeasurements()" type="submit"
-                                class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-pink-600 hover:bg-pink-500 focus:outline-none focus:border-pink-700 focus:shadow-outline-pink active:bg-pink-700 transition duration-150 ease-in-out">
-                          Bewaren
-                        </button>
-                      </span>
-            </div>
-          </div>
+<form [formGroup]="measurementsForm" class="space-y-4">
+  <div class="grid grid-flow-col grid-cols-12 gap-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+    <div class="col-span-3">Soort</div>
+    <div>Aantal</div>
+    <div>Lengte</div>
+    <div>Gewicht</div>
+    <div>Geslacht</div>
+    <div>Lengtemaat</div>
+    <div>Afvisbeurt</div>
+    <div class="col-span-3">Commentaar</div>
+  </div>
+  <div class="grid grid-flow-col grid-cols-12 gap-4" formArrayName="items" *ngFor="let item of items().controls; let i = index;" #lines>
+    <ng-container [formGroupName]="i">
+      <div class="col-span-3">
+        <div class="relative">
+          <app-searchable-select formControlName="species" (onSearch)="getSpecies($event)" [options$]="species$"></app-searchable-select>
         </div>
       </div>
-    </div>
+      <div>
+        <input name="amount" formControlName="amount" type="number"/>
+      </div>
+      <div>
+        <input name="length" type="text" formControlName="length" (keydown)="newLineOnEnter($event, i)"/>
+      </div>
+      <div>
+        <input name="weight" type="text" formControlName="weight"/>
+      </div>
+      <div>
+        <select name="gender" formControlName="gender">
+          <option value="MALE">M</option>
+          <option value="FEMALE">V</option>
+          <option value="UNKNOWN">O</option>
+        </select>
+      </div>
+      <div>
+        <select name="lengthMeasurement" formControlName="lengthMeasurement">
+          <option value="STANDARD">Standaard</option>
+          <option value="FORK">Vork</option>
+          <option value="TOTAL">Totaal</option>
+        </select>
+      </div>
+      <div>
+        <input name="afvisBeurtNumber" type="number" formControlName="afvisBeurtNumber" autocomplete="off"/>
+      </div>
+      <div class="col-span-3">
+        <input name="comment" type="text" formControlName="comment" (keydown)="onKeyPress($event, i)" />
+      </div>
+    </ng-container>
   </div>
 </form>
+
+<div class="px-4 py-8 sm:px-0">
+  <div class="relative">
+    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+      <div class="w-full border-t border-gray-300"></div>
+    </div>
+    <div class="relative flex justify-center">
+      <button (click)="addNewLine()" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+        <svg class="-ml-1.5 mr-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/>
+        </svg>
+        <span>Nieuwe meting</span>
+      </button>
+    </div>
+  </div>
+</div>

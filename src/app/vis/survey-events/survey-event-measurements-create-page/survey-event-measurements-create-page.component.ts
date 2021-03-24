@@ -1,10 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
-import {GlobalConstants} from '../../../GlobalConstants';
-import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
+import {Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {fromEvent, Subject, Subscription} from 'rxjs';
+import {fromEvent, Observable, Subject, Subscription} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
 import {VisService} from '../../../vis.service';
 import {Option} from '../../../shared-ui/searchable-select/option';
@@ -15,30 +12,7 @@ import {Option} from '../../../shared-ui/searchable-select/option';
 })
 export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDestroy {
 
-  links: NavigationLink[] = GlobalConstants.links;
-  breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Projecten', url: '/projecten'},
-    {
-      title: this.activatedRoute.snapshot.params.projectCode,
-      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode
-    },
-    {title: 'Waarnemingen', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen'},
-    {
-      title: this.activatedRoute.snapshot.params.surveyEventId,
-      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
-        + this.activatedRoute.snapshot.params.surveyEventId
-    },
-    {
-      title: 'Metingen',
-      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
-        + this.activatedRoute.snapshot.params.surveyEventId + '/metingen'
-    },
-    {
-      title: 'Toevoegen',
-      url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/'
-        + this.activatedRoute.snapshot.params.surveyEventId + '/metingen/toevoegen'
-    }
-  ];
+  @ViewChildren('lines') lines:QueryList<HTMLDivElement>;
 
   species$ = new Subject<Option[]>();
 
@@ -109,5 +83,15 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  addNewLine() {
+    this.items().push(this.createItem(this.getPreviousSpecies()));
+  }
+
+  newLineOnEnter(event: KeyboardEvent, i: number) {
+    if (event.key === 'Enter' && (this.items() === undefined || (i + 1) === this.items().length)) {
+      this.items().push(this.createItem(this.getPreviousSpecies()));
+    }
   }
 }

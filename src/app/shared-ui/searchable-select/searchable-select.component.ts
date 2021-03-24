@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {fromEvent, Subject, Subscription} from 'rxjs';
 import {debounceTime, filter, map} from 'rxjs/operators';
@@ -18,6 +18,8 @@ import {Option} from './option';
 export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor {
 
   @ViewChild('searchBox') searchBox: ElementRef;
+  @ViewChild('valuesList') valuesList: ElementRef;
+  @ViewChild('selectButton') selectButton: ElementRef;
 
   @Input() options$: Subject<Option[]>;
   @Output() onSearch: EventEmitter<any> = new EventEmitter();
@@ -33,7 +35,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
 
   private subscription = new Subscription();
 
-  constructor() {
+  constructor(private eRef: ElementRef) {
   }
 
   ngOnInit(): void {
@@ -89,4 +91,22 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
+  toggle() {
+    this.isOpen = !this.isOpen;
+    if (this.isOpen) {
+      setTimeout(() => {
+        this.searchBox.nativeElement.focus();
+      }, 0);
+
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if(!this.selectButton.nativeElement.contains(event.target) && !this.valuesList.nativeElement.contains(event.target)) {
+      this.isOpen = false;
+    }
+  }
+
 }
