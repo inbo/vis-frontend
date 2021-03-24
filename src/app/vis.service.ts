@@ -202,4 +202,8 @@ export class VisService implements OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
+  createMeasurements(measurements: any, projectCode: any, surveyEventId: any) {
+    return this.http.post(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`, measurements);
+  }
 }

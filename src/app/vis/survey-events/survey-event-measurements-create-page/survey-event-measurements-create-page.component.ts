@@ -26,10 +26,10 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     'length',
     'weight',
     'gender',
-    'lengthMeasurement',
+    'lengthType',
     'afvisBeurtNumber',
     'comment'
-  ]
+  ];
 
   constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private visService: VisService) {
   }
@@ -64,7 +64,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       length: new FormControl(''),
       weight: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
-      lengthMeasurement: new FormControl('', Validators.required),
+      lengthType: new FormControl('', Validators.required),
       afvisBeurtNumber: new FormControl(1, Validators.min(1)),
       comment: new FormControl('', Validators.required)
     });
@@ -85,11 +85,20 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   createMeasurements() {
-    /*    if (this.measurementsForm.invalid) {
-          return;
-        }*/
+    if (this.measurementsForm.invalid) {
+      return;
+    }
 
-    console.log(this.measurementsForm.getRawValue());
+    const measurements = this.measurementsForm.getRawValue();
+
+    measurements.items.map(val => {
+      val.taxonId = val.species.id;
+      delete val.species;
+      return val;
+    });
+
+    this.visService.createMeasurements(measurements, this.activatedRoute.parent.snapshot.params.projectCode,
+      this.activatedRoute.parent.snapshot.params.surveyEventId).subscribe(console.log);
   }
 
   ngOnDestroy() {
