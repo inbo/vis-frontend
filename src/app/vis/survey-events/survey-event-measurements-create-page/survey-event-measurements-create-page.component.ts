@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {fromEvent, Observable, Subject, Subscription} from 'rxjs';
+import {fromEvent, Subject, Subscription} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
 import {VisService} from '../../../vis.service';
 import {Option} from '../../../shared-ui/searchable-select/option';
@@ -12,13 +12,24 @@ import {Option} from '../../../shared-ui/searchable-select/option';
 })
 export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDestroy {
 
-  @ViewChildren('lines') lines:QueryList<HTMLDivElement>;
+  @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
 
   species$ = new Subject<Option[]>();
 
   measurementsForm: FormGroup;
 
   private subscription = new Subscription();
+
+  fieldsOrder = [
+    'species',
+    'amount',
+    'length',
+    'weight',
+    'gender',
+    'lengthMeasurement',
+    'afvisBeurtNumber',
+    'comment'
+  ]
 
   constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private visService: VisService) {
   }
@@ -90,8 +101,62 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   newLineOnEnter(event: KeyboardEvent, i: number) {
-    if (event.key === 'Enter' && (this.items() === undefined || (i + 1) === this.items().length)) {
-      this.items().push(this.createItem(this.getPreviousSpecies()));
+    if (event.key === 'Enter') {
+      if (this.items() === undefined || (i + 1) === this.items().length) {
+        this.items().push(this.createItem(this.getPreviousSpecies()));
+      }
+      setTimeout(() => {
+        document.getElementById('length-' + (i + 1)).focus();
+      }, 0);
+    }
+
+  }
+
+  focusNextLineOnEnter(event: KeyboardEvent, i: number) {
+    if (event.key === 'Enter') {
+      let splittedId = (event.currentTarget as HTMLElement).id.split('-');
+      let nextElement = document.getElementById(splittedId[0] + '-' + (i + 1));
+      if (nextElement !== null) {
+        nextElement.focus();
+      }
+    }
+  }
+
+  navigateOnArrow(event: KeyboardEvent, i: number) {
+    let splittedId = (event.currentTarget as HTMLElement).id.split('-');
+
+    if (event.ctrlKey && event.key === 'ArrowUp') {
+      event.preventDefault();
+      let nextElement = document.getElementById(splittedId[0] + '-' + (i - 1));
+      if (nextElement !== null) {
+        nextElement.focus();
+      }
+    } else if (event.ctrlKey && event.key === 'ArrowDown') {
+      event.preventDefault();
+      let nextElement = document.getElementById(splittedId[0] + '-' + (i + 1));
+      if (nextElement !== null) {
+        nextElement.focus();
+      }
+    } else if (event.ctrlKey && event.key === 'ArrowLeft') {
+      let nextId = this.fieldsOrder.indexOf(splittedId[0]) - 1;
+      if (nextId < 0) {
+        nextId = 0
+      }
+
+      let nextElement = document.getElementById(this.fieldsOrder[nextId] + '-' + i);
+      if (nextElement !== null) {
+        nextElement.focus();
+      }
+    } else if (event.ctrlKey && event.key === 'ArrowRight') {
+      let nextId = this.fieldsOrder.indexOf(splittedId[0]) + 1;
+      if (nextId > this.fieldsOrder.length - 1) {
+        nextId = this.fieldsOrder.length - 1
+      }
+
+      let nextElement = document.getElementById(this.fieldsOrder[nextId] + '-' + i);
+      if (nextElement !== null) {
+        nextElement.focus();
+      }
     }
   }
 }
