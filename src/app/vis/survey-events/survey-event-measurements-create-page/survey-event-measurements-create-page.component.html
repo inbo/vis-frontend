@@ -1,66 +1,85 @@
-<form [formGroup]="measurementsForm" class="space-y-4">
-  <div class="grid grid-flow-col grid-cols-12 gap-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    <div class="col-span-3">Soort</div>
-    <div>Aantal</div>
-    <div>Lengte</div>
-    <div>Gewicht</div>
-    <div>Geslacht</div>
-    <div>Lengtemaat</div>
-    <div>Afvisbeurt</div>
-    <div class="col-span-3">Commentaar</div>
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
+  <div class="px-4 py-5 sm:px-6">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+      Metingen
+    </h3>
   </div>
-  <div class="grid grid-flow-col grid-cols-12 gap-4" formArrayName="items" *ngFor="let item of items().controls; let i = index;" #lines>
-    <ng-container [formGroupName]="i">
-      <div class="col-span-3">
-        <div class="relative">
-          <app-searchable-select formControlName="species" (onSearch)="getSpecies($event)" [options$]="species$"></app-searchable-select>
+  <div class="px-4 py-5 sm:p-6">
+    <form [formGroup]="measurementsForm" class="space-y-4">
+      <div class="grid grid-flow-col grid-cols-12 gap-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <div class="col-span-3">Soort</div>
+        <div>Aantal</div>
+        <div>Lengte</div>
+        <div>Gewicht</div>
+        <div>Geslacht</div>
+        <div>Lengtemaat</div>
+        <div>Afvisbeurt</div>
+        <div class="col-span-3">Commentaar</div>
+      </div>
+      <div class="grid grid-flow-col grid-cols-12 gap-4" formArrayName="items" *ngFor="let item of items().controls; let i = index;" #lines>
+        <ng-container [formGroupName]="i">
+          <div class="col-span-3">
+            <div class="relative">
+              <app-searchable-select formControlName="species" (onSearch)="getSpecies($event)" [options$]="species$"></app-searchable-select>
+            </div>
+          </div>
+          <div>
+            <input name="amount" formControlName="amount" type="number"/>
+          </div>
+          <div>
+            <input name="length" type="text" formControlName="length" (keydown)="newLineOnEnter($event, i)"/>
+          </div>
+          <div>
+            <input name="weight" type="text" formControlName="weight"/>
+          </div>
+          <div>
+            <select name="gender" formControlName="gender">
+              <option value="MALE">M</option>
+              <option value="FEMALE">V</option>
+              <option value="UNKNOWN">O</option>
+            </select>
+          </div>
+          <div>
+            <select name="lengthMeasurement" formControlName="lengthMeasurement">
+              <option value="STANDARD">Standaard</option>
+              <option value="FORK">Vork</option>
+              <option value="TOTAL">Totaal</option>
+            </select>
+          </div>
+          <div>
+            <input name="afvisBeurtNumber" type="number" formControlName="afvisBeurtNumber" autocomplete="off"/>
+          </div>
+          <div class="col-span-3">
+            <input name="comment" type="text" formControlName="comment" (keydown)="onKeyPress($event, i)" />
+          </div>
+        </ng-container>
+      </div>
+    </form>
+
+    <div class="px-4 py-8 sm:px-0">
+      <div class="relative">
+        <div class="absolute inset-0 flex items-center" aria-hidden="true">
+          <div class="w-full border-t border-gray-300"></div>
+        </div>
+        <div class="relative flex justify-center">
+          <button (click)="addNewLine()" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+            <svg class="-ml-1.5 mr-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/>
+            </svg>
+            <span>Nieuwe meting</span>
+          </button>
         </div>
       </div>
-      <div>
-        <input name="amount" formControlName="amount" type="number"/>
-      </div>
-      <div>
-        <input name="length" type="text" formControlName="length" (keydown)="newLineOnEnter($event, i)"/>
-      </div>
-      <div>
-        <input name="weight" type="text" formControlName="weight"/>
-      </div>
-      <div>
-        <select name="gender" formControlName="gender">
-          <option value="MALE">M</option>
-          <option value="FEMALE">V</option>
-          <option value="UNKNOWN">O</option>
-        </select>
-      </div>
-      <div>
-        <select name="lengthMeasurement" formControlName="lengthMeasurement">
-          <option value="STANDARD">Standaard</option>
-          <option value="FORK">Vork</option>
-          <option value="TOTAL">Totaal</option>
-        </select>
-      </div>
-      <div>
-        <input name="afvisBeurtNumber" type="number" formControlName="afvisBeurtNumber" autocomplete="off"/>
-      </div>
-      <div class="col-span-3">
-        <input name="comment" type="text" formControlName="comment" (keydown)="onKeyPress($event, i)" />
-      </div>
-    </ng-container>
+    </div>
   </div>
-</form>
-
-<div class="px-4 py-8 sm:px-0">
-  <div class="relative">
-    <div class="absolute inset-0 flex items-center" aria-hidden="true">
-      <div class="w-full border-t border-gray-300"></div>
-    </div>
-    <div class="relative flex justify-center">
-      <button (click)="addNewLine()" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-        <svg class="-ml-1.5 mr-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/>
-        </svg>
-        <span>Nieuwe meting</span>
-      </button>
-    </div>
+  <div class="px-4 py-4 sm:px-6 flex justify-end">
+    <app-button [style]="'primary'" (click)="createMeasurements()">Bewaren</app-button>
   </div>
 </div>
+
+
+
+
+
+
