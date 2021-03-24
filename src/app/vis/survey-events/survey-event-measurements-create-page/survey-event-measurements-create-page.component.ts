@@ -168,4 +168,8 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       }
     }
   }
+
+  remove(i: number) {
+    this.items().removeAt(i);
+  }
 }
