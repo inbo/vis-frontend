@@ -1,175 +1,105 @@
-<app-stacked-layout [navigationLinks]="links">
-  <div slot="content">
-    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
-
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-      <app-survey-event-tabs></app-survey-event-tabs>
-
-      <div class="px-4 py-8 sm:px-0">
-        <!-- This example requires Tailwind CSS v2.0+ -->
-        <form [formGroup]="measurementsForm">
-          <div class="flex flex-col hidden lg:block">
-            <div style="overflow: inherit" class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                <div style="overflow: inherit" class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                  <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                    <tr>
-                      <th scope="col"
-                          class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Soort
-                      </th>
-                      <th scope="col"
-                          class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Aantal
-                      </th>
-                      <th scope="col"
-                          class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Lengte
-                      </th>
-                      <th scope="col"
-                          class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Gewicht
-                      </th>
-                      <th scope="col"
-                          class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Geslacht
-                      </th>
-                      <th scope="col"
-                          class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Lengtemaat
-                      </th>
-                      <th scope="col"
-                          class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Afvisbeurt
-                      </th>
-                      <th scope="col"
-                          class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Commentaar
-                      </th>
-                    </tr>
-                    </thead>
-                    <tbody id="table" class="bg-white divide-y divide-gray-200">
-                    <tr formArrayName="items" *ngFor="let item of items().controls; let i = index;">
-                      <ng-container [formGroupName]="i">
-                        <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          <app-searchable-select formControlName="species" (onSearch)="getSpecies($event)"
-                                                 [options$]="species$"></app-searchable-select>
-                          <p *ngIf="(item.get('species').dirty || item.get('species').touched) && item.get('species').errors"
-                            class="mt-2 text-sm text-red-600">Soort is verplicht</p>
-                        </td>
-                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
-                          <input formControlName="amount" type="number"
-                                 class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
-                        </td>
-                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
-                          <input formControlName="length" type="number" [readOnly]="item.get('amount').value > 1"
-                                 [class]="item.get('amount').value > 1 ? 'focus:ring-gray-500 focus:border-gray-500 bg-gray-100' : 'focus:ring-pink-500 focus:border-pink-500'"
-                                 class="max-w-lg block w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
-                        </td>
-                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
-                          <input formControlName="weight" type="number"
-                                 class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
-                        </td>
-                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
-                          <input formControlName="gender" type="text"
-                                 class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
-                        </td>
-                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
-                          <input formControlName="lengthMeasurement" type="text"
-                                 class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
-                        </td>
-                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
-                          <input formControlName="afvisBeurtNumber" type="text"
-                                 class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
-                        </td>
-                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
-                          <input (keydown)="onKeyPress($event, i)" name="comment" formControlName="comment" type="text"
-                                 class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
-                        </td>
-                      </ng-container>
-                    </tr>
-                    </tbody>
-                  </table>
-                  <div slot="buttons" class="flex-shrink-0 px-4 border-t border-gray-200 py-5 sm:px-6">
-                    <div class="space-x-3 flex justify-end">
+<form [formGroup]="measurementsForm">
+  <div class="flex flex-col hidden lg:block">
+    <div style="overflow: inherit" class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div style="overflow: inherit" class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col"
+                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Soort
+                </th>
+                <th scope="col"
+                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Aantal
+                </th>
+                <th scope="col"
+                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Lengte
+                </th>
+                <th scope="col"
+                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Gewicht
+                </th>
+                <th scope="col"
+                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Geslacht
+                </th>
+                <th scope="col"
+                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Lengtemaat
+                </th>
+                <th scope="col"
+                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Afvisbeurt
+                </th>
+                <th scope="col"
+                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Commentaar
+                </th>
+              </tr>
+            </thead>
+            <tbody id="table" class="bg-white divide-y divide-gray-200">
+              <tr formArrayName="items" *ngFor="let item of items().controls; let i = index;">
+                <ng-container [formGroupName]="i">
+                  <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <app-searchable-select formControlName="species" (onSearch)="getSpecies($event)"
+                                           [options$]="species$"></app-searchable-select>
+                    <p *ngIf="(item.get('species').dirty || item.get('species').touched) && item.get('species').errors"
+                       class="mt-2 text-sm text-red-600">Soort is verplicht</p>
+                  </td>
+                  <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <input formControlName="amount" type="number"
+                           class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
+                  </td>
+                  <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <input formControlName="length" type="number" [readOnly]="item.get('amount').value > 1"
+                           [class]="item.get('amount').value > 1 ? 'focus:ring-gray-500 focus:border-gray-500 bg-gray-100' : 'focus:ring-pink-500 focus:border-pink-500'"
+                           class="max-w-lg block w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
+                  </td>
+                  <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <input formControlName="weight" type="number"
+                           class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
+                  </td>
+                  <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <input formControlName="gender" type="text"
+                           class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
+                  </td>
+                  <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <input formControlName="lengthMeasurement" type="text"
+                           class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
+                  </td>
+                  <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <input formControlName="afvisBeurtNumber" type="text"
+                           class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
+                  </td>
+                  <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <input (keydown)="onKeyPress($event, i)" name="comment" formControlName="comment" type="text"
+                           class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
+                  </td>
+                </ng-container>
+              </tr>
+            </tbody>
+          </table>
+          <div slot="buttons" class="flex-shrink-0 px-4 border-t border-gray-200 py-5 sm:px-6">
+            <div class="space-x-3 flex justify-end">
                       <span class="inline-flex rounded-md shadow-sm">
                         <button [routerLink]="['../']" type="button"
                                 class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
                           Annuleren
                         </button>
                       </span>
-                      <span class="inline-flex rounded-md shadow-sm">
+              <span class="inline-flex rounded-md shadow-sm">
                         <button (click)="createMeasurements()" type="submit"
                                 class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-pink-600 hover:bg-pink-500 focus:outline-none focus:border-pink-700 focus:shadow-outline-pink active:bg-pink-700 transition duration-150 ease-in-out">
                           Bewaren
                         </button>
                       </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
-        </form>
-        <!-- This example requires Tailwind CSS v2.0+ -->
-        <!--<div class="bg-white shadow sm:rounded-md lg:hidden">
-          <ul class="divide-y divide-gray-200">
-            <li *ngFor="let measurement of measurements | async">
-              <a href="#" class="block hover:bg-gray-50">
-                <div class="px-4 py-4 sm:px-6">
-                  <div class="flex items-center justify-between">
-                    <p class="text-sm font-medium text-pink-600 truncate">
-                      {{"taxon.id." + measurement.taxonId | translate}}
-                    </p>
-                    <div class="ml-2 flex-shrink-0 flex">
-                      <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        {{'lengthType.long.' + measurement.lengthType | translate}}
-                      </p>
-                    </div>
-                  </div>
-                  <div class="mt-2 sm:flex sm:justify-between">
-                    <div class="flex">
-                      <p class="flex items-center text-sm text-gray-500">
-                        &lt;!&ndash; Heroicon name: hashtag &ndash;&gt;
-                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
-                        </svg>
-                        {{measurement.amount}}
-                      </p>
-                      <p class="flex items-center text-sm text-gray-500 ml-6">
-                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
-                          <path d="M.586 34L16 49.414 49.414 16 34 .586.586 34zM16 46.586L3.414 34 5.5 31.914l4.793 4.793 1.414-1.414L6.914 30.5l3.586-3.586 2.793 2.793 1.414-1.414-2.793-2.793 3.586-3.586 4.793 4.793 1.414-1.414-4.793-4.793 3.586-3.586 2.793 2.793 1.414-1.414-2.793-2.793 3.586-3.586 4.793 4.793 1.414-1.414-4.793-4.793L30.5 6.914l2.793 2.793 1.414-1.414L31.914 5.5 34 3.414 46.586 16 16 46.586z"/>
-                        </svg>
-                        {{measurement.length}}
-                      </p>
-                      <p class="flex items-center text-sm text-gray-500 ml-6">
-                        &lt;!&ndash; Heroicon name: scale &ndash;&gt;
-                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path>
-                        </svg>
-                        {{measurement.weight}}
-                      </p>
-                    </div>
-                    <div class="mt-2 flex items-center text-sm text-gray-500">
-                      <p>
-                        {{'gender.full.' + measurement.gender | translate}}
-                      </p>
-                    </div>
-
-                  </div>
-                  <div *ngIf="measurement.comment" class="mt-2 flex items-center text-sm text-gray-500">
-                    <p>
-                      {{measurement.comment}}
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </li>
-          </ul>
-        </div>-->
+        </div>
       </div>
     </div>
   </div>
-</app-stacked-layout>
+</form>
