@@ -70,11 +70,11 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   addNewLine() {
-    this.items().push(this.createMeasurementFormGroup(this.getPreviousSpecies()))
+    this.items().push(this.createMeasurementFormGroup(this.getPreviousSpecies(), this.getPreviousAfvisbeurt()))
     this.addTaxaValidationsForRowIndex(this.items().length - 1);
   }
 
-  createMeasurementFormGroup(species?: any): FormGroup {
+  createMeasurementFormGroup(species?: any, afvisbeurt?: any): FormGroup {
     return this.formBuilder.group({
       species: new FormControl(species ?? '', [Validators.required]),
       amount: new FormControl(1, Validators.min(1)),
@@ -82,7 +82,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       weight: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
       lengthType: new FormControl('', Validators.required),
-      afvisBeurtNumber: new FormControl(1, Validators.min(1)),
+      afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, Validators.min(1)),
       comment: new FormControl('', Validators.required)
     });
   }
@@ -103,7 +103,11 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   getPreviousSpecies() {
-    return this.items().at(this.items().length - 1).get('species').value;
+    return this.species(this.items().length - 1).value;
+  }
+
+  getPreviousAfvisbeurt() {
+    return this.afvisBeurtNumber(this.items().length - 1).value;
   }
 
   onKeyPress(event: KeyboardEvent, index: number) {
@@ -255,6 +259,10 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   private species(index: number) {
     return this.items().at(index).get('species');
+  }
+
+  private afvisBeurtNumber(index: number) {
+    return this.items().at(index).get('afvisBeurtNumber');
   }
 
   private weight(index: number) {
