@@ -1,10 +1,31 @@
 import {Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {fromEvent, Subject, Subscription} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
 import {VisService} from '../../../vis.service';
 import {Option} from '../../../shared-ui/searchable-select/option';
+
+export interface AbstractControlWarn extends AbstractControl {
+  warnings: any;
+}
+
+export function valueBetweenWarning(min: number, max: number): ValidatorFn {
+  return (c: AbstractControlWarn): { [key: string]: any } => {
+    c.warnings = null;
+
+    if (!c.value) {
+      return null;
+    }
+
+    if (min !== null && max !== null) {
+      const isValid = c.value > max || c.value < min;
+      c.warnings = isValid ? {between: {value: c.value, min: min, max: max}} : null
+    }
+
+    return null;
+  }
+}
 
 @Component({
   selector: 'app-survey-event-measurements-create-page',
@@ -36,14 +57,34 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   ngOnInit(): void {
     this.measurementsForm = this.formBuilder.group({
-      items: this.formBuilder.array([this.createItem()])
+      items: this.formBuilder.array([this.createMeasurementFormGroup()])
     });
 
-    this.subscription.add(fromEvent(window, 'keydown').pipe(
-      filter((event: KeyboardEvent) => {
-        return event.ctrlKey && event.key.toLowerCase() === 'm';
-      })
-    ).subscribe(() => this.items().push(this.createItem(this.getPreviousSpecies()))));
+    this.subscription.add(
+      fromEvent(window, 'keydown').pipe(
+        filter((event: KeyboardEvent) => {
+          return event.ctrlKey && this.isKeyLowerM(event.key);
+        }))
+        .subscribe(() => this.addNewLine())
+    );
+  }
+
+  addNewLine() {
+    this.items().push(this.createMeasurementFormGroup(this.getPreviousSpecies()))
+    this.addTaxaValidationsForRowIndex(this.items().length - 1);
+  }
+
+  createMeasurementFormGroup(species?: any): FormGroup {
+    return this.formBuilder.group({
+      species: new FormControl(species ?? '', [Validators.required]),
+      amount: new FormControl(1, Validators.min(1)),
+      length: new FormControl(''),
+      weight: new FormControl('', Validators.required),
+      gender: new FormControl('', Validators.required),
+      lengthType: new FormControl('', Validators.required),
+      afvisBeurtNumber: new FormControl(1, Validators.min(1)),
+      comment: new FormControl('', Validators.required)
+    });
   }
 
   getSpecies(val: string) {
@@ -57,19 +98,6 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     ).subscribe(value => this.species$.next(value));
   }
 
-  createItem(species?: any): FormGroup {
-    return this.formBuilder.group({
-      species: new FormControl(species ?? '', Validators.required),
-      amount: new FormControl(1, Validators.min(1)),
-      length: new FormControl(''),
-      weight: new FormControl('', Validators.required),
-      gender: new FormControl('', Validators.required),
-      lengthType: new FormControl('', Validators.required),
-      afvisBeurtNumber: new FormControl(1, Validators.min(1)),
-      comment: new FormControl('', Validators.required)
-    });
-  }
-
   items(): FormArray {
     return this.measurementsForm.get('items') as FormArray;
   }
@@ -78,9 +106,9 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     return this.items().at(this.items().length - 1).get('species').value;
   }
 
-  onKeyPress(event: KeyboardEvent, i: number) {
-    if (event.key === 'Tab' && (this.items() === undefined || (i + 1) === this.items().length)) {
-      this.items().push(this.createItem(this.getPreviousSpecies()));
+  onKeyPress(event: KeyboardEvent, index: number) {
+    if (this.isKeyTab(event.key) && this.isLastIndex(index)) {
+      this.addNewLine();
     }
   }
 
@@ -105,14 +133,10 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     this.subscription.unsubscribe();
   }
 
-  addNewLine() {
-    this.items().push(this.createItem(this.getPreviousSpecies()));
-  }
-
   newLineOnEnter(event: KeyboardEvent, i: number) {
     if (event.key === 'Enter') {
       if (this.items() === undefined || (i + 1) === this.items().length) {
-        this.items().push(this.createItem(this.getPreviousSpecies()));
+        this.addNewLine();
       }
       setTimeout(() => {
         document.getElementById('length-' + (i + 1)).focus();
@@ -134,42 +158,110 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   navigateOnArrow(event: KeyboardEvent, i: number) {
     let splittedId = (event.currentTarget as HTMLElement).id.split('-');
 
-    if (event.ctrlKey && event.key === 'ArrowUp') {
+    if (event.ctrlKey && this.isKeyArrowUp(event.key)) {
       event.preventDefault();
-      let nextElement = document.getElementById(splittedId[0] + '-' + (i - 1));
-      if (nextElement !== null) {
-        nextElement.focus();
-      }
-    } else if (event.ctrlKey && event.key === 'ArrowDown') {
+      this.focusElement(splittedId[0], i - 1);
+    } else if (event.ctrlKey && this.isKeyArrowDown(event.key)) {
       event.preventDefault();
-      let nextElement = document.getElementById(splittedId[0] + '-' + (i + 1));
-      if (nextElement !== null) {
-        nextElement.focus();
-      }
-    } else if (event.ctrlKey && event.key === 'ArrowLeft') {
-      let nextId = this.fieldsOrder.indexOf(splittedId[0]) - 1;
-      if (nextId < 0) {
-        nextId = 0
-      }
+      this.focusElement(splittedId[0], i + 1);
+    } else if (event.ctrlKey && this.isKeyArrowLeft(event.key)) {
+      let nextField = this.previousFieldName(splittedId[0]);
+      this.focusElement(nextField, i);
+    } else if (event.ctrlKey && this.isKeyArrowRight(event.key)) {
+      let nextField = this.nextFieldName(splittedId[0])
+      this.focusElement(nextField, i);
+    }
+  }
 
-      let nextElement = document.getElementById(this.fieldsOrder[nextId] + '-' + i);
-      if (nextElement !== null) {
-        nextElement.focus();
-      }
-    } else if (event.ctrlKey && event.key === 'ArrowRight') {
-      let nextId = this.fieldsOrder.indexOf(splittedId[0]) + 1;
-      if (nextId > this.fieldsOrder.length - 1) {
-        nextId = this.fieldsOrder.length - 1
-      }
+  private previousFieldName(currentFieldName: string) {
+    let nextId = this.fieldsOrder.indexOf(currentFieldName) - 1;
+    if (nextId < 0) {
+      nextId = 0
+    }
 
-      let nextElement = document.getElementById(this.fieldsOrder[nextId] + '-' + i);
-      if (nextElement !== null) {
-        nextElement.focus();
-      }
+    return this.fieldsOrder[nextId];
+  }
+
+  private nextFieldName(currentFieldName: string) {
+    let nextId = this.fieldsOrder.indexOf(currentFieldName) + 1;
+    if (nextId > this.fieldsOrder.length - 1) {
+      nextId = this.fieldsOrder.length - 1
+    }
+
+    return this.fieldsOrder[nextId];
+  }
+
+  private focusElement(field: string, index: number) {
+    let element = document.getElementById(field + '-' + index);
+    if (element !== null) {
+      element.focus();
     }
   }
 
   remove(i: number) {
     this.items().removeAt(i);
+  }
+
+  onSpeciesChange(index: number) {
+    this.addTaxaValidationsForRowIndex(index);
+  }
+
+  private addTaxaValidationsForRowIndex(index: number) {
+    if (this.species(index).value === '') {
+      return
+    }
+
+    let taxaId = this.species(index).value.id;
+
+    this.subscription.add(
+      this.visService.getTaxon(taxaId)
+        .subscribe(taxon => {
+          this.weight(index).setValidators([Validators.required, valueBetweenWarning(taxon.weightMin, taxon.weightMax)]);
+          this.weight(index).updateValueAndValidity();
+
+          this.length(index).setValidators([Validators.required, valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]);
+          this.length(index).updateValueAndValidity();
+        })
+    );
+  }
+
+  private isKeyTab(key: string) {
+    return key === 'Tab';
+  }
+
+  private isKeyArrowUp(key: string) {
+    return key === 'ArrowUp';
+  }
+
+  private isKeyArrowDown(key: string) {
+    return key === 'ArrowDown';
+  }
+
+  private isKeyArrowLeft(key: string) {
+    return key === 'ArrowLeft';
+  }
+
+  private isKeyArrowRight(key: string) {
+    return key === 'ArrowRight';
+  }
+
+  private isKeyLowerM(key: string) {
+    return key === 'm';
+  }
+
+  private isLastIndex(i: number) {
+    return this.items() === undefined || (i + 1) === this.items().length;
+  }
+
+  private species(index: number) {
+    return this.items().at(index).get('species');
+  }
+
+  private weight(index: number) {
+    return this.items().at(index).get('weight');
+  }
+
+  private length(index: number) {
+    return this.items().at(index).get('length');
   }
 }
