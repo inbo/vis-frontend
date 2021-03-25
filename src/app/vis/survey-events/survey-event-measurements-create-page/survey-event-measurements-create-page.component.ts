@@ -20,11 +20,11 @@ export function valueBetweenWarning(min: number, max: number): ValidatorFn {
 
     if (min !== null && max !== null) {
       const isValid = c.value > max || c.value < min;
-      c.warnings = isValid ? {between: {value: c.value, min: min, max: max}} : null
+      c.warnings = isValid ? {between: {value: c.value, min: min, max: max}} : null;
     }
 
     return null;
-  }
+  };
 }
 
 @Component({
@@ -70,7 +70,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   addNewLine() {
-    this.items().push(this.createMeasurementFormGroup(this.getPreviousSpecies(), this.getPreviousAfvisbeurt()))
+    this.items().push(this.createMeasurementFormGroup(this.getPreviousSpecies(), this.getPreviousAfvisbeurt()));
     this.addTaxaValidationsForRowIndex(this.items().length - 1);
   }
 
@@ -83,7 +83,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       gender: new FormControl('', Validators.required),
       lengthType: new FormControl('', Validators.required),
       afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, Validators.min(1)),
-      comment: new FormControl('', Validators.required)
+      comment: new FormControl('', Validators.max(2000))
     });
   }
 
@@ -151,8 +151,8 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   focusNextLineOnEnter(event: KeyboardEvent, i: number) {
     if (event.key === 'Enter') {
-      let splittedId = (event.currentTarget as HTMLElement).id.split('-');
-      let nextElement = document.getElementById(splittedId[0] + '-' + (i + 1));
+      const splittedId = (event.currentTarget as HTMLElement).id.split('-');
+      const nextElement = document.getElementById(splittedId[0] + '-' + (i + 1));
       if (nextElement !== null) {
         nextElement.focus();
       }
@@ -160,7 +160,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   navigateOnArrow(event: KeyboardEvent, i: number) {
-    let splittedId = (event.currentTarget as HTMLElement).id.split('-');
+    const splittedId = (event.currentTarget as HTMLElement).id.split('-');
 
     if (event.ctrlKey && this.isKeyArrowUp(event.key)) {
       event.preventDefault();
@@ -169,10 +169,10 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       event.preventDefault();
       this.focusElement(splittedId[0], i + 1);
     } else if (event.ctrlKey && this.isKeyArrowLeft(event.key)) {
-      let nextField = this.previousFieldName(splittedId[0]);
+      const nextField = this.previousFieldName(splittedId[0]);
       this.focusElement(nextField, i);
     } else if (event.ctrlKey && this.isKeyArrowRight(event.key)) {
-      let nextField = this.nextFieldName(splittedId[0])
+      const nextField = this.nextFieldName(splittedId[0]);
       this.focusElement(nextField, i);
     }
   }
@@ -180,7 +180,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   private previousFieldName(currentFieldName: string) {
     let nextId = this.fieldsOrder.indexOf(currentFieldName) - 1;
     if (nextId < 0) {
-      nextId = 0
+      nextId = 0;
     }
 
     return this.fieldsOrder[nextId];
@@ -189,14 +189,14 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   private nextFieldName(currentFieldName: string) {
     let nextId = this.fieldsOrder.indexOf(currentFieldName) + 1;
     if (nextId > this.fieldsOrder.length - 1) {
-      nextId = this.fieldsOrder.length - 1
+      nextId = this.fieldsOrder.length - 1;
     }
 
     return this.fieldsOrder[nextId];
   }
 
   private focusElement(field: string, index: number) {
-    let element = document.getElementById(field + '-' + index);
+    const element = document.getElementById(field + '-' + index);
     if (element !== null) {
       element.focus();
     }
@@ -212,10 +212,10 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   private addTaxaValidationsForRowIndex(index: number) {
     if (this.species(index).value === '') {
-      return
+      return;
     }
 
-    let taxaId = this.species(index).value.id;
+    const taxaId = this.species(index).value.id;
 
     this.subscription.add(
       this.visService.getTaxon(taxaId)
@@ -257,19 +257,19 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     return this.items() === undefined || (i + 1) === this.items().length;
   }
 
-  private species(index: number) {
+  species(index: number) {
     return this.items().at(index).get('species');
   }
 
-  private afvisBeurtNumber(index: number) {
+  afvisBeurtNumber(index: number) {
     return this.items().at(index).get('afvisBeurtNumber');
   }
 
-  private weight(index: number) {
+  weight(index: number) {
     return this.items().at(index).get('weight');
   }
 
-  private length(index: number) {
+  length(index: number) {
     return this.items().at(index).get('length');
   }
 }
