@@ -20,7 +20,7 @@ export function valueBetweenWarning(min: number, max: number): ValidatorFn {
 
     if (min !== null && max !== null) {
       const isValid = c.value > max || c.value < min;
-      c.warnings = isValid ? {between: {value: c.value, min: min, max: max}} : null;
+      c.warnings = isValid ? {between: {value: c.value, min, max}} : null;
     }
 
     return null;
@@ -65,7 +65,12 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         filter((event: KeyboardEvent) => {
           return event.ctrlKey && this.isKeyLowerM(event.key);
         }))
-        .subscribe(() => this.addNewLine())
+        .subscribe(() => {
+          this.addNewLine();
+          setTimeout(() => {
+            document.getElementById('species-' + (this.items().length - 1)).focus();
+          }, 0);
+        })
     );
   }
 
@@ -257,19 +262,19 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     return this.items() === undefined || (i + 1) === this.items().length;
   }
 
-  species(index: number) {
+  private species(index: number) {
     return this.items().at(index).get('species');
   }
 
-  afvisBeurtNumber(index: number) {
+  private afvisBeurtNumber(index: number) {
     return this.items().at(index).get('afvisBeurtNumber');
   }
 
-  weight(index: number) {
+  private weight(index: number) {
     return this.items().at(index).get('weight');
   }
 
-  length(index: number) {
+  private length(index: number) {
     return this.items().at(index).get('length');
   }
 }
