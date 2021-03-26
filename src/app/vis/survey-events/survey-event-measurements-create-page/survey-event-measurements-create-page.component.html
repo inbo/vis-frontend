@@ -7,28 +7,29 @@
   </div>
   <div class="px-4 py-5 sm:p-6">
     <form [formGroup]="measurementsForm" class="space-y-4">
-      <div class="grid grid-flow-col grid-cols-12 gap-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-        <div class="col-span-3">Soort</div>
-        <div>Aantal</div>
-        <div>Lengte</div>
-        <div>Gewicht</div>
-        <div>Geslacht</div>
-        <div>Lengtemaat</div>
-        <div>Afvisbeurt</div>
-        <div class="col-span-2">Commentaar</div>
+      <div class="grid grid-flow-row grid-cols-12 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 gap-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <div class="col-span-12 md:col-span-4 lg:col-span-3">Soort</div>
+        <div class="col-span-4 md:col-span-2 lg:col-span-1">Aantal</div>
+        <div class="col-span-4 md:col-span-3 lg:col-span-1">Lengte</div>
+        <div class="col-span-4 md:col-span-3 lg:col-span-1">Gewicht</div>
+        <div class="col-span-4 md:col-span-2 lg:col-span-1">Geslacht</div>
+        <div class="col-span-4 md:col-span-2 lg:col-span-1"><span class="hidden md:block">Lengtemaat</span><span class="md:hidden">Lengtem.</span></div>
+        <div class="col-span-4 md:col-span-2 lg:col-span-1"><span class="hidden md:block">Afvisbeurt</span><span class="md:hidden">Afvisb.</span></div>
+        <div class="col-span-12 md:col-span-5 lg:col-span-2">Commentaar</div>
         <div></div>
       </div>
-      <div class="grid grid-flow-col grid-cols-12 gap-4" formArrayName="items" *ngFor="let item of items().controls; let i = index;" #lines>
+      <div class="space-y-4 divide-y lg:divide-none divide-gray-300">
+        <div class="grid grid-flow-row grid-cols-12 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 gap-4 pt-4" formArrayName="items" *ngFor="let item of items().controls; let i = index;" #lines>
         <ng-container [formGroupName]="i">
-          <div class="col-span-3">
+          <div class="col-span-12 md:col-span-4 lg:col-span-3">
             <div class="relative">
               <app-searchable-select (ngModelChange)="onSpeciesChange(i)" tabIndex="-1" (keydown)="navigateOnArrow($event, i)" [id]="'species-' + i" formControlName="species" (onSearch)="getSpecies($event)" [options$]="species$"></app-searchable-select>
             </div>
           </div>
-          <div>
+          <div class="col-span-4 md:col-span-2 lg:col-span-1">
             <input [id]="'amount-' + i" name="amount" formControlName="amount" type="number" (keydown)="navigateOnArrow($event, i)"/>
           </div>
-          <div>
+          <div class="col-span-4 md:col-span-3 lg:col-span-1">
             <div class="relative rounded-md shadow-sm">
               <input [id]="'length-' + i" (keydown)="newLineOnEnter($event, i); navigateOnArrow($event, i)" name="length" type="text" formControlName="length" class="pr-8">
               <div *ngIf="(length(i).dirty || length(i).touched) && length(i).warnings" [title]="'Waarde moet tussen ' + length(i).warnings.between.min + ' en ' + length(i).warnings.between.max + ' liggen.'" class="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -36,7 +37,7 @@
               </div>
             </div>
           </div>
-          <div>
+          <div class="col-span-4 md:col-span-3 lg:col-span-1">
             <div class="relative rounded-md shadow-sm">
               <input [id]="'weight-' + i" (keydown)="focusNextLineOnEnter($event, i); navigateOnArrow($event, i)" name="weight" type="text" formControlName="weight" class="pr-8">
               <div *ngIf="(weight(i).dirty || weight(i).touched) && weight(i).warnings" [title]="'Waarde moet tussen ' + weight(i).warnings.between.min + ' en ' + weight(i).warnings.between.max + ' liggen.'" class="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -44,27 +45,27 @@
               </div>
             </div>
           </div>
-          <div>
+          <div class="col-span-4 md:col-span-2 lg:col-span-1">
             <select (keydown)="navigateOnArrow($event, i)" [id]="'gender-' + i" name="gender" formControlName="gender">
               <option value="MALE">M</option>
               <option value="FEMALE">V</option>
               <option value="UNKNOWN">O</option>
             </select>
           </div>
-          <div>
+          <div class="col-span-4 md:col-span-2 lg:col-span-1">
             <select (keydown)="navigateOnArrow($event, i)" [id]="'lengthType-' + i" name="lengthType" formControlName="lengthType">
               <option value="STANDARD">Standaard</option>
               <option value="FORK">Vork</option>
               <option value="TOTAL">Totaal</option>
             </select>
           </div>
-          <div>
+          <div class="col-span-4 md:col-span-2 lg:col-span-1">
             <input (keydown)="navigateOnArrow($event, i)" [id]="'afvisBeurtNumber-' + i" name="afvisBeurtNumber" type="number" formControlName="afvisBeurtNumber" />
           </div>
-          <div class="col-span-2">
+          <div class="col-span-11 md:col-span-5 lg:col-span-2">
             <input (keydown)="navigateOnArrow($event, i)" [id]="'comment-' + i" name="comment" type="text" formControlName="comment" (keydown)="onKeyPress($event, i)" />
           </div>
-          <div  class="self-center">
+          <div class="self-center">
             <button tabIndex="-1" (click)="remove(i)" type="button">
               <svg class="w-5 h-5 text-gray-500 hover:text-red-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -72,6 +73,7 @@
             </button>
           </div>
         </ng-container>
+      </div>
       </div>
     </form>
 
