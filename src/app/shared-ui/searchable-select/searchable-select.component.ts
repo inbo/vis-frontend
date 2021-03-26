@@ -104,24 +104,25 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
 
   @HostListener('document:click', ['$event'])
   clickout(event) {
-    if(!this.selectButton.nativeElement.contains(event.target) && !this.valuesList.nativeElement.contains(event.target)) {
+    if (!this.selectButton.nativeElement.contains(event.target) && !this.valuesList.nativeElement.contains(event.target)) {
       this.isOpen = false;
+      this.markAsTouched();
     }
   }
 
   focusSibbling(event: KeyboardEvent) {
     if (event.key === 'ArrowDown') {
-      let sibling = (event.currentTarget as HTMLElement).nextElementSibling;
+      const sibling = (event.currentTarget as HTMLElement).nextElementSibling;
       (sibling as HTMLElement).focus();
     } else if (event.key === 'ArrowUp') {
-      let sibling = (event.currentTarget as HTMLElement).previousElementSibling;
+      const sibling = (event.currentTarget as HTMLElement).previousElementSibling;
       (sibling as HTMLElement).focus();
     }
   }
 
   selectOnEnter(event: KeyboardEvent, option: Option) {
     if (event.key === 'Enter') {
-      this.select(option)
+      this.select(option);
     }
   }
 }

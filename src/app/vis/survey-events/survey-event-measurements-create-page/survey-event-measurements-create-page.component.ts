@@ -88,9 +88,9 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   createMeasurementFormGroup(species?: any, afvisbeurt?: any): FormGroup {
     return this.formBuilder.group({
       species: new FormControl(species ?? '', [Validators.required]),
-      amount: new FormControl(1, Validators.min(1)),
-      length: new FormControl(''),
-      weight: new FormControl('', Validators.required),
+      amount: new FormControl(1, Validators.min(0)),
+      length: new FormControl('', Validators.min(0)),
+      weight: new FormControl('', [Validators.required, Validators.min(0)]),
       gender: new FormControl('', Validators.required),
       lengthType: new FormControl('', Validators.required),
       afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, Validators.min(1)),
@@ -235,10 +235,10 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     this.subscription.add(
       this.visService.getTaxon(taxaId)
         .subscribe(taxon => {
-          this.weight(index).setValidators([Validators.required, valueBetweenWarning(taxon.weightMin, taxon.weightMax)]);
+          this.weight(index).setValidators([Validators.required, Validators.min(0), valueBetweenWarning(taxon.weightMin, taxon.weightMax)]);
           this.weight(index).updateValueAndValidity();
 
-          this.length(index).setValidators([Validators.required, valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]);
+          this.length(index).setValidators([Validators.min(0), valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]);
           this.length(index).updateValueAndValidity();
         })
     );
@@ -286,5 +286,21 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   private length(index: number) {
     return this.items().at(index).get('length');
+  }
+
+  private amount(index: number) {
+    return this.items().at(index).get('amount');
+  }
+
+  private gender(index: number) {
+    return this.items().at(index).get('gender');
+  }
+
+  private lengthType(index: number) {
+    return this.items().at(index).get('lengthType');
+  }
+
+  private comment(index: number) {
+    return this.items().at(index).get('comment');
   }
 }

@@ -14,6 +14,7 @@ import {TaxonGroup} from './vis/fish-specie/model/taxon-group';
 import {TaxonDetail} from './vis/fish-specie/model/taxon-detail';
 import {Habitat} from './vis/survey-events/model/habitat';
 import {Tip} from "./vis/project/model/tip";
+import {FishingPoint} from "./vis/project/model/fishing-point";
 
 @Injectable({
   providedIn: 'root'
@@ -205,5 +206,11 @@ export class VisService implements OnDestroy {
 
   createMeasurements(measurements: any, projectCode: any, surveyEventId: any): Observable<any> {
     return this.http.post(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`, measurements);
+  }
+
+  getFishingPoints(page: number, size: number) {
+    const params = this.getPageParams(page, size, {});
+
+    return this.http.get<AsyncPage<FishingPoint>>(environment.apiUrl + '/api/fishingpoints', {params});
   }
 }
