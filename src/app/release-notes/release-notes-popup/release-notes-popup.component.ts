@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ResolveEnd, Router} from '@angular/router';
-import {VisService} from '../../vis.service';
 import {Subscription} from 'rxjs';
+import {ReleaseNotesService} from '../../services/vis.release-notes.service';
 
 @Component({
   selector: 'app-release-notes-popup',
@@ -13,7 +13,7 @@ export class ReleaseNotesPopupComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private visService: VisService, private router: Router) {
+  constructor(private releaseNotesService: ReleaseNotesService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -22,9 +22,9 @@ export class ReleaseNotesPopupComponent implements OnInit, OnDestroy {
         if (routerData instanceof ResolveEnd) {
           this.showReleaseNotes = !['/', '', '/forbidden', '/not-found', '/internal-server-error', '/service-unavailable']
               .includes(routerData.url.split('?')[0]) && !routerData.url.startsWith('/releases')
-            && !await this.visService.hasUserReadLatestReleaseNotes().toPromise();
+            && !await this.releaseNotesService.hasUserReadLatestReleaseNotes().toPromise();
           if (this.showReleaseNotes) {
-            this.subscription.add(this.visService.getCurrentRelease().subscribe(value => this.currentReleaseNotes = value));
+            this.subscription.add(this.releaseNotesService.getCurrentRelease().subscribe(value => this.currentReleaseNotes = value));
           }
         }
       })
@@ -37,7 +37,7 @@ export class ReleaseNotesPopupComponent implements OnInit, OnDestroy {
 
   read(): void {
     this.subscription.add(
-      this.visService.userReadLatestReleaseNotes().subscribe(() => this.showReleaseNotes = false)
+      this.releaseNotesService.userReadLatestReleaseNotes().subscribe(() => this.showReleaseNotes = false)
     );
   }
 }

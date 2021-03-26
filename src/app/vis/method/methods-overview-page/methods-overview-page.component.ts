@@ -7,8 +7,8 @@ import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Method} from '../model/method';
 import {Observable, of, Subscription} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {VisService} from '../../../vis.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import {MethodsService} from '../../../services/vis.methods.service';
 
 @Component({
   selector: 'app-methods-overview-page',
@@ -29,7 +29,7 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router,
+  constructor(private titleService: Title, private methodsService: MethodsService, private activatedRoute: ActivatedRoute, private router: Router,
               private formBuilder: FormBuilder) {
     this.titleService.setTitle('Methodes');
 
@@ -67,7 +67,7 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.methods = of([]);
     this.subscription.add(
-      this.visService.getMethods(page, size, this.filterForm.getRawValue()).subscribe((value) => {
+      this.methodsService.getMethods(page, size, this.filterForm.getRawValue()).subscribe((value) => {
         this.pager = value;
         this.methods = of(value.content);
         this.loading = false;

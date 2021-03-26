@@ -1,10 +1,10 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {Parameters} from '../../project/model/parameters';
 import {Title} from '@angular/platform-browser';
-import {VisService} from '../../../vis.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 
 @Component({
   selector: 'app-survey-event-parameters-edit-page',
@@ -19,12 +19,12 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute,
+  constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder, private router: Router) {
     this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
     this.titleService.setTitle('Bewerken waarneming waterkwaliteitsparameters ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
 
-    this.subscription.add(this.visService.getParameters(this.activatedRoute.parent.snapshot.params.projectCode,
+    this.subscription.add(this.surveyEventsService.getParameters(this.activatedRoute.parent.snapshot.params.projectCode,
       this.activatedRoute.parent.snapshot.params.surveyEventId)
       .subscribe(value => {
         this.parameters = value;
@@ -48,7 +48,7 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
         width: ['', []]
       });
 
-    this.subscription.add(this.visService.getParameters(this.activatedRoute.parent.snapshot.params.projectCode,
+    this.subscription.add(this.surveyEventsService.getParameters(this.activatedRoute.parent.snapshot.params.projectCode,
       this.activatedRoute.parent.snapshot.params.surveyEventId).subscribe(value => {
       this.parameters = value;
       this.parametersForm.get('oxygen').patchValue(value.oxygen !== null ? value.oxygen.toString() : '');
@@ -74,14 +74,16 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
 
     const formData = this.parametersForm.getRawValue();
 
-    this.subscription.add(this.visService.updateParameters(this.activatedRoute.parent.snapshot.params.projectCode.value, this.surveyEventId,
-      formData).subscribe(() => {
-        this.reset();
-        this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
-          this.activatedRoute.parent.snapshot.params.surveyEventId, 'waterkwaliteitsparameters']).then();
-      },
-      (error) => console.log(error)
-    ));
+    this.subscription.add(
+      this.surveyEventsService.updateParameters(this.activatedRoute.parent.snapshot.params.projectCode.value, this.surveyEventId, formData)
+        .subscribe(() => {
+            this.reset();
+            this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
+              this.activatedRoute.parent.snapshot.params.surveyEventId, 'waterkwaliteitsparameters']).then();
+          },
+          (error) => console.log(error)
+        )
+    );
   }
 
   reset() {

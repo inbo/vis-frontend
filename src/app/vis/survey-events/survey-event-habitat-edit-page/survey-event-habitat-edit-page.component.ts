@@ -1,6 +1,5 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {VisService} from '../../../vis.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {Habitat} from '../model/habitat';
@@ -8,6 +7,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {HabitatOptionsService} from '../habitat-options.service';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {AlertService} from '../../../_alert';
+import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 
 @Component({
   selector: 'app-survey-event-habitat-edit-page',
@@ -29,7 +29,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     radix: ',',
   };
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute,
+  constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService, private alertService: AlertService) {
     this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
     this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
@@ -57,7 +57,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         vegetations: [null],
       });
 
-    this.subscription.add(this.visService.getHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId)
+    this.subscription.add(this.surveyEventsService.getHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId)
       .subscribe(value => {
         this.habitat = value;
         this.habitatForm.get('soils').patchValue(value.soils);
@@ -87,28 +87,30 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
 
     const formData = this.habitatForm.getRawValue();
 
-    this.subscription.add(this.visService.updateHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId, formData)
-      .subscribe((response) => {
-        this.alertService.success('Succesvol bewaard', '');
-        this.habitat = response;
-        this.habitatForm.get('soils').patchValue(response.soils);
-        this.habitatForm.get('waterLevel').patchValue(response.waterLevel);
-        this.habitatForm.get('shelters').patchValue(response.shelters);
-        this.habitatForm.get('pool').patchValue(response.pool);
-        this.habitatForm.get('rapids').patchValue(response.rapids);
-        this.habitatForm.get('creeks').patchValue(response.creeks);
-        this.habitatForm.get('shore').patchValue(response.shore);
-        this.habitatForm.get('slope').patchValue(response.slope);
-        this.habitatForm.get('agriculture').patchValue(response.agriculture);
-        this.habitatForm.get('meadow').patchValue(response.meadow);
-        this.habitatForm.get('trees').patchValue(response.trees);
-        this.habitatForm.get('buildings').patchValue(response.buildings);
-        this.habitatForm.get('industry').patchValue(response.industry);
-        this.habitatForm.get('loop').patchValue(response.loop);
-        this.habitatForm.get('bottlenecks').patchValue(response.bottlenecks);
-        this.habitatForm.get('vegetations').patchValue(response.vegetations);
-        this.habitatForm.reset(this.habitatForm.value);
-      }));
+    this.subscription.add(
+      this.surveyEventsService.updateHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId, formData)
+        .subscribe((response) => {
+          this.alertService.success('Succesvol bewaard', '');
+          this.habitat = response;
+          this.habitatForm.get('soils').patchValue(response.soils);
+          this.habitatForm.get('waterLevel').patchValue(response.waterLevel);
+          this.habitatForm.get('shelters').patchValue(response.shelters);
+          this.habitatForm.get('pool').patchValue(response.pool);
+          this.habitatForm.get('rapids').patchValue(response.rapids);
+          this.habitatForm.get('creeks').patchValue(response.creeks);
+          this.habitatForm.get('shore').patchValue(response.shore);
+          this.habitatForm.get('slope').patchValue(response.slope);
+          this.habitatForm.get('agriculture').patchValue(response.agriculture);
+          this.habitatForm.get('meadow').patchValue(response.meadow);
+          this.habitatForm.get('trees').patchValue(response.trees);
+          this.habitatForm.get('buildings').patchValue(response.buildings);
+          this.habitatForm.get('industry').patchValue(response.industry);
+          this.habitatForm.get('loop').patchValue(response.loop);
+          this.habitatForm.get('bottlenecks').patchValue(response.bottlenecks);
+          this.habitatForm.get('vegetations').patchValue(response.vegetations);
+          this.habitatForm.reset(this.habitatForm.value);
+        })
+    );
   }
 
   reset() {

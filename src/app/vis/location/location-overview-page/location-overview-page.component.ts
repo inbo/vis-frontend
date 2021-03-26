@@ -3,15 +3,15 @@ import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {Title} from '@angular/platform-browser';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {latLng, Layer, LayerGroup, layerGroup, Map as LeafletMap, MapOptions} from "leaflet";
-import {LeafletControlLayersConfig} from "@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model";
-import {basemapLayer, dynamicMapLayer, DynamicMapLayer, featureLayer, FeatureLayer, FeatureLayerService} from "esri-leaflet";
-import * as geojson from "geojson";
-import {VisService} from "../../../vis.service";
-import {AsyncPage} from "../../../shared-ui/paging-async/asyncPage";
-import {Observable, of, Subscription} from "rxjs";
-import {FishingPoint} from "../../project/model/fishing-point";
-import {ActivatedRoute} from "@angular/router";
+import {latLng, Layer, LayerGroup, layerGroup, Map as LeafletMap, MapOptions} from 'leaflet';
+import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
+import {basemapLayer, dynamicMapLayer, DynamicMapLayer, featureLayer, FeatureLayer, FeatureLayerService} from 'esri-leaflet';
+import * as geojson from 'geojson';
+import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
+import {Observable, of, Subscription} from 'rxjs';
+import {FishingPoint} from '../../project/model/fishing-point';
+import {ActivatedRoute} from '@angular/router';
+import {LocationsService} from '../../../services/vis.locations.service';
 
 @Component({
   selector: 'app-location-overview-page',
@@ -37,7 +37,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   selected = {};
 
   service: FeatureLayerService;
-  legend = new Map()
+  legend = new Map();
 
   private dml: DynamicMapLayer;
 
@@ -48,7 +48,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   private selectedLayer: LayerGroup;
 
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute) {
+  constructor(private titleService: Title, private locationsService: LocationsService, private activatedRoute: ActivatedRoute) {
     this.titleService.setTitle('Locaties');
   }
 
@@ -155,7 +155,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.fishingPoints = of([]);
     this.subscription.add(
-      this.visService.getFishingPoints(page, size).subscribe((value) => {
+      this.locationsService.getFishingPoints(page, size).subscribe((value) => {
         this.pager = value;
         this.fishingPoints = of(value.content);
         this.loading = false;

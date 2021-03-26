@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Project} from "../../project/model/project";
-import {Observable, Subscription} from "rxjs";
-import {VisService} from "../../../vis.service";
-import {ActivatedRoute} from "@angular/router";
-import {SurveyEvent} from "../../project/model/surveyEvent";
-import {map} from "rxjs/operators";
+import {Project} from '../../project/model/project';
+import {Observable, Subscription} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {SurveyEvent} from '../../project/model/surveyEvent';
+import {map} from 'rxjs/operators';
+import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
+import {ProjectService} from '../../../services/vis.project.service';
 
 @Component({
   selector: 'app-survey-event-heading',
@@ -19,14 +20,15 @@ export class SurveyEventHeadingComponent implements OnInit, OnDestroy {
   surveyEventMethodCode$: Observable<string>;
   surveyEventOccurrence$: Observable<Date>;
 
-  constructor(private visService: VisService, private activatedRoute: ActivatedRoute) {
+  constructor(private projectService: ProjectService, private surveyEventsService: SurveyEventsService,
+              private activatedRoute: ActivatedRoute) {
     this.subscription.add(
-      this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
+      this.projectService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
         this.project = value;
       })
     );
 
-    this.surveyEvent$ = this.visService.getSurveyEvent(this.activatedRoute.snapshot.params.projectCode, this.activatedRoute.snapshot.params.surveyEventId);
+    this.surveyEvent$ = this.surveyEventsService.getSurveyEvent(this.activatedRoute.snapshot.params.projectCode, this.activatedRoute.snapshot.params.surveyEventId);
     this.surveyEventMethodCode$ = this.surveyEvent$.pipe(map(surveyEvent => surveyEvent.method), map(code => 'method.' + code));
     this.surveyEventOccurrence$ = this.surveyEvent$.pipe(map(surveyEvent => surveyEvent.occurrence));
 

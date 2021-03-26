@@ -2,9 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationLink} from '../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../GlobalConstants';
 import {BreadcrumbLink} from '../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {VisService} from '../../vis.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
+import {ReleaseNotesService} from '../../services/vis.release-notes.service';
 
 @Component({
   selector: 'app-release-notes-page',
@@ -20,7 +20,7 @@ export class ReleaseNotesPageComponent implements OnInit, OnDestroy {
   private currentRelease: string;
   private subscription = new Subscription();
 
-  constructor(private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private releaseNotesService: ReleaseNotesService, private activatedRoute: ActivatedRoute, private router: Router) {
     this.subscription.add(
       this.activatedRoute.params.subscribe(res => {
         if (!res.release || res.release !== this.currentRelease) {
@@ -43,13 +43,13 @@ export class ReleaseNotesPageComponent implements OnInit, OnDestroy {
     const release = this.activatedRoute.snapshot.params.release;
     if (!release) {
       this.subscription.add(
-        this.visService.getLatestRelease().subscribe(value => {
+        this.releaseNotesService.getLatestRelease().subscribe(value => {
           this.router.navigate(['/releases/' + value]).then();
         })
       );
     } else {
       this.subscription.add(
-        this.visService.getReleases(release).subscribe(value => {
+        this.releaseNotesService.getReleases(release).subscribe(value => {
           this.releaseAsHtml = value.releaseAsHtml;
           this.releases = value.releaseVersions.reverse();
         })

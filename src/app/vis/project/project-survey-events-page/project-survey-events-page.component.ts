@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {VisService} from '../../../vis.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Observable, of, Subscription} from 'rxjs';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {SurveyEvent} from '../model/surveyEvent';
+import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 
 @Component({
   selector: 'app-project-survey-events-page',
@@ -19,7 +19,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   private projectCode: string;
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute) {
     this.titleService.setTitle(`Waarnemingen voor ${this.activatedRoute.parent.snapshot.params.projectCode}`);
     this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
 
@@ -50,7 +50,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
       this.surveyEvents = of([]);
 
       this.subscription.add(
-        this.visService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size).subscribe((value) => {
+        this.surveyEventsService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size).subscribe((value) => {
           this.pager = value;
           this.surveyEvents = of(value.content);
           this.loading = false;
