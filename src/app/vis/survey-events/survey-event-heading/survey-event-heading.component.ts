@@ -39,4 +39,7 @@ export class SurveyEventHeadingComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  showCreateMeasurementsButton() {
+    return !window.location.pathname.endsWith('metingen/toevoegen');
+  }
 }

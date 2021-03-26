@@ -203,7 +203,7 @@ export class VisService implements OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  createMeasurements(measurements: any, projectCode: any, surveyEventId: any) {
+  createMeasurements(measurements: any, projectCode: any, surveyEventId: any): Observable<any> {
     return this.http.post(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`, measurements);
   }
 }

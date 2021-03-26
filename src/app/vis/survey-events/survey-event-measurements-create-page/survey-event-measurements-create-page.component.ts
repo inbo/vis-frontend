@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {fromEvent, Subject, Subscription} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
 import {VisService} from '../../../vis.service';
 import {Option} from '../../../shared-ui/searchable-select/option';
+import {AlertService} from '../../../_alert';
 
 export interface AbstractControlWarn extends AbstractControl {
   warnings: any;
@@ -52,7 +53,8 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     'comment'
   ];
 
-  constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private visService: VisService) {
+  constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private visService: VisService,
+              private alertService: AlertService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -72,6 +74,10 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
           }, 0);
         })
     );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   addNewLine() {
@@ -134,12 +140,16 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       return val;
     });
 
-    this.visService.createMeasurements(measurements, this.activatedRoute.parent.snapshot.params.projectCode,
-      this.activatedRoute.parent.snapshot.params.surveyEventId).subscribe(console.log);
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscription.add(this.visService.createMeasurements(measurements, this.activatedRoute.parent.snapshot.params.projectCode,
+      this.activatedRoute.parent.snapshot.params.surveyEventId)
+      .subscribe(value => {
+        if (value?.code === 400) {
+          this.alertService.error('Validatie fouten', 'Het bewaren is niet gelukt, controleer alle gegevens of contacteer een verantwoordelijke.');
+        } else {
+          this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
+            this.activatedRoute.parent.snapshot.params.surveyEventId, 'metingen']).then();
+        }
+      }));
   }
 
   newLineOnEnter(event: KeyboardEvent, i: number) {

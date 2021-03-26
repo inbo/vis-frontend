@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {EMPTY, Observable} from 'rxjs';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import {EMPTY, Observable, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
 
@@ -23,6 +23,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           // The response body may contain clues as to what went wrong,
           console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
 
+          if (error.status === 400) {
+            return of(new HttpResponse({body: {code: 400}}));
+          }
           if (error.status === 403) {
             this.router.navigateByUrl('/forbidden').then();
           }
