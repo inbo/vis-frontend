@@ -1,9 +1,55 @@
-<div class="flex flex-col hidden lg:block">
-  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-      <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+<app-expandable-filter [hideSearchButton]="true" [formGroup]="filterForm"
+                       [showAdvancedFilterAtStartup]="advancedFilterIsVisible">
+  <ng-container slot="simple">
+    <div class="self-center">
+      <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <input type="text" formControlName="watercourse" placeholder="Waterloop ..."/>
+      </div>
+    </div>
+
+    <div class="self-center">
+      <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <app-datepicker formControlName="period"></app-datepicker>
+      </div>
+    </div>
+
+    <div class="self-center">
+      <select formControlName="sort" class="mt-1">
+        <option value="">Sorteren op ...</option>
+        <!--TODO-->
+        <!--<option value="watercourse">Waterloop</option>-->
+        <option value="occurrence">Datum</option>
+        <option value="method">Methode</option>
+      </select>
+    </div>
+  </ng-container>
+
+  <ng-container slot="advanced">
+
+    <div class="self-center">
+      <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <input type="text" formControlName="measuringPointNumber" placeholder="Meetpuntnummer ..."/>
+      </div>
+    </div>
+
+    <div class="self-center">
+      <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <select formControlName="method" class="mt-1">
+          <!--TODO-->
+        </select>
+      </div>
+    </div>
+
+  </ng-container>
+</app-expandable-filter>
+
+<div class="px-4 py-8 sm:px-0">
+  <div class="flex flex-col hidden lg:block">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
             <tr>
               <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Meetpuntnummer
@@ -21,8 +67,8 @@
                 <span class="sr-only">Bewerken</span>
               </th>
             </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
             <tr>
               <td *ngIf="loading" class="px-6 py-4" colspan="5">
                 <app-loading-spinner></app-loading-spinner>
@@ -43,12 +89,14 @@
                 {{ 'method.' + surveyEvent.method | translate }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value]" class="text-pink-600 hover:text-pink-900">Bewerk</a>
+                <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value]"
+                   class="text-pink-600 hover:text-pink-900">Bewerk</a>
               </td>
             </tr>
-          </tbody>
-        </table>
-        <app-paging-async [pager]="pager"></app-paging-async>
+            </tbody>
+          </table>
+          <app-paging-async [pager]="pager"></app-paging-async>
+        </div>
       </div>
     </div>
   </div>
@@ -58,7 +106,8 @@
 <div class="bg-white shadow overflow-hidden sm:rounded-md lg:hidden">
   <ul class="divide-y divide-gray-200">
     <li *ngFor="let surveyEvent of surveyEvents | async">
-      <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value]" class="block hover:bg-gray-50">
+      <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value]"
+         class="block hover:bg-gray-50">
         <div class="px-4 py-4 sm:px-6">
           <div class="flex items-center justify-between">
             <p class="text-sm font-medium text-pink-600 truncate">
@@ -68,16 +117,29 @@
           <div class="mt-2 sm:flex sm:justify-between">
             <div class="sm:flex">
               <p class="flex items-center text-sm text-gray-500">
-                <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.938l1-4H9.031z" clip-rule="evenodd"></path></svg>
+                <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                        d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.938l1-4H9.031z"
+                        clip-rule="evenodd"></path>
+                </svg>
                 Meetpuntnummer TODO
               </p>
               <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
-                <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"></path></svg>
+                <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"></path>
+                </svg>
                 Waterloop TODO
               </p>
             </div>
             <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-              <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path></svg>
+              <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                   xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>
+              </svg>
               <p>
                 {{ 'method.' + surveyEvent.method | translate }}
               </p>
