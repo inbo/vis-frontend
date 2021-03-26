@@ -3,7 +3,7 @@ import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {Observable, of, Subscription} from 'rxjs';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
-import {SurveyEvent} from '../model/surveyEvent';
+import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 
 @Component({

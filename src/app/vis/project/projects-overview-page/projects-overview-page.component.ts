@@ -3,7 +3,7 @@ import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {Title} from '@angular/platform-browser';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {Project} from '../model/project';
+import {Project} from '../../../domain/project/project';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Observable, of, Subscription} from 'rxjs';
 import {ActivatedRoute, Params, Router} from '@angular/router';

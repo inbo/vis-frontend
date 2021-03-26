@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Project} from '../../project/model/project';
+import {Project} from '../../../domain/project/project';
 import {Observable, Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {SurveyEvent} from '../../project/model/surveyEvent';
+import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {map} from 'rxjs/operators';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ProjectService} from '../../../services/vis.project.service';

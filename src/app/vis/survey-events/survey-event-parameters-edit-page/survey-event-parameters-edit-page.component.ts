@@ -1,5 +1,5 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {Parameters} from '../../project/model/parameters';
+import {Parameters} from '../../../domain/survey-event/parameters';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';

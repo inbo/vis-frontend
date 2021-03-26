@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
-import {Project} from '../model/project';
+import {Project} from '../../../domain/project/project';
 import {Subscription} from 'rxjs';
 import {Role} from '../../../core/_models/role';
 import {ProjectService} from '../../../services/vis.project.service';

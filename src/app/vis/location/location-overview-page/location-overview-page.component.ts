@@ -9,7 +9,7 @@ import {basemapLayer, dynamicMapLayer, DynamicMapLayer, featureLayer, FeatureLay
 import * as geojson from 'geojson';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Observable, of, Subscription} from 'rxjs';
-import {FishingPoint} from '../../project/model/fishing-point';
+import {FishingPoint} from '../../../domain/location/fishing-point';
 import {ActivatedRoute} from '@angular/router';
 import {LocationsService} from '../../../services/vis.locations.service';
 

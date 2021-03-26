@@ -13,7 +13,7 @@ import {
   Trees,
   Vegetation,
   WaterLevel
-} from './model/habitat';
+} from '../../domain/survey-event/habitat';
 import {CheckOption} from '../../shared-ui/check-group/checkOption';
 
 @Injectable({

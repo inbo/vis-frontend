@@ -2,7 +2,7 @@ import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {Habitat} from '../model/habitat';
+import {Habitat} from '../../../domain/survey-event/habitat';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {HabitatOptionsService} from '../habitat-options.service';
 import {HasUnsavedData} from '../../../core/core.interface';

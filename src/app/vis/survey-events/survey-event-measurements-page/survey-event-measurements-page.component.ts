@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
-import {Measurement} from '../../project/model/measurement';
+import {Measurement} from '../../../domain/survey-event/measurement';
 import {Observable, of} from 'rxjs';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 

@@ -1,7 +1,7 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {Project} from '../vis/project/model/project';
+import {Project} from '../domain/project/project';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable, Subscription} from 'rxjs';
 import {VisService} from './vis.service';

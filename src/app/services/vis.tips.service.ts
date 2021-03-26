@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
-import {Tip} from '../vis/project/model/tip';
+import {Tip} from '../domain/tip/tip';
 import {VisService} from './vis.service';
 
 @Injectable({

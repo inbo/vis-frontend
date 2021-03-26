@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Project} from '../model/project';
+import {Project} from '../../../domain/project/project';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {ProjectService} from '../../../services/vis.project.service';

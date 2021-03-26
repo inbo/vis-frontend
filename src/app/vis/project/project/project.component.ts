@@ -4,7 +4,7 @@ import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
-import {Project} from '../model/project';
+import {Project} from '../../../domain/project/project';
 
 @Component({
   selector: 'app-project',

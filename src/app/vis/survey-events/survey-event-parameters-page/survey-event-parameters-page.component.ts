@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
-import {Parameters} from '../../project/model/parameters';
+import {Parameters} from '../../../domain/survey-event/parameters';
 import {Subscription} from 'rxjs';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 

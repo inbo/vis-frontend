@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Subscription} from 'rxjs';
-import {FishingPoint} from '../vis/project/model/fishing-point';
+import {FishingPoint} from '../domain/location/fishing-point';
 import {VisService} from './vis.service';
 
 

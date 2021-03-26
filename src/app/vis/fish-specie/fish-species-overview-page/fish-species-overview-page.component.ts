@@ -7,8 +7,8 @@ import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Observable, of, Subscription} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Taxon} from '../model/taxon';
-import {TaxonGroup} from '../model/taxon-group';
+import {Taxon} from '../../../domain/taxa/taxon';
+import {TaxonGroup} from '../../../domain/taxa/taxon-group';
 import {TaxaService} from '../../../services/vis.taxa.service';
 
 @Component({

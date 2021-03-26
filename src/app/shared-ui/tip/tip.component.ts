@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
-import {Tip} from '../../vis/project/model/tip';
+import {Tip} from '../../domain/tip/tip';
 import {map} from 'rxjs/operators';
 import {TipsService} from '../../services/vis.tips.service';
 

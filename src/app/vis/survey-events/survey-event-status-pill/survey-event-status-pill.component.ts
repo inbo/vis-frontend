@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SurveyEvent} from '../../project/model/surveyEvent';
+import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 
 @Component({
   selector: 'app-survey-event-status-pill',

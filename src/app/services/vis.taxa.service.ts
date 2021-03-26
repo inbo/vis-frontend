@@ -3,9 +3,9 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable} from 'rxjs';
-import {Taxon} from '../vis/fish-specie/model/taxon';
-import {TaxonGroup} from '../vis/fish-specie/model/taxon-group';
-import {TaxonDetail} from '../vis/fish-specie/model/taxon-detail';
+import {Taxon} from '../domain/taxa/taxon';
+import {TaxonGroup} from '../domain/taxa/taxon-group';
+import {TaxonDetail} from '../domain/taxa/taxon-detail';
 import {VisService} from './vis.service';
 
 @Injectable({
