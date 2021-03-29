@@ -13,7 +13,7 @@ import {Taxon} from './vis/fish-specie/model/taxon';
 import {TaxonGroup} from './vis/fish-specie/model/taxon-group';
 import {TaxonDetail} from './vis/fish-specie/model/taxon-detail';
 import {Habitat} from './vis/survey-events/model/habitat';
-import {Tip} from "./vis/project/model/tip";
+import {Tip} from './vis/project/model/tip';
 
 @Injectable({
   providedIn: 'root'
@@ -123,8 +123,8 @@ export class VisService implements OnDestroy {
     return this.http.get<any>(`${environment.apiUrl}/translations/` + lang);
   }
 
-  getSurveyEvents(projectCode: string, page: number, size: number) {
-    const params = this.getPageParams(page, size, null);
+  getSurveyEvents(projectCode: string, page: number, size: number, filter: any) {
+    const params = this.getPageParams(page, size, filter);
 
     return this.http.get<AsyncPage<SurveyEvent>>(environment.apiUrl + '/api/project/' + projectCode + '/surveyevents', {params});
   }

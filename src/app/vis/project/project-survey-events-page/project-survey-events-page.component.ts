@@ -41,7 +41,6 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     const queryParams = this.activatedRoute.snapshot.queryParams;
     this.filterForm = this.formBuilder.group(
       {
-        projectName: [queryParams.projectName],
         watercourse: [queryParams.watercourse],
         municipality: [queryParams.municipality],
         basin: [queryParams.basin],
@@ -76,7 +75,6 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
         const period = params.period && (params.period[0] && params.period[1]) ?
           [new Date(params.period[0]), new Date(params.period[1])] : null;
 
-        this.filterForm.get('projectName').patchValue(params.v ? params.projectName : '');
         this.filterForm.get('watercourse').patchValue(params.watercourse ? params.watercourse : '');
         this.filterForm.get('municipality').patchValue(params.municipality ? params.municipality : '');
         this.filterForm.get('basin').patchValue(params.basin ? params.basin : '');
@@ -102,8 +100,15 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
       this.loading = true;
       this.surveyEvents = of([]);
 
+      const filter = this.filterForm?.getRawValue();
+      if (filter && filter.period) {
+        filter.begin = new Date(filter.period[0]).toISOString();
+        filter.end = new Date(filter.period[1]).toISOString();
+        delete filter.period;
+      }
+
       this.subscription.add(
-        this.visService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size).subscribe((value) => {
+        this.visService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size, filter).subscribe((value) => {
           this.pager = value;
           this.surveyEvents = of(value.content);
           this.loading = false;
