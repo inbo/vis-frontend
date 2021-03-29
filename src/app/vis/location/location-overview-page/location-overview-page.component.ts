@@ -3,7 +3,7 @@ import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {Title} from '@angular/platform-browser';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {latLng, Layer, LayerGroup, layerGroup, Map as LeafletMap, MapOptions} from 'leaflet';
+import {LatLng, latLng, Layer, LayerGroup, layerGroup, Map as LeafletMap, MapOptions} from 'leaflet';
 import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
 import {basemapLayer, dynamicMapLayer, DynamicMapLayer, featureLayer, FeatureLayer, FeatureLayerService} from 'esri-leaflet';
 import * as geojson from 'geojson';
@@ -143,8 +143,17 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     return this.selected;
   }
 
-  zoomToLocation(zoomToFeature: geojson.Feature) {
-    console.log('todo');
+  zoomToLocation(code: string) {
+    this.locationsLayer.query().where(`gebiedCode='${code}'`).run((error, featureCollection) => {
+      const features = featureCollection.features;
+      if (features.length <= 0) {
+        return;
+      }
+
+      const coordinates = features[0].geometry.coordinates;
+      const latlng = new LatLng(coordinates[1], coordinates[0]);
+      this.map.setView(latlng, 15);
+    });
   }
 
   mapReady(map: LeafletMap) {
