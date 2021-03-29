@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {VisService} from '../../../vis.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Observable, of, Subject, Subscription} from 'rxjs';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
@@ -8,8 +7,9 @@ import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
-import {Method} from "../../method/model/method";
-import {Option} from "../../../shared-ui/searchable-select/option";
+import {Method} from '../../method/model/method';
+import {Option} from '../../../shared-ui/searchable-select/option';
+import {MethodsService} from '../../../services/vis.methods.service';
 
 @Component({
   selector: 'app-project-survey-events-page',
@@ -30,8 +30,8 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
   private subscription = new Subscription();
   projectCode: string;
 
-  constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute, private router: Router,
-              private formBuilder: FormBuilder) {
+  constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private methodsService: MethodsService,
+              private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {
     this.titleService.setTitle(`Waarnemingen voor ${this.activatedRoute.parent.snapshot.params.projectCode}`);
     this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
 
@@ -41,9 +41,9 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
       })
     );
 
-    this.subscription.add(this.visService.getAllMethods()
+    this.subscription.add(this.methodsService.getAllMethods()
       .subscribe(methods => {
-        this.methods$.next(methods.map(this.mapMethodToOption()))
+        this.methods$.next(methods.map(this.mapMethodToOption()));
         return this.methods = methods;
       }));
   }
@@ -119,11 +119,12 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
       }
 
       this.subscription.add(
-        this.surveyEventsService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size, filter).subscribe((value) => {
-          this.pager = value;
-          this.surveyEvents$ = of(value.content);
-          this.loading = false;
-        })
+        this.surveyEventsService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size, filter)
+          .subscribe((value) => {
+            this.pager = value;
+            this.surveyEvents$ = of(value.content);
+            this.loading = false;
+          })
       );
     }
   }
@@ -152,12 +153,12 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     this.methods$.next(
       this.methods.filter(value => value.description.toLowerCase().includes(val))
         .map(this.mapMethodToOption())
-    )
+    );
   }
 
-  private mapMethodToOption() {
+  public mapMethodToOption() {
     return value => {
-      return {id: value.code, translateKey: `method.${value.code}`}
+      return {id: value.code, translateKey: `method.${value.code}`};
     };
   }
 }

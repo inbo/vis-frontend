@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable} from 'rxjs';
@@ -18,8 +18,8 @@ export class SurveyEventsService extends VisService {
     super();
   }
 
-  getSurveyEvents(projectCode: string, page: number, size: number) {
-    const params = this.getPageParams(page, size, null);
+  getSurveyEvents(projectCode: string, page: number, size: number, filter: any) {
+    const params = this.getPageParams(page, size, filter);
 
     return this.http.get<AsyncPage<SurveyEvent>>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents`, {params});
   }
