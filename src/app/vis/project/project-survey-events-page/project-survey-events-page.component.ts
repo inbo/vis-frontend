@@ -92,7 +92,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
         this.filterForm.get('period').patchValue(period);
         this.filterForm.get('sort').patchValue(params.sort ? params.sort : '');
         this.filterForm.get('measuringPointNumber').patchValue(params.measuringPointNumber ? params.measuringPointNumber : '');
-        this.filterForm.get('method').patchValue(params.method ? params.method : '');
+        this.filterForm.get('method').patchValue(params.method ? JSON.parse(params.method) : '');
 
         this.advancedFilterIsVisible = ((params.basin !== undefined && params.basin !== '') ||
           (params.period !== undefined && params.period.length === 2) ||
@@ -113,6 +113,11 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
       delete filter.period;
     }
 
+    if (filter && filter.method) {
+      console.log(filter.method);
+      filter.method = filter.method.id;
+    }
+
     this.subscription.add(
       this.surveyEventsService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size, filter)
         .subscribe((value) => {
@@ -129,6 +134,9 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     }
 
     const rawValue = this.filterForm.getRawValue();
+    if (rawValue && rawValue.method) {
+      rawValue.method = JSON.stringify(rawValue.method);
+    }
     const queryParams: Params = {...rawValue, page: 1};
 
     this.router.navigate(
