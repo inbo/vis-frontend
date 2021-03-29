@@ -114,7 +114,6 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     }
 
     if (filter && filter.method) {
-      console.log(filter.method);
       filter.method = filter.method.id;
     }
 
