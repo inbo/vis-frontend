@@ -61,7 +61,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit, AfterV
           _this.selectedDates = selectedDates;
           _this.dateValueChanged();
         } else {
-          _this.selectedDates = [];
+          _this.selectedDates = null;
           _this.dateValueChanged();
         }
       },

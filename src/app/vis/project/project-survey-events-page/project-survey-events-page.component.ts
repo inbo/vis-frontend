@@ -94,39 +94,33 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
         this.filterForm.get('measuringPointNumber').patchValue(params.measuringPointNumber ? params.measuringPointNumber : '');
         this.filterForm.get('method').patchValue(params.method ? params.method : '');
 
-        this.advancedFilterIsVisible = ((params.measuringPointNumber !== undefined && params.measuringPointNumber !== '') ||
+        this.advancedFilterIsVisible = ((params.basin !== undefined && params.basin !== '') ||
+          (params.period !== undefined && params.period.length === 2) ||
+          (params.measuringPointNumber !== undefined && params.measuringPointNumber !== '') ||
           (params.method !== undefined && params.method !== ''));
       })
     );
   }
 
   getSurveyEvents(page: number, size: number) {
+    this.loading = true;
+    this.surveyEvents$ = of([]);
 
-    const queryParams = this.activatedRoute.snapshot.queryParams;
-
-    const currentPage = this.pager?.pageable.pageNumber + 1;
-    const newPage = queryParams.page ? queryParams.page : 1;
-
-    if (this.pager === undefined || currentPage !== parseInt(newPage, 10)) {
-      this.loading = true;
-      this.surveyEvents$ = of([]);
-
-      const filter = this.filterForm?.getRawValue();
-      if (filter && filter.period) {
-        filter.begin = new Date(filter.period[0]).toISOString();
-        filter.end = new Date(filter.period[1]).toISOString();
-        delete filter.period;
-      }
-
-      this.subscription.add(
-        this.surveyEventsService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size, filter)
-          .subscribe((value) => {
-            this.pager = value;
-            this.surveyEvents$ = of(value.content);
-            this.loading = false;
-          })
-      );
+    const filter = this.filterForm?.getRawValue();
+    if (filter && filter.period?.length === 2) {
+      filter.begin = new Date(filter.period[0]).toISOString();
+      filter.end = new Date(filter.period[1]).toISOString();
+      delete filter.period;
     }
+
+    this.subscription.add(
+      this.surveyEventsService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size, filter)
+        .subscribe((value) => {
+          this.pager = value;
+          this.surveyEvents$ = of(value.content);
+          this.loading = false;
+        })
+    );
   }
 
   filter() {
@@ -149,7 +143,6 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
   }
 
   getMethods(val: string) {
-    console.log('getMethods');
     this.methods$.next(
       this.methods.filter(value => value.description.toLowerCase().includes(val))
         .map(this.mapMethodToOption())
