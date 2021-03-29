@@ -45,10 +45,12 @@
 
     <div class="self-center">
       <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <select formControlName="method" class="mt-1">
+        <!--<select formControlName="method" class="mt-1">
           <option value="">Selecteer een methode ...</option>
-          <!--TODO-->
-        </select>
+          &lt;!&ndash;TODO&ndash;&gt;
+        </select>-->
+        <app-searchable-select tabIndex="-1" formControlName="method" (onSearch)="getMethods($event)" [options$]="methods$"></app-searchable-select>
+
       </div>
     </div>
 
@@ -87,7 +89,7 @@
               </td>
             </tr>
 
-            <tr *ngFor="let surveyEvent of surveyEvents | async">
+            <tr *ngFor="let surveyEvent of surveyEvents$ | async">
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 TODO
               </td>
@@ -117,7 +119,7 @@
 
 <div class="bg-white shadow overflow-hidden sm:rounded-md lg:hidden">
   <ul class="divide-y divide-gray-200">
-    <li *ngFor="let surveyEvent of surveyEvents | async">
+    <li *ngFor="let surveyEvent of surveyEvents$ | async">
       <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value]"
          class="block hover:bg-gray-50">
         <div class="px-4 py-4 sm:px-6">

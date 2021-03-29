@@ -2,11 +2,13 @@ import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {VisService} from '../../../vis.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Observable, of, Subscription} from 'rxjs';
+import {Observable, of, Subject, Subscription} from 'rxjs';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {SurveyEvent} from '../model/surveyEvent';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {Method} from "../../method/model/method";
+import {Option} from "../../../shared-ui/searchable-select/option";
 
 @Component({
   selector: 'app-project-survey-events-page',
@@ -16,7 +18,10 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
 
   loading = false;
   pager: AsyncPage<SurveyEvent>;
-  surveyEvents: Observable<SurveyEvent[]>;
+  methods: Method[];
+
+  surveyEvents$: Observable<SurveyEvent[]>;
+  methods$ = new Subject<Option[]>();
 
   filterForm: FormGroup;
   advancedFilterIsVisible = false;
@@ -35,6 +40,11 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
       })
     );
 
+    this.subscription.add(this.visService.getAllMethods()
+      .subscribe(methods => {
+        this.methods$.next(methods.map(this.mapMethodToOption()))
+        return this.methods = methods;
+      }));
   }
 
   ngOnInit(): void {
@@ -98,7 +108,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
 
     if (this.pager === undefined || currentPage !== parseInt(newPage, 10)) {
       this.loading = true;
-      this.surveyEvents = of([]);
+      this.surveyEvents$ = of([]);
 
       const filter = this.filterForm?.getRawValue();
       if (filter && filter.period) {
@@ -110,7 +120,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
       this.subscription.add(
         this.visService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size, filter).subscribe((value) => {
           this.pager = value;
-          this.surveyEvents = of(value.content);
+          this.surveyEvents$ = of(value.content);
           this.loading = false;
         })
       );
@@ -136,4 +146,17 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     this.getSurveyEvents(1, 20);
   }
 
+  getMethods(val: string) {
+    console.log('getMethods');
+    this.methods$.next(
+      this.methods.filter(value => value.description.toLowerCase().includes(val))
+        .map(this.mapMethodToOption())
+    )
+  }
+
+  private mapMethodToOption() {
+    return value => {
+      return {id: value.code, translateKey: `method.${value.code}`}
+    };
+  }
 }
