@@ -1,5 +1,5 @@
 export interface SurveyEventId {
-  value: number
+  value: number;
 }
 
 export interface SurveyEvent {
