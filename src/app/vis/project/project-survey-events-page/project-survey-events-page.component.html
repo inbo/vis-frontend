@@ -3,13 +3,13 @@
   <ng-container slot="simple">
     <div class="self-center">
       <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <input type="text" formControlName="watercourse" placeholder="Waterloop ..."/>
+        <input type="text" formControlName="projectName" placeholder="Project naam ..."/>
       </div>
     </div>
 
     <div class="self-center">
       <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <app-datepicker formControlName="period"></app-datepicker>
+        <input type="text" formControlName="watercourse" placeholder="Waterloop ..."/>
       </div>
     </div>
 
@@ -25,6 +25,23 @@
   </ng-container>
 
   <ng-container slot="advanced">
+    <div class="self-center">
+      <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <input type="text" formControlName="municipality" placeholder="Gemeente ..."/>
+      </div>
+    </div>
+
+    <div class="self-center">
+      <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <input type="text" formControlName="basin" placeholder="Bekken ..."/>
+      </div>
+    </div>
+
+    <div class="self-center">
+      <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <app-datepicker formControlName="period"></app-datepicker>
+      </div>
+    </div>
 
     <div class="self-center">
       <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -35,6 +52,7 @@
     <div class="self-center">
       <div class="mt-1 sm:mt-0 sm:col-span-2">
         <select formControlName="method" class="mt-1">
+          <option value="">Selecteer een methode ...</option>
           <!--TODO-->
         </select>
       </div>

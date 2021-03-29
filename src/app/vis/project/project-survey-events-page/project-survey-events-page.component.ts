@@ -41,7 +41,10 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     const queryParams = this.activatedRoute.snapshot.queryParams;
     this.filterForm = this.formBuilder.group(
       {
+        projectName: [queryParams.projectName],
         watercourse: [queryParams.watercourse],
+        municipality: [queryParams.municipality],
+        basin: [queryParams.basin],
         period: [queryParams.period],
         sort: [queryParams.sort ?? ''],
         measuringPointNumber: [queryParams.measuringPointNumber],
@@ -73,7 +76,10 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
         const period = params.period && (params.period[0] && params.period[1]) ?
           [new Date(params.period[0]), new Date(params.period[1])] : null;
 
+        this.filterForm.get('projectName').patchValue(params.v ? params.projectName : '');
         this.filterForm.get('watercourse').patchValue(params.watercourse ? params.watercourse : '');
+        this.filterForm.get('municipality').patchValue(params.municipality ? params.municipality : '');
+        this.filterForm.get('basin').patchValue(params.basin ? params.basin : '');
         this.filterForm.get('period').patchValue(period);
         this.filterForm.get('sort').patchValue(params.sort ? params.sort : '');
         this.filterForm.get('measuringPointNumber').patchValue(params.measuringPointNumber ? params.measuringPointNumber : '');
