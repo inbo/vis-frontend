@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {VisService} from '../../../vis.service';
 import {ActivatedRoute} from '@angular/router';
 import {Method} from '../../method/model/method';
 import {Subscription} from 'rxjs';
+import {MethodsService} from '../../../services/vis.methods.service';
+import {ProjectService} from '../../../services/vis.project.service';
 
 @Component({
   selector: 'app-project-methods-page',
@@ -18,15 +19,16 @@ export class ProjectMethodsPageComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute) {
+  constructor(private titleService: Title, private methodsService: MethodsService,
+              private projectService: ProjectService, private activatedRoute: ActivatedRoute) {
     this.titleService.setTitle(`Project ${this.activatedRoute.parent.snapshot.params.projectCode} methoden`);
 
     this.subscription.add(
-      this.visService.getProjectMethods(this.activatedRoute.parent.snapshot.params.projectCode).subscribe(value => this.methods = value)
+      this.projectService.getProjectMethods(this.activatedRoute.parent.snapshot.params.projectCode).subscribe(value => this.methods = value)
     );
 
     this.subscription.add(
-      this.visService.getAllMethods().subscribe(value => {
+      this.methodsService.getAllMethods().subscribe(value => {
         this.allMethods = value;
       })
     );
@@ -53,7 +55,7 @@ export class ProjectMethodsPageComponent implements OnInit, OnDestroy {
   }
 
   saveProjectMethods() {
-    this.subscription.add(this.visService.updateProjectMethods(this.activatedRoute.parent.snapshot.params.projectCode, this.methods)
+    this.subscription.add(this.methodsService.updateProjectMethods(this.activatedRoute.parent.snapshot.params.projectCode, this.methods)
       .subscribe(value => {
         this.methods = value;
         this.showEditTaxa = false;

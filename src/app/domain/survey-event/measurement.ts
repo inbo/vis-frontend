@@ -1,5 +1,5 @@
 interface MeasurementId {
-  value: number
+  value: number;
 }
 
 export interface Measurement {

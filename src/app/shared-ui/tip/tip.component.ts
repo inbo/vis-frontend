@@ -1,8 +1,8 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {VisService} from "../../vis.service";
-import {Observable, Subscription} from "rxjs";
-import {Tip} from "../../vis/project/model/tip";
-import {map} from "rxjs/operators";
+import {Observable, Subscription} from 'rxjs';
+import {Tip} from '../../domain/tip/tip';
+import {map} from 'rxjs/operators';
+import {TipsService} from '../../services/vis.tips.service';
 
 @Component({
   selector: 'app-tip',
@@ -21,11 +21,12 @@ export class TipComponent implements OnInit, OnDestroy {
   tip$: Observable<Tip>;
   tipIsRead$: Observable<boolean>;
 
-  constructor(private visService: VisService) { }
+  constructor(private tipsService: TipsService) {
+  }
 
   ngOnInit(): void {
-    this.tip$ = this.visService.getTip(this.code);
-    this.tipIsRead$ = this.tip$.pipe(map(tip => tip.read))
+    this.tip$ = this.tipsService.getTip(this.code);
+    this.tipIsRead$ = this.tip$.pipe(map(tip => tip.read));
   }
 
   ngOnDestroy(): void {
@@ -37,8 +38,8 @@ export class TipComponent implements OnInit, OnDestroy {
   }
 
   markAsRead() {
-    this.subscription.add(this.visService.markTipAsRead(this.code).subscribe(_ => {
-      this.show = false
+    this.subscription.add(this.tipsService.markTipAsRead(this.code).subscribe(_ => {
+      this.show = false;
     }));
   }
 }

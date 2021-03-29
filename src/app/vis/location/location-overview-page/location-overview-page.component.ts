@@ -1,12 +1,17 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {Title} from '@angular/platform-browser';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {control, latLng, Layer, LayerGroup, layerGroup, Map as LeafletMap, MapOptions} from "leaflet";
-import {LeafletControlLayersConfig} from "@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model";
-import {basemapLayer, dynamicMapLayer, DynamicMapLayer, featureLayer, FeatureLayer, FeatureLayerService} from "esri-leaflet";
-import * as geojson from "geojson";
+import {LatLng, latLng, Layer, LayerGroup, layerGroup, Map as LeafletMap, MapOptions} from 'leaflet';
+import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
+import {basemapLayer, dynamicMapLayer, DynamicMapLayer, featureLayer, FeatureLayer, FeatureLayerService} from 'esri-leaflet';
+import * as geojson from 'geojson';
+import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
+import {Observable, of, Subscription} from 'rxjs';
+import {FishingPoint} from '../../../domain/location/fishing-point';
+import {ActivatedRoute} from '@angular/router';
+import {LocationsService} from '../../../services/vis.locations.service';
 
 @Component({
   selector: 'app-location-overview-page',
@@ -19,6 +24,12 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     {title: 'Locaties', url: '/locaties'},
   ];
 
+  private subscription = new Subscription();
+
+  loading = false;
+  pager: AsyncPage<FishingPoint>;
+  fishingPoints: Observable<FishingPoint[]>;
+
   options: MapOptions;
   layersControl: LeafletControlLayersConfig;
 
@@ -26,7 +37,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   selected = {};
 
   service: FeatureLayerService;
-  legend = new Map()
+  legend = new Map();
 
   private dml: DynamicMapLayer;
 
@@ -37,34 +48,46 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   private selectedLayer: LayerGroup;
 
 
-  constructor(private titleService: Title, private chRef: ChangeDetectorRef) {
+  constructor(private titleService: Title, private locationsService: LocationsService, private activatedRoute: ActivatedRoute) {
     this.titleService.setTitle('Locaties');
   }
 
   ngOnInit(): void {
     this.setup();
+    this.subscription.add(
+      this.activatedRoute.queryParams.subscribe((params) => {
+        this.getFishingPoints(params.page ? params.page : 1, params.size ? params.size : 20);
+      })
+    );
   }
 
   ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   private setup() {
     this.service = new FeatureLayerService({url: 'https://gisservices.inbo.be'});
 
-    this.dml = dynamicMapLayer({url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer', layers: [1, 2, 3, 4]});
+    this.dml = dynamicMapLayer(
+      {
+        url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer',
+        layers: [1, 2, 3, 4]
+      }
+    );
 
     this.dml.bindPopup((error, featureCollection) => {
-      return featureCollection.features[0].properties['Naam'];
-    })
+      return featureCollection.features[0].properties.Naam;
+    });
 
     this.selectedLayer = layerGroup();
 
-    let basemapLayer1 = basemapLayer('Streets');
+    const basemapLayer1 = basemapLayer('Streets');
     this.layers = [
       basemapLayer1,
       this.dml,
       this.selectedLayer
-    ]
+    ];
+
     this.options = {
       zoom: 8,
       center: latLng(51.2, 4.14),
@@ -78,21 +101,26 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
       overlays: {
         'VHA Segmenten': this.dml,
       }
-    }
+    };
 
     this.serverAuth((error, response) => {
       if (error) {
         return;
       }
 
-      this.locationsLayer = featureLayer({url: 'https://gisservices.inbo.be/arcgis/rest/services/Veld/VISpunten/FeatureServer/0', token: response.token});
+      this.locationsLayer = featureLayer(
+        {
+          url: 'https://gisservices.inbo.be/arcgis/rest/services/Veld/VISpunten/FeatureServer/0',
+          token: response.token
+        }
+      );
 
       this.layers.push(this.locationsLayer);
       this.layersControl.overlays.VISpunten = this.locationsLayer;
 
       this.locationsLayer.bindPopup(layer => {
         // @ts-ignore
-        return layer.feature.properties.gebiedCode
+        return layer.feature.properties.gebiedCode;
       });
     });
   }
@@ -115,11 +143,33 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     return this.selected;
   }
 
-  zoomToLocation(zoomToFeature: geojson.Feature) {
-    console.log('todo')
+  zoomToLocation(code: string) {
+    this.locationsLayer.query().where(`gebiedCode='${code}'`).run((error, featureCollection) => {
+      const features = featureCollection.features;
+      if (features.length <= 0) {
+        return;
+      }
+
+      const coordinates = features[0].geometry.coordinates;
+      const latlng = new LatLng(coordinates[1], coordinates[0]);
+      this.map.setView(latlng, 15);
+    });
   }
 
   mapReady(map: LeafletMap) {
     this.map = map;
   }
+
+  getFishingPoints(page: number, size: number) {
+    this.loading = true;
+    this.fishingPoints = of([]);
+    this.subscription.add(
+      this.locationsService.getFishingPoints(page, size).subscribe((value) => {
+        this.pager = value;
+        this.fishingPoints = of(value.content);
+        this.loading = false;
+      })
+    );
+  }
+
 }

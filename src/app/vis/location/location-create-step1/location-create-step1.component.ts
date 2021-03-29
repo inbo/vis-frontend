@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {basemapLayer, DynamicMapLayer, dynamicMapLayer, featureLayer, FeatureLayer, FeatureLayerService} from "esri-leaflet";
-import L, {FeatureGroup, featureGroup, LatLng, latLng, Layer, layerGroup, LayerGroup, LeafletMouseEvent, Map as LeafletMap, MapOptions, marker} from "leaflet";
-import {Title} from "@angular/platform-browser";
-import {LeafletControlLayersConfig} from "@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model";
-import {FormGroup} from "@angular/forms";
-import {debounceTime} from "rxjs/operators";
-import * as geojson from "geojson";
+import {basemapLayer, DynamicMapLayer, dynamicMapLayer, featureLayer, FeatureLayer, FeatureLayerService} from 'esri-leaflet';
+import L, {FeatureGroup, featureGroup, LatLng, latLng, Layer, layerGroup, LayerGroup, LeafletMouseEvent, Map as LeafletMap, MapOptions, marker} from 'leaflet';
+import {Title} from '@angular/platform-browser';
+import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
+import {FormGroup} from '@angular/forms';
+import {debounceTime} from 'rxjs/operators';
+import * as geojson from 'geojson';
 
 @Component({
   selector: 'app-location-create-step1',
@@ -25,7 +25,7 @@ export class LocationCreateStep1Component implements OnInit {
   selectedLayerUrl: string;
 
   service: FeatureLayerService;
-  legend = new Map()
+  legend = new Map();
   private newLocationLayerGroup: FeatureGroup;
 
   private map: LeafletMap;
@@ -45,21 +45,25 @@ export class LocationCreateStep1Component implements OnInit {
   private setup() {
     this.service = new FeatureLayerService({url: 'https://gisservices.inbo.be'});
 
-    this.dml = dynamicMapLayer({url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer', layers: [1,2,3,4]});
+    this.dml = dynamicMapLayer(
+      {
+        url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer', layers: [1, 2, 3, 4]
+      }
+    );
 
-    this.newLocationLayerGroup = featureGroup()
+    this.newLocationLayerGroup = featureGroup();
     this.selectedLayer = layerGroup();
 
-    //TODO get metadata from all layers?
+    // TODO get metadata from all layers?
     this.dml.metadata((error, metadata) => console.log(metadata));
 
-    let basemapLayer1 = basemapLayer('Streets');
+    const basemapLayer1 = basemapLayer('Streets');
     this.layers = [
       basemapLayer1,
       this.dml,
       this.newLocationLayerGroup,
       this.selectedLayer
-    ]
+    ];
     this.options = {
       zoom: 12,
       center: latLng(51.2, 4.14),
@@ -71,9 +75,9 @@ export class LocationCreateStep1Component implements OnInit {
         'Open Street Map': basemapLayer1,
       },
       overlays: {
-        'Waterlopen': this.dml
+        Waterlopen: this.dml
       }
-    }
+    };
     this.initLegend();
 
 
@@ -82,7 +86,12 @@ export class LocationCreateStep1Component implements OnInit {
         return;
       }
 
-      let locationsLayer = featureLayer({url: 'https://gisservices.inbo.be/arcgis/rest/services/Veld/VISpunten/FeatureServer/0', token: response.token});
+      const locationsLayer = featureLayer(
+        {
+          url: 'https://gisservices.inbo.be/arcgis/rest/services/Veld/VISpunten/FeatureServer/0',
+          token: response.token
+        }
+      );
 
       this.layers.push(locationsLayer);
       this.layersControl.overlays.VISpunten = locationsLayer;
@@ -106,8 +115,8 @@ export class LocationCreateStep1Component implements OnInit {
         this.newLocationLayerGroup.clearLayers();
         this.newLocationLayerGroup.addLayer(m);
 
-        this.center = latlng
-      })
+        this.center = latlng;
+      });
 
     this.formGroup.get('lng').valueChanges
       .pipe(
@@ -124,15 +133,15 @@ export class LocationCreateStep1Component implements OnInit {
         this.newLocationLayerGroup.clearLayers();
         this.newLocationLayerGroup.addLayer(m);
 
-        this.center = latlng
-      })
+        this.center = latlng;
+      });
   }
 
   private initLegend() {
-    let fl1 = featureLayer({url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer/0'});
-    let fl2 = featureLayer({url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer/2'});
-    let fl3 = featureLayer({url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer/3'});
-    let fl4 = featureLayer({url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer/4'});
+    const fl1 = featureLayer({url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer/0'});
+    const fl2 = featureLayer({url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer/2'});
+    const fl3 = featureLayer({url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer/3'});
+    const fl4 = featureLayer({url: 'https://inspirepub.waterinfo.be/arcgis/rest/services/VHA_waterlopen/MapServer/4'});
 
     fl1.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
 
@@ -144,7 +153,7 @@ export class LocationCreateStep1Component implements OnInit {
   }
 
   private convertMetadataToLegend(metadata) {
-    let uniqueValueInfos = metadata.drawingInfo.renderer.uniqueValueInfos as [any];
+    const uniqueValueInfos = metadata.drawingInfo.renderer.uniqueValueInfos as [any];
     uniqueValueInfos.forEach(value => {
       this.legend.set(value.label, value.symbol.color.join(','));
     });
@@ -155,7 +164,7 @@ export class LocationCreateStep1Component implements OnInit {
       if (this.selectedFeature) {
         fl.resetStyle();
       }
-      this.selectedFeature = e.layer
+      this.selectedFeature = e.layer;
       this.selectedFeature.setStyle({
         weight: 7,
       });
@@ -176,7 +185,7 @@ export class LocationCreateStep1Component implements OnInit {
   }
 
   private showFeatureInformation() {
-    return function (e) {
+    return function(e) {
       this.selectedLayerUrl = e.layer.options.url;
       this.selected = e.propagatedFrom.feature.properties;
     };
@@ -188,7 +197,7 @@ export class LocationCreateStep1Component implements OnInit {
 
   addPoint(e: LeafletMouseEvent) {
     e.originalEvent.stopPropagation();
-    let m = marker(e.latlng);
+    const m = marker(e.latlng);
     this.newLocationLayerGroup.clearLayers();
     this.newLocationLayerGroup.addLayer(m);
 
@@ -197,7 +206,8 @@ export class LocationCreateStep1Component implements OnInit {
   }
 
   coordinatesAreInvalid() {
-    return (this.formGroup.get('lat').touched && this.formGroup.get('lat').invalid) || (this.formGroup.get('lng').touched && this.formGroup.get('lng').invalid)
+    return (this.formGroup.get('lat').touched && this.formGroup.get('lat').invalid)
+      || (this.formGroup.get('lng').touched && this.formGroup.get('lng').invalid);
   }
 
   clickMap(e: LeafletMouseEvent) {
@@ -211,10 +221,10 @@ export class LocationCreateStep1Component implements OnInit {
       if (featureCollection.features.length > 0) {
         const feature = featureCollection.features[0] as geojson.Feature;
         this.selected = feature.properties;
-        this.selectedLayer.addLayer(L.geoJSON(feature))
+        this.selectedLayer.addLayer(L.geoJSON(feature));
       }
 
-    })
+    });
   }
 
   onReady(map: LeafletMap) {

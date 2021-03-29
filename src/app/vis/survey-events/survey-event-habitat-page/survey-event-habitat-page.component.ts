@@ -1,13 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
-import {GlobalConstants} from '../../../GlobalConstants';
-import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {Title} from '@angular/platform-browser';
-import {VisService} from '../../../vis.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {Habitat} from '../model/habitat';
+import {Habitat} from '../../../domain/survey-event/habitat';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 
 @Component({
   selector: 'app-survey-event-habitat-page',
@@ -22,7 +19,7 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute,
+  constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder) {
     this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
     this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
@@ -44,7 +41,7 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
         loop: [null],
       });
 
-    this.subscription.add(this.visService.getHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId)
+    this.subscription.add(this.surveyEventsService.getHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId)
       .subscribe(value => {
         this.habitat = value;
       }));

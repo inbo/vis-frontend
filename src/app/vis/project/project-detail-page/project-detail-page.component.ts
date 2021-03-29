@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {VisService} from '../../../vis.service';
 import {ActivatedRoute} from '@angular/router';
-import {Project} from '../model/project';
+import {Project} from '../../../domain/project/project';
 import {Subscription} from 'rxjs';
-import {Role} from "../../../core/_models/role";
+import {Role} from '../../../core/_models/role';
+import {ProjectService} from '../../../services/vis.project.service';
 
 @Component({
   selector: 'app-project-detail-page',
@@ -16,9 +16,9 @@ export class ProjectDetailPageComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute) {
+  constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute) {
     this.subscription.add(
-      this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
+      this.projectService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
         this.titleService.setTitle(`${value.name} detail`);
         this.project = value;
       })
@@ -34,6 +34,6 @@ export class ProjectDetailPageComponent implements OnInit, OnDestroy {
   }
 
   exportProject() {
-    this.visService.exportProject(this.activatedRoute.snapshot.params.projectCode);
+    this.projectService.exportProject(this.activatedRoute.snapshot.params.projectCode);
   }
 }

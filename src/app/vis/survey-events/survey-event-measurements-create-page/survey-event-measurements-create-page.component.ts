@@ -3,9 +3,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {fromEvent, Subject, Subscription} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
-import {VisService} from '../../../vis.service';
 import {Option} from '../../../shared-ui/searchable-select/option';
 import {AlertService} from '../../../_alert';
+import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
+import {TaxaService} from "../../../services/vis.taxa.service";
 
 export interface AbstractControlWarn extends AbstractControl {
   warnings: any;
@@ -53,8 +54,8 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     'comment'
   ];
 
-  constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private visService: VisService,
-              private alertService: AlertService, private router: Router) {
+  constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private surveyEventsService: SurveyEventsService,
+              private alertService: AlertService, private taxaService: TaxaService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -88,9 +89,9 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   createMeasurementFormGroup(species?: any, afvisbeurt?: any): FormGroup {
     return this.formBuilder.group({
       species: new FormControl(species ?? '', [Validators.required]),
-      amount: new FormControl(1, Validators.min(1)),
-      length: new FormControl(''),
-      weight: new FormControl('', Validators.required),
+      amount: new FormControl(1, Validators.min(0)),
+      length: new FormControl('', Validators.min(0)),
+      weight: new FormControl('', [Validators.required, Validators.min(0)]),
       gender: new FormControl('', Validators.required),
       lengthType: new FormControl('', Validators.required),
       afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, Validators.min(1)),
@@ -99,7 +100,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   getSpecies(val: string) {
-    this.visService.getTaxa(val).pipe(
+    this.taxaService.getTaxa(val).pipe(
       map(taxa => {
         return taxa.map(taxon => ({
           id: taxon.id.value,
@@ -140,7 +141,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       return val;
     });
 
-    this.subscription.add(this.visService.createMeasurements(measurements, this.activatedRoute.parent.snapshot.params.projectCode,
+    this.subscription.add(this.surveyEventsService.createMeasurements(measurements, this.activatedRoute.parent.snapshot.params.projectCode,
       this.activatedRoute.parent.snapshot.params.surveyEventId)
       .subscribe(value => {
         if (value?.code === 400) {
@@ -233,12 +234,12 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     const taxaId = this.species(index).value.id;
 
     this.subscription.add(
-      this.visService.getTaxon(taxaId)
+      this.taxaService.getTaxon(taxaId)
         .subscribe(taxon => {
-          this.weight(index).setValidators([Validators.required, valueBetweenWarning(taxon.weightMin, taxon.weightMax)]);
+          this.weight(index).setValidators([Validators.required, Validators.min(0), valueBetweenWarning(taxon.weightMin, taxon.weightMax)]);
           this.weight(index).updateValueAndValidity();
 
-          this.length(index).setValidators([Validators.required, valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]);
+          this.length(index).setValidators([Validators.min(0), valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]);
           this.length(index).updateValueAndValidity();
         })
     );
@@ -286,5 +287,21 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   private length(index: number) {
     return this.items().at(index).get('length');
+  }
+
+  private amount(index: number) {
+    return this.items().at(index).get('amount');
+  }
+
+  private gender(index: number) {
+    return this.items().at(index).get('gender');
+  }
+
+  private lengthType(index: number) {
+    return this.items().at(index).get('lengthType');
+  }
+
+  private comment(index: number) {
+    return this.items().at(index).get('comment');
   }
 }

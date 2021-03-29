@@ -1,11 +1,11 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {Project} from '../model/project';
+import {Project} from '../../../domain/project/project';
 import {Title} from '@angular/platform-browser';
-import {VisService} from '../../../vis.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Subscription} from 'rxjs';
+import {ProjectService} from '../../../services/vis.project.service';
 
 @Component({
   selector: 'app-project-detail-edit-page',
@@ -18,7 +18,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router,
+  constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute, private router: Router,
               private formBuilder: FormBuilder) {
 
   }
@@ -33,7 +33,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
       });
 
     this.subscription.add(
-      this.visService.getProject(this.activatedRoute.parent.snapshot.params.projectCode).subscribe((value: Project) => {
+      this.projectService.getProject(this.activatedRoute.parent.snapshot.params.projectCode).subscribe((value: Project) => {
         this.titleService.setTitle(value.name);
         this.project = value;
         this.projectForm.get('name').patchValue(value.name);
@@ -57,7 +57,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     const formData = this.projectForm.getRawValue();
 
     this.subscription.add(
-      this.visService.updateProject(this.project.code.value, formData).subscribe(
+      this.projectService.updateProject(this.project.code.value, formData).subscribe(
         (response) => {
           this.project = response;
           this.reset();

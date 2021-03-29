@@ -4,7 +4,8 @@ import {VisService} from '../../../vis.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Observable, of, Subject, Subscription} from 'rxjs';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
-import {SurveyEvent} from '../model/surveyEvent';
+import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {Method} from "../../method/model/method";
@@ -29,7 +30,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
   private subscription = new Subscription();
   projectCode: string;
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router,
+  constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute, private router: Router,
               private formBuilder: FormBuilder) {
     this.titleService.setTitle(`Waarnemingen voor ${this.activatedRoute.parent.snapshot.params.projectCode}`);
     this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
@@ -118,7 +119,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
       }
 
       this.subscription.add(
-        this.visService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size, filter).subscribe((value) => {
+        this.surveyEventsService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size, filter).subscribe((value) => {
           this.pager = value;
           this.surveyEvents$ = of(value.content);
           this.loading = false;

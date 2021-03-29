@@ -3,15 +3,15 @@ import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {Title} from '@angular/platform-browser';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {Project} from '../model/project';
-import {VisService} from '../../../vis.service';
+import {Project} from '../../../domain/project/project';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Observable, of, Subscription} from 'rxjs';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ProjectAddComponent} from '../project-add/project-add.component';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {Role} from "../../../core/_models/role";
-import {debounceTime, distinctUntilChanged, tap} from "rxjs/operators";
+import {Role} from '../../../core/_models/role';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {ProjectService} from '../../../services/vis.project.service';
 
 @Component({
   selector: 'app-projects-overview-page',
@@ -36,7 +36,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router,
+  constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute, private router: Router,
               private formBuilder: FormBuilder) {
   }
 
@@ -82,7 +82,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
     this.loading = true;
     this.projects = of([]);
     this.subscription.add(
-      this.visService.getProjects(page, size, this.filterForm.getRawValue()).subscribe((value) => {
+      this.projectService.getProjects(page, size, this.filterForm.getRawValue()).subscribe((value) => {
         this.pager = value;
         this.projects = of(value.content);
         this.loading = false;
@@ -110,6 +110,6 @@ export class ProjectsOverviewPageComponent implements OnInit {
   }
 
   exportProjects() {
-    this.visService.exportProjects(this.filterForm.getRawValue());
+    this.projectService.exportProjects(this.filterForm.getRawValue());
   }
 }

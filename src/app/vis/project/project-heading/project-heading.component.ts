@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Project} from "../model/project";
-import {Subscription} from "rxjs";
-import {VisService} from "../../../vis.service";
-import {ActivatedRoute} from "@angular/router";
+import {Project} from '../../../domain/project/project';
+import {Subscription} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {ProjectService} from '../../../services/vis.project.service';
 
 @Component({
   selector: 'app-project-heading',
@@ -14,9 +14,9 @@ export class ProjectHeadingComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private visService: VisService, private activatedRoute: ActivatedRoute) {
+  constructor(private projectService: ProjectService, private activatedRoute: ActivatedRoute) {
     this.subscription.add(
-      this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
+      this.projectService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
         this.project = value;
       })
     );
