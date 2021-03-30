@@ -1,15 +1,74 @@
-<stacked-layout [navigationLinks]="links">
+<app-stacked-layout [navigationLinks]="links">
   <div slot="content">
-    <breadcrumb [breadcrumbLinks]="breadcrumbLinks"></breadcrumb>
+    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
     <main>
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="px-4 py-8 sm:px-0">
-          <div class="h-96">
-            <p>Binnenkort beschikbaar</p>
+        <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
+          <!-- This example requires Tailwind CSS v2.0+ -->
+          <div class="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              Locatie overzicht
+            </h3>
+            <div class="mt-3 flex sm:mt-0 sm:ml-4">
+              <app-button [style]="'primary'" [routerLink]="['/locaties/create']" >Nieuwe locatie</app-button>
+            </div>
           </div>
+
+        </div>
+
+        <div class="px-4 py-8 sm:px-0">
+          <app-fishing-points-map></app-fishing-points-map>
+        </div>
+
+        <div class="px-4 py-8 sm:px-0">
+          <div class="hidden lg:block flex flex-col">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                  <table class="min-w-full divide-y divide-gray-200 table-fixed">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Code
+                        </th>
+                        <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Beschrijving
+                        </th>
+                        <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Helling
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td *ngIf="loading" class="px-3 py-4" colspan="8">
+                          <app-loading-spinner></app-loading-spinner>
+                        </td>
+                      </tr>
+
+                      <tr *ngFor="let fishingPoint of fishingPoints | async; let index = index" [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">
+                        <td class="px-6 py-4  text-sm text-gray-500 cursor-pointer">
+                          <span (click)="zoomToLocation(fishingPoint)">{{fishingPoint.code}}</span>
+                        </td>
+                        <td class="px-6 py-4  text-sm text-gray-500">
+                          {{fishingPoint.description}}
+                        </td>
+                        <td class="px-6 py-4  text-sm text-gray-500">
+                          {{fishingPoint.slope}}
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                  <app-paging-async [pager]="pager"></app-paging-async>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </main>
   </div>
 
-</stacked-layout>
+</app-stacked-layout>

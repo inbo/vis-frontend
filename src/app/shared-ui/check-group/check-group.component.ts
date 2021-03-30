@@ -1,8 +1,9 @@
-import {Component, forwardRef, Input} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {Component, forwardRef, Input, OnInit} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {CheckOption} from './checkOption';
 
 @Component({
-  selector: 'check-group',
+  selector: 'app-check-group',
   templateUrl: './check-group.component.html',
   providers: [
     {
@@ -12,9 +13,9 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
     }
   ]
 })
-export class CheckGroupComponent implements ControlValueAccessor {
+export class CheckGroupComponent implements ControlValueAccessor, OnInit {
 
-  @Input() options: string[];
+  @Input() options: CheckOption[];
   @Input() name: string;
 
   private selectedValues: string[];
@@ -43,13 +44,13 @@ export class CheckGroupComponent implements ControlValueAccessor {
 
 
   onClick($event: Event) {
-    let value = ($event.target as HTMLInputElement).value;
-    let checked = ($event.target as HTMLInputElement).checked;
+    const value = ($event.target as HTMLInputElement).value;
+    const checked = ($event.target as HTMLInputElement).checked;
 
     this.selectedValues = this.selectedValues.filter(v => v !== value);
 
     if (checked) {
-      this.selectedValues.push(value)
+      this.selectedValues.push(value);
     }
 
     this.onChange(this.selectedValues);

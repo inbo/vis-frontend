@@ -1,14 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {NavigationLink} from "../../../shared-ui/layouts/NavigationLinks";
-import {GlobalConstants} from "../../../GlobalConstants";
-import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
-import {Project} from "../../project/model/project";
-import {Title} from "@angular/platform-browser";
-import {VisService} from "../../../vis.service";
-import {ActivatedRoute} from "@angular/router";
-import {AsyncPage} from "../../../shared-ui/paging-async/asyncPage";
-import {Measurement} from "../../project/model/measurement";
-import {Observable, of} from "rxjs";
+import {Component, OnInit} from '@angular/core';
+import {Title} from '@angular/platform-browser';
+import {ActivatedRoute} from '@angular/router';
+import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
+import {Measurement} from '../../../domain/survey-event/measurement';
+import {Observable, of} from 'rxjs';
+import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 
 @Component({
   selector: 'app-survey-event-measurements-page',
@@ -16,38 +12,29 @@ import {Observable, of} from "rxjs";
 })
 export class SurveyEventMeasurementsPageComponent implements OnInit {
 
-  links: NavigationLink[] = GlobalConstants.links;
-  breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Projecten', url: '/projecten'},
-    {title: this.activatedRoute.snapshot.params.projectCode, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
-    {title: 'Waarnemingen', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen'},
-    {title: this.activatedRoute.snapshot.params.surveyEventId, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/' + this.activatedRoute.snapshot.params.surveyEventId},
-    {title: 'Metingen', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/' + this.activatedRoute.snapshot.params.surveyEventId + '/metingen'}
-  ]
-
   projectCode: any;
   surveyEventId: any;
 
-  loading: boolean = false;
+  loading = false;
   pager: AsyncPage<Measurement>;
   measurements: Observable<Measurement[]>;
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute) {
-    this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
-    this.projectCode = this.activatedRoute.snapshot.params.projectCode
-    this.titleService.setTitle('Waarneming metingen ' + this.activatedRoute.snapshot.params.surveyEventId)
+  constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute) {
+    this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
+    this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
+    this.titleService.setTitle('Waarneming metingen ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
   }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((params) => {
-      this.loadMeasurements(params.page ? params.page : 1, params.size ? params.size : 20)
+      this.loadMeasurements(params.page ? params.page : 1, params.size ? params.size : 20);
     });
   }
 
   loadMeasurements(page: number, size: number) {
     this.loading = true;
-    this.measurements = of([])
-    this.visService.getMeasurements(this.projectCode, this.surveyEventId, page, size).subscribe((value) => {
+    this.measurements = of([]);
+    this.surveyEventsService.getMeasurements(this.projectCode, this.surveyEventId, page, size).subscribe((value) => {
       this.pager = value;
       this.measurements = of(value.content);
       this.loading = false;

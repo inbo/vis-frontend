@@ -378,6 +378,7 @@
   pointer-events: none;
 }
 .flatpickr-current-month .flatpickr-monthDropdown-months {
+  display: inline-block;
   appearance: menulist;
   @apply bg-gray-100;
   border: none;

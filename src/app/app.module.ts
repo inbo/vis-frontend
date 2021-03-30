@@ -1,29 +1,28 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import {MissingTranslationHandler, TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {NgTransitionModule} from "ng-transition";
-import {CommonModule} from "@angular/common";
-import {CoreModule} from "./core/core.module";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AlertModule} from "./_alert";
-import {VisService} from "./vis.service";
+import {NgTransitionModule} from 'ng-transition';
+import {CommonModule} from '@angular/common';
+import {CoreModule} from './core/core.module';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AlertModule} from './_alert';
 import {MyMissingTranslationHandler} from './missing-translation-handler';
-import {LandingPageModule} from "./landing-page/landing-page.module";
-import {SharedUiModule} from "./shared-ui/shared-ui.module";
-import {VisModule} from "./vis/vis.module";
-import {ReleaseNotesModule} from "./release-notes/release-notes.module";
-import {environment} from "../environments/environment";
-import {Observable} from "rxjs";
-import {MultiTranslateHttpLoader} from "./core/multi-http-loader";
+import {LandingPageModule} from './landing-page/landing-page.module';
+import {SharedUiModule} from './shared-ui/shared-ui.module';
+import {VisModule} from './vis/vis.module';
+import {ReleaseNotesModule} from './release-notes/release-notes.module';
+import {environment} from '../environments/environment';
+import {MultiTranslateHttpLoader} from './core/multi-http-loader';
+import {ErrorsModule} from './errors/errors.module';
+import {HttpErrorInterceptor} from './core/http.error.interceptor';
 
 @NgModule({
   declarations: [
-    AppComponent,
-
+    AppComponent
   ],
   imports: [
     CommonModule,
@@ -47,13 +46,19 @@ import {MultiTranslateHttpLoader} from "./core/multi-http-loader";
     SharedUiModule,
     VisModule,
     ReleaseNotesModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ErrorsModule
   ],
   providers: [
     {
       provide: MissingTranslationHandler,
       useClass: MyMissingTranslationHandler
-    }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent]
 })
@@ -62,7 +67,7 @@ export class AppModule {
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new MultiTranslateHttpLoader(http, [
-    {prefix: "./assets/i18n/", suffix: ".json"},
-    {prefix: `${environment.apiUrl}/translations/`, suffix: ""},
+    {prefix: './assets/i18n/', suffix: '.json'},
+    {prefix: `${environment.apiUrl}/translations/`, suffix: ''}
   ]);
 }

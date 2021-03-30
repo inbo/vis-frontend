@@ -1,26 +1,26 @@
-import {Component, ElementRef, HostListener, OnInit} from '@angular/core';
-import {AuthService} from "../../core/auth.service";
+import {Component, ElementRef, HostListener} from '@angular/core';
+import {AuthService} from '../../core/auth.service';
 
 @Component({
-  selector: 'profile-dropdown',
+  selector: 'app-profile-dropdown',
   templateUrl: './profile-dropdown.component.html'
 })
 export class ProfileDropdownComponent {
-  isOpen: boolean = false;
+  isOpen = false;
 
   constructor(private authService: AuthService, private eRef: ElementRef) {
   }
 
   public get fullName() {
-    return this.authService.fullName
+    return this.authService.fullName;
   }
 
   public get username() {
-    return this.authService.username
+    return this.authService.username;
   }
 
   public get picture() {
-    return this.authService.picture
+    return this.authService.picture;
   }
 
   logout() {

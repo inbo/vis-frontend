@@ -1,0 +1,31 @@
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Title} from '@angular/platform-browser';
+import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
+import {latLng} from 'leaflet';
+
+@Component({
+  selector: 'app-location-create-step2',
+  templateUrl: './location-create-step2.component.html'
+})
+export class LocationCreateStep2Component implements OnInit {
+  @ViewChild(FishingPointsMapComponent, {static: true}) map: FishingPointsMapComponent;
+
+  @Input() formGroup;
+
+  selected = {};
+
+  constructor(private titleService: Title) {
+    this.titleService.setTitle('Locatie toevoegen');
+  }
+
+  ngOnInit(): void {
+    const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
+    this.map.replaceNewLocationMarker(latlng);
+    this.map.setCenter(latlng);
+  }
+
+  featureSelected($event: any) {
+    this.selected = $event;
+  }
+
+}

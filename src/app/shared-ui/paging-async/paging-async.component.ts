@@ -6,13 +6,13 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
  *
  */
 @Component({
-  selector: 'paging-async',
+  selector: 'app-paging-async',
   templateUrl: './paging-async.component.html'
 })
 export class PagingAsyncComponent {
   @Input() pager: AsyncPage<any>;
-  @Input() pageProperty: string = 'page';
-  @Input() sizeProperty: string = 'size';
+  @Input() pageProperty = 'page';
+  @Input() sizeProperty = 'size';
   @Input() resetParams: Params = {};
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
@@ -26,20 +26,20 @@ export class PagingAsyncComponent {
       [],
       {
         relativeTo: this.activatedRoute,
-        queryParams: queryParams,
+        queryParams,
         queryParamsHandling: 'merge'
-      });
+      }).then();
   }
 
   next() {
     if (!this.pager.last) {
-      this.setPage(this.pager.number + 2, this.pager.size)
+      this.setPage(this.pager.number + 2, this.pager.size);
     }
   }
 
   previous() {
     if (!this.pager.first) {
-      this.setPage(this.pager.number, this.pager.size)
+      this.setPage(this.pager.number, this.pager.size);
     }
   }
 

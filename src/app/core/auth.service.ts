@@ -4,6 +4,7 @@ import {OAuthErrorEvent, OAuthService} from 'angular-oauth2-oidc';
 import {BehaviorSubject, combineLatest, Observable, ReplaySubject, Subscription} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
+import {Role} from './_models/role';
 
 @Injectable({providedIn: 'root'})
 export class AuthService implements OnDestroy {
@@ -77,13 +78,13 @@ export class AuthService implements OnDestroy {
     this.subscription.add(
       this.oauthService.events
         .pipe(filter(e => ['token_received'].includes(e.type)))
-        .subscribe(e => this.oauthService.loadUserProfile())
+        .subscribe(() => this.oauthService.loadUserProfile())
     );
 
     this.subscription.add(
       this.oauthService.events
         .pipe(filter(e => ['session_terminated', 'session_error'].includes(e.type)))
-        .subscribe(e => this.navigateToLoginPage())
+        .subscribe(() => this.navigateToLoginPage())
     );
 
     this.oauthService.setupAutomaticSilentRefresh();
@@ -179,31 +180,63 @@ export class AuthService implements OnDestroy {
   }
 
   public get fullName() {
-    let identityClaims = this.oauthService.getIdentityClaims();
-    return identityClaims == null ? '' : identityClaims['given_name'] + " " + identityClaims['family_name'];
+    const identityClaims = this.oauthService.getIdentityClaims();
+    // @ts-ignore
+    return identityClaims == null ? '' : `${identityClaims.given_name} ${identityClaims.family_name}`;
   }
 
   public get username() {
-    let identityClaims = this.oauthService.getIdentityClaims();
-    return identityClaims == null ? '' : identityClaims['preferred_username']
+    const identityClaims = this.oauthService.getIdentityClaims();
+    // @ts-ignore
+    return identityClaims == null ? '' : identityClaims.preferred_username;
   }
 
   public get picture() {
-    let identityClaims = this.oauthService.getIdentityClaims();
-    return identityClaims == null ? '' : identityClaims['picture'];
+    const identityClaims = this.oauthService.getIdentityClaims();
+    // @ts-ignore
+    return identityClaims == null ? '' : identityClaims.picture;
   }
 
   public get email() {
-    let identityClaims = this.oauthService.getIdentityClaims();
-    return identityClaims == null ? '' : identityClaims['email'];
+    const identityClaims = this.oauthService.getIdentityClaims();
+    // @ts-ignore
+    return identityClaims == null ? '' : identityClaims.email;
   }
 
-  public get clientRoles() {
-    let identityClaims = this.oauthService.getIdentityClaims();
-    let roles = identityClaims == null ? [] : identityClaims['client_roles'].map(role => {
-      return role.replace('ROLE_', '')
+  public get clientRoles(): Role[] {
+    const identityClaims = this.oauthService.getIdentityClaims();
+
+    const currentRoles: Role[] = [];
+
+    // @ts-ignore
+    let roles: string[] = identityClaims == null ? [] : identityClaims.client_roles
+      .map(role => role.replace('ROLE_', ''));
+
+    let useDummyRoles = localStorage.getItem("useDummyRoles") === 'true';
+
+    if (!environment.production && useDummyRoles) {
+      let localStorageRoles = localStorage.getItem("roles") || "";
+      roles = localStorageRoles.split(',');
+    }
+
+    roles.forEach(value => {
+      switch (value) {
+        case 'BEWERK_PROJECT':
+          currentRoles.push(Role.EditProject);
+          break;
+        case 'AANMAAK_PROJECT':
+          currentRoles.push(Role.CreateProject);
+          break;
+        case 'EXPORT_PROJECT':
+          currentRoles.push(Role.ExportProject);
+          break;
+      }
     });
-    return roles;
+
+    return currentRoles;
   }
 
+  public hasRole(role: Role): boolean {
+    return this.clientRoles.indexOf(role) >= 0;
+  }
 }

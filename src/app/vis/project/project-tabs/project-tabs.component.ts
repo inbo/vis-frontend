@@ -1,23 +1,24 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
-  selector: 'project-tabs',
+  selector: 'app-project-tabs',
   templateUrl: './project-tabs.component.html'
 })
 export class ProjectTabsComponent implements OnInit {
 
-  projectCode : string;
+  projectCode: string;
   currentUrl: string;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
-    this.currentUrl = "/" + this.activatedRoute.snapshot.url.join("/")
+    this.currentUrl = '/' + this.activatedRoute.snapshot.url.join('/');
     this.projectCode = this.activatedRoute.snapshot.params.projectCode;
   }
 
   navigate(location: string) {
-    this.router.navigate([location]);
+    this.router.navigate([location]).then();
   }
 }

@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {NavigationLink} from '../../NavigationLinks';
 
 @Component({
-  selector: 'sidebar-navigation-link',
+  selector: 'app-sidebar-navigation-link',
   templateUrl: './navigation-link.component.html'
 })
 export class NavigationLinkComponent implements OnInit {

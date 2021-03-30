@@ -1,6 +1,6 @@
-<stacked-layout [navigationLinks]="links">
+<app-stacked-layout [navigationLinks]="links">
   <div slot="content">
-    <breadcrumb [breadcrumbLinks]="breadcrumbLinks"></breadcrumb>
+    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
     <main>
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
@@ -11,37 +11,32 @@
               Project overzicht
             </h3>
             <div class="mt-3 flex sm:mt-0 sm:ml-4">
-              <button (click)="exportProjects()" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-                Exporteer
-              </button>
-              <button (click)="openAddProject()" type="button" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-                Nieuw project
-              </button>
+              <app-button [role]="role.ExportProject" (click)="exportProjects()">Exporteer</app-button>
+              <app-button [style]="'primary'" [role]="role.CreateProject" class="ml-3" (click)="openAddProject()">Nieuw Project</app-button>
             </div>
           </div>
 
         </div>
 
-        <expandable-filter [formGroup]="filterForm" (searchClicked)="filter()" (resetClicked)="filter()" [showAdvancedFilterAtStartup]="advancedFilterIsVisible">
+        <app-expandable-filter [hideSearchButton]="true" [formGroup]="filterForm" [showAdvancedFilterAtStartup]="advancedFilterIsVisible">
           <ng-container slot="simple">
             <div class="self-center">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input type="text" formControlName="name" placeholder="Naam ..." class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
+                <input name="name" type="text" formControlName="name" placeholder="Naam ..." />
               </div>
             </div>
 
             <div class="flex items-center">
-              <select formControlName="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md">
+              <select formControlName="status" class="mt-1">
                 <option value="">Actief / Niet actief</option>
                 <option value="ACTIVE">Actief</option>
                 <option value="INACTIVE">Niet actief</option>
               </select>
             </div>
             <div class="self-center">
-              <select formControlName="sort" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md">
+              <select formControlName="sort" class="mt-1">
                 <option value="">Sorteren op ...</option>
                 <option value="name">Naam</option>
-                <option value="status">Status</option>
                 <option value="start">Periode</option>
               </select>
             </div>
@@ -51,12 +46,12 @@
 
             <div class="self-center">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input type="text" formControlName="description" placeholder="Omschrijving ..." class="max-w-lg block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
+                <input type="text" formControlName="description" placeholder="Omschrijving ..." />
               </div>
             </div>
 
           </ng-container>
-        </expandable-filter>
+        </app-expandable-filter>
 
 
         <div class="px-4 py-8 sm:px-0">
@@ -93,29 +88,29 @@
                     <tbody>
                       <tr>
                         <td *ngIf="loading" class="px-3 py-4" colspan="8">
-                          <loading-spinner></loading-spinner>
+                          <app-loading-spinner></app-loading-spinner>
                         </td>
                       </tr>
 
                       <tr *ngFor="let project of projects | async; let index = index" [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">
-                        <td class="px-6 py-4  text-sm text-gray-900">
-                          {{project.name}}
+                        <td class="px-6 py-4  text-sm text-gray-500">
+                          <a [routerLink]="['/projecten', project.code.value]">{{project.name}}</a>
                         </td>
-                        <td class="px-6 py-4  text-sm text-gray-900">
+                        <td class="px-6 py-4  text-sm text-gray-500">
                           <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" [ngClass]="project.status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
                             {{ 'project.status.'+ project.status | translate }}
                           </span>
                         </td>
-                        <td class="px-6 py-4  text-sm text-gray-900">
+                        <td class="px-6 py-4  text-sm text-gray-500">
                           {{project.location}}
                         </td>
-                        <td class="px-6 py-4  text-sm text-gray-900">
+                        <td class="px-6 py-4  text-sm text-gray-500">
                           {{project.province}}
                         </td>
-                        <td class="px-6 py-4  text-sm text-gray-900">
+                        <td class="px-6 py-4  text-sm text-gray-500">
                           {{project.area}}
                         </td>
-                        <td class="px-6 py-4  text-sm text-gray-900">
+                        <td class="px-6 py-4  text-sm text-gray-500">
                           {{project.start | date:'dd/MM/yyyy'}} - {{project.end | date:'dd/MM/yyyy'}}
                         </td>
 
@@ -126,7 +121,7 @@
 
                     </tbody>
                   </table>
-                  <paging-async [pager]="pager"></paging-async>
+                  <app-paging-async [pager]="pager"></app-paging-async>
                 </div>
               </div>
             </div>
@@ -188,14 +183,14 @@
                 </a>
               </li>
             </ul>
-            <paging-async [pager]="pager"></paging-async>
+            <app-paging-async [pager]="pager"></app-paging-async>
           </div>
 
         </div>
       </div>
     </main>
 
-    <project-add></project-add>
+    <app-project-add></app-project-add>
   </div>
 
-</stacked-layout>
+</app-stacked-layout>

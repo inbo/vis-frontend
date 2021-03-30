@@ -1,4 +1,5 @@
 export const environment = {
+  env: 'uat',
   production: true,
   apiUrl: 'https://vis2-api-uat.inbo.be',
   keycloakClientId: 'vis-uat',

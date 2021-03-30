@@ -1,35 +1,25 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {NavigationLink} from "../../../shared-ui/layouts/NavigationLinks";
-import {GlobalConstants} from "../../../GlobalConstants";
-import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
-import {Project} from "../model/project";
-import {Title} from "@angular/platform-browser";
-import {VisService} from "../../../vis.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {HasUnsavedData} from "../../../core/core.interface";
-import {Subscription} from "rxjs";
+import {Project} from '../../../domain/project/project';
+import {Title} from '@angular/platform-browser';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {HasUnsavedData} from '../../../core/core.interface';
+import {Subscription} from 'rxjs';
+import {ProjectService} from '../../../services/vis.project.service';
 
 @Component({
-  selector: 'project-detail-edit-page',
+  selector: 'app-project-detail-edit-page',
   templateUrl: './project-detail-edit-page.component.html'
 })
 export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {
-  links: NavigationLink[] = GlobalConstants.links;
-  breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Projecten', url: '/projecten'},
-    {title: this.activatedRoute.snapshot.params.projectCode, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
-    {title: 'Details', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
-    {title: 'Bewerk', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/edit'}
-  ]
-
   projectForm: FormGroup;
   project: Project;
   submitted: boolean;
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute, private router: Router,
+              private formBuilder: FormBuilder) {
 
   }
 
@@ -43,8 +33,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
       });
 
     this.subscription.add(
-      this.visService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe((value: Project) => {
-        this.titleService.setTitle(value.name)
+      this.projectService.getProject(this.activatedRoute.parent.snapshot.params.projectCode).subscribe((value: Project) => {
+        this.titleService.setTitle(value.name);
         this.project = value;
         this.projectForm.get('name').patchValue(value.name);
         this.projectForm.get('description').patchValue(value.description);
@@ -67,11 +57,11 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     const formData = this.projectForm.getRawValue();
 
     this.subscription.add(
-      this.visService.updateProject(this.project.code.value, formData).subscribe(
+      this.projectService.updateProject(this.project.code.value, formData).subscribe(
         (response) => {
           this.project = response;
           this.reset();
-          this.router.navigate(['/projecten', this.project.code.value])
+          this.router.navigate(['/projecten', this.project.code.value]).then();
         },
         (error) => console.log(error)
       )
@@ -85,7 +75,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     this.projectForm.get('description').patchValue(this.project.description);
     this.projectForm.get('status').patchValue(this.project.status === 'ACTIVE');
     this.projectForm.get('period').patchValue([new Date(this.project.start), new Date(this.project.end)]);
-    this.projectForm.reset(this.projectForm.value)
+    this.projectForm.reset(this.projectForm.value);
   }
 
 
@@ -97,7 +87,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
   }
 
   hasUnsavedData(): boolean {
-    return this.projectForm.dirty
+    return this.projectForm.dirty;
   }
 
   get name() {

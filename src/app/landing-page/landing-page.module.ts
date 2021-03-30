@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { LandingPageRoutingModule } from './landing-page-routing.module';
-import {WelcomePageComponent} from "./welcome-page/welcome-page.component";
-import {NgTransitionModule} from "ng-transition";
+import {LandingPageRoutingModule} from './landing-page-routing.module';
+import {WelcomePageComponent} from './welcome-page/welcome-page.component';
+import {NgTransitionModule} from 'ng-transition';
 
 
 @NgModule({
@@ -16,4 +16,5 @@ import {NgTransitionModule} from "ng-transition";
     NgTransitionModule
   ]
 })
-export class LandingPageModule { }
+export class LandingPageModule {
+}

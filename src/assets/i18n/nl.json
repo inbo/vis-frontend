@@ -24,6 +24,12 @@
         "HIGH": "Hoog",
         "null": ""
       },
+      "waterlevel": {
+        "LOW": "Laag",
+        "NORMAL": "Normaal",
+        "HIGH": "Hoog",
+        "null": ""
+      },
       "shelter": {
         "MANY": "Zeer veel",
         "SOME": "Veel",
@@ -153,5 +159,11 @@
       "FORK": "Vorklengte",
       "TOTAL": "Totale lengte"
     }
+  },
+  "error": {
+    "forbidden":"Sorry, de pagina die u zoekt, is niet gevonden.",
+    "internal-server-error": "Sorry, de pagina die u zoekt, is niet gevonden.",
+    "not-found": "Sorry, de pagina die u zoekt, is niet gevonden.",
+    "service-unavailable": "Sorry, de pagina die u zoekt, is niet gevonden."
   }
 }

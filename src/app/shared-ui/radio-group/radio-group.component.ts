@@ -1,10 +1,9 @@
-import {Component, forwardRef, Input, OnInit, ViewChild} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
-import flatpickr from "flatpickr";
-import {Dutch} from "flatpickr/dist/l10n/nl";
+import {Component, forwardRef, Input, OnInit} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {RadioOption} from './radioOption';
 
 @Component({
-  selector: 'radio-group',
+  selector: 'app-radio-group',
   templateUrl: './radio-group.component.html',
   providers: [
     {
@@ -14,16 +13,15 @@ import {Dutch} from "flatpickr/dist/l10n/nl";
     }
   ]
 })
-export class RadioGroupComponent implements ControlValueAccessor {
+export class RadioGroupComponent implements ControlValueAccessor, OnInit {
 
-  @Input() options: string[];
+  @Input() options: RadioOption<any>[];
   @Input() name: string;
 
-  private selectedValue: string;
+  selectedValue: any;
 
   private onChange: Function;
   private onTouch: Function;
-  private fp: any;
 
   writeValue(obj: string): void {
     this.selectedValue = obj;
@@ -41,12 +39,11 @@ export class RadioGroupComponent implements ControlValueAccessor {
   }
 
   ngOnInit(): void {
+
   }
 
-
   onClick($event: Event) {
-    let value = ($event.target as HTMLInputElement).value;
-    this.selectedValue = value;
+    this.selectedValue = ($event.target as HTMLInputElement).value;
     this.onChange(this.selectedValue);
   }
 }

@@ -1,48 +1,34 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {NavigationLink} from "../../../shared-ui/layouts/NavigationLinks";
-import {GlobalConstants} from "../../../GlobalConstants";
-import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
-import {Project} from "../../project/model/project";
-import {Parameters} from "../../project/model/parameters";
-import {Title} from "@angular/platform-browser";
-import {VisService} from "../../../vis.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Subscription} from "rxjs";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {Parameters} from '../../../domain/survey-event/parameters';
+import {Title} from '@angular/platform-browser';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 
 @Component({
-  selector: 'survey-event-parameters-edit-page',
+  selector: 'app-survey-event-parameters-edit-page',
   templateUrl: './survey-event-parameters-edit-page.component.html'
 })
 export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy {
-  links: NavigationLink[] = GlobalConstants.links;
-
-  breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Projecten', url: '/projecten'},
-    {title: this.activatedRoute.snapshot.params.projectCode, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode},
-    {title: 'Waarnemingen', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen'},
-    {title: this.activatedRoute.snapshot.params.surveyEventId, url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/' + this.activatedRoute.snapshot.params.surveyEventId},
-    {title: 'Parameters', url: '/projecten/' + this.activatedRoute.snapshot.params.projectCode + '/waarnemingen/' + this.activatedRoute.snapshot.params.surveyEventId + '/parameters'}
-  ]
-  private projectSubscription$: Subscription;
-  private parametersSubscription$: Subscription;
-  private updateSubscription$: Subscription;
-
   surveyEventId: any;
 
   parameters: Parameters;
   parametersForm: FormGroup;
   submitted: boolean;
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private router: Router) {
-    this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
-    this.titleService.setTitle('Bewerken waarneming parameters ' + this.activatedRoute.snapshot.params.surveyEventId)
+  private subscription = new Subscription();
 
-    this.parametersSubscription$ = this.visService.getParameters(this.activatedRoute.snapshot.params.projectCode, this.activatedRoute.snapshot.params.surveyEventId)
+  constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
+              private formBuilder: FormBuilder, private router: Router) {
+    this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
+    this.titleService.setTitle('Bewerken waarneming waterkwaliteitsparameters ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
+
+    this.subscription.add(this.surveyEventsService.getParameters(this.activatedRoute.parent.snapshot.params.projectCode,
+      this.activatedRoute.parent.snapshot.params.surveyEventId)
       .subscribe(value => {
         this.parameters = value;
-      })
-
+      }));
   }
 
   ngOnInit(): void {
@@ -62,22 +48,22 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
         width: ['', []]
       });
 
-    this.visService.getParameters(this.activatedRoute.snapshot.params.projectCode, this.activatedRoute.snapshot.params.surveyEventId)
-      .subscribe(value => {
-        this.parameters = value;
-        this.parametersForm.get('oxygen').patchValue(value.oxygen !== null ? value.oxygen.toString() : '')
-        this.parametersForm.get('oxygenPercentage').patchValue(value.oxygenPercentage !== null ? value.oxygenPercentage.toString() : '')
-        this.parametersForm.get('averageDepth').patchValue(value.averageDepth !== null ? value.averageDepth.toString() : '')
-        this.parametersForm.get('temperature').patchValue(value.temperature !== null ? value.temperature.toString() : '')
-        this.parametersForm.get('conductivity').patchValue(value.conductivity !== null ? value.conductivity.toString() : '')
-        this.parametersForm.get('ph').patchValue(value.ph !== null ? value.ph.toString() : '')
-        this.parametersForm.get('flowRate').patchValue(value.flowRate !== null ? value.flowRate.toString() : '')
-        this.parametersForm.get('turbidity').patchValue(value.turbidity !== null ? value.turbidity.toString() : '')
-        this.parametersForm.get('turbidityOutOfRange').patchValue(value.turbidityOutOfRange)
-        this.parametersForm.get('secchi').patchValue(value.secchi !== null ? value.secchi.toString() : '')
-        this.parametersForm.get('salinity').patchValue(value.salinity !== null ? value.salinity.toString() : '')
-        this.parametersForm.get('width').patchValue(value.width !== null ? value.width.toString() : '')
-      })
+    this.subscription.add(this.surveyEventsService.getParameters(this.activatedRoute.parent.snapshot.params.projectCode,
+      this.activatedRoute.parent.snapshot.params.surveyEventId).subscribe(value => {
+      this.parameters = value;
+      this.parametersForm.get('oxygen').patchValue(value.oxygen !== null ? value.oxygen.toString() : '');
+      this.parametersForm.get('oxygenPercentage').patchValue(value.oxygenPercentage !== null ? value.oxygenPercentage.toString() : '');
+      this.parametersForm.get('averageDepth').patchValue(value.averageDepth !== null ? value.averageDepth.toString() : '');
+      this.parametersForm.get('temperature').patchValue(value.temperature !== null ? value.temperature.toString() : '');
+      this.parametersForm.get('conductivity').patchValue(value.conductivity !== null ? value.conductivity.toString() : '');
+      this.parametersForm.get('ph').patchValue(value.ph !== null ? value.ph.toString() : '');
+      this.parametersForm.get('flowRate').patchValue(value.flowRate !== null ? value.flowRate.toString() : '');
+      this.parametersForm.get('turbidity').patchValue(value.turbidity !== null ? value.turbidity.toString() : '');
+      this.parametersForm.get('turbidityOutOfRange').patchValue(value.turbidityOutOfRange);
+      this.parametersForm.get('secchi').patchValue(value.secchi !== null ? value.secchi.toString() : '');
+      this.parametersForm.get('salinity').patchValue(value.salinity !== null ? value.salinity.toString() : '');
+      this.parametersForm.get('width').patchValue(value.width !== null ? value.width.toString() : '');
+    }));
   }
 
   saveParameters() {
@@ -88,31 +74,37 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
 
     const formData = this.parametersForm.getRawValue();
 
-    this.updateSubscription$ = this.visService.updateParameters(this.activatedRoute.snapshot.params.projectCode.value, this.surveyEventId, formData).subscribe(
-      (response) => {
-        this.reset();
-        this.router.navigate(['/projecten', this.activatedRoute.snapshot.params.projectCode, 'waarnemingen', this.activatedRoute.snapshot.params.surveyEventId, 'parameters']);
-      },
-      (error) => console.log(error)
+    this.subscription.add(
+      this.surveyEventsService.updateParameters(this.activatedRoute.parent.snapshot.params.projectCode.value, this.surveyEventId, formData)
+        .subscribe(() => {
+            this.reset();
+            this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
+              this.activatedRoute.parent.snapshot.params.surveyEventId, 'waterkwaliteitsparameters']).then();
+          },
+          (error) => console.log(error)
+        )
     );
   }
 
   reset() {
     this.submitted = false;
 
-    this.parametersForm.get('oxygen').patchValue(this.parameters.oxygen !== null ? this.parameters.oxygen.toString() : '')
-    this.parametersForm.get('oxygenPercentage').patchValue(this.parameters.oxygenPercentage !== null ? this.parameters.oxygenPercentage.toString() : '')
-    this.parametersForm.get('averageDepth').patchValue(this.parameters.averageDepth !== null ? this.parameters.averageDepth.toString() : '')
-    this.parametersForm.get('temperature').patchValue(this.parameters.temperature !== null ? this.parameters.temperature.toString() : '')
-    this.parametersForm.get('conductivity').patchValue(this.parameters.conductivity !== null ? this.parameters.conductivity.toString() : '')
-    this.parametersForm.get('ph').patchValue(this.parameters.ph !== null ? this.parameters.ph.toString() : '')
-    this.parametersForm.get('flowRate').patchValue(this.parameters.flowRate !== null ? this.parameters.flowRate.toString() : '')
-    this.parametersForm.get('turbidity').patchValue(this.parameters.turbidity !== null ? this.parameters.turbidity.toString() : '')
-    this.parametersForm.get('turbidityOutOfRange').patchValue(this.parameters.turbidityOutOfRange)
-    this.parametersForm.get('secchi').patchValue(this.parameters.secchi !== null ? this.parameters.secchi.toString() : '')
-    this.parametersForm.get('salinity').patchValue(this.parameters.salinity !== null ? this.parameters.salinity.toString() : '')
-    this.parametersForm.get('width').patchValue(this.parameters.width !== null ? this.parameters.width.toString() : '')
-    this.parametersForm.reset(this.parametersForm.value)
+    this.parametersForm.get('oxygen').patchValue(this.parameters.oxygen !== null ? this.parameters.oxygen.toString() : '');
+    this.parametersForm.get('oxygenPercentage').patchValue(this.parameters.oxygenPercentage !== null ?
+      this.parameters.oxygenPercentage.toString() : '');
+    this.parametersForm.get('averageDepth').patchValue(this.parameters.averageDepth !== null ?
+      this.parameters.averageDepth.toString() : '');
+    this.parametersForm.get('temperature').patchValue(this.parameters.temperature !== null ? this.parameters.temperature.toString() : '');
+    this.parametersForm.get('conductivity').patchValue(this.parameters.conductivity !== null ?
+      this.parameters.conductivity.toString() : '');
+    this.parametersForm.get('ph').patchValue(this.parameters.ph !== null ? this.parameters.ph.toString() : '');
+    this.parametersForm.get('flowRate').patchValue(this.parameters.flowRate !== null ? this.parameters.flowRate.toString() : '');
+    this.parametersForm.get('turbidity').patchValue(this.parameters.turbidity !== null ? this.parameters.turbidity.toString() : '');
+    this.parametersForm.get('turbidityOutOfRange').patchValue(this.parameters.turbidityOutOfRange);
+    this.parametersForm.get('secchi').patchValue(this.parameters.secchi !== null ? this.parameters.secchi.toString() : '');
+    this.parametersForm.get('salinity').patchValue(this.parameters.salinity !== null ? this.parameters.salinity.toString() : '');
+    this.parametersForm.get('width').patchValue(this.parameters.width !== null ? this.parameters.width.toString() : '');
+    this.parametersForm.reset(this.parametersForm.value);
   }
 
 
@@ -124,7 +116,7 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
   }
 
   hasUnsavedData(): boolean {
-    return this.parametersForm.dirty
+    return this.parametersForm.dirty;
   }
 
 
@@ -177,26 +169,24 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
   }
 
   ngOnDestroy(): void {
-    if (this.projectSubscription$ !== undefined) this.projectSubscription$.unsubscribe();
-    if (this.parametersSubscription$ !== undefined) this.parametersSubscription$.unsubscribe();
-    if (this.updateSubscription$ !== undefined) this.updateSubscription$.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   numberMask(scale: number, min: number, max: number) {
     return {
       mask: Number,
-      scale: scale,
+      scale,
       signed: true,
       thousandsSeparator: '',
       radix: ',',
-      min: min,
-      max: max
-    }
+      min,
+      max
+    };
   }
 
   outOfRangeChanged($event: Event) {
     if (($event.target as HTMLInputElement).checked) {
-      this.parametersForm.get('turbidity').patchValue('')
+      this.parametersForm.get('turbidity').patchValue('');
     }
   }
 }

@@ -6,10 +6,10 @@ import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Observable, of, Subscription} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {VisService} from '../../../vis.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Taxon} from '../../model/taxon/taxon';
-import {TaxonGroup} from '../../model/taxon/taxon-group';
+import {Taxon} from '../../../domain/taxa/taxon';
+import {TaxonGroup} from '../../../domain/taxa/taxon-group';
+import {TaxaService} from '../../../services/vis.taxa.service';
 
 @Component({
   selector: 'app-fish-species-overview-page',
@@ -26,14 +26,15 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
 
   pager: AsyncPage<Taxon>;
   taxon: Observable<Taxon[]>;
-  taxonGroups: TaxonGroup[];
+  taxonGroups: AsyncPage<TaxonGroup>;
 
   filterForm: FormGroup;
   advancedFilterIsVisible = false;
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private visService: VisService, private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private titleService: Title, private taxaService: TaxaService, private activatedRoute: ActivatedRoute, private router: Router,
+              formBuilder: FormBuilder) {
     this.titleService.setTitle('Vissoorten');
 
     const queryParams = activatedRoute.snapshot.queryParams;
@@ -67,7 +68,7 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      this.visService.getTaxonGroups().subscribe((value => this.taxonGroups = value))
+      this.taxaService.getTaxonGroups().subscribe((value => this.taxonGroups = value))
     );
 
   }
@@ -80,9 +81,10 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.taxon = of([]);
     this.subscription.add(
-      this.visService.getTaxa(page, size, this.filterForm.getRawValue()).subscribe((value) => {
+      this.taxaService.getFilteredTaxa(page, size, this.filterForm.getRawValue()).subscribe((value) => {
         this.pager = value;
         value.content.forEach(item => {
+          // @ts-ignore
           item.taxonGroupText = item.taxonGroups.map(taxonGroup => taxonGroup.name).join(', ');
         });
         this.taxon = of(value.content);
@@ -101,7 +103,7 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
         relativeTo: this.activatedRoute,
         queryParams,
         queryParamsHandling: 'merge'
-      });
+      }).then();
 
     this.getTaxon(1, 20);
   }

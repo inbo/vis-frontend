@@ -1,0 +1,90 @@
+<div>
+  <div class="grid grid-cols-6 gap-x-4 text-sm">
+    <div class="col-span-6 md:col-span-4" >
+      <app-fishing-points-map [canAddPoints]="true" (pointAdded)="pointAdded($event)" (featureSelected)="featureSelected($event)"></app-fishing-points-map>
+    </div>
+
+    <div class="mt-4 md:mt-0 col-span-6 md:col-span-2">
+      <form [formGroup]="formGroup">
+        <div class="grid grid-cols-1 gap-y-6">
+          <div>
+            <label for="code" class="block text-sm font-medium text-gray-700">
+              Meetplaatscode
+            </label>
+            <div class="mt-1">
+              <input formControlName="code" type="text" name="code" id="code">
+            </div>
+            <p *ngIf="formGroup.get('code').touched && formGroup.get('code').invalid" class="mt-2 text-sm text-red-600">Code is verplicht</p>
+          </div>
+
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">
+              Meetplaatsnaam
+            </label>
+            <div class="mt-1">
+              <input formControlName="name" type="text" name="name" id="name">
+            </div>
+            <p *ngIf="formGroup.get('name').touched && formGroup.get('name').invalid" class="mt-2 text-sm text-red-600">Naam is verplicht</p>
+
+          </div>
+
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">
+              Type
+            </label>
+            <div class="mt-1">
+              <div class="flex flex-col space-y-4">
+                <div class="flex items-center">
+                  <input formControlName="type" id="flowing" value="flowing" type="radio">
+                  <label for="flowing" class="ml-3 block text-sm font-medium text-gray-700">
+                    Stromend water
+                  </label>
+                </div>
+                <div class="flex items-center">
+                  <input formControlName="type" id="stationary" value="stationary" type="radio">
+                  <label for="stationary" class="ml-3 block text-sm font-medium text-gray-700">
+                    Stilstaand water
+                  </label>
+                </div>
+              </div>
+              <p *ngIf="formGroup.get('type').touched && formGroup.get('type').invalid" class="mt-2 text-sm text-red-600">Type is verplicht</p>
+            </div>
+          </div>
+
+          <div>
+            <label for="lat" class="block text-sm font-medium text-gray-700">Latitude - Longitude</label>
+            <div class="mt-1 flex space-x-2">
+              <input formControlName="lat" type="text" name="lat" id="lat">
+              <input formControlName="lng" type="text" name="lng" id="lng">
+            </div>
+            <p *ngIf="coordinatesAreInvalid()" class="mt-2 text-sm text-red-600">De coördinaten zijn niet geldig</p>
+            <p class="mt-2 text-sm text-gray-500" id="email-description">Dubbelklik op de kaart om een punt te selecteren of voer deze manueel in</p>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- This example requires Tailwind CSS v2.0+ -->
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg mt-4">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">
+        Details selectie
+      </h3>
+    </div>
+    <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+      <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-3">
+        <div class="sm:col-span-1" *ngFor="let x of selected | keyvalue">
+          <dt class="text-sm font-medium text-gray-500">
+            {{x.key}}
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            {{x.value}}
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</div>

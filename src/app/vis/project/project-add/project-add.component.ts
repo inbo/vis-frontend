@@ -1,13 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {VisService} from "../../../vis.service";
-import {Router} from "@angular/router";
-import {Observable, Subscription} from "rxjs";
-import {map} from "rxjs/operators";
-import {AlertService} from "../../../_alert";
+import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {Observable, Subscription} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {ProjectService} from '../../../services/vis.project.service';
 
 @Component({
-  selector: 'project-add',
+  selector: 'app-project-add',
   templateUrl: './project-add.component.html'
 })
 export class ProjectAddComponent implements OnInit, OnDestroy {
@@ -19,7 +18,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private visService: VisService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private projectService: ProjectService, private formBuilder: FormBuilder, private router: Router) {
 
   }
 
@@ -51,7 +50,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
     const formData = this.createProjectForm.getRawValue();
 
     this.subscription.add(
-      this.visService.createProject(formData).subscribe(
+      this.projectService.createProject(formData).subscribe(
         (response) => {
           this.isOpen = false;
           this.router.navigateByUrl('/projecten/' + formData.code);
@@ -67,8 +66,8 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
 
   codeValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.visService.checkIfProjectExists(control.value)
-        .pipe(map(result => result.valid ? {"unique": true} : null));
+      return this.projectService.checkIfProjectExists(control.value)
+        .pipe(map(result => result.valid ? {unique: true} : null));
     };
   }
 
