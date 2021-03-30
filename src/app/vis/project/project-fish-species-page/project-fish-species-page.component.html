@@ -1,3 +1,87 @@
-<div class="h-96">
-  <p>Binnenkort beschikbaar</p>
+<div class="flex flex-col hidden lg:block">
+  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Code
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Nederlandse naam
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Wetenschappelijke naam
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Groep
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let item of taxon | async; let index = index; else noResults" [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{item.code.value}}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{item.nameDutch}}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{'taxon.id.' + item.id.value + '.sci' | translate}}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{item.taxonGroupText}}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <a [routerLink]="['/vissoorten', item.id.value]" class="text-pink-600 hover:text-pink-900">Detail</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <ng-template #noResults>
+            <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+              <div class="hidden sm:block">
+                <p class="text-sm leading-5 text-gray-700">
+                  Geen resultaten
+                </p>
+              </div>
+          </nav>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="lg:hidden bg-white shadow overflow-hidden sm:rounded-md">
+  <ul class="divide-y divide-gray-200">
+    <li *ngFor="let item of taxon | async">
+      <a [routerLink]="['/vissoorten', item.id.value]" class="block hover:bg-gray-50">
+        <div class="px-4 py-4 sm:px-6">
+          <div class="flex items-center justify-between">
+            <p class="text-sm font-medium text-pink-600 truncate">
+              {{item.code.value}}
+            </p>
+          </div>
+          <div class="mt-2 sm:flex sm:justify-between">
+            <div class="sm:flex">
+              <div class="sm:flex">
+                <p class="flex items-center text-sm text-gray-500">
+                  {{item.nameDutch}}
+                </p>
+                <p class="flex items-center text-sm text-gray-500">
+                  {{'taxon.id.' + item.id.value + '.sci' | translate}}
+                </p>
+                <p *ngFor="let taxonGroup of item.taxonGroups" class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
+                  {{taxonGroup.name}}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+  </ul>
 </div>

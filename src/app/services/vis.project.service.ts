@@ -5,6 +5,7 @@ import {Project} from '../domain/project/project';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable, Subscription} from 'rxjs';
 import {VisService} from './vis.service';
+import {Taxon} from '../domain/taxa/taxon';
 
 @Injectable({
   providedIn: 'root'
@@ -78,6 +79,10 @@ export class ProjectService extends VisService implements OnDestroy {
 
   updateProjectMethods(projectCode: string, methods: string[]) {
     return this.http.post<string[]>(`${environment.apiUrl}/api/projects/${projectCode}/methods`, methods);
+  }
+
+  getProjectTaxa(projectCode: string) {
+    return this.http.get<Taxon[]>(`${environment.apiUrl}/api/projects/${projectCode}/taxon`);
   }
 
   ngOnDestroy(): void {
