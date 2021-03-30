@@ -45,9 +45,10 @@ import {ProjectHeadingComponent} from './project/project-heading/project-heading
 import {SurveyEventHeadingComponent} from './survey-events/survey-event-heading/survey-event-heading.component';
 import {SurveyEventComponent} from './survey-events/survey-event/survey-event.component';
 import {ProjectComponent} from './project/project/project.component';
-import {NgTransitionModule} from "ng-transition";
-import {SwitchRoleComponent} from "./switch-role/switch-role.component";
-import {LeafletMarkerClusterModule} from "@asymmetrik/ngx-leaflet-markercluster";
+import {NgTransitionModule} from 'ng-transition';
+import {SwitchRoleComponent} from './switch-role/switch-role.component';
+import {LeafletMarkerClusterModule} from '@asymmetrik/ngx-leaflet-markercluster';
+import { FishingPointsMapComponent } from './components/fishing-points-map/fishing-points-map.component';
 
 @NgModule({
   exports: [
@@ -93,7 +94,8 @@ import {LeafletMarkerClusterModule} from "@asymmetrik/ngx-leaflet-markercluster"
     ProjectComponent,
     SwitchRoleComponent,
     LocationCreateStep4Component,
-    SurveyEventMeasurementsCreatePageComponent
+    SurveyEventMeasurementsCreatePageComponent,
+    FishingPointsMapComponent
   ],
   imports: [
     CommonModule,

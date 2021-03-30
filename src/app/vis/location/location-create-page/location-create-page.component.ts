@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {NavigationLink} from "../../../shared-ui/layouts/NavigationLinks";
-import {GlobalConstants} from "../../../GlobalConstants";
-import {BreadcrumbLink} from "../../../shared-ui/breadcrumb/BreadcrumbLinks";
-import {Title} from "@angular/platform-browser";
-import "esri-leaflet-renderers"
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
+import {GlobalConstants} from '../../../GlobalConstants';
+import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
+import {Title} from '@angular/platform-browser';
+import 'esri-leaflet-renderers';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import * as L from 'leaflet';
 
 @Component({
@@ -44,19 +44,19 @@ export class LocationCreatePageComponent implements OnInit {
       && this.formGroup.get('lng').valid
       && this.formGroup.get('code').valid
       && this.formGroup.get('name').valid
-      && this.formGroup.get('type').valid
+      && this.formGroup.get('type').valid;
   }
 
   isStep2Valid(): boolean {
     return this.isStep1Valid()
-      && this.formGroup.get('waterway').valid
+      && this.formGroup.get('waterway').valid;
   }
 
   isTypeFlowing() {
-    return this.formGroup.get('type').value === 'flowing'
+    return this.formGroup.get('type').value === 'flowing';
   }
 
   isTypeStationary() {
-    return this.formGroup.get('type').value === 'stationary'
+    return this.formGroup.get('type').value === 'stationary';
   }
 }
