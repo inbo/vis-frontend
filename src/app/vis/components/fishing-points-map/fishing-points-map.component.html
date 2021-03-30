@@ -1,4 +1,4 @@
-<div style="height: 400px;" leaflet (leafletClick)="clickMap($event)" (leafletDoubleClick)="onDoubleClick($event)" [leafletCenter]="center" [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletMapReady)="mapReady($event)" [leafletMarkerCluster]="markerClusterData">
+<div style="height: 400px;" leaflet [leafletZoom]="this.zoomLevel" (leafletClick)="clickMap($event)" (leafletDoubleClick)="onDoubleClick($event)" [leafletCenter]="center" [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletMapReady)="mapReady($event)" [leafletMarkerCluster]="markerClusterData">
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 text-sm mt-2">
   <div *ngFor="let item of legend | keyvalue" class="flex items-center">

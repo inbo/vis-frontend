@@ -14,13 +14,18 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
+  @Input() zoomLevel = 8;
   @Input() canAddPoints = false;
   @Output() pointAdded = new EventEmitter<LatLng>();
   @Output() featureSelected = new EventEmitter<any>();
 
   private subscription = new Subscription();
 
-  options: MapOptions;
+  options: MapOptions = {
+    maxZoom: 19,
+    doubleClickZoom: false
+  };
+
   layersControl: LeafletControlLayersConfig;
 
   layers: Layer[];
@@ -38,7 +43,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   markerClusterData = [];
 
   private map: LeafletMap;
-  center: LatLng;
+  center: LatLng = latLng(51.2, 4.14);
 
   constructor(private locationsService: LocationsService, private activatedRoute: ActivatedRoute) {
   }
@@ -77,13 +82,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
       this.selectedLayer
     ];
 
-    this.options = {
-      zoom: 8,
-      maxZoom: 24,
-      center: latLng(51.2, 4.14),
-      doubleClickZoom: false
-    };
-
     this.layersControl = {
       baseLayers: {
         'Open Street Map': basemapLayer1,
@@ -107,6 +105,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         });
       })
     );
+
+    console.log(this.zoomLevel);
   }
 
   mapReady(map: LeafletMap) {
@@ -185,6 +185,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   }
 
   setCenter(latlng: LatLng) {
+    this.options.center = latlng;
     this.center = latlng;
   }
 }
