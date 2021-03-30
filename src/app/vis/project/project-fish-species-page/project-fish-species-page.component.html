@@ -22,7 +22,7 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-          <tr *ngFor="let item of taxon | async; let index = index; else noResults" [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">
+          <tr *ngFor="let item of taxon | async; let index = index;" [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {{item.code.value}}
               </td>
@@ -41,15 +41,13 @@
             </tr>
           </tbody>
         </table>
-        <ng-template #noResults>
-            <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-              <div class="hidden sm:block">
-                <p class="text-sm leading-5 text-gray-700">
-                  Geen resultaten
-                </p>
-              </div>
-          </nav>
-        </ng-template>
+        <nav *ngIf="(taxon | async)?.length === 0" class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+          <div class="hidden sm:block">
+            <p class="text-sm leading-5 text-gray-700">
+              Geen resultaten
+            </p>
+          </div>
+        </nav>
       </div>
     </div>
   </div>
