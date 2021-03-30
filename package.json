@@ -39,7 +39,7 @@
     "leaflet.markercluster": "^1.5.0",
     "ng-refs": "^10.0.0",
     "ng-transition": "^10.0.0",
-    "rxjs": "~6.5.5",
+    "rxjs": "~6.6.7",
     "ts-deepmerge": "^1.0.7",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
