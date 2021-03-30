@@ -47,6 +47,7 @@ import {SurveyEventComponent} from './survey-events/survey-event/survey-event.co
 import {ProjectComponent} from './project/project/project.component';
 import {NgTransitionModule} from "ng-transition";
 import {SwitchRoleComponent} from "./switch-role/switch-role.component";
+import {LeafletMarkerClusterModule} from "@asymmetrik/ngx-leaflet-markercluster";
 
 @NgModule({
   exports: [
@@ -103,6 +104,7 @@ import {SwitchRoleComponent} from "./switch-role/switch-role.component";
     ReactiveFormsModule,
     TranslateModule,
     LeafletModule,
+    LeafletMarkerClusterModule,
     NgTransitionModule
   ]
 })

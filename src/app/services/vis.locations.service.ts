@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
-import {Subscription} from 'rxjs';
-import {FishingPoint} from '../domain/location/fishing-point';
+import {Observable, Subscription} from 'rxjs';
+import {FishingPoint, FishingPointFeature} from '../domain/location/fishing-point';
 import {VisService} from './vis.service';
 
 
@@ -22,5 +22,9 @@ export class LocationsService extends VisService {
     const params = this.getPageParams(page, size, {});
 
     return this.http.get<AsyncPage<FishingPoint>>(environment.apiUrl + '/api/fishingpoints', {params});
+  }
+
+  getFishingPointsFeatures(): Observable<FishingPointFeature[]> {
+    return this.http.get<FishingPointFeature[]>(environment.apiUrl + '/api/fishingpoints/features', {});
   }
 }

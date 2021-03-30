@@ -3,9 +3,10 @@ import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {Title} from '@angular/platform-browser';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {LatLng, latLng, Layer, LayerGroup, layerGroup, Map as LeafletMap, MapOptions} from 'leaflet';
+import * as L from 'leaflet';
+import {LatLng, latLng, Layer, LayerGroup, layerGroup, Map as LeafletMap, MapOptions, marker} from 'leaflet';
 import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
-import {basemapLayer, dynamicMapLayer, DynamicMapLayer, featureLayer, FeatureLayer, FeatureLayerService} from 'esri-leaflet';
+import {basemapLayer, dynamicMapLayer, DynamicMapLayer, FeatureLayerService} from 'esri-leaflet';
 import * as geojson from 'geojson';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Observable, of, Subscription} from 'rxjs';
@@ -42,11 +43,9 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   private dml: DynamicMapLayer;
 
   features: geojson.Feature[] = [];
-  private locationsLayer: FeatureLayer;
+  locationsLayer: L.MarkerClusterGroup;
+  markerClusterData = [];
   private map: LeafletMap;
-
-  private selectedLayer: LayerGroup;
-
 
   constructor(private titleService: Title, private locationsService: LocationsService, private activatedRoute: ActivatedRoute) {
     this.titleService.setTitle('Locaties');
@@ -66,6 +65,8 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   }
 
   private setup() {
+    this.locationsLayer = L.markerClusterGroup({removeOutsideVisibleBounds: true, spiderfyOnMaxZoom: false});
+
     this.service = new FeatureLayerService({url: 'https://gisservices.inbo.be'});
 
     this.dml = dynamicMapLayer(
@@ -79,13 +80,12 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
       return featureCollection.features[0].properties.Naam;
     });
 
-    this.selectedLayer = layerGroup();
 
     const basemapLayer1 = basemapLayer('Streets');
     this.layers = [
       basemapLayer1,
       this.dml,
-      this.selectedLayer
+      this.locationsLayer
     ];
 
     this.options = {
@@ -100,60 +100,28 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
       },
       overlays: {
         'VHA Segmenten': this.dml,
+        Vispunten: this.locationsLayer
       }
     };
 
-    this.serverAuth((error, response) => {
-      if (error) {
-        return;
-      }
-
-      this.locationsLayer = featureLayer(
-        {
-          url: 'https://gisservices.inbo.be/arcgis/rest/services/Veld/VISpunten/FeatureServer/0',
-          token: response.token
-        }
-      );
-
-      this.layers.push(this.locationsLayer);
-      this.layersControl.overlays.VISpunten = this.locationsLayer;
-
-      this.locationsLayer.bindPopup(layer => {
-        // @ts-ignore
-        return layer.feature.properties.gebiedCode;
-      });
-    });
+    this.subscription.add(
+      this.locationsService.getFishingPointsFeatures().subscribe(fishingPointFeatures => {
+        fishingPointFeatures.forEach(fpf => {
+          const latlng = latLng(fpf.x, fpf.y);
+          const m = marker(latlng);
+          this.locationsLayer.addLayer(m);
+        });
+      })
+    );
   }
-
-  serverAuth(callback) {
-    this.service.post('/portal/sharing/generateToken',
-      {
-        username: 'aquatbeheer',
-        password: '002018#VIS',
-        f: 'json',
-        expiration: 86400,
-        client: 'referer',
-        referer: window.location.origin
-      },
-      callback);
-  }
-
 
   getSelected() {
     return this.selected;
   }
 
-  zoomToLocation(code: string) {
-    this.locationsLayer.query().where(`gebiedCode='${code}'`).run((error, featureCollection) => {
-      const features = featureCollection.features;
-      if (features.length <= 0) {
-        return;
-      }
-
-      const coordinates = features[0].geometry.coordinates;
-      const latlng = new LatLng(coordinates[1], coordinates[0]);
-      this.map.setView(latlng, 15);
-    });
+  zoomToLocation(fishingPoint: FishingPoint) {
+    const latlng = new LatLng(fishingPoint.x, fishingPoint.y);
+    this.map.setView(latlng, 15);
   }
 
   mapReady(map: LeafletMap) {

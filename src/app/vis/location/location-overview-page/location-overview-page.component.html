@@ -17,7 +17,7 @@
         </div>
 
         <div class="px-4 py-8 sm:px-0">
-          <div style="height: 400px;" leaflet [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletMapReady)="mapReady($event)">
+          <div style="height: 400px;" leaflet [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletMapReady)="mapReady($event)" [leafletMarkerCluster]="markerClusterData">
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-sm mt-2">
@@ -56,7 +56,7 @@
 
                       <tr *ngFor="let fishingPoint of fishingPoints | async; let index = index" [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">
                         <td class="px-6 py-4  text-sm text-gray-500 cursor-pointer">
-                          <span (click)="zoomToLocation(fishingPoint.code)">{{fishingPoint.code}}</span>
+                          <span (click)="zoomToLocation(fishingPoint)">{{fishingPoint.code}}</span>
                         </td>
                         <td class="px-6 py-4  text-sm text-gray-500">
                           {{fishingPoint.description}}

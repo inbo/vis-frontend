@@ -26,4 +26,11 @@ export interface FishingPoint {
   puddleCode: string;
 }
 
+export interface FishingPointFeature {
+  id: number;
+  code: string;
+  x: number;
+  y: number;
+}
+
 
