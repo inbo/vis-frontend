@@ -4,7 +4,7 @@ import {GlobalConstants} from '../../../GlobalConstants';
 import {Title} from '@angular/platform-browser';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import * as L from 'leaflet';
-import {LatLng, latLng, Layer, LayerGroup, layerGroup, Map as LeafletMap, MapOptions, marker} from 'leaflet';
+import {icon, LatLng, latLng, Layer, LayerGroup, layerGroup, Map as LeafletMap, MapOptions, marker} from 'leaflet';
 import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
 import {basemapLayer, dynamicMapLayer, DynamicMapLayer, FeatureLayerService} from 'esri-leaflet';
 import * as geojson from 'geojson';
@@ -108,7 +108,11 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
       this.locationsService.getFishingPointsFeatures().subscribe(fishingPointFeatures => {
         fishingPointFeatures.forEach(fpf => {
           const latlng = latLng(fpf.x, fpf.y);
-          const m = marker(latlng);
+          const m = marker(latlng, {
+            icon: icon({
+              iconUrl: 'assets/images/marker.png'
+            })
+          });
           this.locationsLayer.addLayer(m);
         });
       })
