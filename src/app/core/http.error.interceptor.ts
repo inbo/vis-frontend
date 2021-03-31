@@ -29,9 +29,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           if (error.status === 403) {
             this.router.navigateByUrl('/forbidden').then();
           }
-          if (error.status === 404) {
-            this.router.navigateByUrl('/not-found').then();
-          }
           if (error.status === 500) {
             this.router.navigateByUrl('/internal-server-error').then();
           }
