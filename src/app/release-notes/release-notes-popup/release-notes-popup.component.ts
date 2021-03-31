@@ -27,7 +27,6 @@ export class ReleaseNotesPopupComponent implements OnInit, OnDestroy {
             !EXCLUDE_URLS.includes(path) &&
             !routerData.url.startsWith('/releases') &&
             !await this.releaseNotesService.hasUserReadLatestReleaseNotes().toPromise();
-          console.log(this.showReleaseNotes);
           if (this.showReleaseNotes) {
             this.subscription.add(this.releaseNotesService.getCurrentRelease().subscribe(value => this.currentReleaseNotes = value));
           }

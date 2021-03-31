@@ -40,6 +40,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   species$ = new Subject<Option[]>();
 
   measurementsForm: FormGroup;
+  submitted = false;
 
   private subscription = new Subscription();
 
@@ -130,6 +131,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   createMeasurements() {
     if (this.measurementsForm.invalid) {
+      this.submitted = true;
       return;
     }
 
