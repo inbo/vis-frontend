@@ -15,14 +15,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
               "esri-leaflet-renderers"
             ],
-            "customWebpackConfig": {
-              "path": "webpack.config.js"
-            },
             "outputPath": "dist/application-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -89,7 +86,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "application-ui:build"
           },

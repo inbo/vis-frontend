@@ -1,9 +1,8 @@
-module.exports = (isProd) => ({
-  prefix: '',
-  purge: {
-    enabled: isProd,
-    content: ['**/*.html', '**/*.ts']
-  },
+module.exports = {
+  purge: [
+    '**/*.html',
+    '**/*.ts'
+  ],
   theme: {
     extend: {
       boxShadow: {
@@ -11,13 +10,8 @@ module.exports = (isProd) => ({
       }
     },
   },
-  variants: {
-    extend: {
-      opacity: ['disabled'],
-    }
-  },
   plugins: [
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),
   ]
-});
+};
