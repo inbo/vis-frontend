@@ -22,8 +22,13 @@ export class ReleaseNotesPopupComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.router.events.subscribe(async (routerData) => {
         if (routerData instanceof ResolveEnd) {
-          const path = routerData.url.split('?')[0].replace('/', '');
-          this.showReleaseNotes = this.router.config.map(value => value.path).includes(path) &&
+          // Get first part of current path without query parameters
+        const path = routerData.url.split('?')[0].replace('/', '').split('/')[0];
+          // Get first part of configured router paths
+          const routerPaths = this.router.config.map(value => value.path.split('/')[0]);
+          // Check if the user has already read the release notes
+          // and if the current url is in the configured router paths, but not in the releases or error paths
+          this.showReleaseNotes = routerPaths.includes(path) &&
             !EXCLUDE_URLS.includes(path) &&
             !routerData.url.startsWith('/releases') &&
             !await this.releaseNotesService.hasUserReadLatestReleaseNotes().toPromise();
