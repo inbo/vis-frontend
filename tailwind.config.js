@@ -1,7 +1,7 @@
-module.exports = (isProd) => ({
+module.exports = {
   prefix: '',
   purge: {
-    enabled: isProd,
+    enabled: true,
     content: ['**/*.html', '**/*.ts']
   },
   theme: {
@@ -20,4 +20,4 @@ module.exports = (isProd) => ({
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),
   ]
-});
+};
