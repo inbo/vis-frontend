@@ -12,7 +12,7 @@ export class LocationCreateStep2Component implements OnInit {
 
   @Input() formGroup;
 
-  selected = {};
+  selected = {layer: null, properties: {}};
 
   constructor(private titleService: Title) {
     this.titleService.setTitle('Locatie toevoegen');

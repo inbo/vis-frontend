@@ -5,6 +5,7 @@ import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable, Subscription} from 'rxjs';
 import {FishingPoint, FishingPointFeature} from '../domain/location/fishing-point';
 import {VisService} from './vis.service';
+import {VhaUrl} from "../domain/location/vha-version";
 
 
 @Injectable({
@@ -26,5 +27,9 @@ export class LocationsService extends VisService {
 
   getFishingPointsFeatures(): Observable<FishingPointFeature[]> {
     return this.http.get<FishingPointFeature[]>(environment.apiUrl + '/api/fishingpoints/features', {});
+  }
+
+  latestVhaVersion(): Observable<VhaUrl> {
+    return this.http.get<VhaUrl>(environment.apiUrl + '/api/vhaversion/latest', {});
   }
 }

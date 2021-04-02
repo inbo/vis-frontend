@@ -1,4 +1,35 @@
-<div style="height: 400px;" leaflet [leafletZoom]="this.zoomLevel" (leafletClick)="clickMap($event)" (leafletDoubleClick)="onDoubleClick($event)" [leafletCenter]="center" [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletMapReady)="mapReady($event)" [leafletMarkerCluster]="markerClusterData">
+
+<div class="relative">
+  <div style="height: 400px;" leaflet [leafletZoom]="this.zoomLevel" (leafletClick)="clickMap($event)" (leafletDoubleClick)="onDoubleClick($event)" [leafletCenter]="center" [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletMapReady)="mapReady($event)" [leafletMarkerCluster]="markerClusterData">
+  </div>
+  <div style="z-index: 1000" class="absolute bottom-2 left-2 bg-white">
+    <div class="p-2 border-2 border-gray-800 border-opacity-20">
+      <div class="flex items-start">
+        <div class="h-5 flex items-center">
+          <input id="layer0" type="checkbox" (change)="changeActiveLayer(0, $event)" [checked]="isActive(0)"/>
+        </div>
+        <div class="ml-3 text-sm">
+          <label class="font-medium text-gray-700" for="layer0">VHA waterlopen</label>
+        </div>
+      </div>
+      <div class="flex items-start">
+        <div class="h-5 flex items-center">
+          <input id="layer1" type="checkbox" (change)="changeActiveLayer(1, $event)" [checked]="isActive(1)"/>
+        </div>
+        <div class="ml-3 text-sm">
+          <label class="font-medium text-gray-700" for="layer1">Stilstaande wateren</label>
+        </div>
+      </div>
+      <div class="flex items-start">
+        <div class="h-5 flex items-center">
+          <input id="layer2" type="checkbox" (change)="changeActiveLayer(2, $event)" [checked]="isActive(2)"/>
+        </div>
+        <div class="ml-3 text-sm">
+          <label class="font-medium text-gray-900" for="layer2">VHA Zones</label>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 text-sm mt-2">
   <div *ngFor="let item of legend | keyvalue" class="flex items-center">
