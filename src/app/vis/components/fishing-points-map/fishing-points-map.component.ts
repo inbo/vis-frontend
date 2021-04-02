@@ -8,6 +8,7 @@ import * as geojson from 'geojson';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {take} from 'rxjs/operators';
 import {VhaUrl} from '../../../domain/location/vha-version';
+import {FeatureSelection} from "./feature-selection";
 
 @Component({
   selector: 'app-fishing-points-map',
@@ -18,8 +19,9 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   @Input() zoomLevel = 8;
   @Input() canAddPoints = false;
   @Output() pointAdded = new EventEmitter<LatLng>();
-  @Output() featureSelected = new EventEmitter<any>();
-
+  @Output() featureSelected = new EventEmitter<FeatureSelection>();
+  @Output() vhaZoneSelection = new EventEmitter<FeatureSelection>();
+  @Input() visibleLayers: number[] = [0, 1];
   private subscription = new Subscription();
 
   options: MapOptions = {
@@ -45,7 +47,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   private map: LeafletMap;
   center: LatLng = latLng(51.2, 4.14);
 
-  private visibleLayers: number[] = [0, 1];
+
   private visibleFields = {
     0: ['BEHEER', 'BEKNAAM', 'BEKNR', 'CATC', 'KWALDOEL', 'LBLCATC', 'LBLGEO', 'LBLKWAL', 'LENGTE', 'NAAM', 'OIDN', 'REGCODE', 'REGCODE1', 'STRMGEB', 'VHAG', 'VHAS', 'VHAZONENUR', 'WTRLICHC'],
     1: ['OMTWVL', 'OPPWVL', 'WTRLICHC', 'WVLC'],
@@ -217,7 +219,36 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         this.featureSelected.emit(filteredProperties);
 
       } else {
-        this.featureSelected.emit({});
+        this.featureSelected.emit({layer: -1, properties: {}});
+      }
+    });
+
+    this.dml.identify().on(this.map).layers('all:2').at(e.latlng).run((error, featureCollection) => {
+      if (error) {
+        return;
+      }
+
+      if (featureCollection.features.length > 0) {
+        const feature = featureCollection.features[0] as geojson.Feature;
+
+        const filteredProperties = {
+          layer: 2,
+          properties: {}
+        };
+
+        // tslint:disable-next-line:forin
+        for (const propertiesKey in feature.properties) {
+          // @ts-ignore
+          const fields = this.visibleFields[2] as string[];
+
+          if (fields.indexOf(propertiesKey) > -1) {
+            filteredProperties.properties[propertiesKey] = feature.properties[propertiesKey];
+          }
+        }
+        this.vhaZoneSelection.emit(filteredProperties);
+
+      } else {
+        this.vhaZoneSelection.emit({layer: 2, properties: {}});
       }
     });
   }

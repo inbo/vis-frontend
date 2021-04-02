@@ -2,6 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {latLng} from 'leaflet';
+import {FeatureSelection} from "../../components/fishing-points-map/feature-selection";
 
 @Component({
   selector: 'app-location-create-step2',
@@ -24,8 +25,16 @@ export class LocationCreateStep2Component implements OnInit {
     this.map.setCenter(latlng);
   }
 
-  featureSelected($event: any) {
-    this.selected = $event;
+  featureSelected(selection: FeatureSelection) {
+    if (selection.layer === 0) {
+      this.formGroup.get('vhaInfo').patchValue(selection.properties);
+    } else {
+      this.formGroup.get('vhaInfo').patchValue(null);
+    }
+    this.selected = selection;
   }
 
+  vhaZoneSelected(selection: FeatureSelection) {
+    this.formGroup.get('vhaZone').patchValue(selection.properties);
+  }
 }

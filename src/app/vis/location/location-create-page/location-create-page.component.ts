@@ -5,9 +5,9 @@ import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {Title} from '@angular/platform-browser';
 import 'esri-leaflet-renderers';
 import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {Observable} from "rxjs";
-import {LocationsService} from "../../../services/vis.locations.service";
-import {map} from "rxjs/operators";
+import {Observable} from 'rxjs';
+import {LocationsService} from '../../../services/vis.locations.service';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-location-create-page',
@@ -36,7 +36,9 @@ export class LocationCreatePageComponent implements OnInit {
         code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator()]],
         name: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
         type: [null, [Validators.required]],
-        waterway: [null, [Validators.required]],
+        vhaInfo: [null, [Validators.required]],
+        blueLayerInfo: [null, [Validators.required]],
+        vhaZone: [null, [Validators.required]],
       },
     );
   }
@@ -58,7 +60,14 @@ export class LocationCreatePageComponent implements OnInit {
 
   isStep2Valid(): boolean {
     return this.isStep1Valid()
-      && this.formGroup.get('waterway').valid;
+      && this.formGroup.get('vhaInfo').valid
+      && this.formGroup.get('vhaZone').valid;
+  }
+
+  isStep3Valid(): boolean {
+    return this.isStep1Valid()
+      && this.formGroup.get('blueLayerInfo').valid
+      && this.formGroup.get('vhaZone').valid;
   }
 
   isTypeFlowing() {
@@ -67,5 +76,9 @@ export class LocationCreatePageComponent implements OnInit {
 
   isTypeStationary() {
     return this.formGroup.get('type').value === 'stationary';
+  }
+
+  save() {
+    console.log(this.formGroup.getRawValue());
   }
 }

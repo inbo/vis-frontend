@@ -1,1 +1,5 @@
-<p>location-create-step3 works!</p>
+<div>
+  <app-fishing-points-map [zoomLevel]="20" (featureSelected)="featureSelected($event)" (vhaZoneSelection)="vhaZoneSelected($event)" [visibleLayers]="[1]"></app-fishing-points-map>
+
+  <app-fishing-points-map-properties [selected]="selected"></app-fishing-points-map-properties>
+</div>
