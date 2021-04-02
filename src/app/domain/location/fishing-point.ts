@@ -29,6 +29,7 @@ export interface FishingPoint {
 export interface FishingPointFeature {
   id: number;
   code: string;
+  description: string;
   x: number;
   y: number;
 }

@@ -73,8 +73,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
       this.dml = dynamicMapLayer(
         {
           url: version.value,
-          layers: this.visibleLayers,
-
+          layers: this.visibleLayers
         }
       );
 
@@ -108,6 +107,18 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
               icon: icon({
                 iconUrl: 'assets/images/marker.png'
               })
+            });
+            m.on('click', () => {
+              const filteredProperties = {
+                layer: 3,
+                properties: {
+                  CODE: fpf.code,
+                  DESCRIPTION: fpf.description,
+                  X: fpf.x,
+                  Y: fpf.y
+                }
+              };
+              this.featureSelected.emit(filteredProperties);
             });
             this.locationsLayer.addLayer(m);
           });
