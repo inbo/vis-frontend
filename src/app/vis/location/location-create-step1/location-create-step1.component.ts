@@ -61,4 +61,12 @@ export class LocationCreateStep1Component implements OnInit {
   featureSelected($event: any) {
     this.selected = $event;
   }
+
+  get code() {
+    return this.formGroup.get('code');
+  }
+
+  get name() {
+    return this.formGroup.get('name');
+  }
 }

@@ -4,8 +4,10 @@ import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {Title} from '@angular/platform-browser';
 import 'esri-leaflet-renderers';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import * as L from 'leaflet';
+import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {Observable} from "rxjs";
+import {LocationsService} from "../../../services/vis.locations.service";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-location-create-page',
@@ -22,7 +24,7 @@ export class LocationCreatePageComponent implements OnInit {
 
   formGroup: FormGroup;
 
-  constructor(private titleService: Title, private formBuilder: FormBuilder) {
+  constructor(private titleService: Title, private formBuilder: FormBuilder, private locationsService: LocationsService) {
     this.titleService.setTitle('Locatie toevoegen');
   }
 
@@ -31,12 +33,19 @@ export class LocationCreatePageComponent implements OnInit {
       {
         lat: [null, [Validators.required, Validators.pattern('^(\\-?([0-8]?[0-9](\\.\\d+)?|90(.[0]+)?))')]],
         lng: [null, [Validators.required, Validators.pattern('^(\\-?([1]?[0-7]?[0-9](\\.\\d+)?|180((.[0]+)?)))$')]],
-        code: [null, [Validators.required, Validators.minLength(1)]],
-        name: [null, [Validators.required, Validators.minLength(1)]],
+        code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator()]],
+        name: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
         type: [null, [Validators.required]],
         waterway: [null, [Validators.required]],
       },
     );
+  }
+
+  codeValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return this.locationsService.checkIfFishingPointExists(control.value)
+        .pipe(map(result => result.valid ? {unique: true} : null));
+    };
   }
 
   isStep1Valid(): boolean {

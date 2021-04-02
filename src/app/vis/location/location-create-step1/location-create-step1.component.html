@@ -9,22 +9,23 @@
         <div class="grid grid-cols-1 gap-y-6">
           <div>
             <label for="code" class="block text-sm font-medium text-gray-700">
-              Meetplaatscode
+              Code
             </label>
             <div class="mt-1">
               <input formControlName="code" type="text" name="code" id="code">
             </div>
-            <p *ngIf="formGroup.get('code').touched && formGroup.get('code').invalid" class="mt-2 text-sm text-red-600">Code is verplicht</p>
+            <p *ngIf="code.touched && code.errors && !code.errors.unique" class="mt-2 text-sm text-red-600">Code is verplicht en mag max 15 karakters lang zijn</p>
+            <p *ngIf="code.touched && code.errors && code.errors.unique" class="mt-2 text-sm text-red-600">Code bestaat reeds</p>
           </div>
 
           <div>
             <label for="name" class="block text-sm font-medium text-gray-700">
-              Meetplaatsnaam
+              Omschrijving
             </label>
             <div class="mt-1">
               <input formControlName="name" type="text" name="name" id="name">
             </div>
-            <p *ngIf="formGroup.get('name').touched && formGroup.get('name').invalid" class="mt-2 text-sm text-red-600">Naam is verplicht</p>
+            <p *ngIf="name.touched && name.invalid" class="mt-2 text-sm text-red-600">Naam is verplicht en mag max 200 karakters lang zijn</p>
 
           </div>
 

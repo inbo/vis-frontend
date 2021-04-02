@@ -5,7 +5,7 @@ import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable, Subscription} from 'rxjs';
 import {FishingPoint, FishingPointFeature} from '../domain/location/fishing-point';
 import {VisService} from './vis.service';
-import {VhaUrl} from "../domain/location/vha-version";
+import {VhaUrl} from '../domain/location/vha-version';
 
 
 @Injectable({
@@ -22,14 +22,18 @@ export class LocationsService extends VisService {
   getFishingPoints(page: number, size: number) {
     const params = this.getPageParams(page, size, {});
 
-    return this.http.get<AsyncPage<FishingPoint>>(environment.apiUrl + '/api/fishingpoints', {params});
+    return this.http.get<AsyncPage<FishingPoint>>(`${environment.apiUrl}/api/fishingpoints`, {params});
   }
 
   getFishingPointsFeatures(): Observable<FishingPointFeature[]> {
-    return this.http.get<FishingPointFeature[]>(environment.apiUrl + '/api/fishingpoints/features', {});
+    return this.http.get<FishingPointFeature[]>(`${environment.apiUrl}/api/fishingpoints/features`, {});
   }
 
   latestVhaVersion(): Observable<VhaUrl> {
-    return this.http.get<VhaUrl>(environment.apiUrl + '/api/vhaversion/latest', {});
+    return this.http.get<VhaUrl>(`${environment.apiUrl}/api/vhaversion/latest`, {});
+  }
+
+  checkIfFishingPointExists(code: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/api/validation/fishingpoint/code/${code}`, {});
   }
 }
