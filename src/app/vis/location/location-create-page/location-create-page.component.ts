@@ -1,19 +1,20 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {Title} from '@angular/platform-browser';
 import 'esri-leaflet-renderers';
 import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {map} from 'rxjs/operators';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-location-create-page',
   templateUrl: './location-create-page.component.html'
 })
-export class LocationCreatePageComponent implements OnInit {
+export class LocationCreatePageComponent implements OnInit, OnDestroy {
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
     {title: 'Locaties', url: '/locaties'},
@@ -24,7 +25,9 @@ export class LocationCreatePageComponent implements OnInit {
 
   formGroup: FormGroup;
 
-  constructor(private titleService: Title, private formBuilder: FormBuilder, private locationsService: LocationsService) {
+  private subscription = new Subscription();
+
+  constructor(private titleService: Title, private formBuilder: FormBuilder, private locationsService: LocationsService, private router: Router) {
     this.titleService.setTitle('Locatie toevoegen');
   }
 
@@ -79,6 +82,14 @@ export class LocationCreatePageComponent implements OnInit {
   }
 
   save() {
-    console.log(this.formGroup.getRawValue());
+    this.subscription.add(
+      this.locationsService.create(this.formGroup.getRawValue()).subscribe(value => {
+        this.router.navigateByUrl('/locaties');
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
