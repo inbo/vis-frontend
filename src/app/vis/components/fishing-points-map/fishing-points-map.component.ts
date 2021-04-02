@@ -6,8 +6,8 @@ import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/src/leaflet/la
 import {basemapLayer, dynamicMapLayer, DynamicMapLayer, featureLayer} from 'esri-leaflet';
 import * as geojson from 'geojson';
 import {LocationsService} from '../../../services/vis.locations.service';
-import {take} from "rxjs/operators";
-import {VhaUrl} from "../../../domain/location/vha-version";
+import {take} from 'rxjs/operators';
+import {VhaUrl} from '../../../domain/location/vha-version';
 
 @Component({
   selector: 'app-fishing-points-map',

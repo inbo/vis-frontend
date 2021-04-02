@@ -49,6 +49,7 @@ import {NgTransitionModule} from 'ng-transition';
 import {SwitchRoleComponent} from './switch-role/switch-role.component';
 import {LeafletMarkerClusterModule} from '@asymmetrik/ngx-leaflet-markercluster';
 import { FishingPointsMapComponent } from './components/fishing-points-map/fishing-points-map.component';
+import { FishingPointsMapPropertiesComponent } from './components/fishing-points-map-properties/fishing-points-map-properties.component';
 
 @NgModule({
   exports: [
@@ -95,7 +96,8 @@ import { FishingPointsMapComponent } from './components/fishing-points-map/fishi
     SwitchRoleComponent,
     LocationCreateStep4Component,
     SurveyEventMeasurementsCreatePageComponent,
-    FishingPointsMapComponent
+    FishingPointsMapComponent,
+    FishingPointsMapPropertiesComponent
   ],
   imports: [
     CommonModule,
