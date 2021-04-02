@@ -50,7 +50,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
   private visibleFields = {
     0: ['BEHEER', 'BEKNAAM', 'BEKNR', 'CATC', 'KWALDOEL', 'LBLCATC', 'LBLGEO', 'LBLKWAL', 'LENGTE', 'NAAM', 'OIDN', 'REGCODE', 'REGCODE1', 'STRMGEB', 'VHAG', 'VHAS', 'VHAZONENUR', 'WTRLICHC'],
-    1: ['OMTWVL', 'OPPWVL', 'WTRLICHC', 'WVLC'],
+    1: ['OMTWVL', 'OPPWVL', 'WTRLICHC', 'WVLC', 'Versie'],
     2: ['NAAMVHAZON', 'VHAZONENR'],
   };
 
@@ -214,6 +214,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
           if (fields.indexOf(propertiesKey) > -1) {
             filteredProperties.properties[propertiesKey] = feature.properties[propertiesKey];
+          } else {
+            console.log(layerId, propertiesKey, feature.properties[propertiesKey]);
           }
         }
         this.featureSelected.emit(filteredProperties);
