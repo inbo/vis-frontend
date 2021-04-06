@@ -48,6 +48,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
       {
         name: [queryParams.name],
         description: [queryParams.description],
+        lengthType: [queryParams.lengthType],
         status: [queryParams.status],
         sort: [queryParams.sort]
       },
@@ -64,10 +65,12 @@ export class ProjectsOverviewPageComponent implements OnInit {
       this.activatedRoute.queryParams.subscribe((params) => {
         this.filterForm.get('name').patchValue(params.name ? params.name : '');
         this.filterForm.get('description').patchValue(params.description ? params.description : '');
+        this.filterForm.get('lengthType').patchValue(params.lengthType ? params.lengthType : '');
         this.filterForm.get('status').patchValue(params.status ? params.status : '');
         this.filterForm.get('sort').patchValue(params.sort ? params.sort : '');
 
-        this.advancedFilterIsVisible = (params.description !== undefined && params.description !== '');
+        this.advancedFilterIsVisible = ((params.description !== undefined && params.description !== '') ||
+          (params.lengthType !== undefined && params.lengthType !== ''));
       })
     );
 
@@ -96,7 +99,6 @@ export class ProjectsOverviewPageComponent implements OnInit {
 
   filter() {
     const rawValue = this.filterForm.getRawValue();
-    console.log('filter');
     const queryParams: Params = {...rawValue, page: 1};
 
     this.router.navigate(
