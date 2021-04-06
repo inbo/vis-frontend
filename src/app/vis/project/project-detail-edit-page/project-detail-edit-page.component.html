@@ -55,6 +55,18 @@
             </div>
           </div>
 
+          <div>
+            <label class="block text-sm font-medium text-gray-700">
+              Lengtemaat
+            </label>
+            <div class="mt-1">
+              <select name="lengthType" formControlName="lengthType">
+                <option value="FORK">Vork</option>
+                <option value="TOTAL">Totaal</option>
+              </select>
+              <p *ngIf="submitted && lengthType.errors" class="mt-2 text-sm text-red-600">Lengtemaat is verplicht</p>
+            </div>
+          </div>
         </div>
       </div>
 

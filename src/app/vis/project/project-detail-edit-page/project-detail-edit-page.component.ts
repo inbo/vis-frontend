@@ -18,8 +18,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute, private router: Router,
-              private formBuilder: FormBuilder) {
+  constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute,
+              private router: Router, private formBuilder: FormBuilder) {
 
   }
 
@@ -28,6 +28,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
       {
         name: [null, [Validators.required, Validators.maxLength(200)]],
         description: [null, [Validators.maxLength(2000)]],
+        lengthType: ['', [Validators.required]],
         status: [false, []],
         period: [null, [Validators.required]],
       });
@@ -40,6 +41,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         this.projectForm.get('description').patchValue(value.description);
         this.projectForm.get('status').patchValue(value.status === 'ACTIVE');
         this.projectForm.get('period').patchValue([new Date(value.start), new Date(value.end)]);
+        this.projectForm.get('lengthType').patchValue(value.lengthType);
       })
     );
   }
@@ -75,6 +77,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     this.projectForm.get('description').patchValue(this.project.description);
     this.projectForm.get('status').patchValue(this.project.status === 'ACTIVE');
     this.projectForm.get('period').patchValue([new Date(this.project.start), new Date(this.project.end)]);
+    this.projectForm.get('lengthType').patchValue(this.project.lengthType);
     this.projectForm.reset(this.projectForm.value);
   }
 
@@ -104,5 +107,9 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
   get period() {
     return this.projectForm.get('period');
+  }
+
+  get lengthType() {
+    return this.projectForm.get('lengthType');
   }
 }

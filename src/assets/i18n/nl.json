@@ -150,12 +150,10 @@
   },
   "lengthType": {
     "short": {
-      "STANDARD": "SL",
       "FORK": "FL",
       "TOTAL": "TL"
     },
     "long": {
-      "STANDARD": "Standaardlengte",
       "FORK": "Vorklengte",
       "TOTAL": "Totale lengte"
     }
