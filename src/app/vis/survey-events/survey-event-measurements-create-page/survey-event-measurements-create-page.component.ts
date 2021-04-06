@@ -50,7 +50,6 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     'length',
     'weight',
     'gender',
-    'lengthType',
     'afvisBeurtNumber',
     'comment'
   ];
@@ -94,7 +93,6 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       length: new FormControl('', Validators.min(0)),
       weight: new FormControl('', [Validators.required, Validators.min(0)]),
       gender: new FormControl('', Validators.required),
-      lengthType: new FormControl('', Validators.required),
       afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, Validators.min(1)),
       comment: new FormControl('', Validators.max(2000))
     });
@@ -297,10 +295,6 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   private gender(index: number) {
     return this.items().at(index).get('gender');
-  }
-
-  private lengthType(index: number) {
-    return this.items().at(index).get('lengthType');
   }
 
   private comment(index: number) {
