@@ -14,7 +14,7 @@
 
         </div>
 
-        <app-expandable-filter [formGroup]="filterForm" (searchClicked)="filter()" (resetClicked)="filter()" [showAdvancedFilter]="false">
+        <app-expandable-filter [hideSearchButton]="true" [formGroup]="filterForm" (searchClicked)="filter()" (resetClicked)="filter()" [showAdvancedFilter]="false">
           <ng-container slot="simple">
             <div class="self-center">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -72,13 +72,13 @@
 
                     <tr *ngFor="let method of methods | async; let index = index" [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">
                       <td class="px-6 py-4  text-sm text-gray-900">
-                        {{method.code}}
+                        {{'method.' + method.code | translate}}
                       </td>
                       <td class="px-6 py-4  text-sm text-gray-900">
                         {{'method.' + method.code + '.group' | translate}}
                       </td>
                       <td class="px-6 py-4  text-sm text-gray-900">
-                        {{'method.' + method.code | translate}}
+                        {{method.code}}
                       </td>
                     </tr>
 

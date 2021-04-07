@@ -9,6 +9,7 @@ import {Observable, of, Subscription} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MethodsService} from '../../../services/vis.methods.service';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 @Component({
   selector: 'app-methods-overview-page',
@@ -41,6 +42,14 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
         description: [queryParams.description]
       },
     );
+
+    this.subscription.add(
+      this.filterForm.valueChanges.pipe(
+        debounceTime(300),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
+        .subscribe(_ => this.filter())
+    );
+
 
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
