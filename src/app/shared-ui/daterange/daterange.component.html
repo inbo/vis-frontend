@@ -1,0 +1,13 @@
+<div>
+  <div class="mt-1 flex rounded-md shadow-sm">
+    <div class="relative flex items-stretch flex-grow focus-within:z-10">
+      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <svg class="w-5 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+      </div>
+      <input readonly #datepicker type="text" class="rounded-none rounded-l-md pl-10">
+    </div>
+    <button (click)="reset()" class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500">
+      <span>Reset</span>
+    </button>
+  </div>
+</div>

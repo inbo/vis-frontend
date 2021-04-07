@@ -29,7 +29,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         name: [null, [Validators.required, Validators.maxLength(200)]],
         description: [null, [Validators.maxLength(2000)]],
         status: [false, []],
-        period: [null, [Validators.required]],
+        startDate: [null, [Validators.required]],
       });
 
     this.subscription.add(
@@ -39,7 +39,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         this.projectForm.get('name').patchValue(value.name);
         this.projectForm.get('description').patchValue(value.description);
         this.projectForm.get('status').patchValue(value.status === 'ACTIVE');
-        this.projectForm.get('period').patchValue([new Date(value.start), new Date(value.end)]);
+        this.projectForm.get('startDate').patchValue(value.start);
       })
     );
   }
@@ -74,10 +74,9 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     this.projectForm.get('name').patchValue(this.project.name);
     this.projectForm.get('description').patchValue(this.project.description);
     this.projectForm.get('status').patchValue(this.project.status === 'ACTIVE');
-    this.projectForm.get('period').patchValue([new Date(this.project.start), new Date(this.project.end)]);
+    this.projectForm.get('startDate').patchValue(this.project.start);
     this.projectForm.reset(this.projectForm.value);
   }
-
 
   @HostListener('window:beforeunload', ['$event'])
   public onPageUnload($event: BeforeUnloadEvent) {
@@ -102,7 +101,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     return this.projectForm.get('status');
   }
 
-  get period() {
-    return this.projectForm.get('period');
+  get startDate() {
+    return this.projectForm.get('startDate');
   }
 }
