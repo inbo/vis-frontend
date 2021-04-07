@@ -89,4 +89,7 @@ export class ProjectService extends VisService implements OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  closeProject(projectCode: string, endDate: any) {
+    return this.http.post(`${environment.apiUrl}/api/projects/${projectCode}/close`, endDate);
+  }
 }

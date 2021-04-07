@@ -6,24 +6,35 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Subscription} from 'rxjs';
 import {ProjectService} from '../../../services/vis.project.service';
+import {Role} from '../../../core/_models/role';
 
 @Component({
   selector: 'app-project-detail-edit-page',
   templateUrl: './project-detail-edit-page.component.html'
 })
 export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {
+  public role = Role;
+
+  closeProjectForm: FormGroup;
   projectForm: FormGroup;
   project: Project;
   submitted: boolean;
+  closeProjectFormSubmitted: boolean;
+
+  showCloseProjectModal = false;
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute, private router: Router,
-              private formBuilder: FormBuilder) {
+  constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute,
+              private router: Router, private formBuilder: FormBuilder) {
 
   }
 
   ngOnInit(): void {
+    this.closeProjectForm = this.formBuilder.group({
+      endDate: [null, [Validators.required]]
+    });
+
     this.projectForm = this.formBuilder.group(
       {
         name: [null, [Validators.required, Validators.maxLength(200)]],
@@ -85,6 +96,24 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     }
   }
 
+  closeProject() {
+    this.closeProjectFormSubmitted = true;
+
+    if (this.closeProjectForm.invalid) {
+      return;
+    }
+
+    this.subscription.add(this.projectService.closeProject(this.activatedRoute.parent.snapshot.params.projectCode,
+      this.closeProjectForm.getRawValue()).subscribe(() =>
+        this.router.navigateByUrl(`/projecten/${this.activatedRoute.parent.snapshot.params.projectCode}`)
+      )
+    );
+  }
+
+  reOpenProject() {
+
+  }
+
   hasUnsavedData(): boolean {
     return this.projectForm.dirty;
   }
@@ -103,5 +132,9 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
   get startDate() {
     return this.projectForm.get('startDate');
+  }
+
+  get endDate() {
+    return this.closeProjectForm.get('endDate');
   }
 }
