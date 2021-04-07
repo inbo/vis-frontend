@@ -110,10 +110,6 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     );
   }
 
-  reOpenProject() {
-
-  }
-
   hasUnsavedData(): boolean {
     return this.projectForm.dirty;
   }
