@@ -8,7 +8,7 @@ import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErr
 import {Observable, Subscription} from 'rxjs';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {map} from 'rxjs/operators';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-location-create-page',
@@ -27,7 +27,10 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private formBuilder: FormBuilder, private locationsService: LocationsService, private router: Router) {
+  constructor(private titleService: Title,
+              private formBuilder: FormBuilder,
+              private locationsService: LocationsService,
+              private router: Router) {
     this.titleService.setTitle('Locatie toevoegen');
   }
 
@@ -37,7 +40,8 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
         lat: [null, [Validators.required, Validators.pattern('^(\\-?([0-8]?[0-9](\\.\\d+)?|90(.[0]+)?))')]],
         lng: [null, [Validators.required, Validators.pattern('^(\\-?([1]?[0-7]?[0-9](\\.\\d+)?|180((.[0]+)?)))$')]],
         code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator()]],
-        name: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
+        description: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
+        slope: [null, [Validators.min(0), Validators.max(99999.99)]],
         type: [null, [Validators.required]],
         vhaInfo: [null, [Validators.required]],
         blueLayerInfo: [null, [Validators.required]],
@@ -57,7 +61,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
     return this.formGroup.get('lat').valid
       && this.formGroup.get('lng').valid
       && this.formGroup.get('code').valid
-      && this.formGroup.get('name').valid
+      && this.formGroup.get('description').valid
       && this.formGroup.get('type').valid;
   }
 

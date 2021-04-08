@@ -62,11 +62,27 @@ export class LocationCreateStep1Component implements OnInit {
     this.selected = $event;
   }
 
+  numberMask(scale: number, min: number, max: number) {
+    return {
+      mask: Number,
+      scale,
+      signed: true,
+      thousandsSeparator: '',
+      radix: ',',
+      min,
+      max
+    };
+  }
+
   get code() {
     return this.formGroup.get('code');
   }
 
-  get name() {
-    return this.formGroup.get('name');
+  get description() {
+    return this.formGroup.get('description');
+  }
+
+  get slope() {
+    return this.formGroup.get('slope');
   }
 }
