@@ -22,7 +22,7 @@
 
         </div>
 
-        <app-expandable-filter [formGroup]="filterForm" (searchClicked)="filter()" (resetClicked)="filter()" [showAdvancedFilterAtStartup]="advancedFilterIsVisible">
+        <app-expandable-filter [hideSearchButton]="true" [formGroup]="filterForm" (searchClicked)="filter()" (resetClicked)="filter()" [showAdvancedFilterAtStartup]="advancedFilterIsVisible">
           <ng-container slot="simple">
             <div class="self-center">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
