@@ -7,15 +7,17 @@ import {Observable, Subject, Subscription} from 'rxjs';
 import {VisService} from './vis.service';
 import {Taxon} from '../domain/taxa/taxon';
 
-export const projectSubject$ = new Subject<Project>();
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService extends VisService implements OnDestroy {
-
   // TODO in een service zouden geen subscribes mogen zitten
   private subscription = new Subscription();
+
+  private projectSubject = new Subject<Project>();
+
+  project$ = this.projectSubject.asObservable();
 
   constructor(private http: HttpClient) {
     super();
@@ -32,7 +34,7 @@ export class ProjectService extends VisService implements OnDestroy {
   }
 
   next(project: Project): void {
-    projectSubject$.next(project);
+    this.projectSubject.next(project);
   }
 
   getProjects(page: number, size: number, filter: any) {

@@ -1,9 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Project} from '../../../domain/project/project';
-import {Subject, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {ProjectService} from '../../../services/vis.project.service';
-import {projectSubject$} from "../../../services/vis.project.service";
 
 @Component({
   selector: 'app-project-heading',
@@ -11,7 +9,7 @@ import {projectSubject$} from "../../../services/vis.project.service";
 })
 export class ProjectHeadingComponent implements OnInit, OnDestroy {
 
-  project$ = projectSubject$;
+  project$ = this.projectService.project$;
 
   private subscription = new Subscription();
 
