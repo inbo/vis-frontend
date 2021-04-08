@@ -72,6 +72,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         (response) => {
           this.project = response;
           this.reset();
+          this.projectService.next(response);
           this.router.navigate(['/projecten', this.project.code.value]).then();
         },
         (error) => console.log(error)
@@ -104,8 +105,10 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     }
 
     this.subscription.add(this.projectService.closeProject(this.activatedRoute.parent.snapshot.params.projectCode,
-      this.closeProjectForm.getRawValue()).subscribe(() =>
-        this.router.navigateByUrl(`/projecten/${this.activatedRoute.parent.snapshot.params.projectCode}`)
+      this.closeProjectForm.getRawValue()).subscribe(value => {
+        this.projectService.next(value);
+        this.router.navigateByUrl(`/projecten/${this.activatedRoute.parent.snapshot.params.projectCode}`);
+      }
       )
     );
   }
