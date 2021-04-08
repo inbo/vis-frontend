@@ -92,4 +92,8 @@ export class ProjectService extends VisService implements OnDestroy {
   closeProject(projectCode: string, endDate: any) {
     return this.http.post(`${environment.apiUrl}/api/projects/${projectCode}/close`, endDate);
   }
+
+  reOpenProject(projectCode: string) {
+    return this.http.post<Project>(`${environment.apiUrl}/api/projects/${projectCode}/reopen`, {});
+  }
 }

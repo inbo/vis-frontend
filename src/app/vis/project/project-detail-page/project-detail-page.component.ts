@@ -31,7 +31,8 @@ export class ProjectDetailPageComponent implements OnInit, OnDestroy {
   }
 
   reOpenProject() {
-
+    this.subscription.add(this.projectService.reOpenProject(this.activatedRoute.snapshot.params.projectCode)
+      .subscribe(value => this.project = value));
   }
 
   ngOnInit(): void {
