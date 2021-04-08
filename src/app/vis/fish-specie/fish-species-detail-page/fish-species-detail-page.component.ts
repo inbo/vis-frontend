@@ -21,7 +21,7 @@ export class FishSpeciesDetailPageComponent implements OnInit, OnDestroy {
   breadcrumbLinks: BreadcrumbLink[] = [
     {title: 'Vissoorten', url: '/vissoorten'},
     {
-      title: this.activatedRoute.snapshot.params.taxonId,
+      title: 'ID: ' + this.activatedRoute.snapshot.params.taxonId,
       url: '/vissoorten/' + this.activatedRoute.snapshot.params.taxonId
     },
     {title: 'Details', url: '/vissoorten/' + this.activatedRoute.snapshot.params.taxonId}
