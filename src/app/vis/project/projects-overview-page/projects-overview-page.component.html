@@ -103,7 +103,7 @@
                           </span>
                         </td>
                         <td class="px-6 py-4  text-sm text-gray-500">
-                          {{project.start | date:'dd/MM/yyyy'}} - {{project.end | date:'dd/MM/yyyy'}}
+                          {{project.start | date:'dd/MM/yyyy'}} {{project.end ? ' - ' : ''}} {{project.end | date:'dd/MM/yyyy'}}
                         </td>
 
                         <td class="px-6 py-4  text-right text-sm font-medium">
