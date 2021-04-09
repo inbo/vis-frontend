@@ -3,16 +3,21 @@ import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Project} from '../domain/project/project';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {VisService} from './vis.service';
+import {Taxon} from '../domain/taxa/taxon';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService extends VisService implements OnDestroy {
-
   // TODO in een service zouden geen subscribes mogen zitten
   private subscription = new Subscription();
+
+  private projectSubject = new Subject<Project>();
+
+  project$ = this.projectSubject.asObservable();
 
   constructor(private http: HttpClient) {
     super();
@@ -26,6 +31,10 @@ export class ProjectService extends VisService implements OnDestroy {
     link.href = url;
     link.download = filename;
     link.click();
+  }
+
+  next(project: Project): void {
+    this.projectSubject.next(project);
   }
 
   getProjects(page: number, size: number, filter: any) {
@@ -80,8 +89,19 @@ export class ProjectService extends VisService implements OnDestroy {
     return this.http.post<string[]>(`${environment.apiUrl}/api/projects/${projectCode}/methods`, methods);
   }
 
+  getProjectTaxa(projectCode: string) {
+    return this.http.get<Taxon[]>(`${environment.apiUrl}/api/projects/${projectCode}/taxon`);
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
+  closeProject(projectCode: string, endDate: any) {
+    return this.http.post<Project>(`${environment.apiUrl}/api/projects/${projectCode}/close`, endDate);
+  }
+
+  reOpenProject(projectCode: string) {
+    return this.http.post<Project>(`${environment.apiUrl}/api/projects/${projectCode}/reopen`, {});
+  }
 }

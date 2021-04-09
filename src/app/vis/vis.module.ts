@@ -40,13 +40,15 @@ import {LocationCreatePageComponent} from './location/location-create-page/locat
 import {LocationCreateStep1Component} from './location/location-create-step1/location-create-step1.component';
 import {LocationCreateStep2Component} from './location/location-create-step2/location-create-step2.component';
 import {LocationCreateStep3Component} from './location/location-create-step3/location-create-step3.component';
-import {LocationCreateStep4Component} from './location/location-create-step4/location-create-step4.component';
 import {ProjectHeadingComponent} from './project/project-heading/project-heading.component';
 import {SurveyEventHeadingComponent} from './survey-events/survey-event-heading/survey-event-heading.component';
 import {SurveyEventComponent} from './survey-events/survey-event/survey-event.component';
 import {ProjectComponent} from './project/project/project.component';
-import {NgTransitionModule} from "ng-transition";
-import {SwitchRoleComponent} from "./switch-role/switch-role.component";
+import {NgTransitionModule} from 'ng-transition';
+import {SwitchRoleComponent} from './switch-role/switch-role.component';
+import {LeafletMarkerClusterModule} from '@asymmetrik/ngx-leaflet-markercluster';
+import { FishingPointsMapComponent } from './components/fishing-points-map/fishing-points-map.component';
+import { FishingPointsMapPropertiesComponent } from './components/fishing-points-map-properties/fishing-points-map-properties.component';
 
 @NgModule({
   exports: [
@@ -85,14 +87,14 @@ import {SwitchRoleComponent} from "./switch-role/switch-role.component";
     LocationCreateStep1Component,
     LocationCreateStep2Component,
     LocationCreateStep3Component,
-    LocationCreateStep4Component,
     ProjectHeadingComponent,
     SurveyEventHeadingComponent,
     SurveyEventComponent,
     ProjectComponent,
     SwitchRoleComponent,
-    LocationCreateStep4Component,
-    SurveyEventMeasurementsCreatePageComponent
+    SurveyEventMeasurementsCreatePageComponent,
+    FishingPointsMapComponent,
+    FishingPointsMapPropertiesComponent
   ],
   imports: [
     CommonModule,
@@ -103,6 +105,7 @@ import {SwitchRoleComponent} from "./switch-role/switch-role.component";
     ReactiveFormsModule,
     TranslateModule,
     LeafletModule,
+    LeafletMarkerClusterModule,
     NgTransitionModule
   ]
 })

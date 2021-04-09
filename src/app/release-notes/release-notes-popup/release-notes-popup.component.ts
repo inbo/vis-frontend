@@ -2,6 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ResolveEnd, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {ReleaseNotesService} from '../../services/vis.release-notes.service';
+import {take} from "rxjs/operators";
+
+const EXCLUDE_URLS = ['', 'forbidden', 'not-found', 'internal-server-error', 'service-unavailable'];
 
 @Component({
   selector: 'app-release-notes-popup',
@@ -18,17 +21,26 @@ export class ReleaseNotesPopupComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(
-      this.router.events.subscribe(async (routerData) => {
-        if (routerData instanceof ResolveEnd) {
-          this.showReleaseNotes = !['/', '', '/forbidden', '/not-found', '/internal-server-error', '/service-unavailable']
-              .includes(routerData.url.split('?')[0]) && !routerData.url.startsWith('/releases')
-            && !await this.releaseNotesService.hasUserReadLatestReleaseNotes().toPromise();
-          if (this.showReleaseNotes) {
-            this.subscription.add(this.releaseNotesService.getCurrentRelease().subscribe(value => this.currentReleaseNotes = value));
+      this.router.events.subscribe((routerData => {
+          if (routerData instanceof ResolveEnd) {
+            this.releaseNotesService.hasUserReadLatestReleaseNotes().pipe(take(1)).subscribe(hasUserReadLatestReleaseNotes => {
+              // Get first part of current path without query parameters
+              const path = routerData.url.split('?')[0].replace('/', '').split('/')[0];
+              // Get first part of configured router paths
+              const routerPaths = this.router.config.map(value => value.path.split('/')[0]);
+              // Check if the user has already read the release notes
+              // and if the current url is in the configured router paths, but not in the releases or error paths
+              this.showReleaseNotes = routerPaths.includes(path) &&
+                !EXCLUDE_URLS.includes(path) &&
+                !routerData.url.startsWith('/releases') &&
+                !hasUserReadLatestReleaseNotes;
+              if (this.showReleaseNotes) {
+                this.releaseNotesService.getCurrentRelease().pipe(take(1)).subscribe(value => this.currentReleaseNotes = value);
+              }
+            })
           }
-        }
-      })
-    );
+        })
+      ));
   }
 
   ngOnDestroy(): void {
@@ -36,8 +48,6 @@ export class ReleaseNotesPopupComponent implements OnInit, OnDestroy {
   }
 
   read(): void {
-    this.subscription.add(
-      this.releaseNotesService.userReadLatestReleaseNotes().subscribe(() => this.showReleaseNotes = false)
-    );
+    this.releaseNotesService.userReadLatestReleaseNotes().pipe(take(1)).subscribe(() => this.showReleaseNotes = false);
   }
 }

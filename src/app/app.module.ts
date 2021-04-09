@@ -46,8 +46,9 @@ import {HttpErrorInterceptor} from './core/http.error.interceptor';
     SharedUiModule,
     VisModule,
     ReleaseNotesModule,
-    AppRoutingModule,
-    ErrorsModule
+    ErrorsModule,
+    // should always be last so that unknown routes are routed to the 404 page
+    AppRoutingModule
   ],
   providers: [
     {

@@ -1,14 +1,7 @@
 <div>
   <div class="grid grid-cols-6 gap-x-4 text-sm">
     <div class="col-span-6 md:col-span-4" >
-      <div class="h-96" leaflet [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletMapReady)="onReady($event)" (leafletClick)="clickMap($event)" (leafletDoubleClick)="addPoint($event)" [leafletCenter]="center">
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 text-sm mt-2">
-        <div *ngFor="let item of legend | keyvalue" class="flex items-center">
-          <div class="w-14 h-1 inline-block center mr-1" [style]="'background-color: rgba(' + item.value + ')'"></div>
-          <span>{{item.key}}</span>
-        </div>
-      </div>
+      <app-fishing-points-map [canAddPoints]="true" (pointAdded)="pointAdded($event)" (featureSelected)="featureSelected($event)"></app-fishing-points-map>
     </div>
 
     <div class="mt-4 md:mt-0 col-span-6 md:col-span-2">
@@ -16,27 +9,39 @@
         <div class="grid grid-cols-1 gap-y-6">
           <div>
             <label for="code" class="block text-sm font-medium text-gray-700">
-              Meetplaatscode
+              Code
             </label>
             <div class="mt-1">
               <input formControlName="code" type="text" name="code" id="code">
             </div>
-            <p *ngIf="formGroup.get('code').touched && formGroup.get('code').invalid" class="mt-2 text-sm text-red-600">Code is verplicht</p>
+            <p *ngIf="code.touched && code.errors && !code.errors.unique" class="mt-2 text-sm text-red-600">Code is verplicht en mag max 15 karakters lang zijn</p>
+            <p *ngIf="code.touched && code.errors && code.errors.unique" class="mt-2 text-sm text-red-600">Code bestaat reeds</p>
           </div>
 
           <div>
-            <label for="name" class="block text-sm font-medium text-gray-700">
-              Meetplaatsnaam
+            <label for="description" class="block text-sm font-medium text-gray-700">
+              Omschrijving
             </label>
             <div class="mt-1">
-              <input formControlName="name" type="text" name="name" id="name">
+              <input formControlName="description" type="text" name="description" id="description">
             </div>
-            <p *ngIf="formGroup.get('name').touched && formGroup.get('name').invalid" class="mt-2 text-sm text-red-600">Naam is verplicht</p>
+            <p *ngIf="description.touched && description.invalid" class="mt-2 text-sm text-red-600">Omschrijving is verplicht en mag max 200 karakters lang zijn</p>
 
           </div>
 
           <div>
-            <label for="name" class="block text-sm font-medium text-gray-700">
+            <label for="slope" class="block text-sm font-medium text-gray-700">
+              Helling
+            </label>
+            <div class="mt-1">
+              <input [imask]="numberMask(3, 0, 99999.999)" [unmask]="true" formControlName="slope" type="text" name="slope" id="slope">
+            </div>
+            <p *ngIf="slope.touched && slope.invalid" class="mt-2 text-sm text-red-600">Helling moet numeriek en positief zijn</p>
+
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700">
               Type
             </label>
             <div class="mt-1">
@@ -74,24 +79,5 @@
   </div>
 
 
-  <!-- This example requires Tailwind CSS v2.0+ -->
-  <div class="bg-white shadow overflow-hidden sm:rounded-lg mt-4">
-    <div class="px-4 py-5 sm:px-6">
-      <h3 class="text-lg leading-6 font-medium text-gray-900">
-        Details selectie
-      </h3>
-    </div>
-    <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
-      <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-3">
-        <div class="sm:col-span-1" *ngFor="let x of selected | keyvalue">
-          <dt class="text-sm font-medium text-gray-500">
-            {{x.key}}
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900">
-            {{x.value}}
-          </dd>
-        </div>
-      </dl>
-    </div>
-  </div>
+  <app-fishing-points-map-properties [selected]="selected"></app-fishing-points-map-properties>
 </div>

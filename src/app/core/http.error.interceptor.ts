@@ -23,14 +23,15 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           // The response body may contain clues as to what went wrong,
           console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
 
+          if(error.status === 0) {
+            // TODO page for when backend is offline?
+            this.router.navigateByUrl('/service-unavailable').then();
+          }
           if (error.status === 400) {
             return of(new HttpResponse({body: {code: 400}}));
           }
           if (error.status === 403) {
             this.router.navigateByUrl('/forbidden').then();
-          }
-          if (error.status === 404) {
-            this.router.navigateByUrl('/not-found').then();
           }
           if (error.status === 500) {
             this.router.navigateByUrl('/internal-server-error').then();

@@ -16,7 +16,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
   ]
 })
 export class DatepickerComponent implements ControlValueAccessor, OnInit, AfterViewInit {
-  private selectedDates: Date[];
+  private selectedDate: Date;
 
   @ViewChild('datepicker') input;
 
@@ -24,8 +24,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit, AfterV
   private onTouch: Function;
   private fp: any;
 
-  writeValue(obj: Date[]): void {
-    this.selectedDates = obj;
+  writeValue(obj: Date): void {
+    this.selectedDate = obj;
     if (this.fp !== undefined) {
       this.fp.setDate(obj);
     }
@@ -40,7 +40,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit, AfterV
   }
 
   dateValueChanged(): void {
-    this.onChange(this.selectedDates);
+    this.onChange(this.selectedDate);
   }
 
   constructor() {
@@ -55,13 +55,12 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit, AfterV
     this.fp = flatpickr(this.input.nativeElement, {
       locale: Dutch,
       dateFormat: 'd-m-Y',
-      mode: 'range',
       onChange: (selectedDates) => {
-        if (selectedDates.length === 2) {
-          _this.selectedDates = selectedDates;
+        if (selectedDates.length === 1) {
+          _this.selectedDate = selectedDates[0];
           _this.dateValueChanged();
         } else {
-          _this.selectedDates = null;
+          _this.selectedDate = null;
           _this.dateValueChanged();
         }
       },
