@@ -12,6 +12,8 @@
               <div class="mt-1">
                 <input formControlName="code" type="text" name="code" id="code" autocomplete="name">
               </div>
+              <p class="mt-2 text-sm text-gray-500" id="code-description">Unieke korte code gebruikt om een project aan te duiden. Deze code zal ook in de breadcrumbs en urls gebruikt worden.</p>
+
               <p *ngIf="(submitted || (code.dirty || code.touched)) && code.errors && !code.errors.unique" class="mt-2 text-sm text-red-600">Code is verplicht en mag max 15 karakters lang zijn</p>
               <p *ngIf="(submitted || (code.dirty || code.touched)) && code.errors && code.errors.unique" class="mt-2 text-sm text-red-600">Code bestaat reeds</p>
             </div>
