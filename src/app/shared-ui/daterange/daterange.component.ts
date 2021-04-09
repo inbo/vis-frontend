@@ -1,11 +1,18 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, forwardRef, OnInit, ViewChild} from '@angular/core';
 import flatpickr from 'flatpickr';
 import {Dutch} from 'flatpickr/dist/l10n/nl';
-import {ControlValueAccessor} from '@angular/forms';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
   selector: 'app-daterange',
-  templateUrl: './daterange.component.html'
+  templateUrl: './daterange.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => DaterangeComponent),
+      multi: true
+    }
+  ]
 })
 export class DaterangeComponent implements ControlValueAccessor, OnInit, AfterViewInit {
   private selectedDates: Date[];
@@ -53,7 +60,7 @@ export class DaterangeComponent implements ControlValueAccessor, OnInit, AfterVi
           _this.selectedDates = selectedDates;
           _this.dateValueChanged();
         } else {
-          _this.selectedDates = [];
+          _this.selectedDates = null;
           _this.dateValueChanged();
         }
       },
