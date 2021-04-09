@@ -1,12 +1,14 @@
 import {Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import {fromEvent, Subject, Subscription} from 'rxjs';
+import {fromEvent, Observable, Subject, Subscription} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
 import {Option} from '../../../shared-ui/searchable-select/option';
 import {AlertService} from '../../../_alert';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
-import {TaxaService} from "../../../services/vis.taxa.service";
+import {TaxaService} from '../../../services/vis.taxa.service';
+import {TipsService} from '../../../services/vis.tips.service';
+import {Tip} from "../../../domain/tip/tip";
 
 export interface AbstractControlWarn extends AbstractControl {
   warnings: any;
@@ -54,11 +56,15 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     'comment'
   ];
 
+  tip$: Observable<Tip>;
+
   constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private surveyEventsService: SurveyEventsService,
-              private alertService: AlertService, private taxaService: TaxaService, private router: Router) {
+              private alertService: AlertService, private taxaService: TaxaService, private router: Router,
+              private tipsService: TipsService) {
   }
 
   ngOnInit(): void {
+    this.tip$ = this.tipsService.randomTipForPage('METING');
     this.measurementsForm = this.formBuilder.group({
       items: this.formBuilder.array([this.createMeasurementFormGroup()])
     });

@@ -65,6 +65,7 @@ import { DaterangeComponent } from './daterange/daterange.component';
         StepComponent,
         SearchableSelectComponent,
         DaterangeComponent,
+        TipComponent,
     ],
   imports: [
     RouterModule,

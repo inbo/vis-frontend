@@ -101,6 +101,7 @@
   <div class="px-4 py-4 sm:px-6 flex justify-end">
     <app-button [style]="'primary'" (click)="createMeasurements()">Bewaren</app-button>
   </div>
+  <app-tip *ngIf="tip$ | async as tip" [code]="tip.code" [show]="true"></app-tip>
 </div>
 
 
