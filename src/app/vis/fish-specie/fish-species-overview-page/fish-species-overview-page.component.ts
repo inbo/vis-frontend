@@ -10,6 +10,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Taxon} from '../../../domain/taxa/taxon';
 import {TaxonGroup} from '../../../domain/taxa/taxon-group';
 import {TaxaService} from '../../../services/vis.taxa.service';
+import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 
 @Component({
   selector: 'app-fish-species-overview-page',
@@ -45,6 +46,13 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
         taxonGroupCode: [queryParams.taxonGroupCode],
         taxonCode: [queryParams.taxonCode]
       },
+    );
+
+    this.subscription.add(
+      this.filterForm.valueChanges.pipe(
+        debounceTime(300),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
+        .subscribe(_ => this.filter())
     );
 
     this.subscription.add(

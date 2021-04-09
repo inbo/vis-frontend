@@ -14,7 +14,7 @@ export class LocationCreateStep1Component implements OnInit {
 
   @Input() formGroup: FormGroup;
 
-  selected = {};
+  selected = {layer: null, properties: {}};
 
   constructor(private titleService: Title) {
     this.titleService.setTitle('Locatie toevoegen');
@@ -60,5 +60,29 @@ export class LocationCreateStep1Component implements OnInit {
 
   featureSelected($event: any) {
     this.selected = $event;
+  }
+
+  numberMask(scale: number, min: number, max: number) {
+    return {
+      mask: Number,
+      scale,
+      signed: true,
+      thousandsSeparator: '',
+      radix: ',',
+      min,
+      max
+    };
+  }
+
+  get code() {
+    return this.formGroup.get('code');
+  }
+
+  get description() {
+    return this.formGroup.get('description');
+  }
+
+  get slope() {
+    return this.formGroup.get('slope');
   }
 }

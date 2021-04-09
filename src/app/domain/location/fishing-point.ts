@@ -8,8 +8,8 @@ export interface FishingPoint {
 
   snappedX: number;
   snappedY: number;
-  vhaId: number;
   vhag: number;
+  vhas: number;
   name: string;
   categoryValue: number;
   categoryName: string;
@@ -29,6 +29,7 @@ export interface FishingPoint {
 export interface FishingPointFeature {
   id: number;
   code: string;
+  description: string;
   x: number;
   y: number;
 }

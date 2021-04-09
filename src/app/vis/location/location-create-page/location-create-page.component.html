@@ -17,10 +17,6 @@
               <li class="md:flex-1">
                 <app-step [active]="currentStep >= 3" step="Stap 3" [description]="'Blauwe laag' + (isTypeFlowing() ? ' (nvt)' : '')"></app-step>
               </li>
-
-              <li class="md:flex-1">
-                <app-step [active]="currentStep >= 4" step="Stap 4" description="Bevestigen"></app-step>
-              </li>
             </ol>
           </nav>
         </div>
@@ -38,33 +34,20 @@
         <div *ngIf="currentStep === 2" class="px-4 py-8 sm:px-0">
           <app-location-create-step2 [formGroup]="formGroup"></app-location-create-step2>
           <div class="flex justify-end mt-5">
-            <app-button [valid]="isStep2Valid()" (click)="currentStep = 4" [style]="'primary'">Volgende</app-button>
+            <app-button [valid]="isStep2Valid()" (click)="save()" [style]="'primary'">Bewaren</app-button>
           </div>
         </div>
 
 
         <div *ngIf="currentStep === 3" class="px-4 py-8 sm:px-0">
-          <pre>
-              TODO:
-              - Geselecteerd punt tonen
-              - blauwe laag tonen
-              - punt selecteren (optioneel?)
-            </pre>
+          <app-location-create-step3 [formGroup]="formGroup"></app-location-create-step3>
 
-          <div class="flex justify-end">
-            <app-button (click)="currentStep = 4" [style]="'primary'">Volgende</app-button>
+
+          <div class="flex justify-end mt-5">
+            <app-button [valid]="isStep3Valid()" (click)="save()" [style]="'primary'">Bewaren</app-button>
           </div>
         </div>
-        <div *ngIf="currentStep === 4" class="px-4 py-8 sm:px-0">
-          <pre>
-              TODO:
-              - Samenvatting tonen en het punt effectief aanmaken (is deze stap nodig of maken we het in de vorige stap al aan?)
-            </pre>
 
-          <div class="flex justify-end">
-            <app-button [style]="'primary'">Aanmaken</app-button>
-          </div>
-        </div>
       </div>
     </main>
   </div>

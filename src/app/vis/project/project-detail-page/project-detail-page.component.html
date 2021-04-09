@@ -56,6 +56,8 @@
   </div>
   <div class="px-4 py-4 sm:px-6 flex justify-end">
     <app-button [style]="'white'" (click)="exportProject()" [role]="role.ExportProject">Exporteer</app-button>
-    <app-button [style]="'primary'" class="ml-3" [role]="role.EditProject" [routerLink]="['/projecten', project?.code?.value, 'bewerk']">Bewerken</app-button>
+    <app-button *ngIf="project?.end" (click)="reOpenProject()" [style]="'secondary'" class="ml-3" [role]="role.EditProject">Heropenen</app-button>
+    <app-button [disabled]="!!project?.end"  [style]="'primary'"
+                class="ml-3" [role]="role.EditProject" [routerLink]="['/projecten', project?.code?.value, 'bewerk']">Bewerken</app-button>
   </div>
 </div>

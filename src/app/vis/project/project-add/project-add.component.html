@@ -12,8 +12,8 @@
               <div class="mt-1">
                 <input formControlName="code" type="text" name="code" id="code" autocomplete="name">
               </div>
-              <p *ngIf="submitted && code.errors && !code.errors.unique" class="mt-2 text-sm text-red-600">Code is verplicht en mag max 15 karakters lang zijn</p>
-              <p *ngIf="submitted && code.errors && code.errors.unique" class="mt-2 text-sm text-red-600">Code bestaat reeds</p>
+              <p *ngIf="(submitted || (code.dirty || code.touched)) && code.errors && !code.errors.unique" class="mt-2 text-sm text-red-600">Code is verplicht en mag max 15 karakters lang zijn</p>
+              <p *ngIf="(submitted || (code.dirty || code.touched)) && code.errors && code.errors.unique" class="mt-2 text-sm text-red-600">Code bestaat reeds</p>
             </div>
 
             <div>
@@ -23,7 +23,7 @@
               <div class="mt-1">
                 <input formControlName="name" type="text" name="name" id="name" autocomplete="name">
               </div>
-              <p *ngIf="submitted && name.errors" class="mt-2 text-sm text-red-600">Naam is verplicht en mag max 200 karakters lang zijn</p>
+              <p *ngIf="(submitted || (name.dirty || name.touched)) && name.errors" class="mt-2 text-sm text-red-600">Naam is verplicht en mag max 200 karakters lang zijn</p>
             </div>
 
             <div>
@@ -37,16 +37,16 @@
                 <p class="mt-2 text-sm text-gray-500">Beschrijf het project in een aantal zinnen</p>
                 <app-text-counter [max]="2000" [text]="description.value"></app-text-counter>
               </div>
-              <p *ngIf="submitted && description.errors" class="mt-2 text-sm text-red-600">Beschrijving mag max 2000 karakters lang zijn</p>
+              <p *ngIf="(submitted || (description.dirty || description.touched)) && description.errors" class="mt-2 text-sm text-red-600">Beschrijving mag max 2000 karakters lang zijn</p>
             </div>
 
             <div>
               <label class="block text-sm font-medium text-gray-700">
-                Periode
+                Startdatum
               </label>
               <div class="mt-1">
-                <app-datepicker formControlName="period"></app-datepicker>
-                <p *ngIf="submitted && period.errors" class="mt-2 text-sm text-red-600">Periode is verplicht</p>
+                <app-datepicker formControlName="startDate"></app-datepicker>
+                <p *ngIf="(submitted || (startDate.dirty || startDate.touched)) && startDate.errors" class="mt-2 text-sm text-red-600">Startdatum is verplicht</p>
               </div>
             </div>
 

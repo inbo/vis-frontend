@@ -22,6 +22,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {StepComponent} from './step/step.component';
 import {TipComponent} from "./tip/tip.component";
 import { SearchableSelectComponent } from './searchable-select/searchable-select.component';
+import { DaterangeComponent } from './daterange/daterange.component';
 
 @NgModule({
   declarations: [
@@ -43,26 +44,28 @@ import { SearchableSelectComponent } from './searchable-select/searchable-select
     StepComponent,
     TipComponent,
     SearchableSelectComponent,
+    DaterangeComponent,
   ],
-  exports: [
-    SidebarLayoutComponent,
-    NavigationLinkComponent,
-    ProfileDropdownComponent,
-    StackedLayoutComponent,
-    BreadcrumbComponent,
-    PagingAsyncComponent,
-    PagingComponent,
-    LoadingSpinnerComponent,
-    ToggleWithIconComponent,
-    DatepickerComponent,
-    SlideOverComponent,
-    TextCounterComponent,
-    ExpandableFilterComponent,
-    RadioGroupComponent,
-    CheckGroupComponent,
-    StepComponent,
-    SearchableSelectComponent,
-  ],
+    exports: [
+        SidebarLayoutComponent,
+        NavigationLinkComponent,
+        ProfileDropdownComponent,
+        StackedLayoutComponent,
+        BreadcrumbComponent,
+        PagingAsyncComponent,
+        PagingComponent,
+        LoadingSpinnerComponent,
+        ToggleWithIconComponent,
+        DatepickerComponent,
+        SlideOverComponent,
+        TextCounterComponent,
+        ExpandableFilterComponent,
+        RadioGroupComponent,
+        CheckGroupComponent,
+        StepComponent,
+        SearchableSelectComponent,
+        DaterangeComponent,
+    ],
   imports: [
     RouterModule,
     CommonModule,

@@ -29,7 +29,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
       description: ['', [Validators.maxLength(2000)]],
       lengthType: ['', [Validators.required]],
       status: [true, []],
-      period: [[], [Validators.required]],
+      startDate: [null, [Validators.required]],
     });
   }
 
@@ -88,8 +88,8 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
     return this.createProjectForm.get('status');
   }
 
-  get period() {
-    return this.createProjectForm.get('period');
+  get startDate() {
+    return this.createProjectForm.get('startDate');
   }
 
   get lengthType() {

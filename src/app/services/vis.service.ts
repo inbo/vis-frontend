@@ -8,7 +8,7 @@ export class VisService {
       .set('size', size.toString());
 
     Object.keys(filter ?? []).forEach((key) => {
-      if (filter[key] !== null) {
+      if (filter[key]) {
         params = params.set(key, filter[key].toString());
       }
     });

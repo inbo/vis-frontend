@@ -1,22 +1,21 @@
 import {AfterViewInit, Component, forwardRef, OnInit, ViewChild} from '@angular/core';
 import flatpickr from 'flatpickr';
-import {Dutch} from 'flatpickr/dist/l10n/nl.js';
-
+import {Dutch} from 'flatpickr/dist/l10n/nl';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
-  selector: 'app-datepicker',
-  templateUrl: './datepicker.component.html',
+  selector: 'app-daterange',
+  templateUrl: './daterange.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DatepickerComponent),
+      useExisting: forwardRef(() => DaterangeComponent),
       multi: true
     }
   ]
 })
-export class DatepickerComponent implements ControlValueAccessor, OnInit, AfterViewInit {
-  private selectedDate: Date;
+export class DaterangeComponent implements ControlValueAccessor, OnInit, AfterViewInit {
+  private selectedDates: Date[];
 
   @ViewChild('datepicker') input;
 
@@ -24,8 +23,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit, AfterV
   private onTouch: Function;
   private fp: any;
 
-  writeValue(obj: Date): void {
-    this.selectedDate = obj;
+  writeValue(obj: Date[]): void {
+    this.selectedDates = obj;
     if (this.fp !== undefined) {
       this.fp.setDate(obj);
     }
@@ -40,7 +39,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit, AfterV
   }
 
   dateValueChanged(): void {
-    this.onChange(this.selectedDate);
+    this.onChange(this.selectedDates);
   }
 
   constructor() {
@@ -55,12 +54,13 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit, AfterV
     this.fp = flatpickr(this.input.nativeElement, {
       locale: Dutch,
       dateFormat: 'd-m-Y',
+      mode: 'range',
       onChange: (selectedDates) => {
-        if (selectedDates.length === 1) {
-          _this.selectedDate = selectedDates[0];
+        if (selectedDates.length === 2) {
+          _this.selectedDates = selectedDates;
           _this.dateValueChanged();
         } else {
-          _this.selectedDate = null;
+          _this.selectedDates = null;
           _this.dateValueChanged();
         }
       },

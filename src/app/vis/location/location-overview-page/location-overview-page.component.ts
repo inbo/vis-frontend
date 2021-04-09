@@ -8,8 +8,8 @@ import {Observable, of, Subscription} from 'rxjs';
 import {FishingPoint} from '../../../domain/location/fishing-point';
 import {ActivatedRoute} from '@angular/router';
 import {LocationsService} from '../../../services/vis.locations.service';
-import {FishingPointsMapComponent} from "../../components/fishing-points-map/fishing-points-map.component";
-import {LatLng} from "leaflet";
+import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
+import {LatLng} from 'leaflet';
 
 @Component({
   selector: 'app-location-overview-page',
@@ -28,6 +28,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   loading = false;
   pager: AsyncPage<FishingPoint>;
   fishingPoints: Observable<FishingPoint[]>;
+  selected: any;
 
 
   constructor(private titleService: Title, private locationsService: LocationsService, private activatedRoute: ActivatedRoute) {
@@ -61,6 +62,10 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
         this.loading = false;
       })
     );
+  }
+
+  featureSelected($event: any) {
+    this.selected = $event;
   }
 
 }

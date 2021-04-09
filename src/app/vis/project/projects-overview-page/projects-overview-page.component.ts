@@ -36,8 +36,8 @@ export class ProjectsOverviewPageComponent implements OnInit {
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute, private router: Router,
-              private formBuilder: FormBuilder) {
+  constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute,
+              private router: Router, private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -50,7 +50,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
         description: [queryParams.description],
         lengthType: [queryParams.lengthType],
         status: [queryParams.status],
-        sort: [queryParams.sort]
+        sort: [queryParams.sort ?? '']
       },
     );
 
