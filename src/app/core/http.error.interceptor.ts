@@ -24,7 +24,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
 
           if(error.status === 0) {
-            // TODO page for when backend is offline?
             this.router.navigateByUrl('/service-unavailable').then();
           }
           if (error.status === 400) {

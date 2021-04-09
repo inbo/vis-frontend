@@ -82,7 +82,7 @@ function HttpLoaderFactory(http: HttpClient) {
 function initializeTranslations(translate: TranslateService, injector: Injector) {
   return () => new Promise<any>((resolve: any) => {
     translate.use('nl').subscribe(() => {
-      console.info(`Successfully initialized 'nl' language.'`);
+      console.log(`Successfully initialized 'nl' language.'`);
     }, err => {
       console.error(`Problem with 'nl' language initialization.'`);
     }, () => {
