@@ -45,8 +45,11 @@
           </div>
           <div class="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
             <span class="inline-flex rounded-md shadow">
-              <a (click)="login()" class="inline-flex items-center px-4 py-2 text-base font-medium text-pink-600 bg-white border border-transparent rounded-md hover:text-pink-500">
+              <a [class.hidden]="authService.isAuthenticated$ | async" (click)="login()" class="inline-flex items-center px-4 py-2 text-base font-medium text-pink-600 bg-white border border-transparent rounded-md hover:text-pink-500">
                 Aanmelden
+              </a>
+              <a [class.hidden]="!(authService.isAuthenticated$ | async)" [routerLink]="['/dashboard']" class="inline-flex items-center px-4 py-2 text-base font-medium text-pink-600 bg-white border border-transparent rounded-md hover:text-pink-500">
+                Naar applicatie
               </a>
             </span>
           </div>
@@ -60,7 +63,7 @@
            ngTransitionEnterEnd="opacity-100 scale-100"
            ngTransitionLeave="duration-100 ease-in"
            ngTransitionLeaveStart="opacity-100 scale-100"
-           ngTransitionLeaveEnd="opacity-0 scale-95">>
+           ngTransitionLeaveEnd="opacity-0 scale-95">
         <div class="overflow-hidden bg-white rounded-lg shadow-md ring-1 ring-black ring-opacity-5">
           <div class="flex items-center justify-between px-5 pt-4">
             <div class="-mr-2">
@@ -80,10 +83,13 @@
               <a href="#features" class="block px-3 py-2 text-base font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50" role="menuitem">Eigenschappen</a>
             </div>
             <div role="none">
-              <a (click)="login()" class="block w-full px-5 py-3 font-medium text-center text-pink-600 bg-gray-50 hover:bg-gray-100 hover:text-pink-700" role="menuitem">
+              <a [class.hidden]="authService.isAuthenticated$ | async" (click)="login()" class="block w-full px-5 py-3 font-medium text-center text-pink-600 bg-gray-50 hover:bg-gray-100 hover:text-pink-700" role="menuitem">
                 Aanmelden
               </a>
             </div>
+            <a [class.hidden]="!(authService.isAuthenticated$ | async)" [routerLink]="['/dashboard']" class="block w-full px-5 py-3 font-medium text-center text-pink-600 bg-gray-50 hover:bg-gray-100 hover:text-pink-700" role="menuitem">
+              Naar applicatie
+            </a>
           </div>
         </div>
       </div>

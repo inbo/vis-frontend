@@ -9,7 +9,7 @@ import {AuthService} from '../../core/auth.service';
 export class WelcomePageComponent implements OnInit {
   isOpen = false;
 
-  constructor(private titleService: Title, private authService: AuthService) {
+  constructor(private titleService: Title, public authService: AuthService) {
     this.titleService.setTitle('Welkom bij V.I.S');
   }
 
