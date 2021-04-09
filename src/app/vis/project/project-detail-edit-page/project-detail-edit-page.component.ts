@@ -6,30 +6,41 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Subscription} from 'rxjs';
 import {ProjectService} from '../../../services/vis.project.service';
+import {Role} from '../../../core/_models/role';
 
 @Component({
   selector: 'app-project-detail-edit-page',
   templateUrl: './project-detail-edit-page.component.html'
 })
 export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {
+  public role = Role;
+
+  closeProjectForm: FormGroup;
   projectForm: FormGroup;
   project: Project;
   submitted: boolean;
+  closeProjectFormSubmitted: boolean;
+
+  showCloseProjectModal = false;
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute, private router: Router,
-              private formBuilder: FormBuilder) {
+  constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute,
+              private router: Router, private formBuilder: FormBuilder) {
 
   }
 
   ngOnInit(): void {
+    this.closeProjectForm = this.formBuilder.group({
+      endDate: [null, [Validators.required]]
+    });
+
     this.projectForm = this.formBuilder.group(
       {
         name: [null, [Validators.required, Validators.maxLength(200)]],
         description: [null, [Validators.maxLength(2000)]],
         status: [false, []],
-        period: [null, [Validators.required]],
+        startDate: [null, [Validators.required]],
       });
 
     this.subscription.add(
@@ -39,7 +50,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         this.projectForm.get('name').patchValue(value.name);
         this.projectForm.get('description').patchValue(value.description);
         this.projectForm.get('status').patchValue(value.status === 'ACTIVE');
-        this.projectForm.get('period').patchValue([new Date(value.start), new Date(value.end)]);
+        this.projectForm.get('startDate').patchValue(value.start);
       })
     );
   }
@@ -61,6 +72,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         (response) => {
           this.project = response;
           this.reset();
+          this.projectService.next(response);
           this.router.navigate(['/projecten', this.project.code.value]).then();
         },
         (error) => console.log(error)
@@ -74,16 +86,31 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     this.projectForm.get('name').patchValue(this.project.name);
     this.projectForm.get('description').patchValue(this.project.description);
     this.projectForm.get('status').patchValue(this.project.status === 'ACTIVE');
-    this.projectForm.get('period').patchValue([new Date(this.project.start), new Date(this.project.end)]);
+    this.projectForm.get('startDate').patchValue(this.project.start);
     this.projectForm.reset(this.projectForm.value);
   }
-
 
   @HostListener('window:beforeunload', ['$event'])
   public onPageUnload($event: BeforeUnloadEvent) {
     if (this.projectForm.dirty) {
       $event.returnValue = true;
     }
+  }
+
+  closeProject() {
+    this.closeProjectFormSubmitted = true;
+
+    if (this.closeProjectForm.invalid) {
+      return;
+    }
+
+    this.subscription.add(this.projectService.closeProject(this.activatedRoute.parent.snapshot.params.projectCode,
+      this.closeProjectForm.getRawValue()).subscribe(value => {
+        this.projectService.next(value);
+        this.router.navigateByUrl(`/projecten/${this.activatedRoute.parent.snapshot.params.projectCode}`);
+      }
+      )
+    );
   }
 
   hasUnsavedData(): boolean {
@@ -102,7 +129,11 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     return this.projectForm.get('status');
   }
 
-  get period() {
-    return this.projectForm.get('period');
+  get startDate() {
+    return this.projectForm.get('startDate');
+  }
+
+  get endDate() {
+    return this.closeProjectForm.get('endDate');
   }
 }

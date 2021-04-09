@@ -22,6 +22,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {StepComponent} from './step/step.component';
 import {TipComponent} from "./tip/tip.component";
 import { SearchableSelectComponent } from './searchable-select/searchable-select.component';
+import { DaterangeComponent } from './daterange/daterange.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { SearchableSelectComponent } from './searchable-select/searchable-select
     StepComponent,
     TipComponent,
     SearchableSelectComponent,
+    DaterangeComponent,
   ],
   exports: [
     SidebarLayoutComponent,
