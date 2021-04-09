@@ -41,7 +41,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
         lng: [null, [Validators.required, Validators.pattern('^(\\-?([1]?[0-7]?[0-9](\\.\\d+)?|180((.[0]+)?)))$')]],
         code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator()]],
         description: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
-        slope: [null, [Validators.min(0), Validators.max(99999.99)]],
+        slope: [null, [Validators.min(0), Validators.max(99999.999)]],
         type: [null, [Validators.required]],
         vhaInfo: [null, [Validators.required]],
         blueLayerInfo: [null, [Validators.required]],
@@ -53,7 +53,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
   codeValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return this.locationsService.checkIfFishingPointExists(control.value)
-        .pipe(map(result => result.valid ? {unique: true} : null));
+        .pipe(map(result => result.valid ? {uniqueCode: true} : null));
     };
   }
 

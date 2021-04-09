@@ -162,5 +162,28 @@
     "forbidden":"Sorry, de pagina die u zoekt, is niet gevonden.",
     "internal-server-error": "Sorry, er is een onverwachte fout opgetreden. Contacteer een administrator.",
     "not-found": "Sorry, de pagina die u zoekt, is niet gevonden.",
+    "service-unavailable": "Sorry, de pagina die u zoekt, is niet gevonden."
+  },
+  "errorMessage": {
+    "required": {
+      "short": "verplicht",
+      "long": "{{fieldName}} is verplicht"
+    },
+    "maxlength": {
+      "short":  "max {{requiredLength}}",
+      "long": "Maximum {{requiredLength}} tekens zijn toegelaten"
+    },
+    "uniqueCode": {
+      "short":  "niet uniek",
+      "long": "Code moet uniek zijn"
+    },
+    "min": {
+      "short":  ">= {{min}}",
+      "long": "{{fieldName}} moet groter of gelijk zijn aan {{min}}"
+    },
+    "max": {
+      "short":  "<= {{max}}",
+      "long": "{{fieldName}} moet kleiner of gelijk zijn aan {{max}"
+    }
   }
 }

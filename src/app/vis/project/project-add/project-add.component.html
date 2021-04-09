@@ -14,8 +14,7 @@
               </div>
               <p class="mt-2 text-sm text-gray-500" id="code-description">Unieke korte code gebruikt om een project aan te duiden. Deze code zal ook in de breadcrumbs en urls gebruikt worden.</p>
 
-              <p *ngIf="(submitted || (code.dirty || code.touched)) && code.errors && !code.errors.unique" class="mt-2 text-sm text-red-600">Code is verplicht en mag max 15 karakters lang zijn</p>
-              <p *ngIf="(submitted || (code.dirty || code.touched)) && code.errors && code.errors.unique" class="mt-2 text-sm text-red-600">Code bestaat reeds</p>
+              <app-form-error-message [control]="code" [submitted]="submitted" [fieldName]="'Code'"></app-form-error-message>
             </div>
 
             <div>
@@ -25,7 +24,8 @@
               <div class="mt-1">
                 <input formControlName="name" type="text" name="name" id="name" autocomplete="name">
               </div>
-              <p *ngIf="(submitted || (name.dirty || name.touched)) && name.errors" class="mt-2 text-sm text-red-600">Naam is verplicht en mag max 200 karakters lang zijn</p>
+              <app-form-error-message [fieldName]="'Naam'" [control]="name" [submitted]="false"></app-form-error-message>
+
             </div>
 
             <div>
@@ -39,7 +39,7 @@
                 <p class="mt-2 text-sm text-gray-500">Beschrijf het project in een aantal zinnen</p>
                 <app-text-counter [max]="2000" [text]="description.value"></app-text-counter>
               </div>
-              <p *ngIf="(submitted || (description.dirty || description.touched)) && description.errors" class="mt-2 text-sm text-red-600">Beschrijving mag max 2000 karakters lang zijn</p>
+              <app-form-error-message [fieldName]="'Beschrijving'" [control]="description" [submitted]="false"></app-form-error-message>
             </div>
 
             <div>
@@ -48,7 +48,8 @@
               </label>
               <div class="mt-1">
                 <app-datepicker formControlName="startDate"></app-datepicker>
-                <p *ngIf="(submitted || (startDate.dirty || startDate.touched)) && startDate.errors" class="mt-2 text-sm text-red-600">Startdatum is verplicht</p>
+                <app-form-error-message [fieldName]="'Startdatum'" [control]="startDate" [submitted]="false"></app-form-error-message>
+
               </div>
             </div>
 

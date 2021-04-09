@@ -19,7 +19,7 @@
             <div class="mt-1">
               <input formControlName="name" type="text" name="name" id="name" autocomplete="name">
             </div>
-            <p *ngIf="(submitted || (name.dirty || name.touched)) && name.errors" class="mt-2 text-sm text-red-600">Naam is verplicht en mag max 200 karakters lang zijn</p>
+            <app-form-error-message [fieldName]="'Naam'" [control]="name" [submitted]="submitted"></app-form-error-message>
           </div>
 
           <div class="sm:col-span-6">
@@ -33,7 +33,7 @@
               <p class="mt-2 text-sm text-gray-500">Beschrijf het project in een aantal zinnen</p>
               <app-text-counter [max]="2000" [text]="description.value"></app-text-counter>
             </div>
-            <p *ngIf="(submitted || (description.dirty || description.touched)) && description.errors" class="mt-2 text-sm text-red-600">Beschrijving mag max 2000 karakters lang zijn</p>
+            <app-form-error-message [fieldName]="'Beschrijving'" [control]="description" [submitted]="submitted"></app-form-error-message>
           </div>
 
           <div class="sm:col-span-6">
@@ -51,7 +51,7 @@
             </label>
             <div class="mt-1">
               <app-datepicker formControlName="startDate"></app-datepicker>
-              <p *ngIf="(submitted || (startDate.dirty || startDate.touched)) && startDate.errors" class="mt-2 text-sm text-red-600">Startdatum is verplicht</p>
+              <app-form-error-message [fieldName]="'Startdatum'" [control]="startDate" [submitted]="submitted"></app-form-error-message>
             </div>
           </div>
 
@@ -105,7 +105,7 @@
             </label>
             <div class="mt-1">
               <app-datepicker formControlName="endDate"></app-datepicker>
-              <p *ngIf="(closeProjectFormSubmitted || (endDate.dirty || endDate.touched)) && endDate.errors" class="mt-2 text-sm text-red-600">Einddatum is verplicht</p>
+              <app-form-error-message [fieldName]="'Einddatum'" [control]="endDate" [submitted]="submitted"></app-form-error-message>
             </div>
           </div>
         </form>

@@ -14,8 +14,7 @@
             <div class="mt-1">
               <input formControlName="code" type="text" name="code" id="code">
             </div>
-            <p *ngIf="code.touched && code.errors && !code.errors.unique" class="mt-2 text-sm text-red-600">Code is verplicht en mag max 15 karakters lang zijn</p>
-            <p *ngIf="code.touched && code.errors && code.errors.unique" class="mt-2 text-sm text-red-600">Code bestaat reeds</p>
+            <app-form-error-message [fieldName]="'Code'" [control]="code" [submitted]="false"></app-form-error-message>
           </div>
 
           <div>
@@ -25,8 +24,7 @@
             <div class="mt-1">
               <input formControlName="description" type="text" name="description" id="description">
             </div>
-            <p *ngIf="description.touched && description.invalid" class="mt-2 text-sm text-red-600">Omschrijving is verplicht en mag max 200 karakters lang zijn</p>
-
+            <app-form-error-message [fieldName]="'Omschrijving'" [control]="description" [submitted]="false"></app-form-error-message>
           </div>
 
           <div>
@@ -36,8 +34,7 @@
             <div class="mt-1">
               <input [imask]="numberMask(3, 0, 99999.999)" [unmask]="true" formControlName="slope" type="text" name="slope" id="slope">
             </div>
-            <p *ngIf="slope.touched && slope.invalid" class="mt-2 text-sm text-red-600">Helling moet numeriek en positief zijn</p>
-
+            <app-form-error-message [fieldName]="'Helling'" [control]="slope" [submitted]="false"></app-form-error-message>
           </div>
 
           <div>
@@ -59,7 +56,7 @@
                   </label>
                 </div>
               </div>
-              <p *ngIf="formGroup.get('type').touched && formGroup.get('type').invalid" class="mt-2 text-sm text-red-600">Type is verplicht</p>
+              <app-form-error-message [fieldName]="'Type'" [control]="type" [submitted]="false"></app-form-error-message>
             </div>
           </div>
 

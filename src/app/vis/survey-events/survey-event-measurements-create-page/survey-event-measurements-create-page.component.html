@@ -24,11 +24,11 @@
             <div class="relative">
               <app-searchable-select (ngModelChange)="onSpeciesChange(i)" tabIndex="-1" (keydown)="navigateOnArrow($event, i)" [id]="'species-' + i" formControlName="species" (onSearch)="getSpecies($event)" [options$]="species$"></app-searchable-select>
             </div>
-            <p *ngIf="(submitted || species(i).touched) && species(i).invalid" class="mt-2 text-sm text-red-600">verplicht</p>
+            <app-form-error-message [control]="species(i)" [submitted]="submitted"></app-form-error-message>
           </div>
           <div class="col-span-4 md:col-span-2 lg:col-span-1">
             <input [id]="'amount-' + i" name="amount" formControlName="amount" type="number" min="0" (keydown)="navigateOnArrow($event, i)"/>
-            <p *ngIf="(submitted || amount(i).touched) && amount(i).invalid" class="mt-2 text-sm text-red-600">Positief getal</p>
+            <app-form-error-message [control]="amount(i)" [submitted]="submitted"></app-form-error-message>
           </div>
           <div class="col-span-4 md:col-span-3 lg:col-span-1">
             <div class="relative rounded-md shadow-sm">
@@ -41,7 +41,7 @@
                 <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
               </div>
             </div>
-            <p *ngIf="(submitted || length(i).touched) && length(i).invalid" class="mt-2 text-sm text-red-600">Positief getal</p>
+            <app-form-error-message [control]="length(i)" [submitted]="submitted"></app-form-error-message>
           </div>
           <div class="col-span-4 md:col-span-3 lg:col-span-1">
             <div class="relative rounded-md shadow-sm">
@@ -50,7 +50,7 @@
                 <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
               </div>
             </div>
-            <p *ngIf="(submitted || weight(i).touched) && weight(i).invalid" class="mt-2 text-sm text-red-600">verplicht</p>
+            <app-form-error-message [control]="weight(i)" [submitted]="submitted"></app-form-error-message>
 
           </div>
           <div class="col-span-4 md:col-span-2 lg:col-span-1">
@@ -59,16 +59,16 @@
               <option value="FEMALE">V</option>
               <option value="UNKNOWN">O</option>
             </select>
-            <p *ngIf="(submitted || gender(i).touched) && gender(i).invalid" class="mt-2 text-sm text-red-600">verplicht</p>
+            <app-form-error-message [control]="gender(i)" [submitted]="submitted"></app-form-error-message>
           </div>
           <div class="col-span-4 md:col-span-2 lg:col-span-1">
             <input (keydown)="navigateOnArrow($event, i)" [id]="'afvisBeurtNumber-' + i" name="afvisBeurtNumber" type="number" formControlName="afvisBeurtNumber" />
-            <p *ngIf="(submitted || afvisBeurtNumber(i).touched) && afvisBeurtNumber(i).invalid" class="mt-2 text-sm text-red-600">Positief getal</p>
+            <app-form-error-message [control]="afvisBeurtNumber(i)" [submitted]="submitted"></app-form-error-message>
 
           </div>
           <div class="col-span-11 md:col-span-5 lg:col-span-2">
             <input (keydown)="navigateOnArrow($event, i)" [id]="'comment-' + i" name="comment" type="text" formControlName="comment" (keydown)="onKeyPress($event, i)" />
-            <p *ngIf="(submitted || comment(i).touched) && comment(i).invalid" class="mt-2 text-sm text-red-600">Max 2000 tekens</p>
+            <app-form-error-message [control]="comment(i)" [submitted]="submitted"></app-form-error-message>
           </div>
           <div class="self-center">
             <button tabIndex="-1" (click)="remove(i)" type="button">
