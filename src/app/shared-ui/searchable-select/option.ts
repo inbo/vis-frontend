@@ -1,4 +1,4 @@
 export interface Option {
-  id: number;
+  id: any;
   translateKey: string;
 }

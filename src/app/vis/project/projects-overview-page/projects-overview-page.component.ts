@@ -49,7 +49,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
         name: [queryParams.name],
         description: [queryParams.description],
         status: [queryParams.status],
-        sort: [queryParams.sort]
+        sort: [queryParams.sort ?? '']
       },
     );
 
@@ -96,7 +96,6 @@ export class ProjectsOverviewPageComponent implements OnInit {
 
   filter() {
     const rawValue = this.filterForm.getRawValue();
-    console.log('filter');
     const queryParams: Params = {...rawValue, page: 1};
 
     this.router.navigate(
