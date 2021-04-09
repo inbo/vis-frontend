@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
 
-import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {MissingTranslationHandler, TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -60,15 +60,33 @@ import {HttpErrorInterceptor} from './core/http.error.interceptor';
       useClass: HttpErrorInterceptor,
       multi: true
     },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeTranslations,
+      deps: [TranslateService, Injector],
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 }
 
-export function HttpLoaderFactory(http: HttpClient) {
+function HttpLoaderFactory(http: HttpClient) {
   return new MultiTranslateHttpLoader(http, [
     {prefix: './assets/i18n/', suffix: '.json'},
     {prefix: `${environment.apiUrl}/translations/`, suffix: ''}
   ]);
+}
+
+function initializeTranslations(translate: TranslateService, injector: Injector) {
+  return () => new Promise<any>((resolve: any) => {
+    translate.use('nl').subscribe(() => {
+      console.info(`Successfully initialized 'nl' language.'`);
+    }, err => {
+      console.error(`Problem with 'nl' language initialization.'`);
+    }, () => {
+      resolve(null);
+    });
+  });
 }

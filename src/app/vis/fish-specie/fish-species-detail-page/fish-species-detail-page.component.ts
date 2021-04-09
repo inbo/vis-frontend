@@ -8,6 +8,7 @@ import {ActivatedRoute} from '@angular/router';
 import {flatMap, map, pluck, take, toArray} from 'rxjs/operators';
 import {Observable, Subscription} from 'rxjs';
 import {TaxaService} from '../../../services/vis.taxa.service';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-fish-species-detail-page',
@@ -21,7 +22,7 @@ export class FishSpeciesDetailPageComponent implements OnInit, OnDestroy {
   breadcrumbLinks: BreadcrumbLink[] = [
     {title: 'Vissoorten', url: '/vissoorten'},
     {
-      title: 'ID: ' + this.activatedRoute.snapshot.params.taxonId,
+      title: this.translateService.instant(`taxon.id.${this.activatedRoute.snapshot.params.taxonId}.code`),
       url: '/vissoorten/' + this.activatedRoute.snapshot.params.taxonId
     },
     {title: 'Details', url: '/vissoorten/' + this.activatedRoute.snapshot.params.taxonId}
@@ -30,7 +31,8 @@ export class FishSpeciesDetailPageComponent implements OnInit, OnDestroy {
   taxon$: Observable<TaxonDetail>;
   taxonGroups$: Observable<string[]>;
 
-  constructor(private titleService: Title, private taxaService: TaxaService, private activatedRoute: ActivatedRoute) {
+  constructor(private titleService: Title, private taxaService: TaxaService, private activatedRoute: ActivatedRoute,
+              private translateService: TranslateService) {
     this.taxon$ = this.taxaService.getTaxon(this.activatedRoute.snapshot.params.taxonId);
     this.taxonGroups$ = this.taxon$.pipe(take(1), flatMap(value => value.taxonGroups), map(value => value.name), toArray());
 
