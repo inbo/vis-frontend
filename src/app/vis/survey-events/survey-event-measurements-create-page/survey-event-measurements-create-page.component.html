@@ -13,7 +13,6 @@
         <div class="col-span-4 md:col-span-3 lg:col-span-1">Lengte</div>
         <div class="col-span-4 md:col-span-3 lg:col-span-1">Gewicht</div>
         <div class="col-span-4 md:col-span-2 lg:col-span-1">Geslacht</div>
-        <div class="col-span-4 md:col-span-2 lg:col-span-1"><span class="hidden md:block">Lengtemaat</span><span class="md:hidden">Lengtem.</span></div>
         <div class="col-span-4 md:col-span-2 lg:col-span-1"><span class="hidden md:block">Afvisbeurt</span><span class="md:hidden">Afvisb.</span></div>
         <div class="col-span-12 md:col-span-5 lg:col-span-2">Commentaar</div>
         <div></div>
@@ -61,14 +60,6 @@
               <option value="UNKNOWN">O</option>
             </select>
             <p *ngIf="(submitted || gender(i).touched) && gender(i).invalid" class="mt-2 text-sm text-red-600">verplicht</p>
-          </div>
-          <div class="col-span-4 md:col-span-2 lg:col-span-1">
-            <select (keydown)="navigateOnArrow($event, i)" [id]="'lengthType-' + i" name="lengthType" formControlName="lengthType">
-              <option value="STANDARD">Standaard</option>
-              <option value="FORK">Vork</option>
-              <option value="TOTAL">Totaal</option>
-            </select>
-            <p *ngIf="(submitted || lengthType(i).touched) && lengthType(i).invalid" class="mt-2 text-sm text-red-600">verplicht</p>
           </div>
           <div class="col-span-4 md:col-span-2 lg:col-span-1">
             <input (keydown)="navigateOnArrow($event, i)" [id]="'afvisBeurtNumber-' + i" name="afvisBeurtNumber" type="number" formControlName="afvisBeurtNumber" />

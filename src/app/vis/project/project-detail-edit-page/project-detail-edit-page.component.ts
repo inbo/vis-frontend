@@ -39,6 +39,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
       {
         name: [null, [Validators.required, Validators.maxLength(200)]],
         description: [null, [Validators.maxLength(2000)]],
+        lengthType: ['', [Validators.required]],
         status: [false, []],
         startDate: [null, [Validators.required]],
       });
@@ -51,6 +52,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         this.projectForm.get('description').patchValue(value.description);
         this.projectForm.get('status').patchValue(value.status === 'ACTIVE');
         this.projectForm.get('startDate').patchValue(value.start);
+        this.projectForm.get('lengthType').patchValue(value.lengthType);
       })
     );
   }
@@ -87,6 +89,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     this.projectForm.get('description').patchValue(this.project.description);
     this.projectForm.get('status').patchValue(this.project.status === 'ACTIVE');
     this.projectForm.get('startDate').patchValue(this.project.start);
+    this.projectForm.get('lengthType').patchValue(this.project.lengthType);
     this.projectForm.reset(this.projectForm.value);
   }
 
@@ -135,5 +138,9 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
   get endDate() {
     return this.closeProjectForm.get('endDate');
+  }
+
+  get lengthType() {
+    return this.projectForm.get('lengthType');
   }
 }

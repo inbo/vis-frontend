@@ -12,6 +12,7 @@ export interface Project {
   area: string;
   start: Date;
   end: Date;
+  lengthType: string;
 }
 
 
