@@ -208,11 +208,9 @@ export class AuthService implements OnDestroy {
 
     const currentRoles: Role[] = [];
 
-    console.log(identityClaims);
     // @ts-ignore
     let roles: string[] = !identityClaims ? [] : !identityClaims.client_roles ? [] : identityClaims.client_roles
       .map(role => role.replace('ROLE_', ''));
-    console.log(roles);
 
     const useDummyRoles = localStorage.getItem('useDummyRoles') === 'true';
 
