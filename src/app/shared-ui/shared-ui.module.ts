@@ -23,6 +23,7 @@ import {StepComponent} from './step/step.component';
 import {TipComponent} from "./tip/tip.component";
 import { SearchableSelectComponent } from './searchable-select/searchable-select.component';
 import { DaterangeComponent } from './daterange/daterange.component';
+import { HeaderBannerComponent } from './header-banner/header-banner.component';
 
 @NgModule({
   declarations: [
@@ -45,28 +46,30 @@ import { DaterangeComponent } from './daterange/daterange.component';
     TipComponent,
     SearchableSelectComponent,
     DaterangeComponent,
+    HeaderBannerComponent,
   ],
-    exports: [
-        SidebarLayoutComponent,
-        NavigationLinkComponent,
-        ProfileDropdownComponent,
-        StackedLayoutComponent,
-        BreadcrumbComponent,
-        PagingAsyncComponent,
-        PagingComponent,
-        LoadingSpinnerComponent,
-        ToggleWithIconComponent,
-        DatepickerComponent,
-        SlideOverComponent,
-        TextCounterComponent,
-        ExpandableFilterComponent,
-        RadioGroupComponent,
-        CheckGroupComponent,
-        StepComponent,
-        SearchableSelectComponent,
-        DaterangeComponent,
-        TipComponent,
-    ],
+  exports: [
+    SidebarLayoutComponent,
+    NavigationLinkComponent,
+    ProfileDropdownComponent,
+    StackedLayoutComponent,
+    BreadcrumbComponent,
+    PagingAsyncComponent,
+    PagingComponent,
+    LoadingSpinnerComponent,
+    ToggleWithIconComponent,
+    DatepickerComponent,
+    SlideOverComponent,
+    TextCounterComponent,
+    ExpandableFilterComponent,
+    RadioGroupComponent,
+    CheckGroupComponent,
+    StepComponent,
+    SearchableSelectComponent,
+    DaterangeComponent,
+    TipComponent,
+    HeaderBannerComponent,
+  ],
   imports: [
     RouterModule,
     CommonModule,

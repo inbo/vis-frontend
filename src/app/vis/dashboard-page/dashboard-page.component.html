@@ -1,7 +1,10 @@
+<app-header-banner *ngFor="let alert of alerts$ | async" [description]="alert.description"></app-header-banner>
 <app-stacked-layout [navigationLinks]="links">
   <div slot="content">
+<!--    <app-header-banner></app-header-banner>-->
     <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
     <main>
+<!--      <app-header-banner></app-header-banner>-->
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="px-4 py-8 sm:px-0">
           <div class="h-96">
