@@ -103,6 +103,11 @@
         "NOT_DISTURBED": "Niet verstoord",
         "null": ""
       },
+      "fish-passage": {
+        "true": "Aanwezig",
+        "false": "Afwezig",
+        "null": ""
+      },
       "soil": {
         "SAND": "Zand",
         "CLAY": "Klei",

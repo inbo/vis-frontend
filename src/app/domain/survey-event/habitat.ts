@@ -14,6 +14,7 @@ export interface Habitat {
   buildings: string;
   industry: boolean;
   loop: string;
+  fishPassage: boolean;
   soils: string[];
   bottlenecks: string[];
   vegetations: string[];
