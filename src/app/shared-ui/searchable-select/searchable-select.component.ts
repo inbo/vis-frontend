@@ -1,4 +1,17 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {fromEvent, Subject, Subscription} from 'rxjs';
 import {debounceTime, filter, map} from 'rxjs/operators';
@@ -15,7 +28,7 @@ import {Option} from './option';
     }
   ]
 })
-export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor {
+export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked, ControlValueAccessor {
 
   @ViewChild('searchBox') searchBox: ElementRef;
   @ViewChild('valuesList') valuesList: ElementRef;
@@ -34,6 +47,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   private onTouched: () => void;
 
   private subscription = new Subscription();
+  private firstFocussed = false;
 
   constructor(private eRef: ElementRef) {
   }
@@ -55,6 +69,14 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
 
         this.onSearch.emit(value);
       }));
+  }
+
+  ngAfterViewChecked() {
+    let option = document.getElementById('option-0');
+    if(!this.firstFocussed && option) {
+      option.focus();
+      this.firstFocussed = true;
+    }
   }
 
   writeValue(obj: any): void {

@@ -29,7 +29,7 @@
   <li *ngIf="!((options$ | async)?.length > 0)" class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9">
     <span class="p-1 px-2 ">Er zijn geen resultaten gevonden</span>
   </li>
-  <li (keydown)="focusSibbling($event); selectOnEnter($event, option)" *ngFor="let option of options$ | async" (click)="select(option)"
+  <li [id]="'option-' + i" (keydown)="focusSibbling($event); selectOnEnter($event, option)" *ngFor="let option of options$ | async; let i = index" (click)="select(option)"
       tabIndex="-1"
       class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-pink-600 focus:text-white focus:bg-pink-600"
       role="option">
