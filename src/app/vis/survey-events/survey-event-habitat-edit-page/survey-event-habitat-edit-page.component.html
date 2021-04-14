@@ -113,6 +113,13 @@
         </div>
 
         <div class="sm:col-span-6">
+          <label class="block text-sm font-medium text-gray-700">Vispassage</label>
+          <div class="mt-1">
+            <app-radio-group name="fishPassage" [options]="habitatOptions.fishPassage" formControlName="fishPassage"></app-radio-group>
+          </div>
+        </div>
+
+        <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Vegetatie</label>
           <div class="mt-1">
             <app-check-group name="vegetations" [options]="habitatOptions.vegetations" formControlName="vegetations"></app-check-group>
