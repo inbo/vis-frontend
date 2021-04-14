@@ -18,7 +18,7 @@
         <div></div>
       </div>
       <div class="space-y-4 divide-y lg:divide-none divide-gray-300">
-        <div class="grid grid-flow-row grid-cols-12 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 gap-4 pt-4" formArrayName="items" *ngFor="let item of items().controls; let i = index;" #lines>
+        <div class="grid grid-flow-row grid-cols-12 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 gap-4" formArrayName="items" *ngFor="let item of items().controls; let i = index;" #lines>
         <ng-container [formGroupName]="i">
           <div class="col-span-12 md:col-span-4 lg:col-span-3">
             <div class="relative">

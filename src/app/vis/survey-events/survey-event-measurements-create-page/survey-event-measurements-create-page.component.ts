@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewChecked, Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {fromEvent, Observable, Subject, Subscription} from 'rxjs';
@@ -45,7 +45,7 @@ export function lengthRequiredForIndividualMeasurement(): ValidatorFn {
   selector: 'app-survey-event-measurements-create-page',
   templateUrl: './survey-event-measurements-create-page.component.html'
 })
-export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDestroy {
+export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
 
@@ -54,6 +54,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   measurementsForm: FormGroup;
   submitted = false;
 
+  private scrollIntoView = false;
   private subscription = new Subscription();
 
   fieldsOrder = [
@@ -97,9 +98,17 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     this.subscription.unsubscribe();
   }
 
+  ngAfterViewChecked() {
+    if (this.scrollIntoView) {
+      document.getElementById('species-' + (this.items().length - 1))?.scrollIntoView();
+      this.scrollIntoView = false;
+    }
+  }
+
   addNewLine() {
     this.items().push(this.createMeasurementFormGroup(this.getPreviousSpecies(), this.getPreviousAfvisbeurt()));
     this.addTaxaValidationsForRowIndex(this.items().length - 1);
+    this.scrollIntoView = true;
   }
 
   createMeasurementFormGroup(species?: any, afvisbeurt?: any): FormGroup {
@@ -109,7 +118,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       length: new FormControl('', [Validators.min(0), lengthRequiredForIndividualMeasurement()]),
       weight: new FormControl('', [Validators.required, Validators.min(0)]),
       gender: new FormControl('', Validators.required),
-      afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, Validators.min(1)),
+      afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, [Validators.min(1), Validators.max(10)]),
       comment: new FormControl('', Validators.max(2000))
     });
   }
