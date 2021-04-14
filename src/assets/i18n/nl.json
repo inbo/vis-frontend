@@ -188,6 +188,10 @@
     "max": {
       "short":  "<= {{max}}",
       "long": "{{fieldName}} moet kleiner of gelijk zijn aan {{max}"
+    },
+    "lengthRequiredForIndividualMeasurement": {
+      "short": "verplicht",
+      "long": "Lengte is verplicht voor een individuele meting"
     }
   }
 }

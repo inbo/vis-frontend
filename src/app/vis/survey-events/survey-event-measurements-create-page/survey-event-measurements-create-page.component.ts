@@ -31,6 +31,16 @@ export function valueBetweenWarning(min: number, max: number): ValidatorFn {
   };
 }
 
+export function lengthRequiredForIndividualMeasurement(): ValidatorFn {
+  return (c: AbstractControl): { [key: string]: any } => {
+    if (c.parent?.get('amount').value === 1 && !c.value) {
+      return {lengthRequiredForIndividualMeasurement: true}
+    }
+
+    return null;
+  };
+}
+
 @Component({
   selector: 'app-survey-event-measurements-create-page',
   templateUrl: './survey-event-measurements-create-page.component.html'
@@ -96,7 +106,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     return this.formBuilder.group({
       species: new FormControl(species ?? '', [Validators.required]),
       amount: new FormControl(1, Validators.min(0)),
-      length: new FormControl('', Validators.min(0)),
+      length: new FormControl('', [Validators.min(0), lengthRequiredForIndividualMeasurement()]),
       weight: new FormControl('', [Validators.required, Validators.min(0)]),
       gender: new FormControl('', Validators.required),
       afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, Validators.min(1)),
@@ -245,7 +255,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
           this.weight(index).setValidators([Validators.required, Validators.min(0), valueBetweenWarning(taxon.weightMin, taxon.weightMax)]);
           this.weight(index).updateValueAndValidity();
 
-          this.length(index).setValidators([Validators.min(0), valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]);
+          this.length(index).setValidators([Validators.min(0), lengthRequiredForIndividualMeasurement(), valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]);
           this.length(index).updateValueAndValidity();
         })
     );
