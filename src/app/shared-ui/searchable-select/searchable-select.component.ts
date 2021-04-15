@@ -35,6 +35,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   @ViewChild('selectButton') selectButton: ElementRef;
 
   @Input() options$: Subject<Option[]>;
+  @Input() placeholder: string;
   @Output() onSearch: EventEmitter<any> = new EventEmitter();
 
   isOpen = false;
