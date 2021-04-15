@@ -1,4 +1,4 @@
-<app-expandable-filter [hideSearchButton]="true" [formGroup]="filterForm"
+<!--<app-expandable-filter [hideSearchButton]="true" [formGroup]="filterForm"
                        [showAdvancedFilterAtStartup]="advancedFilterIsVisible">
   <ng-container slot="simple">
     <div class="self-center">
@@ -22,8 +22,8 @@
     <div class="self-center">
       <select formControlName="sort" class="mt-1">
         <option value="">Sorteren op ...</option>
-        <!--TODO-->
-        <!--<option value="watercourse">Waterloop</option>-->
+        &lt;!&ndash;TODO&ndash;&gt;
+        &lt;!&ndash;<option value="watercourse">Waterloop</option>&ndash;&gt;
         <option value="occurrence">Datum</option>
         <option value="method">Methode</option>
       </select>
@@ -57,7 +57,88 @@
     </div>
 
   </ng-container>
-</app-expandable-filter>
+</app-expandable-filter>-->
+<app-slide-over-filter (searchClicked)="filter()" [formGroup]="filterForm" [showFilterAtStartup]="advancedFilterIsVisible">
+  <ng-container slot="content">
+    <div class="space-y-4">
+      <div>
+        <label for="watercourse" class="block text-sm font-medium text-gray-700">
+          Waterloop
+        </label>
+        <div class="mt-1">
+          <input type="text" id="watercourse" formControlName="watercourse" placeholder="Waterloop ..."/>
+        </div>
+      </div>
+
+      <div>
+        <label for="municipality" class="block text-sm font-medium text-gray-700">
+          Gemeente
+        </label>
+        <div class="mt-1">
+          <input type="text" id="municipality" formControlName="municipality" placeholder="Gemeente ..."/>
+        </div>
+      </div>
+
+      <div>
+        <label for="basin" class="block text-sm font-medium text-gray-700">
+          Bekken
+        </label>
+        <div class="mt-1">
+          <input type="text" id="basin" formControlName="basin" placeholder="Bekken ..."/>
+        </div>
+      </div>
+
+      <div>
+        <label for="period" class="block text-sm font-medium text-gray-700">
+          Periode
+        </label>
+        <div class="mt-1">
+          <app-daterange id="period" formControlName="period"></app-daterange>
+        </div>
+      </div>
+
+      <div>
+        <label for="measuringPointNumber" class="block text-sm font-medium text-gray-700">
+          Meetpuntnummer
+        </label>
+        <div class="mt-1">
+          <input type="text" id="measuringPointNumber" formControlName="measuringPointNumber" placeholder="Meetpuntnummer ..."/>
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="method" class="block text-sm font-medium text-gray-700">
+          Methode
+        </label>
+        <div class="mt-1">
+          <app-searchable-select id="method" placeholder="Selecteer een methode" tabIndex="-1" formControlName="method" (onSearch)="getMethods($event)" [options$]="methods$"></app-searchable-select>
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="species" class="block text-sm font-medium text-gray-700">
+          Soort
+        </label>
+        <div class="mt-1">
+          <app-searchable-select id="species" placeholder="Selecteer een soort" tabIndex="-1" formControlName="species" (onSearch)="getSpecies($event)" [options$]="species$"></app-searchable-select>
+        </div>
+      </div>
+
+      <div>
+        <label for="basin" class="block text-sm font-medium text-gray-700">
+          Sorteren op
+        </label>
+        <select formControlName="sort" class="mt-1">
+          <option value="">Sorteren op ...</option>
+          <!--TODO-->
+          <!--<option value="watercourse">Waterloop</option>-->
+          <option value="occurrence">Datum</option>
+          <option value="method">Methode</option>
+        </select>
+      </div>
+    </div>
+  </ng-container>
+</app-slide-over-filter>
 
 <div class="px-4 py-8 sm:px-0">
   <div class="flex flex-col hidden lg:block">

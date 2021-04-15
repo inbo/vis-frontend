@@ -25,6 +25,7 @@ import { SearchableSelectComponent } from './searchable-select/searchable-select
 import { DaterangeComponent } from './daterange/daterange.component';
 import { HeaderBannerComponent } from './header-banner/header-banner.component';
 import {RoleEnabledButtonComponent} from "./role-enabled-button/role-enabled-button.component";
+import { SlideOverFilterComponent } from './slide-over-filter/slide-over-filter.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {RoleEnabledButtonComponent} from "./role-enabled-button/role-enabled-but
     SearchableSelectComponent,
     DaterangeComponent,
     HeaderBannerComponent,
-    RoleEnabledButtonComponent
+    RoleEnabledButtonComponent,
+    SlideOverFilterComponent
   ],
   exports: [
     SidebarLayoutComponent,
@@ -71,7 +73,8 @@ import {RoleEnabledButtonComponent} from "./role-enabled-button/role-enabled-but
     DaterangeComponent,
     TipComponent,
     HeaderBannerComponent,
-    RoleEnabledButtonComponent
+    RoleEnabledButtonComponent,
+    SlideOverFilterComponent
   ],
     imports: [
         RouterModule,

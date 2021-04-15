@@ -34,6 +34,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   @ViewChild('valuesList') valuesList: ElementRef;
   @ViewChild('selectButton') selectButton: ElementRef;
 
+  @Input() formControlName: string;
   @Input() options$: Subject<Option[]>;
   @Input() placeholder: string;
   @Output() onSearch: EventEmitter<any> = new EventEmitter();
@@ -68,13 +69,16 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
         this.markAsTouched();
         this.isOpen = true;
 
+        this.options$.next([])
         this.onSearch.emit(value);
+
+        this.firstFocussed = false;
       }));
   }
 
   ngAfterViewChecked() {
-    let option = document.getElementById('option-0');
-    if(!this.firstFocussed && option) {
+    let option = document.getElementById(`option-${this.formControlName}-0`);
+    if (!this.firstFocussed && option) {
       option.focus();
       this.firstFocussed = true;
     }

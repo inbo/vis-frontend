@@ -1,0 +1,40 @@
+<div class="w-full">
+  <a class="cursor-pointer text-pink-600 font-semibold" (click)="filterIsVisible = true">+ Filter toevoegen</a>
+<!--  <app-button class="" (click)="filterIsVisible = true" [style]="'primary'">Filter</app-button>-->
+</div>
+
+<app-slide-over (isOpenChange)="cancel()" [(isOpen)]="filterIsVisible">
+  <span slot="title">Filter</span>
+  <div slot="content">
+    <div class="flex-1 flex flex-col justify-between">
+      <div class="px-4 divide-y divide-gray-200 sm:px-6">
+        <div class="space-y-6 pt-6 pb-5">
+          <form (keydown)="filterOnKeydown($event)" [formGroup]="formGroup">
+            <ng-content select="[slot=content]"></ng-content>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div slot="buttons" class="flex-shrink-0 px-4 border-t border-gray-200 py-5 sm:px-6">
+    <div class="space-x-3 flex justify-end">
+      <span class="mt-1 inline-flex rounded-md shadow-sm">
+        <app-button (click)="reset(); showResetTip = true;">
+          Reset
+        </app-button>
+      </span>
+      <span class="mt-1 inline-flex rounded-md shadow-sm">
+        <app-button (click)="filter()" [style]="'primary'">
+          <!-- Heroicon name: search -->
+          <svg class="-ml-0.5 mr-2 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+               xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          Zoek
+        </app-button>
+      </span>
+    </div>
+  </div>
+</app-slide-over>
+<app-tip [code]="'FORM_RESET'" [show]="showResetTip"></app-tip>

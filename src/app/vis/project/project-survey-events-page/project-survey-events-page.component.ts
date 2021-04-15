@@ -67,13 +67,6 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     );
 
     this.subscription.add(
-      this.filterForm.valueChanges.pipe(
-        debounceTime(300),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
-        .subscribe(_ => this.filter())
-    );
-
-    this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
         this.getSurveyEvents(params.page ? params.page : 1, params.size ? params.size : 20);
       })
