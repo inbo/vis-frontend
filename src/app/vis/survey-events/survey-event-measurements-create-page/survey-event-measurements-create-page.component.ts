@@ -69,6 +69,18 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   tip$: Observable<Tip>;
 
+  numberMask(scale: number, min: number, max: number) {
+    return {
+      mask: Number,
+      scale,
+      signed: true,
+      thousandsSeparator: '',
+      radix: ',',
+      min,
+      max
+    };
+  }
+
   constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private surveyEventsService: SurveyEventsService,
               private alertService: AlertService, private taxaService: TaxaService, private router: Router,
               private tipsService: TipsService) {
