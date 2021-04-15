@@ -6,10 +6,11 @@ import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {Method} from '../../method/model/method';
 import {Option} from '../../../shared-ui/searchable-select/option';
 import {MethodsService} from '../../../services/vis.methods.service';
+import {TaxaService} from "../../../services/vis.taxa.service";
 
 @Component({
   selector: 'app-project-survey-events-page',
@@ -23,6 +24,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
 
   surveyEvents$: Observable<SurveyEvent[]>;
   methods$ = new Subject<Option[]>();
+  species$ = new Subject<Option[]>();
 
   filterForm: FormGroup;
   advancedFilterIsVisible = false;
@@ -31,7 +33,8 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
   projectCode: string;
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private methodsService: MethodsService,
-              private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {
+              private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder,
+              private taxaService: TaxaService) {
     this.titleService.setTitle(`Waarnemingen voor ${this.activatedRoute.parent.snapshot.params.projectCode}`);
     this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
 
@@ -58,7 +61,8 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
         period: [queryParams.period],
         sort: [queryParams.sort ?? ''],
         measuringPointNumber: [queryParams.measuringPointNumber],
-        method: [queryParams.method]
+        method: [queryParams.method],
+        species: [queryParams.species]
       },
     );
 
@@ -93,11 +97,13 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
         this.filterForm.get('sort').patchValue(params.sort ? params.sort : '');
         this.filterForm.get('measuringPointNumber').patchValue(params.measuringPointNumber ? params.measuringPointNumber : '');
         this.filterForm.get('method').patchValue(params.method ? JSON.parse(params.method) : '');
+        this.filterForm.get('species').patchValue(params.species ? JSON.parse(params.species) : '');
 
         this.advancedFilterIsVisible = ((params.basin !== undefined && params.basin !== '') ||
           (params.period !== undefined && params.period.length === 2) ||
           (params.measuringPointNumber !== undefined && params.measuringPointNumber !== '') ||
-          (params.method !== undefined && params.method !== ''));
+          (params.method !== undefined && params.method !== '') ||
+          (params.species !== undefined && params.species !== ''));
       })
     );
   }
@@ -116,6 +122,9 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     if (filter && filter.method) {
       filter.method = filter.method.id;
     }
+    if (filter && filter.species) {
+      filter.taxonId = filter.species.id;
+    }
 
     this.subscription.add(
       this.surveyEventsService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size, filter)
@@ -127,6 +136,18 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     );
   }
 
+  getSpecies(val: string) {
+    this.taxaService.getTaxa(val).pipe(
+      map(taxa => {
+        return taxa.map(taxon => ({
+          id: taxon.id.value,
+          translateKey: `taxon.id.${taxon.id.value}`
+        }));
+      })
+    ).subscribe(value => this.species$.next(value));
+  }
+
+
   filter() {
     if (this.filterForm.get('period').value?.length < 2) {
       return;
@@ -135,6 +156,9 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     const rawValue = this.filterForm.getRawValue();
     if (rawValue && rawValue.method) {
       rawValue.method = JSON.stringify(rawValue.method);
+    }
+    if (rawValue && rawValue.species) {
+      rawValue.species = JSON.stringify(rawValue.species);
     }
     const queryParams: Params = {...rawValue, page: 1};
 

@@ -24,6 +24,7 @@ import {TipComponent} from "./tip/tip.component";
 import { SearchableSelectComponent } from './searchable-select/searchable-select.component';
 import { DaterangeComponent } from './daterange/daterange.component';
 import { HeaderBannerComponent } from './header-banner/header-banner.component';
+import {RoleEnabledButtonComponent} from "./role-enabled-button/role-enabled-button.component";
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { HeaderBannerComponent } from './header-banner/header-banner.component';
     SearchableSelectComponent,
     DaterangeComponent,
     HeaderBannerComponent,
+    RoleEnabledButtonComponent
   ],
   exports: [
     SidebarLayoutComponent,
@@ -69,15 +71,16 @@ import { HeaderBannerComponent } from './header-banner/header-banner.component';
     DaterangeComponent,
     TipComponent,
     HeaderBannerComponent,
+    RoleEnabledButtonComponent
   ],
-  imports: [
-    RouterModule,
-    CommonModule,
-    NgTransitionModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule
-  ]
+    imports: [
+        RouterModule,
+        CommonModule,
+        NgTransitionModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule
+    ]
 })
 export class SharedUiModule {
 }

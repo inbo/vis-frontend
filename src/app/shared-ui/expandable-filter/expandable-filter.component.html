@@ -4,14 +4,18 @@
       <div>
         <div class="grid gap-2 grid-cols-1 lg:grid-cols-5">
           <ng-content select="[slot=simple]"></ng-content>
-          <div  *ngIf="!advancedFilterIsVisible" class="lg:text-right lg:col-span-2">
-            <button (click)="reset(); showResetTip = true;" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+          <div *ngIf="!advancedFilterIsVisible" class="lg:text-right lg:col-end-6">
+            <app-button (click)="reset(); showResetTip = true;">
               Reset
-            </button>
-            <button [class.hidden]="hideSearchButton" (click)="filter()" type="button" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-              <svg class="-ml-0.5 mr-2 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </app-button>
+            <app-button [class.hidden]="hideSearchButton" (click)="filter()" [style]="'primary'">
+              <svg class="-ml-0.5 mr-2 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                   xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
               Zoek
-            </button>
+            </app-button>
           </div>
         </div>
 
@@ -24,22 +28,24 @@
           ngTransitionLeaveStart="transform opacity-100 scale-100"
           ngTransitionLeaveEnd="transform opacity-0 scale-95">
           <div
-            class="grid gap-2 grid-cols-1 lg:grid-cols-4 xl:grid-cols-5 mt-4"
-            [class.hidden]="!advancedFilterIsVisible">
+            class="grid gap-2 grid-cols-1 lg:grid-cols-5 xl:grid-cols-5 mt-4">
             <ng-content select="[slot=advanced]"></ng-content>
 
-            <div *ngIf="advancedFilterIsVisible" class="lg:text-right lg:col-span-5">
-            <span class="mt-1 inline-flex rounded-md shadow-sm">
-              <button (click)="reset()" type="button"    class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mr-2 ">
-                Reset
-              </button>
-            </span>
+            <div class="lg:text-right lg:col-end-6 xl:col-end-6">
+              <span class="mt-1 inline-flex rounded-md shadow-sm">
+                <app-button (click)="reset(); showResetTip = true;">
+                  Reset
+                </app-button>
+              </span>
               <span [class.hidden]="hideSearchButton" class="mt-1 inline-flex rounded-md shadow-sm">
-                <button (click)="filter()" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-pink-600 hover:bg-pink-500 focus:outline-none focus:border-pink-700 focus:shadow-outline-pink active:bg-pink-700 transition ease-in-out duration-150">
+                <app-button (click)="filter()" [style]="'primary'">
                   <!-- Heroicon name: search -->
-                  <svg class="-ml-0.5 mr-2 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                  <svg class="-ml-0.5 mr-2 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                       xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                   Zoek
-                </button>
+                </app-button>
               </span>
             </div>
 
@@ -51,9 +57,12 @@
   </div>
 </div>
 <div class="flex justify-center" *ngIf="showAdvancedFilter">
-  <div class="bg-white w-64 text-center py-3 shadow-under rounded-b cursor-pointer" (click)="advancedFilterIsVisible = !advancedFilterIsVisible">
+  <div class="bg-white w-64 text-center py-3 shadow-under rounded-b cursor-pointer"
+       (click)="advancedFilterIsVisible = !advancedFilterIsVisible">
     <span class="uppercase font-medium text-gray-400 text-sm">
-      <svg class="w-6 h-6 inline-block pr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+      <svg class="w-6 h-6 inline-block pr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+           xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 6h16M4 12h16M4 18h16"></path></svg>
       {{advancedFilterIsVisible ? 'Minder' : 'Meer'}} opties</span>
   </div>
 </div>
