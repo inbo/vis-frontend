@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AuthService} from '../../../core/auth.service';
-import {Role} from '../../../core/_models/role';
+import {AuthService} from '../../core/auth.service';
+import {Role} from '../../core/_models/role';
 
 @Component({
   selector: 'app-button',

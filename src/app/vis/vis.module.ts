@@ -34,7 +34,6 @@ import {SharedUiModule} from '../shared-ui/shared-ui.module';
 import {IMaskModule} from 'angular-imask';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
-import {RoleEnabledButtonComponent} from './components/role-enabled-button/role-enabled-button.component';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import {LocationCreatePageComponent} from './location/location-create-page/location-create-page.component';
 import {LocationCreateStep1Component} from './location/location-create-step1/location-create-step1.component';
@@ -47,9 +46,9 @@ import {ProjectComponent} from './project/project/project.component';
 import {NgTransitionModule} from 'ng-transition';
 import {SwitchRoleComponent} from './switch-role/switch-role.component';
 import {LeafletMarkerClusterModule} from '@asymmetrik/ngx-leaflet-markercluster';
-import { FishingPointsMapComponent } from './components/fishing-points-map/fishing-points-map.component';
-import { FishingPointsMapPropertiesComponent } from './components/fishing-points-map-properties/fishing-points-map-properties.component';
-import { FormErrorMessageComponent } from './components/form-error-message/form-error-message.component';
+import {FishingPointsMapComponent} from './components/fishing-points-map/fishing-points-map.component';
+import {FishingPointsMapPropertiesComponent} from './components/fishing-points-map-properties/fishing-points-map-properties.component';
+import {FormErrorMessageComponent} from './components/form-error-message/form-error-message.component';
 
 @NgModule({
   exports: [
@@ -83,7 +82,6 @@ import { FormErrorMessageComponent } from './components/form-error-message/form-
     SurveyEventHabitatEditPageComponent,
     FishSpeciesDetailPageComponent,
     SurveyEventParametersEditPageComponent,
-    RoleEnabledButtonComponent,
     LocationCreatePageComponent,
     LocationCreateStep1Component,
     LocationCreateStep2Component,
