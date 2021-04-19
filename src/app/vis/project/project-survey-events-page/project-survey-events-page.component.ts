@@ -6,11 +6,12 @@ import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {Method} from '../../method/model/method';
 import {Option} from '../../../shared-ui/searchable-select/option';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {TaxaService} from "../../../services/vis.taxa.service";
+import {Tag} from "../../../shared-ui/slide-over-filter/tag";
 
 @Component({
   selector: 'app-project-survey-events-page',
@@ -25,9 +26,9 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
   surveyEvents$: Observable<SurveyEvent[]>;
   methods$ = new Subject<Option[]>();
   species$ = new Subject<Option[]>();
+  tags$ = new Subject<Tag[]>();
 
   filterForm: FormGroup;
-  advancedFilterIsVisible = false;
 
   private subscription = new Subscription();
   projectCode: string;
@@ -91,12 +92,6 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
         this.filterForm.get('measuringPointNumber').patchValue(params.measuringPointNumber ? params.measuringPointNumber : '');
         this.filterForm.get('method').patchValue(params.method ? JSON.parse(params.method) : '');
         this.filterForm.get('species').patchValue(params.species ? JSON.parse(params.species) : '');
-
-        this.advancedFilterIsVisible = ((params.basin !== undefined && params.basin !== '') ||
-          (params.period !== undefined && params.period.length === 2) ||
-          (params.measuringPointNumber !== undefined && params.measuringPointNumber !== '') ||
-          (params.method !== undefined && params.method !== '') ||
-          (params.species !== undefined && params.species !== ''));
       })
     );
   }
@@ -142,6 +137,13 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
 
 
   filter() {
+    this.tags$.next([{
+      translationKey: 'surveyEvent.watercourse',
+      value: 'Test',
+      callback: () => console.log('callback')
+    }]);
+
+
     if (this.filterForm.get('period').value?.length < 2) {
       return;
     }

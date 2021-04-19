@@ -4,6 +4,7 @@
     "INACTIVE": "Inactief"
   },
   "surveyEvent": {
+    "watercourse": "Waterloop",
     "turbidity": {
       "outOfRange": "Buiten bereik"
     },

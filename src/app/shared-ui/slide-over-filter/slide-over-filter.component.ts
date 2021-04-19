@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormGroup} from "@angular/forms";
+import {Subject} from "rxjs";
+import {Tag} from "./tag";
 
 @Component({
   selector: 'app-slide-over-filter',
@@ -9,7 +11,7 @@ export class SlideOverFilterComponent implements OnInit, OnChanges {
   filterIsVisible = false;
 
   @Input() formGroup: FormGroup;
-  @Input() showFilterAtStartup: boolean;
+  @Input() tags$: Subject<Tag[]>;
   @Output() searchClicked = new EventEmitter<boolean>();
   @Output() resetClicked = new EventEmitter<boolean>();
 
@@ -26,6 +28,7 @@ export class SlideOverFilterComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    console.log(this.tags$);
   }
 
   reset() {
