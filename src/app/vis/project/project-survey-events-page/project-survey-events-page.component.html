@@ -125,22 +125,22 @@
       </div>
 
       <div>
-        <label for="basin" class="block text-sm font-medium text-gray-700">
+        <label for="sort" class="block text-sm font-medium text-gray-700">
           Sorteren op
         </label>
-        <select formControlName="sort" class="mt-1">
+        <select id="sort" formControlName="sort" class="mt-1">
           <option value="">Sorteren op ...</option>
           <!--TODO-->
           <!--<option value="watercourse">Waterloop</option>-->
-          <option value="occurrence">Datum</option>
-          <option value="method">Methode</option>
+          <option value="occurrence">{{'surveyEvent.sortOption.occurrence' | translate}}</option>
+          <option value="method">{{'surveyEvent.sortOption.method' | translate}}</option>
         </select>
       </div>
     </div>
   </ng-container>
 </app-slide-over-filter>
 
-<div class="px-4 py-8 sm:px-0">
+<div class="px-4 py-4 sm:px-0">
   <div class="flex flex-col hidden lg:block">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">

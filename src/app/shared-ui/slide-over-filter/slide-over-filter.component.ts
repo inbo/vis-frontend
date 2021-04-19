@@ -1,63 +1,56 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormGroup} from "@angular/forms";
-import {Subject} from "rxjs";
-import {Tag} from "./tag";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {Subject} from 'rxjs';
+import {Tag} from './tag';
 
 @Component({
-  selector: 'app-slide-over-filter',
-  templateUrl: './slide-over-filter.component.html'
+    selector: 'app-slide-over-filter',
+    templateUrl: './slide-over-filter.component.html'
 })
-export class SlideOverFilterComponent implements OnInit, OnChanges {
-  filterIsVisible = false;
+export class SlideOverFilterComponent implements OnInit {
+    filterIsVisible = false;
 
-  @Input() formGroup: FormGroup;
-  @Input() tags$: Subject<Tag[]>;
-  @Output() searchClicked = new EventEmitter<boolean>();
-  @Output() resetClicked = new EventEmitter<boolean>();
+    @Input() tags$: Subject<Tag[]>;
+    @Input() formGroup: FormGroup;
+    @Output() searchClicked = new EventEmitter<boolean>();
+    @Output() resetClicked = new EventEmitter<boolean>();
 
-  showResetTip: boolean = false;
+    showResetTip = false;
 
-  constructor() {
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.showAdvancedFilterAtStartup !== undefined &&
-      changes.showAdvancedFilterAtStartup.currentValue !== changes.showAdvancedFilterAtStartup.previousValue) {
-      this.filterIsVisible = changes.showAdvancedFilterAtStartup.currentValue;
-    }
-  }
-
-  ngOnInit(): void {
-    console.log(this.tags$);
-  }
-
-  reset() {
-    this.formGroup.reset();
-    this.resetClicked.emit(true);
-  }
-
-  filterOnKeydown(event: KeyboardEvent) {
-    if (event.ctrlKey && event.code === 'Enter') {
-      this.searchClicked.emit(true);
+    constructor() {
     }
 
-    if (event.ctrlKey && event.code === 'KeyR') {
-      event.preventDefault();
-      this.reset();
+    ngOnInit(): void {
     }
 
-    if (event.ctrlKey && event.code === 'KeyE') {
-      event.preventDefault();
-      this.filterIsVisible = !this.filterIsVisible;
+    reset() {
+        this.formGroup.reset();
+        this.resetClicked.emit(true);
     }
-  }
 
-  filter() {
-    this.filterIsVisible = false;
-    this.searchClicked.emit(true);
-  }
+    filterOnKeydown(event: KeyboardEvent) {
+        if (event.ctrlKey && event.code === 'Enter') {
+            this.searchClicked.emit(true);
+            this.filterIsVisible = false;
+        }
 
-  cancel() {
-    this.filterIsVisible = false;
-  }
+        if (event.ctrlKey && event.code === 'KeyR') {
+            event.preventDefault();
+            this.reset();
+        }
+
+        if (event.ctrlKey && event.code === 'KeyE') {
+            event.preventDefault();
+            this.filterIsVisible = !this.filterIsVisible;
+        }
+    }
+
+    filter() {
+        this.searchClicked.emit(true);
+        this.filterIsVisible = false;
+    }
+
+    cancel() {
+        this.filterIsVisible = false;
+    }
 }

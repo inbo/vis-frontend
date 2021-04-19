@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 
 import {VisRoutingModule} from './vis-routing.module';
 import {DashboardPageComponent} from './dashboard-page/dashboard-page.component';
@@ -107,7 +107,8 @@ import {FormErrorMessageComponent} from './components/form-error-message/form-er
     LeafletModule,
     LeafletMarkerClusterModule,
     NgTransitionModule
-  ]
+  ],
+  providers: [DatePipe]
 })
 export class VisModule {
 }
