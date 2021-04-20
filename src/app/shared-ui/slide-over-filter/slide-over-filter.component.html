@@ -12,9 +12,7 @@
       </button>
     </span>
   </div>
-  <div>
-    <a class="cursor-pointer text-pink-600 font-semibold" (click)="filterIsVisible = true">+ Filter toevoegen</a>
-  </div>
+  <a class="float-right cursor-pointer text-pink-600 font-semibold" (click)="filterIsVisible = true">+ Filter toevoegen</a>
 </div>
 
 <app-slide-over (isOpenChange)="cancel()" [(isOpen)]="filterIsVisible">
