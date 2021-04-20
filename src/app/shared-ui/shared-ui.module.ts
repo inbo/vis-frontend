@@ -25,6 +25,7 @@ import { SearchableSelectComponent } from './searchable-select/searchable-select
 import { DaterangeComponent } from './daterange/daterange.component';
 import { HeaderBannerComponent } from './header-banner/header-banner.component';
 import {RoleEnabledButtonComponent} from "./role-enabled-button/role-enabled-button.component";
+import { MultiTextSearchComponent } from './multi-text-search/multi-text-search.component';
 
 @NgModule({
   declarations: [
@@ -48,31 +49,33 @@ import {RoleEnabledButtonComponent} from "./role-enabled-button/role-enabled-but
     SearchableSelectComponent,
     DaterangeComponent,
     HeaderBannerComponent,
-    RoleEnabledButtonComponent
+    RoleEnabledButtonComponent,
+    MultiTextSearchComponent
   ],
-  exports: [
-    SidebarLayoutComponent,
-    NavigationLinkComponent,
-    ProfileDropdownComponent,
-    StackedLayoutComponent,
-    BreadcrumbComponent,
-    PagingAsyncComponent,
-    PagingComponent,
-    LoadingSpinnerComponent,
-    ToggleWithIconComponent,
-    DatepickerComponent,
-    SlideOverComponent,
-    TextCounterComponent,
-    ExpandableFilterComponent,
-    RadioGroupComponent,
-    CheckGroupComponent,
-    StepComponent,
-    SearchableSelectComponent,
-    DaterangeComponent,
-    TipComponent,
-    HeaderBannerComponent,
-    RoleEnabledButtonComponent
-  ],
+    exports: [
+        SidebarLayoutComponent,
+        NavigationLinkComponent,
+        ProfileDropdownComponent,
+        StackedLayoutComponent,
+        BreadcrumbComponent,
+        PagingAsyncComponent,
+        PagingComponent,
+        LoadingSpinnerComponent,
+        ToggleWithIconComponent,
+        DatepickerComponent,
+        SlideOverComponent,
+        TextCounterComponent,
+        ExpandableFilterComponent,
+        RadioGroupComponent,
+        CheckGroupComponent,
+        StepComponent,
+        SearchableSelectComponent,
+        DaterangeComponent,
+        TipComponent,
+        HeaderBannerComponent,
+        RoleEnabledButtonComponent,
+        MultiTextSearchComponent
+    ],
     imports: [
         RouterModule,
         CommonModule,
