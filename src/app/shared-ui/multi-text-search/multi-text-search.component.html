@@ -1,10 +1,17 @@
-<div #searchBoxDiv class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-1 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
-  <input #searchBox placeholder="Minstens 3 karakters..." class="p-1 px-2 appearance-none outline-none w-full text-gray-800" name="search" >
+<div #searchBoxDiv
+     class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-1 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
+  <input #searchBox placeholder="Minstens 3 karakters..."
+         class="p-1 px-2 appearance-none outline-none w-full text-gray-800" name="search">
   <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-    <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+    <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd"
+            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+            clip-rule="evenodd"></path>
+    </svg>
   </div>
 </div>
-<div class="inline-flex py-0.5 pr-1" *ngFor="let selectedValue of selectedValues">
+<ng-container *ngIf="!isOpen">
+  <div class="inline-flex py-0.5 pr-1" *ngFor="let selectedValue of selectedValues">
     <span
       class="inline-flex rounded-full items-center py-0.5 pl-2.5 sm:pl-2 pr-1 sm:pr-0.5 text-sm sm:text-xs font-medium bg-pink-100 text-pink-700">
       {{selectedValue.translateKey | translate}}
@@ -16,26 +23,35 @@
         </svg>
       </button>
     </span>
-</div>
+  </div>
+</ng-container>
 <ul #valuesList
-  [ngTransition]="isOpen"
-  ngTransitionLeave="transition ease-in duration-100"
-  ngTransitionLeaveStart="opacity-100"
-  ngTransitionLeaveEnd="opacity-0"
-  [class.hidden]="!isOpen" [class.z-10]="isOpen" class="absolute mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3">
-  <li *ngIf="!((options$ | async)?.length > 0)" class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9">
+    [ngTransition]="isOpen"
+    ngTransitionLeave="transition ease-in duration-100"
+    ngTransitionLeaveStart="opacity-100"
+    ngTransitionLeaveEnd="opacity-0"
+    [class.hidden]="!isOpen" [class.z-10]="isOpen"
+    class="absolute mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+    tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3">
+  <li *ngIf="!((options$ | async)?.length > 0)"
+      class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9">
     <span class="p-1 px-2 ">Er zijn geen resultaten gevonden</span>
   </li>
-  <li [id]="'option-' + i" (keydown)="focusSibbling($event); selectOnEnter($event, option)" *ngFor="let option of options$ | async; let i = index" (click)="select(option)"
+  <li [id]="'option-' + i" (keydown)="focusSibbling($event); selectOnEnter($event, option)"
+      *ngFor="let option of options$ | async; let i = index" (click)="select(option)"
       tabIndex="-1"
       class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-pink-600 focus:text-white focus:bg-pink-600"
       role="option">
     <span class="font-normal block truncate" [class.font-semibold]="isSelected(option.id)">
       {{option.translateKey | translate}}
     </span>
-    <span class="text-pink-600 absolute inset-y-0 right-0 flex items-center pr-4" [class.hidden]="!isSelected(option.id)">
-      <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+    <span class="text-pink-600 absolute inset-y-0 right-0 flex items-center pr-4"
+          [class.hidden]="!isSelected(option.id)">
+      <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+           aria-hidden="true">
+        <path fill-rule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clip-rule="evenodd"/>
       </svg>
     </span>
   </li>

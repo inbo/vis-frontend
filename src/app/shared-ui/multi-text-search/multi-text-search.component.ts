@@ -65,9 +65,9 @@ export class MultiTextSearchComponent implements OnInit, OnDestroy, AfterViewIni
         filter(value => value.length >= 3)
       )
       .subscribe(value => {
-        this.markAsTouched();
         this.onSearch.emit(value);
 
+        this.markAsTouched();
         this.isOpen = true;
       }));
   }
@@ -104,8 +104,10 @@ export class MultiTextSearchComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   select(option: Option) {
-    this.selectedValues.push(option);
-    this.onChange(this.selectedValues);
+    if (!this.isSelected(option.id)) {
+      this.selectedValues.push(option);
+      this.onChange(this.selectedValues);
+    }
 
     this.markAsTouched();
     this.isOpen = false;
