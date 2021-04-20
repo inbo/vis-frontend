@@ -1,7 +1,7 @@
 <button [attr.title]="role && !authService.hasRole(role) ? 'Je beschikt niet over de nodige rechten' : null"
         [disabled]="(!valid || (role && !authService.hasRole(role))) || disabled"
         [class.disabled:opacity-50]="(!valid || (role && !authService.hasRole(role))) || disabled"
-        [routerLink]="routerLink"
+        (click)="route()"
         type="button"
         [class]="usedStyle()">
   <ng-content></ng-content>

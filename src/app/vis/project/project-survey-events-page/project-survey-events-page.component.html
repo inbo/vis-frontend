@@ -58,7 +58,7 @@
 
   </ng-container>
 </app-expandable-filter>-->
-<app-slide-over-filter [tags$]="tags$" (searchClicked)="filter()" [formGroup]="filterForm">
+<app-slide-over-filter [tags$]="tags$" (searchClicked)="filter()" [formGroup]="filterForm" (resetClicked)="reset()">
   <ng-container slot="content">
     <div class="space-y-4">
       <div>

@@ -41,12 +41,6 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     this.titleService.setTitle(`Waarnemingen voor ${this.activatedRoute.parent.snapshot.params.projectCode}`);
     this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
 
-    this.subscription.add(
-      this.activatedRoute.queryParams.subscribe((params) => {
-        this.getSurveyEvents(params.page ? params.page : 1, params.size ? params.size : 20);
-      })
-    );
-
     this.subscription.add(this.methodsService.getAllMethods()
       .subscribe(methods => {
         this.methods$.next(methods.map(this.mapMethodToOption()));
@@ -224,5 +218,9 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
       this.filterForm.get(formField).reset();
       this.filter();
     };
+  }
+
+  reset() {
+    this.setTags();
   }
 }
