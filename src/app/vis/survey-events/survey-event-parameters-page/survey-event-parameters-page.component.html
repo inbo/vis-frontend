@@ -81,10 +81,10 @@
 
         <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
           <dt class="text-sm font-medium text-gray-500">
-            Stroomsnelheid (m/s)
+            Breedte (m)
           </dt>
           <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            <span *ngIf="parameters?.flowRate">{{parameters?.flowRate}}</span>
+            <span *ngIf="parameters?.width">{{parameters?.width}}</span>
           </dd>
         </div>
 
@@ -99,10 +99,10 @@
 
         <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
           <dt class="text-sm font-medium text-gray-500">
-            Breedte (m)
+            Stroomsnelheid (m/s)
           </dt>
           <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            <span *ngIf="parameters?.width">{{parameters?.width}}</span>
+            <span *ngIf="parameters?.flowRate">{{parameters?.flowRate}}</span>
           </dd>
         </div>
       </dl>

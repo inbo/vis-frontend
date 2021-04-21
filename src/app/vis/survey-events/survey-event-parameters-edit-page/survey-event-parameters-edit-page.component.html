@@ -83,11 +83,11 @@
               </div>
             </div>
             <div class="sm:col-span-4">
-              <label for="flowRate" class="block text-sm font-medium text-gray-700">
-                Stroomsnelheid (m/s)
+              <label for="width" class="block text-sm font-medium text-gray-700">
+                Breedte (m)
               </label>
               <div class="mt-1">
-                <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="flowRate" type="text" name="flowRate" id="flowRate">
+                <input [imask]="numberMask(2, 0, 999.99)" [unmask]="true" formControlName="width" type="text" name="width" id="width">
               </div>
             </div>
             <div class="sm:col-span-4">
@@ -99,11 +99,11 @@
               </div>
             </div>
             <div class="sm:col-span-4">
-              <label for="width" class="block text-sm font-medium text-gray-700">
-                Breedte (m)
+              <label for="flowRate" class="block text-sm font-medium text-gray-700">
+                Stroomsnelheid (m/s)
               </label>
               <div class="mt-1">
-                <input [imask]="numberMask(2, 0, 999.99)" [unmask]="true" formControlName="width" type="text" name="width" id="width">
+                <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="flowRate" type="text" name="flowRate" id="flowRate">
               </div>
             </div>
           </div>
