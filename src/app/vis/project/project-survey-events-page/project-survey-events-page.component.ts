@@ -221,6 +221,6 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
   }
 
   reset() {
-    this.setTags();
+    this.filter();
   }
 }
