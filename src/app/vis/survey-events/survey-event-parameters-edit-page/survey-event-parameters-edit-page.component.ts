@@ -36,6 +36,8 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
       {
         oxygen: ['', []],
         oxygenPercentage: ['', []],
+        minDepth: ['', []],
+        maxDepth: ['', []],
         averageDepth: ['', []],
         temperature: ['', []],
         conductivity: ['', []],
@@ -53,6 +55,8 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
       this.parameters = value;
       this.parametersForm.get('oxygen').patchValue(value.oxygen !== null ? value.oxygen.toString() : '');
       this.parametersForm.get('oxygenPercentage').patchValue(value.oxygenPercentage !== null ? value.oxygenPercentage.toString() : '');
+      this.parametersForm.get('minDepth').patchValue(value.minDepth !== null ? value.minDepth.toString() : '');
+      this.parametersForm.get('maxDepth').patchValue(value.maxDepth !== null ? value.maxDepth.toString() : '');
       this.parametersForm.get('averageDepth').patchValue(value.averageDepth !== null ? value.averageDepth.toString() : '');
       this.parametersForm.get('temperature').patchValue(value.temperature !== null ? value.temperature.toString() : '');
       this.parametersForm.get('conductivity').patchValue(value.conductivity !== null ? value.conductivity.toString() : '');
@@ -92,6 +96,10 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
     this.parametersForm.get('oxygen').patchValue(this.parameters.oxygen !== null ? this.parameters.oxygen.toString() : '');
     this.parametersForm.get('oxygenPercentage').patchValue(this.parameters.oxygenPercentage !== null ?
       this.parameters.oxygenPercentage.toString() : '');
+    this.parametersForm.get('minDepth').patchValue(this.parameters.minDepth !== null ?
+      this.parameters.minDepth.toString() : '');
+    this.parametersForm.get('maxDepth').patchValue(this.parameters.maxDepth !== null ?
+      this.parameters.maxDepth.toString() : '');
     this.parametersForm.get('averageDepth').patchValue(this.parameters.averageDepth !== null ?
       this.parameters.averageDepth.toString() : '');
     this.parametersForm.get('temperature').patchValue(this.parameters.temperature !== null ? this.parameters.temperature.toString() : '');
@@ -126,6 +134,14 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
 
   get oxygenPercentage() {
     return this.parametersForm.get('oxygenPercentage');
+  }
+
+  get minDepth() {
+    return this.parametersForm.get('minDepth');
+  }
+
+  get maxDepth() {
+    return this.parametersForm.get('maxDepth');
   }
 
   get averageDepth() {

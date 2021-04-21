@@ -91,6 +91,23 @@
               </div>
             </div>
             <div class="sm:col-span-4">
+              <label for="minDepth" class="block text-sm font-medium text-gray-700">
+                Minimum diepte (m)
+              </label>
+              <div class="mt-1">
+                <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="minDepth" type="text" name="minDepth" id="minDepth">
+              </div>
+            </div>
+            </div>
+            <div class="sm:col-span-4">
+              <label for="maxDepth" class="block text-sm font-medium text-gray-700">
+                Maximum diepte (m)
+              </label>
+              <div class="mt-1">
+                <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="maxDepth" type="text" name="maxDepth" id="maxDepth">
+              </div>
+            </div>
+            <div class="sm:col-span-4">
               <label for="averageDepth" class="block text-sm font-medium text-gray-700">
                 Gemiddelde diepte (m)
               </label>

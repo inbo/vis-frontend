@@ -1,6 +1,8 @@
 export interface Parameters {
   oxygen: number;
   oxygenPercentage: number;
+  minDepth: number;
+  maxDepth: number;
   averageDepth: number;
   temperature: number;
   conductivity: number;
