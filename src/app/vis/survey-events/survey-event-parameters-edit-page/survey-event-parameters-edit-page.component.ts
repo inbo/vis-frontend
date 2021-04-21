@@ -79,7 +79,7 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
     const formData = this.parametersForm.getRawValue();
 
     this.subscription.add(
-      this.surveyEventsService.updateParameters(this.activatedRoute.parent.snapshot.params.projectCode.value, this.surveyEventId, formData)
+      this.surveyEventsService.updateParameters(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId, formData)
         .subscribe(() => {
             this.reset();
             this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',

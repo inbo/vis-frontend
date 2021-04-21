@@ -71,7 +71,7 @@
               <div class="mt-1">
                 <input [class.bg-gray-50]="turbidityOutOfRange.value === true"
                        [attr.disabled]="turbidityOutOfRange.value === true ? 'disabled': null"
-                       [imask]="numberMask(1, -99.9, 99.9)" [unmask]="true" formControlName="turbidity" type="text"
+                       [imask]="numberMask(2, -999.99, 999.99)" [unmask]="true" formControlName="turbidity" type="text"
                        name="turbidity" id="turbidity">
                 <div class="relative flex items-start mt-1">
                   <div class="flex items-center h-5">
@@ -89,7 +89,7 @@
                 Secchi (m)
               </label>
               <div class="mt-1">
-                <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="secchi" type="text"
+                <input [imask]="numberMask(2, -99.99, 99.99)" [unmask]="true" formControlName="secchi" type="text"
                        name="secchi" id="secchi">
               </div>
             </div>
@@ -98,7 +98,7 @@
                 Breedte (m)
               </label>
               <div class="mt-1">
-                <input [imask]="numberMask(2, 0, 999.99)" [unmask]="true" formControlName="width" type="text"
+                <input [imask]="numberMask(2, 0, 9999.99)" [unmask]="true" formControlName="width" type="text"
                        name="width" id="width">
               </div>
             </div>
