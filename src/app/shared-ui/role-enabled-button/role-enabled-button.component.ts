@@ -46,12 +46,4 @@ export class RoleEnabledButtonComponent implements OnInit {
         return this.whiteStyle;
     }
   }
-
-  route() {
-    let commands = [];
-    if (this.routerLink) {
-      commands = Array.isArray(this.routerLink) ? this.routerLink : [this.routerLink];
-      this.router.navigateByUrl(this.router.createUrlTree(commands)).then();
-    }
-  }
 }
