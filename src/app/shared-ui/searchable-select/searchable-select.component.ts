@@ -40,9 +40,9 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
 
   isOpen = false;
   selectedValue: Option;
+  isDisabled = false;
 
   private touched = false;
-  private isDisabled = false;
 
   private onChange: (value) => void;
   private onTouched: () => void;
@@ -74,7 +74,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
 
   ngAfterViewChecked() {
     let option = document.getElementById('option-0');
-    if(!this.firstFocussed && option) {
+    if (!this.firstFocussed && option) {
       option.focus();
       this.firstFocussed = true;
     }
@@ -127,7 +127,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
 
   @HostListener('document:click', ['$event'])
   clickout(event) {
-    if (!this.selectButton.nativeElement.contains(event.target) && !this.valuesList.nativeElement.contains(event.target)) {
+    if (!this.selectButton.nativeElement.contains(event.target) && !this.valuesList.nativeElement.contains(event.target) && this.isOpen) {
       this.isOpen = false;
       this.markAsTouched();
     }

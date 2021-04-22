@@ -53,6 +53,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   measurementsForm: FormGroup;
   submitted = false;
+  changeOrder = false;
 
   private scrollIntoView = false;
   private subscription = new Subscription();
@@ -355,6 +356,34 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     const val = ($event.target as HTMLInputElement).value;
     if (val && val !== '1') {
       this.length(i).reset();
+    }
+  }
+
+  moveUp(i: number) {
+    if (i === 0) {
+      return;
+    }
+    const items = this.items();
+    const previousItemValue = items.at(i - 1).value;
+    items.at(i - 1).setValue(items.at(i).value);
+    items.at(i).setValue(previousItemValue);
+  }
+
+  moveDown(i: number) {
+    const items = this.items();
+    if ((i + 1) === items.length) {
+      return;
+    }
+    const nextItemValue = items.at(i + 1).value;
+    items.at(i + 1).setValue(items.at(i).value);
+    items.at(i).setValue(nextItemValue);
+  }
+
+  disableInputs() {
+    if (this.changeOrder) {
+      this.items().disable();
+    } else {
+      this.items().enable();
     }
   }
 }

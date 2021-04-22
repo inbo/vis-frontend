@@ -73,9 +73,19 @@
             <app-form-error-message [control]="comment(i)" [submitted]="submitted"></app-form-error-message>
           </div>
           <div class="self-center">
-            <button tabIndex="-1" (click)="remove(i)" type="button">
+            <button *ngIf="!changeOrder" tabIndex="-1" (click)="remove(i)" type="button">
               <svg class="w-5 h-5 text-gray-500 hover:text-red-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+              </svg>
+            </button>
+            <button *ngIf="changeOrder && i !== 0" tabIndex="-1" (click)="moveUp(i)" type="button">
+              <svg class="w-5 h-5 text-gray-500 hover:text-red-500 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+              </svg>
+            </button>
+            <button *ngIf="changeOrder && (i + 1) !== items().length" tabIndex="-1" (click)="moveDown(i)" type="button">
+              <svg class="w-5 h-5 text-gray-500 hover:text-red-500 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
           </div>
@@ -90,7 +100,10 @@
           <div class="w-full border-t border-gray-300"></div>
         </div>
         <div class="relative flex justify-center">
-          <button (click)="addNewLine()" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+          <button [disabled]="changeOrder" [class.disabled:bg-gray-200]="changeOrder" [class.disabled:cursor-default]="changeOrder"
+                  (click)="addNewLine()" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border
+                  border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50
+                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
             <svg class="-ml-1.5 mr-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/>
             </svg>
@@ -100,7 +113,8 @@
       </div>
     </div>
   </div>
-  <div class="px-4 py-4 sm:px-6 flex justify-end">
+  <div class="space-x-3 px-4 py-4 sm:px-6 flex justify-end">
+    <app-button [style]="'secondary'" (click)="changeOrder = !changeOrder; disableInputs()">Volgorde wijzigen</app-button>
     <app-button [style]="'primary'" (click)="createMeasurements()">Bewaren</app-button>
   </div>
   <app-tip *ngIf="tip$ | async as tip" [code]="tip.code" [show]="true"></app-tip>
