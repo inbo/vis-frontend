@@ -27,12 +27,12 @@
             <app-form-error-message [control]="species(i)" [submitted]="submitted"></app-form-error-message>
           </div>
           <div class="col-span-4 md:col-span-2 lg:col-span-1">
-            <input [id]="'amount-' + i" name="amount" formControlName="amount" type="number" min="0" (keydown)="navigateOnArrow($event, i)"/>
+            <input [id]="'amount-' + i" name="amount" formControlName="amount" type="number" min="0" (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i)"/>
             <app-form-error-message [control]="amount(i)" [submitted]="submitted"></app-form-error-message>
           </div>
           <div class="col-span-4 md:col-span-3 lg:col-span-1">
             <div class="relative rounded-md shadow-sm">
-              <input [imask]="numberMask(3, 0, 99999.999)" [id]="'length-' + i" (keydown)="newLineOnEnter($event, i); navigateOnArrow($event, i)" name="length" type="text" formControlName="length" [class.pr-8]="(length(i).dirty || length(i).touched) && length(i).warnings"
+              <input [imask]="numberMask(3, 0, 99999.999)" [id]="'length-' + i" (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i)" name="length" type="text" formControlName="length" [class.pr-8]="(length(i).dirty || length(i).touched) && length(i).warnings"
                      [readOnly]="amount(i).value > 1"
                      [class.focus:border-gray-500]="amount(i).value > 1"
                      [class.bg-gray-100]="amount(i).value > 1"
@@ -45,7 +45,7 @@
           </div>
           <div class="col-span-4 md:col-span-3 lg:col-span-1">
             <div class="relative rounded-md shadow-sm">
-              <input [imask]="numberMask(3, 0, 99999.999)" [id]="'weight-' + i" (keydown)="focusNextLineOnEnter($event, i); navigateOnArrow($event, i)" name="weight" type="text" formControlName="weight" [class.pr-8]="(weight(i).dirty || weight(i).touched) && weight(i).warnings">
+              <input [imask]="numberMask(3, 0, 99999.999)" [id]="'weight-' + i" (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i)" name="weight" type="text" formControlName="weight" [class.pr-8]="(weight(i).dirty || weight(i).touched) && weight(i).warnings">
               <div *ngIf="(weight(i).dirty || weight(i).touched) && weight(i).warnings" [title]="'Waarde moet tussen ' + weight(i).warnings.between.min + ' en ' + weight(i).warnings.between.max + ' liggen.'" class="absolute inset-y-0 right-0 pr-3 flex items-center">
                 <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
               </div>
@@ -54,7 +54,8 @@
 
           </div>
           <div class="col-span-4 md:col-span-2 lg:col-span-1">
-            <select (keydown)="navigateOnArrow($event, i)" [id]="'gender-' + i" name="gender" formControlName="gender">
+            <select (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i)"
+                    [id]="'gender-' + i" name="gender" formControlName="gender">
               <option value="MALE">M</option>
               <option value="FEMALE">V</option>
               <option value="UNKNOWN">O</option>
@@ -62,12 +63,13 @@
             <app-form-error-message [control]="gender(i)" [submitted]="submitted"></app-form-error-message>
           </div>
           <div class="col-span-4 md:col-span-2 lg:col-span-1">
-            <input (keydown)="navigateOnArrow($event, i)" [id]="'afvisBeurtNumber-' + i" name="afvisBeurtNumber" type="number" formControlName="afvisBeurtNumber" />
+            <input (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i)" [id]="'afvisBeurtNumber-' + i" name="afvisBeurtNumber" type="number" formControlName="afvisBeurtNumber" />
             <app-form-error-message [control]="afvisBeurtNumber(i)" [submitted]="submitted"></app-form-error-message>
 
           </div>
           <div class="col-span-11 md:col-span-5 lg:col-span-2">
-            <input (keydown)="navigateOnArrow($event, i)" [id]="'comment-' + i" name="comment" type="text" formControlName="comment" (keydown)="onKeyPress($event, i)" />
+            <input [id]="'comment-' + i" name="comment" type="text" formControlName="comment"
+                   (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i); onKeyPress($event, i)" />
             <app-form-error-message [control]="comment(i)" [submitted]="submitted"></app-form-error-message>
           </div>
           <div class="self-center">

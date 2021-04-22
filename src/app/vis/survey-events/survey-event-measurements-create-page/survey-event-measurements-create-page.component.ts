@@ -8,7 +8,7 @@ import {AlertService} from '../../../_alert';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {TipsService} from '../../../services/vis.tips.service';
-import {Tip} from "../../../domain/tip/tip";
+import {Tip} from '../../../domain/tip/tip';
 
 export interface AbstractControlWarn extends AbstractControl {
   warnings: any;
@@ -34,7 +34,7 @@ export function valueBetweenWarning(min: number, max: number): ValidatorFn {
 export function lengthRequiredForIndividualMeasurement(): ValidatorFn {
   return (c: AbstractControl): { [key: string]: any } => {
     if (c.parent?.get('amount').value === 1 && !c.value) {
-      return {lengthRequiredForIndividualMeasurement: true}
+      return {lengthRequiredForIndividualMeasurement: true};
     }
 
     return null;
@@ -118,20 +118,21 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   addNewLine() {
-    this.items().push(this.createMeasurementFormGroup(this.getPreviousSpecies(), this.getPreviousAfvisbeurt()));
+    this.items().push(this.createMeasurementFormGroup(this.getPreviousSpecies(), this.getPreviousGender(), this.getPreviousAfvisbeurt(),
+      this.getPreviousComment()));
     this.addTaxaValidationsForRowIndex(this.items().length - 1);
     this.scrollIntoView = true;
   }
 
-  createMeasurementFormGroup(species?: any, afvisbeurt?: any): FormGroup {
+  createMeasurementFormGroup(species?: any, gender?: any, afvisbeurt?: any, comment?: any): FormGroup {
     return this.formBuilder.group({
       species: new FormControl(species ?? '', [Validators.required]),
       amount: new FormControl(1, Validators.min(0)),
       length: new FormControl('', [Validators.min(0), lengthRequiredForIndividualMeasurement()]),
       weight: new FormControl('', [Validators.required, Validators.min(0)]),
-      gender: new FormControl('', Validators.required),
+      gender: new FormControl(gender ?? '', Validators.required),
       afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, [Validators.min(1), Validators.max(10)]),
-      comment: new FormControl('', Validators.max(2000))
+      comment: new FormControl(comment ?? '', Validators.max(2000))
     });
   }
 
@@ -154,8 +155,16 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     return this.species(this.items().length - 1).value;
   }
 
+  getPreviousGender() {
+    return this.gender(this.items().length - 1).value;
+  }
+
   getPreviousAfvisbeurt() {
     return this.afvisBeurtNumber(this.items().length - 1).value;
+  }
+
+  getPreviousComment() {
+    return this.comment(this.items().length - 1).value;
   }
 
   onKeyPress(event: KeyboardEvent, index: number) {
@@ -196,7 +205,9 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         this.addNewLine();
       }
       setTimeout(() => {
-        document.getElementById('length-' + (i + 1)).focus();
+        // @ts-ignore
+        const elementId = `${(event.target as Element).id.split('-')[0]}-${i + 1}`;
+        document.getElementById(elementId).focus();
       }, 0);
     }
 
@@ -276,7 +287,8 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
           this.weight(index).setValidators([Validators.required, Validators.min(0), valueBetweenWarning(taxon.weightMin, taxon.weightMax)]);
           this.weight(index).updateValueAndValidity();
 
-          this.length(index).setValidators([Validators.min(0), lengthRequiredForIndividualMeasurement(), valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]);
+          this.length(index).setValidators([Validators.min(0), lengthRequiredForIndividualMeasurement(),
+            valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]);
           this.length(index).updateValueAndValidity();
         })
     );
