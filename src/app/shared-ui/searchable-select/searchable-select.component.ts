@@ -1,5 +1,4 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
   Component,
   ElementRef,
@@ -28,12 +27,13 @@ import {Option} from './option';
     }
   ]
 })
-export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked, ControlValueAccessor {
+export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor {
 
   @ViewChild('searchBox') searchBox: ElementRef;
   @ViewChild('valuesList') valuesList: ElementRef;
   @ViewChild('selectButton') selectButton: ElementRef;
 
+  @Input() formControlName: string;
   @Input() options$: Subject<Option[]>;
   @Input() placeholder: string;
   @Output() onSearch: EventEmitter<any> = new EventEmitter();
@@ -48,7 +48,6 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   private onTouched: () => void;
 
   private subscription = new Subscription();
-  private firstFocussed = false;
 
   constructor(private eRef: ElementRef) {
   }
@@ -60,7 +59,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
     this.subscription.add(fromEvent(this.searchBox.nativeElement, 'keyup')
       .pipe(
         debounceTime(300),
-        filter((event: KeyboardEvent) => event.key !== 'Tab'),
+        filter((event: KeyboardEvent) => event.key !== 'Tab' && event.key !== 'Enter'),
         map((event: KeyboardEvent) => (event.target as HTMLInputElement).value),
         filter(value => value.length >= 3)
       )
@@ -68,16 +67,21 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
         this.markAsTouched();
         this.isOpen = true;
 
+        this.options$.next([]);
         this.onSearch.emit(value);
       }));
-  }
 
-  ngAfterViewChecked() {
-    let option = document.getElementById('option-0');
-    if(!this.firstFocussed && option) {
-      option.focus();
-      this.firstFocussed = true;
-    }
+    this.subscription.add(fromEvent(this.searchBox.nativeElement, 'keyup')
+      .pipe(
+        filter((event: KeyboardEvent) => event.key === 'Enter')
+      ).subscribe(() => {
+        const option = document.getElementById(`option-${this.formControlName}-0`);
+        const option1 = document.getElementById(`option-${this.formControlName}-1`);
+        if (option && !option1) {
+          option.click();
+        }
+      })
+    );
   }
 
   writeValue(obj: any): void {
