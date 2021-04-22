@@ -27,7 +27,7 @@
             <app-form-error-message [control]="species(i)" [submitted]="submitted"></app-form-error-message>
           </div>
           <div class="col-span-4 md:col-span-2 lg:col-span-1">
-            <input [id]="'amount-' + i" name="amount" formControlName="amount" type="number" min="0" (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i)"/>
+            <input (change)="amountChanged($event, i)" [id]="'amount-' + i" name="amount" formControlName="amount" type="number" min="0" (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i)"/>
             <app-form-error-message [control]="amount(i)" [submitted]="submitted"></app-form-error-message>
           </div>
           <div class="col-span-4 md:col-span-3 lg:col-span-1">

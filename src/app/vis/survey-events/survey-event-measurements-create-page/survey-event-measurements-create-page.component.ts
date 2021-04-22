@@ -75,7 +75,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       scale,
       signed: true,
       thousandsSeparator: '',
-      radix: ',',
+      radix: '.',
       min,
       max
     };
@@ -174,6 +174,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   createMeasurements() {
+    console.log(this.measurementsForm.errors);
     if (this.measurementsForm.invalid) {
       this.submitted = true;
       return;
@@ -348,5 +349,12 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   private comment(index: number) {
     return this.items().at(index).get('comment');
+  }
+
+  amountChanged($event: Event, i: number) {
+    const val = ($event.target as HTMLInputElement).value;
+    if (val && val !== '1') {
+      this.length(i).reset();
+    }
   }
 }
