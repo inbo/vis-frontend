@@ -19,7 +19,7 @@
   <li (keydown)="focusSibbling($event)" class="text-gray-900 cursor-default select-none relative py-2 px-3 border-b border-gray-300" id="listbox-option-0" role="option">
     <div>
       <div class="mt-1 relative rounded-md shadow-sm w-full">
-        <input #searchBox placeholder="Minstens 3 karakters..." class="p-1 px-2 pr-10 appearance-none outline-none w-full text-gray-800" name="search" >
+        <input #searchBox placeholder="Minstens 3 karakters..." class="p-1 px-2 pr-10 appearance-none outline-none w-full text-gray-800" name="search" type="text">
         <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
           <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
         </div>
@@ -29,7 +29,7 @@
   <li *ngIf="!((options$ | async)?.length > 0)" class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9">
     <span class="p-1 px-2 ">Er zijn geen resultaten gevonden</span>
   </li>
-  <li [id]="'option-' + i" (keydown)="focusSibbling($event); selectOnEnter($event, option)" *ngFor="let option of options$ | async; let i = index" (click)="select(option)"
+  <li [id]="'option-' + formControlName + '-' + i" (keydown)="focusSibbling($event); selectOnEnter($event, option)" *ngFor="let option of options$ | async; let i = index" (click)="select(option)"
       tabIndex="-1"
       class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-pink-600 focus:text-white focus:bg-pink-600"
       role="option">

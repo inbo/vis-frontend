@@ -4,6 +4,18 @@
     "INACTIVE": "Inactief"
   },
   "surveyEvent": {
+    "sortOption": {
+      "occurrence": "Datum",
+      "method": "Methode"
+    },
+    "watercourse": "Waterloop",
+    "municipality": "Gemeente",
+    "basin": "Bekken",
+    "period": "Periode",
+    "sort": "Sorteren op",
+    "measuringPointNumber": "Meetpuntnummer",
+    "method": "Methode",
+    "species": "Soort",
     "turbidity": {
       "outOfRange": "Buiten bereik"
     },
