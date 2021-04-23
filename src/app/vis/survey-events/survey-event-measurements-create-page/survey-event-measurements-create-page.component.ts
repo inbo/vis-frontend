@@ -9,6 +9,7 @@ import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {TipsService} from '../../../services/vis.tips.service';
 import {Tip} from '../../../domain/tip/tip';
+import {Measurement} from '../../../domain/survey-event/measurement';
 
 export interface AbstractControlWarn extends AbstractControl {
   warnings: any;
@@ -50,10 +51,14 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
 
   species$ = new Subject<Option[]>();
+  tip$: Observable<Tip>;
 
+  existingMeasurements: Measurement[];
   measurementsForm: FormGroup;
   submitted = false;
   changeOrder = false;
+  showExistingMeasurements = false;
+  loading = false;
 
   private scrollIntoView = false;
   private subscription = new Subscription();
@@ -67,8 +72,6 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     'afvisBeurtNumber',
     'comment'
   ];
-
-  tip$: Observable<Tip>;
 
   numberMask(scale: number, min: number, max: number) {
     return {
@@ -131,7 +134,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       amount: new FormControl(1, Validators.min(0)),
       length: new FormControl('', [Validators.min(0), lengthRequiredForIndividualMeasurement()]),
       weight: new FormControl('', [Validators.required, Validators.min(0)]),
-      gender: new FormControl(gender ?? '', Validators.required),
+      gender: new FormControl(gender ?? 'UNKNOWN', Validators.required),
       afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, [Validators.min(1), Validators.max(10)]),
       comment: new FormControl(comment ?? '', Validators.max(2000))
     });
@@ -384,6 +387,26 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       this.items().disable();
     } else {
       this.items().enable();
+    }
+  }
+
+  showExistingMeasurementsClick() {
+    if (this.showExistingMeasurements) {
+      this.showExistingMeasurements = false;
+      this.loading = false;
+      this.existingMeasurements = [];
+    } else {
+      this.showExistingMeasurements = true;
+      this.loading = true;
+      this.surveyEventsService.getAllMeasurementsForSurveyEvent(
+        this.activatedRoute.parent.snapshot.params.projectCode, this.activatedRoute.parent.snapshot.params.surveyEventId);
+
+      this.subscription.add(this.surveyEventsService.getAllMeasurementsForSurveyEvent(
+        this.activatedRoute.parent.snapshot.params.projectCode, this.activatedRoute.parent.snapshot.params.surveyEventId)
+        .subscribe(value => {
+          this.existingMeasurements = value;
+          this.loading = false;
+        }));
     }
   }
 }

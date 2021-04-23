@@ -11,6 +11,7 @@ export interface Measurement {
   comment: string;
   gender: string;
   lengthType: string;
+  afvisBeurtNumber: number;
 }
 
 

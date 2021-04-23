@@ -55,4 +55,7 @@ export class SurveyEventsService extends VisService {
     return this.http.post(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`, measurements);
   }
 
+  getAllMeasurementsForSurveyEvent(projectCode: string, surveyEventId: SurveyEventId) {
+    return this.http.get<Measurement[]>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/all`);
+  }
 }

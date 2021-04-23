@@ -1,6 +1,6 @@
 <div *ngIf="show">
 
-  <div *ngIf="!(tipIsRead$ | async) && (tip$ | async) as tip" class="fixed inset-0 flex items-end justify-center px-4 py-6 pointer-events-none sm:p-6 items-start justify-end">
+  <div *ngIf="!(tipIsRead$ | async) && (tip$ | async) as tip" class="z-10 fixed inset-0 flex items-end justify-center px-4 py-6 pointer-events-none sm:p-6 items-start justify-end">
     <div
       [ngTransition]="show"
       ngTransitionEnter="transform ease-out duration-300 transition"
