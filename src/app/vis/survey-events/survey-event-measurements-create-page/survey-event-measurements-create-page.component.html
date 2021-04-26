@@ -185,7 +185,7 @@
         <div class="col-span-12 md:col-span-5 lg:col-span-2">Commentaar</div>
         <div></div>
       </div>
-      <div class="space-y-4 divide-y lg:divide-none divide-gray-300">
+      <div class="space-y-0.5 divide-y lg:divide-none divide-gray-300">
         <div class="grid grid-flow-row grid-cols-12 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 gap-4 pt-4 lg:pt-0"
              formArrayName="items" *ngFor="let item of items().controls; let i = index;" #lines>
           <ng-container [formGroupName]="i">
@@ -209,8 +209,8 @@
                 <input [imask]="numberMask(3, 0, 99999.999)" [id]="'length-' + i"
                        (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i)"
                        name="length" type="text" formControlName="length"
-                       [class.pr-8]="(length(i).dirty || length(i).touched) && length(i).warnings"
                        [readOnly]="amount(i).value > 1"
+                       [class.pr-8]="(length(i).dirty || length(i).touched) && length(i).warnings"
                        [class.focus:border-gray-500]="amount(i).value > 1"
                        [class.bg-gray-100]="amount(i).value > 1"
                        [class.focus:ring-gray-500]="amount(i).value > 1">
