@@ -48,6 +48,14 @@ export class PagingComponent implements OnInit, OnChanges {
     this.setPage(this.pager.currentPage - 1);
   }
 
+  first() {
+    this.setPage(1);
+  }
+
+  last() {
+    this.setPage(this.pager.totalPages);
+  }
+
   paginate(
     totalItems: number,
     currentPage: number = 1,

@@ -43,4 +43,15 @@ export class PagingAsyncComponent {
     }
   }
 
+  first() {
+    if (!this.pager.first) {
+      this.setPage(1, this.pager.size);
+    }
+  }
+
+  last() {
+    if (!this.pager.last) {
+      this.setPage(this.pager.totalPages, this.pager.size);
+    }
+  }
 }
