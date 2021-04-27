@@ -56,7 +56,6 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy, Aft
 
   ngOnInit(): void {
     const queryParams = this.activatedRoute.snapshot.queryParams;
-    console.log(queryParams);
     this.filterForm = this.formBuilder.group(
       {
         watercourse: [queryParams.watercourse],
@@ -98,8 +97,6 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy, Aft
   }
 
   getSurveyEvents(page: number, size: number) {
-    console.log(this.filterForm?.getRawValue());
-
     this.loading = true;
     this.surveyEvents$ = of([]);
 

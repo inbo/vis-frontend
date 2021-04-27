@@ -19,7 +19,7 @@
   </div>
 </div>
 
-<app-slide-over (isOpenChange)="cancel()" [(isOpen)]="filterIsVisible">
+<app-slide-over (isOpenChange)="cancel()" [(isOpen)]="filterIsVisible" closeOnClickOutside="true">
   <span slot="title">Filter</span>
   <div slot="content">
     <div class="flex-1 flex flex-col justify-between">
