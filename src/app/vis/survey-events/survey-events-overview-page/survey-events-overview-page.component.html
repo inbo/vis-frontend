@@ -158,8 +158,9 @@
                         <app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value]"
-                           class="text-pink-600 hover:text-pink-900">Bewerk</a>
+                        <a
+                          [routerLink]="['/projecten', surveyEvent.projectCode?.value, 'waarnemingen', surveyEvent.surveyEventId.value]"
+                          class="text-pink-600 hover:text-pink-900">Bewerk</a>
                       </td>
                     </tr>
                     </tbody>

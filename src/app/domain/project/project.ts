@@ -1,4 +1,4 @@
-interface ProjectCode {
+export interface ProjectCode {
   value: string;
 }
 
