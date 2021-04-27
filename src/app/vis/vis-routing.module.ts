@@ -31,6 +31,7 @@ import {LocationCreatePageComponent} from './location/location-create-page/locat
 import {SurveyEventComponent} from "./survey-events/survey-event/survey-event.component";
 import {ProjectComponent} from "./project/project/project.component";
 import {SurveyEventMeasurementsCreatePageComponent} from './survey-events/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
+import {SurveyEventsOverviewPageComponent} from './survey-events/survey-events-overview-page/survey-events-overview-page.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -127,6 +128,7 @@ const routes: Routes = [
   {path: 'vissoorten/:taxonId', component: FishSpeciesDetailPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'methoden', component: MethodsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'visindex', component: FishIndexPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'waarnemingen', component: SurveyEventsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'profiel', component: ProfilePageComponent, canActivate: [AuthGuardWithForcedLogin]},
 ];
 

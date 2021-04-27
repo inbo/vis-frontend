@@ -1,25 +1,33 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {Title} from '@angular/platform-browser';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Observable, of, Subject, Subscription} from 'rxjs';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
-import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {map, take} from 'rxjs/operators';
 import {Method} from '../../method/model/method';
+import {Observable, of, Subject, Subscription} from 'rxjs';
 import {Option} from '../../../shared-ui/searchable-select/option';
-import {MethodsService} from '../../../services/vis.methods.service';
-import {TaxaService} from '../../../services/vis.taxa.service';
 import {getTag, Tag} from '../../../shared-ui/slide-over-filter/tag';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Title} from '@angular/platform-browser';
+import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
+import {MethodsService} from '../../../services/vis.methods.service';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {TaxaService} from '../../../services/vis.taxa.service';
 import {DatePipe} from '@angular/common';
 import {TranslateService} from '@ngx-translate/core';
+import {map, take} from 'rxjs/operators';
+import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
+import {GlobalConstants} from '../../../GlobalConstants';
+import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 
 @Component({
-  selector: 'app-project-survey-events-page',
-  templateUrl: './project-survey-events-page.component.html'
+  selector: 'app-survey-events-overview-page',
+  templateUrl: './survey-events-overview-page.component.html'
 })
-export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy, AfterViewInit {
+
+  links: NavigationLink[] = GlobalConstants.links;
+  breadcrumbLinks: BreadcrumbLink[] = [
+    {title: 'Waarnemingen', url: '/waarnemingen'}
+  ];
 
   loading = false;
   pager: AsyncPage<SurveyEvent>;
@@ -33,13 +41,11 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
   filterForm: FormGroup;
 
   private subscription = new Subscription();
-  projectCode: string;
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private methodsService: MethodsService,
               private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder,
               private taxaService: TaxaService, private datePipe: DatePipe, private translateService: TranslateService) {
-    this.titleService.setTitle(`Waarnemingen voor ${this.activatedRoute.parent.snapshot.params.projectCode}`);
-    this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
+    this.titleService.setTitle(`Waarnemingen`);
 
     this.subscription.add(this.methodsService.getAllMethods()
       .subscribe(methods => {
@@ -50,6 +56,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
 
   ngOnInit(): void {
     const queryParams = this.activatedRoute.snapshot.queryParams;
+    console.log(queryParams);
     this.filterForm = this.formBuilder.group(
       {
         watercourse: [queryParams.watercourse],
@@ -91,6 +98,8 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
   }
 
   getSurveyEvents(page: number, size: number) {
+    console.log(this.filterForm?.getRawValue());
+
     this.loading = true;
     this.surveyEvents$ = of([]);
 
@@ -109,7 +118,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     }
 
     this.subscription.add(
-      this.surveyEventsService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size, filter)
+      this.surveyEventsService.getAllSurveyEvents(page, size, filter)
         .subscribe((value) => {
           this.pager = value;
           this.surveyEvents$ = of(value.content);

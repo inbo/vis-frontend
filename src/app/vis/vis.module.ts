@@ -49,6 +49,7 @@ import {LeafletMarkerClusterModule} from '@asymmetrik/ngx-leaflet-markercluster'
 import {FishingPointsMapComponent} from './components/fishing-points-map/fishing-points-map.component';
 import {FishingPointsMapPropertiesComponent} from './components/fishing-points-map-properties/fishing-points-map-properties.component';
 import {FormErrorMessageComponent} from './components/form-error-message/form-error-message.component';
+import { SurveyEventsOverviewPageComponent } from './survey-events/survey-events-overview-page/survey-events-overview-page.component';
 
 @NgModule({
   exports: [
@@ -95,6 +96,7 @@ import {FormErrorMessageComponent} from './components/form-error-message/form-er
     FishingPointsMapComponent,
     FishingPointsMapPropertiesComponent,
     FormErrorMessageComponent,
+    SurveyEventsOverviewPageComponent,
   ],
   imports: [
     CommonModule,

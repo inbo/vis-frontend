@@ -58,4 +58,10 @@ export class SurveyEventsService extends VisService {
   getAllMeasurementsForSurveyEvent(projectCode: string, surveyEventId: SurveyEventId) {
     return this.http.get<Measurement[]>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/all`);
   }
+
+  getAllSurveyEvents(page: number, size: number, filter: any) {
+    const params = this.getPageParams(page, size, filter);
+
+    return this.http.get<AsyncPage<SurveyEvent>>(`${environment.apiUrl}/api/surveyevents`, {params});
+  }
 }
