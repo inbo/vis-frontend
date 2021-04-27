@@ -138,6 +138,17 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
     }
   }
 
+  @HostListener('document:keydown', ['$event'])
+  tab(event: KeyboardEvent) {
+    if (event.key === 'Tab') {
+      if ((this.selectButton.nativeElement.contains(event.target) || this.searchBox.nativeElement.contains(event.target)
+        || this.valuesList.nativeElement.contains(event.target)) && this.isOpen) {
+        this.isOpen = false;
+        this.markAsTouched();
+      }
+    }
+  }
+
   focusSibbling(event: KeyboardEvent) {
     if (event.key === 'ArrowDown') {
       const sibling = (event.currentTarget as HTMLElement).nextElementSibling;
