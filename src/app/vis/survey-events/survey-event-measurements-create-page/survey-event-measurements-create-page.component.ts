@@ -104,7 +104,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         .subscribe(() => {
           this.addNewLine();
           setTimeout(() => {
-            document.getElementById('species-' + (this.items().length - 1)).focus();
+            document.getElementById(`species-${this.items().length - 1}-button`).focus();
           }, 0);
         })
     );
