@@ -12,6 +12,7 @@ export class SlideOverFilterComponent implements OnInit {
 
   @Input() tags$: Subject<Tag[]>;
   @Input() formGroup: FormGroup;
+  @Input() closeFilterOnReset = false;
   @Output() searchClicked = new EventEmitter<boolean>();
   @Output() resetClicked = new EventEmitter<boolean>();
 
@@ -26,7 +27,9 @@ export class SlideOverFilterComponent implements OnInit {
   reset() {
     this.formGroup.reset();
     this.resetClicked.emit(true);
-    this.filterIsVisible = false;
+    if (this.closeFilterOnReset) {
+      this.filterIsVisible = false;
+    }
   }
 
   filterOnKeydown(event: KeyboardEvent) {
