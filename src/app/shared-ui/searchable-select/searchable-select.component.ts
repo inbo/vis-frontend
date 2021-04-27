@@ -71,7 +71,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
         this.onSearch.emit(value);
       }));
 
-    this.subscription.add(fromEvent(this.searchBox.nativeElement, 'keyup')
+    this.subscription.add(fromEvent(this.searchBox.nativeElement, 'keydown')
       .pipe(
         filter((event: KeyboardEvent) => event.key === 'Enter')
       ).subscribe(() => {
