@@ -50,6 +50,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
 
+  // TODO species$ per measurement? Currently the searchable select for every measurements species uses the same species observable
   species$ = new Subject<Option[]>();
   tip$: Observable<Tip>;
 

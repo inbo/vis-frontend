@@ -76,8 +76,9 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
       .pipe(
         filter((event: KeyboardEvent) => event.key === 'Enter')
       ).subscribe(() => {
-        const option = document.getElementById(`option-${this.formControlName}-0`);
-        const option1 = document.getElementById(`option-${this.formControlName}-1`);
+        const option = document.getElementById(`option-0-${this.id}`);
+        const option1 = document.getElementById(`option-1-${this.id}`);
+
         if (option && !option1) {
           option.click();
         }
@@ -109,6 +110,8 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   select(option: Option) {
+    console.log(this.selectedValue);
+
     this.selectedValue = option;
     this.onChange(this.selectedValue);
 
