@@ -56,7 +56,6 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   existingMeasurements: Measurement[];
   measurementsForm: FormGroup;
   submitted = false;
-  changeOrder = false;
   showExistingMeasurements = false;
   loading = false;
 
@@ -327,31 +326,31 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     return this.items() === undefined || (i + 1) === this.items().length;
   }
 
-  private species(index: number) {
+  species(index: number) {
     return this.items().at(index).get('species');
   }
 
-  private afvisBeurtNumber(index: number) {
+  afvisBeurtNumber(index: number) {
     return this.items().at(index).get('afvisBeurtNumber');
   }
 
-  private weight(index: number) {
+  weight(index: number) {
     return this.items().at(index).get('weight');
   }
 
-  private length(index: number) {
+  length(index: number) {
     return this.items().at(index).get('length');
   }
 
-  private amount(index: number) {
+  amount(index: number) {
     return this.items().at(index).get('amount');
   }
 
-  private gender(index: number) {
+  gender(index: number) {
     return this.items().at(index).get('gender');
   }
 
-  private comment(index: number) {
+  comment(index: number) {
     return this.items().at(index).get('comment');
   }
 
@@ -359,34 +358,6 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     const val = ($event.target as HTMLInputElement).value;
     if (val && val !== '1') {
       this.length(i).reset();
-    }
-  }
-
-  moveUp(i: number) {
-    if (i === 0) {
-      return;
-    }
-    const items = this.items();
-    const previousItemValue = items.at(i - 1).value;
-    items.at(i - 1).setValue(items.at(i).value);
-    items.at(i).setValue(previousItemValue);
-  }
-
-  moveDown(i: number) {
-    const items = this.items();
-    if ((i + 1) === items.length) {
-      return;
-    }
-    const nextItemValue = items.at(i + 1).value;
-    items.at(i + 1).setValue(items.at(i).value);
-    items.at(i).setValue(nextItemValue);
-  }
-
-  disableInputs() {
-    if (this.changeOrder) {
-      this.items().disable();
-    } else {
-      this.items().enable();
     }
   }
 
