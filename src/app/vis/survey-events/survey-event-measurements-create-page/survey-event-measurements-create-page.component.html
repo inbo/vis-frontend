@@ -196,13 +196,13 @@
                                        formControlName="species" (onSearch)="getSpecies($event)"
                                        [options$]="species$"></app-searchable-select>
               </div>
-              <app-form-error-message [control]="species(i)" [submitted]="submitted"></app-form-error-message>
+              <app-form-error-message showAfterSubmitted="true" [control]="species(i)" [submitted]="submitted"></app-form-error-message>
             </div>
             <div class="col-span-4 md:col-span-2 lg:col-span-1">
               <input (change)="amountChanged($event, i)" [id]="'amount-' + i" name="amount" formControlName="amount"
                      type="number" min="0"
                      (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i)"/>
-              <app-form-error-message [control]="amount(i)" [submitted]="submitted"></app-form-error-message>
+              <app-form-error-message showAfterSubmitted="true" [control]="amount(i)" [submitted]="submitted"></app-form-error-message>
             </div>
             <div class="col-span-4 md:col-span-3 lg:col-span-1">
               <div class="relative rounded-md shadow-sm">
@@ -225,7 +225,7 @@
                   </svg>
                 </div>
               </div>
-              <app-form-error-message [control]="length(i)" [submitted]="submitted"></app-form-error-message>
+              <app-form-error-message showAfterSubmitted="true" [control]="length(i)" [submitted]="submitted"></app-form-error-message>
             </div>
             <div class="col-span-4 md:col-span-3 lg:col-span-1">
               <div class="relative rounded-md shadow-sm">
@@ -244,7 +244,7 @@
                   </svg>
                 </div>
               </div>
-              <app-form-error-message [control]="weight(i)" [submitted]="submitted"></app-form-error-message>
+              <app-form-error-message showAfterSubmitted="true" [control]="weight(i)" [submitted]="submitted"></app-form-error-message>
 
             </div>
             <div class="col-span-4 md:col-span-2 lg:col-span-1">
@@ -254,19 +254,19 @@
                 <option value="FEMALE">V</option>
                 <option value="UNKNOWN">O</option>
               </select>
-              <app-form-error-message [control]="gender(i)" [submitted]="submitted"></app-form-error-message>
+              <app-form-error-message showAfterSubmitted="true" [control]="gender(i)" [submitted]="submitted"></app-form-error-message>
             </div>
             <div class="col-span-4 md:col-span-2 lg:col-span-1">
               <input (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i)"
                      [id]="'afvisBeurtNumber-' + i" name="afvisBeurtNumber" type="number"
                      formControlName="afvisBeurtNumber"/>
-              <app-form-error-message [control]="afvisBeurtNumber(i)" [submitted]="submitted"></app-form-error-message>
+              <app-form-error-message showAfterSubmitted="true" [control]="afvisBeurtNumber(i)" [submitted]="submitted"></app-form-error-message>
 
             </div>
             <div class="col-span-11 md:col-span-5 lg:col-span-2">
               <input [id]="'comment-' + i" name="comment" type="text" formControlName="comment"
                      (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i); onKeyPress($event, i)"/>
-              <app-form-error-message [control]="comment(i)" [submitted]="submitted"></app-form-error-message>
+              <app-form-error-message showAfterSubmitted="true" [control]="comment(i)" [submitted]="submitted"></app-form-error-message>
             </div>
             <div class="self-center">
               <button *ngIf="!changeOrder" tabIndex="-1" (click)="remove(i)" type="button">
@@ -325,9 +325,3 @@
   </div>
   <app-tip *ngIf="tip$ | async as tip" [code]="tip.code" [show]="true"></app-tip>
 </div>
-
-
-
-
-
-
