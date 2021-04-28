@@ -272,6 +272,10 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   remove(i: number) {
+    if (this.items().length === 1) {
+      this.alertService.warn('Opgelet', 'De laatste meting kan niet verwijdert worden.');
+      return;
+    }
     this.items().removeAt(i);
   }
 
