@@ -15,7 +15,9 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
   projectCode: any;
   surveyEventId: any;
 
+  isModalOpen = false;
   loading = false;
+  measurementToBeDeleted: Measurement;
   pager: AsyncPage<Measurement>;
   measurements: Observable<Measurement[]>;
 
@@ -41,4 +43,18 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
     });
   }
 
+  deleteClicked(measurement: Measurement) {
+    this.measurementToBeDeleted = measurement;
+    this.isModalOpen = true;
+  }
+
+  cancelModal() {
+    this.isModalOpen = false;
+  }
+
+  confirmClicked() {
+    // TODO delete measurement
+
+    // this.isModalOpen = false;
+  }
 }
