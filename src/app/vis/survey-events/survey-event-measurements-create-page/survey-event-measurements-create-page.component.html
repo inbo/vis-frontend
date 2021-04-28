@@ -26,19 +26,19 @@
                   Soort
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Aantal
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Lengte
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Gewicht
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Aantal
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Geslacht
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Lengtemaat
+                  Afvisbeurt
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Commentaar
@@ -57,19 +57,19 @@
                   {{"taxon.id." + measurement.taxonId | translate}}
                 </td>
                 <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
+                  {{measurement.amount}}
+                </td>
+                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
                   {{measurement.length}}
                 </td>
                 <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
                   {{measurement.weight}}
                 </td>
                 <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                  {{measurement.amount}}
-                </td>
-                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
                   {{'gender.' + measurement.gender | translate}}
                 </td>
                 <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                  {{'lengthType.long.' + measurement.lengthType | translate}}
+                  {{measurement.afvisBeurtNumber}}
                 </td>
                 <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
                   {{measurement.comment}}
@@ -96,8 +96,8 @@
                   {{"taxon.id." + measurement.taxonId | translate}}
                 </p>
                 <div class="ml-2 flex-shrink-0 flex">
-                  <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                    {{'lengthType.long.' + measurement.lengthType | translate}}
+                  <p class="mt-2 flex items-center text-sm text-gray-500">
+                    <b>Afvisb.</b>&nbsp;{{measurement.afvisBeurtNumber}}
                   </p>
                 </div>
               </div>
@@ -135,10 +135,16 @@
                     {{'gender.full.' + measurement.gender | translate}}
                   </p>
                 </div>
-
               </div>
               <div *ngIf="measurement.comment" class="mt-2 flex items-center text-sm text-gray-500">
-                <p>
+                <p class="flex items-center text-sm text-gray-500">
+                  <!-- Heroicon name: annotation -->
+                  <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
+                       viewBox="0 0 24 24"
+                       stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+                  </svg>
                   {{measurement.comment}}
                 </p>
               </div>
@@ -192,8 +198,8 @@
             <div class="col-span-12 md:col-span-4 lg:col-span-3">
               <div class="relative">
                 <app-searchable-select (ngModelChange)="onSpeciesChange(i)" tabIndex="-1"
-                                       (keydown)="navigateOnArrow($event, i)" [id]="'species-' + i"
-                                       formControlName="species" (onSearch)="getSpecies($event)"
+                                       (keydown)="navigateOnArrow($event, i)" [passedId]="'species-' + i"
+                                       [id]="'species-' + i" formControlName="species" (onSearch)="getSpecies($event)"
                                        [options$]="species$"></app-searchable-select>
               </div>
               <app-form-error-message showAfterSubmitted="true" [control]="species(i)"

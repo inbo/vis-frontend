@@ -238,8 +238,8 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       event.preventDefault();
       this.focusElement(splittedId[0], i + 1);
     } else if (event.ctrlKey && this.isKeyArrowLeft(event.key)) {
-      const nextField = this.previousFieldName(splittedId[0]);
-      this.focusElement(nextField, i);
+      const previousField = this.previousFieldName(splittedId[0]);
+      this.focusElement(previousField, i);
     } else if (event.ctrlKey && this.isKeyArrowRight(event.key)) {
       const nextField = this.nextFieldName(splittedId[0]);
       this.focusElement(nextField, i);
@@ -265,7 +265,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   private focusElement(field: string, index: number) {
-    const element = document.getElementById(field + '-' + index);
+    const element = document.getElementById(field + '-' + index + (field === 'species' ? '-button' : ''));
     if (element !== null) {
       element.focus();
     }

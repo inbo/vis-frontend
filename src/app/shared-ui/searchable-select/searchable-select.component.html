@@ -1,4 +1,4 @@
-<button [id]="id + '-button'" [disabled]="isDisabled" #selectButton (click)="toggle()" type="button" class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500 sm:text-sm" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
+<button [id]="passedId + '-button'" [disabled]="isDisabled" #selectButton (click)="toggle()" type="button" class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500 sm:text-sm" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
   <span class="block truncate">
     {{selectedValue?.translateKey ? (selectedValue.translateKey | translate) : placeholder ? placeholder : 'Selecteer een waarde'}}
   </span>
@@ -29,7 +29,7 @@
   <li *ngIf="!((options$ | async)?.length > 0)" class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9">
     <span class="p-1 px-2 ">Er zijn geen resultaten gevonden</span>
   </li>
-  <li [id]="'option-' + i + '-' + id" (keydown)="focusSibbling($event); selectOnEnter($event, option)" *ngFor="let option of options$ | async; let i = index" (click)="select(option)"
+  <li [id]="'option-' + i + '-' + passedId" (keydown)="focusSibbling($event); selectOnEnter($event, option)" *ngFor="let option of options$ | async; let i = index" (click)="select(option)"
       tabIndex="-1"
       class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-pink-600 focus:text-white focus:bg-pink-600"
       role="option">

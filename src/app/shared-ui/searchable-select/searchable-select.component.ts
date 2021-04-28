@@ -33,7 +33,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   @ViewChild('valuesList') valuesList: ElementRef;
   @ViewChild('selectButton') selectButton: ElementRef;
 
-  @Input() id: string;
+  @Input() passedId: string;
   @Input() formControlName: string;
   @Input() options$: Subject<Option[]>;
   @Input() placeholder: string;
@@ -76,8 +76,8 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
       .pipe(
         filter((event: KeyboardEvent) => event.key === 'Enter')
       ).subscribe(() => {
-        const option = document.getElementById(`option-0-${this.id}`);
-        const option1 = document.getElementById(`option-1-${this.id}`);
+        const option = document.getElementById(`option-0-${this.passedId}`);
+        const option1 = document.getElementById(`option-1-${this.passedId}`);
 
         if (option && !option1) {
           option.click();
@@ -110,8 +110,6 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   select(option: Option) {
-    console.log(this.selectedValue);
-
     this.selectedValue = option;
     this.onChange(this.selectedValue);
 
@@ -152,13 +150,26 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
     }
   }
 
+  @HostListener('focusout', ['$event'])
+  ensureInput(event: FocusEvent): void {
+    if (!this.selectButton.nativeElement.contains(event.relatedTarget) &&
+      !this.valuesList.nativeElement.contains(event.relatedTarget)
+      && !this.searchBox.nativeElement.contains(event.relatedTarget) && this.isOpen) {
+      this.isOpen = false;
+    }
+  }
+
   focusSibbling(event: KeyboardEvent) {
     if (event.key === 'ArrowDown') {
       const sibling = (event.currentTarget as HTMLElement).nextElementSibling;
-      (sibling as HTMLElement).focus();
+      if (sibling) {
+        (sibling as HTMLElement).focus();
+      }
     } else if (event.key === 'ArrowUp') {
       const sibling = (event.currentTarget as HTMLElement).previousElementSibling;
-      (sibling as HTMLElement).focus();
+      if (sibling) {
+        (sibling as HTMLElement).focus();
+      }
     }
   }
 
