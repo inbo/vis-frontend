@@ -1,4 +1,4 @@
-interface MeasurementId {
+export interface MeasurementId {
   value: number;
 }
 

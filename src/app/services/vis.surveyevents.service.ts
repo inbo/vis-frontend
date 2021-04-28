@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable} from 'rxjs';
-import {Measurement} from '../domain/survey-event/measurement';
+import {Measurement, MeasurementId} from '../domain/survey-event/measurement';
 import {SurveyEvent, SurveyEventId} from '../domain/survey-event/surveyEvent';
 import {Parameters} from '../domain/survey-event/parameters';
 import {Habitat} from '../domain/survey-event/habitat';
@@ -63,5 +63,9 @@ export class SurveyEventsService extends VisService {
     const params = this.getPageParams(page, size, filter);
 
     return this.http.get<AsyncPage<SurveyEvent>>(`${environment.apiUrl}/api/surveyevents`, {params});
+  }
+
+  deleteMeasurement(projectCode: string, surveyEventId: SurveyEventId, measurementId: number) {
+    return this.http.delete<void>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/${measurementId}`);
   }
 }
