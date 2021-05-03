@@ -26,6 +26,7 @@ import { DaterangeComponent } from './daterange/daterange.component';
 import { HeaderBannerComponent } from './header-banner/header-banner.component';
 import {RoleEnabledButtonComponent} from "./role-enabled-button/role-enabled-button.component";
 import { SlideOverFilterComponent } from './slide-over-filter/slide-over-filter.component';
+import { TipIconComponent } from './tip-icon/tip-icon.component';
 
 @NgModule({
   declarations: [
@@ -50,32 +51,34 @@ import { SlideOverFilterComponent } from './slide-over-filter/slide-over-filter.
     DaterangeComponent,
     HeaderBannerComponent,
     RoleEnabledButtonComponent,
-    SlideOverFilterComponent
+    SlideOverFilterComponent,
+    TipIconComponent
   ],
-  exports: [
-    SidebarLayoutComponent,
-    NavigationLinkComponent,
-    ProfileDropdownComponent,
-    StackedLayoutComponent,
-    BreadcrumbComponent,
-    PagingAsyncComponent,
-    PagingComponent,
-    LoadingSpinnerComponent,
-    ToggleWithIconComponent,
-    DatepickerComponent,
-    SlideOverComponent,
-    TextCounterComponent,
-    ExpandableFilterComponent,
-    RadioGroupComponent,
-    CheckGroupComponent,
-    StepComponent,
-    SearchableSelectComponent,
-    DaterangeComponent,
-    TipComponent,
-    HeaderBannerComponent,
-    RoleEnabledButtonComponent,
-    SlideOverFilterComponent
-  ],
+    exports: [
+        SidebarLayoutComponent,
+        NavigationLinkComponent,
+        ProfileDropdownComponent,
+        StackedLayoutComponent,
+        BreadcrumbComponent,
+        PagingAsyncComponent,
+        PagingComponent,
+        LoadingSpinnerComponent,
+        ToggleWithIconComponent,
+        DatepickerComponent,
+        SlideOverComponent,
+        TextCounterComponent,
+        ExpandableFilterComponent,
+        RadioGroupComponent,
+        CheckGroupComponent,
+        StepComponent,
+        SearchableSelectComponent,
+        DaterangeComponent,
+        TipComponent,
+        HeaderBannerComponent,
+        RoleEnabledButtonComponent,
+        SlideOverFilterComponent,
+        TipIconComponent
+    ],
     imports: [
         RouterModule,
         CommonModule,
