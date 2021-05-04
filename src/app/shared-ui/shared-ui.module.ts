@@ -28,6 +28,7 @@ import {RoleEnabledButtonComponent} from "./role-enabled-button/role-enabled-but
 import { SlideOverFilterComponent } from './slide-over-filter/slide-over-filter.component';
 import { TipIconComponent } from './tip-icon/tip-icon.component';
 import { ModalComponent } from './modal/modal.component';
+import { MultiTextSearchComponent } from './multi-text-search/multi-text-search.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ModalComponent } from './modal/modal.component';
     RoleEnabledButtonComponent,
     SlideOverFilterComponent,
     ModalComponent,
-    TipIconComponent
+    TipIconComponent,
+    MultiTextSearchComponent
   ],
     exports: [
         SidebarLayoutComponent,
@@ -80,7 +82,8 @@ import { ModalComponent } from './modal/modal.component';
         RoleEnabledButtonComponent,
         SlideOverFilterComponent,
         ModalComponent,
-        TipIconComponent
+        TipIconComponent,
+      MultiTextSearchComponent
     ],
     imports: [
         RouterModule,
