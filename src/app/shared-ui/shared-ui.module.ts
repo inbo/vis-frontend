@@ -27,6 +27,7 @@ import { HeaderBannerComponent } from './header-banner/header-banner.component';
 import {RoleEnabledButtonComponent} from "./role-enabled-button/role-enabled-button.component";
 import { SlideOverFilterComponent } from './slide-over-filter/slide-over-filter.component';
 import { TipIconComponent } from './tip-icon/tip-icon.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { TipIconComponent } from './tip-icon/tip-icon.component';
     HeaderBannerComponent,
     RoleEnabledButtonComponent,
     SlideOverFilterComponent,
+    ModalComponent,
     TipIconComponent
   ],
     exports: [
@@ -77,6 +79,7 @@ import { TipIconComponent } from './tip-icon/tip-icon.component';
         HeaderBannerComponent,
         RoleEnabledButtonComponent,
         SlideOverFilterComponent,
+        ModalComponent,
         TipIconComponent
     ],
     imports: [
