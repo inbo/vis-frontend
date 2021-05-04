@@ -26,6 +26,7 @@ import { DaterangeComponent } from './daterange/daterange.component';
 import { HeaderBannerComponent } from './header-banner/header-banner.component';
 import {RoleEnabledButtonComponent} from "./role-enabled-button/role-enabled-button.component";
 import { SlideOverFilterComponent } from './slide-over-filter/slide-over-filter.component';
+import { TipIconComponent } from './tip-icon/tip-icon.component';
 import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
@@ -52,7 +53,8 @@ import { ModalComponent } from './modal/modal.component';
     HeaderBannerComponent,
     RoleEnabledButtonComponent,
     SlideOverFilterComponent,
-    ModalComponent
+    ModalComponent,
+    TipIconComponent
   ],
     exports: [
         SidebarLayoutComponent,
@@ -77,7 +79,8 @@ import { ModalComponent } from './modal/modal.component';
         HeaderBannerComponent,
         RoleEnabledButtonComponent,
         SlideOverFilterComponent,
-        ModalComponent
+        ModalComponent,
+        TipIconComponent
     ],
     imports: [
         RouterModule,

@@ -32,6 +32,8 @@ import {SurveyEventComponent} from "./survey-events/survey-event/survey-event.co
 import {ProjectComponent} from "./project/project/project.component";
 import {SurveyEventMeasurementsCreatePageComponent} from './survey-events/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {SurveyEventsOverviewPageComponent} from './survey-events/survey-events-overview-page/survey-events-overview-page.component';
+import {TipsComponent} from './tips/tips/tips.component';
+import {TipsPageComponent} from './tips/tips-page/tips-page.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -130,6 +132,16 @@ const routes: Routes = [
   {path: 'visindex', component: FishIndexPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'waarnemingen', component: SurveyEventsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'profiel', component: ProfilePageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'tips/:tipPage', component: TipsComponent,
+    children: [
+      {
+        path: '',
+        component: TipsPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        pathMatch: 'full'
+      }
+    ]
+  },
 ];
 
 @NgModule({
