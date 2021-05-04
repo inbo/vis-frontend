@@ -2,7 +2,21 @@
         [disabled]="(!valid || (role && !authService.hasRole(role))) || disabled"
         [class.disabled:opacity-50]="(!valid || (role && !authService.hasRole(role))) || disabled"
         [routerLink]="routerLink"
+        *ngIf="routerLink"
         type="button"
         [class]="usedStyle()">
-  <ng-content></ng-content>
+  <ng-container *ngTemplateOutlet="content"></ng-container>
 </button>
+
+<button [attr.title]="role && !authService.hasRole(role) ? 'Je beschikt niet over de nodige rechten' : null"
+        [disabled]="(!valid || (role && !authService.hasRole(role))) || disabled"
+        [class.disabled:opacity-50]="(!valid || (role && !authService.hasRole(role))) || disabled"
+        type="button"
+        *ngIf="!routerLink"
+        [class]="usedStyle()">
+  <ng-container *ngTemplateOutlet="content"></ng-container>
+</button>
+
+<ng-template #content>
+  <ng-content></ng-content>
+</ng-template>

@@ -25,6 +25,9 @@ import { SearchableSelectComponent } from './searchable-select/searchable-select
 import { DaterangeComponent } from './daterange/daterange.component';
 import { HeaderBannerComponent } from './header-banner/header-banner.component';
 import {RoleEnabledButtonComponent} from "./role-enabled-button/role-enabled-button.component";
+import { SlideOverFilterComponent } from './slide-over-filter/slide-over-filter.component';
+import { TipIconComponent } from './tip-icon/tip-icon.component';
+import { ModalComponent } from './modal/modal.component';
 import { MultiTextSearchComponent } from './multi-text-search/multi-text-search.component';
 
 @NgModule({
@@ -50,6 +53,9 @@ import { MultiTextSearchComponent } from './multi-text-search/multi-text-search.
     DaterangeComponent,
     HeaderBannerComponent,
     RoleEnabledButtonComponent,
+    SlideOverFilterComponent,
+    ModalComponent,
+    TipIconComponent,
     MultiTextSearchComponent
   ],
     exports: [
@@ -74,7 +80,10 @@ import { MultiTextSearchComponent } from './multi-text-search/multi-text-search.
         TipComponent,
         HeaderBannerComponent,
         RoleEnabledButtonComponent,
-        MultiTextSearchComponent
+        SlideOverFilterComponent,
+        ModalComponent,
+        TipIconComponent,
+      MultiTextSearchComponent
     ],
     imports: [
         RouterModule,

@@ -1,4 +1,4 @@
-interface MeasurementId {
+export interface MeasurementId {
   value: number;
 }
 
@@ -11,6 +11,7 @@ export interface Measurement {
   comment: string;
   gender: string;
   lengthType: string;
+  afvisBeurtNumber: number;
 }
 
 

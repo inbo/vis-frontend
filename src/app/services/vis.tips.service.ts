@@ -26,4 +26,11 @@ export class TipsService extends VisService {
     return this.http.post<Tip>(`${environment.apiUrl}/api/tips/${code}/read`, '');
   }
 
+  getPages() {
+    return this.http.get<string[]>(`${environment.apiUrl}/api/tips/pages`);
+  }
+
+  getPage(tipPage: any) {
+    return this.http.get<Tip[]>(`${environment.apiUrl}/api/tips/pages/${tipPage}`);
+  }
 }

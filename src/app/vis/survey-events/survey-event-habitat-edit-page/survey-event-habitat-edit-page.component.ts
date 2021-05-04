@@ -119,7 +119,6 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
   reset() {
     this.submitted = false;
 
-
     this.habitatForm.get('soils').patchValue(this.habitat.soils);
     this.habitatForm.get('waterLevel').patchValue(this.habitat.waterLevel);
     this.habitatForm.get('shelters').patchValue(this.habitat.shelters);
@@ -138,6 +137,8 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     this.habitatForm.get('bottlenecks').patchValue(this.habitat.bottlenecks);
     this.habitatForm.get('vegetations').patchValue(this.habitat.vegetations);
     this.habitatForm.reset(this.habitatForm.value);
+
+    this.alertService.success('Gegevens reset', '');
   }
 
   @HostListener('window:beforeunload', ['$event'])

@@ -8,7 +8,8 @@ import {AlertService} from '../../../_alert';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {TipsService} from '../../../services/vis.tips.service';
-import {Tip} from "../../../domain/tip/tip";
+import {Tip} from '../../../domain/tip/tip';
+import {Measurement} from '../../../domain/survey-event/measurement';
 
 export interface AbstractControlWarn extends AbstractControl {
   warnings: any;
@@ -34,7 +35,7 @@ export function valueBetweenWarning(min: number, max: number): ValidatorFn {
 export function lengthRequiredForIndividualMeasurement(): ValidatorFn {
   return (c: AbstractControl): { [key: string]: any } => {
     if (c.parent?.get('amount').value === 1 && !c.value) {
-      return {lengthRequiredForIndividualMeasurement: true}
+      return {lengthRequiredForIndividualMeasurement: true};
     }
 
     return null;
@@ -49,10 +50,15 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
 
+  // TODO species$ per measurement? Currently the searchable select for every measurements species uses the same species observable
   species$ = new Subject<Option[]>();
+  tip$: Observable<Tip>;
 
+  existingMeasurements: Measurement[];
   measurementsForm: FormGroup;
   submitted = false;
+  showExistingMeasurements = false;
+  loading = false;
 
   private scrollIntoView = false;
   private subscription = new Subscription();
@@ -67,15 +73,13 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     'comment'
   ];
 
-  tip$: Observable<Tip>;
-
   numberMask(scale: number, min: number, max: number) {
     return {
       mask: Number,
       scale,
       signed: true,
       thousandsSeparator: '',
-      radix: ',',
+      radix: '.',
       min,
       max
     };
@@ -100,7 +104,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         .subscribe(() => {
           this.addNewLine();
           setTimeout(() => {
-            document.getElementById('species-' + (this.items().length - 1)).focus();
+            document.getElementById(`species-${this.items().length - 1}-button`).focus();
           }, 0);
         })
     );
@@ -118,20 +122,21 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   addNewLine() {
-    this.items().push(this.createMeasurementFormGroup(this.getPreviousSpecies(), this.getPreviousAfvisbeurt()));
+    this.items().push(this.createMeasurementFormGroup(this.getPreviousSpecies(), this.getPreviousGender(), this.getPreviousAfvisbeurt(),
+      this.getPreviousComment()));
     this.addTaxaValidationsForRowIndex(this.items().length - 1);
     this.scrollIntoView = true;
   }
 
-  createMeasurementFormGroup(species?: any, afvisbeurt?: any): FormGroup {
+  createMeasurementFormGroup(species?: any, gender?: any, afvisbeurt?: any, comment?: any): FormGroup {
     return this.formBuilder.group({
       species: new FormControl(species ?? '', [Validators.required]),
       amount: new FormControl(1, Validators.min(0)),
       length: new FormControl('', [Validators.min(0), lengthRequiredForIndividualMeasurement()]),
       weight: new FormControl('', [Validators.required, Validators.min(0)]),
-      gender: new FormControl('', Validators.required),
+      gender: new FormControl(gender ?? 'UNKNOWN', Validators.required),
       afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, [Validators.min(1), Validators.max(10)]),
-      comment: new FormControl('', Validators.max(2000))
+      comment: new FormControl(comment ?? '', Validators.max(2000))
     });
   }
 
@@ -154,8 +159,16 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     return this.species(this.items().length - 1).value;
   }
 
+  getPreviousGender() {
+    return this.gender(this.items().length - 1).value;
+  }
+
   getPreviousAfvisbeurt() {
     return this.afvisBeurtNumber(this.items().length - 1).value;
+  }
+
+  getPreviousComment() {
+    return this.comment(this.items().length - 1).value;
   }
 
   onKeyPress(event: KeyboardEvent, index: number) {
@@ -165,6 +178,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   createMeasurements() {
+    console.log(this.measurementsForm.errors);
     if (this.measurementsForm.invalid) {
       this.submitted = true;
       return;
@@ -196,7 +210,9 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         this.addNewLine();
       }
       setTimeout(() => {
-        document.getElementById('length-' + (i + 1)).focus();
+        // @ts-ignore
+        const elementId = `${(event.target as Element).id.split('-')[0]}-${i + 1}`;
+        document.getElementById(elementId).focus();
       }, 0);
     }
 
@@ -222,8 +238,8 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       event.preventDefault();
       this.focusElement(splittedId[0], i + 1);
     } else if (event.ctrlKey && this.isKeyArrowLeft(event.key)) {
-      const nextField = this.previousFieldName(splittedId[0]);
-      this.focusElement(nextField, i);
+      const previousField = this.previousFieldName(splittedId[0]);
+      this.focusElement(previousField, i);
     } else if (event.ctrlKey && this.isKeyArrowRight(event.key)) {
       const nextField = this.nextFieldName(splittedId[0]);
       this.focusElement(nextField, i);
@@ -249,13 +265,17 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   private focusElement(field: string, index: number) {
-    const element = document.getElementById(field + '-' + index);
+    const element = document.getElementById(field + '-' + index + (field === 'species' ? '-button' : ''));
     if (element !== null) {
       element.focus();
     }
   }
 
   remove(i: number) {
+    if (this.items().length === 1) {
+      this.alertService.warn('Opgelet', 'De laatste meting kan niet verwijdert worden.');
+      return;
+    }
     this.items().removeAt(i);
   }
 
@@ -276,7 +296,8 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
           this.weight(index).setValidators([Validators.required, Validators.min(0), valueBetweenWarning(taxon.weightMin, taxon.weightMax)]);
           this.weight(index).updateValueAndValidity();
 
-          this.length(index).setValidators([Validators.min(0), lengthRequiredForIndividualMeasurement(), valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]);
+          this.length(index).setValidators([Validators.min(0), lengthRequiredForIndividualMeasurement(),
+            valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]);
           this.length(index).updateValueAndValidity();
         })
     );
@@ -310,31 +331,58 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     return this.items() === undefined || (i + 1) === this.items().length;
   }
 
-  private species(index: number) {
+  species(index: number) {
     return this.items().at(index).get('species');
   }
 
-  private afvisBeurtNumber(index: number) {
+  afvisBeurtNumber(index: number) {
     return this.items().at(index).get('afvisBeurtNumber');
   }
 
-  private weight(index: number) {
+  weight(index: number) {
     return this.items().at(index).get('weight');
   }
 
-  private length(index: number) {
+  length(index: number) {
     return this.items().at(index).get('length');
   }
 
-  private amount(index: number) {
+  amount(index: number) {
     return this.items().at(index).get('amount');
   }
 
-  private gender(index: number) {
+  gender(index: number) {
     return this.items().at(index).get('gender');
   }
 
-  private comment(index: number) {
+  comment(index: number) {
     return this.items().at(index).get('comment');
+  }
+
+  amountChanged($event: Event, i: number) {
+    const val = ($event.target as HTMLInputElement).value;
+    if (val && val !== '1') {
+      this.length(i).reset();
+    }
+  }
+
+  showExistingMeasurementsClick() {
+    if (this.showExistingMeasurements) {
+      this.showExistingMeasurements = false;
+      this.loading = false;
+      this.existingMeasurements = [];
+    } else {
+      this.showExistingMeasurements = true;
+      this.loading = true;
+      this.surveyEventsService.getAllMeasurementsForSurveyEvent(
+        this.activatedRoute.parent.snapshot.params.projectCode, this.activatedRoute.parent.snapshot.params.surveyEventId);
+
+      this.subscription.add(this.surveyEventsService.getAllMeasurementsForSurveyEvent(
+        this.activatedRoute.parent.snapshot.params.projectCode, this.activatedRoute.parent.snapshot.params.surveyEventId)
+        .subscribe(value => {
+          this.existingMeasurements = value;
+          this.loading = false;
+        }));
+    }
   }
 }

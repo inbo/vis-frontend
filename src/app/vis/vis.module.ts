@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 
 import {VisRoutingModule} from './vis-routing.module';
 import {DashboardPageComponent} from './dashboard-page/dashboard-page.component';
@@ -49,6 +49,10 @@ import {LeafletMarkerClusterModule} from '@asymmetrik/ngx-leaflet-markercluster'
 import {FishingPointsMapComponent} from './components/fishing-points-map/fishing-points-map.component';
 import {FishingPointsMapPropertiesComponent} from './components/fishing-points-map-properties/fishing-points-map-properties.component';
 import {FormErrorMessageComponent} from './components/form-error-message/form-error-message.component';
+import { SurveyEventsOverviewPageComponent } from './survey-events/survey-events-overview-page/survey-events-overview-page.component';
+import { TipsComponent } from './tips/tips/tips.component';
+import { TipsTabsComponent } from './tips/tips-tabs/tips-tabs.component';
+import { TipsPageComponent } from './tips/tips-page/tips-page.component';
 
 @NgModule({
   exports: [
@@ -95,6 +99,10 @@ import {FormErrorMessageComponent} from './components/form-error-message/form-er
     FishingPointsMapComponent,
     FishingPointsMapPropertiesComponent,
     FormErrorMessageComponent,
+    SurveyEventsOverviewPageComponent,
+    TipsComponent,
+    TipsTabsComponent,
+    TipsPageComponent,
   ],
   imports: [
     CommonModule,
@@ -107,7 +115,8 @@ import {FormErrorMessageComponent} from './components/form-error-message/form-er
     LeafletModule,
     LeafletMarkerClusterModule,
     NgTransitionModule
-  ]
+  ],
+  providers: [DatePipe]
 })
 export class VisModule {
 }

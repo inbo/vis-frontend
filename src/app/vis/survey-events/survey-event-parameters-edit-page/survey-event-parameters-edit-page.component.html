@@ -15,7 +15,8 @@
                 Zuurstof mg/l
               </label>
               <div class="mt-1">
-                <input [imask]="numberMask(2, -99.99, 99.99)" [unmask]="true" formControlName="oxygen" type="text" name="oxygen" id="oxygen">
+                <input [imask]="numberMask(2, -99.99, 99.99)" [unmask]="true" formControlName="oxygen" type="text"
+                       name="oxygen" id="oxygen">
               </div>
             </div>
             <div class="sm:col-span-4">
@@ -23,7 +24,8 @@
                 Zuurstof %
               </label>
               <div class="mt-1">
-                <input [imask]="numberMask(2, -99.99, 99.99)" [unmask]="true" formControlName="oxygenPercentage" type="text" name="oxygenPercentage" id="oxygenPercentage">
+                <input [imask]="numberMask(2, -99.99, 99.99)" [unmask]="true" formControlName="oxygenPercentage"
+                       type="text" name="oxygenPercentage" id="oxygenPercentage">
               </div>
             </div>
             <div class="sm:col-span-4">
@@ -31,7 +33,8 @@
                 Watertemperatuur (°C)
               </label>
               <div class="mt-1">
-                <input [imask]="numberMask(1, -99.9, 99.9)" [unmask]="true" formControlName="temperature" type="text" name="temperature" id="temperature">
+                <input [imask]="numberMask(1, -99.9, 99.9)" [unmask]="true" formControlName="temperature" type="text"
+                       name="temperature" id="temperature">
               </div>
             </div>
             <div class="sm:col-span-4">
@@ -39,7 +42,8 @@
                 Conductiviteit (uS/cm)
               </label>
               <div class="mt-1">
-                <input [imask]="numberMask(0, -99999, 99999)" [unmask]="true" formControlName="conductivity" type="text" name="conductivity" id="conductivity">
+                <input [imask]="numberMask(0, -99999, 99999)" [unmask]="true" formControlName="conductivity" type="text"
+                       name="conductivity" id="conductivity">
               </div>
             </div>
             <div class="sm:col-span-4">
@@ -47,7 +51,8 @@
                 Zoutgehalte (°/oo)
               </label>
               <div class="mt-1">
-                <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="salinity" type="text" name="salinity" id="salinity">
+                <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="salinity" type="text"
+                       name="salinity" id="salinity">
               </div>
             </div>
             <div class="sm:col-span-4">
@@ -55,7 +60,8 @@
                 pH
               </label>
               <div class="mt-1">
-                <input [imask]="numberMask(2, -99.99, 99.99)" [unmask]="true" formControlName="ph" type="text" name="ph" id="ph">
+                <input [imask]="numberMask(2, -99.99, 99.99)" [unmask]="true" formControlName="ph" type="text" name="ph"
+                       id="ph">
               </div>
             </div>
             <div class="sm:col-span-4">
@@ -63,10 +69,14 @@
                 Turbiditeit (NTU)
               </label>
               <div class="mt-1">
-                <input [class.bg-gray-50]="turbidityOutOfRange.value === true" [attr.disabled]="turbidityOutOfRange.value === true ? 'disabled': null" [imask]="numberMask(1, -99.9, 99.9)" [unmask]="true" formControlName="turbidity" type="text" name="turbidity" id="turbidity">
+                <input [class.bg-gray-50]="turbidityOutOfRange.value === true"
+                       [attr.disabled]="turbidityOutOfRange.value === true ? 'disabled': null"
+                       [imask]="numberMask(2, -999.99, 999.99)" [unmask]="true" formControlName="turbidity" type="text"
+                       name="turbidity" id="turbidity">
                 <div class="relative flex items-start mt-1">
                   <div class="flex items-center h-5">
-                    <input formControlName="turbidityOutOfRange" (change)="outOfRangeChanged($event)" id="turbidityOutOfRange" name="turbidityOutOfRange" type="checkbox">
+                    <input formControlName="turbidityOutOfRange" (change)="outOfRangeChanged($event)"
+                           id="turbidityOutOfRange" name="turbidityOutOfRange" type="checkbox">
                   </div>
                   <div class="ml-3 text-sm">
                     <label for="turbidityOutOfRange" class="font-medium text-gray-700">Buiten bereik</label>
@@ -79,23 +89,8 @@
                 Secchi (m)
               </label>
               <div class="mt-1">
-                <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="secchi" type="text" name="secchi" id="secchi">
-              </div>
-            </div>
-            <div class="sm:col-span-4">
-              <label for="flowRate" class="block text-sm font-medium text-gray-700">
-                Stroomsnelheid (m/s)
-              </label>
-              <div class="mt-1">
-                <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="flowRate" type="text" name="flowRate" id="flowRate">
-              </div>
-            </div>
-            <div class="sm:col-span-4">
-              <label for="averageDepth" class="block text-sm font-medium text-gray-700">
-                Gemiddelde diepte (m)
-              </label>
-              <div class="mt-1">
-                <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="averageDepth" type="text" name="averageDepth" id="averageDepth">
+                <input [imask]="numberMask(2, -99.99, 99.99)" [unmask]="true" formControlName="secchi" type="text"
+                       name="secchi" id="secchi">
               </div>
             </div>
             <div class="sm:col-span-4">
@@ -103,7 +98,44 @@
                 Breedte (m)
               </label>
               <div class="mt-1">
-                <input [imask]="numberMask(2, 0, 999.99)" [unmask]="true" formControlName="width" type="text" name="width" id="width">
+                <input [imask]="numberMask(2, 0, 9999.99)" [unmask]="true" formControlName="width" type="text"
+                       name="width" id="width">
+              </div>
+            </div>
+            <div class="sm:col-span-4">
+              <label for="minDepth" class="block text-sm font-medium text-gray-700">
+                Minimum diepte (m)
+              </label>
+              <div class="mt-1">
+                <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="minDepth" type="text"
+                       name="minDepth" id="minDepth">
+              </div>
+            </div>
+            <div class="sm:col-span-4">
+              <label for="maxDepth" class="block text-sm font-medium text-gray-700">
+                Maximum diepte (m)
+              </label>
+              <div class="mt-1">
+                <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="maxDepth" type="text"
+                       name="maxDepth" id="maxDepth">
+              </div>
+            </div>
+            <div class="sm:col-span-4">
+              <label for="averageDepth" class="block text-sm font-medium text-gray-700">
+                Gemiddelde diepte (m)
+              </label>
+              <div class="mt-1">
+                <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="averageDepth" type="text"
+                       name="averageDepth" id="averageDepth">
+              </div>
+            </div>
+            <div class="sm:col-span-4">
+              <label for="flowRate" class="block text-sm font-medium text-gray-700">
+                Stroomsnelheid (m/s)
+              </label>
+              <div class="mt-1">
+                <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="flowRate" type="text"
+                       name="flowRate" id="flowRate">
               </div>
             </div>
           </div>

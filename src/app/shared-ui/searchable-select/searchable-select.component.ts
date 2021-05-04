@@ -1,5 +1,4 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
   Component,
   ElementRef,
@@ -28,27 +27,28 @@ import {Option} from './option';
     }
   ]
 })
-export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked, ControlValueAccessor {
+export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor {
 
   @ViewChild('searchBox') searchBox: ElementRef;
   @ViewChild('valuesList') valuesList: ElementRef;
   @ViewChild('selectButton') selectButton: ElementRef;
 
+  @Input() passedId: string;
+  @Input() formControlName: string;
   @Input() options$: Subject<Option[]>;
   @Input() placeholder: string;
   @Output() onSearch: EventEmitter<any> = new EventEmitter();
 
   isOpen = false;
   selectedValue: Option;
+  isDisabled = false;
 
   private touched = false;
-  private isDisabled = false;
 
   private onChange: (value) => void;
   private onTouched: () => void;
 
   private subscription = new Subscription();
-  private firstFocussed = false;
 
   constructor(private eRef: ElementRef) {
   }
@@ -60,7 +60,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
     this.subscription.add(fromEvent(this.searchBox.nativeElement, 'keyup')
       .pipe(
         debounceTime(300),
-        filter((event: KeyboardEvent) => event.key !== 'Tab'),
+        filter((event: KeyboardEvent) => event.key !== 'Tab' && event.key !== 'Enter'),
         map((event: KeyboardEvent) => (event.target as HTMLInputElement).value),
         filter(value => value.length >= 3)
       )
@@ -68,16 +68,22 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
         this.markAsTouched();
         this.isOpen = true;
 
+        this.options$.next([]);
         this.onSearch.emit(value);
       }));
-  }
 
-  ngAfterViewChecked() {
-    let option = document.getElementById('option-0');
-    if(!this.firstFocussed && option) {
-      option.focus();
-      this.firstFocussed = true;
-    }
+    this.subscription.add(fromEvent(this.searchBox.nativeElement, 'keydown')
+      .pipe(
+        filter((event: KeyboardEvent) => event.key === 'Enter')
+      ).subscribe(() => {
+        const option = document.getElementById(`option-0-${this.passedId}`);
+        const option1 = document.getElementById(`option-1-${this.passedId}`);
+
+        if (option && !option1) {
+          option.click();
+        }
+      })
+    );
   }
 
   writeValue(obj: any): void {
@@ -127,19 +133,43 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
 
   @HostListener('document:click', ['$event'])
   clickout(event) {
-    if (!this.selectButton.nativeElement.contains(event.target) && !this.valuesList.nativeElement.contains(event.target)) {
+    if (!this.selectButton.nativeElement.contains(event.target) && !this.valuesList.nativeElement.contains(event.target) && this.isOpen) {
       this.isOpen = false;
       this.markAsTouched();
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  tab(event: KeyboardEvent) {
+    if (event.key === 'Tab') {
+      if ((this.selectButton.nativeElement.contains(event.target) || this.searchBox.nativeElement.contains(event.target)
+        || this.valuesList.nativeElement.contains(event.target)) && this.isOpen) {
+        this.isOpen = false;
+        this.markAsTouched();
+      }
+    }
+  }
+
+  @HostListener('focusout', ['$event'])
+  ensureInput(event: FocusEvent): void {
+    if (!this.selectButton.nativeElement.contains(event.relatedTarget) &&
+      !this.valuesList.nativeElement.contains(event.relatedTarget)
+      && !this.searchBox.nativeElement.contains(event.relatedTarget) && this.isOpen) {
+      this.isOpen = false;
     }
   }
 
   focusSibbling(event: KeyboardEvent) {
     if (event.key === 'ArrowDown') {
       const sibling = (event.currentTarget as HTMLElement).nextElementSibling;
-      (sibling as HTMLElement).focus();
+      if (sibling) {
+        (sibling as HTMLElement).focus();
+      }
     } else if (event.key === 'ArrowUp') {
       const sibling = (event.currentTarget as HTMLElement).previousElementSibling;
-      (sibling as HTMLElement).focus();
+      if (sibling) {
+        (sibling as HTMLElement).focus();
+      }
     }
   }
 

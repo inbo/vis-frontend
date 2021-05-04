@@ -11,7 +11,8 @@ export class FormErrorMessageComponent implements OnInit {
 
   @Input()
   submitted = false;
-
+  @Input()
+  showAfterSubmitted = false;
   @Input()
   fieldName: string;
 
@@ -24,7 +25,8 @@ export class FormErrorMessageComponent implements OnInit {
 
   displayErrorMessage() {
     if (this.control.errors) {
-      return (this.submitted || (this.control.dirty || this.control.touched)) && this.control.invalid;
+      return (this.showAfterSubmitted && this.submitted) || (!this.showAfterSubmitted && (this.submitted ||
+        (this.control.dirty || this.control.touched))) && this.control.invalid;
     }
 
     return false;

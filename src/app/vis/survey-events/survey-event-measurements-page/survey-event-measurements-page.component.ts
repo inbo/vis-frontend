@@ -5,6 +5,7 @@ import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Measurement} from '../../../domain/survey-event/measurement';
 import {Observable, of} from 'rxjs';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
+import {take} from "rxjs/operators";
 
 @Component({
   selector: 'app-survey-event-measurements-page',
@@ -15,7 +16,9 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
   projectCode: any;
   surveyEventId: any;
 
+  isModalOpen = false;
   loading = false;
+  measurementToBeDeleted: Measurement;
   pager: AsyncPage<Measurement>;
   measurements: Observable<Measurement[]>;
 
@@ -26,6 +29,10 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.init();
+  }
+
+  private init() {
     this.activatedRoute.queryParams.subscribe((params) => {
       this.loadMeasurements(params.page ? params.page : 1, params.size ? params.size : 20);
     });
@@ -41,4 +48,21 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
     });
   }
 
+  deleteClicked(measurement: Measurement) {
+    this.measurementToBeDeleted = measurement;
+    this.isModalOpen = true;
+  }
+
+  cancelModal() {
+    this.isModalOpen = false;
+  }
+
+  confirmClicked() {
+    this.surveyEventsService.deleteMeasurement(this.projectCode, this.surveyEventId, this.measurementToBeDeleted.measurementId.value)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.init();
+        this.cancelModal();
+      });
+  }
 }
