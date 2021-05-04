@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "cross-env NODE_ENV=development ng serve",
-    "build": "cross-env NODE_ENV=production ng build --outputPath=dist/local",
-    "builddev": "cross-env NODE_ENV=production ng build --configuration=dev --outputPath=dist/dev",
-    "builduat": "cross-env NODE_ENV=production ng build --configuration=uat --outputPath=dist/uat",
-    "buildprod": "cross-env NODE_ENV=production ng build --prod --outputPath=dist/prod",
+    "start": "ng serve",
+    "build": "ng build --outputPath=dist/local",
+    "builddev": "ng build --configuration=dev --outputPath=dist/dev",
+    "builduat": "ng build --configuration=uat --outputPath=dist/uat",
+    "buildprod": "ng build --prod --outputPath=dist/prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
