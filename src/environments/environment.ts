@@ -8,7 +8,7 @@ export const environment = {
   apiUrl: 'http://localhost:8080',
   keycloakClientId: 'vis-dev',
   keycloakIssuer: "https://keycloak-dev.inbo.be/auth/realms/Inbo-Extranet",
-  showDebugInformation: true
+  showDebugInformation: false
 };
 
 /*

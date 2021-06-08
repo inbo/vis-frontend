@@ -4,5 +4,5 @@ export const environment = {
   apiUrl: 'https://vis2-api-dev.inbo.be',
   keycloakClientId: 'vis-dev',
   keycloakIssuer: "https://keycloak-dev.inbo.be/auth/realms/Inbo-Extranet",
-  showDebugInformation: true
+  showDebugInformation: false
 };
