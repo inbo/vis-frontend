@@ -18,6 +18,7 @@ import {SurveyEventMethodPageComponent} from './survey-events/survey-event-metho
 import {SurveyEventHabitatPageComponent} from './survey-events/survey-event-habitat-page/survey-event-habitat-page.component';
 import {SurveyEventHabitatEditPageComponent} from './survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component';
 import {SurveyEventTrajectPageComponent} from './survey-events/survey-event-traject-page/survey-event-traject-page.component';
+// tslint:disable-next-line:max-line-length
 import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
 import {LocationOverviewPageComponent} from './location/location-overview-page/location-overview-page.component';
 import {FishSpeciesOverviewPageComponent} from './fish-specie/fish-species-overview-page/fish-species-overview-page.component';
@@ -28,12 +29,13 @@ import {ProfilePageComponent} from './profile-page/profile-page.component';
 import {RoleGuard} from '../core/role-guard.service';
 import {Role} from '../core/_models/role';
 import {LocationCreatePageComponent} from './location/location-create-page/location-create-page.component';
-import {SurveyEventComponent} from "./survey-events/survey-event/survey-event.component";
-import {ProjectComponent} from "./project/project/project.component";
+import {SurveyEventComponent} from './survey-events/survey-event/survey-event.component';
+import {ProjectComponent} from './project/project/project.component';
 import {SurveyEventMeasurementsCreatePageComponent} from './survey-events/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {SurveyEventsOverviewPageComponent} from './survey-events/survey-events-overview-page/survey-events-overview-page.component';
 import {TipsComponent} from './tips/tips/tips.component';
 import {TipsPageComponent} from './tips/tips-page/tips-page.component';
+import {AuthGuardRole} from '../core/auth-guard-role.service';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -46,7 +48,8 @@ const routes: Routes = [
         path: '',
         component: ProjectDetailPageComponent,
         canActivate: [AuthGuardWithForcedLogin],
-        pathMatch: 'full'},
+        pathMatch: 'full'
+      },
       {
         path: 'bewerk',
         component: ProjectDetailEditPageComponent,
@@ -125,14 +128,22 @@ const routes: Routes = [
     ]
   },
   {path: 'locaties', component: LocationOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'locaties/create', component: LocationCreatePageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {
+    path: 'locaties/create',
+    component: LocationCreatePageComponent,
+    canActivate: [AuthGuardWithForcedLogin, AuthGuardRole],
+    data: {
+      role: Role.CreateFishingPoint
+    }
+  },
   {path: 'vissoorten', component: FishSpeciesOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'vissoorten/:taxonId', component: FishSpeciesDetailPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'methoden', component: MethodsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'visindex', component: FishIndexPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'waarnemingen', component: SurveyEventsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'profiel', component: ProfilePageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'tips/:tipPage', component: TipsComponent,
+  {
+    path: 'tips/:tipPage', component: TipsComponent,
     children: [
       {
         path: '',

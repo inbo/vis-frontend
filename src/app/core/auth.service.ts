@@ -230,6 +230,9 @@ export class AuthService implements OnDestroy {
         case 'EXPORT_PROJECT':
           currentRoles.push(Role.ExportProject);
           break;
+        case 'AANMAAK_VISPUNT':
+          currentRoles.push(Role.CreateFishingPoint);
+          break;
       }
     });
 

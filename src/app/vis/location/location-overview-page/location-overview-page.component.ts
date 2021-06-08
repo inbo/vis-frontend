@@ -10,6 +10,7 @@ import {ActivatedRoute} from '@angular/router';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {LatLng} from 'leaflet';
+import {Role} from '../../../core/_models/role';
 
 @Component({
   selector: 'app-location-overview-page',
@@ -29,6 +30,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   pager: AsyncPage<FishingPoint>;
   fishingPoints: Observable<FishingPoint[]>;
   selected: any;
+  role = Role;
 
 
   constructor(private titleService: Title, private locationsService: LocationsService, private activatedRoute: ActivatedRoute) {
