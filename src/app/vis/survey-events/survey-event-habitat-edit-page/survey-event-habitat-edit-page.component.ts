@@ -1,6 +1,6 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {Habitat} from '../../../domain/survey-event/habitat';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -30,7 +30,8 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
   };
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
-              private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService, private alertService: AlertService) {
+              private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService, private alertService: AlertService,
+              private router: Router) {
     this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
     this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
 
@@ -91,27 +92,9 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
 
     this.subscription.add(
       this.surveyEventsService.updateHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId, formData)
-        .subscribe((response) => {
-          this.alertService.success('Succesvol bewaard', '');
-          this.habitat = response;
-          this.habitatForm.get('soils').patchValue(response.soils);
-          this.habitatForm.get('waterLevel').patchValue(response.waterLevel);
-          this.habitatForm.get('shelters').patchValue(response.shelters);
-          this.habitatForm.get('pool').patchValue(response.pool);
-          this.habitatForm.get('rapids').patchValue(response.rapids);
-          this.habitatForm.get('creeks').patchValue(response.creeks);
-          this.habitatForm.get('shore').patchValue(response.shore);
-          this.habitatForm.get('slope').patchValue(response.slope);
-          this.habitatForm.get('agriculture').patchValue(response.agriculture);
-          this.habitatForm.get('meadow').patchValue(response.meadow);
-          this.habitatForm.get('trees').patchValue(response.trees);
-          this.habitatForm.get('buildings').patchValue(response.buildings);
-          this.habitatForm.get('industry').patchValue(response.industry);
-          this.habitatForm.get('loop').patchValue(response.loop);
-          this.habitatForm.get('fishPassage').patchValue(response.fishPassage);
-          this.habitatForm.get('bottlenecks').patchValue(response.bottlenecks);
-          this.habitatForm.get('vegetations').patchValue(response.vegetations);
-          this.habitatForm.reset(this.habitatForm.value);
+        .subscribe(() => {
+          this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
+            this.activatedRoute.parent.snapshot.params.surveyEventId, 'habitat']);
         })
     );
   }
