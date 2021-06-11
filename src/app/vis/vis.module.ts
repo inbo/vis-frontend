@@ -7,7 +7,6 @@ import {ProjectsOverviewPageComponent} from './project/projects-overview-page/pr
 import {LocationOverviewPageComponent} from './location/location-overview-page/location-overview-page.component';
 import {FishSpeciesOverviewPageComponent} from './fish-specie/fish-species-overview-page/fish-species-overview-page.component';
 import {MethodsOverviewPageComponent} from './method/methods-overview-page/methods-overview-page.component';
-import {FishIndexPageComponent} from './fish-index-page/fish-index-page.component';
 import {ProfilePageComponent} from './profile-page/profile-page.component';
 import {ProjectDetailPageComponent} from './project/project-detail-page/project-detail-page.component';
 import {ProjectSurveyEventsPageComponent} from './project/project-survey-events-page/project-survey-events-page.component';
@@ -64,7 +63,6 @@ import { TipsPageComponent } from './tips/tips-page/tips-page.component';
     LocationOverviewPageComponent,
     FishSpeciesOverviewPageComponent,
     MethodsOverviewPageComponent,
-    FishIndexPageComponent,
     ProfilePageComponent,
     ProjectDetailPageComponent,
     ProjectSurveyEventsPageComponent,

@@ -24,7 +24,6 @@ import {LocationOverviewPageComponent} from './location/location-overview-page/l
 import {FishSpeciesOverviewPageComponent} from './fish-specie/fish-species-overview-page/fish-species-overview-page.component';
 import {FishSpeciesDetailPageComponent} from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
 import {MethodsOverviewPageComponent} from './method/methods-overview-page/methods-overview-page.component';
-import {FishIndexPageComponent} from './fish-index-page/fish-index-page.component';
 import {ProfilePageComponent} from './profile-page/profile-page.component';
 import {RoleGuard} from '../core/role-guard.service';
 import {Role} from '../core/_models/role';
@@ -139,7 +138,6 @@ const routes: Routes = [
   {path: 'vissoorten', component: FishSpeciesOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'vissoorten/:taxonId', component: FishSpeciesDetailPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'methoden', component: MethodsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'visindex', component: FishIndexPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'waarnemingen', component: SurveyEventsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'profiel', component: ProfilePageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {
