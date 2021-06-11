@@ -65,6 +65,18 @@
               </div>
 
               <div class="relative">
+                <label for="methodGroup" class="block text-sm font-medium text-gray-700">
+                  Methode groep
+                </label>
+                <div class="mt-1">
+                  <select id="methodGroup" formControlName="methodGroup" class="mt-1">
+                    <option value="">Methode groep selecteren...</option>
+                    <option *ngFor="let methodGroup of methodGroups$ | async" [value]="methodGroup.code">{{methodGroup.description}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="relative">
                 <label for="method" class="block text-sm font-medium text-gray-700">
                   Methode
                 </label>

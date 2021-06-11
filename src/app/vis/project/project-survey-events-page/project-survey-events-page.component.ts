@@ -7,13 +7,14 @@ import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {map, take} from 'rxjs/operators';
-import {Method} from '../../method/model/method';
 import {Option} from '../../../shared-ui/searchable-select/option';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {getTag, Tag} from '../../../shared-ui/slide-over-filter/tag';
 import {DatePipe} from '@angular/common';
 import {TranslateService} from '@ngx-translate/core';
+import {Method} from '../../../domain/method/method';
+import {MethodGroup} from '../../../domain/method/method-group';
 
 @Component({
   selector: 'app-project-survey-events-page',
@@ -26,6 +27,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
   methods: Method[];
 
   surveyEvents$: Observable<SurveyEvent[]>;
+  methodGroups$: Observable<MethodGroup[]>;
   methods$ = new Subject<Option[]>();
   species$ = new Subject<Option[]>();
   tags$ = new Subject<Tag[]>();
@@ -38,17 +40,20 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private methodsService: MethodsService,
               private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder,
               private taxaService: TaxaService, private datePipe: DatePipe, private translateService: TranslateService) {
-    this.titleService.setTitle(`Waarnemingen voor ${this.activatedRoute.parent.snapshot.params.projectCode}`);
-    this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
-
-    this.subscription.add(this.methodsService.getAllMethods()
-      .subscribe(methods => {
-        this.methods$.next(methods.map(this.mapMethodToOption()));
-        return this.methods = methods;
-      }));
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle(`Waarnemingen voor ${this.activatedRoute.parent.snapshot.params.projectCode}`);
+    this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
+
+    this.methodsService.getAllMethods().pipe(take(1))
+      .subscribe(methods => {
+        this.methods$.next(methods.map(this.mapMethodToOption()));
+        return this.methods = methods;
+      });
+
+    this.methodGroups$ = this.methodsService.getAllMethodGroups();
+
     const queryParams = this.activatedRoute.snapshot.queryParams;
     this.filterForm = this.formBuilder.group(
       {
@@ -58,10 +63,17 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
         period: [queryParams.period],
         sort: [queryParams.sort ?? ''],
         measuringPointNumber: [queryParams.measuringPointNumber],
+        methodGroup: [queryParams.methodGroup],
         method: [queryParams.method],
         species: [queryParams.species]
       },
     );
+
+    this.subscription.add(this.filterForm.get('methodGroup').valueChanges.subscribe(value => {
+      this.methodsService.getMethodsForGroup(value)
+        .pipe(take(1))
+        .subscribe(methods => this.methods$.next(methods.map(this.mapMethodToOption())));
+    }));
   }
 
   ngOnDestroy(): void {
@@ -79,6 +91,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
       this.filterForm.get('period').patchValue(period);
       this.filterForm.get('sort').patchValue(params.sort ? params.sort : '');
       this.filterForm.get('measuringPointNumber').patchValue(params.measuringPointNumber ? params.measuringPointNumber : '');
+      this.filterForm.get('methodGroup').patchValue(params.methodGroup ? params.methodGroup : '');
 
       // Timeout to avoid ExpressionChangedAfterItHasBeenCheckedError
       setTimeout(() => {
@@ -190,6 +203,10 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     if (rawValue.measuringPointNumber) {
       tags.push(getTag('surveyEvent.measuringPointNumber', rawValue.measuringPointNumber,
         this.getCallback('measuringPointNumber')));
+    }
+    if (rawValue.methodGroup) {
+      tags.push(getTag('surveyEvent.methodGroup', this.translateService.instant('method.group.' + rawValue.methodGroup),
+        this.getCallback('methodGroup')));
     }
     if (rawValue.method) {
       tags.push(getTag('surveyEvent.method', this.translateService.instant(rawValue.method.translateKey),

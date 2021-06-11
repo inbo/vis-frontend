@@ -4,12 +4,12 @@ import {GlobalConstants} from '../../../GlobalConstants';
 import {Title} from '@angular/platform-browser';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
-import {Method} from '../model/method';
 import {Observable, of, Subscription} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {Method} from '../../../domain/method/method';
 
 @Component({
   selector: 'app-methods-overview-page',
@@ -30,8 +30,8 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private titleService: Title, private methodsService: MethodsService, private activatedRoute: ActivatedRoute, private router: Router,
-              private formBuilder: FormBuilder) {
+  constructor(private titleService: Title, private methodsService: MethodsService, private activatedRoute: ActivatedRoute,
+              private router: Router, private formBuilder: FormBuilder) {
     this.titleService.setTitle('Methodes');
 
     const queryParams = activatedRoute.snapshot.queryParams;

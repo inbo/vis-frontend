@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
-import {Method} from '../../method/model/method';
 import {Subscription} from 'rxjs';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {ProjectService} from '../../../services/vis.project.service';
+import {Method} from '../../../domain/method/method';
 
 @Component({
   selector: 'app-project-methods-page',
