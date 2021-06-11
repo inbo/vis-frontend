@@ -93,6 +93,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     this.subscription.add(
       this.surveyEventsService.updateHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId, formData)
         .subscribe(() => {
+
           this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
             this.activatedRoute.parent.snapshot.params.surveyEventId, 'habitat']);
         })
@@ -132,7 +133,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
   }
 
   hasUnsavedData(): boolean {
-    return this.habitatForm.dirty;
+    return this.habitatForm.dirty && !this.submitted;
   }
 
   ngOnDestroy(): void {
