@@ -41,25 +41,30 @@ export class HabitatOptionsService {
   constructor() {
     this._waterLevels = Object.keys(WaterLevel).filter(value => isNaN(Number(value))).map(value => this.createOption('waterLevel', value));
     this._shelters = Object.keys(Shelter).filter(value => isNaN(Number(value))).map(value => this.createOption('shelter', value));
-    this._pool = [{text: 'surveyEvent.habitat.pool.true', value: true}, {text: 'surveyEvent.habitat.pool.false', value: false}];
-    this._rapids = [{text: 'surveyEvent.habitat.rapids.true', value: true}, {text: 'surveyEvent.habitat.rapids.false', value: false}];
-    this._creeks = [{text: 'surveyEvent.habitat.creeks.true', value: true}, {text: 'surveyEvent.habitat.creeks.false', value: false}];
-    this._agriculture = Object.keys(Agriculture).filter(value => isNaN(Number(value))).map(value =>
-      this.createOption('agriculture', value));
-    this._buildings = Object.keys(Buildings).filter(value => isNaN(Number(value))).map(value => this.createOption('buildings', value));
-    this._industry = [{text: 'surveyEvent.habitat.industry.true', value: true}, {text: 'surveyEvent.habitat.industry.false', value: false}];
-    this._loop = Object.keys(Loop).filter(value => isNaN(Number(value))).map(value => this.createOption('loop', value));
-    this._fishPassage = [{text: 'surveyEvent.habitat.fish-passage.true', value: true}, {text: 'surveyEvent.habitat.fish-passage.false', value: false}];
-    this._meadow = Object.keys(Meadow).filter(value => isNaN(Number(value))).map(value => this.createOption('meadow', value));
+    this._pool = [{text: 'surveyEvent.habitat.pool.true', value: true}, {text: 'surveyEvent.habitat.pool.false', value: false},
+      {text: 'surveyEvent.habitat.pool.unknown', value: null}];
+    this._rapids = [{text: 'surveyEvent.habitat.rapids.true', value: true}, {text: 'surveyEvent.habitat.rapids.false', value: false},
+      {text: 'surveyEvent.habitat.rapids.unknown', value: null}];
+    this._creeks = [{text: 'surveyEvent.habitat.creeks.true', value: true}, {text: 'surveyEvent.habitat.creeks.false', value: false},
+      {text: 'surveyEvent.habitat.creeks.unknown', value: null}];
     this._shore = Object.keys(Shore).filter(value => isNaN(Number(value))).map(value => this.createOption('shore', value));
     this._slope = Object.keys(Slope).filter(value => isNaN(Number(value))).map(value => this.createOption('slope', value));
+    this._agriculture = Object.keys(Agriculture).filter(value => isNaN(Number(value))).map(value =>
+      this.createOption('agriculture', value));
+    this._meadow = Object.keys(Meadow).filter(value => isNaN(Number(value))).map(value => this.createOption('meadow', value));
     this._trees = Object.keys(Trees).filter(value => isNaN(Number(value))).map(value => this.createOption('trees', value));
+    this._buildings = Object.keys(Buildings).filter(value => isNaN(Number(value))).map(value => this.createOption('buildings', value));
+    this._industry = [{text: 'surveyEvent.habitat.industry.true', value: true}, {text: 'surveyEvent.habitat.industry.false', value: false},
+      {text: 'surveyEvent.habitat.industry.unknown', value: null}];
+    this._loop = Object.keys(Loop).filter(value => isNaN(Number(value))).map(value => this.createOption('loop', value));
+    this._fishPassage = [{text: 'surveyEvent.habitat.fish-passage.true', value: true},
+      {text: 'surveyEvent.habitat.fish-passage.false', value: false}, {text: 'surveyEvent.habitat.fish-passage.unknown', value: null}];
     this._soil = Object.keys(Soil).filter(value => isNaN(Number(value))).map(value => this.createOption('soil', value));
     this._bottlenecks = Object.keys(Bottleneck).filter(value => isNaN(Number(value))).map(value => this.createOption('bottleneck', value));
     this._vegetations = Object.keys(Vegetation).filter(value => isNaN(Number(value))).map(value => this.createOption('vegetation', value));
   }
 
-  private createOption(x: string, value: string) : RadioOption<string> {
+  private createOption(x: string, value: string): RadioOption<string> {
     const text = `surveyEvent.habitat.${x}.${value}`;
     return {value, text};
   }

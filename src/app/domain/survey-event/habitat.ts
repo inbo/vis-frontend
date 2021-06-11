@@ -22,39 +22,39 @@ export interface Habitat {
 
 
 export enum Agriculture {
-  NONE, ONE, BOTH
+  NONE, ONE, BOTH, UNKNOWN
 }
 
 export enum Buildings {
-  NONE, LOWER_5, BETWEEN_5_10, HIGHER_10
+  NONE, LOWER_5, BETWEEN_5_10, HIGHER_10, UNKNOWN
 }
 
 export enum Loop {
-  DISTURBED, MODERATE, NOT_DISTURBED
+  DISTURBED, MODERATE, NOT_DISTURBED, UNKNOWN
 }
 
 export enum Meadow {
-  NONE, ONE, BOTH
+  NONE, ONE, BOTH, UNKNOWN
 }
 
 export enum Shore {
-  REINFORCED, PARTIALLY_REINFORCED, NATURAL
+  REINFORCED, PARTIALLY_REINFORCED, NATURAL, UNKNOWN
 }
 
 export enum Slope {
-  GENTLE, MODERATE, STEEP
+  GENTLE, MODERATE, STEEP, UNKNOWN
 }
 
 export enum Trees {
-  NONE, LOWER_10, BETWEEN_10_50, HIGHER_50
+  NONE, LOWER_10, BETWEEN_10_50, HIGHER_50, UNKNOWN
 }
 
 export enum Shelter {
-  MANY, SOME, MODERATE, FEW, NONE
+  MANY, SOME, MODERATE, FEW, NONE, UNKNOWN
 }
 
 export enum WaterLevel {
-  LOW, NORMAL, HIGH
+  LOW, NORMAL, HIGH, UNKNOWN
 }
 
 export enum Soil {
