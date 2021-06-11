@@ -81,7 +81,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
   }
 
   ngAfterViewInit() {
-    this.activatedRoute.queryParams.pipe(take(1)).subscribe((params) => {
+    this.subscription.add(this.activatedRoute.queryParams.subscribe((params) => {
       const period = params.period && (params.period[0] && params.period[1]) ?
         [new Date(params.period[0]), new Date(params.period[1])] : null;
 
@@ -100,7 +100,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
 
         this.filter(params.page ?? 1, params.size ?? 20);
       });
-    });
+    }));
   }
 
   getSurveyEvents(page: number, size: number) {
