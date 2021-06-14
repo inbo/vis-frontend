@@ -113,4 +113,8 @@ export class ProjectService extends VisService implements OnDestroy {
   projectFavorites(): Observable<ProjectFavorites> {
     return this.http.get<ProjectFavorites>(`${environment.apiUrl}/api/settings/me/projectfavorites`, {});
   }
+
+  projectFavoritesOverview(): Observable<Project[]> {
+    return this.http.get<Project[]>(`${environment.apiUrl}/api/projects/favorite`, {});
+  }
 }

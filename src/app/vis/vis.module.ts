@@ -52,6 +52,7 @@ import { SurveyEventsOverviewPageComponent } from './survey-events/survey-events
 import { TipsComponent } from './tips/tips/tips.component';
 import { TipsTabsComponent } from './tips/tips-tabs/tips-tabs.component';
 import { TipsPageComponent } from './tips/tips-page/tips-page.component';
+import {ClipboardModule} from "ngx-clipboard";
 
 @NgModule({
   exports: [
@@ -112,7 +113,8 @@ import { TipsPageComponent } from './tips/tips-page/tips-page.component';
     TranslateModule,
     LeafletModule,
     LeafletMarkerClusterModule,
-    NgTransitionModule
+    NgTransitionModule,
+    ClipboardModule
   ],
   providers: [DatePipe]
 })

@@ -71,7 +71,8 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy, Aft
         measuringPointNumber: [queryParams.measuringPointNumber],
         methodGroup: [queryParams.methodGroup],
         method: [queryParams.method],
-        species: [queryParams.species]
+        species: [queryParams.species],
+        my: [queryParams.my]
       },
     );
 
@@ -98,6 +99,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy, Aft
       this.filterForm.get('sort').patchValue(params.sort ? params.sort : '');
       this.filterForm.get('measuringPointNumber').patchValue(params.measuringPointNumber ? params.measuringPointNumber : '');
       this.filterForm.get('methodGroup').patchValue(params.methodGroup ? params.methodGroup : '');
+      this.filterForm.get('my').patchValue(params.my ? params.my : null);
 
       // Timeout to avoid ExpressionChangedAfterItHasBeenCheckedError
       setTimeout(() => {
@@ -221,6 +223,9 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy, Aft
     if (rawValue.species) {
       tags.push(getTag('surveyEvent.species', this.translateService.instant(rawValue.species.translateKey),
         this.getCallback('species')));
+    }
+    if (rawValue.my) {
+      tags.push(getTag('surveyEvent.my', rawValue.my, this.getCallback('my')));
     }
     if (rawValue.sort) {
       tags.push(getTag('surveyEvent.sort', this.translateService.instant(`surveyEvent.sortOption.${rawValue.sort}`),
