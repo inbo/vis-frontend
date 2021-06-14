@@ -20,15 +20,16 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {TranslateModule} from '@ngx-translate/core';
 import {StepComponent} from './step/step.component';
-import {TipComponent} from "./tip/tip.component";
-import { SearchableSelectComponent } from './searchable-select/searchable-select.component';
-import { DaterangeComponent } from './daterange/daterange.component';
-import { HeaderBannerComponent } from './header-banner/header-banner.component';
-import {RoleEnabledButtonComponent} from "./role-enabled-button/role-enabled-button.component";
-import { SlideOverFilterComponent } from './slide-over-filter/slide-over-filter.component';
-import { TipIconComponent } from './tip-icon/tip-icon.component';
-import { ModalComponent } from './modal/modal.component';
-import { MultiTextSearchComponent } from './multi-text-search/multi-text-search.component';
+import {TipComponent} from './tip/tip.component';
+import {SearchableSelectComponent} from './searchable-select/searchable-select.component';
+import {DaterangeComponent} from './daterange/daterange.component';
+import {HeaderBannerComponent} from './header-banner/header-banner.component';
+import {RoleEnabledButtonComponent} from './role-enabled-button/role-enabled-button.component';
+import {SlideOverFilterComponent} from './slide-over-filter/slide-over-filter.component';
+import {TipIconComponent} from './tip-icon/tip-icon.component';
+import {ModalComponent} from './modal/modal.component';
+import {MultiTextSearchComponent} from './multi-text-search/multi-text-search.component';
+import {DropdownMinimalComponent} from './dropdown-minimal/dropdown-minimal.component';
 
 @NgModule({
   declarations: [
@@ -56,43 +57,45 @@ import { MultiTextSearchComponent } from './multi-text-search/multi-text-search.
     SlideOverFilterComponent,
     ModalComponent,
     TipIconComponent,
-    MultiTextSearchComponent
+    MultiTextSearchComponent,
+    DropdownMinimalComponent
   ],
-    exports: [
-        SidebarLayoutComponent,
-        NavigationLinkComponent,
-        ProfileDropdownComponent,
-        StackedLayoutComponent,
-        BreadcrumbComponent,
-        PagingAsyncComponent,
-        PagingComponent,
-        LoadingSpinnerComponent,
-        ToggleWithIconComponent,
-        DatepickerComponent,
-        SlideOverComponent,
-        TextCounterComponent,
-        ExpandableFilterComponent,
-        RadioGroupComponent,
-        CheckGroupComponent,
-        StepComponent,
-        SearchableSelectComponent,
-        DaterangeComponent,
-        TipComponent,
-        HeaderBannerComponent,
-        RoleEnabledButtonComponent,
-        SlideOverFilterComponent,
-        ModalComponent,
-        TipIconComponent,
-      MultiTextSearchComponent
-    ],
-    imports: [
-        RouterModule,
-        CommonModule,
-        NgTransitionModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule
-    ]
+  exports: [
+    SidebarLayoutComponent,
+    NavigationLinkComponent,
+    ProfileDropdownComponent,
+    StackedLayoutComponent,
+    BreadcrumbComponent,
+    PagingAsyncComponent,
+    PagingComponent,
+    LoadingSpinnerComponent,
+    ToggleWithIconComponent,
+    DatepickerComponent,
+    SlideOverComponent,
+    TextCounterComponent,
+    ExpandableFilterComponent,
+    RadioGroupComponent,
+    CheckGroupComponent,
+    StepComponent,
+    SearchableSelectComponent,
+    DaterangeComponent,
+    TipComponent,
+    HeaderBannerComponent,
+    RoleEnabledButtonComponent,
+    SlideOverFilterComponent,
+    ModalComponent,
+    TipIconComponent,
+    MultiTextSearchComponent,
+    DropdownMinimalComponent
+  ],
+  imports: [
+    RouterModule,
+    CommonModule,
+    NgTransitionModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule
+  ]
 })
 export class SharedUiModule {
 }

@@ -106,8 +106,12 @@
                           {{project.start | date:'dd/MM/yyyy'}} {{project.end ? ' - ' : ''}} {{project.end | date:'dd/MM/yyyy'}}
                         </td>
 
-                        <td class="px-6 py-4  text-right text-sm font-medium">
-                          <a [routerLink]="['/projecten', project.code.value]" class="text-pink-600 hover:text-pink-900">Detail</a>
+                        <td class="px-6 py-4 text-right text-sm font-medium">
+                          <app-dropdown-minimal>
+                            <button [routerLink]="['/projecten', project.code.value]" class="w-full text-left text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Detail</button>
+                            <button *ngIf="authService.hasRole(role.EditProject)" [routerLink]="['/projecten', project.code.value, 'bewerk']" class="w-full text-left text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1">Bewerken</button>
+                            <button *ngIf="authService.hasRole(role.CreateSurveyEvent)" [routerLink]="['/projecten', project.code.value, 'waarnemingen', 'toevoegen']" class="w-full text-left text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">Waarneming toevoegen</button>
+                          </app-dropdown-minimal>
                         </td>
                       </tr>
 

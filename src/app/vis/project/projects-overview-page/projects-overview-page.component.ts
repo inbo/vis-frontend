@@ -12,6 +12,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Role} from '../../../core/_models/role';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {ProjectService} from '../../../services/vis.project.service';
+import {AuthService} from '../../../core/auth.service';
 
 @Component({
   selector: 'app-projects-overview-page',
@@ -37,7 +38,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
   private subscription = new Subscription();
 
   constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute,
-              private router: Router, private formBuilder: FormBuilder) {
+              private router: Router, private formBuilder: FormBuilder, public authService: AuthService) {
   }
 
   ngOnInit(): void {

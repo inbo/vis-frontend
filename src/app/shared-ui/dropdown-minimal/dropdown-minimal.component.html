@@ -1,0 +1,27 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="relative inline-block text-left">
+  <div>
+    <button (click)="isOpen = !isOpen" type="button" class="z-0 rounded-full flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-pink-500" id="menu-button" aria-expanded="true" aria-haspopup="true">
+      <span class="sr-only">Open options</span>
+      <!-- Heroicon name: solid/dots-vertical -->
+      <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+      </svg>
+    </button>
+  </div>
+
+  <div #buttons
+    [ngTransition]="isOpen"
+    ngTransitionEnter="transition ease-out duration-100"
+    ngTransitionEnterStart="transform opacity-0 scale-95"
+    ngTransitionEnterEnd="transform opacity-100 scale-100"
+    ngTransitionLeave="transition ease-in duration-75"
+    ngTransitionLeaveStart="transform opacity-100 scale-100"
+    ngTransitionLeaveEnd="transform opacity-0 scale-95"
+    [class.hidden]="!isOpen"
+    class="z-20 origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+    <div class="py-1" role="none">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
