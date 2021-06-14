@@ -6,6 +6,7 @@ import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {VisService} from './vis.service';
 import {Taxon} from '../domain/taxa/taxon';
+import {ProjectFavorites} from "../domain/settings/project-favorite";
 
 
 @Injectable({
@@ -103,5 +104,13 @@ export class ProjectService extends VisService implements OnDestroy {
 
   reOpenProject(projectCode: string) {
     return this.http.post<Project>(`${environment.apiUrl}/api/projects/${projectCode}/reopen`, {});
+  }
+
+  toggleFavorite(projectCode: string) {
+    return this.http.post<Project>(`${environment.apiUrl}/api/settings/me/projectfavorites/${projectCode}/togglefavorite`, {});
+  }
+
+  projectFavorites(): Observable<ProjectFavorites> {
+    return this.http.get<ProjectFavorites>(`${environment.apiUrl}/api/settings/me/projectfavorites`, {});
   }
 }
