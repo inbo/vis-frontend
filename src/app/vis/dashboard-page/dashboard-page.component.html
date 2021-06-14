@@ -77,7 +77,7 @@
                           <div class="flex space-x-3">
                             <div class="min-w-0 flex-1">
                               <p class="text-sm font-medium text-gray-900">
-                                <a href="#" class="hover:underline">{{project.name}}</a>
+                                <a [routerLink]="['/projecten', project.code.value]" class="hover:underline">{{project.name}}</a>
                               </p>
                             </div>
                             <div class="flex-shrink-0 self-center flex">
