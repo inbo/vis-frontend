@@ -7,7 +7,7 @@
           <div class="space-y-6 pt-6 pb-5">
             <div>
               <label for="code" class="block text-sm font-medium text-gray-700">
-                Code
+                Code *
               </label>
               <div class="mt-1">
                 <input formControlName="code" type="text" name="code" id="code" autocomplete="name">
@@ -19,12 +19,12 @@
 
             <div>
               <label for="name" class="block text-sm font-medium text-gray-700">
-                Naam
+                Naam *
               </label>
               <div class="mt-1">
                 <input formControlName="name" type="text" name="name" id="name" autocomplete="name">
               </div>
-              <app-form-error-message [fieldName]="'Naam'" [control]="name" [submitted]="false"></app-form-error-message>
+              <app-form-error-message [fieldName]="'Naam'" [control]="name" [submitted]="submitted"></app-form-error-message>
 
             </div>
 
@@ -39,16 +39,16 @@
                 <p class="mt-2 text-sm text-gray-500">Beschrijf het project in een aantal zinnen</p>
                 <app-text-counter [max]="2000" [text]="description.value"></app-text-counter>
               </div>
-              <app-form-error-message [fieldName]="'Beschrijving'" [control]="description" [submitted]="false"></app-form-error-message>
+              <app-form-error-message [fieldName]="'Beschrijving'" [control]="description" [submitted]="submitted"></app-form-error-message>
             </div>
 
             <div>
               <label class="block text-sm font-medium text-gray-700">
-                Startdatum
+                Startdatum *
               </label>
               <div class="mt-1">
                 <app-datepicker formControlName="startDate"></app-datepicker>
-                <app-form-error-message [fieldName]="'Startdatum'" [control]="startDate" [submitted]="false"></app-form-error-message>
+                <app-form-error-message [fieldName]="'Startdatum'" [control]="startDate" [submitted]="submitted"></app-form-error-message>
 
               </div>
             </div>
@@ -64,7 +64,7 @@
 
             <div>
               <label class="block text-sm font-medium text-gray-700">
-                Lengtemaat
+                Lengtemaat *
               </label>
               <div class="mt-1">
                 <select name="lengthType" formControlName="lengthType">
