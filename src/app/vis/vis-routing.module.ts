@@ -35,6 +35,7 @@ import {SurveyEventsOverviewPageComponent} from './survey-events/survey-events-o
 import {TipsComponent} from './tips/tips/tips.component';
 import {TipsPageComponent} from './tips/tips-page/tips-page.component';
 import {AuthGuardRole} from '../core/auth-guard-role.service';
+import {UsersPageComponent} from "./users-page/users-page.component";
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -140,6 +141,14 @@ const routes: Routes = [
   {path: 'methoden', component: MethodsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'waarnemingen', component: SurveyEventsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'profiel', component: ProfilePageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {
+    path: 'gebruikers',
+    component: UsersPageComponent,
+    canActivate: [AuthGuardWithForcedLogin, AuthGuardRole],
+    data: {
+      role: Role.UserAdmin
+    }
+  },
   {
     path: 'tips/:tipPage', component: TipsComponent,
     children: [

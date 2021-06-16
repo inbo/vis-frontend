@@ -236,6 +236,9 @@ export class AuthService implements OnDestroy {
         case 'AANMAAK_WAARNEMING':
           currentRoles.push(Role.CreateSurveyEvent);
           break;
+        case 'GEBRUIKER_ADMIN':
+          currentRoles.push(Role.UserAdmin);
+          break;
       }
     });
 

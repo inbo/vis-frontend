@@ -48,11 +48,12 @@ import {LeafletMarkerClusterModule} from '@asymmetrik/ngx-leaflet-markercluster'
 import {FishingPointsMapComponent} from './components/fishing-points-map/fishing-points-map.component';
 import {FishingPointsMapPropertiesComponent} from './components/fishing-points-map-properties/fishing-points-map-properties.component';
 import {FormErrorMessageComponent} from './components/form-error-message/form-error-message.component';
-import { SurveyEventsOverviewPageComponent } from './survey-events/survey-events-overview-page/survey-events-overview-page.component';
-import { TipsComponent } from './tips/tips/tips.component';
-import { TipsTabsComponent } from './tips/tips-tabs/tips-tabs.component';
-import { TipsPageComponent } from './tips/tips-page/tips-page.component';
-import {ClipboardModule} from "ngx-clipboard";
+import {SurveyEventsOverviewPageComponent} from './survey-events/survey-events-overview-page/survey-events-overview-page.component';
+import {TipsComponent} from './tips/tips/tips.component';
+import {TipsTabsComponent} from './tips/tips-tabs/tips-tabs.component';
+import {TipsPageComponent} from './tips/tips-page/tips-page.component';
+import {ClipboardModule} from 'ngx-clipboard';
+import {UsersPageComponent} from './users-page/users-page.component';
 
 @NgModule({
   exports: [
@@ -102,6 +103,7 @@ import {ClipboardModule} from "ngx-clipboard";
     TipsComponent,
     TipsTabsComponent,
     TipsPageComponent,
+    UsersPageComponent,
   ],
   imports: [
     CommonModule,
