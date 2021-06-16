@@ -6,14 +6,11 @@ import {AccountService} from '../../services/vis.account.service';
 import {Observable, of, Subscription} from 'rxjs';
 import {AsyncPage} from '../../shared-ui/paging-async/asyncPage';
 import {Account} from '../../domain/account/account';
-import {Role} from "../../core/_models/role";
-import {Project} from "../../domain/project/project";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {Title} from "@angular/platform-browser";
-import {ProjectService} from "../../services/vis.project.service";
-import {ActivatedRoute, Params, Router} from "@angular/router";
-import {AuthService} from "../../core/auth.service";
-import {debounceTime, distinctUntilChanged} from "rxjs/operators";
+import {Role} from '../../core/_models/role';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Title} from '@angular/platform-browser';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {AuthService} from '../../core/auth.service';
 
 @Component({
   selector: 'app-users-page',
