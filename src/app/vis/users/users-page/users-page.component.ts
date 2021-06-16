@@ -1,16 +1,17 @@
-import {Component, OnInit} from '@angular/core';
-import {NavigationLink} from '../../shared-ui/layouts/NavigationLinks';
-import {GlobalConstants} from '../../GlobalConstants';
-import {BreadcrumbLink} from '../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {AccountService} from '../../services/vis.account.service';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Observable, of, Subscription} from 'rxjs';
-import {AsyncPage} from '../../shared-ui/paging-async/asyncPage';
-import {Account} from '../../domain/account/account';
-import {Role} from '../../core/_models/role';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {AuthService} from '../../core/auth.service';
+import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
+import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
+import {GlobalConstants} from '../../../GlobalConstants';
+import {Role} from '../../../core/_models/role';
+import {AccountService} from '../../../services/vis.account.service';
+import {AuthService} from '../../../core/auth.service';
+import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
+import {Account} from '../../../domain/account/account';
+import {UserEditComponent} from '../user-edit/user-edit.component';
 
 @Component({
   selector: 'app-users-page',
@@ -22,6 +23,8 @@ export class UsersPageComponent implements OnInit {
   breadcrumbLinks: BreadcrumbLink[] = [
     {title: 'Gebruikers', url: '/gebruikers'},
   ];
+
+  @ViewChild(UserEditComponent) userEditComponent;
 
   role = Role;
 
@@ -98,4 +101,7 @@ export class UsersPageComponent implements OnInit {
     this.getAccounts(1, 20);
   }
 
+  editAccount(account: Account) {
+    this.userEditComponent.open(account);
+  }
 }

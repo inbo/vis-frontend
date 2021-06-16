@@ -53,7 +53,8 @@ import {TipsComponent} from './tips/tips/tips.component';
 import {TipsTabsComponent} from './tips/tips-tabs/tips-tabs.component';
 import {TipsPageComponent} from './tips/tips-page/tips-page.component';
 import {ClipboardModule} from 'ngx-clipboard';
-import {UsersPageComponent} from './users-page/users-page.component';
+import {UsersPageComponent} from './users/users-page/users-page.component';
+import { UserEditComponent } from './users/user-edit/user-edit.component';
 
 @NgModule({
   exports: [
@@ -104,6 +105,7 @@ import {UsersPageComponent} from './users-page/users-page.component';
     TipsTabsComponent,
     TipsPageComponent,
     UsersPageComponent,
+    UserEditComponent,
   ],
   imports: [
     CommonModule,

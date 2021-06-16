@@ -1,0 +1,50 @@
+<form [formGroup]="editTeamForm">
+  <app-slide-over [isOpen]="isOpen" (isOpenChange)="isOpen = false">
+    <span slot="title">Gebruiker</span>
+    <span slot="description">Bewerk het team van een gebruiker.</span>
+    <div slot="content">
+      <div class="flex-1 flex flex-col justify-between">
+        <div class="px-4 divide-y divide-gray-200 sm:px-6">
+          <div class="space-y-6 pt-6 pb-5">
+
+            <div>
+              <div class="flex items-center">
+                <h3 class="font-bold text-xl text-gray-900 sm:text-2xl">{{account?.name}}</h3>
+              </div>
+              <p class="text-sm text-gray-500">{{account?.email}}</p>
+            </div>
+
+            <!--<div>
+              <label class="block text-sm font-medium text-gray-900">
+                Instantie
+              </label>
+              <div class="mt-1 space-y-1">
+                <select>
+                  <option>INBO</option>
+                  <option>ANB</option>
+                </select>
+              </div>
+            </div>-->
+
+            <div>
+              <label class="block text-sm font-medium text-gray-900">
+                Team
+              </label>
+              <div class="mt-1 space-y-1">
+                <select formControlName="team">
+                  <option *ngFor="let team of teams$ | async" [value]="team.code">{{team.name}}</option>
+                </select>
+                <app-form-error-message [control]="team" [fieldName]="'Team'"></app-form-error-message>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex-shrink-0 px-4 border-t border-gray-200 py-5 sm:px-6" slot="buttons">
+      <div class="space-x-3 flex justify-end">
+        <app-button (click)="save()">Bewaren</app-button>
+      </div>
+    </div>
+  </app-slide-over>
+</form>

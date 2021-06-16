@@ -35,7 +35,7 @@ import {SurveyEventsOverviewPageComponent} from './survey-events/survey-events-o
 import {TipsComponent} from './tips/tips/tips.component';
 import {TipsPageComponent} from './tips/tips-page/tips-page.component';
 import {AuthGuardRole} from '../core/auth-guard-role.service';
-import {UsersPageComponent} from "./users-page/users-page.component";
+import {UsersPageComponent} from './users/users-page/users-page.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
