@@ -12,7 +12,7 @@
           </h3>
           <div class="mt-3 flex sm:mt-0 sm:ml-4">
 <!--            <app-button class="mr-2">Nieuwe instantie</app-button>-->
-            <app-button>Nieuw team</app-button>
+            <app-button (click)="addTeam()">Nieuw team</app-button>
           </div>
         </div>
 
@@ -86,6 +86,8 @@
       </div>
 
       <app-user-edit></app-user-edit>
+
+      <app-team-add></app-team-add>
     </div>
   </div>
 </app-stacked-layout>

@@ -141,6 +141,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy, Aft
 
   getSpecies(val: string) {
     this.taxaService.getTaxa(val).pipe(
+      take(1),
       map(taxa => {
         return taxa.map(taxon => ({
           id: taxon.id.value,
@@ -149,7 +150,6 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy, Aft
       })
     ).subscribe(value => this.species$.next(value));
   }
-
 
   filter(page?: number, size?: number) {
     if (this.filterForm.get('period').value?.length < 2) {

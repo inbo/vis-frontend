@@ -18,7 +18,7 @@ export class UserEditComponent implements OnInit {
 
   teams$: Observable<Team[]>;
 
-  editTeamForm: FormGroup;
+  editAccountTeamForm: FormGroup;
 
   constructor(private accountService: AccountService, private formBuilder: FormBuilder) {
   }
@@ -26,23 +26,23 @@ export class UserEditComponent implements OnInit {
   ngOnInit(): void {
     this.teams$ = this.accountService.listTeams();
 
-    this.editTeamForm = this.formBuilder.group({
+    this.editAccountTeamForm = this.formBuilder.group({
       team: [null, [Validators.required]],
     });
   }
 
   open(account: Account) {
     this.account = account;
-    this.editTeamForm.get('team').patchValue(account.team?.code);
+    this.editAccountTeamForm.get('team').patchValue(account.team?.code);
     this.isOpen = true;
   }
 
   save() {
-    if (this.editTeamForm.invalid) {
+    if (this.editAccountTeamForm.invalid) {
       return;
     }
 
-    const rawValue = this.editTeamForm.getRawValue();
+    const rawValue = this.editAccountTeamForm.getRawValue();
 
     this.accountService.updateTeam(this.account.username, rawValue).pipe(take(1)).subscribe(() => {
       window.location.reload();
@@ -50,6 +50,6 @@ export class UserEditComponent implements OnInit {
   }
 
   get team() {
-    return this.editTeamForm.get('team');
+    return this.editAccountTeamForm.get('team');
   }
 }
