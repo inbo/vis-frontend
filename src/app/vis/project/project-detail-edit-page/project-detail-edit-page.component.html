@@ -54,8 +54,7 @@
               <app-form-error-message [fieldName]="'Startdatum'" [control]="startDate" [submitted]="submitted"></app-form-error-message>
             </div>
           </div>
-
-          <div>
+          <div class="sm:col-span-2">
             <label class="block text-sm font-medium text-gray-700">
               Lengtemaat
             </label>
@@ -65,6 +64,19 @@
                 <option value="TOTAL">Totaal</option>
               </select>
               <p *ngIf="submitted && lengthType.errors" class="mt-2 text-sm text-red-600">Lengtemaat is verplicht</p>
+            </div>
+          </div>
+
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700">
+              Team
+            </label>
+            <div class="mt-1">
+              <select formControlName="team">
+                <option [value]="null">--- Kies een team ---</option>
+                <option *ngFor="let team of teams$ | async" [value]="team.code">{{team.name}}</option>
+              </select>
+              <app-form-error-message [control]="team" [fieldName]="'Team'" [submitted]="submitted"></app-form-error-message>
             </div>
           </div>
         </div>

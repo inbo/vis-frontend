@@ -4,12 +4,16 @@ import {Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ProjectService} from '../../../services/vis.project.service';
+import {Team} from '../../../domain/account/team';
+import {AccountService} from '../../../services/vis.account.service';
 
 @Component({
   selector: 'app-project-add',
   templateUrl: './project-add.component.html'
 })
 export class ProjectAddComponent implements OnInit, OnDestroy {
+
+  teams$: Observable<Team[]>;
 
   createProjectForm: FormGroup;
   isOpen = false;
@@ -18,11 +22,14 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private projectService: ProjectService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private projectService: ProjectService, private formBuilder: FormBuilder, private router: Router,
+              private accountService: AccountService) {
 
   }
 
   ngOnInit(): void {
+    this.teams$ = this.accountService.listTeams();
+
     this.createProjectForm = this.formBuilder.group({
       code: [null, [Validators.required, Validators.maxLength(15)], [this.codeValidator()]],
       name: ['', [Validators.required, Validators.maxLength(200)]],
@@ -30,6 +37,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
       lengthType: ['', [Validators.required]],
       status: [true, []],
       startDate: [null, [Validators.required]],
+      team: [null],
     });
   }
 
@@ -94,6 +102,10 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
 
   get lengthType() {
     return this.createProjectForm.get('lengthType');
+  }
+
+  get team() {
+    return this.createProjectForm.get('team');
   }
 
 }

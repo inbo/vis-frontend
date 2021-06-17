@@ -36,6 +36,14 @@
           {{project?.start | date:'dd/MM/yyyy'}} {{project?.end ? ' - ' : ''}} {{project?.end | date:'dd/MM/yyyy'}}
         </dd>
       </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Team
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{project?.teamName}}
+        </dd>
+      </div>
       <div class="sm:col-span-2">
         <dt class="text-sm font-medium text-gray-500">
           Beschrijving

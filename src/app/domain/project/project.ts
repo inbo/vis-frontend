@@ -13,6 +13,8 @@ export interface Project {
   start: Date;
   end: Date;
   lengthType: string;
+  team: string;
+  teamName: string;
 }
 
 

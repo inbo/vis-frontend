@@ -4,9 +4,11 @@ import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HasUnsavedData} from '../../../core/core.interface';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {ProjectService} from '../../../services/vis.project.service';
 import {Role} from '../../../core/_models/role';
+import {AccountService} from '../../../services/vis.account.service';
+import {Team} from '../../../domain/account/team';
 
 @Component({
   selector: 'app-project-detail-edit-page',
@@ -23,14 +25,18 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
   showCloseProjectModal = false;
 
+  teams$: Observable<Team[]>;
+
   private subscription = new Subscription();
 
   constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute,
-              private router: Router, private formBuilder: FormBuilder) {
+              private router: Router, private formBuilder: FormBuilder, private accountService: AccountService) {
 
   }
 
   ngOnInit(): void {
+    this.teams$ = this.accountService.listTeams();
+
     this.closeProjectForm = this.formBuilder.group({
       endDate: [null, [Validators.required]]
     });
@@ -42,6 +48,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         lengthType: ['', [Validators.required]],
         status: [false, []],
         startDate: [null, [Validators.required]],
+        team: [null],
       });
 
     this.subscription.add(
@@ -53,6 +60,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         this.projectForm.get('status').patchValue(value.status === 'ACTIVE');
         this.projectForm.get('startDate').patchValue(value.start);
         this.projectForm.get('lengthType').patchValue(value.lengthType);
+        this.projectForm.get('team').patchValue(value.team === undefined ? null : value.team);
       })
     );
   }
@@ -90,6 +98,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     this.projectForm.get('status').patchValue(this.project.status === 'ACTIVE');
     this.projectForm.get('startDate').patchValue(this.project.start);
     this.projectForm.get('lengthType').patchValue(this.project.lengthType);
+    this.projectForm.get('team').patchValue(this.project.team);
     this.projectForm.reset(this.projectForm.value);
   }
 
@@ -142,5 +151,9 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
   get lengthType() {
     return this.projectForm.get('lengthType');
+  }
+
+  get team() {
+    return this.projectForm.get('team');
   }
 }
