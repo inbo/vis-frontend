@@ -16,7 +16,7 @@ export class TeamAddComponent implements OnInit {
 
   addTeamForm: FormGroup;
 
-  users$ = new Subject<Account[]>();
+  accounts$ = new Subject<Account[]>();
 
   constructor(private accountService: AccountService, private formBuilder: FormBuilder) {
   }
@@ -26,7 +26,7 @@ export class TeamAddComponent implements OnInit {
       teamCode: [null, [Validators.required]],
       description: [null, [Validators.required]],
       instanceCode: [null, [Validators.required]],
-      users: [[]]
+      accounts: [[]]
     });
   }
 
@@ -53,16 +53,13 @@ export class TeamAddComponent implements OnInit {
     }
 
     const rawValue = this.addTeamForm.getRawValue();
-    console.log(rawValue);
-    /*
-        this.accountService.addTeam(rawValue).pipe(take(1)).subscribe(() => {
-          window.location.reload();
-        });
-    */
+    this.accountService.addTeam(rawValue).pipe(take(1)).subscribe(() => {
+      window.location.reload();
+    });
   }
 
-  getUsers(val: string) {
+  getAccounts(val: string) {
     this.accountService.getAccounts(val).pipe(take(1))
-      .subscribe(value => this.users$.next(value));
+      .subscribe(value => this.accounts$.next(value));
   }
 }

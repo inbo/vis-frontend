@@ -40,4 +40,8 @@ export class AccountService extends VisService {
 
     return this.http.get<Account[]>(`${environment.apiUrl}/api/accounts/search`, {params});
   }
+
+  addTeam(team: any) {
+    return this.http.post<void>(`${environment.apiUrl}/api/teams`, team);
+  }
 }
