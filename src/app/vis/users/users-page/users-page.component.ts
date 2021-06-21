@@ -12,6 +12,7 @@ import {AuthService} from '../../../core/auth.service';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Account} from '../../../domain/account/account';
 import {UserEditComponent} from '../user-edit/user-edit.component';
+import {TeamAddComponent} from '../team-add/team-add.component';
 
 @Component({
   selector: 'app-users-page',
@@ -25,6 +26,7 @@ export class UsersPageComponent implements OnInit {
   ];
 
   @ViewChild(UserEditComponent) userEditComponent;
+  @ViewChild(TeamAddComponent) teamAddComponent;
 
   role = Role;
 
@@ -103,5 +105,9 @@ export class UsersPageComponent implements OnInit {
 
   editAccount(account: Account) {
     this.userEditComponent.open(account);
+  }
+
+  addTeam() {
+    this.teamAddComponent.open();
   }
 }

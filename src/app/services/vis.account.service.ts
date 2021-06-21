@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {VisService} from './vis.service';
 import {Account} from '../domain/account/account';
@@ -32,5 +32,16 @@ export class AccountService extends VisService {
 
   updateTeam(username: string, team: any) {
     return this.http.patch<void>(environment.apiUrl + '/api/account/' + username + '/team', team);
+  }
+
+  getAccounts(val: string) {
+    const params = new HttpParams()
+      .set('name', val);
+
+    return this.http.get<Account[]>(`${environment.apiUrl}/api/accounts/search`, {params});
+  }
+
+  addTeam(team: any) {
+    return this.http.post<void>(`${environment.apiUrl}/api/teams`, team);
   }
 }

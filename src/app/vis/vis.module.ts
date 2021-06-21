@@ -55,6 +55,8 @@ import {TipsPageComponent} from './tips/tips-page/tips-page.component';
 import {ClipboardModule} from 'ngx-clipboard';
 import {UsersPageComponent} from './users/users-page/users-page.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
+import { TeamAddComponent } from './users/team-add/team-add.component';
+import {MultiUserSearchComponent} from './users/multi-user-search/multi-user-search.component';
 
 @NgModule({
   exports: [
@@ -106,6 +108,8 @@ import { UserEditComponent } from './users/user-edit/user-edit.component';
     TipsPageComponent,
     UsersPageComponent,
     UserEditComponent,
+    TeamAddComponent,
+    MultiUserSearchComponent
   ],
   imports: [
     CommonModule,

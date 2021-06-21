@@ -15,31 +15,31 @@ import {
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {fromEvent, Subject, Subscription} from 'rxjs';
 import {debounceTime, filter, map} from 'rxjs/operators';
+import {Account} from '../../../domain/account/account';
 
 @Component({
-  selector: 'app-multi-text-search',
-  templateUrl: './multi-text-search.component.html',
+  selector: 'app-multi-user-search',
+  templateUrl: './multi-user-search.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MultiTextSearchComponent),
+      useExisting: forwardRef(() => MultiUserSearchComponent),
       multi: true
     }
   ]
 })
-export class MultiTextSearchComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked, ControlValueAccessor {
+export class MultiUserSearchComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked, ControlValueAccessor {
 
   @ViewChild('searchBox') searchBox: ElementRef;
   @ViewChild('searchBoxDiv') searchBoxDiv: ElementRef;
   @ViewChild('valuesList') valuesList: ElementRef;
 
-  @Input() options$: Subject<string[]>;
-  @Input() translateKey: string;
+  @Input() options$: Subject<Account[]>;
   @Input() formControlName: string;
   @Output() search: EventEmitter<any> = new EventEmitter();
 
   isOpen = false;
-  selectedValues: string[] = [];
+  selectedValues: Account[] = [];
 
   private touched = false;
   private isDisabled = false;
@@ -54,9 +54,6 @@ export class MultiTextSearchComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   ngOnInit(): void {
-    if (this.translateKey === null) {
-      throw new Error('Attribute "translateKey" is required');
-    }
   }
 
   ngAfterViewInit() {
@@ -106,7 +103,7 @@ export class MultiTextSearchComponent implements OnInit, OnDestroy, AfterViewIni
     this.isDisabled = isDisabled;
   }
 
-  select(option: string) {
+  select(option: Account) {
     if (!this.isSelected(option)) {
       this.selectedValues.push(option);
       this.onChange(this.selectedValues);
@@ -128,7 +125,7 @@ export class MultiTextSearchComponent implements OnInit, OnDestroy, AfterViewIni
     }
   }
 
-  selectOnEnter(event: KeyboardEvent, option: string) {
+  selectOnEnter(event: KeyboardEvent, option: Account) {
     if (event.key === 'Enter') {
       this.select(option);
     }
@@ -142,8 +139,8 @@ export class MultiTextSearchComponent implements OnInit, OnDestroy, AfterViewIni
     }
   }
 
-  isSelected(id: any) {
-    return this.selectedValues.some(value => value === id);
+  isSelected(account: Account) {
+    return this.selectedValues.some(value => value.username === account.username);
   }
 
   remove(id: any) {

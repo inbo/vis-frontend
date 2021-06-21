@@ -13,7 +13,7 @@
 <ng-container *ngIf="!isOpen">
   <div class="inline-flex py-0.5 pr-1" *ngFor="let selectedValue of selectedValues">
     <span class="inline-flex rounded-full items-center py-0.5 pl-2.5 sm:pl-2 pr-1 sm:pr-0.5 text-sm sm:text-xs font-medium bg-pink-100 text-pink-700">
-      {{translateKey + selectedValue | translate}}
+      {{selectedValue.name}}
       <button (click)="remove(selectedValue)"
               class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-pink-400 hover:bg-pink-200 hover:text-pink-500 focus:outline-none focus:bg-pink-500 focus:text-white">
         <span class="sr-only">Remove large option</span>
@@ -42,7 +42,7 @@
       class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-pink-600 focus:text-white focus:bg-pink-600"
       role="option">
     <span class="font-normal block truncate" [class.font-semibold]="isSelected(option)">
-      {{translateKey + option | translate}}
+      {{option.name}}
     </span>
     <span class="text-pink-600 absolute inset-y-0 right-0 flex items-center pr-4"
           [class.hidden]="!isSelected(option)">
