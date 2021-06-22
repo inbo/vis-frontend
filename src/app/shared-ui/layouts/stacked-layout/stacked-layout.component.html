@@ -20,13 +20,10 @@
   </div>
 </div>
 <nav class="bg-pink-500" aria-label="Global">
-  <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+  <div class="max-w-7xl mx-auto sm:px-2 lg:px-6">
     <div class="flex justify-between h-16">
       <div class="flex items-center px-2 lg:px-0">
-        <div class="flex-shrink-0 flex items-center">
-          <img class="h-8 w-auto" src="assets/images/logo-white.png" alt="Logo">
-        </div>
-        <div class="hidden lg:ml-8 lg:flex lg:space-x-4">
+        <div class="hidden lg:flex lg:space-x-4">
           <a *ngFor="let nl of navigationLinks" [routerLink]="nl.url"
              class="rounded-md py-2 px-3 text-sm font-medium text-white hover:bg-pink-400">
             {{nl.title}}
