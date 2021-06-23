@@ -5,7 +5,6 @@
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
         <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
-          <!-- This example requires Tailwind CSS v2.0+ -->
           <div class="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
               Project overzicht
@@ -27,17 +26,17 @@
             </div>
 
             <div class="flex items-center">
-              <select formControlName="status" class="mt-1">
-                <option value="">Actief / Niet actief</option>
+              <select name="status" formControlName="status" class="mt-1">
+                <option [value]="null">Actief / Niet actief</option>
                 <option value="ACTIVE">Actief</option>
                 <option value="INACTIVE">Niet actief</option>
               </select>
             </div>
             <div class="self-center">
-              <select formControlName="sort" class="mt-1">
-                <option value="">Sorteren op ...</option>
+              <select name="sort" formControlName="sort" class="mt-1">
+                <option [value]="null">Sorteren op ...</option>
                 <option value="name">Naam</option>
-                <option value="start">Periode</option>
+                <option value="period.begin">Periode</option>
               </select>
             </div>
           </ng-container>
@@ -46,14 +45,14 @@
 
             <div class="self-center">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input type="text" formControlName="description" placeholder="Omschrijving ..." />
+                <input name="description" type="text" formControlName="description" placeholder="Omschrijving ..." />
               </div>
             </div>
 
             <div class="self-center">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
                 <select name="lengthType" formControlName="lengthType">
-                  <option value="">Lengtemaat selecteren ...</option>
+                  <option [value]="null">Lengtemaat selecteren ...</option>
                   <option value="FORK">Vork</option>
                   <option value="TOTAL">Totaal</option>
                 </select>
@@ -76,9 +75,12 @@
                           Naam
                         </th>
                         <th scope="col" class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Team
+                        </th>
+                        <th scope="col" class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Status
                         </th>
-                        <th scope="col" class="w-2/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Periode
                         </th>
                         <th scope="col" class="w-1/12 px-6 py-3 bg-gray-50">
@@ -96,6 +98,9 @@
                       <tr *ngFor="let project of projects | async; let index = index" [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">
                         <td class="px-6 py-4  text-sm text-gray-500">
                           <a [routerLink]="['/projecten', project.code.value]">{{project.name}}</a>
+                        </td>
+                        <td class="px-6 py-4  text-sm text-gray-500">
+                          {{ project.teamName }}
                         </td>
                         <td class="px-6 py-4  text-sm text-gray-500">
                           <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" [ngClass]="project.status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
@@ -148,6 +153,10 @@
                           <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
                         </svg>
                         <p>{{project.start | date:'dd/MM/yyyy mm:ss'}}<span *ngIf="project.end != null"> - {{project.end | date:'dd/MM/yyyy mm:ss'}}</span></p>
+                      </div>
+                      <div *ngIf="project.teamName" class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg>
+                        <p>{{project.teamName}}</p>
                       </div>
                     </div>
                   </div>
