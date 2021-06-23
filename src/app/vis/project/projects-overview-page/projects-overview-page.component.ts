@@ -14,6 +14,8 @@ import {debounceTime, distinctUntilChanged, tap} from 'rxjs/operators';
 import {ProjectService} from '../../../services/vis.project.service';
 import {AuthService} from '../../../core/auth.service';
 import _ from 'lodash';
+import {AccountService} from "../../../services/vis.account.service";
+import {Team} from "../../../domain/account/team";
 
 @Component({
   selector: 'app-projects-overview-page',
@@ -36,15 +38,19 @@ export class ProjectsOverviewPageComponent implements OnInit {
   filterForm: FormGroup;
   advancedFilterIsVisible = false;
 
+  teams$: Observable<Team[]>;
+
   private subscription = new Subscription();
 
   constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute,
-              private router: Router, private formBuilder: FormBuilder, public authService: AuthService) {
+              private router: Router, private formBuilder: FormBuilder, public authService: AuthService,
+              private accountService: AccountService) {
   }
 
   ngOnInit(): void {
     this.titleService.setTitle('Projecten');
 
+    this.teams$ = this.accountService.listTeams();
     const queryParams = this.activatedRoute.snapshot.queryParams;
     this.filterForm = this.formBuilder.group(
       {
@@ -52,6 +58,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
         description: [queryParams.description ?? null],
         lengthType: [queryParams.lengthType ?? null],
         status: [queryParams.status ?? null],
+        team: [queryParams.team ?? null],
         sort: [queryParams.sort ?? null],
         page: [queryParams.page ?? null],
         size: [queryParams.size ?? null]
@@ -80,6 +87,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
         this.filterForm.get('description').patchValue(params.description ? params.description : null);
         this.filterForm.get('lengthType').patchValue(params.lengthType ? params.lengthType : null);
         this.filterForm.get('status').patchValue(params.status ? params.status : null);
+        this.filterForm.get('team').patchValue(params.team ? params.team : null);
         this.filterForm.get('sort').patchValue(params.sort ? params.sort : null);
         this.filterForm.get('page').patchValue(params.page ? params.page : null);
         this.filterForm.get('size').patchValue(params.size ? params.size : null);

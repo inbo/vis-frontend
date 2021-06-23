@@ -27,14 +27,20 @@
 
             <div class="flex items-center">
               <select name="status" formControlName="status" class="mt-1">
-                <option [value]="null">Actief / Niet actief</option>
+                <option [ngValue]="null">Actief / Niet actief</option>
                 <option value="ACTIVE">Actief</option>
                 <option value="INACTIVE">Niet actief</option>
               </select>
             </div>
             <div class="self-center">
+              <select name="team" formControlName="team" class="mt-1">
+                <option [ngValue]="null">Team ...</option>
+                <option *ngFor="let team of teams$ | async" [value]="team.code">{{team.instanceCode}}/{{team.code}}</option>
+              </select>
+            </div>
+            <div class="self-center">
               <select name="sort" formControlName="sort" class="mt-1">
-                <option [value]="null">Sorteren op ...</option>
+                <option [ngValue]="null">Sorteren op ...</option>
                 <option value="name">Naam</option>
                 <option value="period.begin">Periode</option>
               </select>
@@ -52,7 +58,7 @@
             <div class="self-center">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
                 <select name="lengthType" formControlName="lengthType">
-                  <option [value]="null">Lengtemaat selecteren ...</option>
+                  <option [ngValue]="null">Lengtemaat selecteren ...</option>
                   <option value="FORK">Vork</option>
                   <option value="TOTAL">Totaal</option>
                 </select>
