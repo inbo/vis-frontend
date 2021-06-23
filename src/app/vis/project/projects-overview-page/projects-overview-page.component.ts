@@ -10,9 +10,10 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ProjectAddComponent} from '../project-add/project-add.component';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Role} from '../../../core/_models/role';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, tap} from 'rxjs/operators';
 import {ProjectService} from '../../../services/vis.project.service';
 import {AuthService} from '../../../core/auth.service';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-projects-overview-page',
@@ -47,44 +48,53 @@ export class ProjectsOverviewPageComponent implements OnInit {
     const queryParams = this.activatedRoute.snapshot.queryParams;
     this.filterForm = this.formBuilder.group(
       {
-        name: [queryParams.name],
-        description: [queryParams.description],
-        lengthType: [queryParams.lengthType],
-        status: [queryParams.status],
-        sort: [queryParams.sort ?? '']
+        name: [queryParams.name ?? null],
+        description: [queryParams.description ?? null],
+        lengthType: [queryParams.lengthType ?? null],
+        status: [queryParams.status ?? null],
+        sort: [queryParams.sort ?? null],
+        page: [queryParams.page ?? null],
+        size: [queryParams.size ?? null]
       },
     );
 
     this.subscription.add(
       this.filterForm.valueChanges.pipe(
         debounceTime(300),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
+        distinctUntilChanged((a, b) => {
+          const filteredObj = (obj) =>
+            Object.entries(obj)
+              .filter(([_, value]) => !!value || typeof value === 'boolean')
+              .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
+          return _.isEqual(filteredObj(a), filteredObj(b));
+        })
+      )
+
         .subscribe(_ => this.filter())
     );
 
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
-        this.filterForm.get('name').patchValue(params.name ? params.name : '');
-        this.filterForm.get('description').patchValue(params.description ? params.description : '');
-        this.filterForm.get('lengthType').patchValue(params.lengthType ? params.lengthType : '');
-        this.filterForm.get('status').patchValue(params.status ? params.status : '');
-        this.filterForm.get('sort').patchValue(params.sort ? params.sort : '');
+        this.filterForm.get('name').patchValue(params.name ? params.name : null);
+        this.filterForm.get('description').patchValue(params.description ? params.description : null);
+        this.filterForm.get('lengthType').patchValue(params.lengthType ? params.lengthType : null);
+        this.filterForm.get('status').patchValue(params.status ? params.status : null);
+        this.filterForm.get('sort').patchValue(params.sort ? params.sort : null);
+        this.filterForm.get('page').patchValue(params.page ? params.page : null);
+        this.filterForm.get('size').patchValue(params.size ? params.size : null);
 
         this.advancedFilterIsVisible = ((params.description !== undefined && params.description !== '') ||
           (params.lengthType !== undefined && params.lengthType !== ''));
       })
     );
-
-    this.subscription.add(
-      this.activatedRoute.queryParams.subscribe((params) => {
-        this.getProjects(params.page ? params.page : 1, params.size ? params.size : 20);
-      })
-    );
   }
 
-  getProjects(page: number, size: number) {
+  getProjects() {
     this.loading = true;
     this.projects = of([]);
+    const page = this.filterForm.get('page').value ?? 0;
+    const size = this.filterForm.get('size').value ?? 20;
     this.subscription.add(
       this.projectService.getProjects(page, size, this.filterForm.getRawValue()).subscribe((value) => {
         this.pager = value;
@@ -100,7 +110,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
 
   filter() {
     const rawValue = this.filterForm.getRawValue();
-    const queryParams: Params = {...rawValue, page: 1};
+    const queryParams: Params = {...rawValue};
 
     this.router.navigate(
       [],
@@ -110,7 +120,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
         queryParamsHandling: 'merge'
       }).then();
 
-    this.getProjects(1, 20);
+    this.getProjects();
   }
 
   exportProjects() {
