@@ -33,7 +33,8 @@ export class UserEditComponent implements OnInit {
 
   open(account: Account) {
     this.account = account;
-    this.editAccountTeamForm.get('team').patchValue(account.team?.code);
+    // TODO teams
+    // this.editAccountTeamForm.get('team').patchValue(account.team?.code);
     this.isOpen = true;
   }
 

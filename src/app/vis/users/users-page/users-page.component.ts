@@ -13,6 +13,8 @@ import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Account} from '../../../domain/account/account';
 import {UserEditComponent} from '../user-edit/user-edit.component';
 import {TeamAddComponent} from '../team-add/team-add.component';
+import {Team} from "../../../domain/account/team";
+import {Instance} from "../../../domain/account/instance";
 
 @Component({
   selector: 'app-users-page',
@@ -109,5 +111,13 @@ export class UsersPageComponent implements OnInit {
 
   addTeam() {
     this.teamAddComponent.open();
+  }
+
+  concatTeams(teams: Team[]) {
+    return teams?.map(team => team.name).join(', ');
+  }
+
+  concatInstances(instances: Instance[]) {
+    return instances?.map(instance => instance.code).join(', ');
   }
 }
