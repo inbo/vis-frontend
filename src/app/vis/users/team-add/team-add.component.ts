@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {AccountService} from '../../../services/vis.account.service';
-import {Subject} from 'rxjs';
-import {take} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
+import {map, take} from 'rxjs/operators';
 import {Account} from '../../../domain/account/account';
+import {Instance} from "../../../domain/account/instance";
 
 @Component({
   selector: 'app-team-add',
@@ -16,18 +17,28 @@ export class TeamAddComponent implements OnInit {
 
   addTeamForm: FormGroup;
 
+  instances$: Observable<Instance[]>
   accounts$ = new Subject<Account[]>();
 
   constructor(private accountService: AccountService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
+    this.instances$ = this.accountService.listInstances();
+
     this.addTeamForm = this.formBuilder.group({
-      teamCode: [null, [Validators.required]],
+      teamCode: [null, [Validators.required], [this.codeValidator()]],
       description: [null, [Validators.required]],
       instanceCode: [null, [Validators.required]],
       accounts: [[]]
     });
+  }
+
+  codeValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return this.accountService.checkIfTeamExists(control.value)
+        .pipe(map(result => result.valid ? {uniqueCode: true} : null));
+    };
   }
 
   open() {

@@ -32,8 +32,7 @@
               </label>
               <div class="mt-1 space-y-1">
                 <select formControlName="instanceCode">
-                  <option value="INBO">INBO</option>
-                  <option value="ANB">ANB</option>
+                  <option *ngFor="let instance of instances$ | async" [value]="instance.code">{{instance.description}}</option>
                 </select>
                 <app-form-error-message [control]="instanceCode" [fieldName]="'Instantie'" [submitted]="submitted"></app-form-error-message>
               </div>

@@ -73,10 +73,11 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
     this.submitted = false;
   }
 
+  // TODO do same for instance code
   codeValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return this.projectService.checkIfProjectExists(control.value)
-        .pipe(map(result => result.valid ? {unique: true} : null));
+        .pipe(map(result => result.valid ? {uniqueCode: true} : null));
     };
   }
 
@@ -107,5 +108,4 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
   get team() {
     return this.createProjectForm.get('team');
   }
-
 }
