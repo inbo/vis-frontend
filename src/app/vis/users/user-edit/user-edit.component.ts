@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Account} from '../../../domain/account/account';
 import {Observable} from 'rxjs';
-import {Team} from '../../../domain/account/team';
 import {AccountService} from '../../../services/vis.account.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {take} from 'rxjs/operators';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {map, take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-edit',
@@ -16,7 +15,7 @@ export class UserEditComponent implements OnInit {
 
   account: Account;
 
-  teams$: Observable<Team[]>;
+  teams$: Observable<string[]>;
 
   editAccountTeamForm: FormGroup;
 
@@ -24,17 +23,16 @@ export class UserEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.teams$ = this.accountService.listTeams();
+    this.teams$ = this.accountService.listTeams().pipe(map(teams => teams.map(team => team.code)));
 
     this.editAccountTeamForm = this.formBuilder.group({
-      team: [null, [Validators.required]],
+      teams: [null],
     });
   }
 
   open(account: Account) {
     this.account = account;
-    // TODO teams
-    // this.editAccountTeamForm.get('team').patchValue(account.team?.code);
+    this.editAccountTeamForm.get('teams').patchValue(account.teams.map(team => team.code));
     this.isOpen = true;
   }
 

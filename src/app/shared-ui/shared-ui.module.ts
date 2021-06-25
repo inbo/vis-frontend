@@ -30,6 +30,7 @@ import {TipIconComponent} from './tip-icon/tip-icon.component';
 import {ModalComponent} from './modal/modal.component';
 import {MultiTextSearchComponent} from './multi-text-search/multi-text-search.component';
 import {DropdownMinimalComponent} from './dropdown-minimal/dropdown-minimal.component';
+import {MultiSelectComponent} from "./multi-select/multi-select.component";
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import {DropdownMinimalComponent} from './dropdown-minimal/dropdown-minimal.comp
     ModalComponent,
     TipIconComponent,
     MultiTextSearchComponent,
-    DropdownMinimalComponent
+    DropdownMinimalComponent,
+    MultiSelectComponent
   ],
   exports: [
     SidebarLayoutComponent,
@@ -86,7 +88,8 @@ import {DropdownMinimalComponent} from './dropdown-minimal/dropdown-minimal.comp
     ModalComponent,
     TipIconComponent,
     MultiTextSearchComponent,
-    DropdownMinimalComponent
+    DropdownMinimalComponent,
+    MultiSelectComponent
   ],
   imports: [
     RouterModule,
