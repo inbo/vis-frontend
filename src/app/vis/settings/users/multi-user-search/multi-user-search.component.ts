@@ -15,7 +15,7 @@ import {
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {fromEvent, Subject, Subscription} from 'rxjs';
 import {debounceTime, filter, map} from 'rxjs/operators';
-import {Account} from '../../../domain/account/account';
+import {Account} from '../../../../domain/account/account';
 
 @Component({
   selector: 'app-multi-user-search',

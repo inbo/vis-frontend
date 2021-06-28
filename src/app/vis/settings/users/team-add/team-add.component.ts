@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {AccountService} from '../../../services/vis.account.service';
+import {AccountService} from '../../../../services/vis.account.service';
 import {Observable, Subject} from 'rxjs';
 import {map, take} from 'rxjs/operators';
-import {Account} from '../../../domain/account/account';
-import {Instance} from "../../../domain/account/instance";
+import {Account} from '../../../../domain/account/account';
+import {Instance} from '../../../../domain/account/instance';
 
 @Component({
   selector: 'app-team-add',

@@ -6,7 +6,7 @@ import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {VisService} from './vis.service';
 import {Taxon} from '../domain/taxa/taxon';
-import {ProjectFavorites} from "../domain/settings/project-favorite";
+import {ProjectFavorites} from '../domain/settings/project-favorite';
 
 
 @Injectable({

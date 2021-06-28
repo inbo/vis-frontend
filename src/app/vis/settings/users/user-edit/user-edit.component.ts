@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Account} from '../../../domain/account/account';
+import {Account} from '../../../../domain/account/account';
 import {Observable} from 'rxjs';
-import {AccountService} from '../../../services/vis.account.service';
+import {AccountService} from '../../../../services/vis.account.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {map, take} from 'rxjs/operators';
 

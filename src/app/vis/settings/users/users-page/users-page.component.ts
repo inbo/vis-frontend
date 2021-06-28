@@ -3,18 +3,18 @@ import {Observable, of, Subscription} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
-import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {GlobalConstants} from '../../../GlobalConstants';
-import {Role} from '../../../core/_models/role';
-import {AccountService} from '../../../services/vis.account.service';
-import {AuthService} from '../../../core/auth.service';
-import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
-import {Account} from '../../../domain/account/account';
 import {UserEditComponent} from '../user-edit/user-edit.component';
 import {TeamAddComponent} from '../team-add/team-add.component';
-import {Team} from "../../../domain/account/team";
-import {Instance} from "../../../domain/account/instance";
+import {NavigationLink} from '../../../../shared-ui/layouts/NavigationLinks';
+import {BreadcrumbLink} from '../../../../shared-ui/breadcrumb/BreadcrumbLinks';
+import {GlobalConstants} from '../../../../GlobalConstants';
+import {Role} from '../../../../core/_models/role';
+import {AsyncPage} from '../../../../shared-ui/paging-async/asyncPage';
+import {AccountService} from '../../../../services/vis.account.service';
+import {AuthService} from '../../../../core/auth.service';
+import {Team} from '../../../../domain/account/team';
+import {Account} from '../../../../domain/account/account';
+import {Instance} from '../../../../domain/account/instance';
 
 @Component({
   selector: 'app-users-page',

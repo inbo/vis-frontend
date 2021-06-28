@@ -53,10 +53,12 @@ import {TipsComponent} from './tips/tips/tips.component';
 import {TipsTabsComponent} from './tips/tips-tabs/tips-tabs.component';
 import {TipsPageComponent} from './tips/tips-page/tips-page.component';
 import {ClipboardModule} from 'ngx-clipboard';
-import {UsersPageComponent} from './users/users-page/users-page.component';
-import { UserEditComponent } from './users/user-edit/user-edit.component';
-import { TeamAddComponent } from './users/team-add/team-add.component';
-import {MultiUserSearchComponent} from './users/multi-user-search/multi-user-search.component';
+import {SettingsComponent} from './settings/settings/settings.component';
+import {SettingsTabsComponent} from './settings/settings-tabs/settings-tabs.component';
+import {UsersPageComponent} from './settings/users/users-page/users-page.component';
+import {UserEditComponent} from './settings/users/user-edit/user-edit.component';
+import {TeamAddComponent} from './settings/users/team-add/team-add.component';
+import {MultiUserSearchComponent} from './settings/users/multi-user-search/multi-user-search.component';
 
 @NgModule({
   exports: [
@@ -109,7 +111,9 @@ import {MultiUserSearchComponent} from './users/multi-user-search/multi-user-sea
     UsersPageComponent,
     UserEditComponent,
     TeamAddComponent,
-    MultiUserSearchComponent
+    MultiUserSearchComponent,
+    SettingsComponent,
+    SettingsTabsComponent
   ],
   imports: [
     CommonModule,

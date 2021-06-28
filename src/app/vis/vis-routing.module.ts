@@ -35,7 +35,8 @@ import {SurveyEventsOverviewPageComponent} from './survey-events/survey-events-o
 import {TipsComponent} from './tips/tips/tips.component';
 import {TipsPageComponent} from './tips/tips-page/tips-page.component';
 import {AuthGuardRole} from '../core/auth-guard-role.service';
-import {UsersPageComponent} from './users/users-page/users-page.component';
+import {UsersPageComponent} from './settings/users/users-page/users-page.component';
+import {SettingsComponent} from './settings/settings/settings.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -158,6 +159,15 @@ const routes: Routes = [
         canActivate: [AuthGuardWithForcedLogin],
         pathMatch: 'full'
       }
+    ]
+  },
+  {
+    path: 'instellingen',
+    component: SettingsComponent,
+    children: [
+      {path: 'gebruikers', component: UsersPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+      // {path: 'instanties', component: , canActivate: [AuthGuardWithForcedLogin]},
+      // {path: 'teams', component: , canActivate: [AuthGuardWithForcedLogin]}
     ]
   },
 ];
