@@ -7,7 +7,7 @@ import {AccountService} from '../../../../services/vis.account.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder} from '@angular/forms';
 import {AuthService} from '../../../../core/auth.service';
-import {TeamAddComponent} from '../../users/team-add/team-add.component';
+import {TeamAddComponent} from '../team-add/team-add.component';
 
 @Component({
   selector: 'app-teams-page',

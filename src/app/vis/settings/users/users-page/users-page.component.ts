@@ -4,11 +4,6 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {UserEditComponent} from '../user-edit/user-edit.component';
-import {TeamAddComponent} from '../team-add/team-add.component';
-import {NavigationLink} from '../../../../shared-ui/layouts/NavigationLinks';
-import {BreadcrumbLink} from '../../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {GlobalConstants} from '../../../../GlobalConstants';
-import {Role} from '../../../../core/_models/role';
 import {AsyncPage} from '../../../../shared-ui/paging-async/asyncPage';
 import {AccountService} from '../../../../services/vis.account.service';
 import {AuthService} from '../../../../core/auth.service';
@@ -23,7 +18,6 @@ import {Instance} from '../../../../domain/account/instance';
 export class UsersPageComponent implements OnInit {
 
   @ViewChild(UserEditComponent) userEditComponent;
-  @ViewChild(TeamAddComponent) teamAddComponent;
 
   loading = false;
 
@@ -100,10 +94,6 @@ export class UsersPageComponent implements OnInit {
 
   editAccount(account: Account) {
     this.userEditComponent.open(account);
-  }
-
-  addTeam() {
-    this.teamAddComponent.open();
   }
 
   concatTeams(teams: Team[]) {

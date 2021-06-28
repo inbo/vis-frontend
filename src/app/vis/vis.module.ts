@@ -57,7 +57,7 @@ import {SettingsComponent} from './settings/settings/settings.component';
 import {SettingsTabsComponent} from './settings/settings-tabs/settings-tabs.component';
 import {UsersPageComponent} from './settings/users/users-page/users-page.component';
 import {UserEditComponent} from './settings/users/user-edit/user-edit.component';
-import {TeamAddComponent} from './settings/users/team-add/team-add.component';
+import {TeamAddComponent} from './settings/teams/team-add/team-add.component';
 import {MultiUserSearchComponent} from './settings/users/multi-user-search/multi-user-search.component';
 import { TeamsPageComponent } from './settings/teams/teams-page/teams-page.component';
 
