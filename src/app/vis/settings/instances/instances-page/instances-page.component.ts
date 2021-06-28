@@ -1,25 +1,25 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AsyncPage} from '../../../../shared-ui/paging-async/asyncPage';
 import {Observable, of, Subscription} from 'rxjs';
-import {Team} from '../../../../domain/account/team';
+import {Instance} from '../../../../domain/account/instance';
 import {Title} from '@angular/platform-browser';
 import {AccountService} from '../../../../services/vis.account.service';
 import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../../../core/auth.service';
-import {TeamAddComponent} from '../team-add/team-add.component';
+import {InstanceAddComponent} from '../instance-add/instance-add.component';
 
 @Component({
-  selector: 'app-teams-page',
-  templateUrl: './teams-page.component.html'
+  selector: 'app-instances-page',
+  templateUrl: './instances-page.component.html'
 })
-export class TeamsPageComponent implements OnInit, OnDestroy {
+export class InstancesPageComponent implements OnInit, OnDestroy {
 
-  @ViewChild(TeamAddComponent) teamAddComponent;
+  @ViewChild(InstanceAddComponent) instanceAddComponent;
 
   loading = false;
 
-  pager: AsyncPage<Team>;
-  teams: Observable<Team[]>;
+  pager: AsyncPage<Instance>;
+  instances: Observable<Instance[]>;
 
   private subscription = new Subscription();
 
@@ -28,11 +28,11 @@ export class TeamsPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Teams');
+    this.titleService.setTitle('Instanties');
 
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
-        this.getTeams(params.page ? params.page : 1, params.size ? params.size : 20);
+        this.getInstances(params.page ? params.page : 1, params.size ? params.size : 20);
       })
     );
   }
@@ -41,19 +41,19 @@ export class TeamsPageComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  getTeams(page: number, size: number) {
+  getInstances(page: number, size: number) {
     this.loading = true;
-    this.teams = of([]);
+    this.instances = of([]);
     this.subscription.add(
-      this.accountService.getTeams(page, size).subscribe((value) => {
+      this.accountService.getInstances(page, size).subscribe((value) => {
         this.pager = value;
-        this.teams = of(value.content);
+        this.instances = of(value.content);
         this.loading = false;
       })
     );
   }
 
-  addTeam() {
-    this.teamAddComponent.open();
+  addInstance() {
+    this.instanceAddComponent.open();
   }
 }

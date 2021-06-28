@@ -60,6 +60,8 @@ import {UserEditComponent} from './settings/users/user-edit/user-edit.component'
 import {TeamAddComponent} from './settings/teams/team-add/team-add.component';
 import {MultiUserSearchComponent} from './settings/users/multi-user-search/multi-user-search.component';
 import { TeamsPageComponent } from './settings/teams/teams-page/teams-page.component';
+import { InstancesPageComponent } from './settings/instances/instances-page/instances-page.component';
+import { InstanceAddComponent } from './settings/instances/instance-add/instance-add.component';
 
 @NgModule({
   exports: [
@@ -115,7 +117,9 @@ import { TeamsPageComponent } from './settings/teams/teams-page/teams-page.compo
     MultiUserSearchComponent,
     SettingsComponent,
     SettingsTabsComponent,
-    TeamsPageComponent
+    TeamsPageComponent,
+    InstancesPageComponent,
+    InstanceAddComponent
   ],
   imports: [
     CommonModule,

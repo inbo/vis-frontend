@@ -1,35 +1,30 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {AccountService} from '../../../../services/vis.account.service';
 import {Observable, Subject} from 'rxjs';
-import {map, take} from 'rxjs/operators';
 import {Account} from '../../../../domain/account/account';
-import {Instance} from '../../../../domain/account/instance';
+import {AccountService} from '../../../../services/vis.account.service';
+import {map, take} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-team-add',
-  templateUrl: './team-add.component.html'
+  selector: 'app-instance-add',
+  templateUrl: './instance-add.component.html'
 })
-export class TeamAddComponent implements OnInit {
+export class InstanceAddComponent implements OnInit {
 
   isOpen = false;
   submitted = false;
 
-  addTeamForm: FormGroup;
+  addInstanceForm: FormGroup;
 
-  instances$: Observable<Instance[]>;
   accounts$ = new Subject<Account[]>();
 
   constructor(private accountService: AccountService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
-    this.instances$ = this.accountService.listInstances();
-
-    this.addTeamForm = this.formBuilder.group({
-      teamCode: [null, [Validators.required], [this.codeValidator()]],
+    this.addInstanceForm = this.formBuilder.group({
+      instanceCode: [null, [Validators.required], [this.codeValidator()]],
       description: [null, [Validators.required]],
-      instanceCode: [null, [Validators.required]],
       accounts: [[]]
     });
   }
@@ -45,26 +40,22 @@ export class TeamAddComponent implements OnInit {
     this.isOpen = true;
   }
 
-  get teamCode() {
-    return this.addTeamForm.get('teamCode');
+  get instanceCode() {
+    return this.addInstanceForm.get('instanceCode');
   }
 
   get description() {
-    return this.addTeamForm.get('description');
-  }
-
-  get instanceCode() {
-    return this.addTeamForm.get('instanceCode');
+    return this.addInstanceForm.get('description');
   }
 
   save() {
     this.submitted = true;
-    if (this.addTeamForm.invalid) {
+    if (this.addInstanceForm.invalid) {
       return;
     }
 
-    const rawValue = this.addTeamForm.getRawValue();
-    this.accountService.addTeam(rawValue).pipe(take(1)).subscribe(() => {
+    const rawValue = this.addInstanceForm.getRawValue();
+    this.accountService.addInstance(rawValue).pipe(take(1)).subscribe(() => {
       window.location.reload();
     });
   }

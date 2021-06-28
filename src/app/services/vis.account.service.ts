@@ -6,7 +6,7 @@ import {Account} from '../domain/account/account';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable} from 'rxjs';
 import {Team} from '../domain/account/team';
-import {Instance} from "../domain/account/instance";
+import {Instance} from '../domain/account/instance';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +47,7 @@ export class AccountService extends VisService {
   }
 
   listInstances() {
-    return this.http.get<Instance[]>(`${environment.apiUrl}/api/instances`, {});
+    return this.http.get<Instance[]>(`${environment.apiUrl}/api/instances/all`, {});
   }
 
   checkIfTeamExists(teamCode: any): Observable<any> {
@@ -58,5 +58,15 @@ export class AccountService extends VisService {
     const params = this.getPageParams(page, size, null);
 
     return this.http.get<AsyncPage<Team>>(environment.apiUrl + '/api/teams', {params});
+  }
+
+  getInstances(page: number, size: number) {
+    const params = this.getPageParams(page, size, null);
+
+    return this.http.get<AsyncPage<Team>>(environment.apiUrl + '/api/instances', {params});
+  }
+
+  addInstance(instance: any) {
+    return this.http.post<void>(`${environment.apiUrl}/api/instances`, instance);
   }
 }
