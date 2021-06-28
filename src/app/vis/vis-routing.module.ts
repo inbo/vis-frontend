@@ -37,6 +37,7 @@ import {TipsPageComponent} from './tips/tips-page/tips-page.component';
 import {AuthGuardRole} from '../core/auth-guard-role.service';
 import {UsersPageComponent} from './settings/users/users-page/users-page.component';
 import {SettingsComponent} from './settings/settings/settings.component';
+import {TeamsPageComponent} from './settings/teams/teams-page/teams-page.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -167,7 +168,7 @@ const routes: Routes = [
     children: [
       {path: 'gebruikers', component: UsersPageComponent, canActivate: [AuthGuardWithForcedLogin]},
       // {path: 'instanties', component: , canActivate: [AuthGuardWithForcedLogin]},
-      // {path: 'teams', component: , canActivate: [AuthGuardWithForcedLogin]}
+      {path: 'teams', component: TeamsPageComponent, canActivate: [AuthGuardWithForcedLogin]}
     ]
   },
 ];

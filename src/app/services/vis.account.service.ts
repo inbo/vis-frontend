@@ -28,7 +28,7 @@ export class AccountService extends VisService {
   }
 
   listTeams() {
-    return this.http.get<Team[]>(environment.apiUrl + '/api/teams', {});
+    return this.http.get<Team[]>(environment.apiUrl + '/api/teams/all', {});
   }
 
   updateTeam(username: string, team: any) {
@@ -52,5 +52,11 @@ export class AccountService extends VisService {
 
   checkIfTeamExists(teamCode: any): Observable<any> {
     return this.http.get<any>(environment.apiUrl + '/api/validation/teams/code/' + teamCode);
+  }
+
+  getTeams(page: number, size: number) {
+    const params = this.getPageParams(page, size, null);
+
+    return this.http.get<AsyncPage<Team>>(environment.apiUrl + '/api/teams', {params});
   }
 }

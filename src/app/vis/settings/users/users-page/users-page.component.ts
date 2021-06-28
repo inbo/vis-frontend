@@ -22,15 +22,8 @@ import {Instance} from '../../../../domain/account/instance';
 })
 export class UsersPageComponent implements OnInit {
 
-  links: NavigationLink[] = GlobalConstants.links;
-  breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Gebruikers', url: '/gebruikers'},
-  ];
-
   @ViewChild(UserEditComponent) userEditComponent;
   @ViewChild(TeamAddComponent) teamAddComponent;
-
-  role = Role;
 
   loading = false;
 
