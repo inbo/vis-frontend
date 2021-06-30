@@ -10,11 +10,12 @@
     <div class="flex flex-col items-center relative">
       <div #selectBoxDiv class="w-full">
         <div
-          class="my-2 p-1 flex border block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm border-gray-300 rounded-md">
+          class="p-1 flex border block w-full shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm border-gray-300 rounded-md bg-white">
           <div class="flex flex-auto flex-wrap">
             <div *ngFor="let selectedValue of selectedValues"
                  class="flex justify-center items-center m-1 font-medium py-1 px-2 rounded-full text-sm sm:text-xs bg-pink-100 text-pink-700">
-              <div class="leading-none max-w-full flex-initial">{{translateKey + selectedValue | translate}}</div>
+              <div class="leading-none max-w-full flex-initial" *ngIf="translateKey !== undefined">{{translateKey + selectedValue | translate}}</div>
+              <div class="leading-none max-w-full flex-initial" *ngIf="translateKey === undefined">{{selectedValue}}</div>
               <div class="flex flex-auto flex-row-reverse">
                 <svg (click)="remove(selectedValue)" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
                      fill="none" viewBox="0 0 24 24"
@@ -51,7 +52,8 @@
                class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:bg-teal-100">
             <div class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-teal-100">
               <div class="w-full items-center flex">
-                <div class="mx-2 leading-6">{{translateKey + option | translate}}</div>
+                <div class="mx-2 leading-6" *ngIf="translateKey !== undefined">{{translateKey + option | translate}}</div>
+                <div class="mx-2 leading-6" *ngIf="translateKey === undefined">{{option}}</div>
               </div>
               <span class="text-pink-600 absolute inset-y-0 right-0 flex items-center pr-4"
                     [class.hidden]="!isSelected(option)">

@@ -67,16 +67,22 @@
             </div>
           </div>
 
-          <div class="sm:col-span-2">
+          <div class="sm:col-span-6">
+            <label class="block text-sm font-medium text-gray-700">
+              Instanties
+            </label>
+            <div class="mt-1">
+              <app-multi-select formControlName="instances" [options$]="instances$"></app-multi-select>
+              <app-form-error-message [control]="instances" [fieldName]="'Instanties'" [submitted]="submitted"></app-form-error-message>
+            </div>
+          </div>
+          <div class="sm:col-span-6">
             <label class="block text-sm font-medium text-gray-700">
               Team
             </label>
             <div class="mt-1">
-              <select formControlName="team">
-                <option [value]="null">--- Kies een team ---</option>
-                <option *ngFor="let team of teams$ | async" [value]="team.code">{{team.name}}</option>
-              </select>
-              <app-form-error-message [control]="team" [fieldName]="'Team'" [submitted]="submitted"></app-form-error-message>
+              <app-multi-select formControlName="teams" [options$]="teams$"></app-multi-select>
+              <app-form-error-message [control]="teams" [fieldName]="'Teams'" [submitted]="submitted"></app-form-error-message>
             </div>
           </div>
         </div>

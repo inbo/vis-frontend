@@ -28,7 +28,7 @@
                 </span>
         </dd>
       </div>
-      <div class="sm:col-span-1">
+      <div class="sm:col-span-2">
         <dt class="text-sm font-medium text-gray-500">
           Periode
         </dt>
@@ -38,10 +38,18 @@
       </div>
       <div class="sm:col-span-1">
         <dt class="text-sm font-medium text-gray-500">
-          Team
+          Instanties
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-          {{project?.teamName}}
+          {{project?.instances.join(", ")}}
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Teams
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{project?.teams.join(", ")}}
         </dd>
       </div>
       <div class="sm:col-span-2">

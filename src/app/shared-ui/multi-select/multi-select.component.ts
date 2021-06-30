@@ -36,9 +36,7 @@ export class MultiSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit(): void {
-    if (this.translateKey === null) {
-      throw new Error("Attribute 'translateKey' is required");
-    }
+    console.log(this.translateKey);
   }
 
   writeValue(obj: any): void {

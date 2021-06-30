@@ -69,4 +69,10 @@ export class AccountService extends VisService {
   addInstance(instance: any) {
     return this.http.post<void>(`${environment.apiUrl}/api/instances`, instance);
   }
+
+  searchInstances(q: string) {
+    const params = new HttpParams().set('name', q);
+
+    return this.http.get<Instance[]>(`${environment.apiUrl}/api/instances/search`, {params});
+  }
 }

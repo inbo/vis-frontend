@@ -8,7 +8,7 @@ import {Observable, Subscription} from 'rxjs';
 import {ProjectService} from '../../../services/vis.project.service';
 import {Role} from '../../../core/_models/role';
 import {AccountService} from '../../../services/vis.account.service';
-import {Team} from '../../../domain/account/team';
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-project-detail-edit-page',
@@ -25,7 +25,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
   showCloseProjectModal = false;
 
-  teams$: Observable<Team[]>;
+  teams$: Observable<string[]>;
+  instances$: Observable<string[]>;
 
   private subscription = new Subscription();
 
@@ -35,7 +36,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
   }
 
   ngOnInit(): void {
-    this.teams$ = this.accountService.listTeams();
+    this.instances$ = this.accountService.listInstances().pipe(map(instances => instances.map(instance => instance.code)));
+    this.teams$ = this.accountService.listTeams().pipe(map(teams => teams.map(team => team.name)));
 
     this.closeProjectForm = this.formBuilder.group({
       endDate: [null, [Validators.required]]
@@ -48,7 +50,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         lengthType: ['', [Validators.required]],
         status: [false, []],
         startDate: [null, [Validators.required]],
-        team: [null],
+        teams: [[]],
+        instances: [[]],
       });
 
     this.subscription.add(
@@ -60,7 +63,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         this.projectForm.get('status').patchValue(value.status === 'ACTIVE');
         this.projectForm.get('startDate').patchValue(value.start);
         this.projectForm.get('lengthType').patchValue(value.lengthType);
-        this.projectForm.get('team').patchValue(value.team === undefined ? null : value.team);
+        this.projectForm.get('teams').patchValue(value.teams === undefined ? [] : value.teams);
+        this.projectForm.get('instances').patchValue(value.instances === undefined ? [] : value.instances);
       })
     );
   }
@@ -98,7 +102,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     this.projectForm.get('status').patchValue(this.project.status === 'ACTIVE');
     this.projectForm.get('startDate').patchValue(this.project.start);
     this.projectForm.get('lengthType').patchValue(this.project.lengthType);
-    this.projectForm.get('team').patchValue(this.project.team);
+    this.projectForm.get('team').patchValue(this.project.teams);
+    this.projectForm.get('instances').patchValue(this.project.instances);
     this.projectForm.reset(this.projectForm.value);
   }
 
@@ -153,7 +158,11 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     return this.projectForm.get('lengthType');
   }
 
-  get team() {
-    return this.projectForm.get('team');
+  get teams() {
+    return this.projectForm.get('teams');
+  }
+
+  get instances() {
+    return this.projectForm.get('instances');
   }
 }
