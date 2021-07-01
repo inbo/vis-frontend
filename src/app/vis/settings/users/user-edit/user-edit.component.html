@@ -14,24 +14,21 @@
               <p class="text-sm text-gray-500">{{account?.email}}</p>
             </div>
 
-            <!--<div>
+            <div>
               <label class="block text-sm font-medium text-gray-900">
-                Instantie
+                Instanties
               </label>
               <div class="mt-1 space-y-1">
-                <select>
-                  <option>INBO</option>
-                  <option>ANB</option>
-                </select>
+                <app-multi-select formControlName="instances" [options$]="instances$"></app-multi-select>
               </div>
-            </div>-->
+            </div>
 
             <div>
               <label class="block text-sm font-medium text-gray-900">
                 Teams
               </label>
               <div class="mt-1 space-y-1">
-                <app-multi-select formControlName="teams" [options$]="teams$" translateKey="team."></app-multi-select>
+                <app-multi-select formControlName="teams" [options$]="teams$"></app-multi-select>
               </div>
             </div>
           </div>

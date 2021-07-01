@@ -31,8 +31,8 @@ export class AccountService extends VisService {
     return this.http.get<Team[]>(environment.apiUrl + '/api/teams/all', {});
   }
 
-  updateTeam(username: string, team: any) {
-    return this.http.patch<void>(environment.apiUrl + '/api/account/' + username + '/team', team);
+  update(username: string, body: any) {
+    return this.http.patch<void>(`${environment.apiUrl}/api/account/${username}`, body);
   }
 
   getAccounts(val: string) {

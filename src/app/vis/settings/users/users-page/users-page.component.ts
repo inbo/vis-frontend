@@ -43,13 +43,6 @@ export class UsersPageComponent implements OnInit {
       },
     );
 
-    // this.subscription.add(
-    //   this.filterForm.valueChanges.pipe(
-    //     debounceTime(300),
-    //     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
-    //     .subscribe(_ => this.filter())
-    // );
-
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
         this.filterForm.get('name').patchValue(params.name ? params.name : '');
@@ -96,11 +89,8 @@ export class UsersPageComponent implements OnInit {
     this.userEditComponent.open(account);
   }
 
-  concatTeams(teams: Team[]) {
-    return teams?.map(team => team.name).join(', ');
-  }
-
-  concatInstances(instances: Instance[]) {
-    return instances?.map(instance => instance.code).join(', ');
+  reload() {
+    const params = this.activatedRoute.snapshot.queryParams;
+    this.getAccounts(params.page ? params.page : 1, params.size ? params.size : 20);
   }
 }
