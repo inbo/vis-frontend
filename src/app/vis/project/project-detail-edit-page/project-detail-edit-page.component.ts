@@ -8,7 +8,7 @@ import {Observable, Subscription} from 'rxjs';
 import {ProjectService} from '../../../services/vis.project.service';
 import {Role} from '../../../core/_models/role';
 import {AccountService} from '../../../services/vis.account.service';
-import {map} from "rxjs/operators";
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-project-detail-edit-page',
@@ -48,7 +48,6 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         name: [null, [Validators.required, Validators.maxLength(200)]],
         description: [null, [Validators.maxLength(2000)]],
         lengthType: ['', [Validators.required]],
-        status: [false, []],
         startDate: [null, [Validators.required]],
         teams: [[]],
         instances: [[]],
@@ -60,7 +59,6 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         this.project = value;
         this.projectForm.get('name').patchValue(value.name);
         this.projectForm.get('description').patchValue(value.description);
-        this.projectForm.get('status').patchValue(value.status === 'ACTIVE');
         this.projectForm.get('startDate').patchValue(value.start);
         this.projectForm.get('lengthType').patchValue(value.lengthType);
         this.projectForm.get('teams').patchValue(value.teams === undefined ? [] : value.teams);
@@ -99,7 +97,6 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
     this.projectForm.get('name').patchValue(this.project.name);
     this.projectForm.get('description').patchValue(this.project.description);
-    this.projectForm.get('status').patchValue(this.project.status === 'ACTIVE');
     this.projectForm.get('startDate').patchValue(this.project.start);
     this.projectForm.get('lengthType').patchValue(this.project.lengthType);
     this.projectForm.get('team').patchValue(this.project.teams);
@@ -140,10 +137,6 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
   get description() {
     return this.projectForm.get('description');
-  }
-
-  get status() {
-    return this.projectForm.get('status');
   }
 
   get startDate() {
