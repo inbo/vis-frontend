@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../../core/auth.service";
-import {Role} from "../../core/_models/role";
+import {AuthService} from '../../core/auth.service';
+import {Role} from '../../core/_models/role';
 
 @Component({
   selector: 'app-switch-role',
@@ -9,7 +9,7 @@ import {Role} from "../../core/_models/role";
 export class SwitchRoleComponent implements OnInit {
 
   public roleValues = Object.values(Role);
-  isOpen: boolean = false;
+  isOpen = false;
   private roles: Role[];
 
   constructor(private authService: AuthService) {
@@ -24,46 +24,26 @@ export class SwitchRoleComponent implements OnInit {
   }
 
   changeUse($event: Event) {
-    let isChecked = ($event.target as HTMLInputElement).checked;
+    const isChecked = ($event.target as HTMLInputElement).checked;
 
-    if (isChecked) {
-      localStorage.setItem("useDummyRoles", 'true');
-    } else {
-      localStorage.setItem("useDummyRoles", 'false')
-    }
+    this.authService.changeDummyRolesUse(isChecked);
   }
 
   isUsedForDummyRoles(): boolean {
-    return localStorage.getItem("useDummyRoles") === 'true'
+    return localStorage.getItem('useDummyRoles') === 'true';
   }
 
   changeRole(role: string, $event: Event) {
-    let isChecked = ($event.target as HTMLInputElement).checked;
+    const isChecked = ($event.target as HTMLInputElement).checked;
 
-    let roles = localStorage.getItem("roles");
-    if (roles === null) {
-      roles = "";
-    }
-
-    if (isChecked) {
-      let newRoles = roles
-        .split(',')
-        .filter(value => value !== role);
-      newRoles.push(role);
-      localStorage.setItem("roles", newRoles.join(","));
-    } else {
-      let newRoles = roles
-        .split(',')
-        .filter(value => value !== role);
-      localStorage.setItem("roles", newRoles.join(","))
-    }
+    this.authService.changeDummyRoleStatus(role, isChecked);
 
   }
 
   isActive(value: string): boolean {
-    let roles = localStorage.getItem("roles");
+    let roles = localStorage.getItem('roles');
     if (roles === null) {
-      roles = "";
+      roles = '';
     }
 
     return roles

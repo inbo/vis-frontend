@@ -9,6 +9,7 @@ import {AuthService} from './auth.service';
 import {HasUnsavedDataGuard} from './unsaved-changes-guard.service';
 import {RoleGuard} from './role-guard.service';
 import {AuthGuardRole} from './auth-guard-role.service';
+import {ChildRoleGuard} from "./child-role-guard.service";
 
 // We need a factory since localStorage is not available at AOT build time
 export function storageFactory(): OAuthStorage {
@@ -26,6 +27,7 @@ export function storageFactory(): OAuthStorage {
     AuthGuardWithForcedLogin,
     AuthGuardRole,
     RoleGuard,
+    ChildRoleGuard,
     HasUnsavedDataGuard
   ],
 })

@@ -1,5 +1,6 @@
 import {Component, ElementRef, HostListener} from '@angular/core';
 import {AuthService} from '../../core/auth.service';
+import {Role} from '../../core/_models/role';
 
 @Component({
   selector: 'app-profile-dropdown',
@@ -7,6 +8,7 @@ import {AuthService} from '../../core/auth.service';
 })
 export class ProfileDropdownComponent {
   isOpen = false;
+  public role = Role;
 
   constructor(private authService: AuthService, private eRef: ElementRef) {
   }

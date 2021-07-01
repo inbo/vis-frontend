@@ -1,7 +1,7 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 import {OAuthErrorEvent, OAuthService} from 'angular-oauth2-oidc';
-import {BehaviorSubject, combineLatest, Observable, ReplaySubject, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, ReplaySubject, Subject, Subscription} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {Role} from './_models/role';
@@ -16,6 +16,9 @@ export class AuthService implements OnDestroy {
   public isDoneLoading$ = this.isDoneLoadingSubject$.asObservable();
 
   private subscription = new Subscription();
+
+  private rolesSubject$: Subject<Role[]> = new BehaviorSubject([]);
+  public roles$ = this.rolesSubject$.asObservable();
 
   /**
    * Publishes `true` if and only if (a) all the asynchronous initial
@@ -247,5 +250,37 @@ export class AuthService implements OnDestroy {
 
   public hasRole(role: Role): boolean {
     return this.clientRoles.indexOf(role) >= 0;
+  }
+
+  changeDummyRolesUse(isChecked: boolean) {
+    if (isChecked) {
+      localStorage.setItem('useDummyRoles', 'true');
+    } else {
+      localStorage.setItem('useDummyRoles', 'false');
+    }
+
+    this.rolesSubject$.next(this.clientRoles);
+  }
+
+  changeDummyRoleStatus(role: string, isChecked: boolean) {
+    let roles = localStorage.getItem('roles');
+    if (roles === null) {
+      roles = '';
+    }
+
+    if (isChecked) {
+      const newRoles = roles
+        .split(',')
+        .filter(value => value !== role);
+      newRoles.push(role);
+      localStorage.setItem('roles', newRoles.join(','));
+    } else {
+      const newRoles = roles
+        .split(',')
+        .filter(value => value !== role);
+      localStorage.setItem('roles', newRoles.join(','));
+    }
+
+    this.rolesSubject$.next(this.clientRoles);
   }
 }

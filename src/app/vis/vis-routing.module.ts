@@ -39,6 +39,7 @@ import {UsersPageComponent} from './settings/users/users-page/users-page.compone
 import {SettingsComponent} from './settings/settings/settings.component';
 import {TeamsPageComponent} from './settings/teams/teams-page/teams-page.component';
 import {InstancesPageComponent} from './settings/instances/instances-page/instances-page.component';
+import {ChildRoleGuard} from "../core/child-role-guard.service";
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -166,6 +167,8 @@ const routes: Routes = [
   {
     path: 'instellingen',
     component: SettingsComponent,
+    canActivateChild: [ChildRoleGuard],
+    data: {roles: [Role.UserAdmin]},
     children: [
       {path: 'gebruikers', component: UsersPageComponent, canActivate: [AuthGuardWithForcedLogin]},
       {path: 'instanties', component: InstancesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
