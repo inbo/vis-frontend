@@ -39,7 +39,8 @@ import {UsersPageComponent} from './settings/users/users-page/users-page.compone
 import {SettingsComponent} from './settings/settings/settings.component';
 import {TeamsPageComponent} from './settings/teams/teams-page/teams-page.component';
 import {InstancesPageComponent} from './settings/instances/instances-page/instances-page.component';
-import {ChildRoleGuard} from "../core/child-role-guard.service";
+import {ChildRoleGuard} from '../core/child-role-guard.service';
+import {ProjectEditGuard} from '../core/project-edit-guard.service';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -57,7 +58,7 @@ const routes: Routes = [
       {
         path: 'bewerk',
         component: ProjectDetailEditPageComponent,
-        canActivate: [AuthGuardWithForcedLogin, RoleGuard],
+        canActivate: [AuthGuardWithForcedLogin, RoleGuard, ProjectEditGuard],
         canDeactivate: [HasUnsavedDataGuard],
         data: {roles: [Role.EditProject]}
       },

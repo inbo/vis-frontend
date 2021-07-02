@@ -76,14 +76,14 @@
                 (click)="reOpenProject()"
                 [style]="'secondary'"
                 class="ml-3"
-                [role]="role.EditProject">Heropenen</app-button>
+                [role]="role.EditProject"
+                [isUserLinkedToProject]="project?.canEdit">Heropenen</app-button>
     <app-button [disabled]="!!project?.end"
+                [disabledReason]="'Een afgesloten project kan niet bewerkt worden.'"
                 [style]="'primary'"
                 class="ml-3"
                 [role]="role.EditProject"
-                [projectCode]="project?.code"
-                [routerLink]="['/projecten', project?.code?.value, 'bewerk']">
-      Bewerken
-    </app-button>
+                [routerLink]="['/projecten', project?.code?.value, 'bewerk']"
+                [isUserLinkedToProject]="project?.canEdit">Bewerken</app-button>
   </div>
 </div>

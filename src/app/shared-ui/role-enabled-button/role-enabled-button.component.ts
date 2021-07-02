@@ -4,7 +4,7 @@ import {Role} from '../../core/_models/role';
 import {Router} from '@angular/router';
 import {ProjectCode} from '../../domain/project/project';
 import {ProjectService} from '../../services/vis.project.service';
-import {Subscription} from "rxjs";
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-button',
@@ -19,22 +19,24 @@ export class RoleEnabledButtonComponent implements OnInit, OnDestroy, OnChanges 
   projectCode: ProjectCode;
 
   @Input()
+  isUserLinkedToProject: boolean;
+
+  @Input()
   style: string;
 
   @Input()
   routerLink: any[] | string | null | undefined;
 
   @Input()
-  valid = true;
+  disabled: boolean;
 
   @Input()
-  disabled = false;
+  disabledReason: string;
 
   primaryStyle = 'inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500';
   secondaryStyle = 'inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-pink-700 bg-pink-100 hover:bg-pink-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500';
   whiteStyle = 'inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500';
 
-  canEdit = true;
 
   private subscription = new Subscription();
 
@@ -47,7 +49,7 @@ export class RoleEnabledButtonComponent implements OnInit, OnDestroy, OnChanges 
   ngOnChanges(changes: SimpleChanges) {
     if (this.projectCode) {
       this.subscription.add(
-        this.projectService.canEdit(this.projectCode.value).subscribe(value => this.canEdit = value)
+        this.projectService.canEdit(this.projectCode.value).subscribe(value => this.isUserLinkedToProject = value)
       );
     }
   }
@@ -60,13 +62,26 @@ export class RoleEnabledButtonComponent implements OnInit, OnDestroy, OnChanges 
         return this.secondaryStyle;
       case 'white':
         return this.whiteStyle;
+      case 'no-style':
+        return '';
       default:
         return this.whiteStyle;
     }
   }
 
   isDisabled() {
-    return (!this.valid || (this.role && !this.authService.hasRole(this.role))) || this.disabled || !this.canEdit;
+    if (this.role === undefined && this.disabled === undefined && this.isUserLinkedToProject === undefined) {
+      return false;
+    }
+    const isDisabled = this.disabled === undefined ? false : this.disabled;
+    const hasRole = this.hasRole();
+    const hasProjectRights = this.isUserLinkedToProject === undefined ? false: this.isUserLinkedToProject;
+
+    return isDisabled || !hasRole || !hasProjectRights;
+  }
+
+  private hasRole() {
+    return this.role !== undefined ? this.authService.hasRole(this.role) : true;
   }
 
   ngOnDestroy(): void {
@@ -74,9 +89,14 @@ export class RoleEnabledButtonComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   title() {
-    if (!this.canEdit) {
+    if (this.disabled) {
+      return this.disabledReason ? this.disabledReason : null;
+    }
+
+    if (!this.isUserLinkedToProject) {
       return 'Je ben niet gekoppeld aan de juiste instantie/team om deze actie te kunnen doen';
     }
-    return (this.role && !this.authService.hasRole(this.role) ? 'Je beschikt niet over de nodige rechten' : null);
+
+    return !this.hasRole() ? 'Je beschikt niet over de nodige rechten' : null;
   }
 }

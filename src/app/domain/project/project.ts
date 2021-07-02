@@ -15,6 +15,7 @@ export interface Project {
   lengthType: string;
   teams: string[];
   instances: string[];
+  canEdit: boolean;
 }
 
 
