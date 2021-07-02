@@ -106,7 +106,7 @@
                           <a [routerLink]="['/projecten', project.code.value]">{{project.name}}</a>
                         </td>
                         <td class="px-6 py-4  text-sm text-gray-500">
-                          {{ project.teamName }}
+                          <span *ngIf="project.teams && project.teams.length > 0">{{ project.teams[0] }} <span *ngIf="project.teams.length > 1">+{{project.teams.length - 1}}</span></span>
                         </td>
                         <td class="px-6 py-4  text-sm text-gray-500">
                           <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" [ngClass]="project.status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
@@ -160,9 +160,9 @@
                         </svg>
                         <p>{{project.start | date:'dd/MM/yyyy mm:ss'}}<span *ngIf="project.end != null"> - {{project.end | date:'dd/MM/yyyy mm:ss'}}</span></p>
                       </div>
-                      <div *ngIf="project.teamName" class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                      <div *ngIf="project.teams && project.teams.length > 0" class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
                         <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg>
-                        <p>{{project.teamName}}</p>
+                        <p>{{project.teams.join(", ")}}</p>
                       </div>
                     </div>
                   </div>

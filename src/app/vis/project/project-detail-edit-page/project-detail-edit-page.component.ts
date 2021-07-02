@@ -83,7 +83,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
       this.projectService.updateProject(this.project.code.value, formData).subscribe(
         (response) => {
           this.project = response;
-          this.reset();
+          this.projectForm.reset();
           this.projectService.next(response);
           this.router.navigate(['/projecten', this.project.code.value]).then();
         },
@@ -99,7 +99,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     this.projectForm.get('description').patchValue(this.project.description);
     this.projectForm.get('startDate').patchValue(this.project.start);
     this.projectForm.get('lengthType').patchValue(this.project.lengthType);
-    this.projectForm.get('team').patchValue(this.project.teams);
+    this.projectForm.get('teams').patchValue(this.project.teams);
     this.projectForm.get('instances').patchValue(this.project.instances);
     this.projectForm.reset(this.projectForm.value);
   }

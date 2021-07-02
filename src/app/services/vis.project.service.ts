@@ -48,6 +48,10 @@ export class ProjectService extends VisService implements OnDestroy {
     return this.http.get<Project>(`${environment.apiUrl}/api/projects/${projectCode}`);
   }
 
+  canEdit(projectCode: string): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/canedit`);
+  }
+
   updateProject(code: string, formData: any) {
     return this.http.put<Project>(environment.apiUrl + '/api/projects/' + code, formData);
   }

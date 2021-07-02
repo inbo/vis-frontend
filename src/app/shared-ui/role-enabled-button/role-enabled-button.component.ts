@@ -1,16 +1,22 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {AuthService} from '../../core/auth.service';
 import {Role} from '../../core/_models/role';
 import {Router} from '@angular/router';
+import {ProjectCode} from '../../domain/project/project';
+import {ProjectService} from '../../services/vis.project.service';
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-button',
   templateUrl: './role-enabled-button.component.html'
 })
-export class RoleEnabledButtonComponent implements OnInit {
+export class RoleEnabledButtonComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input()
   role: Role;
+
+  @Input()
+  projectCode: ProjectCode;
 
   @Input()
   style: string;
@@ -28,10 +34,22 @@ export class RoleEnabledButtonComponent implements OnInit {
   secondaryStyle = 'inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-pink-700 bg-pink-100 hover:bg-pink-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500';
   whiteStyle = 'inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500';
 
-  constructor(public authService: AuthService, private router: Router) {
+  canEdit = true;
+
+  private subscription = new Subscription();
+
+  constructor(public authService: AuthService, private router: Router, private projectService: ProjectService) {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.projectCode) {
+      this.subscription.add(
+        this.projectService.canEdit(this.projectCode.value).subscribe(value => this.canEdit = value)
+      );
+    }
   }
 
   usedStyle(): string {
@@ -45,5 +63,20 @@ export class RoleEnabledButtonComponent implements OnInit {
       default:
         return this.whiteStyle;
     }
+  }
+
+  isDisabled() {
+    return (!this.valid || (this.role && !this.authService.hasRole(this.role))) || this.disabled || !this.canEdit;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  title() {
+    if (!this.canEdit) {
+      return 'Je ben niet gekoppeld aan de juiste instantie/team om deze actie te kunnen doen';
+    }
+    return (this.role && !this.authService.hasRole(this.role) ? 'Je beschikt niet over de nodige rechten' : null);
   }
 }

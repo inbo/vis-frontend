@@ -1,6 +1,6 @@
-<button [attr.title]="role && !authService.hasRole(role) ? 'Je beschikt niet over de nodige rechten' : null"
-        [disabled]="(!valid || (role && !authService.hasRole(role))) || disabled"
-        [class.disabled:opacity-50]="(!valid || (role && !authService.hasRole(role))) || disabled"
+<button [attr.title]="title()"
+        [disabled]="isDisabled()"
+        [class.disabled:opacity-50]="isDisabled()"
         [routerLink]="routerLink"
         *ngIf="routerLink"
         type="button"
@@ -8,9 +8,9 @@
   <ng-container *ngTemplateOutlet="content"></ng-container>
 </button>
 
-<button [attr.title]="role && !authService.hasRole(role) ? 'Je beschikt niet over de nodige rechten' : null"
-        [disabled]="(!valid || (role && !authService.hasRole(role))) || disabled"
-        [class.disabled:opacity-50]="(!valid || (role && !authService.hasRole(role))) || disabled"
+<button [attr.title]="title()"
+        [disabled]="isDisabled()"
+        [class.disabled:opacity-50]="isDisabled()"
         type="button"
         *ngIf="!routerLink"
         [class]="usedStyle()">

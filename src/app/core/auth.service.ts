@@ -110,6 +110,7 @@ export class AuthService implements OnDestroy {
 
       .then(() => {
         if (this.oauthService.hasValidAccessToken()) {
+          this.rolesSubject$.next(this.clientRoles);
           return Promise.resolve();
         }
 
@@ -117,7 +118,10 @@ export class AuthService implements OnDestroy {
         // Try to log in via a refresh because then we can prevent
         // needing to redirect the user:
         return this.oauthService.silentRefresh()
-          .then(() => Promise.resolve())
+          .then(() => {
+            this.rolesSubject$.next(this.clientRoles);
+            Promise.resolve();
+          })
           .catch(result => {
             // Subset of situations from https://openid.net/specs/openid-connect-core-1_0.html#AuthError
             // Only the ones where it's reasonably sure that sending the

@@ -3,7 +3,7 @@
 
   <div class="max-w-none mx-auto">
     <form [formGroup]="projectForm" class="space-y-8 divide-y divide-gray-200">
-      <div class="bg-white overflow-hidden sm:rounded-lg sm:shadow">
+      <div class="bg-white overflow-visible sm:rounded-lg sm:shadow">
 
         <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
@@ -121,7 +121,7 @@
 
 
   <div [hidden]="!showCloseProjectModal"
-       class="z-[1000] fixed inset-0 overflow-y-auto">
+       class="z-[1000] fixed inset-0 overflow-visible">
     <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center">
 
       <div class="fixed inset-0 transition-opacity">
