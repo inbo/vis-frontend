@@ -75,7 +75,7 @@ export class RoleEnabledButtonComponent implements OnInit, OnDestroy, OnChanges 
     }
     const isDisabled = this.disabled === undefined ? false : this.disabled;
     const hasRole = this.hasRole();
-    const hasProjectRights = this.isUserLinkedToProject === undefined ? false: this.isUserLinkedToProject;
+    const hasProjectRights = this.isUserLinkedToProject === undefined ? true : this.isUserLinkedToProject;
 
     return isDisabled || !hasRole || !hasProjectRights;
   }
