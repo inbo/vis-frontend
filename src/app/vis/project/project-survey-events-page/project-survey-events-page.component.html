@@ -128,10 +128,10 @@
 
             <tr *ngFor="let surveyEvent of surveyEvents$ | async">
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                TODO
+                {{surveyEvent.fishingPointCode}}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                TODO
+                {{surveyEvent.watercourse}}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {{ surveyEvent.occurrence | date:'dd/MM/yyyy'}}
@@ -177,7 +177,7 @@
                         d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.938l1-4H9.031z"
                         clip-rule="evenodd"></path>
                 </svg>
-                Meetpuntnummer TODO
+                Meetpuntnummer {{surveyEvent.fishingPointCode}}
               </p>
               <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
                 <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
@@ -185,7 +185,7 @@
                   <path
                     d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"></path>
                 </svg>
-                Waterloop TODO
+                Waterloop {{surveyEvent.watercourse}}
               </p>
             </div>
             <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">

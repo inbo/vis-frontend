@@ -11,6 +11,8 @@ export interface SurveyEvent {
   status: string;
   method: string;
   comment: string;
+  fishingPointCode: string;
+  watercourse: string;
 }
 
 
