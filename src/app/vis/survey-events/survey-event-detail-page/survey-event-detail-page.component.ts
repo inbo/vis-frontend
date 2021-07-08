@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {Observable} from 'rxjs';
+import {Role} from '../../../core/_models/role';
 
 @Component({
   selector: 'app-survey-event-detail-page',
@@ -11,7 +12,7 @@ import {Observable} from 'rxjs';
 })
 
 export class SurveyEventDetailPageComponent implements OnInit {
-
+  role = Role;
   surveyEvent$: Observable<SurveyEvent>;
 
   constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private surveyEventService: SurveyEventsService) {

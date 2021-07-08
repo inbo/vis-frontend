@@ -4,5 +4,6 @@ export enum Role {
   ExportProject = 'EXPORT_PROJECT',
   CreateFishingPoint = 'AANMAAK_VISPUNT',
   CreateSurveyEvent = 'AANMAAK_WAARNEMING',
+  EditSurveyEvent = 'BEWERK_WAARNEMING',
   UserAdmin = 'GEBRUIKER_ADMIN'
 }

@@ -4,6 +4,11 @@ export interface SurveyEventId {
   value: number;
 }
 
+export interface FishingPoint {
+  code: string;
+  flowArea: string;
+}
+
 export interface SurveyEvent {
   surveyEventId: SurveyEventId;
   projectCode: ProjectCode;
@@ -13,6 +18,7 @@ export interface SurveyEvent {
   comment: string;
   fishingPointCode: string;
   watercourse: string;
+  fishingPoint: FishingPoint;
 }
 
 
