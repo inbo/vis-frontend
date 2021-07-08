@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable} from 'rxjs';
-import {FishingPoint, FishingPointFeature} from '../domain/location/fishing-point';
+import {FishingPoint, FishingPointFeature, FishingPointSearch} from '../domain/location/fishing-point';
 import {VisService} from './vis.service';
 import {VhaUrl} from '../domain/location/vha-version';
+import {Taxon} from "../domain/taxa/taxon";
 
 
 @Injectable({
@@ -37,5 +38,13 @@ export class LocationsService extends VisService {
 
   checkIfFishingPointExists(code: string): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/api/validation/fishingpoint/code/${code}`, {});
+  }
+
+  searchFishingPoints(val: any) {
+    const params = new HttpParams()
+      .set('code', val)
+      .set('description', val);
+
+    return this.http.get<FishingPointSearch[]>(`${environment.apiUrl}/api/fishingpoints/search`, {params});
   }
 }

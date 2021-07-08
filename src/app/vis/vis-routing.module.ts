@@ -41,6 +41,7 @@ import {TeamsPageComponent} from './settings/teams/teams-page/teams-page.compone
 import {InstancesPageComponent} from './settings/instances/instances-page/instances-page.component';
 import {ChildRoleGuard} from '../core/child-role-guard.service';
 import {ProjectEditGuard} from '../core/project-edit-guard.service';
+import {SurveyEventDetailEditPageComponent} from "./survey-events/survey-event-detail-edit-page/survey-event-detail-edit-page.component";
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -79,6 +80,13 @@ const routes: Routes = [
         component: SurveyEventDetailPageComponent,
         canActivate: [AuthGuardWithForcedLogin],
         data: {name: 'Algemeen', url: ''}
+      },
+      {
+        path: 'bewerk',
+        component: SurveyEventDetailEditPageComponent,
+        canActivate: [AuthGuardWithForcedLogin, RoleGuard],
+        canDeactivate: [HasUnsavedDataGuard],
+        data: {roles: [Role.EditSurveyEvent]}
       },
       {
         path: 'waterkwaliteitsparameters',

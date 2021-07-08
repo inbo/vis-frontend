@@ -34,4 +34,8 @@ export interface FishingPointFeature {
   y: number;
 }
 
+export interface FishingPointSearch {
+  id: number;
+}
+
 
