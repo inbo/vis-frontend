@@ -59,7 +59,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         this.project = value;
         this.projectForm.get('name').patchValue(value.name);
         this.projectForm.get('description').patchValue(value.description);
-        this.projectForm.get('startDate').patchValue(value.start);
+        this.projectForm.get('startDate').patchValue(new Date(value.start));
         this.projectForm.get('lengthType').patchValue(value.lengthType);
         this.projectForm.get('teams').patchValue(value.teams === undefined ? [] : value.teams);
         this.projectForm.get('instances').patchValue(value.instances === undefined ? [] : value.instances);

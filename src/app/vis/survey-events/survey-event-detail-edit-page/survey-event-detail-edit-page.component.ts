@@ -34,7 +34,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
       this.activatedRoute.parent.snapshot.params.surveyEventId)
       .pipe(take(1))
       .subscribe(surveyEvent => {
-        this.occurrenceDate.patchValue(surveyEvent.occurrence);
+        this.occurrenceDate.patchValue(new Date(surveyEvent.occurrence));
         this.location.patchValue({
           id: surveyEvent.fishingPoint?.id,
           translateKey: `fishing-point.id.${surveyEvent.fishingPoint?.id}.code`,
