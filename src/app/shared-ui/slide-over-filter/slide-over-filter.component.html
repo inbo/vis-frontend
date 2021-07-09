@@ -1,18 +1,8 @@
 <div class="w-full px-4 sm:px-0">
   <div class="flex justify-between">
     <div>
-      <div class="inline-flex pr-1" *ngFor="let tag of tags$ | async">
-        <span
-          class="inline-flex rounded-full items-center py-0.5 pl-2.5 sm:pl-2 pr-1 sm:pr-0.5 text-sm sm:text-xs font-medium bg-pink-100 text-pink-700">
-          <span class="font-bold">{{tag.translationKey | translate}}:</span>&nbsp;{{tag.value}}
-          <button (click)="tag.callback()"
-                  class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-pink-400 hover:bg-pink-200 hover:text-pink-500 focus:outline-none focus:bg-pink-500 focus:text-white">
-            <span class="sr-only">Remove large option</span>
-            <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
-              <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7"/>
-            </svg>
-          </button>
-        </span>
+      <div class="inline-flex pr-1" *ngFor="let tag of tags">
+        <app-tag [tag]="tag"></app-tag>
       </div>
     </div>
     <a class="cursor-pointer text-pink-600 font-semibold" (click)="filterIsVisible = true">+ Filter toevoegen</a>

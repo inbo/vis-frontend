@@ -32,6 +32,7 @@ import {MultiTextSearchComponent} from './multi-text-search/multi-text-search.co
 import {DropdownMinimalComponent} from './dropdown-minimal/dropdown-minimal.component';
 import {MultiSelectComponent} from './multi-select/multi-select.component';
 import {HasRoleDirective} from "./directives/has-role.directive";
+import { TagComponent } from './slide-over-filter/tag/tag.component';
 
 @NgModule({
   declarations: [
@@ -62,38 +63,40 @@ import {HasRoleDirective} from "./directives/has-role.directive";
     MultiTextSearchComponent,
     DropdownMinimalComponent,
     MultiSelectComponent,
-    HasRoleDirective
+    HasRoleDirective,
+    TagComponent
   ],
-  exports: [
-    SidebarLayoutComponent,
-    NavigationLinkComponent,
-    ProfileDropdownComponent,
-    StackedLayoutComponent,
-    BreadcrumbComponent,
-    PagingAsyncComponent,
-    PagingComponent,
-    LoadingSpinnerComponent,
-    ToggleWithIconComponent,
-    DatepickerComponent,
-    SlideOverComponent,
-    TextCounterComponent,
-    ExpandableFilterComponent,
-    RadioGroupComponent,
-    CheckGroupComponent,
-    StepComponent,
-    SearchableSelectComponent,
-    DaterangeComponent,
-    TipComponent,
-    HeaderBannerComponent,
-    RoleEnabledButtonComponent,
-    SlideOverFilterComponent,
-    ModalComponent,
-    TipIconComponent,
-    MultiTextSearchComponent,
-    DropdownMinimalComponent,
-    MultiSelectComponent,
-    HasRoleDirective
-  ],
+    exports: [
+        SidebarLayoutComponent,
+        NavigationLinkComponent,
+        ProfileDropdownComponent,
+        StackedLayoutComponent,
+        BreadcrumbComponent,
+        PagingAsyncComponent,
+        PagingComponent,
+        LoadingSpinnerComponent,
+        ToggleWithIconComponent,
+        DatepickerComponent,
+        SlideOverComponent,
+        TextCounterComponent,
+        ExpandableFilterComponent,
+        RadioGroupComponent,
+        CheckGroupComponent,
+        StepComponent,
+        SearchableSelectComponent,
+        DaterangeComponent,
+        TipComponent,
+        HeaderBannerComponent,
+        RoleEnabledButtonComponent,
+        SlideOverFilterComponent,
+        ModalComponent,
+        TipIconComponent,
+        MultiTextSearchComponent,
+        DropdownMinimalComponent,
+        MultiSelectComponent,
+        HasRoleDirective,
+        TagComponent
+    ],
   imports: [
     RouterModule,
     CommonModule,

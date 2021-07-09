@@ -5,7 +5,6 @@
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
         <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
-          <!-- This example requires Tailwind CSS v2.0+ -->
           <div class="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
               Waarnemingen overzicht
@@ -14,8 +13,8 @@
 
         </div>
 
-        <app-slide-over-filter [tags$]="tags$" (searchClicked)="filter()" [formGroup]="filterForm"
-                               (resetClicked)="reset()">
+        <app-slide-over-filter (searchClicked)="filter()" [formGroup]="filterForm"
+                               (resetClicked)="reset()" [tags]="tags">
           <ng-container slot="content">
             <div class="space-y-4">
               <div>
@@ -107,14 +106,21 @@
                 </div>
               </div>
 
+              <div class="relative">
+                <label for="status" class="block text-sm font-medium text-gray-700">
+                  Status
+                </label>
+                <div class="mt-1">
+                  <app-multi-select id="status" formControlName="status" [options$]="statuses$"></app-multi-select>
+                </div>
+              </div>
+
               <div>
                 <label for="sort" class="block text-sm font-medium text-gray-700">
                   Sorteren op
                 </label>
                 <select id="sort" formControlName="sort" class="mt-1">
                   <option value="">Sorteren op ...</option>
-                  <!--TODO-->
-                  <!--<option value="watercourse">Waterloop</option>-->
                   <option value="occurrence">{{'surveyEvent.sortOption.occurrence' | translate}}</option>
                   <option value="method">{{'surveyEvent.sortOption.method' | translate}}</option>
                 </select>

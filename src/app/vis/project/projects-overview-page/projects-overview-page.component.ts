@@ -10,12 +10,12 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ProjectAddComponent} from '../project-add/project-add.component';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Role} from '../../../core/_models/role';
-import {debounceTime, distinctUntilChanged, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {ProjectService} from '../../../services/vis.project.service';
 import {AuthService} from '../../../core/auth.service';
 import _ from 'lodash';
-import {AccountService} from "../../../services/vis.account.service";
-import {Team} from "../../../domain/account/team";
+import {AccountService} from '../../../services/vis.account.service';
+import {Team} from '../../../domain/account/team';
 
 @Component({
   selector: 'app-projects-overview-page',
@@ -51,6 +51,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
     this.titleService.setTitle('Projecten');
 
     this.teams$ = this.accountService.listTeams();
+
     const queryParams = this.activatedRoute.snapshot.queryParams;
     this.filterForm = this.formBuilder.group(
       {

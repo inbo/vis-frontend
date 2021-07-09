@@ -1,6 +1,6 @@
 import {Component, ElementRef, forwardRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
-import {Observable} from "rxjs";
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-multi-select',
@@ -39,7 +39,7 @@ export class MultiSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    this.selectedValues = obj;
+    this.selectedValues = obj ?? [];
   }
 
   registerOnChange(onChange: any): void {
@@ -63,7 +63,7 @@ export class MultiSelectComponent implements OnInit, ControlValueAccessor {
 
   select(option: string) {
     if (!this.isSelected(option)) {
-      this.selectedValues.push(option)
+      this.selectedValues.push(option);
     } else {
       this.selectedValues = this.selectedValues.filter(value => value !== option);
     }
@@ -82,7 +82,11 @@ export class MultiSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   isSelected(id: any) {
-    return this.selectedValues?.some(value => value === id);
+    if (!this.selectedValues) {
+      return;
+    }
+
+    return this.selectedValues.some(value => value === id);
   }
 
   remove(id: any) {

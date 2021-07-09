@@ -38,6 +38,10 @@ export class SurveyEventsService extends VisService {
     return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`);
   }
 
+  listStatusCodes(): Observable<string[]> {
+    return this.http.get<string[]>(`${environment.apiUrl}/api/surveyevents/code/status`);
+  }
+
   getHabitat(projectCode: string, surveyEventId: SurveyEventId) {
     return this.http.get<Habitat>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`);
   }

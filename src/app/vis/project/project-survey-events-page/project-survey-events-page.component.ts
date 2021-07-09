@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Observable, of, Subject, Subscription} from 'rxjs';
@@ -20,7 +20,7 @@ import {MethodGroup} from '../../../domain/method/method-group';
   selector: 'app-project-survey-events-page',
   templateUrl: './project-survey-events-page.component.html'
 })
-export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
 
   loading = false;
   pager: AsyncPage<SurveyEvent>;
@@ -30,7 +30,8 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
   methodGroups$: Observable<MethodGroup[]>;
   methods$ = new Subject<Option[]>();
   species$ = new Subject<Option[]>();
-  tags$ = new Subject<Tag[]>();
+  tags: Tag[] = [];
+  statuses$: Observable<string[]>;
 
   filterForm: FormGroup;
 
@@ -46,6 +47,8 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     this.titleService.setTitle(`Waarnemingen voor ${this.activatedRoute.parent.snapshot.params.projectCode}`);
     this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
 
+    this.statuses$ = this.surveyEventsService.listStatusCodes();
+
     this.methodsService.getAllMethods().pipe(take(1))
       .subscribe(methods => {
         this.methods$.next(methods.map(this.mapMethodToOption()));
@@ -57,15 +60,18 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     const queryParams = this.activatedRoute.snapshot.queryParams;
     this.filterForm = this.formBuilder.group(
       {
-        watercourse: [queryParams.watercourse],
-        municipality: [queryParams.municipality],
-        basin: [queryParams.basin],
-        period: [queryParams.period],
-        sort: [queryParams.sort ?? ''],
-        measuringPointNumber: [queryParams.measuringPointNumber],
-        methodGroup: [queryParams.methodGroup],
-        method: [queryParams.method],
-        species: [queryParams.species]
+        watercourse: [queryParams.watercourse ?? null],
+        municipality: [queryParams.municipality ?? null],
+        basin: [queryParams.basin ?? null],
+        period: [queryParams.period ?? null],
+        sort: [queryParams.sort ?? null],
+        measuringPointNumber: [queryParams.measuringPointNumber ?? null],
+        methodGroup: [queryParams.methodGroup ?? null],
+        method: [queryParams.method ?? null],
+        species: [queryParams.species ?? null],
+        status: [queryParams.status != null ? (Array.isArray(queryParams.status) ? queryParams.status : [queryParams.status]) : ['VALID']],
+        page: [queryParams.page ?? null],
+        size: [queryParams.size ?? null]
       },
     );
 
@@ -74,36 +80,33 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
         .pipe(take(1))
         .subscribe(methods => this.methods$.next(methods.map(this.mapMethodToOption())));
     }));
+
+    this.subscription.add(this.activatedRoute.queryParams.subscribe((params) => {
+      const period = params.period && (params.period[0] && params.period[1]) ?
+        [new Date(params.period[0]), new Date(params.period[1])] : null;
+
+      this.filterForm.get('watercourse').patchValue(params.watercourse ? params.watercourse : null);
+      this.filterForm.get('municipality').patchValue(params.municipality ? params.municipality : null);
+      this.filterForm.get('basin').patchValue(params.basin ? params.basin : null);
+      this.filterForm.get('period').patchValue(period);
+      this.filterForm.get('sort').patchValue(params.sort ? params.sort : null);
+      this.filterForm.get('measuringPointNumber').patchValue(params.measuringPointNumber ? params.measuringPointNumber : null);
+      this.filterForm.get('status').patchValue(params.status ? (Array.isArray(params.status) ? params.status : [params.status]) : ['VALID']);
+      this.filterForm.get('page').patchValue(params.page ? params.page : null);
+      this.filterForm.get('size').patchValue(params.size ? params.size : null);
+      this.filterForm.get('methodGroup').patchValue(params.methodGroup ? params.methodGroup : null);
+      this.filterForm.get('method').patchValue(params.method ? JSON.parse(params.method) : null);
+      this.filterForm.get('species').patchValue(params.species ? JSON.parse(params.species) : null);
+    }));
+
+    this.filter();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  ngAfterViewInit() {
-    this.subscription.add(this.activatedRoute.queryParams.subscribe((params) => {
-      const period = params.period && (params.period[0] && params.period[1]) ?
-        [new Date(params.period[0]), new Date(params.period[1])] : null;
-
-      this.filterForm.get('watercourse').patchValue(params.watercourse ? params.watercourse : '');
-      this.filterForm.get('municipality').patchValue(params.municipality ? params.municipality : '');
-      this.filterForm.get('basin').patchValue(params.basin ? params.basin : '');
-      this.filterForm.get('period').patchValue(period);
-      this.filterForm.get('sort').patchValue(params.sort ? params.sort : '');
-      this.filterForm.get('measuringPointNumber').patchValue(params.measuringPointNumber ? params.measuringPointNumber : '');
-      this.filterForm.get('methodGroup').patchValue(params.methodGroup ? params.methodGroup : '');
-
-      // Timeout to avoid ExpressionChangedAfterItHasBeenCheckedError
-      setTimeout(() => {
-        this.filterForm.get('method').patchValue(params.method ? JSON.parse(params.method) : '');
-        this.filterForm.get('species').patchValue(params.species ? JSON.parse(params.species) : '');
-
-        this.filter(params.page ?? 1, params.size ?? 20);
-      });
-    }));
-  }
-
-  getSurveyEvents(page: number, size: number) {
+  getSurveyEvents() {
     this.loading = true;
     this.surveyEvents$ = of([]);
 
@@ -120,6 +123,9 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     if (filter && filter.species) {
       filter.taxonId = filter.species.id;
     }
+
+    const page = this.filterForm.get('page').value ?? 0;
+    const size = this.filterForm.get('size').value ?? 20;
 
     this.subscription.add(
       this.surveyEventsService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size, filter)
@@ -143,7 +149,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
   }
 
 
-  filter(page?: number, size?: number) {
+  filter() {
     if (this.filterForm.get('period').value?.length < 2) {
       return;
     }
@@ -157,17 +163,17 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     if (rawValue && rawValue.species) {
       rawValue.species = JSON.stringify(rawValue.species);
     }
-    const queryParams: Params = {...rawValue, page: page ?? 1};
+
+    const queryParams: Params = {...rawValue};
 
     this.router.navigate(
       [],
       {
         relativeTo: this.activatedRoute,
-        queryParams,
-        queryParamsHandling: 'merge'
+        queryParams
       }).then();
 
-    this.getSurveyEvents(page ?? 1, size ?? 20);
+    this.getSurveyEvents();
   }
 
   getMethods(val: string) {
@@ -188,43 +194,48 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy, Afte
     const tags: Tag[] = [];
 
     if (rawValue.watercourse) {
-      tags.push(getTag('surveyEvent.watercourse', rawValue.watercourse, this.getCallback('watercourse')));
+      tags.push(getTag('surveyEvent.watercourse', rawValue.watercourse, this.removeTagCallback('watercourse')));
     }
     if (rawValue.municipality) {
-      tags.push(getTag('surveyEvent.municipality', rawValue.municipality, this.getCallback('municipality')));
+      tags.push(getTag('surveyEvent.municipality', rawValue.municipality, this.removeTagCallback('municipality')));
     }
     if (rawValue.basin) {
-      tags.push(getTag('surveyEvent.basin', rawValue.basin, this.getCallback('basin')));
+      tags.push(getTag('surveyEvent.basin', rawValue.basin, this.removeTagCallback('basin')));
     }
     if (rawValue.period && rawValue.period.length === 2) {
       const period = `${this.datePipe.transform(rawValue.period[0], 'dd/MM/yyyy')} - ${this.datePipe.transform(rawValue.period[1], 'dd/MM/yyyy')}`;
-      tags.push(getTag('surveyEvent.period', period, this.getCallback('period')));
+      tags.push(getTag('surveyEvent.period', period, this.removeTagCallback('period')));
     }
     if (rawValue.measuringPointNumber) {
       tags.push(getTag('surveyEvent.measuringPointNumber', rawValue.measuringPointNumber,
-        this.getCallback('measuringPointNumber')));
+        this.removeTagCallback('measuringPointNumber')));
     }
     if (rawValue.methodGroup) {
       tags.push(getTag('surveyEvent.methodGroup', this.translateService.instant('method.group.' + rawValue.methodGroup),
-        this.getCallback('methodGroup')));
+        this.removeTagCallback('methodGroup')));
     }
     if (rawValue.method) {
       tags.push(getTag('surveyEvent.method', this.translateService.instant(rawValue.method.translateKey),
-        this.getCallback('method')));
+        this.removeTagCallback('method')));
     }
     if (rawValue.species) {
       tags.push(getTag('surveyEvent.species', this.translateService.instant(rawValue.species.translateKey),
-        this.getCallback('species')));
+        this.removeTagCallback('species')));
     }
     if (rawValue.sort) {
       tags.push(getTag('surveyEvent.sort', this.translateService.instant(`surveyEvent.sortOption.${rawValue.sort}`),
-        this.getCallback('sort')));
+        this.removeTagCallback('sort')));
+    }
+    if (rawValue.status) {
+      const readableStatuses = this.filterForm.get('status').value
+        .map(value => this.translateService.instant(`surveyEvent.status.${value}`)).join(', ');
+      tags.push(getTag('surveyEvent.statusTitle', readableStatuses, this.removeTagCallback('status')));
     }
 
-    this.tags$.next(tags);
+    this.tags = tags;
   }
 
-  getCallback(formField: string) {
+  removeTagCallback(formField: string) {
     return () => {
       this.filterForm.get(formField).reset();
       this.filter();
