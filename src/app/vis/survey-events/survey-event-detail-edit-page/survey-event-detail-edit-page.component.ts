@@ -7,6 +7,8 @@ import {Option} from '../../../shared-ui/searchable-select/option';
 import {Subject} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 import {LocationsService} from '../../../services/vis.locations.service';
+import {Method} from '../../../domain/method/method';
+import {MethodsService} from '../../../services/vis.methods.service';
 
 @Component({
   selector: 'app-survey-event-detail-edit-page',
@@ -16,10 +18,15 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
 
   surveyEventForm: FormGroup;
   submitted = false;
+  methods: Method[];
+
   locations$ = new Subject<Option[]>();
+  methods$ = new Subject<Option[]>();
+
 
   constructor(private titleService: Title, private surveyEventService: SurveyEventsService, private activatedRoute: ActivatedRoute,
-              private router: Router, private formBuilder: FormBuilder, private locationsService: LocationsService) {
+              private router: Router, private formBuilder: FormBuilder, private locationsService: LocationsService,
+              private methodsService: MethodsService) {
   }
 
   ngOnInit(): void {
@@ -27,6 +34,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
       {
         occurrenceDate: [null, [Validators.required]],
         location: [null, [Validators.required]],
+        method: [''],
         comment: ['', Validators.maxLength(800)]
       });
 
@@ -40,7 +48,14 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
           translateKey: `fishing-point.id.${surveyEvent.fishingPoint?.id}.code`,
           secondaryTranslateKey: `fishing-point.id.${surveyEvent.fishingPoint?.id}`
         });
+        this.surveyEventForm.get('method').patchValue({id: surveyEvent.method, translateKey: `method.${surveyEvent.method}`});
         this.comment.patchValue(surveyEvent.comment);
+      });
+
+    this.methodsService.getAllMethods().pipe(take(1))
+      .subscribe(methods => {
+        this.methods$.next(methods.map(this.mapMethodToOption()));
+        return this.methods = methods;
       });
   }
 
@@ -56,6 +71,19 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
     ).subscribe(value => this.locations$.next(value));
   }
 
+  getMethods(val: string) {
+    this.methods$.next(
+      this.methods.filter(value => value.description.toLowerCase().includes(val))
+        .map(this.mapMethodToOption())
+    );
+  }
+
+  mapMethodToOption() {
+    return value => {
+      return {id: value.code, translateKey: `method.${value.code}`};
+    };
+  }
+
   saveSurveyEvent() {
     this.submitted = true;
 
@@ -65,6 +93,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
 
     const formData = this.surveyEventForm.getRawValue();
     formData.fishingPointId = formData.location.id;
+    formData.method = formData.method.id;
     delete formData.location;
 
     this.surveyEventService.updateSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,

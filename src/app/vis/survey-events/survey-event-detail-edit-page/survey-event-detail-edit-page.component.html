@@ -35,6 +35,19 @@
                                           [submitted]="submitted"></app-form-error-message>
                 </div>
 
+                <div class="relative sm:col-span-4">
+                  <label for="method" class="block text-sm font-medium text-gray-700">
+                    Methode
+                  </label>
+                  <div class="mt-1">
+                    <app-searchable-select id="method" passedId="method" placeholder="Selecteer een methode" tabIndex="-1"
+                                           formControlName="method" (onSearch)="getMethods($event)"
+                                           [options$]="methods$"></app-searchable-select>
+                  </div>
+                  <app-form-error-message [fieldName]="'Locatie'" [control]="location"
+                                          [submitted]="submitted"></app-form-error-message>
+                </div>
+
                 <div class="sm:col-span-6">
                   <label for="comment" class="block text-sm font-medium text-gray-700">
                     Commentaar
