@@ -59,9 +59,10 @@ import {UsersPageComponent} from './settings/users/users-page/users-page.compone
 import {UserEditComponent} from './settings/users/user-edit/user-edit.component';
 import {TeamAddComponent} from './settings/teams/team-add/team-add.component';
 import {MultiUserSearchComponent} from './settings/users/multi-user-search/multi-user-search.component';
-import { TeamsPageComponent } from './settings/teams/teams-page/teams-page.component';
-import { InstancesPageComponent } from './settings/instances/instances-page/instances-page.component';
-import { InstanceAddComponent } from './settings/instances/instance-add/instance-add.component';
+import {TeamsPageComponent} from './settings/teams/teams-page/teams-page.component';
+import {InstancesPageComponent} from './settings/instances/instances-page/instances-page.component';
+import {InstanceAddComponent} from './settings/instances/instance-add/instance-add.component';
+import {SurveyEventDetailEditPageComponent} from './survey-events/survey-event-detail-edit-page/survey-event-detail-edit-page.component';
 
 @NgModule({
   exports: [
@@ -119,7 +120,8 @@ import { InstanceAddComponent } from './settings/instances/instance-add/instance
     SettingsTabsComponent,
     TeamsPageComponent,
     InstancesPageComponent,
-    InstanceAddComponent
+    InstanceAddComponent,
+    SurveyEventDetailEditPageComponent
   ],
   imports: [
     CommonModule,

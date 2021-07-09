@@ -5,6 +5,7 @@ export interface SurveyEventId {
 }
 
 export interface FishingPoint {
+  id: number;
   code: string;
   flowArea: string;
 }
