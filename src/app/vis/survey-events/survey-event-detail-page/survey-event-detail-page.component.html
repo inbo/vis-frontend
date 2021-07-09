@@ -33,6 +33,14 @@
           <app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>
         </dd>
       </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Methode
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{'method.' + surveyEvent.method | translate}}
+        </dd>
+      </div>
 
       <div class="sm:col-span-2">
         <dt class="text-sm font-medium text-gray-500">
@@ -48,6 +56,7 @@
     <app-button [style]="'primary'"
                 [role]="role.EditSurveyEvent"
                 [routerLink]="['/projecten', surveyEvent.projectCode.value, 'waarnemingen', surveyEvent.surveyEventId.value, 'bewerk']"
-                [projectCode]="surveyEvent.projectCode">Bewerken</app-button>
+                [projectCode]="surveyEvent.projectCode">Bewerken
+    </app-button>
   </div>
 </div>
