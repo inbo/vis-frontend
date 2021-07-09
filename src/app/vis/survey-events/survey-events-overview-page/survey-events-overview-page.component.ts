@@ -57,9 +57,6 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
       return {value, displayValue: this.translateService.instant('surveyEvent.status.' + value)};
     })));
 
-    this.methods$ = this.methodsService.getAllMethods();
-    this.methodGroups$ = this.methodsService.getAllMethodGroups();
-
     const queryParams = this.activatedRoute.snapshot.queryParams;
     this.filterForm = this.formBuilder.group(
       {
@@ -77,6 +74,15 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
         page: [queryParams.page ?? null],
         size: [queryParams.size ?? null]
       },
+    );
+
+    this.methods$ = this.methodsService.getAllMethods();
+    this.methodGroups$ = this.methodsService.getAllMethodGroups();
+
+    this.subscription.add(
+      this.filterForm.get('methodGroup').valueChanges.subscribe(value => {
+        this.methods$ = this.methodsService.getMethodsForGroup(value);
+      })
     );
 
     this.subscription.add(
@@ -99,12 +105,6 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
         this.filterForm.get('species').patchValue(params.species ? params.species : null);
 
         this.getSurveyEvents();
-      })
-    );
-
-    this.subscription.add(
-      this.filterForm.get('methodGroup').valueChanges.subscribe(value => {
-        this.methods$ = this.methodsService.getMethodsForGroup(value);
       })
     );
 

@@ -52,7 +52,7 @@
         </label>
         <div class="mt-1">
           <select id="methodGroup" formControlName="methodGroup" class="mt-1">
-            <option value="">Methode groep selecteren...</option>
+            <option [ngValue]="null">Methode groep selecteren...</option>
             <option *ngFor="let methodGroup of methodGroups$ | async" [value]="methodGroup.code">{{methodGroup.description}}</option>
           </select>
         </div>
@@ -63,7 +63,10 @@
           Methode
         </label>
         <div class="mt-1">
-          <app-searchable-select id="method" passedId="method" placeholder="Selecteer een methode" tabIndex="-1" formControlName="method" (onSearch)="getMethods($event)" [options$]="methods$"></app-searchable-select>
+          <select id="method" formControlName="method" class="mt-1">
+            <option [ngValue]="null">Methode selecteren...</option>
+            <option *ngFor="let method of methods$ | async" [value]="method.code">{{'method.' + method.code | translate}}</option>
+          </select>
         </div>
       </div>
 

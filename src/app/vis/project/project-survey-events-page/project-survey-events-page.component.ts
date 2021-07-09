@@ -29,7 +29,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
 
   surveyEvents$: Observable<SurveyEvent[]>;
   methodGroups$: Observable<MethodGroup[]>;
-  methods$ = new Subject<Option[]>();
+  methods$: Observable<Method[]>;
   species$ = new Subject<Option[]>();
   tags: Tag[] = [];
   statuses$: Observable<MultiSelectOption[]>;
@@ -52,14 +52,6 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
       return {value, displayValue: this.translateService.instant('surveyEvent.status.' + value)};
     })));
 
-    this.methodsService.getAllMethods().pipe(take(1))
-      .subscribe(methods => {
-        this.methods$.next(methods.map(this.mapMethodToOption()));
-        return this.methods = methods;
-      });
-
-    this.methodGroups$ = this.methodsService.getAllMethodGroups();
-
     const queryParams = this.activatedRoute.snapshot.queryParams;
     this.filterForm = this.formBuilder.group(
       {
@@ -78,11 +70,14 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
       },
     );
 
-    this.subscription.add(this.filterForm.get('methodGroup').valueChanges.subscribe(value => {
-      this.methodsService.getMethodsForGroup(value)
-        .pipe(take(1))
-        .subscribe(methods => this.methods$.next(methods.map(this.mapMethodToOption())));
-    }));
+    this.methods$ = this.methodsService.getAllMethods();
+    this.methodGroups$ = this.methodsService.getAllMethodGroups();
+
+    this.subscription.add(
+      this.filterForm.get('methodGroup').valueChanges.subscribe(value => {
+        this.methods$ = this.methodsService.getMethodsForGroup(value);
+      })
+    );
 
     this.subscription.add(this.activatedRoute.queryParams.subscribe((params) => {
       const period = params.period && (params.period[0] && params.period[1]) ?
@@ -98,8 +93,8 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
       this.filterForm.get('page').patchValue(params.page ? params.page : null);
       this.filterForm.get('size').patchValue(params.size ? params.size : null);
       this.filterForm.get('methodGroup').patchValue(params.methodGroup ? params.methodGroup : null);
-      this.filterForm.get('method').patchValue(params.method ? JSON.parse(params.method) : null);
-      this.filterForm.get('species').patchValue(params.species ? JSON.parse(params.species) : null);
+      this.filterForm.get('method').patchValue(params.method ? params.method : null);
+      this.filterForm.get('species').patchValue(params.species ? params.species : null);
 
       this.getSurveyEvents();
     }));
@@ -123,14 +118,8 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
       delete filter.period;
     }
 
-    if (filter && filter.method) {
-      filter.method = filter.method.id;
-    }
     if (filter && filter.species) {
       filter.taxonId = filter.species.id;
-    }
-    if (filter && filter.method) {
-      filter.method = JSON.stringify(filter.method);
     }
     if (filter && filter.species) {
       filter.species = JSON.stringify(filter.species);
@@ -167,9 +156,6 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
     }
 
     const rawValue = this.filterForm.getRawValue();
-    if (rawValue && rawValue.method) {
-      rawValue.method = rawValue.method.id;
-    }
     if (rawValue && rawValue.species) {
       rawValue.taxonId = rawValue.species.id;
     }
@@ -184,19 +170,6 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
       }).then();
 
     this.getSurveyEvents();
-  }
-
-  getMethods(val: string) {
-    this.methods$.next(
-      this.methods.filter(value => value.description.toLowerCase().includes(val))
-        .map(this.mapMethodToOption())
-    );
-  }
-
-  public mapMethodToOption() {
-    return value => {
-      return {id: value.code, translateKey: `method.${value.code}`};
-    };
   }
 
   private setTags() {
@@ -225,7 +198,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
         this.removeTagCallback('methodGroup')));
     }
     if (rawValue.method) {
-      tags.push(getTag('surveyEvent.method', this.translateService.instant(rawValue.method.translateKey),
+      tags.push(getTag('surveyEvent.method', this.translateService.instant('method.' + rawValue.method),
         this.removeTagCallback('method')));
     }
     if (rawValue.species) {
