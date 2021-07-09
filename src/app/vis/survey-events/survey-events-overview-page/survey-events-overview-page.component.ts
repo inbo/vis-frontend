@@ -100,6 +100,8 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
         this.filterForm.get('methodGroup').patchValue(params.methodGroup ? params.methodGroup : null);
         this.filterForm.get('method').patchValue(params.method ? JSON.parse(params.method) : null);
         this.filterForm.get('species').patchValue(params.species ? JSON.parse(params.species) : null);
+
+        this.getSurveyEvents();
       })
     );
 
@@ -109,7 +111,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
         .subscribe(methods => this.methods$.next(methods.map(this.mapMethodToOption())));
     }));
 
-    this.filter();
+    this.getSurveyEvents();
   }
 
   ngOnDestroy(): void {
@@ -117,6 +119,8 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
   }
 
   getSurveyEvents() {
+    this.setTags();
+
     this.loading = true;
     this.surveyEvents$ = of([]);
 
@@ -164,8 +168,6 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.setTags();
-
     const rawValue = this.filterForm.getRawValue();
     if (rawValue && rawValue.method) {
       rawValue.method = JSON.stringify(rawValue.method);
@@ -182,8 +184,6 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
         relativeTo: this.activatedRoute,
         queryParams
       }).then();
-
-    this.getSurveyEvents();
   }
 
   getMethods(val: string) {

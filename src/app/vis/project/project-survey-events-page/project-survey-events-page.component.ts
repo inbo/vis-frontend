@@ -97,16 +97,19 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
       this.filterForm.get('methodGroup').patchValue(params.methodGroup ? params.methodGroup : null);
       this.filterForm.get('method').patchValue(params.method ? JSON.parse(params.method) : null);
       this.filterForm.get('species').patchValue(params.species ? JSON.parse(params.species) : null);
+
+      this.getSurveyEvents();
     }));
 
-    this.filter();
-  }
+    this.getSurveyEvents();  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
   getSurveyEvents() {
+    this.setTags();
+
     this.loading = true;
     this.surveyEvents$ = of([]);
 
@@ -153,8 +156,6 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
     if (this.filterForm.get('period').value?.length < 2) {
       return;
     }
-
-    this.setTags();
 
     const rawValue = this.filterForm.getRawValue();
     if (rawValue && rawValue.method) {
