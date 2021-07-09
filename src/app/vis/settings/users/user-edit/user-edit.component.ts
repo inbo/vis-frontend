@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {AccountService} from '../../../../services/vis.account.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {map, take} from 'rxjs/operators';
+import {MultiSelectOption} from '../../../../shared-ui/multi-select/multi-select';
 
 @Component({
   selector: 'app-user-edit',
@@ -15,8 +16,8 @@ export class UserEditComponent implements OnInit {
 
   account: Account;
 
-  teams$: Observable<string[]>;
-  instances$: Observable<string[]>;
+  teams$: Observable<MultiSelectOption[]>;
+  instances$: Observable<MultiSelectOption[]>;
 
   editAccountTeamForm: FormGroup;
 
@@ -26,8 +27,14 @@ export class UserEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.teams$ = this.accountService.listTeams().pipe(map(teams => teams.map(team => team.name)));
-    this.instances$ = this.accountService.listInstances().pipe(map(instances => instances.map(instance => instance.code)));
+    this.instances$ = this.accountService.listInstances().pipe(map(values => values.map(value => {
+      return {value: value.code, displayValue: value.code};
+    })));
+
+    this.teams$ = this.accountService.listTeams().pipe(map(values => values.map(value => {
+      return {value: value.name, displayValue: value.name};
+    })));
+
 
     this.editAccountTeamForm = this.formBuilder.group({
       teams: [[]],

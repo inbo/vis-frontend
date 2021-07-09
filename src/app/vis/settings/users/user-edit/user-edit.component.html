@@ -19,7 +19,7 @@
                 Instanties
               </label>
               <div class="mt-1 space-y-1">
-                <app-multi-select formControlName="instances" [options$]="instances$"></app-multi-select>
+                <app-multi-select formControlName="instances" [options]="instances$ | async"></app-multi-select>
               </div>
             </div>
 
@@ -28,7 +28,7 @@
                 Teams
               </label>
               <div class="mt-1 space-y-1">
-                <app-multi-select formControlName="teams" [options$]="teams$"></app-multi-select>
+                <app-multi-select formControlName="teams" [options]="teams$ | async"></app-multi-select>
               </div>
             </div>
           </div>

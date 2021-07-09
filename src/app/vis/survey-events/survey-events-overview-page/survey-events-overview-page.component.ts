@@ -18,6 +18,7 @@ import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {MethodGroup} from '../../../domain/method/method-group';
 import {Method} from '../../../domain/method/method';
+import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 
 @Component({
   selector: 'app-survey-events-overview-page',
@@ -39,7 +40,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
   methods$ = new Subject<Option[]>();
   species$ = new Subject<Option[]>();
   tags = [];
-  statuses$: Observable<string[]>;
+  statuses$: Observable<MultiSelectOption[]>;
 
   filterForm: FormGroup;
 
@@ -53,7 +54,9 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.titleService.setTitle(`Waarnemingen`);
 
-    this.statuses$ = this.surveyEventsService.listStatusCodes();
+    this.statuses$ = this.surveyEventsService.listStatusCodes().pipe(map(values => values.map(value => {
+      return {value, displayValue: this.translateService.instant('surveyEvent.status.' + value)};
+    })));
 
     this.methodsService.getAllMethods().pipe(take(1))
       .subscribe(methods => {
@@ -125,6 +128,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     this.surveyEvents$ = of([]);
 
     const filter = this.filterForm?.getRawValue();
+
     if (filter && filter.period?.length === 2) {
       filter.begin = new Date(filter.period[0]).toISOString();
       filter.end = new Date(filter.period[1]).toISOString();
@@ -170,10 +174,10 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
 
     const rawValue = this.filterForm.getRawValue();
     if (rawValue && rawValue.method) {
-      rawValue.method = JSON.stringify(rawValue.method);
+      rawValue.method = rawValue.method.id;
     }
     if (rawValue && rawValue.species) {
-      rawValue.species = JSON.stringify(rawValue.species);
+      rawValue.taxonId = rawValue.species.id;
     }
 
     const queryParams: Params = {...rawValue};

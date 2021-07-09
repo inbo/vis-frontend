@@ -15,6 +15,7 @@ import {DatePipe} from '@angular/common';
 import {TranslateService} from '@ngx-translate/core';
 import {Method} from '../../../domain/method/method';
 import {MethodGroup} from '../../../domain/method/method-group';
+import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 
 @Component({
   selector: 'app-project-survey-events-page',
@@ -31,7 +32,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
   methods$ = new Subject<Option[]>();
   species$ = new Subject<Option[]>();
   tags: Tag[] = [];
-  statuses$: Observable<string[]>;
+  statuses$: Observable<MultiSelectOption[]>;
 
   filterForm: FormGroup;
 
@@ -47,7 +48,9 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
     this.titleService.setTitle(`Waarnemingen voor ${this.activatedRoute.parent.snapshot.params.projectCode}`);
     this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
 
-    this.statuses$ = this.surveyEventsService.listStatusCodes();
+    this.statuses$ = this.surveyEventsService.listStatusCodes().pipe(map(values => values.map(value => {
+      return {value, displayValue: this.translateService.instant('surveyEvent.status.' + value)};
+    })));
 
     this.methodsService.getAllMethods().pipe(take(1))
       .subscribe(methods => {
@@ -126,6 +129,12 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
     if (filter && filter.species) {
       filter.taxonId = filter.species.id;
     }
+    if (filter && filter.method) {
+      filter.method = JSON.stringify(filter.method);
+    }
+    if (filter && filter.species) {
+      filter.species = JSON.stringify(filter.species);
+    }
 
     const page = this.filterForm.get('page').value ?? 0;
     const size = this.filterForm.get('size').value ?? 20;
@@ -159,10 +168,10 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
 
     const rawValue = this.filterForm.getRawValue();
     if (rawValue && rawValue.method) {
-      rawValue.method = JSON.stringify(rawValue.method);
+      rawValue.method = rawValue.method.id;
     }
     if (rawValue && rawValue.species) {
-      rawValue.species = JSON.stringify(rawValue.species);
+      rawValue.taxonId = rawValue.species.id;
     }
 
     const queryParams: Params = {...rawValue};

@@ -84,7 +84,7 @@
                     Instanties
                   </label>
                   <div class="mt-1">
-                    <app-multi-select formControlName="instances" [options$]="instances$"></app-multi-select>
+                    <app-multi-select formControlName="instances" [options]="instances$ | async"></app-multi-select>
                     <app-form-error-message [control]="instances" [fieldName]="'Instanties'" [submitted]="submitted"></app-form-error-message>
                   </div>
                 </div>
@@ -93,7 +93,7 @@
                     Team
                   </label>
                   <div class="mt-1">
-                    <app-multi-select formControlName="teams" [options$]="teams$"></app-multi-select>
+                    <app-multi-select formControlName="teams" [options]="teams$ | async"></app-multi-select>
                     <app-form-error-message [control]="teams" [fieldName]="'Teams'" [submitted]="submitted"></app-form-error-message>
                   </div>
                 </div>

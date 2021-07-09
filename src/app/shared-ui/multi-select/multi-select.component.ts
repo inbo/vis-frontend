@@ -1,6 +1,6 @@
 import {Component, ElementRef, forwardRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {MultiSelectOption} from './multi-select';
 
 @Component({
   selector: 'app-multi-select',
@@ -18,12 +18,11 @@ export class MultiSelectComponent implements OnInit, ControlValueAccessor {
   @ViewChild('selectBoxDiv') selectBoxDiv: ElementRef;
   @ViewChild('valuesList') valuesList: ElementRef;
 
-  @Input() options$: Observable<string[]>;
-  @Input() translateKey: string;
+  @Input() options: MultiSelectOption[] = [];
   @Input() formControlName: string;
 
   isOpen = false;
-  selectedValues: string[] = [];
+  selectedValues: any[] = [];
 
   private firstFocussed = false;
   private touched = false;
@@ -61,11 +60,11 @@ export class MultiSelectComponent implements OnInit, ControlValueAccessor {
     this.isDisabled = isDisabled;
   }
 
-  select(option: string) {
+  select(option: MultiSelectOption) {
     if (!this.isSelected(option)) {
-      this.selectedValues.push(option);
+      this.selectedValues.push(option.value);
     } else {
-      this.selectedValues = this.selectedValues.filter(value => value !== option);
+      this.selectedValues = this.selectedValues.filter(value => value !== option.value);
     }
     this.onChange(this.selectedValues);
 
@@ -81,16 +80,16 @@ export class MultiSelectComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  isSelected(id: any) {
+  isSelected(id: MultiSelectOption) {
     if (!this.selectedValues) {
       return;
     }
 
-    return this.selectedValues.some(value => value === id);
+    return this.selectedValues.some(value => value === id.value);
   }
 
-  remove(id: any) {
-    this.selectedValues = this.selectedValues.filter(value => value !== id);
+  remove(id: MultiSelectOption) {
+    this.selectedValues = this.selectedValues.filter(value => value !== id.value);
     this.onChange(this.selectedValues);
 
     this.markAsTouched();
@@ -98,5 +97,9 @@ export class MultiSelectComponent implements OnInit, ControlValueAccessor {
 
   toggleList() {
     this.isOpen = !this.isOpen;
+  }
+
+  selectedValuesAsDisplayValues() {
+    return this.options?.filter(value => this.selectedValues.indexOf(value.value) >= 0);
   }
 }

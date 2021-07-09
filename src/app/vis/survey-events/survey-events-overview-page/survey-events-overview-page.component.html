@@ -111,7 +111,7 @@
                   Status
                 </label>
                 <div class="mt-1">
-                  <app-multi-select id="status" formControlName="status" [options$]="statuses$"></app-multi-select>
+                  <app-multi-select id="status" formControlName="status" [options]="statuses$ | async"></app-multi-select>
                 </div>
               </div>
 

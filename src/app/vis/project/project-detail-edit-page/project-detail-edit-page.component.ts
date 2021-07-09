@@ -9,6 +9,8 @@ import {ProjectService} from '../../../services/vis.project.service';
 import {Role} from '../../../core/_models/role';
 import {AccountService} from '../../../services/vis.account.service';
 import {map} from 'rxjs/operators';
+import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-project-detail-edit-page',
@@ -25,19 +27,25 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
   showCloseProjectModal = false;
 
-  teams$: Observable<string[]>;
-  instances$: Observable<string[]>;
+  teams$: Observable<MultiSelectOption[]>;
+  instances$: Observable<MultiSelectOption[]>;
 
   private subscription = new Subscription();
 
   constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute,
-              private router: Router, private formBuilder: FormBuilder, private accountService: AccountService) {
+              private router: Router, private formBuilder: FormBuilder, private accountService: AccountService,
+              private translateService: TranslateService) {
 
   }
 
   ngOnInit(): void {
-    this.instances$ = this.accountService.listInstances().pipe(map(instances => instances.map(instance => instance.code)));
-    this.teams$ = this.accountService.listTeams().pipe(map(teams => teams.map(team => team.name)));
+    this.instances$ = this.accountService.listInstances().pipe(map(values => values.map(value => {
+      return {value: value.code, displayValue: value.code};
+    })));
+
+    this.teams$ = this.accountService.listTeams().pipe(map(values => values.map(value => {
+      return {value: value.name, displayValue: value.name};
+    })));
 
     this.closeProjectForm = this.formBuilder.group({
       endDate: [null, [Validators.required]]
