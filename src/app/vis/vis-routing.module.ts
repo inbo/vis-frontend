@@ -84,7 +84,7 @@ const routes: Routes = [
       {
         path: 'bewerk',
         component: SurveyEventDetailEditPageComponent,
-        canActivate: [AuthGuardWithForcedLogin, RoleGuard],
+        canActivate: [AuthGuardWithForcedLogin, RoleGuard, ProjectEditGuard],
         canDeactivate: [HasUnsavedDataGuard],
         data: {roles: [Role.EditSurveyEvent]}
       },
