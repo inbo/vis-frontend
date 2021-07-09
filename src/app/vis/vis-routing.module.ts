@@ -14,7 +14,6 @@ import {ProjectPicturesPageComponent} from './project/project-pictures-page/proj
 import {SurveyEventDetailPageComponent} from './survey-events/survey-event-detail-page/survey-event-detail-page.component';
 import {SurveyEventParametersPageComponent} from './survey-events/survey-event-parameters-page/survey-event-parameters-page.component';
 import {SurveyEventParametersEditPageComponent} from './survey-events/survey-event-parameters-edit-page/survey-event-parameters-edit-page.component';
-import {SurveyEventMethodPageComponent} from './survey-events/survey-event-method-page/survey-event-method-page.component';
 import {SurveyEventHabitatPageComponent} from './survey-events/survey-event-habitat-page/survey-event-habitat-page.component';
 import {SurveyEventHabitatEditPageComponent} from './survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component';
 import {SurveyEventTrajectPageComponent} from './survey-events/survey-event-traject-page/survey-event-traject-page.component';
@@ -41,7 +40,7 @@ import {TeamsPageComponent} from './settings/teams/teams-page/teams-page.compone
 import {InstancesPageComponent} from './settings/instances/instances-page/instances-page.component';
 import {ChildRoleGuard} from '../core/child-role-guard.service';
 import {ProjectEditGuard} from '../core/project-edit-guard.service';
-import {SurveyEventDetailEditPageComponent} from "./survey-events/survey-event-detail-edit-page/survey-event-detail-edit-page.component";
+import {SurveyEventDetailEditPageComponent} from './survey-events/survey-event-detail-edit-page/survey-event-detail-edit-page.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -100,12 +99,6 @@ const routes: Routes = [
         canActivate: [AuthGuardWithForcedLogin],
         canDeactivate: [HasUnsavedDataGuard],
         data: {name: 'Waterkwaliteitsparameters', url: 'waterkwaliteitsparameters/bewerk'}
-      },
-      {
-        path: 'methode',
-        component: SurveyEventMethodPageComponent,
-        canActivate: [AuthGuardWithForcedLogin],
-        data: {name: 'Methode', url: 'methode'}
       },
       {
         path: 'habitat',
