@@ -29,6 +29,20 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
         location: [null, [Validators.required]],
         comment: ['', Validators.maxLength(800)]
       });
+
+    this.surveyEventService.getSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
+      this.activatedRoute.parent.snapshot.params.surveyEventId)
+      .pipe(take(1))
+      .subscribe(surveyEvent => {
+        console.log(surveyEvent);
+        this.occurrenceDate.patchValue(surveyEvent.occurrence);
+        this.location.patchValue({
+          id: surveyEvent.fishingPoint?.id,
+          translateKey: `fishing-point.id.${surveyEvent.fishingPoint?.id}.code`,
+          secondaryTranslateKey: `fishing-point.id.${surveyEvent.fishingPoint?.id}`
+        });
+        this.comment.patchValue(surveyEvent.comment);
+      })
   }
 
   getLocations(val: any) {
@@ -36,7 +50,8 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
       map(fishingPoints => {
         return fishingPoints.map(fishingPoint => ({
           id: fishingPoint.id,
-          translateKey: `fishing-point.id.${fishingPoint.id}`
+          translateKey: `fishing-point.id.${fishingPoint.id}.code`,
+          secondaryTranslateKey: `fishing-point.id.${fishingPoint.id}`
         }));
       })
     ).subscribe(value => this.locations$.next(value));
@@ -50,6 +65,10 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
     }
 
     const formData = this.surveyEventForm.getRawValue();
+    formData.fishingPointId = formData.location.id;
+    delete formData.location;
+
+    console.log(formData);
 
     this.surveyEventService.updateSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
       this.activatedRoute.parent.snapshot.params.surveyEventId, formData)
