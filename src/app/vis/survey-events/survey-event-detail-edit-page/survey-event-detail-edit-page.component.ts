@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Title} from "@angular/platform-browser";
-import {ActivatedRoute, Router} from "@angular/router";
-import {SurveyEventsService} from "../../../services/vis.surveyevents.service";
-import {Option} from "../../../shared-ui/searchable-select/option";
-import {Subject} from "rxjs";
-import {map, take} from "rxjs/operators";
-import {LocationsService} from "../../../services/vis.locations.service";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Title} from '@angular/platform-browser';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
+import {Option} from '../../../shared-ui/searchable-select/option';
+import {Subject} from 'rxjs';
+import {map, take} from 'rxjs/operators';
+import {LocationsService} from '../../../services/vis.locations.service';
 
 @Component({
   selector: 'app-survey-event-detail-edit-page',
@@ -34,7 +34,6 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
       this.activatedRoute.parent.snapshot.params.surveyEventId)
       .pipe(take(1))
       .subscribe(surveyEvent => {
-        console.log(surveyEvent);
         this.occurrenceDate.patchValue(surveyEvent.occurrence);
         this.location.patchValue({
           id: surveyEvent.fishingPoint?.id,
@@ -42,7 +41,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
           secondaryTranslateKey: `fishing-point.id.${surveyEvent.fishingPoint?.id}`
         });
         this.comment.patchValue(surveyEvent.comment);
-      })
+      });
   }
 
   getLocations(val: any) {
@@ -68,15 +67,13 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
     formData.fishingPointId = formData.location.id;
     delete formData.location;
 
-    console.log(formData);
-
     this.surveyEventService.updateSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
       this.activatedRoute.parent.snapshot.params.surveyEventId, formData)
       .pipe(take(1))
       .subscribe(() => {
         this.router.navigate(['projecten', this.activatedRoute.parent.snapshot.params.projectCode,
-          '/waarnemingen', this.activatedRoute.parent.snapshot.params.surveyEventId]).then();
-      })
+          'waarnemingen', this.activatedRoute.parent.snapshot.params.surveyEventId]).then();
+      });
   }
 
   /*
