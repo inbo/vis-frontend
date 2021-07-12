@@ -9,6 +9,8 @@ import {map, take} from 'rxjs/operators';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {Method} from '../../../domain/method/method';
 import {MethodsService} from '../../../services/vis.methods.service';
+import {Role} from '../../../core/_models/role';
+import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 
 @Component({
   selector: 'app-survey-event-detail-edit-page',
@@ -16,9 +18,12 @@ import {MethodsService} from '../../../services/vis.methods.service';
 })
 export class SurveyEventDetailEditPageComponent implements OnInit {
 
+  public role = Role;
+
   surveyEventForm: FormGroup;
   submitted = false;
   methods: Method[];
+  surveyEvent: SurveyEvent;
 
   locations$ = new Subject<Option[]>();
   methods$ = new Subject<Option[]>();
@@ -42,6 +47,8 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
       this.activatedRoute.parent.snapshot.params.surveyEventId)
       .pipe(take(1))
       .subscribe(surveyEvent => {
+        this.surveyEvent = surveyEvent;
+
         this.occurrenceDate.patchValue(new Date(surveyEvent.occurrence));
         this.location.patchValue({
           id: surveyEvent.fishingPoint?.id,
@@ -98,6 +105,16 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
 
     this.surveyEventService.updateSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
       this.activatedRoute.parent.snapshot.params.surveyEventId, formData)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.router.navigate(['projecten', this.activatedRoute.parent.snapshot.params.projectCode,
+          'waarnemingen', this.activatedRoute.parent.snapshot.params.surveyEventId]).then();
+      });
+  }
+
+  deleteSurveyEvent() {
+    this.surveyEventService.deleteSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
+      this.activatedRoute.parent.snapshot.params.surveyEventId)
       .pipe(take(1))
       .subscribe(() => {
         this.router.navigate(['projecten', this.activatedRoute.parent.snapshot.params.projectCode,
