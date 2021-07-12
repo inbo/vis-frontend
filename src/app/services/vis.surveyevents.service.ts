@@ -81,4 +81,8 @@ export class SurveyEventsService extends VisService {
   deleteSurveyEvent(projectCode: string, surveyEventId: any) {
     return this.http.delete<void>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}`);
   }
+
+  createSurveyEvent(projectCode: string, formData: any) {
+    return this.http.post<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents`, formData);
+  }
 }

@@ -28,7 +28,8 @@ export class SurveyEventHeadingComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.surveyEvent$ = this.surveyEventsService.getSurveyEvent(this.activatedRoute.snapshot.params.projectCode, this.activatedRoute.snapshot.params.surveyEventId);
+    this.surveyEvent$ = this.surveyEventsService.getSurveyEvent(this.activatedRoute.snapshot.params.projectCode,
+      this.activatedRoute.snapshot.params.surveyEventId);
     this.surveyEventMethodCode$ = this.surveyEvent$.pipe(map(surveyEvent => surveyEvent.method), map(code => 'method.' + code));
     this.surveyEventOccurrence$ = this.surveyEvent$.pipe(map(surveyEvent => surveyEvent.occurrence));
 

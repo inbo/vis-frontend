@@ -62,6 +62,7 @@ import {TeamsPageComponent} from './settings/teams/teams-page/teams-page.compone
 import {InstancesPageComponent} from './settings/instances/instances-page/instances-page.component';
 import {InstanceAddComponent} from './settings/instances/instance-add/instance-add.component';
 import {SurveyEventDetailEditPageComponent} from './survey-events/survey-event-detail-edit-page/survey-event-detail-edit-page.component';
+import { SurveyEventAddPageComponent } from './survey-events/survey-event-add-page/survey-event-add-page.component';
 
 @NgModule({
   exports: [
@@ -119,7 +120,8 @@ import {SurveyEventDetailEditPageComponent} from './survey-events/survey-event-d
     TeamsPageComponent,
     InstancesPageComponent,
     InstanceAddComponent,
-    SurveyEventDetailEditPageComponent
+    SurveyEventDetailEditPageComponent,
+    SurveyEventAddPageComponent
   ],
   imports: [
     CommonModule,

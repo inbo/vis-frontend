@@ -1,8 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {ProjectService} from '../../../services/vis.project.service';
 import {ProjectFavorites} from '../../../domain/settings/project-favorite';
+import {Project} from '../../../domain/project/project';
 
 @Component({
   selector: 'app-project-heading',
@@ -10,7 +11,7 @@ import {ProjectFavorites} from '../../../domain/settings/project-favorite';
 })
 export class ProjectHeadingComponent implements OnInit, OnDestroy {
 
-  project$ = this.projectService.project$;
+  project$: Observable<Project> = this.projectService.project$;
 
   private subscription = new Subscription();
   private settings: ProjectFavorites;
@@ -50,5 +51,9 @@ export class ProjectHeadingComponent implements OnInit, OnDestroy {
 
   isFavorite(value: string) {
     return this.settings?.favorites.indexOf(value) >= 0;
+  }
+
+  showCreateSurveyEventButton() {
+    return !window.location.pathname.endsWith('waarnemingen/toevoegen');
   }
 }

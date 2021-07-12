@@ -41,6 +41,7 @@ import {InstancesPageComponent} from './settings/instances/instances-page/instan
 import {ChildRoleGuard} from '../core/child-role-guard.service';
 import {ProjectEditGuard} from '../core/project-edit-guard.service';
 import {SurveyEventDetailEditPageComponent} from './survey-events/survey-event-detail-edit-page/survey-event-detail-edit-page.component';
+import {SurveyEventAddPageComponent} from './survey-events/survey-event-add-page/survey-event-add-page.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -63,6 +64,12 @@ const routes: Routes = [
         data: {roles: [Role.EditProject]}
       },
       {path: 'waarnemingen', component: ProjectSurveyEventsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+      {
+        path: 'waarnemingen/toevoegen',
+        component: SurveyEventAddPageComponent,
+        canActivate: [AuthGuardWithForcedLogin, RoleGuard, ProjectEditGuard],
+        data: {roles: [Role.CreateSurveyEvent]}
+      },
       {path: 'locaties', component: ProjectLocationsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
       {path: 'methoden', component: ProjectMethodsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
       {path: 'vissoorten', component: ProjectFishSpeciesPageComponent, canActivate: [AuthGuardWithForcedLogin]},

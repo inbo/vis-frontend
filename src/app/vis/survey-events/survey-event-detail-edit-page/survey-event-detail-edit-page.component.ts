@@ -29,7 +29,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
   methods$ = new Subject<Option[]>();
 
 
-  constructor(private titleService: Title, private surveyEventService: SurveyEventsService, private activatedRoute: ActivatedRoute,
+  constructor(private surveyEventService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder, private locationsService: LocationsService,
               private methodsService: MethodsService) {
   }
