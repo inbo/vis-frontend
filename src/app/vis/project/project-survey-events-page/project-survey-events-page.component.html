@@ -42,7 +42,8 @@
           Meetpuntnummer
         </label>
         <div class="mt-1">
-          <input type="text" id="measuringPointNumber" formControlName="measuringPointNumber" placeholder="Meetpuntnummer ..."/>
+          <input type="text" id="measuringPointNumber" formControlName="measuringPointNumber"
+                 placeholder="Meetpuntnummer ..."/>
         </div>
       </div>
 
@@ -53,7 +54,8 @@
         <div class="mt-1">
           <select id="methodGroup" formControlName="methodGroup" class="mt-1">
             <option [ngValue]="null">Methode groep selecteren...</option>
-            <option *ngFor="let methodGroup of methodGroups$ | async" [value]="methodGroup.code">{{methodGroup.description}}</option>
+            <option *ngFor="let methodGroup of methodGroups$ | async"
+                    [value]="methodGroup.code">{{methodGroup.description}}</option>
           </select>
         </div>
       </div>
@@ -65,7 +67,8 @@
         <div class="mt-1">
           <select id="method" formControlName="method" class="mt-1">
             <option [ngValue]="null">Methode selecteren...</option>
-            <option *ngFor="let method of methods$ | async" [value]="method.code">{{'method.' + method.code | translate}}</option>
+            <option *ngFor="let method of methods$ | async"
+                    [value]="method.code">{{'method.' + method.code | translate}}</option>
           </select>
         </div>
       </div>
@@ -75,7 +78,9 @@
           Soort
         </label>
         <div class="mt-1">
-          <app-searchable-select id="species" passedId="species" placeholder="Selecteer een soort" tabIndex="-1" formControlName="species" (onSearch)="getSpecies($event)" [options$]="species$"></app-searchable-select>
+          <app-searchable-select id="species" passedId="species" placeholder="Selecteer een soort" tabIndex="-1"
+                                 formControlName="species" (onSearch)="getSpecies($event)"
+                                 [options$]="species$"></app-searchable-select>
         </div>
       </div>
 
@@ -138,7 +143,8 @@
 
             <tr *ngFor="let surveyEvent of surveyEvents$ | async">
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{surveyEvent.fishingPointCode}}
+                <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value]"
+                   class="text-pink-600 hover:text-pink-900">{{surveyEvent.fishingPointCode}}</a>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {{surveyEvent.watercourse}}
@@ -153,8 +159,23 @@
                 <app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value]"
-                   class="text-pink-600 hover:text-pink-900">Bewerk</a>
+                <app-dropdown-minimal>
+                  <button [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value]"
+                          class="w-full text-left text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                          id="menu-item-0">Detail
+                  </button>
+                  <button *ngIf="surveyEvent.canEdit && authService.hasRole(role.EditSurveyEvent)"
+                          [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value, 'bewerk']"
+                          class="w-full text-left text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                          id="menu-item-1">Bewerken
+                  </button>
+                  <!--TODO create measurements role-->
+                  <button *ngIf="surveyEvent.canEdit"
+                          [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value, 'metingen', 'toevoegen']"
+                          class="w-full text-left text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                          id="menu-item-2">Metingen toevoegen
+                  </button>
+                </app-dropdown-minimal>
               </td>
             </tr>
             </tbody>

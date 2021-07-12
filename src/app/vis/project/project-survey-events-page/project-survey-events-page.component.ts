@@ -6,7 +6,7 @@ import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {map, take} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {Option} from '../../../shared-ui/searchable-select/option';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {TaxaService} from '../../../services/vis.taxa.service';
@@ -16,6 +16,9 @@ import {TranslateService} from '@ngx-translate/core';
 import {Method} from '../../../domain/method/method';
 import {MethodGroup} from '../../../domain/method/method-group';
 import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
+import {Role} from '../../../core/_models/role';
+import {AuthService} from '../../../core/auth.service';
+import {ProjectService} from '../../../services/vis.project.service';
 
 @Component({
   selector: 'app-project-survey-events-page',
@@ -23,25 +26,28 @@ import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 })
 export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
 
+  role = Role;
+
   loading = false;
   pager: AsyncPage<SurveyEvent>;
+  tags: Tag[] = [];
   methods: Method[];
+  projectCode: string;
 
   surveyEvents$: Observable<SurveyEvent[]>;
   methodGroups$: Observable<MethodGroup[]>;
   methods$: Observable<Method[]>;
   species$ = new Subject<Option[]>();
-  tags: Tag[] = [];
   statuses$: Observable<MultiSelectOption[]>;
 
   filterForm: FormGroup;
 
   private subscription = new Subscription();
-  projectCode: string;
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private methodsService: MethodsService,
               private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder,
-              private taxaService: TaxaService, private datePipe: DatePipe, private translateService: TranslateService) {
+              private taxaService: TaxaService, private datePipe: DatePipe, private translateService: TranslateService,
+              public authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -89,7 +95,8 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
       this.filterForm.get('period').patchValue(period);
       this.filterForm.get('sort').patchValue(params.sort ? params.sort : null);
       this.filterForm.get('measuringPointNumber').patchValue(params.measuringPointNumber ? params.measuringPointNumber : null);
-      this.filterForm.get('status').patchValue(params.status ? (Array.isArray(params.status) ? params.status : [params.status]) : ['VALID']);
+      this.filterForm.get('status').patchValue(params.status ? (Array.isArray(params.status) ? params.status : [params.status]) :
+        ['VALID']);
       this.filterForm.get('page').patchValue(params.page ? params.page : null);
       this.filterForm.get('size').patchValue(params.size ? params.size : null);
       this.filterForm.get('methodGroup').patchValue(params.methodGroup ? params.methodGroup : null);
@@ -99,7 +106,8 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
       this.getSurveyEvents();
     }));
 
-    this.getSurveyEvents();  }
+    this.getSurveyEvents();
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

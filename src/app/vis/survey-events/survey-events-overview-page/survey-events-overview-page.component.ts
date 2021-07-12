@@ -19,12 +19,16 @@ import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {MethodGroup} from '../../../domain/method/method-group';
 import {Method} from '../../../domain/method/method';
 import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
+import {Role} from '../../../core/_models/role';
+import {AuthService} from '../../../core/auth.service';
 
 @Component({
   selector: 'app-survey-events-overview-page',
   templateUrl: './survey-events-overview-page.component.html'
 })
 export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
+
+  role = Role;
 
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
@@ -33,21 +37,22 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
 
   loading = false;
   pager: AsyncPage<SurveyEvent>;
+  filterForm: FormGroup;
+  tags = [];
 
   surveyEvents$: Observable<SurveyEvent[]>;
   methodGroups$: Observable<MethodGroup[]>;
   methods$: Observable<Method[]>;
   species$ = new Subject<Option[]>();
-  tags = [];
   statuses$: Observable<MultiSelectOption[]>;
 
-  filterForm: FormGroup;
 
   private subscription = new Subscription();
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private methodsService: MethodsService,
               private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder,
-              private taxaService: TaxaService, private datePipe: DatePipe, private translateService: TranslateService) {
+              private taxaService: TaxaService, private datePipe: DatePipe, private translateService: TranslateService,
+              public authService: AuthService) {
   }
 
   ngOnInit(): void {

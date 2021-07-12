@@ -20,6 +20,7 @@ export interface SurveyEvent {
   fishingPointCode: string;
   watercourse: string;
   fishingPoint: FishingPoint;
+  canEdit: boolean;
 }
 
 
