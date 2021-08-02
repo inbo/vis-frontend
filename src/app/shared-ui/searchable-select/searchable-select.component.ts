@@ -5,16 +5,16 @@ import {
   EventEmitter,
   forwardRef,
   HostListener,
-  Input,
+  Input, OnChanges,
   OnDestroy,
   OnInit,
-  Output,
+  Output, SimpleChanges,
   ViewChild
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {fromEvent, Subject, Subscription} from 'rxjs';
 import {debounceTime, filter, map} from 'rxjs/operators';
-import {Option} from './option';
+import {SearchableSelectOption} from './option';
 
 @Component({
   selector: 'app-searchable-select',
@@ -27,7 +27,7 @@ import {Option} from './option';
     }
   ]
 })
-export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor {
+export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor, OnChanges {
 
   @ViewChild('searchBox') searchBox: ElementRef;
   @ViewChild('valuesList') valuesList: ElementRef;
@@ -35,12 +35,15 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
 
   @Input() passedId: string;
   @Input() formControlName: string;
-  @Input() options$: Subject<Option[]>;
+  @Input() options: SearchableSelectOption[];
+  @Input() options$: any;
   @Input() placeholder: string;
   @Output() onSearch: EventEmitter<any> = new EventEmitter();
+  @Output() missingSelectedValue: EventEmitter<any> = new EventEmitter();
 
   isOpen = false;
-  selectedValue: Option;
+  selectedValue: any;
+  selectedValueOption: SearchableSelectOption;
   isDisabled = false;
 
   private touched = false;
@@ -56,6 +59,12 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   ngOnInit(): void {
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.selectedValueOption === undefined) {
+      this.getSelectedValue();
+    }
+  }
+
   ngAfterViewInit() {
     this.subscription.add(fromEvent(this.searchBox.nativeElement, 'keyup')
       .pipe(
@@ -68,7 +77,6 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
         this.markAsTouched();
         this.isOpen = true;
 
-        this.options$.next([]);
         this.onSearch.emit(value);
       }));
 
@@ -109,8 +117,8 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
     this.isDisabled = isDisabled;
   }
 
-  select(option: Option) {
-    this.selectedValue = option;
+  select(option: SearchableSelectOption) {
+    this.selectedValue = option.value;
     this.onChange(this.selectedValue);
 
     this.markAsTouched();
@@ -173,9 +181,23 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
     }
   }
 
-  selectOnEnter(event: KeyboardEvent, option: Option) {
+  selectOnEnter(event: KeyboardEvent, option: SearchableSelectOption) {
     if (event.key === 'Enter') {
       this.select(option);
     }
+  }
+
+  getSelectedValue() {
+    const filtered = this.options?.filter(value => value.value === this.selectedValue);
+    if (filtered === undefined || filtered.length === 0) {
+      this.missingSelectedValue.emit(this.selectedValue);
+      return {
+        value: '',
+        displayValue: ''
+      };
+    } else {
+      return filtered[0];
+    }
+
   }
 }

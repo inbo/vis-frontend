@@ -2,9 +2,8 @@
         class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
         aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
   <span class="block truncate">
-    <span *ngIf="selectedValue?.translateKey">{{selectedValue?.translateKey | translate}} <span
-      *ngIf="selectedValue?.secondaryTranslateKey">- {{selectedValue?.secondaryTranslateKey | translate}}</span></span>
-    <span *ngIf="!selectedValue?.translateKey">{{placeholder ? placeholder : 'Selecteer een waarde'}}</span>
+    <span *ngIf="selectedValue">{{getSelectedValue().displayValue}}</span>
+    <span *ngIf="!selectedValue">{{placeholder ? placeholder : 'Selecteer een waarde'}}</span>
   </span>
   <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
     <!-- Heroicon name: solid/selector -->
@@ -24,7 +23,7 @@
     ngTransitionLeaveEnd="opacity-0"
     [class.hidden]="!isOpen" [class.z-10]="isOpen"
     class="absolute mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
-    tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3">
+    tabindex="-1" role="listbox" aria-labelledby="listbox-label">
   <li (keydown)="focusSibbling($event)"
       class="text-gray-900 cursor-default select-none relative py-2 px-3 border-b border-gray-300" id="listbox-option-0"
       role="option">
@@ -42,21 +41,20 @@
       </div>
     </div>
   </li>
-  <li *ngIf="!((options$ | async)?.length > 0)"
+  <li *ngIf="!((options)?.length > 0)"
       class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9">
     <span class="p-1 px-2 ">Er zijn geen resultaten gevonden</span>
   </li>
   <li [id]="'option-' + i + '-' + passedId" (keydown)="focusSibbling($event); selectOnEnter($event, option)"
-      *ngFor="let option of options$ | async; let i = index" (click)="select(option)"
+      *ngFor="let option of options; let i = index" (click)="select(option)"
       tabIndex="-1"
       class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-pink-600 focus:text-white focus:bg-pink-600"
       role="option">
-    <span class="font-normal block truncate" [class.font-semibold]="selectedValue?.id === option.id">
-      {{option.translateKey | translate}} <span
-      *ngIf="option.secondaryTranslateKey">- {{option.secondaryTranslateKey | translate}}</span>
+    <span class="font-normal block truncate" [class.font-semibold]="selectedValue === option.value">
+      {{option.displayValue}}
     </span>
     <span class="text-pink-600 absolute inset-y-0 right-0 flex items-center pr-4"
-          [class.hidden]="selectedValue?.id !== option.id">
+          [class.hidden]="selectedValue !== option.value">
       <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
            aria-hidden="true">
         <path fill-rule="evenodd"

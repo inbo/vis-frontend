@@ -3,3 +3,8 @@ export interface Option {
   translateKey: string;
   secondaryTranslateKey?: string;
 }
+
+export interface SearchableSelectOption {
+  value: any;
+  displayValue: string;
+}
