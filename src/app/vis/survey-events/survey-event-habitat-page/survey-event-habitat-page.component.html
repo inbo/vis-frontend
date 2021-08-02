@@ -179,7 +179,10 @@
       </div>
     </dl>
   </div>
-  <div class="px-4 py-4 sm:px-6 flex justify-end">
-    <app-button [style]="'primary'" class="ml-3" [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'habitat', 'bewerk']">Bewerken</app-button>
+  <div *ngIf="surveyEvent$ | async as surveyEvent" class="px-4 py-4 sm:px-6 flex justify-end">
+    <app-button [style]="'primary'"
+                [disabled]="surveyEvent.status === 'DELETED'"
+                class="ml-3"
+                [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'habitat', 'bewerk']">Bewerken</app-button>
   </div>
 </div>

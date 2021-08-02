@@ -170,13 +170,13 @@
                           class="w-full text-left text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
                           id="menu-item-0">Detail
                   </button>
-                  <button *ngIf="surveyEvent.canEdit && authService.hasRole(role.EditSurveyEvent)"
+                  <button *ngIf="surveyEvent.canEdit && authService.hasRole(role.EditSurveyEvent) && surveyEvent.status !== 'DELETED'"
                           [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value, 'bewerk']"
                           class="w-full text-left text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
                           id="menu-item-1">Bewerken
                   </button>
                   <!--TODO create measurements role-->
-                  <button *ngIf="surveyEvent.canEdit"
+                  <button *ngIf="surveyEvent.canEdit && surveyEvent.status !== 'DELETED'"
                           [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value, 'metingen', 'toevoegen']"
                           class="w-full text-left text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
                           id="menu-item-2">Metingen toevoegen
