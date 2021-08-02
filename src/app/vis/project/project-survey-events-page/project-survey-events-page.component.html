@@ -122,6 +122,9 @@
                 Waterloop
               </th>
               <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Bekken
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Datum
               </th>
               <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -136,7 +139,7 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
             <tr>
-              <td *ngIf="loading" class="px-6 py-4" colspan="5">
+              <td *ngIf="loading" class="px-6 py-4" colspan="6">
                 <app-loading-spinner></app-loading-spinner>
               </td>
             </tr>
@@ -148,6 +151,9 @@
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {{surveyEvent.watercourse}}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{surveyEvent.basin}}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {{ surveyEvent.occurrence | date:'dd/MM/yyyy'}}
@@ -217,6 +223,15 @@
                     d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"></path>
                 </svg>
                 Waterloop {{surveyEvent.watercourse}}
+              </p>
+
+              <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
+                <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"></path>
+                </svg>
+                {{surveyEvent.basin}}
               </p>
             </div>
             <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
