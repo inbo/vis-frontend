@@ -28,8 +28,18 @@
                   </label>
                   <div class="mt-1">
                     <app-searchable-select id="location" passedId="location" placeholder="Selecteer een locatie"
-                                           tabIndex="-1" formControlName="location" (onSearch)="getLocations($event)"
-                                           [options$]="locations$"></app-searchable-select>
+                                           tabIndex="-1" formControlName="location"
+                                           (onSearch)="getLocations($event)"
+                                           [options]="locations">
+                      <ng-template let-rowDetail #selected>
+                        {{rowDetail?.option?.code  + ' - '  + rowDetail?.option?.description}}
+                      </ng-template>
+
+                      <ng-template let-rowDetail #listItem>
+                        {{rowDetail.option.code  + ' - '  + rowDetail.option.description}}
+                      </ng-template>
+
+                    </app-searchable-select>
                   </div>
                   <app-form-error-message [fieldName]="'Locatie'" [control]="location"
                                           [submitted]="submitted"></app-form-error-message>
@@ -43,7 +53,16 @@
                     <app-searchable-select id="method" passedId="method" placeholder="Selecteer een methode"
                                            tabIndex="-1"
                                            formControlName="method" (onSearch)="getMethods($event)"
-                                           [options$]="methods$"></app-searchable-select>
+                                           [options]="methods">
+                      <ng-template let-rowDetail #selected>
+                        {{rowDetail.option.code  + ' - '  + rowDetail.option.description}}
+                      </ng-template>
+
+                      <ng-template let-rowDetail #listItem>
+                        {{rowDetail.option.code  + ' - '  + rowDetail.option.description}}
+                      </ng-template>
+
+                    </app-searchable-select>
                   </div>
                 </div>
 

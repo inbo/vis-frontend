@@ -2,7 +2,14 @@
         class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
         aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
   <span class="block truncate">
-    <span *ngIf="selectedValue">{{getSelectedValue().displayValue}}</span>
+    <span *ngIf="selectedValue">
+      <ng-container
+        *ngIf="selectedTemplateRef"
+        [ngTemplateOutlet]="selectedTemplateRef"
+        [ngTemplateOutletContext]="{$implicit:selectedValueOption}">
+      </ng-container>
+      <span *ngIf="!selectedTemplateRef">{{selectedValueOption?.selectValue}}</span>
+    </span>
     <span *ngIf="!selectedValue">{{placeholder ? placeholder : 'Selecteer een waarde'}}</span>
   </span>
   <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -50,11 +57,16 @@
       tabIndex="-1"
       class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-pink-600 focus:text-white focus:bg-pink-600"
       role="option">
-    <span class="font-normal block truncate" [class.font-semibold]="selectedValue === option.value">
-      {{option.displayValue}}
+    <span class="font-normal block truncate" [class.font-semibold]="selectedValue === option.selectValue">
+      <ng-container
+        *ngIf="listItemTemplateRef"
+        [ngTemplateOutlet]="listItemTemplateRef"
+        [ngTemplateOutletContext]="{$implicit:option}">
+      </ng-container>
+      <span *ngIf="!listItemTemplateRef">{{option}}</span>
     </span>
     <span class="text-pink-600 absolute inset-y-0 right-0 flex items-center pr-4"
-          [class.hidden]="selectedValue !== option.value">
+          [class.hidden]="selectedValue !== option.selectValue">
       <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
            aria-hidden="true">
         <path fill-rule="evenodd"
