@@ -3,9 +3,11 @@ import {Project} from '../../../domain/project/project';
 import {Observable, Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
-import {map} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ProjectService} from '../../../services/vis.project.service';
+import {FishingPoint} from '../../../domain/location/fishing-point';
+import {LocationsService} from '../../../services/vis.locations.service';
 
 @Component({
   selector: 'app-survey-event-heading',
@@ -19,9 +21,10 @@ export class SurveyEventHeadingComponent implements OnInit, OnDestroy {
   surveyEvent$: Observable<SurveyEvent>;
   surveyEventMethodCode$: Observable<string>;
   surveyEventOccurrence$: Observable<Date>;
+  fishingPoint$: Observable<FishingPoint>;
 
   constructor(private projectService: ProjectService, private surveyEventsService: SurveyEventsService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute, private locationsService: LocationsService) {
     this.subscription.add(
       this.projectService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
         this.project = value;
@@ -32,7 +35,7 @@ export class SurveyEventHeadingComponent implements OnInit, OnDestroy {
       this.activatedRoute.snapshot.params.surveyEventId);
     this.surveyEventMethodCode$ = this.surveyEvent$.pipe(map(surveyEvent => surveyEvent.method), map(code => 'method.' + code));
     this.surveyEventOccurrence$ = this.surveyEvent$.pipe(map(surveyEvent => surveyEvent.occurrence));
-
+    this.fishingPoint$ = this.surveyEvent$.pipe(switchMap((surveyEvent) => this.locationsService.findById(surveyEvent.fishingPoint?.id)));
   }
 
   ngOnInit(): void {

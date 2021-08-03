@@ -45,9 +45,13 @@ export class LocationsService extends VisService {
       .set('description', val);
 
     if (id) {
-      params =  params.set('id', id?.toString());
+      params = params.set('id', id?.toString());
     }
 
     return this.http.get<FishingPointSearch[]>(`${environment.apiUrl}/api/fishingpoints/search`, {params});
+  }
+
+  findById(id: number) {
+    return this.http.get<FishingPoint>(`${environment.apiUrl}/api/fishingpoints/${id}`, {});
   }
 }
