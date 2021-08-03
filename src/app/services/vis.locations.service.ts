@@ -44,7 +44,7 @@ export class LocationsService extends VisService {
       .set('code', val)
       .set('description', val);
 
-    if (id !== undefined) {
+    if (id) {
       params =  params.set('id', id?.toString());
     }
 
