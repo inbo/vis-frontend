@@ -10,7 +10,7 @@ import {Role} from '../../../core/_models/role';
 import {AccountService} from '../../../services/vis.account.service';
 import {map} from 'rxjs/operators';
 import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
-import {TranslateService} from '@ngx-translate/core';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-project-detail-edit-page',
@@ -34,7 +34,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
   constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder, private accountService: AccountService,
-              private translateService: TranslateService) {
+              private _location: Location) {
 
   }
 
@@ -100,16 +100,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     );
   }
 
-  reset() {
-    this.submitted = false;
-
-    this.projectForm.get('name').patchValue(this.project.name);
-    this.projectForm.get('description').patchValue(this.project.description);
-    this.projectForm.get('startDate').patchValue(this.project.start);
-    this.projectForm.get('lengthType').patchValue(this.project.lengthType);
-    this.projectForm.get('teams').patchValue(this.project.teams);
-    this.projectForm.get('instances').patchValue(this.project.instances);
-    this.projectForm.reset(this.projectForm.value);
+  cancel() {
+    this._location.back();
   }
 
   @HostListener('window:beforeunload', ['$event'])

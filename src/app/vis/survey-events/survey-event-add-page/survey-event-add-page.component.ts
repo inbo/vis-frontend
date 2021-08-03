@@ -6,15 +6,15 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {map, take} from 'rxjs/operators';
-import {TranslateService} from '@ngx-translate/core';
 import {Method} from '../../../domain/method/method';
-import {FishingPointSearch} from '../../../domain/location/fishing-point';
+import {Location} from '@angular/common';
+import {HasUnsavedData} from '../../../core/core.interface';
 
 @Component({
   selector: 'app-survey-event-add-page',
   templateUrl: './survey-event-add-page.component.html'
 })
-export class SurveyEventAddPageComponent implements OnInit {
+export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
 
   createSurveyEventForm: FormGroup;
   isOpen = false;
@@ -25,7 +25,7 @@ export class SurveyEventAddPageComponent implements OnInit {
 
   constructor(private surveyEventService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder, private locationsService: LocationsService,
-              private methodsService: MethodsService, private translateService: TranslateService) {
+              private methodsService: MethodsService, private _location: Location) {
   }
 
   ngOnInit(): void {
@@ -89,9 +89,12 @@ export class SurveyEventAddPageComponent implements OnInit {
       );
   }
 
+  hasUnsavedData(): boolean {
+    return this.createSurveyEventForm.dirty;
+  }
+
   cancel() {
-    this.isOpen = false;
-    this.submitted = false;
+    this._location.back();
   }
 
   get occurrenceDate() {

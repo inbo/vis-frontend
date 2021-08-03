@@ -8,6 +8,7 @@ import {HabitatOptionsService} from '../habitat-options.service';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {AlertService} from '../../../_alert';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-survey-event-habitat-edit-page',
@@ -31,7 +32,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService, private alertService: AlertService,
-              private router: Router) {
+              private router: Router, private _location: Location) {
     this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
     this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
 
@@ -100,31 +101,6 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     );
   }
 
-  reset() {
-    this.submitted = false;
-
-    this.habitatForm.get('soils').patchValue(this.habitat.soils);
-    this.habitatForm.get('waterLevel').patchValue(this.habitat.waterLevel);
-    this.habitatForm.get('shelters').patchValue(this.habitat.shelters);
-    this.habitatForm.get('pool').patchValue(this.habitat.pool);
-    this.habitatForm.get('rapids').patchValue(this.habitat.rapids);
-    this.habitatForm.get('creeks').patchValue(this.habitat.creeks);
-    this.habitatForm.get('shore').patchValue(this.habitat.shore);
-    this.habitatForm.get('slope').patchValue(this.habitat.slope);
-    this.habitatForm.get('agriculture').patchValue(this.habitat.agriculture);
-    this.habitatForm.get('meadow').patchValue(this.habitat.meadow);
-    this.habitatForm.get('trees').patchValue(this.habitat.trees);
-    this.habitatForm.get('buildings').patchValue(this.habitat.buildings);
-    this.habitatForm.get('industry').patchValue(this.habitat.industry);
-    this.habitatForm.get('loop').patchValue(this.habitat.loop);
-    this.habitatForm.get('fishPassage').patchValue(this.habitat.fishPassage);
-    this.habitatForm.get('bottlenecks').patchValue(this.habitat.bottlenecks);
-    this.habitatForm.get('vegetations').patchValue(this.habitat.vegetations);
-    this.habitatForm.reset(this.habitatForm.value);
-
-    this.alertService.success('Gegevens reset', '');
-  }
-
   @HostListener('window:beforeunload', ['$event'])
   public onPageUnload($event: BeforeUnloadEvent) {
     if (this.habitatForm.dirty) {
@@ -134,6 +110,10 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
 
   hasUnsavedData(): boolean {
     return this.habitatForm.dirty && !this.submitted;
+  }
+
+  cancel() {
+    this._location.back();
   }
 
   ngOnDestroy(): void {

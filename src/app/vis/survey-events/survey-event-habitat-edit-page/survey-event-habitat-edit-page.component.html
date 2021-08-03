@@ -17,14 +17,16 @@
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Waterpeil</label>
           <div class="mt-1">
-            <app-radio-group name="waterLevel" [options]="habitatOptions.waterLevels" formControlName="waterLevel"></app-radio-group>
+            <app-radio-group name="waterLevel" [options]="habitatOptions.waterLevels"
+                             formControlName="waterLevel"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Natuurlijke schuilplaatsen</label>
           <div class="mt-1">
-            <app-radio-group name="shelters" [options]="habitatOptions.shelters" formControlName="shelters"></app-radio-group>
+            <app-radio-group name="shelters" [options]="habitatOptions.shelters"
+                             formControlName="shelters"></app-radio-group>
           </div>
         </div>
 
@@ -66,7 +68,8 @@
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Landbouw</label>
           <div class="mt-1">
-            <app-radio-group name="agriculture" [options]="habitatOptions.agriculture" formControlName="agriculture"></app-radio-group>
+            <app-radio-group name="agriculture" [options]="habitatOptions.agriculture"
+                             formControlName="agriculture"></app-radio-group>
           </div>
         </div>
 
@@ -87,14 +90,16 @@
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Bebouwing</label>
           <div class="mt-1">
-            <app-radio-group name="buildings" [options]="habitatOptions.buildings" formControlName="buildings"></app-radio-group>
+            <app-radio-group name="buildings" [options]="habitatOptions.buildings"
+                             formControlName="buildings"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Industrie</label>
           <div class="mt-1">
-            <app-radio-group name="industry" [options]="habitatOptions.industry" formControlName="industry"></app-radio-group>
+            <app-radio-group name="industry" [options]="habitatOptions.industry"
+                             formControlName="industry"></app-radio-group>
           </div>
         </div>
 
@@ -108,21 +113,24 @@
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Knelpunt in omgeving van het traject</label>
           <div class="mt-1">
-            <app-check-group name="bottlenecks" [options]="habitatOptions.bottlenecks" formControlName="bottlenecks"></app-check-group>
+            <app-check-group name="bottlenecks" [options]="habitatOptions.bottlenecks"
+                             formControlName="bottlenecks"></app-check-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Vispassage</label>
           <div class="mt-1">
-            <app-radio-group name="fishPassage" [options]="habitatOptions.fishPassage" formControlName="fishPassage"></app-radio-group>
+            <app-radio-group name="fishPassage" [options]="habitatOptions.fishPassage"
+                             formControlName="fishPassage"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Vegetatie</label>
           <div class="mt-1">
-            <app-check-group name="vegetations" [options]="habitatOptions.vegetations" formControlName="vegetations"></app-check-group>
+            <app-check-group name="vegetations" [options]="habitatOptions.vegetations"
+                             formControlName="vegetations"></app-check-group>
           </div>
         </div>
 
@@ -130,7 +138,7 @@
     </form>
   </div>
   <div class="px-4 py-4 sm:px-6 flex justify-end">
-    <app-button (click)="reset()">Reset</app-button>
+    <app-button (click)="cancel()">Annuleren</app-button>
     <app-button [style]="'primary'" class="ml-3" (click)="saveHabitat()">Bewaren</app-button>
   </div>
 </div>

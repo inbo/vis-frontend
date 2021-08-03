@@ -68,6 +68,7 @@ const routes: Routes = [
         path: 'waarnemingen/toevoegen',
         component: SurveyEventAddPageComponent,
         canActivate: [AuthGuardWithForcedLogin, RoleGuard, ProjectEditGuard],
+        canDeactivate: [HasUnsavedDataGuard],
         data: {roles: [Role.CreateSurveyEvent]}
       },
       {path: 'locaties', component: ProjectLocationsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -136,6 +137,7 @@ const routes: Routes = [
         path: 'metingen/toevoegen',
         component: SurveyEventMeasurementsCreatePageComponent,
         canActivate: [AuthGuardWithForcedLogin],
+        canDeactivate: [HasUnsavedDataGuard],
         data: {name: 'Metingen', url: 'metingen/toevoegen'}
       },
     ]

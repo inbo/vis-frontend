@@ -10,6 +10,8 @@ import {TaxaService} from '../../../services/vis.taxa.service';
 import {TipsService} from '../../../services/vis.tips.service';
 import {Tip} from '../../../domain/tip/tip';
 import {Measurement} from '../../../domain/survey-event/measurement';
+import {HasUnsavedData} from '../../../core/core.interface';
+import {Location} from '@angular/common';
 
 export interface AbstractControlWarn extends AbstractControl {
   warnings: any;
@@ -46,7 +48,7 @@ export function lengthRequiredForIndividualMeasurement(): ValidatorFn {
   selector: 'app-survey-event-measurements-create-page',
   templateUrl: './survey-event-measurements-create-page.component.html'
 })
-export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDestroy, AfterViewChecked, HasUnsavedData {
 
   @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
 
@@ -88,7 +90,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private surveyEventsService: SurveyEventsService,
               private alertService: AlertService, private taxaService: TaxaService, private router: Router,
-              private tipsService: TipsService) {
+              private tipsService: TipsService, private _location: Location) {
   }
 
   ngOnInit(): void {
@@ -386,5 +388,13 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
           this.loading = false;
         }));
     }
+  }
+
+  hasUnsavedData(): boolean {
+    return this.measurementsForm.dirty;
+  }
+
+  cancel() {
+    this._location.back();
   }
 }

@@ -9,13 +9,14 @@ import {Method} from '../../../domain/method/method';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {Role} from '../../../core/_models/role';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
-import {TranslateService} from '@ngx-translate/core';
+import {Location} from '@angular/common';
+import {HasUnsavedData} from '../../../core/core.interface';
 
 @Component({
   selector: 'app-survey-event-detail-edit-page',
   templateUrl: './survey-event-detail-edit-page.component.html'
 })
-export class SurveyEventDetailEditPageComponent implements OnInit {
+export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedData {
 
   public role = Role;
 
@@ -28,7 +29,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
 
   constructor(private surveyEventService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder, private locationsService: LocationsService,
-              private methodsService: MethodsService, private translateService: TranslateService) {
+              private methodsService: MethodsService, private _location: Location) {
   }
 
   ngOnInit(): void {
@@ -54,7 +55,6 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
         this.getLocations(null);
         this.getMethods(null);
       });
-
   }
 
   getLocations(val: any) {
@@ -113,12 +113,6 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
       });
   }
 
-  /*
-    reset() {
-
-    }
-  */
-
   get occurrenceDate() {
     return this.surveyEventForm.get('occurrenceDate');
   }
@@ -133,5 +127,13 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
 
   get comment() {
     return this.surveyEventForm.get('comment');
+  }
+
+  hasUnsavedData(): boolean {
+    return this.surveyEventForm.dirty;
+  }
+
+  cancel() {
+    this._location.back();
   }
 }

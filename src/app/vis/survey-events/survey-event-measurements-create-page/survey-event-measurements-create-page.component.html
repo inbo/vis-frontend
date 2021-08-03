@@ -330,7 +330,8 @@
     </div>
   </div>
   <div class="space-x-3 px-4 py-4 sm:px-6 flex justify-end">
-    <app-button [style]="'primary'" (click)="createMeasurements()">Bewaren</app-button>
+    <app-button (click)="cancel()">Annuleren</app-button>
+    <app-button [style]="'primary'" class="ml-3" (click)="createMeasurements()">Bewaren</app-button>
   </div>
   <app-tip *ngIf="tip$ | async as tip" [code]="tip.code" [show]="true"></app-tip>
 </div>
