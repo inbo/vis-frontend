@@ -5,6 +5,7 @@ import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {VisService} from './vis.service';
 import {MethodGroup} from '../domain/method/method-group';
 import {Method} from '../domain/method/method';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class MethodsService extends VisService {
 
   }
 
-  getAllMethods() {
+  getAllMethods(): Observable<Method[]> {
     return this.http.get<Method[]>(environment.apiUrl + '/api/methods/all');
   }
 

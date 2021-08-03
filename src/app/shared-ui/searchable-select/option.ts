@@ -5,6 +5,6 @@ export interface Option {
 }
 
 export interface SearchableSelectOption {
-  value: any;
-  displayValue: string;
+  selectValue: any;
+  option: any;
 }

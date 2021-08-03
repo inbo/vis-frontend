@@ -6,7 +6,6 @@ import {Observable} from 'rxjs';
 import {FishingPoint, FishingPointFeature, FishingPointSearch} from '../domain/location/fishing-point';
 import {VisService} from './vis.service';
 import {VhaUrl} from '../domain/location/vha-version';
-import {Taxon} from "../domain/taxa/taxon";
 
 
 @Injectable({
@@ -40,10 +39,14 @@ export class LocationsService extends VisService {
     return this.http.get<any>(`${environment.apiUrl}/api/validation/fishingpoint/code/${code}`, {});
   }
 
-  searchFishingPoints(val: any) {
-    const params = new HttpParams()
+  searchFishingPoints(val: any, id: number): Observable<FishingPointSearch[]> {
+    let params = new HttpParams()
       .set('code', val)
       .set('description', val);
+
+    if (id !== undefined) {
+      params =  params.set('id', id?.toString());
+    }
 
     return this.http.get<FishingPointSearch[]>(`${environment.apiUrl}/api/fishingpoints/search`, {params});
   }

@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Method} from '../../../domain/method/method';
-import {Subject} from 'rxjs';
-import {Option} from '../../../shared-ui/searchable-select/option';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {map, take} from 'rxjs/operators';
+import {TranslateService} from '@ngx-translate/core';
+import {Method} from '../../../domain/method/method';
+import {FishingPointSearch} from '../../../domain/location/fishing-point';
 
 @Component({
   selector: 'app-survey-event-add-page',
@@ -18,14 +19,13 @@ export class SurveyEventAddPageComponent implements OnInit {
   createSurveyEventForm: FormGroup;
   isOpen = false;
   submitted = false;
-  methods: Method[];
 
-  locations$ = new Subject<Option[]>();
-  methods$ = new Subject<Option[]>();
+  locations: SearchableSelectOption[] = [];
+  methods: SearchableSelectOption[] = [];
 
   constructor(private surveyEventService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder, private locationsService: LocationsService,
-              private methodsService: MethodsService) {
+              private methodsService: MethodsService, private translateService: TranslateService) {
   }
 
   ngOnInit(): void {
@@ -37,36 +37,34 @@ export class SurveyEventAddPageComponent implements OnInit {
         comment: ['', Validators.maxLength(800)]
       });
 
-    this.methodsService.getAllMethods().pipe(take(1))
-      .subscribe(methods => {
-        this.methods$.next(methods.map(this.mapMethodToOption()));
-        return this.methods = methods;
-      });
+    this.getMethods(null);
   }
 
   getLocations(val: any) {
-    this.locationsService.searchFishingPoints(val).pipe(
+    this.locationsService.searchFishingPoints(val, null).pipe(
       map(fishingPoints => {
         return fishingPoints.map(fishingPoint => ({
-          id: fishingPoint.id,
-          translateKey: `fishing-point.id.${fishingPoint.id}.code`,
-          secondaryTranslateKey: `fishing-point.id.${fishingPoint.id}`
+          selectValue: fishingPoint.id,
+          option: fishingPoint
         }));
       })
-    ).subscribe(value => this.locations$.next(value));
+    ).subscribe(value => this.locations = value as any as SearchableSelectOption[]);
   }
 
   getMethods(val: string) {
-    this.methods$.next(
-      this.methods.filter(value => value.description.toLowerCase().includes(val))
-        .map(this.mapMethodToOption())
-    );
-  }
+    this.methodsService.getAllMethods().pipe(
+      take(1),
+      map((values: Method[]) => val === null ? values : values.filter(value => value.description.toLowerCase().includes(val))),
+      map(methods => {
+        return methods.map(method => ({
+          selectValue: method.code,
+          option: method
+        }));
+      })
+    ).subscribe(value => {
+      return this.methods = value as any as SearchableSelectOption[];
+    });
 
-  mapMethodToOption() {
-    return value => {
-      return {id: value.code, translateKey: `method.${value.code}`};
-    };
   }
 
   createSurveyEvent() {

@@ -36,6 +36,8 @@ export interface FishingPointFeature {
 
 export interface FishingPointSearch {
   id: number;
+  code: string;
+  description: string;
 }
 
 
