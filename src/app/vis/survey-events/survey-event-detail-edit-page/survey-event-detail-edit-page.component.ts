@@ -10,7 +10,6 @@ import {MethodsService} from '../../../services/vis.methods.service';
 import {Role} from '../../../core/_models/role';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {TranslateService} from '@ngx-translate/core';
-import {FishingPointSearch} from '../../../domain/location/fishing-point';
 
 @Component({
   selector: 'app-survey-event-detail-edit-page',
@@ -50,11 +49,12 @@ export class SurveyEventDetailEditPageComponent implements OnInit {
         this.occurrenceDate.patchValue(new Date(surveyEvent.occurrence));
         this.location.patchValue(surveyEvent.fishingPoint?.id);
         this.comment.patchValue(surveyEvent.comment);
+        this.method.patchValue(surveyEvent.method);
 
         this.getLocations(null);
+        this.getMethods(null);
       });
 
-    this.getMethods(null);
   }
 
   getLocations(val: any) {

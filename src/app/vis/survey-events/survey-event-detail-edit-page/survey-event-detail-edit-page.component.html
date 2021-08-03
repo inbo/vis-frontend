@@ -55,7 +55,7 @@
                                            formControlName="method" (onSearch)="getMethods($event)"
                                            [options]="methods">
                       <ng-template let-rowDetail #selected>
-                        {{rowDetail.option.code  + ' - '  + rowDetail.option.description}}
+                        {{rowDetail?.option?.code  + ' - '  + rowDetail?.option?.description}}
                       </ng-template>
 
                       <ng-template let-rowDetail #listItem>
