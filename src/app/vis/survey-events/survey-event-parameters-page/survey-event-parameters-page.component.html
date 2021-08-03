@@ -125,9 +125,9 @@
         </div>
       </dl>
   </div>
-  <div class="px-4 py-4 sm:px-6 flex justify-end">
-    <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'waterkwaliteitsparameters', 'bewerk']" type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-      Bewerken
-    </a>
+  <div *ngIf="surveyEvent$ | async as surveyEvent" class="px-4 py-4 sm:px-6 flex justify-end">
+    <app-button [style]="'primary'"
+                [disabled]="surveyEvent.status === 'DELETED'"
+                [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'waterkwaliteitsparameters', 'bewerk']">Bewerken</app-button>
   </div>
 </div>

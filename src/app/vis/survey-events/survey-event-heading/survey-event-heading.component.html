@@ -31,8 +31,10 @@
       </div>
     </div>
     <div *ngIf="showCreateMeasurementsButton()" class="flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6 float-right	">
-      <div class="flex items-center text-sm text-gray-500">
-        <app-button [style]="'primary'" [routerLink]="'metingen/toevoegen'">Metingen toevoegen</app-button>
+      <div *ngIf="surveyEvent$ | async as surveyEvent" class="flex items-center text-sm text-gray-500">
+        <app-button [style]="'primary'"
+                    [disabled]="surveyEvent.status === 'DELETED'"
+                    [routerLink]="'metingen/toevoegen'">Metingen toevoegen</app-button>
       </div>
     </div>
   </div>
