@@ -4,7 +4,7 @@ import {fromEvent, Subscription} from 'rxjs';
 import {debounceTime, filter, map} from 'rxjs/operators';
 import {SearchableSelectOption} from './option';
 import flatpickr from 'flatpickr';
-import Options = flatpickr.Options;
+
 
 @Component({
   selector: 'app-searchable-select',
@@ -31,9 +31,6 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   @Input() options: SearchableSelectOption[];
   @Input() placeholder: string;
   @Output() onSearch: EventEmitter<any> = new EventEmitter();
-
-  // Unused todo delete
-  @Input() options$: any;
 
   isOpen = false;
   selectedValue: any;

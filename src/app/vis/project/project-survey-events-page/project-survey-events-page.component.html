@@ -78,9 +78,20 @@
           Soort
         </label>
         <div class="mt-1">
-          <app-searchable-select id="species" passedId="species" placeholder="Selecteer een soort" tabIndex="-1"
-                                 formControlName="species" (onSearch)="getSpecies($event)"
-                                 [options$]="species$"></app-searchable-select>
+          <app-searchable-select id="species" passedId="species" placeholder="Selecteer een soort"
+                                 tabIndex="-1" formControlName="species"
+                                 (onSearch)="getSpecies($event)"
+                                 [options]="species">
+            <ng-template let-rowDetail #selected>
+              <span *ngIf="rowDetail">{{'taxon.id.' + rowDetail.option.id.value | translate}}</span>
+            </ng-template>
+
+            <ng-template let-rowDetail #listItem>
+              <span *ngIf="rowDetail">{{'taxon.id.' + rowDetail.option.id.value | translate}}</span>
+            </ng-template>
+
+          </app-searchable-select>
+
         </div>
       </div>
 

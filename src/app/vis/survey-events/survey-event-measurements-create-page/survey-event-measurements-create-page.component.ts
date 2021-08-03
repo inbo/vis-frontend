@@ -1,9 +1,9 @@
 import {AfterViewChecked, Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import {fromEvent, Observable, Subject, Subscription} from 'rxjs';
-import {filter, map} from 'rxjs/operators';
-import {Option} from '../../../shared-ui/searchable-select/option';
+import {fromEvent, Observable, Subscription} from 'rxjs';
+import {filter, map, take} from 'rxjs/operators';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {AlertService} from '../../../_alert';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {TaxaService} from '../../../services/vis.taxa.service';
@@ -50,8 +50,9 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
 
-  // TODO species$ per measurement? Currently the searchable select for every measurements species uses the same species observable
-  species$ = new Subject<Option[]>();
+  // TODO species$ per measurement? Currently the searchable select for every measurements species uses the same species observable, maybe put it in another component?
+  taxons: SearchableSelectOption[] = [];
+
   tip$: Observable<Tip>;
 
   existingMeasurements: Measurement[];
@@ -142,13 +143,14 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   getSpecies(val: string) {
     this.taxaService.getTaxa(val).pipe(
+      take(1),
       map(taxa => {
         return taxa.map(taxon => ({
-          id: taxon.id.value,
-          translateKey: `taxon.id.${taxon.id.value}`
+          selectValue: taxon.id.value,
+          option: taxon
         }));
       })
-    ).subscribe(value => this.species$.next(value));
+    ).subscribe(value => this.taxons = value);
   }
 
   items(): FormArray {
@@ -288,7 +290,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       return;
     }
 
-    const taxaId = this.species(index).value.id;
+    const taxaId = this.species(index).value;
 
     this.subscription.add(
       this.taxaService.getTaxon(taxaId)

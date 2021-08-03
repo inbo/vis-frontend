@@ -200,8 +200,20 @@
               <div class="relative">
                 <app-searchable-select (ngModelChange)="onSpeciesChange(i)" tabIndex="-1"
                                        (keydown)="navigateOnArrow($event, i)" [passedId]="'species-' + i"
-                                       [id]="'species-' + i" formControlName="species" (onSearch)="getSpecies($event)"
-                                       [options$]="species$"></app-searchable-select>
+                                       [id]="'species-' + i"
+                                       formControlName="species"
+                                       (onSearch)="getSpecies($event)"
+                                       [options]="taxons">
+                  <ng-template let-rowDetail #selected>
+                    <span *ngIf="rowDetail">{{'taxon.id.' + rowDetail.option.id.value | translate}}</span>
+                  </ng-template>
+
+                  <ng-template let-rowDetail #listItem>
+                    <span *ngIf="rowDetail">{{'taxon.id.' + rowDetail.option.id.value | translate}}</span>
+                  </ng-template>
+
+                </app-searchable-select>
+
               </div>
               <app-form-error-message showAfterSubmitted="true" [control]="species(i)"
                                       [submitted]="submitted"></app-form-error-message>

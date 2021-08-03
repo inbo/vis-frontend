@@ -17,11 +17,15 @@ export class TaxaService extends VisService {
     super();
   }
 
-  getTaxa(val: string) {
-    const params = new HttpParams()
+  getTaxa(val: string, id?: number) {
+    let params = new HttpParams()
       .set('nameDutch', val)
       .set('nameScientific', val)
       .set('taxonCode', val);
+
+    if (id !== undefined) {
+      params = params.set('id', id.toString());
+    }
 
     return this.http.get<Taxon[]>(`${environment.apiUrl}/api/taxon`, {params});
   }

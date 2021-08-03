@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
-import {Observable, of, Subject, Subscription} from 'rxjs';
-import {Option} from '../../../shared-ui/searchable-select/option';
+import {Observable, of, Subscription} from 'rxjs';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {getTag, Tag} from '../../../shared-ui/slide-over-filter/tag';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
@@ -12,7 +12,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {DatePipe} from '@angular/common';
 import {TranslateService} from '@ngx-translate/core';
-import {map, take} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
@@ -43,7 +43,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
   surveyEvents$: Observable<SurveyEvent[]>;
   methodGroups$: Observable<MethodGroup[]>;
   methods$: Observable<Method[]>;
-  species$ = new Subject<Option[]>();
+  species: SearchableSelectOption[] = [];
   statuses$: Observable<MultiSelectOption[]>;
 
 
@@ -73,13 +73,15 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
         measuringPointNumber: [queryParams.measuringPointNumber ?? null],
         methodGroup: [queryParams.methodGroup ?? null],
         method: [queryParams.method ?? null],
-        species: [queryParams.species ?? null],
+        species: [queryParams.species ? Number(queryParams.species) : null],
         status: [queryParams.status != null ? (Array.isArray(queryParams.status) ? queryParams.status : [queryParams.status]) : ['VALID']],
         my: [queryParams.my ?? null],
         page: [queryParams.page ?? null],
         size: [queryParams.size ?? null]
       },
     );
+
+    this.getSpecies(null, queryParams.species ? queryParams.species : undefined);
 
     this.methods$ = this.methodsService.getAllMethods();
     this.methodGroups$ = this.methodsService.getAllMethodGroups();
@@ -107,7 +109,9 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
         this.filterForm.get('size').patchValue(params.size ? params.size : null);
         this.filterForm.get('methodGroup').patchValue(params.methodGroup ? params.methodGroup : null);
         this.filterForm.get('method').patchValue(params.method ? params.method : null);
-        this.filterForm.get('species').patchValue(params.species ? params.species : null);
+        this.filterForm.get('species').patchValue(params.species ? Number(params.species) : null);
+
+        this.getSpecies(null, params.species ? params.species : undefined);
 
         this.getSurveyEvents();
       })
@@ -147,16 +151,15 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  getSpecies(val: string) {
-    this.taxaService.getTaxa(val).pipe(
-      take(1),
+  getSpecies(val: string, id?: number) {
+    this.taxaService.getTaxa(val, id).pipe(
       map(taxa => {
         return taxa.map(taxon => ({
-          id: taxon.id.value,
-          translateKey: `taxon.id.${taxon.id.value}`
+          selectValue: taxon.id.value,
+          option: taxon
         }));
       })
-    ).subscribe(value => this.species$.next(value));
+    ).subscribe(value => this.species = value);
   }
 
   filter() {
@@ -205,7 +208,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
         this.removeTagCallback('method')));
     }
     if (rawValue.species) {
-      tags.push(getTag('surveyEvent.species', this.translateService.instant(rawValue.species.translateKey),
+      tags.push(getTag('surveyEvent.species', this.translateService.instant('taxon.id.' + rawValue.species),
         this.removeTagCallback('species')));
     }
     if (rawValue.my) {
