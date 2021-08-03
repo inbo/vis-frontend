@@ -5,6 +5,7 @@ import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {Observable} from 'rxjs';
 import {Role} from '../../../core/_models/role';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-survey-event-detail-page',
@@ -24,4 +25,10 @@ export class SurveyEventDetailPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  reOpenSurveyEvent() {
+    this.surveyEventService.reOpenSurveyEvent(this.activatedRoute.snapshot.params.projectCode,
+      this.activatedRoute.parent.snapshot.params.surveyEventId)
+      .pipe(take(1))
+      .subscribe(() => window.location.reload());
+  }
 }

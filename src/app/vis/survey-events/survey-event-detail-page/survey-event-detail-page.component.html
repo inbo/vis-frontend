@@ -53,9 +53,16 @@
     </dl>
   </div>
   <div class="px-4 py-4 sm:px-6 flex justify-end">
+    <!--TODO team validation-->
+    <app-button *ngIf="surveyEvent.status === 'DELETED'"
+                (click)="reOpenSurveyEvent()"
+                [style]="'secondary'"
+                class="ml-3"
+                [role]="role.EditSurveyEvent">Heropenen</app-button>
     <app-button [style]="'primary'"
                 [disabled]="surveyEvent.status === 'DELETED'"
                 [role]="role.EditSurveyEvent"
+                class="ml-3"
                 [routerLink]="['/projecten', surveyEvent.projectCode.value, 'waarnemingen', surveyEvent.surveyEventId.value, 'bewerk']"
                 [projectCode]="surveyEvent.projectCode">Bewerken
     </app-button>
