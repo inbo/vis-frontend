@@ -13,6 +13,7 @@ export interface FishingPoint {
   x: number;
   y: number;
   description: string;
+  width: number;
 }
 
 export interface SurveyEvent {

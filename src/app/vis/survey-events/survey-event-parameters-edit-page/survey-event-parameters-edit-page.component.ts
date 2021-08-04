@@ -14,16 +14,18 @@ import {Location} from '@angular/common';
 })
 export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {
 
+  projectCode: string;
   surveyEventId: any;
 
   parameters: Parameters;
   parametersForm: FormGroup;
-  submitted: boolean;
 
+  submitted: boolean;
   private subscription = new Subscription();
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder, private router: Router, private _location: Location) {
+    this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
     this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
     this.titleService.setTitle('Bewerken waarneming waterkwaliteitsparameters ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
 
@@ -184,5 +186,16 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
     if (($event.target as HTMLInputElement).checked) {
       this.parametersForm.get('turbidity').patchValue('');
     }
+  }
+
+  copyLocationFromLocation() {
+    this.subscription.add(
+      this.surveyEventsService.getSurveyEvent(this.projectCode, this.surveyEventId)
+        .subscribe(value => {
+          if (value.fishingPoint?.width) {
+            this.width.patchValue(value.fishingPoint.width.toString());
+          }
+        })
+    );
   }
 }

@@ -97,9 +97,13 @@
               <label for="width" class="block text-sm font-medium text-gray-700">
                 Breedte (m)
               </label>
-              <div class="mt-1">
-                <input [imask]="numberMask(2, 0, 9999.99)" [unmask]="true" formControlName="width" type="text"
-                       name="width" id="width">
+              <div class="mt-1 flex rounded-md shadow-sm">
+                <div class="relative flex items-stretch flex-grow focus-within:z-10">
+                  <input class="rounded-none rounded-l-md" [imask]="numberMask(2, 0, 9999.99)" [unmask]="true" formControlName="width" type="text" name="width" id="width">
+                </div>
+                <button (click)="copyLocationFromLocation()" class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500">
+                  Kopiëer uit locatie
+                </button>
               </div>
             </div>
             <div class="sm:col-span-4">
