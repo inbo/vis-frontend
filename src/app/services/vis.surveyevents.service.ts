@@ -8,7 +8,6 @@ import {SurveyEvent, SurveyEventId} from '../domain/survey-event/surveyEvent';
 import {Parameters} from '../domain/survey-event/parameters';
 import {Habitat} from '../domain/survey-event/habitat';
 import {VisService} from './vis.service';
-import {Project} from '../domain/project/project';
 
 @Injectable({
   providedIn: 'root'
@@ -89,5 +88,9 @@ export class SurveyEventsService extends VisService {
 
   reOpenSurveyEvent(projectCode: string, surveyEventId: any) {
     return this.http.post<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/reopen`, {});
+  }
+
+  copySurveyEvent(projectCode: string, surveyEventId: any, formData: any) {
+    return this.http.post<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/copy`, formData);
   }
 }
