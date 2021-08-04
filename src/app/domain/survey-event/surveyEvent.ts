@@ -8,6 +8,11 @@ export interface FishingPoint {
   id: number;
   code: string;
   flowArea: string;
+  name: string;
+  waterCode: string;
+  x: number;
+  y: number;
+  description: string;
 }
 
 export interface SurveyEvent {
