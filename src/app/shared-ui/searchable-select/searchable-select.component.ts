@@ -54,7 +54,8 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
     if (this.selectedValueOption === undefined) {
       const filtered = this.options?.filter(value => value.selectValue === this.selectedValue);
       if (!(filtered === undefined || filtered.length === 0)) {
-        this.select(filtered[0]);
+        this.selectedValue = filtered[0].selectValue;
+        this.selectedValueOption = filtered[0];
       }
     }
   }
