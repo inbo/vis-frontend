@@ -106,7 +106,7 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
   }
 
   hasUnsavedData(): boolean {
-    return this.parametersForm.dirty;
+    return this.parametersForm.dirty && !this.submitted;
   }
 
 

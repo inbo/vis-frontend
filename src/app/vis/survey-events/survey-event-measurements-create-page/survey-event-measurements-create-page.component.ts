@@ -391,7 +391,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   hasUnsavedData(): boolean {
-    return this.measurementsForm.dirty;
+    return this.measurementsForm.dirty && !this.submitted;
   }
 
   cancel() {

@@ -90,7 +90,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
   }
 
   hasUnsavedData(): boolean {
-    return this.createSurveyEventForm.dirty;
+    return this.createSurveyEventForm.dirty && !this.submitted;
   }
 
   cancel() {

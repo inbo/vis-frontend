@@ -128,7 +128,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
   }
 
   hasUnsavedData(): boolean {
-    return this.projectForm.dirty;
+    return this.projectForm.dirty && !this.submitted;
   }
 
   get name() {

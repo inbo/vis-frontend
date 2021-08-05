@@ -130,7 +130,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
   }
 
   hasUnsavedData(): boolean {
-    return this.surveyEventForm.dirty;
+    return this.surveyEventForm.dirty && !this.submitted;
   }
 
   cancel() {
