@@ -51,7 +51,11 @@ export class LocationsService extends VisService {
     return this.http.get<FishingPointSearch[]>(`${environment.apiUrl}/api/fishingpoints/search`, {params});
   }
 
-  findById(id: number) {
+  findById(id: number): Observable<FishingPoint> {
     return this.http.get<FishingPoint>(`${environment.apiUrl}/api/fishingpoints/${id}`, {});
+  }
+
+  findByCode(code: string): Observable<FishingPoint> {
+    return this.http.get<FishingPoint>(`${environment.apiUrl}/api/fishingpoints/code/${code}`, {});
   }
 }

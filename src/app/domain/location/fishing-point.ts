@@ -6,6 +6,9 @@ export interface FishingPoint {
   x: number;
   y: number;
 
+  lat: number;
+  lng: number;
+
   snappedX: number;
   snappedY: number;
   vhag: number;

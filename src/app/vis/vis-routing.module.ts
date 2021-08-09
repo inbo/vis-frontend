@@ -42,6 +42,7 @@ import {ChildRoleGuard} from '../core/child-role-guard.service';
 import {ProjectEditGuard} from '../core/project-edit-guard.service';
 import {SurveyEventDetailEditPageComponent} from './survey-events/survey-event-detail-edit-page/survey-event-detail-edit-page.component';
 import {SurveyEventAddPageComponent} from './survey-events/survey-event-add-page/survey-event-add-page.component';
+import {LocationDetailComponent} from './location/location-detail/location-detail.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -143,6 +144,7 @@ const routes: Routes = [
     ]
   },
   {path: 'locaties', component: LocationOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {path: 'locaties/:code', component: LocationDetailComponent, canActivate: [AuthGuardWithForcedLogin]},
   {
     path: 'locaties/create',
     component: LocationCreatePageComponent,

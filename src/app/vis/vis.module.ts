@@ -64,6 +64,7 @@ import {InstanceAddComponent} from './settings/instances/instance-add/instance-a
 import {SurveyEventDetailEditPageComponent} from './survey-events/survey-event-detail-edit-page/survey-event-detail-edit-page.component';
 import { SurveyEventAddPageComponent } from './survey-events/survey-event-add-page/survey-event-add-page.component';
 import { SurveyEventCopyModalComponent } from './survey-events/survey-event-copy-modal/survey-event-copy-modal.component';
+import { LocationDetailComponent } from './location/location-detail/location-detail.component';
 
 @NgModule({
   exports: [
@@ -123,7 +124,8 @@ import { SurveyEventCopyModalComponent } from './survey-events/survey-event-copy
     InstanceAddComponent,
     SurveyEventDetailEditPageComponent,
     SurveyEventAddPageComponent,
-    SurveyEventCopyModalComponent
+    SurveyEventCopyModalComponent,
+    LocationDetailComponent
   ],
   imports: [
     CommonModule,

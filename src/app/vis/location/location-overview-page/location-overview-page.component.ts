@@ -50,7 +50,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   }
 
   zoomToLocation(fishingPoint: FishingPoint) {
-    const latlng = new LatLng(fishingPoint.x, fishingPoint.y);
+    const latlng = new LatLng(fishingPoint.lat, fishingPoint.lng);
     this.map.zoomTo(latlng);
   }
 
