@@ -6,6 +6,7 @@ import {map} from 'rxjs/operators';
 import {ProjectService} from '../../../services/vis.project.service';
 import {Team} from '../../../domain/account/team';
 import {AccountService} from '../../../services/vis.account.service';
+import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 
 @Component({
   selector: 'app-project-add',
@@ -13,7 +14,8 @@ import {AccountService} from '../../../services/vis.account.service';
 })
 export class ProjectAddComponent implements OnInit, OnDestroy {
 
-  teams$: Observable<Team[]>;
+  teams$: Observable<MultiSelectOption[]>;
+  instances$: Observable<MultiSelectOption[]>;
 
   createProjectForm: FormGroup;
   isOpen = false;
@@ -28,7 +30,13 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.teams$ = this.accountService.listTeams();
+    this.instances$ = this.accountService.listInstances().pipe(map(values => values.map(value => {
+      return {value: value.code, displayValue: value.code};
+    })));
+
+    this.teams$ = this.accountService.listTeams().pipe(map(values => values.map(value => {
+      return {value: value.name, displayValue: value.name};
+    })));
 
     this.createProjectForm = this.formBuilder.group({
       code: [null, [Validators.required, Validators.maxLength(15)], [this.codeValidator()]],
@@ -37,7 +45,8 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
       lengthType: ['', [Validators.required]],
       status: [true, []],
       startDate: [null, [Validators.required]],
-      team: [null],
+      teams: [[]],
+      instances: [[]]
     });
   }
 
@@ -105,7 +114,11 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
     return this.createProjectForm.get('lengthType');
   }
 
-  get team() {
-    return this.createProjectForm.get('team');
+  get teams() {
+    return this.createProjectForm.get('teams');
+  }
+
+  get instances() {
+    return this.createProjectForm.get('instances');
   }
 }
