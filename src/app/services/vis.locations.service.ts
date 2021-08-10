@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {FishingPoint, FishingPointFeature, FishingPointSearch} from '../domain/location/fishing-point';
 import {VisService} from './vis.service';
 import {VhaUrl} from '../domain/location/vha-version';
+import {ProjectFishingPoint} from '../domain/location/project-fishing-point';
 
 
 @Injectable({
@@ -27,7 +28,10 @@ export class LocationsService extends VisService {
     return this.http.post(environment.apiUrl + '/api/fishingpoints', formData);
   }
 
-  getFishingPointsFeatures(): Observable<FishingPointFeature[]> {
+  getFishingPointsFeatures(projectCode?: string): Observable<FishingPointFeature[]> {
+    if (projectCode) {
+      return this.http.get<FishingPointFeature[]>(`${environment.apiUrl}/api/fishingpoints/project/${projectCode}/features`, {});
+    }
     return this.http.get<FishingPointFeature[]>(`${environment.apiUrl}/api/fishingpoints/features`, {});
   }
 
@@ -57,5 +61,11 @@ export class LocationsService extends VisService {
 
   findByCode(code: string): Observable<FishingPoint> {
     return this.http.get<FishingPoint>(`${environment.apiUrl}/api/fishingpoints/code/${code}`, {});
+  }
+
+  findByProjectCode(code: string, page: number, size: number): Observable<AsyncPage<ProjectFishingPoint>> {
+    const params = this.getPageParams(page, size, {});
+
+    return this.http.get<AsyncPage<ProjectFishingPoint>>(`${environment.apiUrl}/api/fishingpoints/projectcode/${code}`, {params});
   }
 }

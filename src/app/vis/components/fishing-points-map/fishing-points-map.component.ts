@@ -16,6 +16,7 @@ import {FeatureSelection} from "./feature-selection";
 })
 export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
+  @Input() projectCode;
   @Input() zoomLevel = 8;
   @Input() canAddPoints = false;
   @Output() pointAdded = new EventEmitter<LatLng>();
@@ -66,7 +67,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   }
 
   private setup() {
-    this.locationsLayer = L.markerClusterGroup({removeOutsideVisibleBounds: true, spiderfyOnMaxZoom: false});
+    this.locationsLayer = L.markerClusterGroup({removeOutsideVisibleBounds: true, spiderfyOnMaxZoom: false, disableClusteringAtZoom: 19});
 
 
     this.locationsService.latestVhaVersion().pipe(take(1)).subscribe(version => {
@@ -102,7 +103,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
       };
 
       this.subscription.add(
-        this.locationsService.getFishingPointsFeatures().subscribe(fishingPointFeatures => {
+        this.locationsService.getFishingPointsFeatures(this.projectCode).subscribe(fishingPointFeatures => {
           fishingPointFeatures.forEach(fpf => {
             const latlng = latLng(fpf.x, fpf.y);
             const m = marker(latlng, {
