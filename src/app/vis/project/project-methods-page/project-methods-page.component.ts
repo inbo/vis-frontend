@@ -12,10 +12,8 @@ import {Method} from '../../../domain/method/method';
 })
 export class ProjectMethodsPageComponent implements OnInit, OnDestroy {
 
-  showEditTaxa = false;
   loading = false;
-  methods: string[];
-  allMethods: Method[];
+  methods: Method[];
 
   private subscription = new Subscription();
 
@@ -24,13 +22,8 @@ export class ProjectMethodsPageComponent implements OnInit, OnDestroy {
     this.titleService.setTitle(`Project ${this.activatedRoute.parent.snapshot.params.projectCode} methoden`);
 
     this.subscription.add(
-      this.projectService.getProjectMethods(this.activatedRoute.parent.snapshot.params.projectCode).subscribe(value => this.methods = value)
-    );
-
-    this.subscription.add(
-      this.methodsService.getAllMethods().subscribe(value => {
-        this.allMethods = value;
-      })
+      this.methodsService.getAllMethodsForProject(this.activatedRoute.parent.snapshot.params.projectCode)
+        .subscribe(value => this.methods = value)
     );
 
   }
@@ -40,25 +33,5 @@ export class ProjectMethodsPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }
-
-  isSelected(method: Method) {
-    return this.methods.some(item => item === method.code);
-  }
-
-  selectedChanged(event: any, item: Method) {
-    if (event.target.checked) {
-      this.methods.push(item.code);
-    } else {
-      this.methods = this.methods.filter(method => method !== item.code);
-    }
-  }
-
-  saveProjectMethods() {
-    this.subscription.add(this.methodsService.updateProjectMethods(this.activatedRoute.parent.snapshot.params.projectCode, this.methods)
-      .subscribe(value => {
-        this.methods = value;
-        this.showEditTaxa = false;
-      }));
   }
 }

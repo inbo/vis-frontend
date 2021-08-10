@@ -27,6 +27,10 @@ export class MethodsService extends VisService {
     return this.http.get<Method[]>(environment.apiUrl + '/api/methods/all');
   }
 
+  getAllMethodsForProject(projectCode): Observable<Method[]> {
+    return this.http.get<Method[]>(`${environment.apiUrl}/api/methods/project/${projectCode}`);
+  }
+
   updateProjectMethods(projectCode: string, methods: string[]) {
     return this.http.post<string[]>(`${environment.apiUrl}/api/projects/${projectCode}/methods`, methods);
   }

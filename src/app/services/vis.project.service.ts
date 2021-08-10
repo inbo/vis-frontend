@@ -86,10 +86,6 @@ export class ProjectService extends VisService implements OnDestroy {
       }));
   }
 
-  getProjectMethods(projectCode: any) {
-    return this.http.get<string[]>(`${environment.apiUrl}/api/projects/${projectCode}/methods`);
-  }
-
   updateProjectMethods(projectCode: string, methods: string[]) {
     return this.http.post<string[]>(`${environment.apiUrl}/api/projects/${projectCode}/methods`, methods);
   }

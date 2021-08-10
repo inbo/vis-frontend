@@ -1,77 +1,71 @@
 <div>
-  <div class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200" [class.hidden]="showEditTaxa">
-    <div class="px-4 py-5 sm:px-6">
-      <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
-        <div class="ml-4 mt-4">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Methoden
-          </h3>
-          <p class="mt-1 text-sm text-gray-500">
-            Alle methoden die tot de lijst behoren. Klik op bewerken om de lijst aan te passen.
-          </p>
+  <div class="hidden lg:block flex flex-col">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200 table-fixed">
+            <thead>
+              <tr>
+                <th scope="col" class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Methode
+                </th>
+                <th scope="col" class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Groep
+                </th>
+                <th scope="col" class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Code
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td *ngIf="loading" class="px-3 py-4" colspan="8">
+                  <app-loading-spinner></app-loading-spinner>
+                </td>
+              </tr>
+
+              <tr *ngFor="let method of methods; let index = index" [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">
+                <td class="px-6 py-4  text-sm text-gray-900">
+                  {{'method.' + method.code | translate}}
+                </td>
+                <td class="px-6 py-4  text-sm text-gray-900">
+                  {{'method.' + method.code + '.group' | translate}}
+                </td>
+                <td class="px-6 py-4  text-sm text-gray-900">
+                  {{method.code}}
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-    <ul aria-disabled="true">
-      <li *ngFor="let method of methods">
-        <span class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
-            <div class="px-4 py-4 sm:px-6">
-                <div class="flex items-center justify-between">
-                    <div class="text-sm leading-5 font-medium text-gray-600 truncate">
-                        {{'method.' + method | translate}} ({{method}})
-                    </div>
-                    <div class="ml-2 flex-shrink-0 flex">
-                        <span
-                          class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                            {{'method.' + method + '.group' | translate}}
-                        </span>
-                    </div>
-                </div>
+  </div>
+
+  <div class="lg:hidden bg-white shadow overflow-hidden sm:rounded-md">
+      <ul class="divide-y divide-gray-200">
+        <li *ngFor="let method of methods">
+          <div class="px-4 py-4 sm:px-6">
+            <div class="flex items-center justify-between">
+              <p class="text-sm font-medium text-pink-600 truncate">
+                {{method.code}}
+              </p>
             </div>
-        </span>
-      </li>
-    </ul>
-    <div class="px-4 py-4 sm:px-6 flex justify-end">
-      <app-button [style]="'primary'" (click)="this.showEditTaxa = true">Bewerken</app-button>
-    </div>
-  </div>
-
-  <div class="bg-white shadow overflow-hidden sm:rounded-lg" [class.hidden]="!showEditTaxa">
-
-    <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
-      <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-no-wrap">
-        <div class="ml-4 mt-4">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Bewerk soorten
-          </h3>
-          <p class="mt-1 text-sm leading-5 text-gray-500">
-            Selecteer alle soorten die tot tot de lijst behoren.
-          </p>
-        </div>
-      </div>
-    </div>
-    <ul aria-disabled="true">
-      <li *ngFor="let method of allMethods">
-            <span
-              class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
-                <div class="px-4 py-4 sm:px-6">
-                    <div class="flex items-center justify-between">
-                        <div class="text-sm leading-5 font-medium text-gray-600 truncate">
-                            {{'method.' + method.code | translate}} ({{method.code}}) - {{'method.' + method.code + '.group' | translate}}
-                        </div>
-                        <div class="ml-2 flex-shrink-0 flex">
-                            <div class="flex items-center h-5">
-                                <input (change)="selectedChanged($event, method)"
-                                       [attr.checked]="isSelected(method) ? 'selected' : null" type="checkbox">
-                            </div>
-                        </div>
-                    </div>
+            <div class="mt-2 sm:flex sm:justify-between">
+              <div class="sm:flex">
+                <div class="sm:flex">
+                  <p class="flex items-center text-sm text-gray-500">
+                    {{'method.' + method.code + '.group' | translate}}
+                  </p>
+                  <p class="flex items-center text-sm text-gray-500">
+                    {{'method.' + method.code | translate}}
+                  </p>
                 </div>
-            </span>
-      </li>
-    </ul>
-    <div class="px-4 py-4 sm:px-6 flex justify-end">
-      <app-button [style]="'primary'" (click)="this.saveProjectMethods()">Bewaren</app-button>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
-  </div>
 </div>
