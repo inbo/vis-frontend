@@ -9,56 +9,59 @@ import {ProjectService} from '../../../services/vis.project.service';
 import {FishingPoint} from '../../../domain/location/fishing-point';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {SurveyEventCopyModalComponent} from '../survey-event-copy-modal/survey-event-copy-modal.component';
+import {Role} from '../../../core/_models/role';
 
 @Component({
-    selector: 'app-survey-event-heading',
-    templateUrl: './survey-event-heading.component.html'
+  selector: 'app-survey-event-heading',
+  templateUrl: './survey-event-heading.component.html'
 })
 export class SurveyEventHeadingComponent implements OnInit, OnDestroy {
 
-    @ViewChild(SurveyEventCopyModalComponent) surveyEventCopyModal: SurveyEventCopyModalComponent;
+  @ViewChild(SurveyEventCopyModalComponent) surveyEventCopyModal: SurveyEventCopyModalComponent;
 
-    project: Project;
-    projectCode: string;
-    surveyEventId: number;
+  public role = Role;
 
-    surveyEvent$: Observable<SurveyEvent>;
-    surveyEventMethodCode$: Observable<string>;
-    surveyEventOccurrence$: Observable<Date>;
+  project: Project;
+  projectCode: string;
+  surveyEventId: number;
 
-    fishingPoint$: Observable<FishingPoint>;
-    private subscription = new Subscription();
+  surveyEvent$: Observable<SurveyEvent>;
+  surveyEventMethodCode$: Observable<string>;
+  surveyEventOccurrence$: Observable<Date>;
 
-    constructor(private projectService: ProjectService, private surveyEventsService: SurveyEventsService,
-                private activatedRoute: ActivatedRoute, private locationsService: LocationsService) {
-        this.projectCode = this.activatedRoute.snapshot.params.projectCode;
-        this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
-        this.subscription.add(
-            this.projectService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
-                this.project = value;
-            })
-        );
+  fishingPoint$: Observable<FishingPoint>;
+  private subscription = new Subscription();
 
-        this.surveyEvent$ = this.surveyEventsService.getSurveyEvent(this.activatedRoute.snapshot.params.projectCode,
-            this.activatedRoute.snapshot.params.surveyEventId);
-        this.surveyEventMethodCode$ = this.surveyEvent$.pipe(map(surveyEvent => surveyEvent.method), map(code => 'method.' + code));
-        this.surveyEventOccurrence$ = this.surveyEvent$.pipe(map(surveyEvent => surveyEvent.occurrence));
-        this.fishingPoint$ = this.surveyEvent$.pipe(switchMap((surveyEvent) =>
-            this.locationsService.findById(surveyEvent.fishingPoint?.id)));
-    }
+  constructor(private projectService: ProjectService, private surveyEventsService: SurveyEventsService,
+              private activatedRoute: ActivatedRoute, private locationsService: LocationsService) {
+    this.projectCode = this.activatedRoute.snapshot.params.projectCode;
+    this.surveyEventId = this.activatedRoute.snapshot.params.surveyEventId;
+    this.subscription.add(
+      this.projectService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
+        this.project = value;
+      })
+    );
 
-    ngOnInit(): void {
-    }
+    this.surveyEvent$ = this.surveyEventsService.getSurveyEvent(this.activatedRoute.snapshot.params.projectCode,
+      this.activatedRoute.snapshot.params.surveyEventId);
+    this.surveyEventMethodCode$ = this.surveyEvent$.pipe(map(surveyEvent => surveyEvent.method), map(code => 'method.' + code));
+    this.surveyEventOccurrence$ = this.surveyEvent$.pipe(map(surveyEvent => surveyEvent.occurrence));
+    this.fishingPoint$ = this.surveyEvent$.pipe(switchMap((surveyEvent) =>
+      this.locationsService.findById(surveyEvent.fishingPoint?.id)));
+  }
 
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
-    }
+  ngOnInit(): void {
+  }
 
-    showCreateMeasurementsButton() {
-        return !window.location.pathname.endsWith('metingen/toevoegen');
-    }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
-    copySurveyEvent() {
-        this.surveyEventCopyModal.open();
-    }
+  showCreateMeasurementsButton() {
+    return !window.location.pathname.endsWith('metingen/toevoegen');
+  }
+
+  copySurveyEvent() {
+    this.surveyEventCopyModal.open();
+  }
 }

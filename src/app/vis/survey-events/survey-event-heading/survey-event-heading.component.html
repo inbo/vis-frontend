@@ -62,12 +62,17 @@
       <div *ngIf="showCreateMeasurementsButton() && surveyEvent$ | async as surveyEvent"
            class="flex items-center text-sm text-gray-500">
         <app-button [style]="'primary'"
-                    (click)="copySurveyEvent()">Kopieer waarneming
+                    [disabled]="surveyEvent.status === 'DELETED'"
+                    (click)="copySurveyEvent()"
+                    [role]="role.CreateSurveyEvent"
+                    [isUserLinkedToProject]="surveyEvent?.canEdit">Kopieer waarneming
         </app-button>
         <app-button [style]="'primary'"
                     [disabled]="surveyEvent.status === 'DELETED'"
                     class="ml-3"
-                    [routerLink]="'metingen/toevoegen'">Metingen toevoegen
+                    [routerLink]="'metingen/toevoegen'"
+                    [role]="role.CreateMeasurements"
+                    [isUserLinkedToProject]="surveyEvent?.canEdit">Metingen toevoegen
         </app-button>
       </div>
     </div>

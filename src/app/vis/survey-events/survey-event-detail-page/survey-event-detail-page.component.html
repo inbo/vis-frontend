@@ -103,13 +103,15 @@
                 (click)="reOpenSurveyEvent()"
                 [style]="'secondary'"
                 class="ml-3"
-                [role]="role.EditSurveyEvent">Heropenen</app-button>
+                [role]="role.EditSurveyEvent"
+                [isUserLinkedToProject]="surveyEvent?.canEdit">Heropenen
+    </app-button>
     <app-button [style]="'primary'"
                 [disabled]="surveyEvent.status === 'DELETED'"
-                [role]="role.EditSurveyEvent"
                 class="ml-3"
                 [routerLink]="['/projecten', surveyEvent.projectCode.value, 'waarnemingen', surveyEvent.surveyEventId.value, 'bewerk']"
-                [projectCode]="surveyEvent.projectCode">Bewerken
+                [role]="role.EditSurveyEvent"
+                [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
     </app-button>
   </div>
 </div>

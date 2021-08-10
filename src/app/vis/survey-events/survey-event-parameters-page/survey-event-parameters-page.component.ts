@@ -5,12 +5,15 @@ import {Parameters} from '../../../domain/survey-event/parameters';
 import {Observable, Subscription} from 'rxjs';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
+import {Role} from '../../../core/_models/role';
 
 @Component({
   selector: 'app-survey-event-parameters-page',
   templateUrl: './survey-event-parameters-page.component.html'
 })
 export class SurveyEventParametersPageComponent implements OnInit, OnDestroy {
+
+  public role = Role;
 
   projectCode: string;
   surveyEventId: any;

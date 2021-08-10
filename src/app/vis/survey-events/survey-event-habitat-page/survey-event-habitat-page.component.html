@@ -3,8 +3,14 @@
     <h3 class="text-lg leading-6 font-medium text-gray-900 float-left">
       Habitat
     </h3>
-    <div class="flex justify-end">
-      <app-button [style]="'primary'" class="ml-3" [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'habitat', 'bewerk']">Bewerken</app-button>
+    <div *ngIf="surveyEvent$ | async as surveyEvent" class="flex justify-end">
+      <app-button [style]="'primary'"
+                  [disabled]="surveyEvent.status === 'DELETED'"
+                  class="ml-3"
+                  [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'habitat', 'bewerk']"
+                  [role]="role.EditSurveyEvent"
+                  [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
+      </app-button>
     </div>
   </div>
   <div class="px-4 py-5 sm:p-6">
@@ -15,7 +21,8 @@
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 <span *ngIf="habitat?.soils">
-                  <span *ngFor="let v of habitat.soils; let last = last">{{'surveyEvent.habitat.soil.' + v | translate}}<span *ngIf="!last">, </span></span>
+                  <span *ngFor="let v of habitat.soils; let last = last">{{'surveyEvent.habitat.soil.' + v | translate}}
+                    <span *ngIf="!last">, </span></span>
                 </span>
         </dd>
       </div>
@@ -182,6 +189,9 @@
     <app-button [style]="'primary'"
                 [disabled]="surveyEvent.status === 'DELETED'"
                 class="ml-3"
-                [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'habitat', 'bewerk']">Bewerken</app-button>
+                [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'habitat', 'bewerk']"
+                [role]="role.EditSurveyEvent"
+                [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
+    </app-button>
   </div>
 </div>

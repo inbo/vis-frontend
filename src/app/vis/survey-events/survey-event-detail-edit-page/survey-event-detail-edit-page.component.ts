@@ -109,7 +109,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
       .pipe(take(1))
       .subscribe(() => {
         this.router.navigate(['projecten', this.activatedRoute.parent.snapshot.params.projectCode,
-          'waarnemingen', this.activatedRoute.parent.snapshot.params.surveyEventId]).then();
+          'waarnemingen', this.activatedRoute.parent.snapshot.params.surveyEventId]).then(() => window.location.reload());
       });
   }
 
