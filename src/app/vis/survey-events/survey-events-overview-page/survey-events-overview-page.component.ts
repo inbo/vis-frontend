@@ -23,6 +23,7 @@ import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
 import {Watercourse} from '../../../domain/location/watercourse';
 import {LocationsService} from '../../../services/vis.locations.service';
+import {Basin} from '../../../domain/location/basin';
 
 @Component({
   selector: 'app-survey-events-overview-page',
@@ -48,6 +49,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
   species: SearchableSelectOption[] = [];
   statuses$: Observable<MultiSelectOption[]>;
   watercourses$: Observable<Watercourse[]>;
+  basins$: Observable<Basin[]>;
 
   private subscription = new Subscription();
 
@@ -87,6 +89,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
 
     this.methodGroups$ = this.methodsService.getAllMethodGroups();
     this.watercourses$ = this.locationsService.searchWatercourses();
+    this.basins$ = this.locationsService.searchBasins();
 
     this.subscription.add(
       this.filterForm.get('methodGroup').valueChanges.subscribe(value => {

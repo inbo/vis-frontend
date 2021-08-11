@@ -44,7 +44,11 @@
                   Bekken
                 </label>
                 <div class="mt-1">
-                  <input type="text" id="basin" formControlName="basin" placeholder="Bekken ..."/>
+                  <select id="basin" formControlName="basin" class="mt-1">
+                    <option [ngValue]="null">Bekken selecteren...</option>
+                    <option *ngFor="let basin of basins$ | async"
+                            [value]="basin.name">{{basin.name}}</option>
+                  </select>
                 </div>
               </div>
 
