@@ -15,7 +15,7 @@
               <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                 <div class="sm:col-span-1">
                   <dt class="text-sm font-medium text-gray-500">
-                    Meetpuntcode
+                    Meetplaatscode
                   </dt>
                   <dd class="mt-1 text-sm text-gray-900">
                     {{fishingPoint?.code}}
@@ -71,8 +71,6 @@
                 </div>
 
 
-
-
                 <div class="sm:col-span-1">
                   <dt class="text-sm font-medium text-gray-500">
                     Snapped coördinaten
@@ -83,7 +81,7 @@
                 </div>
                 <div class="sm:col-span-1">
                   <dt class="text-sm font-medium text-gray-500">
-                      VHAS
+                    VHAS
                   </dt>
                   <dd class="mt-1 text-sm text-gray-900">
                     {{fishingPoint?.vhas}}
@@ -189,18 +187,19 @@
 
 
                 <div class="sm:col-span-2">
-                  <app-fishing-points-map [canAddPoints]="false" [zoomLevel]="20" [visibleLayers]="[0]"></app-fishing-points-map>
+                  <app-fishing-points-map [canAddPoints]="false" [zoomLevel]="20"
+                                          [visibleLayers]="[0]"></app-fishing-points-map>
                 </div>
               </dl>
             </div>
             <div class="px-4 py-4 sm:px-6 flex justify-end">
-<!--              <app-button [disabled]="!!project?.end"-->
-<!--                          [disabledReason]="'Een afgesloten project kan niet bewerkt worden.'"-->
-<!--                          [style]="'primary'"-->
-<!--                          class="ml-3"-->
-<!--                          [role]="role.EditProject"-->
-<!--                          [routerLink]="['/projecten', project?.code?.value, 'bewerk']"-->
-<!--                          [isUserLinkedToProject]="project?.canEdit">Bewerken</app-button>-->
+              <!--              <app-button [disabled]="!!project?.end"-->
+              <!--                          [disabledReason]="'Een afgesloten project kan niet bewerkt worden.'"-->
+              <!--                          [style]="'primary'"-->
+              <!--                          class="ml-3"-->
+              <!--                          [role]="role.EditProject"-->
+              <!--                          [routerLink]="['/projecten', project?.code?.value, 'bewerk']"-->
+              <!--                          [isUserLinkedToProject]="project?.canEdit">Bewerken</app-button>-->
             </div>
           </div>
 
