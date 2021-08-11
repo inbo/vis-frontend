@@ -83,12 +83,15 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
 
     this.getSpecies(null, queryParams.species ? queryParams.species : undefined);
 
-    this.methods$ = this.methodsService.getAllMethods();
     this.methodGroups$ = this.methodsService.getAllMethodGroups();
 
     this.subscription.add(
       this.filterForm.get('methodGroup').valueChanges.subscribe(value => {
-        this.methods$ = this.methodsService.getMethodsForGroup(value);
+        if (value) {
+          this.methods$ = this.methodsService.getMethodsForGroup(value);
+        } else {
+          this.methods$ = this.methodsService.getAllMethods();
+        }
       })
     );
 
@@ -103,7 +106,8 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
         this.filterForm.get('period').patchValue(period);
         this.filterForm.get('sort').patchValue(params.sort ? params.sort : null);
         this.filterForm.get('measuringPointNumber').patchValue(params.measuringPointNumber ? params.measuringPointNumber : null);
-        this.filterForm.get('status').patchValue(params.status ? (Array.isArray(params.status) ? params.status : [params.status]) : ['VALID']);
+        this.filterForm.get('status').patchValue(params.status ?
+          (Array.isArray(params.status) ? params.status : [params.status]) : ['VALID']);
         this.filterForm.get('my').patchValue(params.my ? params.my : null);
         this.filterForm.get('page').patchValue(params.page ? params.page : null);
         this.filterForm.get('size').patchValue(params.size ? params.size : null);
