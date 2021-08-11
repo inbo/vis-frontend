@@ -21,6 +21,8 @@ import {Method} from '../../../domain/method/method';
 import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
+import {Watercourse} from '../../../domain/location/watercourse';
+import {LocationsService} from '../../../services/vis.locations.service';
 
 @Component({
   selector: 'app-survey-events-overview-page',
@@ -45,14 +47,14 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
   methods$: Observable<Method[]>;
   species: SearchableSelectOption[] = [];
   statuses$: Observable<MultiSelectOption[]>;
-
+  watercourses$: Observable<Watercourse[]>;
 
   private subscription = new Subscription();
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private methodsService: MethodsService,
               private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder,
               private taxaService: TaxaService, private datePipe: DatePipe, private translateService: TranslateService,
-              public authService: AuthService) {
+              public authService: AuthService, private locationsService: LocationsService) {
   }
 
   ngOnInit(): void {
@@ -84,6 +86,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     this.getSpecies(null, queryParams.species ? queryParams.species : undefined);
 
     this.methodGroups$ = this.methodsService.getAllMethodGroups();
+    this.watercourses$ = this.locationsService.searchWatercourses();
 
     this.subscription.add(
       this.filterForm.get('methodGroup').valueChanges.subscribe(value => {
@@ -174,6 +177,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     const rawValue = this.filterForm.getRawValue();
 
     const queryParams: Params = {...rawValue};
+    queryParams.page = 1;
 
     this.router.navigate(
       [],

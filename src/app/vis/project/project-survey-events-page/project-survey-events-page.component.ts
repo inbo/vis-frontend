@@ -18,6 +18,8 @@ import {MethodGroup} from '../../../domain/method/method-group';
 import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
+import {LocationsService} from '../../../services/vis.locations.service';
+import {Watercourse} from '../../../domain/location/watercourse';
 
 @Component({
   selector: 'app-project-survey-events-page',
@@ -38,6 +40,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
   methods$: Observable<Method[]>;
   species: SearchableSelectOption[] = [];
   statuses$: Observable<MultiSelectOption[]>;
+  watercourses$: Observable<Watercourse[]>;
 
   filterForm: FormGroup;
 
@@ -46,7 +49,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private methodsService: MethodsService,
               private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder,
               private taxaService: TaxaService, private datePipe: DatePipe, private translateService: TranslateService,
-              public authService: AuthService) {
+              public authService: AuthService, private locationsService: LocationsService) {
   }
 
   ngOnInit(): void {
@@ -78,6 +81,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
     this.getSpecies(null, queryParams.species ? queryParams.species : undefined);
 
     this.methodGroups$ = this.methodsService.getAllMethodGroups();
+    this.watercourses$ = this.locationsService.searchWatercourses();
 
     this.subscription.add(
       this.filterForm.get('methodGroup').valueChanges.subscribe(value => {
@@ -174,6 +178,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
     }
 
     const queryParams: Params = {...rawValue};
+    queryParams.page = 1;
 
     this.router.navigate(
       [],

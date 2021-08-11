@@ -6,7 +6,11 @@
           Waterloop
         </label>
         <div class="mt-1">
-          <input type="text" id="watercourse" formControlName="watercourse" placeholder="Waterloop ..."/>
+          <select id="watercourse" formControlName="watercourse" class="mt-1">
+            <option [ngValue]="null">Waterloop selecteren...</option>
+            <option *ngFor="let watercourse of watercourses$ | async"
+                    [value]="watercourse.name">{{watercourse.name}}</option>
+          </select>
         </div>
       </div>
 

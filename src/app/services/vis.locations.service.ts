@@ -7,6 +7,7 @@ import {FishingPoint, FishingPointFeature, FishingPointSearch} from '../domain/l
 import {VisService} from './vis.service';
 import {VhaUrl} from '../domain/location/vha-version';
 import {ProjectFishingPoint} from '../domain/location/project-fishing-point';
+import {Watercourse} from '../domain/location/watercourse';
 
 
 @Injectable({
@@ -67,5 +68,14 @@ export class LocationsService extends VisService {
     const params = this.getPageParams(page, size, {});
 
     return this.http.get<AsyncPage<ProjectFishingPoint>>(`${environment.apiUrl}/api/fishingpoints/projectcode/${code}`, {params});
+  }
+
+  searchWatercourses(watercourse?: string) {
+    let params = new HttpParams();
+    if (watercourse) {
+      params = params.set('watercourse', watercourse);
+    }
+
+    return this.http.get<Watercourse[]>(`${environment.apiUrl}/api/watercourses/search`, {params});
   }
 }
