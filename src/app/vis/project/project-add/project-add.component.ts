@@ -4,7 +4,6 @@ import {Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ProjectService} from '../../../services/vis.project.service';
-import {Team} from '../../../domain/account/team';
 import {AccountService} from '../../../services/vis.account.service';
 import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 
@@ -43,7 +42,6 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
       name: ['', [Validators.required, Validators.maxLength(200)]],
       description: ['', [Validators.maxLength(2000)]],
       lengthType: ['', [Validators.required]],
-      status: [true, []],
       startDate: [null, [Validators.required]],
       teams: [[]],
       instances: [[]]
@@ -69,7 +67,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.projectService.createProject(formData).subscribe(
-        (response) => {
+        () => {
           this.isOpen = false;
           this.router.navigateByUrl('/projecten/' + formData.code);
         }
@@ -100,10 +98,6 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
 
   get description() {
     return this.createProjectForm.get('description');
-  }
-
-  get status() {
-    return this.createProjectForm.get('status');
   }
 
   get startDate() {
