@@ -2,8 +2,7 @@ import {AfterViewChecked, Component, OnDestroy, OnInit, QueryList, ViewChildren}
 import {ActivatedRoute, Router} from '@angular/router';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {fromEvent, Observable, Subscription} from 'rxjs';
-import {filter, map, take} from 'rxjs/operators';
-import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
+import {filter} from 'rxjs/operators';
 import {AlertService} from '../../../_alert';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {TaxaService} from '../../../services/vis.taxa.service';
@@ -52,9 +51,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
 
-  // TODO species$ per measurement? Currently the searchable select for every measurements species uses the same species observable, maybe put it in another component?
-  taxons: SearchableSelectOption[] = [];
-
+  tmp = false;
   tip$: Observable<Tip>;
 
   existingMeasurements: Measurement[];
@@ -66,28 +63,6 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   private scrollIntoView = false;
   private subscription = new Subscription();
 
-  fieldsOrder = [
-    'species',
-    'amount',
-    'length',
-    'weight',
-    'gender',
-    'afvisBeurtNumber',
-    'comment'
-  ];
-
-  numberMask(scale: number, min: number, max: number) {
-    return {
-      mask: Number,
-      scale,
-      signed: true,
-      thousandsSeparator: '',
-      radix: '.',
-      min,
-      max
-    };
-  }
-
   constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private surveyEventsService: SurveyEventsService,
               private alertService: AlertService, private taxaService: TaxaService, private router: Router,
               private tipsService: TipsService, private _location: Location) {
@@ -95,6 +70,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   ngOnInit(): void {
     this.tip$ = this.tipsService.randomTipForPage('METING');
+
     this.measurementsForm = this.formBuilder.group({
       items: this.formBuilder.array([this.createMeasurementFormGroup()])
     });
@@ -124,35 +100,24 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     }
   }
 
-  addNewLine() {
-    this.items().push(this.createMeasurementFormGroup(this.getPreviousSpecies(), this.getPreviousGender(), this.getPreviousAfvisbeurt(),
-      this.getPreviousComment()));
-    this.addTaxaValidationsForRowIndex(this.items().length - 1);
-    this.scrollIntoView = true;
-  }
-
   createMeasurementFormGroup(species?: any, gender?: any, afvisbeurt?: any, comment?: any): FormGroup {
     return this.formBuilder.group({
+      type: new FormControl('NORMAL'),
       species: new FormControl(species ?? '', [Validators.required]),
       amount: new FormControl(1, Validators.min(0)),
       length: new FormControl('', [Validators.min(0), lengthRequiredForIndividualMeasurement()]),
       weight: new FormControl('', [Validators.required, Validators.min(0)]),
       gender: new FormControl(gender ?? 'UNKNOWN', Validators.required),
       afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, [Validators.min(1), Validators.max(10)]),
-      comment: new FormControl(comment ?? '', Validators.max(2000))
+      comment: new FormControl(comment ?? '', Validators.max(2000)),
+      individualLengths: this.formBuilder.array([])
     });
   }
 
-  getSpecies(val: string) {
-    this.taxaService.getTaxa(val).pipe(
-      take(1),
-      map(taxa => {
-        return taxa.map(taxon => ({
-          selectValue: taxon.id.value,
-          option: taxon
-        }));
-      })
-    ).subscribe(value => this.taxons = value);
+  addNewLine() {
+    this.items().push(this.createMeasurementFormGroup(this.getPreviousSpecies(), this.getPreviousGender(), this.getPreviousAfvisbeurt(),
+      this.getPreviousComment()));
+    this.scrollIntoView = true;
   }
 
   items(): FormArray {
@@ -182,7 +147,6 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   createMeasurements() {
-    console.log(this.measurementsForm.errors);
     if (this.measurementsForm.invalid) {
       this.submitted = true;
       return;
@@ -208,73 +172,6 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       }));
   }
 
-  newLineOnEnter(event: KeyboardEvent, i: number) {
-    if (event.key === 'Enter') {
-      if (this.items() === undefined || (i + 1) === this.items().length) {
-        this.addNewLine();
-      }
-      setTimeout(() => {
-        // @ts-ignore
-        const elementId = `${(event.target as Element).id.split('-')[0]}-${i + 1}`;
-        document.getElementById(elementId).focus();
-      }, 0);
-    }
-
-  }
-
-  focusNextLineOnEnter(event: KeyboardEvent, i: number) {
-    if (event.key === 'Enter') {
-      const splittedId = (event.currentTarget as HTMLElement).id.split('-');
-      const nextElement = document.getElementById(splittedId[0] + '-' + (i + 1));
-      if (nextElement !== null) {
-        nextElement.focus();
-      }
-    }
-  }
-
-  navigateOnArrow(event: KeyboardEvent, i: number) {
-    const splittedId = (event.currentTarget as HTMLElement).id.split('-');
-
-    if (event.ctrlKey && this.isKeyArrowUp(event.key)) {
-      event.preventDefault();
-      this.focusElement(splittedId[0], i - 1);
-    } else if (event.ctrlKey && this.isKeyArrowDown(event.key)) {
-      event.preventDefault();
-      this.focusElement(splittedId[0], i + 1);
-    } else if (event.ctrlKey && this.isKeyArrowLeft(event.key)) {
-      const previousField = this.previousFieldName(splittedId[0]);
-      this.focusElement(previousField, i);
-    } else if (event.ctrlKey && this.isKeyArrowRight(event.key)) {
-      const nextField = this.nextFieldName(splittedId[0]);
-      this.focusElement(nextField, i);
-    }
-  }
-
-  private previousFieldName(currentFieldName: string) {
-    let nextId = this.fieldsOrder.indexOf(currentFieldName) - 1;
-    if (nextId < 0) {
-      nextId = 0;
-    }
-
-    return this.fieldsOrder[nextId];
-  }
-
-  private nextFieldName(currentFieldName: string) {
-    let nextId = this.fieldsOrder.indexOf(currentFieldName) + 1;
-    if (nextId > this.fieldsOrder.length - 1) {
-      nextId = this.fieldsOrder.length - 1;
-    }
-
-    return this.fieldsOrder[nextId];
-  }
-
-  private focusElement(field: string, index: number) {
-    const element = document.getElementById(field + '-' + index + (field === 'species' ? '-button' : ''));
-    if (element !== null) {
-      element.focus();
-    }
-  }
-
   remove(i: number) {
     if (this.items().length === 1) {
       this.alertService.warn('Opgelet', 'De laatste meting kan niet verwijdert worden.');
@@ -283,48 +180,8 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     this.items().removeAt(i);
   }
 
-  onSpeciesChange(index: number) {
-    this.addTaxaValidationsForRowIndex(index);
-  }
-
-  private addTaxaValidationsForRowIndex(index: number) {
-    if (this.species(index).value === '') {
-      return;
-    }
-
-    const taxaId = this.species(index).value;
-
-    this.subscription.add(
-      this.taxaService.getTaxon(taxaId)
-        .subscribe(taxon => {
-          this.weight(index).setValidators([Validators.required, Validators.min(0), valueBetweenWarning(taxon.weightMin, taxon.weightMax)]);
-          this.weight(index).updateValueAndValidity();
-
-          this.length(index).setValidators([Validators.min(0), lengthRequiredForIndividualMeasurement(),
-            valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]);
-          this.length(index).updateValueAndValidity();
-        })
-    );
-  }
-
   private isKeyTab(key: string) {
     return key === 'Tab';
-  }
-
-  private isKeyArrowUp(key: string) {
-    return key === 'ArrowUp';
-  }
-
-  private isKeyArrowDown(key: string) {
-    return key === 'ArrowDown';
-  }
-
-  private isKeyArrowLeft(key: string) {
-    return key === 'ArrowLeft';
-  }
-
-  private isKeyArrowRight(key: string) {
-    return key === 'ArrowRight';
   }
 
   private isKeyLowerM(key: string) {
@@ -363,11 +220,12 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     return this.items().at(index).get('comment');
   }
 
-  amountChanged($event: Event, i: number) {
-    const val = ($event.target as HTMLInputElement).value;
-    if (val && val !== '1') {
-      this.length(i).reset();
-    }
+  isNormalType(index: number) {
+    return this.items().at(index).get('type').value === 'NORMAL';
+  }
+
+  isGroupType(index: number) {
+    return this.items().at(index).get('type').value === 'GROUP';
   }
 
   showExistingMeasurementsClick() {

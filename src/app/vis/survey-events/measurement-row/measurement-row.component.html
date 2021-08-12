@@ -1,0 +1,114 @@
+<div [formGroup]="form" class="grid grid-flow-row grid-cols-12 gap-2 px-2 py-1.5" [class.bg-gray-100]="formGroupName % 2 === 0">
+  <div class="col-span-12 md:col-span-4 lg:col-span-3">
+    <div class="relative">
+      <app-searchable-select (ngModelChange)="onSpeciesChange()" tabIndex="-1"
+                             (keydown)="navigateOnArrow($event)" [passedId]="'species-' + formGroupName"
+                             [id]="'species-' + formGroupName"
+                             formControlName="species"
+                             (onSearch)="getSpecies($event)"
+                             [options]="taxons">
+        <ng-template let-rowDetail #selected>
+          <span *ngIf="rowDetail">{{'taxon.id.' + rowDetail.option.id.value | translate}}</span>
+        </ng-template>
+
+        <ng-template let-rowDetail #listItem>
+          <span *ngIf="rowDetail">{{'taxon.id.' + rowDetail.option.id.value | translate}}</span>
+        </ng-template>
+
+      </app-searchable-select>
+
+    </div>
+    <app-form-error-message showAfterSubmitted="true" [control]="species()" [submitted]="submitted"></app-form-error-message>
+  </div>
+  <div class="col-span-4 md:col-span-2 lg:col-span-1">
+    <input (change)="amountChanged($event)" [id]="'amount-' + formGroupName" name="amount" formControlName="amount"
+           type="number" min="0"
+           (keydown)="newLineOnEnter($event); focusNextLineOnEnter($event); navigateOnArrow($event)"/>
+    <app-form-error-message showAfterSubmitted="true" [control]="amount()"
+                            [submitted]="submitted"></app-form-error-message>
+  </div>
+  <div class="col-span-4 md:col-span-3 lg:col-span-1">
+    <div class="relative rounded-md shadow-sm">
+      <input [imask]="numberMask(3, 0, 99999.999)" [id]="'length-' + formGroupName"
+             (keydown)="newLineOnEnter($event); focusNextLineOnEnter($event); navigateOnArrow($event)"
+             name="length" type="text" formControlName="length"
+             [readOnly]="amount().value > 1"
+             [class.pr-8]="(length().dirty || length().touched) && length().warnings"
+             [class.focus:border-gray-500]="amount().value > 1"
+             [class.bg-gray-100]="amount().value > 1"
+             [class.focus:ring-gray-500]="amount().value > 1">
+      <div *ngIf="(length().dirty || length().touched) && length().warnings"
+           [title]="'Waarde moet tussen ' + length().warnings.between.min + ' en ' + length().warnings.between.max + ' liggen.'"
+           class="absolute inset-y-0 right-0 pr-3 flex items-center">
+        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
+             xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd"
+                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                clip-rule="evenodd"></path>
+        </svg>
+      </div>
+    </div>
+    <app-form-error-message showAfterSubmitted="true" [control]="length()"
+                            [submitted]="submitted"></app-form-error-message>
+  </div>
+  <div class="col-span-4 md:col-span-3 lg:col-span-1">
+    <div class="relative rounded-md shadow-sm">
+      <input [imask]="numberMask(3, 0, 99999.999)" [id]="'weight-' + formGroupName"
+             (keydown)="newLineOnEnter($event); focusNextLineOnEnter($event); navigateOnArrow($event)"
+             name="weight" type="text" formControlName="weight"
+             [class.pr-8]="(weight().dirty || weight().touched) && weight().warnings">
+      <div *ngIf="(weight().dirty || weight().touched) && weight().warnings"
+           [title]="'Waarde moet tussen ' + weight().warnings.between.min + ' en ' + weight().warnings.between.max + ' liggen.'"
+           class="absolute inset-y-0 right-0 pr-3 flex items-center">
+        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
+             xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd"
+                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                clip-rule="evenodd"></path>
+        </svg>
+      </div>
+    </div>
+    <app-form-error-message showAfterSubmitted="true" [control]="weight()"
+                            [submitted]="submitted"></app-form-error-message>
+
+  </div>
+  <div class="col-span-4 md:col-span-2 lg:col-span-1">
+    <select (keydown)="newLineOnEnter($event); focusNextLineOnEnter($event); navigateOnArrow($event)"
+            [id]="'gender-' + formGroupName" name="gender" formControlName="gender">
+      <option value="MALE">M</option>
+      <option value="FEMALE">V</option>
+      <option value="UNKNOWN">O</option>
+    </select>
+    <app-form-error-message showAfterSubmitted="true" [control]="gender()"
+                            [submitted]="submitted"></app-form-error-message>
+  </div>
+  <div class="col-span-4 md:col-span-2 lg:col-span-1">
+    <input (keydown)="newLineOnEnter($event); focusNextLineOnEnter($event); navigateOnArrow($event)"
+           [id]="'afvisBeurtNumber-' + formGroupName" name="afvisBeurtNumber" type="number"
+           formControlName="afvisBeurtNumber"/>
+    <app-form-error-message showAfterSubmitted="true" [control]="afvisBeurtNumber()"
+                            [submitted]="submitted"></app-form-error-message>
+
+  </div>
+  <div class="col-span-11 md:col-span-5 lg:col-span-3">
+    <input [id]="'comment-' + formGroupName" name="comment" type="text" formControlName="comment"
+           (keydown)="newLineOnEnter($event); focusNextLineOnEnter($event); navigateOnArrow($event); onKeyPress($event)"/>
+    <app-form-error-message showAfterSubmitted="true" [control]="comment()"
+                            [submitted]="submitted"></app-form-error-message>
+  </div>
+  <div class="col-span-1 md:col-span-3 lg:col-span-1 text-right self-center">
+    <app-dropdown-minimal>
+      <button class="w-full text-left text-gray-700 block px-4 py-2 text-sm"
+              *ngIf="items().length !== 1" tabIndex="-1" (click)="remove()" type="button">
+        Verwijder
+      </button>
+      <button
+        (click)="toGroupMeasurement()"
+        class="w-full text-left text-gray-700 block px-4 py-2 text-sm" type="button">
+        Groepsmeting
+      </button>
+    </app-dropdown-minimal>
+
+
+  </div>
+</div>

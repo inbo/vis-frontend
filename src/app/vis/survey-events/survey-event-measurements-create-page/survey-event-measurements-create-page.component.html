@@ -21,60 +21,60 @@
           <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
-              <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Soort
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Aantal
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Lengte
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Gewicht
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Geslacht
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Afvisbeurt
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Commentaar
-                </th>
-              </tr>
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Soort
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Aantal
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Lengte
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Gewicht
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Geslacht
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Afvisbeurt
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Commentaar
+                  </th>
+                </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
-              <tr>
-                <td *ngIf="loading" class="px-3 py-4" colspan="7" align="center">
-                  <app-loading-spinner></app-loading-spinner>
-                </td>
-              </tr>
+                <tr>
+                  <td *ngIf="loading" class="px-3 py-4" colspan="7" align="center">
+                    <app-loading-spinner></app-loading-spinner>
+                  </td>
+                </tr>
 
-              <tr *ngFor="let measurement of existingMeasurements">
-                <td class="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {{"taxon.id." + measurement.taxonId | translate}}
-                </td>
-                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                  {{measurement.amount}}
-                </td>
-                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                  {{measurement.length}}
-                </td>
-                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                  {{measurement.weight}}
-                </td>
-                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                  {{'gender.' + measurement.gender | translate}}
-                </td>
-                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                  {{measurement.afvisBeurtNumber}}
-                </td>
-                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                  {{measurement.comment}}
-                </td>
-              </tr>
+                <tr *ngFor="let measurement of existingMeasurements">
+                  <td class="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {{"taxon.id." + measurement.taxonId | translate}}
+                  </td>
+                  <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
+                    {{measurement.amount}}
+                  </td>
+                  <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
+                    {{measurement.length}}
+                  </td>
+                  <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
+                    {{measurement.weight}}
+                  </td>
+                  <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
+                    {{'gender.' + measurement.gender | translate}}
+                  </td>
+                  <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
+                    {{measurement.afvisBeurtNumber}}
+                  </td>
+                  <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
+                    {{measurement.comment}}
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -171,7 +171,7 @@
   </div>
 </div>
 
-<div class="bg-white shadow rounded-lg divide-y divide-gray-200">
+<div class="bg-white shadow rounded-lg divide-y divide-gray-200 mt-8">
   <div class="flex px-4 py-5 sm:px-6">
     <span class="text-lg leading-6 font-medium text-gray-900">
       Metingen
@@ -181,7 +181,7 @@
   <div class="px-4 py-5 sm:p-6">
     <form [formGroup]="measurementsForm" class="space-y-4">
       <div
-        class="grid grid-flow-row grid-cols-12 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 gap-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        class="grid grid-flow-row grid-cols-12 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 gap-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-2">
         <div class="col-span-12 md:col-span-4 lg:col-span-3">Soort</div>
         <div class="col-span-4 md:col-span-2 lg:col-span-1">Aantal</div>
         <div class="col-span-4 md:col-span-3 lg:col-span-1">Lengte</div>
@@ -192,118 +192,10 @@
         <div class="col-span-12 md:col-span-5 lg:col-span-2">Commentaar</div>
         <div></div>
       </div>
-      <div class="space-y-0.5 divide-y lg:divide-none divide-gray-300">
-        <div class="grid grid-flow-row grid-cols-12 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 gap-4 pt-4 lg:pt-0"
-             formArrayName="items" *ngFor="let item of items().controls; let i = index;" #lines>
-          <ng-container [formGroupName]="i">
-            <div class="col-span-12 md:col-span-4 lg:col-span-3">
-              <div class="relative">
-                <app-searchable-select (ngModelChange)="onSpeciesChange(i)" tabIndex="-1"
-                                       (keydown)="navigateOnArrow($event, i)" [passedId]="'species-' + i"
-                                       [id]="'species-' + i"
-                                       formControlName="species"
-                                       (onSearch)="getSpecies($event)"
-                                       [options]="taxons">
-                  <ng-template let-rowDetail #selected>
-                    <span *ngIf="rowDetail">{{'taxon.id.' + rowDetail.option.id.value | translate}}</span>
-                  </ng-template>
-
-                  <ng-template let-rowDetail #listItem>
-                    <span *ngIf="rowDetail">{{'taxon.id.' + rowDetail.option.id.value | translate}}</span>
-                  </ng-template>
-
-                </app-searchable-select>
-
-              </div>
-              <app-form-error-message showAfterSubmitted="true" [control]="species(i)"
-                                      [submitted]="submitted"></app-form-error-message>
-            </div>
-            <div class="col-span-4 md:col-span-2 lg:col-span-1">
-              <input (change)="amountChanged($event, i)" [id]="'amount-' + i" name="amount" formControlName="amount"
-                     type="number" min="0"
-                     (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i)"/>
-              <app-form-error-message showAfterSubmitted="true" [control]="amount(i)"
-                                      [submitted]="submitted"></app-form-error-message>
-            </div>
-            <div class="col-span-4 md:col-span-3 lg:col-span-1">
-              <div class="relative rounded-md shadow-sm">
-                <input [imask]="numberMask(3, 0, 99999.999)" [id]="'length-' + i"
-                       (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i)"
-                       name="length" type="text" formControlName="length"
-                       [readOnly]="amount(i).value > 1"
-                       [class.pr-8]="(length(i).dirty || length(i).touched) && length(i).warnings"
-                       [class.focus:border-gray-500]="amount(i).value > 1"
-                       [class.bg-gray-100]="amount(i).value > 1"
-                       [class.focus:ring-gray-500]="amount(i).value > 1">
-                <div *ngIf="(length(i).dirty || length(i).touched) && length(i).warnings"
-                     [title]="'Waarde moet tussen ' + length(i).warnings.between.min + ' en ' + length(i).warnings.between.max + ' liggen.'"
-                     class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                  <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
-                       xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                          d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                          clip-rule="evenodd"></path>
-                  </svg>
-                </div>
-              </div>
-              <app-form-error-message showAfterSubmitted="true" [control]="length(i)"
-                                      [submitted]="submitted"></app-form-error-message>
-            </div>
-            <div class="col-span-4 md:col-span-3 lg:col-span-1">
-              <div class="relative rounded-md shadow-sm">
-                <input [imask]="numberMask(3, 0, 99999.999)" [id]="'weight-' + i"
-                       (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i)"
-                       name="weight" type="text" formControlName="weight"
-                       [class.pr-8]="(weight(i).dirty || weight(i).touched) && weight(i).warnings">
-                <div *ngIf="(weight(i).dirty || weight(i).touched) && weight(i).warnings"
-                     [title]="'Waarde moet tussen ' + weight(i).warnings.between.min + ' en ' + weight(i).warnings.between.max + ' liggen.'"
-                     class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                  <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
-                       xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                          d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                          clip-rule="evenodd"></path>
-                  </svg>
-                </div>
-              </div>
-              <app-form-error-message showAfterSubmitted="true" [control]="weight(i)"
-                                      [submitted]="submitted"></app-form-error-message>
-
-            </div>
-            <div class="col-span-4 md:col-span-2 lg:col-span-1">
-              <select (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i)"
-                      [id]="'gender-' + i" name="gender" formControlName="gender">
-                <option value="MALE">M</option>
-                <option value="FEMALE">V</option>
-                <option value="UNKNOWN">O</option>
-              </select>
-              <app-form-error-message showAfterSubmitted="true" [control]="gender(i)"
-                                      [submitted]="submitted"></app-form-error-message>
-            </div>
-            <div class="col-span-4 md:col-span-2 lg:col-span-1">
-              <input (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i)"
-                     [id]="'afvisBeurtNumber-' + i" name="afvisBeurtNumber" type="number"
-                     formControlName="afvisBeurtNumber"/>
-              <app-form-error-message showAfterSubmitted="true" [control]="afvisBeurtNumber(i)"
-                                      [submitted]="submitted"></app-form-error-message>
-
-            </div>
-            <div class="col-span-11 md:col-span-5 lg:col-span-2">
-              <input [id]="'comment-' + i" name="comment" type="text" formControlName="comment"
-                     (keydown)="newLineOnEnter($event, i); focusNextLineOnEnter($event, i); navigateOnArrow($event, i); onKeyPress($event, i)"/>
-              <app-form-error-message showAfterSubmitted="true" [control]="comment(i)"
-                                      [submitted]="submitted"></app-form-error-message>
-            </div>
-            <div class="self-center">
-              <button *ngIf="items().length !== 1" tabIndex="-1" (click)="remove(i)" type="button">
-                <svg class="w-5 h-5 text-gray-500 hover:text-red-500 cursor-pointer" fill="none" stroke="currentColor"
-                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                </svg>
-              </button>
-            </div>
-          </ng-container>
+      <div class="space-y-0.5">
+        <div formArrayName="items" *ngFor="let item of items().controls; let i = index;" #lines>
+          <div app-measurement-row *ngIf="isNormalType(i)" [formGroupName]="i" (newline)="addNewLine()" (removeClicked)="remove($event)" [submitted]="submitted"></div>
+          <div app-measurement-group-row *ngIf="isGroupType(i)" [formGroupName]="i" (newline)="addNewLine()" (removeClicked)="remove($event)" [submitted]="submitted"></div>
         </div>
       </div>
     </form>

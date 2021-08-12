@@ -23,7 +23,6 @@ import {SurveyEventTabsComponent} from './survey-events/survey-event-tabs/survey
 import {SurveyEventParametersPageComponent} from './survey-events/survey-event-parameters-page/survey-event-parameters-page.component';
 import {SurveyEventHabitatPageComponent} from './survey-events/survey-event-habitat-page/survey-event-habitat-page.component';
 import {SurveyEventTrajectPageComponent} from './survey-events/survey-event-traject-page/survey-event-traject-page.component';
-import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
 import {SurveyEventMeasurementsCreatePageComponent} from './survey-events/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {SurveyEventHabitatEditPageComponent} from './survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component';
 import {FishSpeciesDetailPageComponent} from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
@@ -65,6 +64,9 @@ import {SurveyEventDetailEditPageComponent} from './survey-events/survey-event-d
 import { SurveyEventAddPageComponent } from './survey-events/survey-event-add-page/survey-event-add-page.component';
 import { SurveyEventCopyModalComponent } from './survey-events/survey-event-copy-modal/survey-event-copy-modal.component';
 import { LocationDetailComponent } from './location/location-detail/location-detail.component';
+import { MeasurementRowComponent } from './survey-events/measurement-row/measurement-row.component';
+import { MeasurementGroupRowComponent } from './survey-events/measurement-group-row/measurement-group-row.component';
+import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
 
 @NgModule({
   exports: [
@@ -125,7 +127,9 @@ import { LocationDetailComponent } from './location/location-detail/location-det
     SurveyEventDetailEditPageComponent,
     SurveyEventAddPageComponent,
     SurveyEventCopyModalComponent,
-    LocationDetailComponent
+    LocationDetailComponent,
+    MeasurementRowComponent,
+    MeasurementGroupRowComponent,
   ],
   imports: [
     CommonModule,
