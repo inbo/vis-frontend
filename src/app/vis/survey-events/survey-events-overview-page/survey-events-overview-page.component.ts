@@ -226,7 +226,12 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
       tags.push(getTag('surveyEvent.my', rawValue.my ? 'Ja' : 'Nee', this.removeTagCallback('my')));
     }
     if (rawValue.sort) {
-      tags.push(getTag('surveyEvent.sort', this.translateService.instant(`surveyEvent.sortOption.${rawValue.sort}`), this.removeTagCallback('sort')));
+      let sort = rawValue.sort;
+      if (rawValue.sort.includes(',')) {
+        sort = sort.split(',')[0];
+      }
+      tags.push(getTag('surveyEvent.sort', this.translateService.instant(`surveyEvent.sortOption.${sort}`),
+        this.removeTagCallback('sort')));
     }
     if (rawValue.status) {
       const readableStatuses = this.filterForm.get('status').value
