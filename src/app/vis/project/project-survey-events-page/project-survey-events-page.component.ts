@@ -139,10 +139,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
     }
 
     if (filter && filter.species) {
-      filter.taxonId = filter.species.id;
-    }
-    if (filter && filter.species) {
-      filter.species = JSON.stringify(filter.species);
+      filter.taxonId = filter.species;
     }
 
     const page = this.filterForm.get('page').value ?? 0;
@@ -177,7 +174,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
 
     const rawValue = this.filterForm.getRawValue();
     if (rawValue && rawValue.species) {
-      rawValue.taxonId = rawValue.species.id;
+      rawValue.taxonId = rawValue.species;
     }
 
     const queryParams: Params = {...rawValue};

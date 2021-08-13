@@ -75,8 +75,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
     }
 
     const formData = this.createSurveyEventForm.getRawValue();
-    formData.fishingPointId = formData.location.id;
-    formData.method = formData.method.id;
+    formData.fishingPointId = formData.location;
     delete formData.location;
 
     this.surveyEventService.createSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode, formData)
