@@ -144,7 +144,6 @@ const routes: Routes = [
     ]
   },
   {path: 'locaties', component: LocationOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'locaties/:code', component: LocationDetailComponent, canActivate: [AuthGuardWithForcedLogin]},
   {
     path: 'locaties/create',
     component: LocationCreatePageComponent,
@@ -153,6 +152,7 @@ const routes: Routes = [
       role: Role.CreateFishingPoint
     }
   },
+  {path: 'locaties/:code', component: LocationDetailComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'vissoorten', component: FishSpeciesOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'vissoorten/:taxonId', component: FishSpeciesDetailPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'methoden', component: MethodsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
