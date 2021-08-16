@@ -1,11 +1,10 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
-import {filter, map, take} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {AbstractControl, FormArray, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 import {AbstractControlWarn, lengthRequiredForIndividualMeasurement, valueBetweenWarning} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
-import {LatLng} from 'leaflet';
-import {fromEvent, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: '[app-measurement-row]',
@@ -58,6 +57,10 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     this.form = this.formArray.at(this.formGroupName) as FormGroup;
 
     this.addTaxaValidationsForRowIndex();
+
+    this.getSpecies(null, this.species().value);
+
+    this.focusElement('species', this.formGroupName);
   }
 
   ngOnDestroy() {
@@ -106,8 +109,8 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     }
   }
 
-  getSpecies(val: string) {
-    this.taxaService.getTaxa(val).pipe(
+  getSpecies(val: string, id?: number) {
+    this.taxaService.getTaxa(val, id).pipe(
       take(1),
       map(taxa => {
         return taxa.map(taxon => ({
@@ -250,6 +253,8 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
   }
 
   toGroupMeasurement() {
+    this.form.get('length').patchValue(null);
+    this.form.get('gender').patchValue(null);
     this.form.get('type').patchValue('GROUP');
   }
 }

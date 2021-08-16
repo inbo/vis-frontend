@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {fromEvent, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 import {TaxaService} from '../../../services/vis.taxa.service';
-import {filter, map, take} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 import {AbstractControlWarn, lengthRequiredForIndividualMeasurement, valueBetweenWarning} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {SearchableSelectComponent} from '../../../shared-ui/searchable-select/searchable-select.component';
@@ -36,6 +36,7 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy {
     'comment'
   ];
   open = false;
+  showItems: boolean = true;
 
   numberMask(scale: number, min: number, max: number) {
     return {
@@ -61,6 +62,9 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy {
 
     this.individualLengths().push(this.createIndividualLength());
 
+    this.getSpecies(null, this.species().value);
+
+    this.focusElement('species', this.formGroupName);
   }
 
   ngOnDestroy() {
@@ -109,8 +113,8 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy {
     }
   }
 
-  getSpecies(val: string) {
-    this.taxaService.getTaxa(val).pipe(
+  getSpecies(val: string, id?: number) {
+    this.taxaService.getTaxa(val, id).pipe(
       take(1),
       map(taxa => {
         return taxa.map(taxon => ({
@@ -142,10 +146,8 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy {
     }
   }
 
-  onKeyPressLength(event: KeyboardEvent) {
-    console.log('keypress');
-    if (this.isKeyTab(event.key)) {
-      console.log('tab');
+  onKeyPressLength(event: KeyboardEvent, i: number) {
+    if (this.isKeyTab(event.key) && this.isLastIndex(i)) {
       this.individualLengths().push(this.createIndividualLength());
     }
   }
@@ -243,7 +245,7 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy {
   }
 
   private isLastIndex(i: number) {
-    return this.items() === undefined || (i + 1) === this.items().length;
+    return this.individualLengths() === undefined || (i + 1) === this.individualLengths().length;
   }
 
   private focusElement(field: string, index: number) {
@@ -284,6 +286,7 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy {
   }
 
   toIndividualMeasurement() {
+    this.form.get('individualLengths').patchValue([]);
     this.form.get('type').patchValue('NORMAL');
   }
 }
