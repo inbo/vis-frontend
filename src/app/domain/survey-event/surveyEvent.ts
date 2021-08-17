@@ -12,6 +12,8 @@ export interface FishingPoint {
   waterCode: string;
   x: number;
   y: number;
+  lat: number;
+  lng: number;
   description: string;
   width: number;
 }

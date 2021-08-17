@@ -69,20 +69,28 @@
 
       <div class="sm:col-span-1">
         <dt class="text-sm font-medium text-gray-500">
+          Coördinaten - Lambert 72
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{surveyEvent.fishingPoint.x}}, {{surveyEvent.fishingPoint.y}}
+        </dd>
+      </div>
+
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Coördinaten - Latitude/Longitude
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{surveyEvent.fishingPoint.lat}}, {{surveyEvent.fishingPoint.lng}}
+        </dd>
+      </div>
+
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
           Stilstaand water
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
           {{surveyEvent.fishingPoint.waterCode}}
-        </dd>
-      </div>
-
-
-      <div class="sm:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
-          Coördinaten
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent.fishingPoint.x}}, {{surveyEvent.fishingPoint.y}}
         </dd>
       </div>
 

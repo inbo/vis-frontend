@@ -3,14 +3,16 @@ export interface FishingPoint {
   code: string;
   description: string;
   slope: number;
+
   x: number;
   y: number;
-
   lat: number;
   lng: number;
-
   snappedX: number;
   snappedY: number;
+  snappedLat: number;
+  snappedLng: number;
+
   vhag: number;
   vhas: number;
   name: string;
