@@ -7,7 +7,7 @@ import {AbstractControlWarn, lengthRequiredForIndividualMeasurement, valueBetwee
 import {Subscription} from 'rxjs';
 
 @Component({
-  selector: '[app-measurement-row]',
+  selector: 'app-measurement-row',
   templateUrl: './measurement-row.component.html'
 })
 export class MeasurementRowComponent implements OnInit, OnDestroy {
@@ -143,21 +143,21 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
   }
 
   newLineOnEnter(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      if (this.items() === undefined || (this.formGroupName + 1) === this.items().length) {
-        this.newline.emit(true);
-      } else {
-        setTimeout(() => {
-          // @ts-ignore
-          const elementId = `${(event.target as Element).id.split('-')[0]}-${i + 1}`;
-          document.getElementById(elementId).focus();
-        }, 0);
-      }
+    if (this.isKeyEnter(event.key) && this.isLastIndex(this.formGroupName)) {
+      this.newline.emit(true);
+      setTimeout(() => {
+        // @ts-ignore
+        const elementId = `${(event.target as Element).id.split('-')[0]}-${this.formGroupName + 1}`;
+        document.getElementById(elementId).focus();
+      }, 0);
     }
   }
 
   focusNextLineOnEnter(event: KeyboardEvent) {
     if (event.key === 'Enter') {
+      if (this.items().value.size < this.formGroupName + 1) {
+        return;
+      }
       const splittedId = (event.currentTarget as HTMLElement).id.split('-');
       const nextElement = document.getElementById(splittedId[0] + '-' + (this.formGroupName + 1));
       if (nextElement !== null) {
@@ -197,6 +197,10 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
   private isKeyTab(key: string) {
     return key === 'Tab';
+  }
+
+  private isKeyEnter(key: string) {
+    return key === 'Enter';
   }
 
   private isKeyArrowUp(key: string) {

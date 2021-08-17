@@ -8,7 +8,7 @@ import {SearchableSelectOption} from '../../../shared-ui/searchable-select/optio
 import {SearchableSelectComponent} from '../../../shared-ui/searchable-select/searchable-select.component';
 
 @Component({
-  selector: '[app-measurement-group-row]',
+  selector: 'app-measurement-group-row',
   templateUrl: './measurement-group-row.component.html'
 })
 export class MeasurementGroupRowComponent implements OnInit, OnDestroy {
