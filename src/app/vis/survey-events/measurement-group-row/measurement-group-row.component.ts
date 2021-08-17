@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 import {TaxaService} from '../../../services/vis.taxa.service';
@@ -11,7 +11,7 @@ import {SearchableSelectComponent} from '../../../shared-ui/searchable-select/se
   selector: 'app-measurement-group-row',
   templateUrl: './measurement-group-row.component.html'
 })
-export class MeasurementGroupRowComponent implements OnInit, OnDestroy {
+export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild(SearchableSelectComponent) taxaSearchComponent: SearchableSelectComponent;
   @Input() formGroupName: number;
@@ -54,17 +54,21 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy {
 
   }
 
+  ngAfterViewInit(): void {
+    this.focusElement('species', this.formGroupName);
+  }
+
   ngOnInit(): void {
     this.formArray = this.rootFormGroup.control.get('items') as FormArray;
     this.form = this.formArray.at(this.formGroupName) as FormGroup;
 
     this.addTaxaValidationsForRowIndex();
 
-    this.individualLengths().push(this.createIndividualLength());
+    for (let i = 0; i < this.amount().value; i++) {
+      this.individualLengths().push(this.createIndividualLength());
+    }
 
     this.getSpecies(null, this.species().value);
-
-    this.focusElement('species', this.formGroupName);
   }
 
   ngOnDestroy() {
@@ -136,6 +140,11 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy {
     this.removeClicked.emit(this.formGroupName);
   }
 
+  removeIndividualLength(i: number) {
+    this.individualLengths().removeAt(i);
+    this.amount().patchValue(this.individualLengths().value.length);
+  }
+
   items() {
     return this.formArray;
   }
@@ -149,6 +158,7 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy {
   onKeyPressLength(event: KeyboardEvent, i: number) {
     if (this.isKeyTab(event.key) && this.isLastIndex(i)) {
       this.individualLengths().push(this.createIndividualLength());
+      this.amount().patchValue(this.individualLengths().value.length);
     }
   }
 
