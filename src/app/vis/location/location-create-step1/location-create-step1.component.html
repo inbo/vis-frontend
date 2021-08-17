@@ -1,7 +1,8 @@
 <div>
   <div class="grid grid-cols-6 gap-x-4 text-sm">
-    <div class="col-span-6 md:col-span-4" >
-      <app-fishing-points-map [canAddPoints]="true" (pointAdded)="pointAdded($event)" (featureSelected)="featureSelected($event)"></app-fishing-points-map>
+    <div class="col-span-6 md:col-span-4">
+      <app-fishing-points-map [canAddPoints]="true" (pointAdded)="pointAdded($event)"
+                              (featureSelected)="featureSelected($event)"></app-fishing-points-map>
     </div>
 
     <div class="mt-4 md:mt-0 col-span-6 md:col-span-2">
@@ -24,7 +25,8 @@
             <div class="mt-1">
               <input formControlName="description" type="text" name="description" id="description">
             </div>
-            <app-form-error-message [fieldName]="'Omschrijving'" [control]="description" [submitted]="false"></app-form-error-message>
+            <app-form-error-message [fieldName]="'Omschrijving'" [control]="description"
+                                    [submitted]="false"></app-form-error-message>
           </div>
 
           <div>
@@ -32,9 +34,11 @@
               Helling
             </label>
             <div class="mt-1">
-              <input [imask]="numberMask(3, 0, 99999.999)" [unmask]="true" formControlName="slope" type="text" name="slope" id="slope">
+              <input [imask]="numberMask(3, 0, 99999.999)" [unmask]="true" formControlName="slope" type="text"
+                     name="slope" id="slope">
             </div>
-            <app-form-error-message [fieldName]="'Helling'" [control]="slope" [submitted]="false"></app-form-error-message>
+            <app-form-error-message [fieldName]="'Helling'" [control]="slope"
+                                    [submitted]="false"></app-form-error-message>
           </div>
 
           <div>
@@ -56,7 +60,8 @@
                   </label>
                 </div>
               </div>
-              <app-form-error-message [fieldName]="'Type'" [control]="type" [submitted]="false"></app-form-error-message>
+              <app-form-error-message [fieldName]="'Type'" [control]="type"
+                                      [submitted]="false"></app-form-error-message>
             </div>
           </div>
 
@@ -66,8 +71,14 @@
               <input formControlName="lat" type="text" name="lat" id="lat">
               <input formControlName="lng" type="text" name="lng" id="lng">
             </div>
+            <label for="lat" class="block text-sm font-medium text-gray-700">x - y (Lambert 72)</label>
+            <div class="mt-1 flex space-x-2">
+              <input formControlName="x" type="text" name="x" id="x">
+              <input formControlName="y" type="text" name="y" id="y">
+            </div>
             <p *ngIf="coordinatesAreInvalid()" class="mt-2 text-sm text-red-600">De coördinaten zijn niet geldig</p>
-            <p class="mt-2 text-sm text-gray-500" id="email-description">Dubbelklik op de kaart om een punt te selecteren of voer deze manueel in</p>
+            <p class="mt-2 text-sm text-gray-500" id="email-description">Dubbelklik op de kaart om een punt te
+              selecteren of voer deze manueel in</p>
           </div>
 
         </div>

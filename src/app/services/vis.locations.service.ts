@@ -9,6 +9,7 @@ import {VhaUrl} from '../domain/location/vha-version';
 import {ProjectFishingPoint} from '../domain/location/project-fishing-point';
 import {Watercourse} from '../domain/location/watercourse';
 import {Basin} from '../domain/location/basin';
+import {Coordinates} from '../domain/location/coordinates';
 
 
 @Injectable({
@@ -87,5 +88,13 @@ export class LocationsService extends VisService {
     }
 
     return this.http.get<Basin[]>(`${environment.apiUrl}/api/basins/search`, {params});
+  }
+
+  convertCoordinates(x: number, y: number, source: string) {
+    const params = new HttpParams()
+      .set('x', x.toString())
+      .set('y', y.toString())
+      .set('source', source);
+    return this.http.get<Coordinates>(`${environment.apiUrl}/api/coordinates/convert`, {params});
   }
 }

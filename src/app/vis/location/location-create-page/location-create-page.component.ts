@@ -39,6 +39,8 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
       {
         lat: [null, [Validators.required, Validators.pattern('^(\\-?([0-8]?[0-9](\\.\\d+)?|90(.[0]+)?))')]],
         lng: [null, [Validators.required, Validators.pattern('^(\\-?([1]?[0-7]?[0-9](\\.\\d+)?|180((.[0]+)?)))$')]],
+        x: [null, [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]],
+        y: [null, [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]],
         code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator()]],
         description: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
         slope: [null, [Validators.min(0), Validators.max(99999.999)]],
@@ -87,7 +89,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
 
   save() {
     this.subscription.add(
-      this.locationsService.create(this.formGroup.getRawValue()).subscribe(value => {
+      this.locationsService.create(this.formGroup.getRawValue()).subscribe(() => {
         this.router.navigateByUrl('/locaties');
       })
     );
