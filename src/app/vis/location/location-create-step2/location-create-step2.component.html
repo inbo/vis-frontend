@@ -1,5 +1,3 @@
 <div>
-  <app-fishing-points-map [zoomLevel]="20" (featureSelected)="featureSelected($event)" (vhaZoneSelection)="vhaZoneSelected($event)" [visibleLayers]="[0]"></app-fishing-points-map>
-
-  <app-fishing-points-map-properties [selected]="selected"></app-fishing-points-map-properties>
+  <app-fishing-points-map [zoomLevel]="20" (nearbyWatercoursesFound)="nearbyFeaturesFound($event)" (loaded)="mapLoaded()"></app-fishing-points-map>
 </div>

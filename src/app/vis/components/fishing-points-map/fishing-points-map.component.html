@@ -1,31 +1,79 @@
-
 <div class="relative">
-  <div style="height: 400px;" leaflet [leafletZoom]="this.zoomLevel" (leafletClick)="clickMap($event)" (leafletDoubleClick)="onDoubleClick($event)" [leafletCenter]="center" [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletMapReady)="mapReady($event)" [leafletMarkerCluster]="markerClusterData">
+  <div [class]="heightClass" leaflet [leafletZoom]="this.zoomLevel" (leafletClick)="clickMap($event)" (leafletDoubleClick)="onDoubleClick($event)" [leafletCenter]="center" [leafletOptions]="options" [leafletLayers]="layers" [leafletLayersControl]="layersControl" (leafletMapReady)="mapReady($event)" [leafletMarkerCluster]="markerClusterData">
   </div>
-  <div style="z-index: 1000" class="absolute bottom-2 left-2 bg-white">
-    <div class="p-2 border-2 border-gray-800 border-opacity-20">
-      <div class="flex items-start">
-        <div class="h-5 flex items-center">
-          <input id="layer0" type="checkbox" (change)="changeActiveLayer(0, $event)" [checked]="isActive(0)"/>
+
+  <div class="absolute top-16 right-0 bg-white p-2.5 mr-2.5 rounded border-lg border-2 border-black border-opacity-20 text-gray-400" style="z-index: 800">
+    <svg (click)="openInfo()" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+  </div>
+    <div
+    class="absolute top-0 right-0 bottom-0 max-w-full flex z-50" style="z-index: 1000">
+    <div
+      [ngTransition]="open"
+      ngTransitionEnter="transform transition ease-in-out duration-500 sm:duration-700"
+      ngTransitionEnterStart="translate-x-full"
+      ngTransitionEnterEnd="translate-x-0"
+      ngTransitionLeave="transform transition ease-in-out duration-500 sm:duration-700"
+      ngTransitionLeaveStart="translate-x-0"
+      ngTransitionLeaveEnd="translate-x-full"
+      class="w-screen max-w-md" [class.hidden]="!open">
+      <div class="h-full flex flex-col py-6 bg-white shadow-xl overflow-y-auto overflow-x-hidden">
+        <div class="px-4 sm:px-6">
+          <div class="flex items-start justify-between">
+            <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">
+              Selectie
+            </h2>
+            <div class="ml-3 h-7 flex items-center">
+              <button (click)="closeSelection()" type="button" class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <span class="sr-only">Close panel</span>
+                <!-- Heroicon name: outline/x -->
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="ml-3 text-sm">
-          <label class="font-medium text-gray-700" for="layer0">VHA waterlopen</label>
-        </div>
-      </div>
-      <div class="flex items-start">
-        <div class="h-5 flex items-center">
-          <input id="layer1" type="checkbox" (change)="changeActiveLayer(1, $event)" [checked]="isActive(1)"/>
-        </div>
-        <div class="ml-3 text-sm">
-          <label class="font-medium text-gray-700" for="layer1">Stilstaande wateren</label>
-        </div>
-      </div>
-      <div class="flex items-start">
-        <div class="h-5 flex items-center">
-          <input id="layer2" type="checkbox" (change)="changeActiveLayer(2, $event)" [checked]="isActive(2)"/>
-        </div>
-        <div class="ml-3 text-sm">
-          <label class="font-medium text-gray-900" for="layer2">VHA Zones</label>
+        <div class="mt-6 relative flex-1 px-4 sm:px-6">
+          <!-- Replace with your content -->
+          <div class="absolute inset-0 px-4 sm:px-6 space-y-6">
+
+            <!-- This example requires Tailwind CSS v2.0+ -->
+            <div class="flex flex-col" *ngFor="let s of selected | keyvalue">
+              <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                  <div class="overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                    <!-- This example requires Tailwind CSS v2.0+ -->
+                    <div class=" p-1">
+                      <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        {{layerName(s.key)}}
+                      </h3>
+                    </div>
+                    <div class="mt-5 border-t border-gray-200" *ngIf="selected">
+                      <dl class="divide-y divide-gray-200">
+                        <div class="py-4 sm:py-1 sm:grid sm:grid-cols-3 sm:gap-4 p-1 bg-gray-50">
+                          <dt class="text-sm text-gray-900">
+                            Kenmerk
+                          </dt>
+                          <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 p-1">
+                            <span class="flex-grow">Waarde</span>
+                          </dd>
+                        </div>
+                        <div class="py-4 sm:py-1 sm:grid sm:grid-cols-3 sm:gap-4" *ngFor="let x of s.value | keyvalue">
+                          <dt class="text-sm font-medium text-gray-500 p-1">
+                            {{x.key}}
+                          </dt>
+                          <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 p-1">
+                            <span class="flex-grow">{{x.value}}</span>
+                          </dd>
+                        </div>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /End replace -->
         </div>
       </div>
     </div>

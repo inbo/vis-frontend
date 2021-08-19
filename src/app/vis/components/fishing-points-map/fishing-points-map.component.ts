@@ -1,14 +1,13 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Subscription} from 'rxjs';
 import * as L from 'leaflet';
-import {featureGroup, icon, LatLng, latLng, Layer, layerGroup, LeafletMouseEvent, Map as LeafletMap, MapOptions, marker} from 'leaflet';
+import {circleMarker, CircleMarker, DragEndEvent, featureGroup, LatLng, latLng, Layer, layerGroup, LeafletEvent, LeafletMouseEvent, Map as LeafletMap, MapOptions, Marker, marker} from 'leaflet';
 import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
 import {basemapLayer, dynamicMapLayer, DynamicMapLayer, featureLayer} from 'esri-leaflet';
 import * as geojson from 'geojson';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {take} from 'rxjs/operators';
 import {VhaUrl} from '../../../domain/location/vha-version';
-import {FeatureSelection} from "./feature-selection";
 
 @Component({
   selector: 'app-fishing-points-map',
@@ -16,13 +15,15 @@ import {FeatureSelection} from "./feature-selection";
 })
 export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
-  @Input() projectCode;
-  @Input() zoomLevel = 8;
-  @Input() canAddPoints = false;
+  @Input() heightClass = 'h-96';
+  @Input() projectCode; // Get fishing points for a specific project, all fishing points are retrieved when null
+  @Input() zoomLevel = 8; // Default zoom level
+  @Input() canAddPoints = false; // To be able to add a single new point to the map
+
   @Output() pointAdded = new EventEmitter<LatLng>();
-  @Output() featureSelected = new EventEmitter<FeatureSelection>();
-  @Output() vhaZoneSelection = new EventEmitter<FeatureSelection>();
-  @Input() visibleLayers: number[] = [0, 1];
+  @Output() nearbyWatercoursesFound = new EventEmitter<any>();
+  @Output() loaded = new EventEmitter<any>();
+
   private subscription = new Subscription();
 
   options: MapOptions = {
@@ -32,14 +33,14 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
   layersControl: LeafletControlLayersConfig;
 
-  layers: Layer[];
-
   legend = new Map();
 
+  layers: Layer[];
+  private watercourseLayer: DynamicMapLayer;
+  private blueLayer: DynamicMapLayer;
   newLocationLayerGroup = featureGroup();
-  selectedLayer = layerGroup();
 
-  private dml: DynamicMapLayer;
+  highlightSelectionLayer = layerGroup();
 
   features: geojson.Feature[] = [];
   locationsLayer: L.MarkerClusterGroup;
@@ -52,8 +53,11 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   private visibleFields = {
     0: ['BEHEER', 'BEKNAAM', 'BEKNR', 'CATC', 'KWALDOEL', 'LBLCATC', 'LBLGEO', 'LBLKWAL', 'LENGTE', 'NAAM', 'OIDN', 'REGCODE', 'REGCODE1', 'STRMGEB', 'VHAG', 'VHAS', 'VHAZONENUR', 'WTRLICHC'],
     1: ['OMTWVL', 'OPPWVL', 'WTRLICHC', 'WVLC', 'Versie'],
-    2: ['NAAMVHAZON', 'VHAZONENR'],
   };
+  selected = new Map();
+
+  private layerMetadata = new Map();
+  open = false;
 
   constructor(private locationsService: LocationsService) {
   }
@@ -73,24 +77,29 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     this.locationsService.latestVhaVersion().pipe(take(1)).subscribe(version => {
       this.initLegend(version);
 
-      this.dml = dynamicMapLayer(
+      this.watercourseLayer = dynamicMapLayer(
         {
           url: version.value,
-          layers: this.visibleLayers
+          layers: [0]
         }
       );
 
-      this.dml.bindPopup((error, featureCollection) => {
-        return featureCollection.features[0].properties.Naam;
-      });
+      this.blueLayer = dynamicMapLayer(
+        {
+          url: version.value,
+          layers: [1]
+        }
+      );
 
       const basemapLayer1 = basemapLayer('Topographic');
+
       this.layers = [
         basemapLayer1,
-        this.dml,
         this.locationsLayer,
+        this.watercourseLayer,
+        this.blueLayer,
         this.newLocationLayerGroup,
-        this.selectedLayer
+        this.highlightSelectionLayer
       ];
 
       this.layersControl = {
@@ -98,7 +107,9 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
           Ortho: basemapLayer1,
         },
         overlays: {
-          Vispunten: this.locationsLayer
+          Vispunten: this.locationsLayer,
+          Waterlopen: this.watercourseLayer,
+          'Stilstaande wateren': this.blueLayer,
         }
       };
 
@@ -106,29 +117,47 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         this.locationsService.getFishingPointsFeatures(this.projectCode).subscribe(fishingPointFeatures => {
           fishingPointFeatures.forEach(fpf => {
             const latlng = latLng(fpf.x, fpf.y);
-            const m = marker(latlng, {
-              icon: icon({
-                iconUrl: 'assets/images/marker.png'
-              })
+            const m = circleMarker(latlng, {
+              fill: true,
+              fillColor: '#DC2626',
+              fillOpacity: 100,
+              radius: 7,
+              stroke: false
             });
-            m.on('click', () => {
+            m.on('click', (event: LeafletEvent) => {
+              const layer = event.target;
+              this.clearLocationsSelectedStyle();
+              layer.setStyle({
+                stroke: true,
+              });
+
               const filteredProperties = {
-                layer: 3,
-                properties: {
-                  CODE: fpf.code,
-                  DESCRIPTION: fpf.description,
-                  X: fpf.x,
-                  Y: fpf.y
-                }
+                CODE: fpf.code,
+                DESCRIPTION: fpf.description,
+                X: fpf.x,
+                Y: fpf.y
               };
-              this.featureSelected.emit(filteredProperties);
+              this.selected.set(3, filteredProperties);
             });
             this.locationsLayer.addLayer(m);
+
           });
+          this.layerMetadata.set(3, {name: 'Vispunten'});
         })
       );
+
+      this.loaded.emit();
     });
 
+
+  }
+
+  private clearLocationsSelectedStyle() {
+    this.locationsLayer.eachLayer((layer1: CircleMarker) => {
+      layer1.setStyle({
+        stroke: false,
+      });
+    });
   }
 
   mapReady(map: LeafletMap) {
@@ -137,20 +166,27 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
   zoomTo(latlng: LatLng) {
     this.map.setView(latlng, 15);
+    console.log(latlng);
+    this.locationsLayer.getLayers().forEach((value: CircleMarker) => {
+      if (value.getLatLng().equals(latlng)) {
+        this.clearLocationsSelectedStyle();
+        value.setStyle({stroke: true});
+      }
+    });
   }
 
   private initLegend(version: VhaUrl) {
     const fl0 = featureLayer({url: `${version.value}/0`});
     const fl1 = featureLayer({url: `${version.value}/1`});
-    const fl2 = featureLayer({url: `${version.value}/2`});
 
     fl0.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
     fl1.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
-    fl2.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
 
   }
 
   private convertMetadataToLegend(metadata) {
+    this.layerMetadata.set(metadata.id, metadata);
+
     const uniqueValueInfos = metadata.drawingInfo.renderer.uniqueValueInfos as [any];
     if (uniqueValueInfos === undefined) {
       return;
@@ -166,7 +202,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   }
 
   replaceNewLocationMarker(latlng: LatLng) {
-    const m = marker(latlng);
+    const m = marker(latlng, {draggable: true});
 
     this.newLocationLayerGroup.clearLayers();
     this.newLocationLayerGroup.addLayer(m);
@@ -180,7 +216,13 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     e.originalEvent.stopPropagation();
-    const m = marker(e.latlng);
+    const m = marker(e.latlng, {draggable: true});
+
+    const that = this;
+
+    m.on('dragend', (event: DragEndEvent) => {
+      that.pointAdded.emit(m.getLatLng());
+    });
     this.newLocationLayerGroup.clearLayers();
     this.newLocationLayerGroup.addLayer(m);
 
@@ -188,71 +230,60 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
   }
 
+  public queryNearbyWatercourses() {
+    const coordinate = (this.newLocationLayerGroup.getLayers()[0] as Marker).getLatLng();
+    this.watercourseLayer.query().layer(0).nearby(coordinate, 5).run((error, featureCollection, response) => {
+      this.nearbyWatercoursesFound.emit(featureCollection);
+    });
+  }
+
   clickMap(e: LeafletMouseEvent) {
-    this.dml.identify().on(this.map).layers('all:' + this.visibleLayers.join(',')).at(e.latlng).run((error, featureCollection) => {
-      if (error) {
+    this.highlightSelectionLayer.clearLayers();
+
+    if (this.map.hasLayer(this.watercourseLayer)) {
+      this.watercourseLayer.identify().on(this.map).layers('visible:0').at(e.latlng).run((error, featureCollection) => {
+        if (error) {
+          return;
+        }
+
+        this.selected.delete(0);
+        this.selectFeature(featureCollection, 0);
+      });
+    }
+
+
+    if (this.map.hasLayer(this.blueLayer)) {
+      this.blueLayer.identify().on(this.map).layers('visible:1').at(e.latlng).run((error, featureCollection) => {
+        if (error) {
+          return;
+        }
+
+        this.selected.delete(1);
+        this.selectFeature(featureCollection, 1);
+      });
+    }
+  }
+
+  private selectFeature(featureCollection, layerId: number) {
+    featureCollection.features.forEach(feature => {
+      if (this.selected.has(layerId)) {
         return;
       }
 
-      this.selectedLayer.clearLayers();
+      this.highlightSelectionLayer.addLayer(L.geoJSON(feature, {style: {weight: 6}}));
 
-      if (featureCollection.features.length > 0) {
-        const feature = featureCollection.features[0] as geojson.Feature;
-        this.selectedLayer.addLayer(L.geoJSON(feature));
+      const filteredProperties = {};
 
-        // @ts-ignore
-        const {layerId} = feature;
-
-        const filteredProperties = {
-          layer: layerId,
-          properties: {}
-        };
-
-        // tslint:disable-next-line:forin
-        for (const propertiesKey in feature.properties) {
-          // @ts-ignore
+      for (const propertiesKey in feature.properties) {
+        if (feature.properties.hasOwnProperty(propertiesKey)) {
           const fields = this.visibleFields[layerId] as string[];
 
           if (fields.indexOf(propertiesKey) > -1) {
-            filteredProperties.properties[propertiesKey] = feature.properties[propertiesKey];
-          } else {
-            console.log(layerId, propertiesKey, feature.properties[propertiesKey]);
+            filteredProperties[propertiesKey] = feature.properties[propertiesKey];
           }
         }
-        this.featureSelected.emit(filteredProperties);
-
-      } else {
-        this.featureSelected.emit({layer: -1, properties: {}});
       }
-    });
-
-    this.dml.identify().on(this.map).layers('all:2').at(e.latlng).run((error, featureCollection) => {
-      if (error) {
-        return;
-      }
-
-      if (featureCollection.features.length > 0) {
-        const feature = featureCollection.features[0] as geojson.Feature;
-
-        const filteredProperties = {
-          layer: 2,
-          properties: {}
-        };
-
-        // tslint:disable-next-line:forin
-        for (const propertiesKey in feature.properties) {
-          // @ts-ignore
-          const fields = this.visibleFields[2] as string[];
-
-          if (fields.indexOf(propertiesKey) > -1) {
-            filteredProperties.properties[propertiesKey] = feature.properties[propertiesKey];
-          }
-        }
-        this.vhaZoneSelection.emit(filteredProperties);
-
-      } else {
-        this.vhaZoneSelection.emit({layer: 2, properties: {}});
-      }
+      this.selected.set(layerId, filteredProperties);
     });
   }
 
@@ -261,20 +292,15 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     this.center = latlng;
   }
 
-  changeActiveLayer(layer: number, $event: Event) {
-    const isChecked = ($event.target as HTMLInputElement).checked;
-
-    if (isChecked) {
-      this.visibleLayers.push(layer);
-    } else {
-      this.visibleLayers = this.visibleLayers.filter(value => value !== layer);
-    }
-
-    this.dml.setLayers(this.visibleLayers);
+  layerName(layer: number) {
+    return this.layerMetadata.get(layer)?.name;
   }
 
-  isActive(value: number): boolean {
-    return this.visibleLayers
-      .indexOf(value) >= 0;
+  closeSelection() {
+    this.open = false;
+  }
+
+  openInfo() {
+    this.open = true;
   }
 }

@@ -17,8 +17,6 @@ export class LocationCreateStep1Component implements OnInit {
 
   convertingCoordinates = false;
 
-  selected = {layer: null, properties: {}};
-
   constructor(private titleService: Title, private locationsService: LocationsService) {
     this.titleService.setTitle('Locatie toevoegen');
   }
@@ -99,10 +97,6 @@ export class LocationCreateStep1Component implements OnInit {
   coordinatesAreInvalid() {
     return (this.formGroup.get('lat').touched && this.formGroup.get('lat').invalid)
       || (this.formGroup.get('lng').touched && this.formGroup.get('lng').invalid);
-  }
-
-  featureSelected($event: any) {
-    this.selected = $event;
   }
 
   numberMask(scale: number, min: number, max: number) {

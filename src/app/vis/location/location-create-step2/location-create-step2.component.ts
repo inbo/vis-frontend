@@ -37,4 +37,12 @@ export class LocationCreateStep2Component implements OnInit {
   vhaZoneSelected(selection: FeatureSelection) {
     this.formGroup.get('vhaZone').patchValue(selection.properties);
   }
+
+  nearbyFeaturesFound($event: any) {
+    console.log($event);
+  }
+
+  mapLoaded() {
+    this.map.queryNearbyWatercourses();
+  }
 }

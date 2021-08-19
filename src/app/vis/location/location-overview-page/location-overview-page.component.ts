@@ -29,7 +29,6 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   loading = false;
   pager: AsyncPage<FishingPoint>;
   fishingPoints: Observable<FishingPoint[]>;
-  selected: any;
   role = Role;
 
 
@@ -64,10 +63,6 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
         this.loading = false;
       })
     );
-  }
-
-  featureSelected($event: any) {
-    this.selected = $event;
   }
 
 }
