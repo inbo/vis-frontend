@@ -4,6 +4,7 @@ export interface MeasurementId {
 
 export interface Measurement {
   measurementId: MeasurementId;
+  type: string;
   taxonId: number;
   amount: number;
   length: number;

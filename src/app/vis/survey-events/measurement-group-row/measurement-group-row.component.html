@@ -2,27 +2,34 @@
 
   <div class="col-span-12 md:col-span-4 lg:col-span-3">
     <div class="relative">
-      <app-searchable-select (ngModelChange)="onSpeciesChange()" tabIndex="-1"
-                             (keydown)="navigateOnArrow($event)" [passedId]="'species-' + formGroupName"
-                             [id]="'species-' + formGroupName"
-                             formControlName="species"
-                             (onSearch)="getSpecies($event)"
-                             [options]="taxons">
-        <ng-template let-rowDetail #selected>
-          <div *ngIf="rowDetail" class="flex justify-between content-center">
-            <span>{{'taxon.id.' + rowDetail.option.id.value | translate}}</span>
-            <a target="_blank" class="text-gray-400 self-center" [routerLink]="['/vissoorten', rowDetail.option.id.value]">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path></svg>
-            </a>
-          </div>
-        </ng-template>
+      <div class="relative flex">
+        <fa-icon title="Groepsmeting met lengtemetingen" class="self-center text-gray-500 pr-2" [icon]="faRulerHorizontal"></fa-icon>
 
-        <ng-template let-rowDetail #listItem>
-          <span *ngIf="rowDetail">{{'taxon.id.' + rowDetail.option.id.value | translate}}</span>
-        </ng-template>
+        <app-searchable-select (ngModelChange)="onSpeciesChange()" tabIndex="-1"
+                               (keydown)="navigateOnArrow($event)" [passedId]="'species-' + formGroupName"
+                               [id]="'species-' + formGroupName"
+                               formControlName="species"
+                               class="flex-grow"
+                               (onSearch)="getSpecies($event)"
+                               [options]="taxons">
+          <ng-template let-rowDetail #selected>
+            <div *ngIf="rowDetail" class="flex justify-between content-center">
+              <span>{{'taxon.id.' + rowDetail.option.id.value | translate}}</span>
+              <a target="_blank" class="text-gray-400 self-center" [routerLink]="['/vissoorten', rowDetail.option.id.value]">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
+                  <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
+                </svg>
+              </a>
+            </div>
+          </ng-template>
 
-      </app-searchable-select>
+          <ng-template let-rowDetail #listItem>
+            <span *ngIf="rowDetail">{{'taxon.id.' + rowDetail.option.id.value | translate}}</span>
+          </ng-template>
 
+        </app-searchable-select>
+      </div>
     </div>
     <app-form-error-message showAfterSubmitted="true" [control]="species()" [submitted]="submitted"></app-form-error-message>
   </div>

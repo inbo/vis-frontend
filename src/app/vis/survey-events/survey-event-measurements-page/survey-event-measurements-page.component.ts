@@ -9,12 +9,16 @@ import {take} from 'rxjs/operators';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
+import {faRulerHorizontal, faFish, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-survey-event-measurements-page',
   templateUrl: './survey-event-measurements-page.component.html'
 })
 export class SurveyEventMeasurementsPageComponent implements OnInit {
+  faRulerHorizontal = faRulerHorizontal;
+  faFish = faFish;
+  faWeightHanging = faWeightHanging;
 
   public role = Role;
 

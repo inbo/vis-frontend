@@ -66,7 +66,8 @@ import { SurveyEventCopyModalComponent } from './survey-events/survey-event-copy
 import { LocationDetailComponent } from './location/location-detail/location-detail.component';
 import { MeasurementRowComponent } from './survey-events/measurement-row/measurement-row.component';
 import { MeasurementGroupRowComponent } from './survey-events/measurement-group-row/measurement-group-row.component';
-import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
+import { SurveyEventMeasurementsPageComponent } from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   exports: [
@@ -142,7 +143,8 @@ import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event
     LeafletModule,
     LeafletMarkerClusterModule,
     NgTransitionModule,
-    ClipboardModule
+    ClipboardModule,
+    FontAwesomeModule
   ],
   providers: [DatePipe]
 })

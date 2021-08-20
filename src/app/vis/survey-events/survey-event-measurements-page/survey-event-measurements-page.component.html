@@ -35,7 +35,9 @@
             <tbody class="bg-white divide-y divide-gray-200">
             <tr *ngFor="let measurement of measurements | async">
               <td class="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
-                {{"taxon.id." + measurement.taxonId | translate}}
+                <fa-icon title="Individuele meting" class="self-center text-gray-500 pr-2" *ngIf="measurement.type === 'NORMAL'" [icon]="faFish"></fa-icon>
+                <fa-icon title="Groepsmeting" class="self-center text-gray-500 pr-2" *ngIf="measurement.type === 'GROUP'" [icon]="faWeightHanging"></fa-icon>
+                <fa-icon title="Groepsmeting met lengtemetingen" class="self-center text-gray-500 pr-2" *ngIf="measurement.type === 'GROUP_LENGTHS'" [icon]="faRulerHorizontal"></fa-icon> {{"taxon.id." + measurement.taxonId | translate}}
               </td>
               <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
                 {{measurement.amount}}

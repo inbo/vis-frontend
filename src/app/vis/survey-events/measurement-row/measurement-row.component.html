@@ -1,11 +1,15 @@
 <div [formGroup]="form" class="grid grid-flow-row grid-cols-12 gap-2 px-2 py-1.5" [class.bg-gray-100]="formGroupName % 2 === 0">
   <div class="col-span-12 md:col-span-4 lg:col-span-3">
-    <div class="relative">
+    <div class="relative flex">
+      <fa-icon title="Groepsmeting" *ngIf="amount().value > 1" class="self-center text-gray-500 pr-2" [icon]="faWeightHanging"></fa-icon>
+      <fa-icon title="Individuele meting" *ngIf="amount().value <= 1" class="self-center text-gray-500 pr-2" [icon]="faFish"></fa-icon>
+
       <app-searchable-select (ngModelChange)="onSpeciesChange()" tabIndex="-1"
                              (keydown)="navigateOnArrow($event)" [passedId]="'species-' + formGroupName"
                              [id]="'species-' + formGroupName"
                              formControlName="species"
                              (onSearch)="getSpecies($event)"
+                             class="flex-grow"
                              [options]="taxons">
         <ng-template let-rowDetail #selected>
           <div *ngIf="rowDetail" class="flex justify-between content-center">
@@ -85,7 +89,6 @@
             [class.focus:border-gray-500]="amount().value > 1"
             [class.bg-gray-100]="amount().value > 1"
             [class.focus:ring-gray-500]="amount().value > 1">
-      <option [value]="null"></option>
       <option value="MALE">M</option>
       <option value="FEMALE">V</option>
       <option value="UNKNOWN">O</option>

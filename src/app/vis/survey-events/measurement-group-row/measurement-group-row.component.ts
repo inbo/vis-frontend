@@ -6,12 +6,14 @@ import {map, take} from 'rxjs/operators';
 import {AbstractControlWarn, valueBetweenWarning} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {SearchableSelectComponent} from '../../../shared-ui/searchable-select/searchable-select.component';
+import {faRulerHorizontal} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-measurement-group-row',
   templateUrl: './measurement-group-row.component.html'
 })
 export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterViewInit {
+  faRulerHorizontal = faRulerHorizontal;
 
   @ViewChild(SearchableSelectComponent) taxaSearchComponent: SearchableSelectComponent;
   @Input() formGroupName: number;

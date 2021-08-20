@@ -5,12 +5,16 @@ import {TaxaService} from '../../../services/vis.taxa.service';
 import {AbstractControl, FormArray, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 import {AbstractControlWarn, lengthRequiredForIndividualMeasurement, valueBetweenWarning} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {Subscription} from 'rxjs';
+import {faWeightHanging} from '@fortawesome/free-solid-svg-icons';
+import {faFish} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-measurement-row',
   templateUrl: './measurement-row.component.html'
 })
 export class MeasurementRowComponent implements OnInit, OnDestroy {
+  faWeightHanging = faWeightHanging;
+  faFish = faFish;
 
   @Input() formGroupName: number;
   @Input() submitted = false;
@@ -19,8 +23,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
   @Output() removeClicked = new EventEmitter<number>();
 
   form: FormGroup;
-
-
   taxons: SearchableSelectOption[] = [];
 
   private formArray: FormArray;
@@ -125,7 +127,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     const val = ($event.target as HTMLInputElement).value;
     if (val && val !== '1') {
       this.length().reset();
-      this.gender().patchValue(null);
     }
   }
 

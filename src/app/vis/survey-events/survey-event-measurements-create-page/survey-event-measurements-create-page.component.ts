@@ -107,7 +107,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       amount: new FormControl(1, Validators.min(0)),
       length: new FormControl('', [Validators.min(0), lengthRequiredForIndividualMeasurement()]),
       weight: new FormControl('', [Validators.required, Validators.min(0)]),
-      gender: new FormControl(gender ?? 'UNKNOWN', Validators.required),
+      gender: new FormControl(gender ?? 'UNKNOWN'),
       afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, [Validators.min(1), Validators.max(10)]),
       comment: new FormControl(comment ?? '', Validators.max(2000)),
       individualLengths: this.formBuilder.array([])
@@ -154,18 +154,13 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
     const measurements = this.measurementsForm.getRawValue();
 
-    measurements.items.map(val => {
-      val.taxonId = val.species.id;
-      delete val.species;
-      return val;
-    });
-
     this.subscription.add(this.surveyEventsService.createMeasurements(measurements, this.activatedRoute.parent.snapshot.params.projectCode,
       this.activatedRoute.parent.snapshot.params.surveyEventId)
       .subscribe(value => {
         if (value?.code === 400) {
           this.alertService.error('Validatie fouten', 'Het bewaren is niet gelukt, controleer alle gegevens of contacteer een verantwoordelijke.');
         } else {
+          this.submitted = true;
           this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
             this.activatedRoute.parent.snapshot.params.surveyEventId, 'metingen']).then();
         }
