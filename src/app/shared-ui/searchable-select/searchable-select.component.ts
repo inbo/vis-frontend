@@ -3,7 +3,6 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {fromEvent, Subscription} from 'rxjs';
 import {debounceTime, filter, map} from 'rxjs/operators';
 import {SearchableSelectOption} from './option';
-import flatpickr from 'flatpickr';
 
 
 @Component({
@@ -61,32 +60,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   ngAfterViewInit() {
-    this.subscription.add(fromEvent(this.searchBox.nativeElement, 'keyup')
-      .pipe(
-        debounceTime(300),
-        filter((event: KeyboardEvent) => event.key !== 'Tab' && event.key !== 'Enter'),
-        map((event: KeyboardEvent) => (event.target as HTMLInputElement).value),
-        filter(value => value.length >= 3)
-      )
-      .subscribe(value => {
-        this.markAsTouched();
-        this.isOpen = true;
 
-        this.onSearch.emit(value);
-      }));
-
-    this.subscription.add(fromEvent(this.searchBox.nativeElement, 'keydown')
-      .pipe(
-        filter((event: KeyboardEvent) => event.key === 'Enter')
-      ).subscribe(() => {
-        const option = document.getElementById(`option-0-${this.passedId}`);
-        const option1 = document.getElementById(`option-1-${this.passedId}`);
-
-        if (option && !option1) {
-          option.click();
-        }
-      })
-    );
   }
 
   writeValue(obj: any): void {
@@ -128,10 +102,39 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   toggle() {
     this.isOpen = !this.isOpen;
     if (this.isOpen) {
+      this.subscription.add(fromEvent(this.searchBox.nativeElement, 'keyup')
+        .pipe(
+          debounceTime(300),
+          filter((event: KeyboardEvent) => event.key !== 'Tab' && event.key !== 'Enter'),
+          map((event: KeyboardEvent) => (event.target as HTMLInputElement).value),
+          filter(value => value.length >= 3)
+        )
+        .subscribe(value => {
+          this.markAsTouched();
+          this.isOpen = true;
+
+          this.onSearch.emit(value);
+        }));
+
+      this.subscription.add(fromEvent(this.searchBox.nativeElement, 'keydown')
+        .pipe(
+          filter((event: KeyboardEvent) => event.key === 'Enter')
+        ).subscribe(() => {
+          const option = document.getElementById(`option-0-${this.passedId}`);
+          const option1 = document.getElementById(`option-1-${this.passedId}`);
+
+          if (option && !option1) {
+            option.click();
+          }
+        })
+      );
+
       setTimeout(() => {
         this.searchBox.nativeElement.focus();
       }, 0);
 
+    } else {
+      this.subscription.unsubscribe();
     }
   }
 

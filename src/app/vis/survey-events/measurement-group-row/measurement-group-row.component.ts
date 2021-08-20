@@ -1,4 +1,4 @@
-import {AfterViewChecked, AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 import {TaxaService} from '../../../services/vis.taxa.service';
@@ -35,6 +35,12 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterVie
     'afvisBeurtNumber',
     'comment'
   ];
+
+  private individualFieldsOrder = [
+    'individuallength',
+    'individualcomment'
+  ];
+
   open = false;
   showItems: boolean = true;
 
@@ -62,13 +68,12 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterVie
     this.formArray = this.rootFormGroup.control.get('items') as FormArray;
     this.form = this.formArray.at(this.formGroupName) as FormGroup;
 
-    this.addTaxaValidationsForRowIndex();
-
     for (let i = 0; i < this.amount().value; i++) {
       this.individualLengths().push(this.createIndividualLength());
     }
-
     this.getSpecies(null, this.species().value);
+
+    this.addTaxaValidationsForRowIndex();
   }
 
   ngOnDestroy() {
@@ -89,12 +94,13 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterVie
     this.subscription.add(
       this.taxaService.getTaxon(taxaId)
         .subscribe(taxon => {
-          this.weight().setValidators([Validators.required, Validators.min(0), valueBetweenWarning(taxon.weightMin, taxon.weightMax)]);
-          this.weight().updateValueAndValidity();
-
-          this.length().setValidators([Validators.min(0), lengthRequiredForIndividualMeasurement(),
-            valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]);
-          this.length().updateValueAndValidity();
+          this.individualLengths().controls.forEach(value => {
+            value.get('length').setValidators(
+              [Validators.min(0), Validators.required,
+                valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]
+            );
+            value.get('length').updateValueAndValidity();
+          });
         })
     );
   }
@@ -109,11 +115,29 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterVie
       event.preventDefault();
       this.focusElement(splittedId[0], this.formGroupName + 1);
     } else if (event.ctrlKey && this.isKeyArrowLeft(event.key)) {
-      const previousField = this.previousFieldName(splittedId[0]);
+      const previousField = this.previousFieldName(splittedId[0], this.fieldsOrder);
       this.focusElement(previousField, this.formGroupName);
     } else if (event.ctrlKey && this.isKeyArrowRight(event.key)) {
-      const nextField = this.nextFieldName(splittedId[0]);
+      const nextField = this.nextFieldName(splittedId[0], this.fieldsOrder);
       this.focusElement(nextField, this.formGroupName);
+    }
+  }
+
+  navigateIndividualOnArrow(event: KeyboardEvent, i: number) {
+    const splittedId = (event.currentTarget as HTMLElement).id.split('-');
+
+    if (event.ctrlKey && this.isKeyArrowUp(event.key)) {
+      event.preventDefault();
+      this.focusElement(splittedId[0], i - 1);
+    } else if (event.ctrlKey && this.isKeyArrowDown(event.key)) {
+      event.preventDefault();
+      this.focusElement(splittedId[0], i + 1);
+    } else if (event.ctrlKey && this.isKeyArrowLeft(event.key)) {
+      const previousField = this.previousFieldName(splittedId[0], this.individualFieldsOrder);
+      this.focusElement(previousField, i);
+    } else if (event.ctrlKey && this.isKeyArrowRight(event.key)) {
+      const nextField = this.nextFieldName(splittedId[0], this.individualFieldsOrder);
+      this.focusElement(nextField, i);
     }
   }
 
@@ -155,7 +179,7 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterVie
     }
   }
 
-  onKeyPressLength(event: KeyboardEvent, i: number) {
+  newLengthOnTab(event: KeyboardEvent, i: number) {
     if (this.isKeyTab(event.key) && this.isLastIndex(i)) {
       this.individualLengths().push(this.createIndividualLength());
       this.amount().patchValue(this.individualLengths().value.length);
@@ -166,10 +190,8 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterVie
     if (event.key === 'Enter') {
       if (this.items() === undefined || (this.formGroupName + 1) === this.items().length) {
         this.newline.emit(true);
-      } else {
         setTimeout(() => {
-          // @ts-ignore
-          const elementId = `${(event.target as Element).id.split('-')[0]}-${i + 1}`;
+          const elementId = `${(event.target as Element).id.split('-')[0]}-${this.formGroupName + 1}`;
           document.getElementById(elementId).focus();
         }, 0);
       }
@@ -226,6 +248,14 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterVie
     return this.form.get('individualLengths') as FormArray;
   }
 
+  individualLength(i: number): AbstractControlWarn {
+    return this.individualLengths().at(i).get('length') as AbstractControlWarn;
+  }
+
+  individualComment(i: number): AbstractControl {
+    return this.individualLengths().at(i).get('comment');
+  }
+
   private isKeyTab(key: string) {
     return key === 'Tab';
   }
@@ -265,22 +295,22 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterVie
     }
   }
 
-  private previousFieldName(currentFieldName: string) {
-    let nextId = this.fieldsOrder.indexOf(currentFieldName) - 1;
+  private previousFieldName(currentFieldName: string, fieldNames: string[]) {
+    let nextId = fieldNames.indexOf(currentFieldName) - 1;
     if (nextId < 0) {
       nextId = 0;
     }
 
-    return this.fieldsOrder[nextId];
+    return fieldNames[nextId];
   }
 
-  private nextFieldName(currentFieldName: string) {
-    let nextId = this.fieldsOrder.indexOf(currentFieldName) + 1;
-    if (nextId > this.fieldsOrder.length - 1) {
-      nextId = this.fieldsOrder.length - 1;
+  private nextFieldName(currentFieldName: string, fieldNames: string[]) {
+    let nextId = fieldNames.indexOf(currentFieldName) + 1;
+    if (nextId > fieldNames.length - 1) {
+      nextId = fieldNames.length - 1;
     }
 
-    return this.fieldsOrder[nextId];
+    return fieldNames[nextId];
   }
 
   message() {
