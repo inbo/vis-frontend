@@ -74,7 +74,13 @@
   </div>
   <div class="col-span-4 md:col-span-2 lg:col-span-1">
     <select (keydown)="newLineOnEnter($event); focusNextLineOnEnter($event); navigateOnArrow($event)"
-            [id]="'gender-' + formGroupName" name="gender" formControlName="gender">
+            [id]="'gender-' + formGroupName" name="gender" formControlName="gender"
+            [disabled]="amount().value > 1"
+            [class.pr-8]="(length().dirty || length().touched) && length().warnings"
+            [class.focus:border-gray-500]="amount().value > 1"
+            [class.bg-gray-100]="amount().value > 1"
+            [class.focus:ring-gray-500]="amount().value > 1">
+      <option [value]="null"></option>
       <option value="MALE">M</option>
       <option value="FEMALE">V</option>
       <option value="UNKNOWN">O</option>

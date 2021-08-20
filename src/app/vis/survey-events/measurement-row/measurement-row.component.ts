@@ -125,6 +125,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     const val = ($event.target as HTMLInputElement).value;
     if (val && val !== '1') {
       this.length().reset();
+      this.gender().patchValue(null);
     }
   }
 
