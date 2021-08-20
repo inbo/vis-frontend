@@ -3,7 +3,7 @@ import {Subscription} from 'rxjs';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {map, take} from 'rxjs/operators';
-import {AbstractControlWarn, lengthRequiredForIndividualMeasurement, valueBetweenWarning} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
+import {AbstractControlWarn, valueBetweenWarning} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {SearchableSelectComponent} from '../../../shared-ui/searchable-select/searchable-select.component';
 
@@ -21,12 +21,11 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterVie
   @Output() removeClicked = new EventEmitter<number>();
 
   form: FormGroup;
-
-
   taxons: SearchableSelectOption[] = [];
+  showIndividualLengthItems = true;
 
-  private formArray: FormArray;
   private subscription = new Subscription();
+  private itemsFormArray: FormArray;
 
   private fieldsOrder = [
     'species',
@@ -41,8 +40,6 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterVie
     'individualcomment'
   ];
 
-  open = false;
-  showItems: boolean = true;
 
   numberMask(scale: number, min: number, max: number) {
     return {
@@ -65,8 +62,8 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterVie
   }
 
   ngOnInit(): void {
-    this.formArray = this.rootFormGroup.control.get('items') as FormArray;
-    this.form = this.formArray.at(this.formGroupName) as FormGroup;
+    this.itemsFormArray = this.rootFormGroup.control.get('items') as FormArray;
+    this.form = this.itemsFormArray.at(this.formGroupName) as FormGroup;
 
     for (let i = 0; i < this.amount().value; i++) {
       this.individualLengths().push(this.createIndividualLength());
@@ -106,24 +103,14 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterVie
   }
 
   navigateOnArrow(event: KeyboardEvent) {
-    const splittedId = (event.currentTarget as HTMLElement).id.split('-');
-
-    if (event.ctrlKey && this.isKeyArrowUp(event.key)) {
-      event.preventDefault();
-      this.focusElement(splittedId[0], this.formGroupName - 1);
-    } else if (event.ctrlKey && this.isKeyArrowDown(event.key)) {
-      event.preventDefault();
-      this.focusElement(splittedId[0], this.formGroupName + 1);
-    } else if (event.ctrlKey && this.isKeyArrowLeft(event.key)) {
-      const previousField = this.previousFieldName(splittedId[0], this.fieldsOrder);
-      this.focusElement(previousField, this.formGroupName);
-    } else if (event.ctrlKey && this.isKeyArrowRight(event.key)) {
-      const nextField = this.nextFieldName(splittedId[0], this.fieldsOrder);
-      this.focusElement(nextField, this.formGroupName);
-    }
+    this.navigate(event, this.formGroupName, this.fieldsOrder);
   }
 
   navigateIndividualOnArrow(event: KeyboardEvent, i: number) {
+    this.navigate(event, i, this.individualFieldsOrder);
+  }
+
+  private navigate(event: KeyboardEvent, i: number, fieldNames: string[]) {
     const splittedId = (event.currentTarget as HTMLElement).id.split('-');
 
     if (event.ctrlKey && this.isKeyArrowUp(event.key)) {
@@ -133,10 +120,10 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterVie
       event.preventDefault();
       this.focusElement(splittedId[0], i + 1);
     } else if (event.ctrlKey && this.isKeyArrowLeft(event.key)) {
-      const previousField = this.previousFieldName(splittedId[0], this.individualFieldsOrder);
+      const previousField = this.previousFieldName(splittedId[0], fieldNames);
       this.focusElement(previousField, i);
     } else if (event.ctrlKey && this.isKeyArrowRight(event.key)) {
-      const nextField = this.nextFieldName(splittedId[0], this.individualFieldsOrder);
+      const nextField = this.nextFieldName(splittedId[0], fieldNames);
       this.focusElement(nextField, i);
     }
   }
@@ -170,7 +157,7 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterVie
   }
 
   items() {
-    return this.formArray;
+    return this.itemsFormArray;
   }
 
   onKeyPress(event: KeyboardEvent) {
@@ -274,14 +261,6 @@ export class MeasurementGroupRowComponent implements OnInit, OnDestroy, AfterVie
 
   private isKeyArrowRight(key: string) {
     return key === 'ArrowRight';
-  }
-
-  private isKeyLowerM(key: string) {
-    return key === 'm';
-  }
-
-  private isKeyI(key: string) {
-    return key === 'i' || key === 'I';
   }
 
   private isLastIndex(i: number) {
