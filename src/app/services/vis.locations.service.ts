@@ -21,8 +21,8 @@ export class LocationsService extends VisService {
     super();
   }
 
-  getFishingPoints(page: number, size: number) {
-    const params = this.getPageParams(page, size, {});
+  getFishingPoints(page: number, size: number, filter: any) {
+    const params = this.getPageParams(page, size, filter);
 
     return this.http.get<AsyncPage<FishingPoint>>(`${environment.apiUrl}/api/fishingpoints`, {params});
   }

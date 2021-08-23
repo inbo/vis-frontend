@@ -210,7 +210,7 @@
       "long": "{{fieldName}} moet groter of gelijk zijn aan {{min}}"
     },
     "max": {
-      "short":  "<= {{max}}",
+      "short": "<= {{max}}",
       "long": "{{fieldName}} moet kleiner of gelijk zijn aan {{max}"
     },
     "lengthRequiredForIndividualMeasurement": {
@@ -219,5 +219,9 @@
     }
   },
   "COMMON": "Algemeen",
-  "METING": "Metingen"
+  "METING": "Metingen",
+  "location": {
+    "fishingPointCode": "Meetplaatscode",
+    "description": "Beschrijving"
+  }
 }

@@ -6,11 +6,13 @@ import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Observable, of, Subscription} from 'rxjs';
 import {FishingPoint} from '../../../domain/location/fishing-point';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {LatLng} from 'leaflet';
 import {Role} from '../../../core/_models/role';
+import {getTag, Tag} from '../../../shared-ui/slide-over-filter/tag';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-location-overview-page',
@@ -29,20 +31,38 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
 
   loading = false;
   pager: AsyncPage<FishingPoint>;
-  fishingPoints: Observable<FishingPoint[]>;
+  fishingPoints$: Observable<FishingPoint[]>;
   role = Role;
 
+  tags: Tag[] = [];
+  filterForm: FormGroup;
 
-  constructor(private titleService: Title, private locationsService: LocationsService, private activatedRoute: ActivatedRoute) {
+  constructor(private titleService: Title, private locationsService: LocationsService, private activatedRoute: ActivatedRoute,
+              private router: Router, private formBuilder: FormBuilder) {
     this.titleService.setTitle('Locaties');
   }
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.activatedRoute.queryParams.subscribe((params) => {
-        this.getFishingPoints(params.page ? params.page : 1, params.size ? params.size : 20);
-      })
+    const queryParams = this.activatedRoute.snapshot.queryParams;
+    this.filterForm = this.formBuilder.group(
+      {
+        fishingPointCode: [queryParams.fishingPointCode ?? null],
+        description: [queryParams.description ?? null],
+        page: [queryParams.page ?? null],
+        size: [queryParams.size ?? null]
+      },
     );
+
+    this.subscription.add(this.activatedRoute.queryParams.subscribe((params) => {
+      this.filterForm.get('fishingPointCode').patchValue(params.fishingPointCode ? params.fishingPointCode : null);
+      this.filterForm.get('description').patchValue(params.description ? params.description : null);
+      this.filterForm.get('page').patchValue(params.page ? params.page : null);
+      this.filterForm.get('size').patchValue(params.size ? params.size : null);
+
+      this.getFishingPoints();
+    }));
+
+    this.getFishingPoints();
   }
 
   ngOnDestroy(): void {
@@ -55,15 +75,63 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     this.mapElement.nativeElement.scrollIntoView();
   }
 
-  getFishingPoints(page: number, size: number) {
+  getFishingPoints() {
+    this.setTags();
+
     this.loading = true;
-    this.fishingPoints = of([]);
+    this.fishingPoints$ = of([]);
+
+    const filter = this.filterForm?.getRawValue();
+    const page = this.filterForm.get('page').value ?? 0;
+    const size = this.filterForm.get('size').value ?? 20;
+
     this.subscription.add(
-      this.locationsService.getFishingPoints(page, size).subscribe((value) => {
+      this.locationsService.getFishingPoints(page, size, filter).subscribe((value) => {
         this.pager = value;
-        this.fishingPoints = of(value.content);
+        this.fishingPoints$ = of(value.content);
         this.loading = false;
       })
     );
+  }
+
+  filter() {
+    const rawValue = this.filterForm.getRawValue();
+
+    const queryParams: Params = {...rawValue};
+    queryParams.page = 1;
+
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.activatedRoute,
+        queryParams
+      }).then();
+
+    this.getFishingPoints();
+  }
+
+  reset() {
+    this.filter();
+  }
+
+  private setTags() {
+    const rawValue = this.filterForm.getRawValue();
+    const tags: Tag[] = [];
+
+    if (rawValue.fishingPointCode) {
+      tags.push(getTag('location.fishingPointCode', rawValue.fishingPointCode, this.removeTagCallback('fishingPointCode')));
+    }
+    if (rawValue.description) {
+      tags.push(getTag('location.description', rawValue.description, this.removeTagCallback('description')));
+    }
+
+    this.tags = tags;
+  }
+
+  removeTagCallback(formField: string) {
+    return () => {
+      this.filterForm.get(formField).reset();
+      this.filter();
+    };
   }
 }

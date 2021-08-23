@@ -25,6 +25,32 @@
           <app-fishing-points-map class="h-96"></app-fishing-points-map>
         </div>
 
+        <app-slide-over-filter [tags]="tags" (searchClicked)="filter()" [formGroup]="filterForm"
+                               (resetClicked)="reset()">
+          <ng-container slot="content">
+            <div class="space-y-4">
+              <div>
+                <label for="fishingPointCode" class="block text-sm font-medium text-gray-700">
+                  Meetplaatscode
+                </label>
+                <div class="mt-1">
+                  <input type="text" id="fishingPointCode" formControlName="fishingPointCode"
+                         placeholder="Meetplaatscode ..."/>
+                </div>
+              </div>
+
+              <div>
+                <label for="description" class="block text-sm font-medium text-gray-700">
+                  Beschrijving
+                </label>
+                <div class="mt-1">
+                  <input type="text" id="description" formControlName="description" placeholder="Beschrijving ..."/>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </app-slide-over-filter>
+
         <div class="px-4 py-8 sm:px-0">
           <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -54,7 +80,7 @@
                       </td>
                     </tr>
 
-                    <tr *ngFor="let fishingPoint of fishingPoints | async; let index = index"
+                    <tr *ngFor="let fishingPoint of fishingPoints$ | async; let index = index"
                         [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">
                       <td class="px-6 py-4 text-sm text-gray-500 flex">
                         <a [routerLink]="['/locaties', fishingPoint.code]"
