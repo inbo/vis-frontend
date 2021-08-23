@@ -58,6 +58,8 @@
                   </td>
                   <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
                     {{measurement.amount}}
+                    <fa-icon title="Groepsmeting" class="self-center text-gray-500 pl-2" *ngIf="measurement.type === 'GROUP'" [icon]="faWeightHanging"></fa-icon>
+                    <fa-icon title="Groepsmeting met lengtemetingen" class="self-center text-gray-500 pl-2" *ngIf="measurement.type === 'GROUP_LENGTHS'" [icon]="faRulerHorizontal"></fa-icon>
                   </td>
                   <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
                     {{measurement.length}}

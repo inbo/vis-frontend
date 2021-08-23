@@ -6,7 +6,6 @@ import {AbstractControl, FormArray, FormGroup, FormGroupDirective, Validators} f
 import {AbstractControlWarn, lengthRequiredForIndividualMeasurement, valueBetweenWarning} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {Subscription} from 'rxjs';
 import {faWeightHanging} from '@fortawesome/free-solid-svg-icons';
-import {faFish} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-measurement-row',
@@ -14,7 +13,6 @@ import {faFish} from '@fortawesome/free-solid-svg-icons';
 })
 export class MeasurementRowComponent implements OnInit, OnDestroy {
   faWeightHanging = faWeightHanging;
-  faFish = faFish;
 
   @Input() formGroupName: number;
   @Input() submitted = false;

@@ -11,6 +11,7 @@ import {Tip} from '../../../domain/tip/tip';
 import {Measurement} from '../../../domain/survey-event/measurement';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Location} from '@angular/common';
+import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 
 export interface AbstractControlWarn extends AbstractControl {
   warnings: any;
@@ -51,7 +52,9 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
 
-  tmp = false;
+  faRulerHorizontal = faRulerHorizontal;
+  faWeightHanging = faWeightHanging;
+
   tip$: Observable<Tip>;
 
   existingMeasurements: Measurement[];

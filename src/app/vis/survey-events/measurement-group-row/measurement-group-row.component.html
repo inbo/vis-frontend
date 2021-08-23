@@ -3,7 +3,6 @@
   <div class="col-span-12 md:col-span-4 lg:col-span-3">
     <div class="relative">
       <div class="relative flex">
-        <fa-icon title="Groepsmeting met lengtemetingen" class="self-center text-gray-500 pr-2" [icon]="faRulerHorizontal"></fa-icon>
 
         <app-searchable-select (ngModelChange)="onSpeciesChange()" tabIndex="-1"
                                (keydown)="navigateOnArrow($event)" [passedId]="'species-' + formGroupName"
@@ -29,6 +28,8 @@
           </ng-template>
 
         </app-searchable-select>
+
+        <fa-icon title="Groepsmeting met lengtemetingen" class="self-center text-gray-500 pl-2" [icon]="faRulerHorizontal"></fa-icon>
       </div>
     </div>
     <app-form-error-message showAfterSubmitted="true" [control]="species()" [submitted]="submitted"></app-form-error-message>
