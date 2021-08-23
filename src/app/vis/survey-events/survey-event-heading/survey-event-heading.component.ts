@@ -1,9 +1,8 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Project} from '../../../domain/project/project';
-import {Observable, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
-import {map, switchMap} from 'rxjs/operators';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ProjectService} from '../../../services/vis.project.service';
 import {FishingPoint} from '../../../domain/location/fishing-point';
@@ -25,11 +24,9 @@ export class SurveyEventHeadingComponent implements OnInit, OnDestroy {
   projectCode: string;
   surveyEventId: number;
 
-  surveyEvent$: Observable<SurveyEvent>;
-  surveyEventMethodCode$: Observable<string>;
-  surveyEventOccurrence$: Observable<Date>;
+  surveyEvent: SurveyEvent;
+  fishingPoint: FishingPoint;
 
-  fishingPoint$: Observable<FishingPoint>;
   private subscription = new Subscription();
 
   constructor(private projectService: ProjectService, private surveyEventsService: SurveyEventsService,
@@ -42,12 +39,13 @@ export class SurveyEventHeadingComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.surveyEvent$ = this.surveyEventsService.getSurveyEvent(this.activatedRoute.snapshot.params.projectCode,
-      this.activatedRoute.snapshot.params.surveyEventId);
-    this.surveyEventMethodCode$ = this.surveyEvent$.pipe(map(surveyEvent => surveyEvent.method), map(code => 'method.' + code));
-    this.surveyEventOccurrence$ = this.surveyEvent$.pipe(map(surveyEvent => surveyEvent.occurrence));
-    this.fishingPoint$ = this.surveyEvent$.pipe(switchMap((surveyEvent) =>
-      this.locationsService.findById(surveyEvent.fishingPoint?.id)));
+    this.surveyEventsService.getSurveyEvent(this.activatedRoute.snapshot.params.projectCode,
+      this.activatedRoute.snapshot.params.surveyEventId).subscribe(value => {
+      this.surveyEvent = value;
+      this.locationsService.findById(this.surveyEvent.fishingPoint?.id).subscribe(value1 => {
+        this.fishingPoint = value1;
+      });
+    });
   }
 
   ngOnInit(): void {

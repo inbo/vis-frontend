@@ -1,5 +1,7 @@
 <div class="lg:flex lg:items-center lg:justify-between px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
   <div class="flex-1 min-w-0">
+    <app-survey-event-copy-modal [projectCode]="projectCode"
+                                 [surveyEventId]="surveyEventId"></app-survey-event-copy-modal>
     <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
       Waarneming
     </h2>
@@ -24,7 +26,7 @@
                   d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
                   clip-rule="evenodd"></path>
           </svg>
-          {{surveyEventOccurrence$  | async | date:'dd/MM/yyyy'}}
+          {{surveyEvent.occurrence | date:'dd/MM/yyyy'}}
         </div>
         <div class="mt-2 flex items-center text-sm text-gray-500">
           <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
@@ -32,7 +34,7 @@
             <path
               d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>
           </svg>
-          {{surveyEventMethodCode$ | async | translate}}
+          {{'method.' + surveyEvent.method | translate}}
         </div>
         <div class="mt-2 flex items-center text-sm text-gray-500">
           <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
@@ -43,7 +45,7 @@
           </svg>
           Locatie TODO
         </div>
-        <div *ngIf="fishingPoint$ | async as fishingPoint" class="mt-2 flex items-center text-sm text-gray-500">
+        <div class="mt-2 flex items-center text-sm text-gray-500">
           <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
                xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd"
@@ -62,8 +64,7 @@
       </div>
 
       <div class="flex flex-col lg:flex-row lg:mt-0 lg:space-x-6 flex-shrink-0 content-start">
-        <div *ngIf="showCreateMeasurementsButton() && surveyEvent$ | async as surveyEvent"
-             class="text-sm text-gray-500">
+        <div class="text-sm text-gray-500">
           <app-button [style]="'primary'"
                       [disabled]="surveyEvent.status === 'DELETED'"
                       (click)="copySurveyEvent()"
@@ -80,9 +81,5 @@
         </div>
       </div>
     </div>
-
-
-    <app-survey-event-copy-modal [projectCode]="projectCode"
-                                 [surveyEventId]="surveyEventId"></app-survey-event-copy-modal>
   </div>
 </div>
