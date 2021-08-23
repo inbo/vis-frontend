@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {Title} from '@angular/platform-browser';
@@ -23,6 +23,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   ];
 
   @ViewChild(FishingPointsMapComponent) map: FishingPointsMapComponent;
+  @ViewChild(FishingPointsMapComponent, {read: ElementRef}) mapElement: ElementRef;
 
   private subscription = new Subscription();
 
@@ -51,6 +52,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   zoomToLocation(fishingPoint: FishingPoint) {
     const latlng = new LatLng(fishingPoint.lat, fishingPoint.lng);
     this.map.zoomTo(latlng);
+    this.mapElement.nativeElement.scrollIntoView();
   }
 
   getFishingPoints(page: number, size: number) {
@@ -64,5 +66,4 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
       })
     );
   }
-
 }

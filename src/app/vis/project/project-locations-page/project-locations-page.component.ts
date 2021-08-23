@@ -1,9 +1,8 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {Observable, of, Subscription} from 'rxjs';
 import {LocationsService} from '../../../services/vis.locations.service';
-import {FishingPoint} from '../../../domain/location/fishing-point';
 import {ProjectFishingPoint} from '../../../domain/location/project-fishing-point';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {LatLng} from 'leaflet';
@@ -15,6 +14,7 @@ import {FishingPointsMapComponent} from '../../components/fishing-points-map/fis
 })
 export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
   @ViewChild(FishingPointsMapComponent) map: FishingPointsMapComponent;
+  @ViewChild(FishingPointsMapComponent, {read: ElementRef}) mapElement: ElementRef;
 
   loading = false;
   pager: AsyncPage<ProjectFishingPoint>;
@@ -55,6 +55,6 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
   zoomToLocation(fishingPoint: ProjectFishingPoint) {
     const latlng = new LatLng(fishingPoint.lat, fishingPoint.lng);
     this.map.zoomTo(latlng);
+    this.mapElement.nativeElement.scrollIntoView();
   }
-
 }
