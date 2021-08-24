@@ -66,8 +66,8 @@ export class LocationsService extends VisService {
     return this.http.get<FishingPoint>(`${environment.apiUrl}/api/fishingpoints/code/${code}`, {});
   }
 
-  findByProjectCode(code: string, page: number, size: number): Observable<AsyncPage<ProjectFishingPoint>> {
-    const params = this.getPageParams(page, size, {});
+  findByProjectCode(code: string, page: number, size: number, filter: any): Observable<AsyncPage<ProjectFishingPoint>> {
+    const params = this.getPageParams(page, size, filter);
 
     return this.http.get<AsyncPage<ProjectFishingPoint>>(`${environment.apiUrl}/api/fishingpoints/projectcode/${code}`, {params});
   }
