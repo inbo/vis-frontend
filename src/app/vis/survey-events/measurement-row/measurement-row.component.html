@@ -1,120 +1,56 @@
-<div [formGroup]="form" class="grid grid-flow-row grid-cols-12 gap-2 px-2 py-1.5" [class.bg-gray-100]="formGroupName % 2 === 0">
+<div [class.bg-gray-100]="formGroupName % 2 === 0" [formGroup]="form" class="grid grid-flow-row grid-cols-12 gap-x-2 px-2 py-1.5">
   <div class="col-span-12 md:col-span-4 lg:col-span-3">
     <div class="relative flex">
-
-      <app-searchable-select (ngModelChange)="onSpeciesChange()" tabIndex="-1"
-                             (keydown)="navigateOnArrow($event)" [passedId]="'species-' + formGroupName"
-                             [id]="'species-' + formGroupName"
-                             formControlName="species"
-                             (onSearch)="getSpecies($event)"
-                             class="flex-grow"
-                             [options]="taxons">
-        <ng-template let-rowDetail #selected>
-          <div *ngIf="rowDetail" class="flex justify-between content-center">
-            <span>{{'taxon.id.' + rowDetail.option.id.value | translate}}</span>
-            <a target="_blank" class="text-gray-400 self-center" [routerLink]="['/vissoorten', rowDetail.option.id.value]">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path></svg>
-            </a>
-          </div>
-        </ng-template>
-
-        <ng-template let-rowDetail #listItem>
-          <span *ngIf="rowDetail">{{'taxon.id.' + rowDetail.option.id.value | translate}}</span>
-        </ng-template>
-
-      </app-searchable-select>
-      <fa-icon title="Groepsmeting" *ngIf="amount().value > 1" class="self-center text-gray-500 pl-2" [icon]="faWeightHanging"></fa-icon>
-
+      <app-species-search (arrowPressed)="navigateOnArrow($event)" (changed)="onSpeciesChange()" (onSearch)="getSpecies($event)" [index]="formGroupName" [taxons]="taxons" class="flex-grow"></app-species-search>
+      <fa-icon *ngIf="type().value === 'GROUP'" [icon]="faWeightHanging" class="self-center text-gray-500 pl-2" title="Groepsmeting"></fa-icon>
+      <fa-icon *ngIf="type().value === 'GROUP_LENGTHS'" [icon]="faRulerHorizontal" class="self-center text-gray-500 pl-2" title="Groepsmeting met lengtemetingen"></fa-icon>
     </div>
-    <app-form-error-message showAfterSubmitted="true" [control]="species()" [submitted]="submitted"></app-form-error-message>
+    <app-form-error-message [control]="species()" [submitted]="submitted" showAfterSubmitted="true"></app-form-error-message>
   </div>
   <div class="col-span-4 md:col-span-2 lg:col-span-1">
-    <input (change)="amountChanged($event)" [id]="'amount-' + formGroupName" name="amount" formControlName="amount"
-           type="number" min="0"
-           (keydown)="newLineOnEnter($event); focusNextLineOnEnter($event); navigateOnArrow($event)"/>
-    <app-form-error-message showAfterSubmitted="true" [control]="amount()"
-                            [submitted]="submitted"></app-form-error-message>
+    <app-measurement-amount (arrowPressed)="navigateOnArrow($event)" (enterPressed)="enterPressed($event)" [index]="formGroupName"></app-measurement-amount>
+    <app-form-error-message [control]="amount()" [submitted]="submitted" showAfterSubmitted="true"></app-form-error-message>
   </div>
   <div class="col-span-4 md:col-span-3 lg:col-span-1">
-    <div class="relative rounded-md shadow-sm">
-      <input [imask]="numberMask(3, 0, 99999.999)" [id]="'length-' + formGroupName"
-             (keydown)="newLineOnEnter($event); focusNextLineOnEnter($event); navigateOnArrow($event)"
-             name="length" type="text" formControlName="length"
-             [readOnly]="amount().value > 1"
-             [class.pr-8]="(length().dirty || length().touched) && length().warnings"
-             [class.focus:border-gray-500]="amount().value > 1"
-             [class.bg-gray-100]="amount().value > 1"
-             [class.focus:ring-gray-500]="amount().value > 1">
-      <div *ngIf="(length().dirty || length().touched) && length().warnings"
-           [title]="'Waarde moet tussen ' + length().warnings.between.min + ' en ' + length().warnings.between.max + ' liggen.'"
-           class="absolute inset-y-0 right-0 pr-3 flex items-center">
-        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
-             xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd"
-                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                clip-rule="evenodd"></path>
-        </svg>
-      </div>
-    </div>
-    <app-form-error-message showAfterSubmitted="true" [control]="length()"
-                            [submitted]="submitted"></app-form-error-message>
+    <app-measurement-length (arrowPressed)="navigateOnArrow($event)" (enterPressed)="enterPressed($event)" [index]="formGroupName"></app-measurement-length>
+    <app-form-error-message [control]="length()" [submitted]="submitted" showAfterSubmitted="true"></app-form-error-message>
   </div>
   <div class="col-span-4 md:col-span-3 lg:col-span-1">
-    <div class="relative rounded-md shadow-sm">
-      <input [imask]="numberMask(3, 0, 99999.999)" [id]="'weight-' + formGroupName"
-             (keydown)="newLineOnEnter($event); focusNextLineOnEnter($event); navigateOnArrow($event)"
-             name="weight" type="text" formControlName="weight"
-             [class.pr-8]="(weight().dirty || weight().touched) && weight().warnings">
-      <div *ngIf="(weight().dirty || weight().touched) && weight().warnings"
-           [title]="'Waarde moet tussen ' + weight().warnings.between.min + ' en ' + weight().warnings.between.max + ' liggen.'"
-           class="absolute inset-y-0 right-0 pr-3 flex items-center">
-        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
-             xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd"
-                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                clip-rule="evenodd"></path>
-        </svg>
-      </div>
-    </div>
-    <app-form-error-message showAfterSubmitted="true" [control]="weight()"
-                            [submitted]="submitted"></app-form-error-message>
+    <app-measurement-weight (arrowPressed)="navigateOnArrow($event)" (enterPressed)="enterPressed($event)" [index]="formGroupName"></app-measurement-weight>
+    <app-form-error-message [control]="weight()" [submitted]="submitted" showAfterSubmitted="true"></app-form-error-message>
 
   </div>
   <div class="col-span-4 md:col-span-2 lg:col-span-1">
-    <select (keydown)="navigateOnArrow($event)"
-            [id]="'gender-' + formGroupName" name="gender" formControlName="gender"
-            [disabled]="amount().value > 1"
-            [class.pr-8]="(length().dirty || length().touched) && length().warnings"
-            [class.focus:border-gray-500]="amount().value > 1"
-            [class.bg-gray-100]="amount().value > 1"
-            [class.focus:ring-gray-500]="amount().value > 1">
-      <option value="MALE">M</option>
-      <option value="FEMALE">V</option>
-      <option value="UNKNOWN">O</option>
-    </select>
-    <app-form-error-message showAfterSubmitted="true" [control]="gender()"
-                            [submitted]="submitted"></app-form-error-message>
+    <app-measurement-gender (arrowPressed)="navigateOnArrow($event)" (enterPressed)="enterPressed($event)" [index]="formGroupName"></app-measurement-gender>
+    <app-form-error-message [control]="gender()" [submitted]="submitted" showAfterSubmitted="true"></app-form-error-message>
   </div>
   <div class="col-span-4 md:col-span-2 lg:col-span-1">
-    <input (keydown)="newLineOnEnter($event); focusNextLineOnEnter($event); navigateOnArrow($event)"
-           [id]="'afvisBeurtNumber-' + formGroupName" name="afvisBeurtNumber" type="number"
-           formControlName="afvisBeurtNumber"/>
-    <app-form-error-message showAfterSubmitted="true" [control]="afvisBeurtNumber()"
-                            [submitted]="submitted"></app-form-error-message>
-
+    <app-measurement-fishing-trip-number (arrowPressed)="navigateOnArrow($event)" (enterPressed)="enterPressed($event)" [index]="formGroupName"></app-measurement-fishing-trip-number>
+    <app-form-error-message [control]="afvisBeurtNumber()" [submitted]="submitted" showAfterSubmitted="true"></app-form-error-message>
   </div>
   <div class="col-span-11 md:col-span-5 lg:col-span-3">
-    <input [id]="'comment-' + formGroupName" name="comment" type="text" formControlName="comment"
-           (keydown)="newLineOnEnter($event); focusNextLineOnEnter($event); navigateOnArrow($event); onKeyPress($event)"/>
-    <app-form-error-message showAfterSubmitted="true" [control]="comment()"
-                            [submitted]="submitted"></app-form-error-message>
+    <app-measurement-comment (arrowPressed)="navigateOnArrow($event)" (enterPressed)="enterPressed($event)" [index]="formGroupName"></app-measurement-comment>
+    <app-form-error-message [control]="comment()" [submitted]="submitted" showAfterSubmitted="true"></app-form-error-message>
   </div>
   <div class="col-span-1 md:col-span-3 lg:col-span-1 text-right self-center text-gray-500 space-x-2">
-    <span class="inline-block" *ngIf="amount().value > 1" (click)="toGroupMeasurement()" title="Omvormen naar een groepsmeting met individuele lengtemetingen">
+     <span (click)="showIndividualLengthItems = !showIndividualLengthItems" *ngIf="type().value === 'GROUP_LENGTHS'" [title]="showIndividualLengthItems ? 'Verbergen' : 'Openklappen'" class="inline-block">
+      <svg [class.rotate-180]="showIndividualLengthItems" class="w-6 h-6 transform" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" fill-rule="evenodd"></path></svg>
+    </span>
+
+    <span (click)="toGroupMeasurement()" *ngIf="type().value === 'GROUP'" class="inline-block" title="Omvormen naar een groepsmeting met individuele lengtemetingen">
       <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"></path></svg>
     </span>
-    <span class="inline-block" *ngIf="items().length !== 1" (click)="remove()" title="Verwijder lijn">
-      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+
+    <span (click)="toIndividualMeasurement()" *ngIf="type().value === 'GROUP_LENGTHS'" class="inline-block" title="Omvormen naar een individuele meting">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"></path></svg>
     </span>
+
+    <span (click)="remove()" *ngIf="items().length !== 1" class="inline-block" title="Verwijder lijn">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" fill-rule="evenodd"></path></svg>
+    </span>
+  </div>
+
+  <div [class.hidden]="!showIndividualLengthItems" class="col-span-12">
+    <app-measurement-length-measurements></app-measurement-length-measurements>
   </div>
 </div>

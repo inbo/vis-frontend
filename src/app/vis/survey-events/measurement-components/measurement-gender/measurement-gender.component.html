@@ -1,0 +1,13 @@
+<ng-container [formGroup]="form">
+  <select (keydown)="keydown($event)"
+          [class.bg-gray-100]="amount().value > 1" [class.focus:border-gray-500]="amount().value > 1" [class.focus:ring-gray-500]="amount().value > 1"
+          [class.pr-8]="(length().dirty || length().touched) && length().warnings"
+          [attr.disabled]="amount().value > 1"
+          [id]="'gender-' + index"
+          formControlName="gender"
+          name="gender">
+    <option value="MALE">M</option>
+    <option value="FEMALE">V</option>
+    <option value="UNKNOWN">O</option>
+  </select>
+</ng-container>

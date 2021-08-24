@@ -65,9 +65,16 @@ import { SurveyEventAddPageComponent } from './survey-events/survey-event-add-pa
 import { SurveyEventCopyModalComponent } from './survey-events/survey-event-copy-modal/survey-event-copy-modal.component';
 import { LocationDetailComponent } from './location/location-detail/location-detail.component';
 import { MeasurementRowComponent } from './survey-events/measurement-row/measurement-row.component';
-import { MeasurementGroupRowComponent } from './survey-events/measurement-group-row/measurement-group-row.component';
 import { SurveyEventMeasurementsPageComponent } from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SpeciesSearchComponent } from './survey-events/measurement-components/species-search/species-search.component';
+import { MeasurementLengthComponent } from './survey-events/measurement-components/measurement-length/measurement-length.component';
+import { MeasurementWeightComponent } from './survey-events/measurement-components/measurement-weight/measurement-weight.component';
+import { MeasurementGenderComponent } from './survey-events/measurement-components/measurement-gender/measurement-gender.component';
+import { MeasurementAmountComponent } from './survey-events/measurement-components/measurement-amount/measurement-amount.component';
+import { MeasurementFishingTripNumberComponent } from './survey-events/measurement-components/measurement-fishing-trip-number/measurement-fishing-trip-number.component';
+import { MeasurementCommentComponent } from './survey-events/measurement-components/measurement-comment/measurement-comment.component';
+import { MeasurementLengthMeasurementsComponent } from './survey-events/measurement-components/measurement-length-measurements/measurement-length-measurements.component';
 
 @NgModule({
   exports: [
@@ -130,7 +137,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SurveyEventCopyModalComponent,
     LocationDetailComponent,
     MeasurementRowComponent,
-    MeasurementGroupRowComponent,
+    SpeciesSearchComponent,
+    MeasurementLengthComponent,
+    MeasurementWeightComponent,
+    MeasurementGenderComponent,
+    MeasurementAmountComponent,
+    MeasurementFishingTripNumberComponent,
+    MeasurementCommentComponent,
+    MeasurementLengthMeasurementsComponent,
   ],
   imports: [
     CommonModule,

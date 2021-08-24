@@ -196,8 +196,7 @@
       </div>
       <div class="space-y-0.5">
         <div formArrayName="items" *ngFor="let item of items().controls; let i = index;" #lines>
-          <app-measurement-row *ngIf="isNormalType(i)" [formGroupName]="i" (newline)="addNewLine()" (removeClicked)="remove($event)" [submitted]="submitted"></app-measurement-row>
-          <app-measurement-group-row *ngIf="isGroupType(i)" [formGroupName]="i" (newline)="addNewLine()" (removeClicked)="remove($event)" [submitted]="submitted"></app-measurement-group-row>
+          <app-measurement-row [formGroupName]="i" (newline)="addNewLine()" (removeClicked)="remove($event)" [submitted]="submitted"></app-measurement-row>
         </div>
       </div>
     </form>

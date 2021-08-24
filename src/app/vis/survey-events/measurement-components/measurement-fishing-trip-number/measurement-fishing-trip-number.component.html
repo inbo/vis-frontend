@@ -1,0 +1,5 @@
+<ng-container [formGroup]="form">
+  <input (keydown)="keydown($event)"
+         [id]="'afvisBeurtNumber-' + index" formControlName="afvisBeurtNumber" name="afvisBeurtNumber"
+         type="number"/>
+</ng-container>

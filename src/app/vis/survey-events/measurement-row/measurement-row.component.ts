@@ -2,10 +2,10 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {map, take} from 'rxjs/operators';
 import {TaxaService} from '../../../services/vis.taxa.service';
-import {AbstractControl, FormArray, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 import {AbstractControlWarn, lengthRequiredForIndividualMeasurement, valueBetweenWarning} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {Subscription} from 'rxjs';
-import {faWeightHanging} from '@fortawesome/free-solid-svg-icons';
+import {faWeightHanging, faRulerHorizontal} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-measurement-row',
@@ -13,6 +13,7 @@ import {faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 })
 export class MeasurementRowComponent implements OnInit, OnDestroy {
   faWeightHanging = faWeightHanging;
+  faRulerHorizontal = faRulerHorizontal;
 
   @Input() formGroupName: number;
   @Input() submitted = false;
@@ -35,6 +36,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     'afvisBeurtNumber',
     'comment'
   ];
+  showIndividualLengthItems: boolean = true;
 
   numberMask(scale: number, min: number, max: number) {
     return {
@@ -48,7 +50,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     };
   }
 
-  constructor(private taxaService: TaxaService, private rootFormGroup: FormGroupDirective) {
+  constructor(private taxaService: TaxaService, private rootFormGroup: FormGroupDirective, private formBuilder: FormBuilder) {
 
   }
 
@@ -91,19 +93,17 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     );
   }
 
-  navigateOnArrow(event: KeyboardEvent) {
+  navigateOnArrow(key: string) {
     const splittedId = (event.currentTarget as HTMLElement).id.split('-');
 
-    if (event.ctrlKey && this.isKeyArrowUp(event.key)) {
-      event.preventDefault();
+    if (key === 'ArrowUp') {
       this.focusElement(splittedId[0], this.formGroupName - 1);
-    } else if (event.ctrlKey && this.isKeyArrowDown(event.key)) {
-      event.preventDefault();
+    } else if (key === 'ArrowDown') {
       this.focusElement(splittedId[0], this.formGroupName + 1);
-    } else if (event.ctrlKey && this.isKeyArrowLeft(event.key)) {
+    } else if (key === 'ArrowLeft') {
       const previousField = this.previousFieldName(splittedId[0]);
       this.focusElement(previousField, this.formGroupName);
-    } else if (event.ctrlKey && this.isKeyArrowRight(event.key)) {
+    } else if (key === 'ArrowRight') {
       const nextField = this.nextFieldName(splittedId[0]);
       this.focusElement(nextField, this.formGroupName);
     }
@@ -121,12 +121,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     ).subscribe(value => this.taxons = value);
   }
 
-  amountChanged($event: Event) {
-    const val = ($event.target as HTMLInputElement).value;
-    if (val && val !== '1') {
-      this.length().reset();
-    }
-  }
 
   remove() {
     this.removeClicked.emit(this.formGroupName);
@@ -140,31 +134,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     if (this.isKeyTab(event.key) && this.isLastIndex(this.formGroupName)) {
       this.newline.emit(true);
     }
-  }
-
-  newLineOnEnter(event: KeyboardEvent) {
-    if (this.isKeyEnter(event.key) && this.isLastIndex(this.formGroupName)) {
-      this.newline.emit(true);
-      setTimeout(() => {
-        // @ts-ignore
-        const elementId = `${(event.target as Element).id.split('-')[0]}-${this.formGroupName + 1}`;
-        document.getElementById(elementId).focus();
-      }, 0);
-    }
-  }
-
-  focusNextLineOnEnter(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      if (this.items().value.size < this.formGroupName + 1) {
-        return;
-      }
-      const splittedId = (event.currentTarget as HTMLElement).id.split('-');
-      const nextElement = document.getElementById(splittedId[0] + '-' + (this.formGroupName + 1));
-      if (nextElement !== null) {
-        nextElement.focus();
-      }
-    }
-
   }
 
   species(): AbstractControl {
@@ -195,36 +164,12 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     return this.form.get('comment');
   }
 
+  type(): AbstractControl {
+    return this.form.get('type');
+  }
+
   private isKeyTab(key: string) {
     return key === 'Tab';
-  }
-
-  private isKeyEnter(key: string) {
-    return key === 'Enter';
-  }
-
-  private isKeyArrowUp(key: string) {
-    return key === 'ArrowUp';
-  }
-
-  private isKeyArrowDown(key: string) {
-    return key === 'ArrowDown';
-  }
-
-  private isKeyArrowLeft(key: string) {
-    return key === 'ArrowLeft';
-  }
-
-  private isKeyArrowRight(key: string) {
-    return key === 'ArrowRight';
-  }
-
-  private isKeyLowerM(key: string) {
-    return key === 'm';
-  }
-
-  private isKeyI(key: string) {
-    return key === 'i' || key === 'I';
   }
 
   private isLastIndex(i: number) {
@@ -256,9 +201,54 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     return this.fieldsOrder[nextId];
   }
 
+  individualLengths(): FormArray {
+    return this.form.get('individualLengths') as FormArray;
+  }
+
   toGroupMeasurement() {
     this.form.get('length').patchValue(null);
     this.form.get('gender').patchValue(null);
-    this.form.get('type').patchValue('GROUP');
+    this.form.get('type').patchValue('GROUP_LENGTHS');
+
+    for (let i = 0; i < this.amount().value; i++) {
+      this.individualLengths().push(this.createIndividualLength());
+    }
+  }
+
+  createIndividualLength(comment?: any): FormGroup {
+    return this.formBuilder.group({
+      length: new FormControl('', [Validators.min(0)]),
+      comment: new FormControl(comment ?? '', Validators.max(2000))
+    });
+  }
+
+  toIndividualMeasurement() {
+    this.form.get('individualLengths').patchValue([]);
+    this.form.get('type').patchValue(this.amount().value > 1 ? 'GROUP' : 'NORMAL');
+  }
+
+  enterPressed(fieldName: string) {
+    if (this.isLastIndex(this.formGroupName)) {
+      this.newline.emit(true);
+      setTimeout(() => {
+        // @ts-ignore
+        const elementId = `${fieldName}-${this.formGroupName + 1}`;
+        document.getElementById(elementId).focus();
+      }, 0);
+    } else {
+      const elementId = `${fieldName}-${this.formGroupName + 1}`;
+      const nextElement = document.getElementById(elementId);
+      if (nextElement !== null) {
+        nextElement.focus();
+      }
+    }
+  }
+
+  newLineOnEnter(event: KeyboardEvent) {
+
+  }
+
+  focusNextLineOnEnter(event: KeyboardEvent) {
+
   }
 }
