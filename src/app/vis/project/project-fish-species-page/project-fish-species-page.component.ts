@@ -13,8 +13,12 @@ export class ProjectFishSpeciesPageComponent implements OnInit {
 
   taxon: Observable<Taxon[]>;
 
+  projectCode: string;
+
   constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private projectService: ProjectService) {
     this.titleService.setTitle(`Project ${this.activatedRoute.parent.snapshot.params.projectCode} vissoorten`);
+
+    this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
   }
 
   ngOnInit(): void {

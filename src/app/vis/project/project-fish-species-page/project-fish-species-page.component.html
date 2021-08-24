@@ -36,7 +36,15 @@
                 {{item.taxonGroupText}}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <a [routerLink]="['/vissoorten', item.id.value]" class="text-pink-600 hover:text-pink-900">Detail</a>
+                <app-dropdown-minimal>
+                  <a [routerLink]="['/vissoorten', item.id.value]"
+                     class="w-full text-left text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                     id="menu-item-0">Detail</a>
+                  <a target="_blank" [routerLink]="['/projecten', projectCode, 'waarnemingen']"
+                     [queryParams]="{species: item.id.value}"
+                     class="w-full text-left text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                     id="menu-item-0">Filter</a>
+                </app-dropdown-minimal>
               </td>
             </tr>
           </tbody>
