@@ -14,12 +14,15 @@ export class ProjectMethodsPageComponent implements OnInit, OnDestroy {
 
   loading = false;
   methods: Method[];
+  projectCode: string;
 
   private subscription = new Subscription();
 
   constructor(private titleService: Title, private methodsService: MethodsService,
               private projectService: ProjectService, private activatedRoute: ActivatedRoute) {
     this.titleService.setTitle(`Project ${this.activatedRoute.parent.snapshot.params.projectCode} methoden`);
+
+    this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
 
     this.subscription.add(
       this.methodsService.getAllMethodsForProject(this.activatedRoute.parent.snapshot.params.projectCode)
