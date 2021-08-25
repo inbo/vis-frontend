@@ -93,4 +93,8 @@ export class SurveyEventsService extends VisService {
   copySurveyEvent(projectCode: string, surveyEventId: any, formData: any) {
     return this.http.post<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/copy`, formData);
   }
+
+  saveMeasurement(projectCode: string, surveyEventId: any, measurementId: any, formData: any) {
+    return this.http.put<SurveyEvent>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/${measurementId}`, formData);
+  }
 }

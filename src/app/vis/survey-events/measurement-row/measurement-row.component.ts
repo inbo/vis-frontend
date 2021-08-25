@@ -17,9 +17,13 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
   @Input() formGroupName: number;
   @Input() submitted = false;
+  @Input() editMode = false;
 
   @Output() newline = new EventEmitter<any>();
   @Output() removeClicked = new EventEmitter<number>();
+  @Output() saveClicked = new EventEmitter<any>();
+  @Output() cancelClicked = new EventEmitter<any>();
+  @Output() enterClicked = new EventEmitter<string>();
 
   form: FormGroup;
   taxons: SearchableSelectOption[] = [];
@@ -176,7 +180,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     return this.items() === undefined || (i + 1) === this.items().length;
   }
 
-  private focusElement(field: string, index: number) {
+  public focusElement(field: string, index: number) {
     const element = document.getElementById(field + '-' + index + (field === 'species' ? '-button' : ''));
     if (element !== null) {
       element.focus();
@@ -228,19 +232,23 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
   }
 
   enterPressed(fieldName: string) {
-    if (this.isLastIndex(this.formGroupName)) {
-      this.newline.emit(true);
-      setTimeout(() => {
-        // @ts-ignore
+    if (!this.editMode) {
+      if (this.isLastIndex(this.formGroupName)) {
+        this.newline.emit(true);
+        setTimeout(() => {
+          // @ts-ignore
+          const elementId = `${fieldName}-${this.formGroupName + 1}`;
+          document.getElementById(elementId).focus();
+        }, 0);
+      } else {
         const elementId = `${fieldName}-${this.formGroupName + 1}`;
-        document.getElementById(elementId).focus();
-      }, 0);
-    } else {
-      const elementId = `${fieldName}-${this.formGroupName + 1}`;
-      const nextElement = document.getElementById(elementId);
-      if (nextElement !== null) {
-        nextElement.focus();
+        const nextElement = document.getElementById(elementId);
+        if (nextElement !== null) {
+          nextElement.focus();
+        }
       }
+    } else {
+      this.enterClicked.emit(fieldName);
     }
   }
 
@@ -250,5 +258,13 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
   focusNextLineOnEnter(event: KeyboardEvent) {
 
+  }
+
+  save() {
+    this.saveClicked.emit();
+  }
+
+  cancel() {
+    this.cancelClicked.emit();
   }
 }
