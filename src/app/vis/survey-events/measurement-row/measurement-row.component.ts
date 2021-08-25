@@ -3,9 +3,13 @@ import {SearchableSelectOption} from '../../../shared-ui/searchable-select/optio
 import {map, take} from 'rxjs/operators';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
-import {AbstractControlWarn, lengthRequiredForIndividualMeasurement, valueBetweenWarning} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
+import {
+  AbstractControlWarn,
+  lengthRequiredForIndividualMeasurement,
+  valueBetweenWarning
+} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {Subscription} from 'rxjs';
-import {faWeightHanging, faRulerHorizontal} from '@fortawesome/free-solid-svg-icons';
+import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-measurement-row',

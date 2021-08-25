@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {fromEvent, Observable, Subscription} from 'rxjs';
@@ -12,6 +12,8 @@ import {Measurement} from '../../../domain/survey-event/measurement';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Location} from '@angular/common';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
+import * as IntroJs from 'intro.js/intro.js';
+import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
 
 export interface AbstractControlWarn extends AbstractControl {
   warnings: any;
@@ -48,9 +50,10 @@ export function lengthRequiredForIndividualMeasurement(): ValidatorFn {
   selector: 'app-survey-event-measurements-create-page',
   templateUrl: './survey-event-measurements-create-page.component.html'
 })
-export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDestroy, AfterViewChecked, HasUnsavedData {
+export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked, HasUnsavedData {
 
   @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
+  @ViewChild(MeasurementRowComponent) measurementRow: MeasurementRowComponent;
 
   faRulerHorizontal = faRulerHorizontal;
   faWeightHanging = faWeightHanging;
@@ -94,6 +97,31 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  ngAfterViewInit() {
+    if (localStorage.getItem('measurements-demo') !== 'completed') {
+      const introJs = IntroJs();
+
+      introJs.onbeforechange(function() {
+        switch (this._currentStep) {
+          case 3:
+            _this.amount(0).patchValue(2);
+            _this.items().at(0).get('type').patchValue('GROUP');
+            break;
+          case 5:
+            _this.measurementRow.toGroupMeasurement();
+            this._introItems[5].element = document.querySelector('[data-step="6"]');
+            break;
+        }
+      });
+
+      setTimeout(() => introJs.start());
+      // introJs.oncomplete(() => localStorage.setItem('measurements-demo', 'completed'));
+      // introJs.onexit(() => localStorage.setItem('measurements-demo', 'completed'));
+
+      const _this = this;
+    }
   }
 
   ngAfterViewChecked() {
