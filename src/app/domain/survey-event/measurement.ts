@@ -13,6 +13,11 @@ export interface Measurement {
   gender: string;
   lengthType: string;
   afvisBeurtNumber: number;
+  individualLengths: IndividualLength[];
 }
 
-
+export interface IndividualLength {
+  id: number;
+  length: number;
+  comment: string;
+}

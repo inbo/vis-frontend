@@ -2,7 +2,7 @@ import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/co
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
-import {Measurement} from '../../../domain/survey-event/measurement';
+import {IndividualLength, Measurement} from '../../../domain/survey-event/measurement';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {take} from 'rxjs/operators';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
@@ -24,6 +24,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
   @ViewChildren(MeasurementRowReadonlyComponent) measurementRowReadonlyComponents!: QueryList<MeasurementRowReadonlyComponent>;
 
   @ViewChild(PagingAsyncComponent) pagingComponent: PagingAsyncComponent;
+
   faRulerHorizontal = faRulerHorizontal;
   faWeightHanging = faWeightHanging;
 
@@ -59,6 +60,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
   }
 
   createMeasurementFormGroup(measurement: Measurement) {
+    const il = measurement.individualLengths ? measurement.individualLengths.map(value => this.createIndividualLength(value)) : [];
     return this.formBuilder.group({
       id: new FormControl(measurement.id),
       type: new FormControl(measurement.type),
@@ -69,7 +71,15 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
       gender: new FormControl(measurement.gender ? measurement.gender : 'UNKNOWN'),
       afvisBeurtNumber: new FormControl(measurement.afvisBeurtNumber, [Validators.min(1), Validators.max(10)]),
       comment: new FormControl(measurement.comment ? measurement.comment : '', Validators.max(2000)),
-      individualLengths: this.formBuilder.array([])
+      individualLengths: this.formBuilder.array(il)
+    });
+  }
+
+  createIndividualLength(individualLength: IndividualLength): FormGroup {
+    return this.formBuilder.group({
+      id: new FormControl(individualLength.id),
+      length: new FormControl(individualLength.length, [Validators.min(0)]),
+      comment: new FormControl(individualLength.comment, Validators.max(2000))
     });
   }
 
@@ -100,7 +110,6 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
       value.content.forEach(measurement => {
         (this.form.get('items') as FormArray).push(this.createMeasurementFormGroup(measurement));
       });
-      console.log(this.form);
     });
   }
 
@@ -129,7 +138,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
       .pipe(take(1))
       .subscribe(() => {
         this.rowEditNumber = null;
-        this.measurementRowReadonlyComponents.get(i).showSavedMessage();
+        this.measurementRowReadonlyComponents.get(i - 1).showSavedMessage();
       });
 
   }
@@ -145,6 +154,10 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
     }
 
     const data = this.items().at(i) as FormGroup;
+
+    if (data.invalid) {
+      return;
+    }
 
     if (!data.dirty) {
       this.rowEditNumber = i + 1;

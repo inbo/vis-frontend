@@ -28,11 +28,11 @@
     <app-measurement-fishing-trip-number (arrowPressed)="navigateOnArrow($event)" (enterPressed)="enterPressed($event)" [index]="formGroupName"></app-measurement-fishing-trip-number>
     <app-form-error-message [control]="afvisBeurtNumber()" [submitted]="submitted" showAfterSubmitted="true"></app-form-error-message>
   </div>
-  <div class="col-span-11 md:col-span-5 lg:col-span-3">
+  <div class="col-span-11 md:col-span-5 lg:col-span-2">
     <app-measurement-comment (arrowPressed)="navigateOnArrow($event)" (enterPressed)="enterPressed($event)" [index]="formGroupName"></app-measurement-comment>
     <app-form-error-message [control]="comment()" [submitted]="submitted" showAfterSubmitted="true"></app-form-error-message>
   </div>
-  <div class="col-span-1 md:col-span-3 lg:col-span-1 text-right self-center text-gray-500 space-x-2">
+  <div class="col-span-1 md:col-span-3 lg:col-span-2 text-right self-center text-gray-500 space-x-2">
      <span (click)="showIndividualLengthItems = !showIndividualLengthItems" *ngIf="type().value === 'GROUP_LENGTHS'" [title]="showIndividualLengthItems ? 'Verbergen' : 'Openklappen'" class="inline-block">
       <svg [class.rotate-180]="showIndividualLengthItems" class="w-6 h-6 transform" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" fill-rule="evenodd"></path></svg>
     </span>
