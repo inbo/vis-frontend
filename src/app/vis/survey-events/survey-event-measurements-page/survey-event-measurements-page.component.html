@@ -19,8 +19,8 @@
             </div>
             <div class="space-y-0.5">
               <div formArrayName="items" *ngFor="let item of items().controls; let i = index;" #lines>
-                <app-measurement-row-readonly *ngIf="rowEditNumber !== i" [formGroupName]="i" (editClicked)="rowEditNumber = i" (removeClicked)="deleteClicked(i)"></app-measurement-row-readonly> <!--(newline)="addNewLine()" [submitted]="submitted"-->
-                <app-measurement-row *ngIf="rowEditNumber === i" [editMode]="true" [formGroupName]="i" (saveClicked)="save(i)" (cancelClicked)="cancel(i)" (enterClicked)="enterClicked(i, $event)"></app-measurement-row> <!--(newline)="addNewLine()" (removeClicked)="remove($event)" [submitted]="submitted"-->
+                <app-measurement-row-readonly *ngIf="rowEditNumber !== i" [formGroupName]="i" (editClicked)="rowEditNumber = i" (removeClicked)="deleteClicked(i)"></app-measurement-row-readonly>
+                <app-measurement-row *ngIf="rowEditNumber === i" [submitted]="true" [editMode]="true" [formGroupName]="i" (saveClicked)="save(i)" (cancelClicked)="cancel(i)" (enterClicked)="enterClicked(i, $event)"></app-measurement-row>
               </div>
             </div>
           </form>

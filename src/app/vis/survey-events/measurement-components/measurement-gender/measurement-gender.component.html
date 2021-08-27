@@ -2,7 +2,7 @@
   <select (keydown)="keydown($event)"
           [class.bg-gray-100]="amount().value > 1" [class.focus:border-gray-500]="amount().value > 1" [class.focus:ring-gray-500]="amount().value > 1"
           [class.pr-8]="(length().dirty || length().touched) && length().warnings"
-          [attr.disabled]="amount().value > 1"
+          [attr.disabled]="amount().value > 1 ? 'disabled' : null"
           [id]="'gender-' + index"
           formControlName="gender"
           name="gender">

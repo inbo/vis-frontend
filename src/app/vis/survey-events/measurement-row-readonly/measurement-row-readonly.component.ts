@@ -36,6 +36,7 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
     'comment'
   ];
   showIndividualLengthItems: boolean = true;
+  savedMessage = false;
 
   numberMask(scale: number, min: number, max: number) {
     return {
@@ -104,5 +105,12 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
 
   remove() {
     this.removeClicked.emit();
+  }
+
+  showSavedMessage() {
+    this.savedMessage = true;
+    setTimeout(() => {
+      this.savedMessage = false;
+    }, 2500);
   }
 }

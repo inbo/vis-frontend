@@ -3,7 +3,6 @@ import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Measurement} from '../../../domain/survey-event/measurement';
-import {Observable, of} from 'rxjs';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {take} from 'rxjs/operators';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
@@ -14,6 +13,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {lengthRequiredForIndividualMeasurement} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
 import {PagingAsyncComponent} from '../../../shared-ui/paging-async/paging-async.component';
+import {MeasurementRowReadonlyComponent} from '../measurement-row-readonly/measurement-row-readonly.component';
 
 @Component({
   selector: 'app-survey-event-measurements-page',
@@ -21,6 +21,7 @@ import {PagingAsyncComponent} from '../../../shared-ui/paging-async/paging-async
 })
 export class SurveyEventMeasurementsPageComponent implements OnInit {
   @ViewChildren(MeasurementRowComponent) measurementRowComponents!: QueryList<MeasurementRowComponent>;
+  @ViewChildren(MeasurementRowReadonlyComponent) measurementRowReadonlyComponents!: QueryList<MeasurementRowReadonlyComponent>;
 
   @ViewChild(PagingAsyncComponent) pagingComponent: PagingAsyncComponent;
   faRulerHorizontal = faRulerHorizontal;
@@ -40,6 +41,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
   surveyEvent: SurveyEvent;
   form: FormGroup;
   rowEditNumber: number;
+  private rowSavedNumber: number;
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               public authService: AuthService, private formBuilder: FormBuilder) {
@@ -127,13 +129,12 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
       .pipe(take(1))
       .subscribe(() => {
         this.rowEditNumber = null;
+        this.measurementRowReadonlyComponents.get(i).showSavedMessage();
       });
 
   }
 
   cancel(i: number) {
-    console.log(i, 'cancel', this.measurements[i]);
-
     this.items().at(i).reset(this.createMeasurementFormGroup(this.measurements[i]).getRawValue());
     this.rowEditNumber = null;
   }
@@ -143,15 +144,22 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
       this.pagingComponent.next();
     }
 
-
     const data = this.items().at(i) as FormGroup;
+
+    if (!data.dirty) {
+      this.rowEditNumber = i + 1;
+      setTimeout(() => {
+        this.measurementRowComponents.get(0).focusElement(fieldName, this.rowEditNumber);
+      }, 0);
+      return;
+    }
 
     this.surveyEventsService.saveMeasurement(this.projectCode, this.surveyEventId, data.get('id').value, data.getRawValue())
       .pipe(take(1))
       .subscribe(() => {
         this.rowEditNumber = i + 1;
         setTimeout(() => {
-          // @ts-ignore
+          this.measurementRowReadonlyComponents.get(this.rowEditNumber - 1).showSavedMessage();
           this.measurementRowComponents.get(0).focusElement(fieldName, this.rowEditNumber);
         }, 0);
 
