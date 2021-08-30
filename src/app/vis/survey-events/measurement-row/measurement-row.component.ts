@@ -3,7 +3,11 @@ import {SearchableSelectOption} from '../../../shared-ui/searchable-select/optio
 import {map, take} from 'rxjs/operators';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
-import {AbstractControlWarn, lengthRequiredForIndividualMeasurement, valueBetweenWarning} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
+import {
+  AbstractControlWarn,
+  lengthRequiredForIndividualMeasurement,
+  valueBetweenWarning
+} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {Subscription} from 'rxjs';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 
@@ -41,7 +45,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     'afvisBeurtNumber',
     'comment'
   ];
-  showIndividualLengthItems: boolean = true;
+  showIndividualLengthItems = true;
 
   numberMask(scale: number, min: number, max: number) {
     return {
