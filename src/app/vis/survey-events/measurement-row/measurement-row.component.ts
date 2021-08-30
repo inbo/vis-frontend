@@ -1,15 +1,16 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {map, take} from 'rxjs/operators';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 import {AbstractControlWarn, lengthRequiredForIndividualMeasurement, valueBetweenWarning} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {Subscription} from 'rxjs';
-import {faWeightHanging, faRulerHorizontal} from '@fortawesome/free-solid-svg-icons';
+import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-measurement-row',
-  templateUrl: './measurement-row.component.html'
+  templateUrl: './measurement-row.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MeasurementRowComponent implements OnInit, OnDestroy {
   faWeightHanging = faWeightHanging;
@@ -54,7 +55,8 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     };
   }
 
-  constructor(private taxaService: TaxaService, private rootFormGroup: FormGroupDirective, private formBuilder: FormBuilder) {
+  constructor(private taxaService: TaxaService, private rootFormGroup: FormGroupDirective, private formBuilder: FormBuilder,
+              private cdr: ChangeDetectorRef) {
 
   }
 
@@ -122,7 +124,10 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
           option: taxon
         }));
       })
-    ).subscribe(value => this.taxons = value);
+    ).subscribe(value => {
+      this.taxons = value;
+      this.cdr.detectChanges();
+    });
   }
 
 
@@ -236,7 +241,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
       if (this.isLastIndex(this.formGroupName)) {
         this.newline.emit(true);
         setTimeout(() => {
-          // @ts-ignore
           const elementId = `${fieldName}-${this.formGroupName + 1}`;
           document.getElementById(elementId).focus();
         }, 0);
@@ -250,14 +254,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     } else {
       this.enterClicked.emit(fieldName);
     }
-  }
-
-  newLineOnEnter(event: KeyboardEvent) {
-
-  }
-
-  focusNextLineOnEnter(event: KeyboardEvent) {
-
   }
 
   save() {
