@@ -29,7 +29,7 @@
                   <div class="mt-1">
                     <app-searchable-select id="location" passedId="location" placeholder="Selecteer een locatie"
                                            tabIndex="-1" formControlName="location"
-                                           (onSearch)="getLocations($event)"
+                                           (search)="getLocations($event)"
                                            [options]="locations">
                       <ng-template let-rowDetail #selected>
                         {{rowDetail?.option?.code + ' - ' + rowDetail?.option?.description}}
@@ -52,7 +52,7 @@
                   <div class="mt-1">
                     <app-searchable-select id="method" passedId="method" placeholder="Selecteer een methode"
                                            tabIndex="-1"
-                                           formControlName="method" (onSearch)="getMethods($event)"
+                                           formControlName="method" (search)="getMethods($event)"
                                            [options]="methods">
                       <ng-template let-rowDetail #selected>
                         {{rowDetail?.option?.code + ' - ' + rowDetail?.option?.description}}

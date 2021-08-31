@@ -19,7 +19,6 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {fromEvent, Subscription} from 'rxjs';
 import {debounceTime, filter, map} from 'rxjs/operators';
 import {SearchableSelectOption} from './option';
-import {watch} from 'rxjs-watcher';
 
 @Component({
   selector: 'app-searchable-select',
@@ -45,7 +44,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   @Input() formControlName: string;
   @Input() options: SearchableSelectOption[];
   @Input() placeholder: string;
-  @Output() onSearch: EventEmitter<any> = new EventEmitter();
+  @Output() search: EventEmitter<any> = new EventEmitter();
 
   isOpen = false;
   selectedValue: any;
@@ -80,7 +79,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 
   writeValue(obj: any): void {
@@ -118,31 +117,29 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   toggle() {
     this.isOpen = !this.isOpen;
 
-    this.subscription = new Subscription();
+    if (!this.subscription || this.subscription.closed) {
+      this.subscription = new Subscription();
+    }
 
-    let keyUp;
-    let keyDown;
     if (this.isOpen) {
-      keyUp = fromEvent(this.searchBox.nativeElement, 'keyup')
+      const keyUp = fromEvent(this.searchBox.nativeElement, 'keyup')
         .pipe(
           debounceTime(300),
           filter((event: KeyboardEvent) => event.key !== 'Tab' && event.key !== 'Enter'),
           map((event: KeyboardEvent) => (event.target as HTMLInputElement).value),
-          filter(value => value.length >= 3),
-          watch('keyup', 1000)
+          filter(value => value.length >= 3)
         )
         .subscribe(value => {
           this.isOpen = true;
           this.markAsTouched();
           this.cdr.detectChanges();
 
-          this.onSearch.emit(value);
+          this.search.emit(value);
         });
 
-      keyDown = fromEvent(this.searchBox.nativeElement, 'keydown')
+      const keyDown = fromEvent(this.searchBox.nativeElement, 'keydown')
         .pipe(
-          filter((event: KeyboardEvent) => event.key === 'Enter'),
-          watch('keydown', 1000)
+          filter((event: KeyboardEvent) => event.key === 'Enter')
         ).subscribe(() => {
           const option = document.getElementById(`option-0-${this.passedId}`);
           const option1 = document.getElementById(`option-1-${this.passedId}`);
@@ -189,7 +186,6 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
 
   private addCloseListeners() {
     const documentClick = fromEvent(document, 'click')
-      .pipe(watch('click', 1000))
       .subscribe((event) => {
           if (!this.selectButton.nativeElement.contains(event.target) && !this.valuesList.nativeElement.contains(event.target)
             && this.isOpen) {
@@ -201,7 +197,6 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
       );
 
     const keyDown = fromEvent(document, 'keydown')
-      .pipe(watch('keydown', 1000))
       .subscribe((event: KeyboardEvent) => {
           if (event.key === 'Tab') {
             if ((this.selectButton.nativeElement.contains(event.target) || this.searchBox.nativeElement.contains(event.target)
@@ -215,7 +210,6 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
       );
 
     const focusOut = fromEvent(this.eRef.nativeElement, 'focusout')
-      .pipe(watch('focusout', 1000))
       .subscribe((event: FocusEvent) => {
           if (!this.selectButton.nativeElement.contains(event.relatedTarget) &&
             !this.valuesList.nativeElement.contains(event.relatedTarget)
