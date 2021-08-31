@@ -231,6 +231,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     this.form.get('gender').patchValue(null);
     this.form.get('type').patchValue('GROUP_LENGTHS');
 
+    this.individualLengths().clear();
     for (let i = 0; i < this.amount().value; i++) {
       this.individualLengths().push(this.createIndividualLength());
     }
@@ -238,7 +239,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
   createIndividualLength(comment?: any): FormGroup {
     return this.formBuilder.group({
-      length: new FormControl('', [Validators.min(0)]),
+      length: new FormControl('', [Validators.min(0), Validators.required]),
       comment: new FormControl(comment ?? '', Validators.max(2000))
     });
   }

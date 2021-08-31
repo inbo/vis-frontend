@@ -10,6 +10,7 @@ export class MeasurementLengthMeasurementsComponent implements OnInit {
 
   form: FormGroup;
   @Input() index: number;
+  @Input() submitted = false;
 
   private individualFieldsOrder = [
     'individuallength',
