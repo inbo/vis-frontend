@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {fromEvent, Observable, Subscription} from 'rxjs';
@@ -17,17 +17,21 @@ export interface AbstractControlWarn extends AbstractControl {
   warnings: any;
 }
 
-export function valueBetweenWarning(min: number, max: number): ValidatorFn {
-  return (c: AbstractControlWarn): { [key: string]: any } => {
-    c.warnings = null;
+export function valueBetweenWarning(fieldName: string, minVal: number, maxVal: number, cdr: ChangeDetectorRef): ValidatorFn {
+  return (c: FormGroup) => {
+    const field = c.get(fieldName) as AbstractControlWarn;
+    field.warnings = {};
 
-    if (!c.value) {
+    if (!field.value) {
       return null;
     }
 
+    const min = minVal * c.get('amount').value;
+    const max = maxVal * c.get('amount').value;
     if (min !== null && max !== null) {
-      const isValid = c.value > max || c.value < min;
-      c.warnings = isValid ? {between: {value: c.value, min, max}} : null;
+      const isValid = field.value > max || field.value < min;
+      field.warnings = isValid ? {between: {value: field.value, min, max}} : null;
+      cdr.detectChanges();
     }
 
     return null;
