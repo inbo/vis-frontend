@@ -5,7 +5,6 @@ import {TaxaService} from '../../../services/vis.taxa.service';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 import {
   AbstractControlWarn,
-  lengthRequiredForIndividualMeasurement,
   valueBetweenWarning
 } from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {Subscription} from 'rxjs';
@@ -93,11 +92,10 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.taxaService.getTaxon(taxaId)
         .subscribe(taxon => {
-          this.weight().setValidators([Validators.required, Validators.min(0), valueBetweenWarning(taxon.weightMin, taxon.weightMax)]);
+          this.weight().setValidators([Validators.min(0), valueBetweenWarning(taxon.weightMin, taxon.weightMax)]);
           this.weight().updateValueAndValidity();
 
-          this.length().setValidators([Validators.min(0), lengthRequiredForIndividualMeasurement(),
-            valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]);
+          this.length().setValidators([Validators.min(0), valueBetweenWarning(taxon.lengthMin, taxon.lengthMax)]);
           this.length().updateValueAndValidity();
         })
     );
@@ -163,6 +161,10 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
   length(): AbstractControlWarn {
     return this.form.get('length') as AbstractControlWarn;
+  }
+
+  formControl() {
+    return this.form;
   }
 
   amount(): AbstractControl {

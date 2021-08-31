@@ -10,7 +10,7 @@ import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {lengthRequiredForIndividualMeasurement} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
+import {lengthOrWeightRequiredForIndividualMeasurement} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
 import {PagingAsyncComponent} from '../../../shared-ui/paging-async/paging-async.component';
 import {MeasurementRowReadonlyComponent} from '../measurement-row-readonly/measurement-row-readonly.component';
@@ -66,13 +66,13 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
       type: new FormControl(measurement.type),
       species: new FormControl(measurement.taxonId, [Validators.required]),
       amount: new FormControl(measurement.amount, Validators.min(0)),
-      length: new FormControl(measurement.length ? measurement.length.toString() : '', [Validators.min(0), lengthRequiredForIndividualMeasurement()]),
-      weight: new FormControl(measurement.weight ? measurement.weight.toString() : '', [Validators.required, Validators.min(0)]),
+      length: new FormControl(measurement.length ? measurement.length.toString() : '', [Validators.min(0)]),
+      weight: new FormControl(measurement.weight ? measurement.weight.toString() : '', [Validators.min(0)]),
       gender: new FormControl(measurement.gender ? measurement.gender : 'UNKNOWN'),
       afvisBeurtNumber: new FormControl(measurement.afvisBeurtNumber, [Validators.min(1), Validators.max(10)]),
       comment: new FormControl(measurement.comment ? measurement.comment : '', Validators.max(2000)),
       individualLengths: this.formBuilder.array(il)
-    });
+    }, {validators: [lengthOrWeightRequiredForIndividualMeasurement()]});
   }
 
   createIndividualLength(individualLength: IndividualLength): FormGroup {
@@ -123,7 +123,8 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
   }
 
   confirmClicked() {
-    this.surveyEventsService.deleteMeasurement(this.projectCode, this.surveyEventId, this.items().at(this.measurementToBeDeleted).get('id').value)
+    this.surveyEventsService.deleteMeasurement(this.projectCode, this.surveyEventId,
+      this.items().at(this.measurementToBeDeleted).get('id').value)
       .pipe(take(1))
       .subscribe(() => {
         this.init();

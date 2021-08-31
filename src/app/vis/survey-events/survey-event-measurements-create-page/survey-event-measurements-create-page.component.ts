@@ -34,10 +34,10 @@ export function valueBetweenWarning(min: number, max: number): ValidatorFn {
   };
 }
 
-export function lengthRequiredForIndividualMeasurement(): ValidatorFn {
-  return (c: AbstractControl): { [key: string]: any } => {
-    if (c.parent?.get('amount').value === 1 && !c.value) {
-      return {lengthRequiredForIndividualMeasurement: true};
+export function lengthOrWeightRequiredForIndividualMeasurement(): ValidatorFn {
+  return (c: AbstractControl) => {
+    if (c.get('amount').value === 1 && (!c.get('length').value && !c.get('weight').value)) {
+      return {lengthOrWeightRequiredForIndividualMeasurement: true};
     }
 
     return null;
@@ -108,13 +108,13 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       type: new FormControl('NORMAL'),
       species: new FormControl(species ?? '', [Validators.required]),
       amount: new FormControl(1, Validators.min(0)),
-      length: new FormControl('', [Validators.min(0), lengthRequiredForIndividualMeasurement()]),
-      weight: new FormControl('', [Validators.required, Validators.min(0)]),
+      length: new FormControl('', [Validators.min(0)]),
+      weight: new FormControl('', [Validators.min(0)]),
       gender: new FormControl(gender ?? 'UNKNOWN'),
       afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, [Validators.min(1), Validators.max(10)]),
       comment: new FormControl(comment ?? '', Validators.max(2000)),
       individualLengths: this.formBuilder.array([])
-    });
+    }, {validators: [lengthOrWeightRequiredForIndividualMeasurement()]});
   }
 
   addNewLine() {
