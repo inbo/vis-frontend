@@ -90,6 +90,10 @@ export class SurveyEventsService extends VisService {
     return this.http.post<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/reopen`, {});
   }
 
+  validateSurveyEvent(projectCode: string, surveyEventId: any) {
+    return this.http.post<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/validate`, {});
+  }
+
   copySurveyEvent(projectCode: string, surveyEventId: any, formData: any) {
     return this.http.post<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/copy`, formData);
   }

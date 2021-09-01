@@ -246,6 +246,9 @@ export class AuthService implements OnDestroy {
         case 'BEWERK_WAARNEMING':
           currentRoles.push(Role.EditSurveyEvent);
           break;
+        case 'VALIDEER_WAARNEMING':
+          currentRoles.push(Role.ValidateSurveyEvent);
+          break;
         case 'GEBRUIKER_ADMIN':
           currentRoles.push(Role.UserAdmin);
           break;

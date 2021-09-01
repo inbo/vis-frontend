@@ -1,4 +1,4 @@
-<div *ngIf="surveyEvent$ | async as surveyEvent"
+<div
      class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
   <div class="px-4 py-5 sm:px-6">
     <h3 class="text-lg leading-6 font-medium text-gray-900">
@@ -12,7 +12,7 @@
           Datum
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent.occurrence | date:'dd/MM/yyyy'}}
+          {{surveyEvent?.occurrence | date:'dd/MM/yyyy'}}
         </dd>
       </div>
       <div class="sm:col-span-1">
@@ -28,7 +28,7 @@
           Methode
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-          {{'method.' + surveyEvent.method | translate}}
+          {{'method.' + surveyEvent?.method | translate}}
         </dd>
       </div>
 
@@ -37,7 +37,7 @@
           Commentaar
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent.comment}}
+          {{surveyEvent?.comment}}
         </dd>
       </div>
 
@@ -46,9 +46,9 @@
           Meetplaatscode
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-          <a target="_blank" [routerLink]="['/locaties', surveyEvent.fishingPoint.code]"
+          <a target="_blank" [routerLink]="['/locaties', surveyEvent?.fishingPoint.code]"
              class="cursor-pointer text-pink-600 hover:text-pink-900">
-            {{surveyEvent.fishingPoint.code}}
+            {{surveyEvent?.fishingPoint.code}}
             <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-4 w-4" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -63,7 +63,7 @@
           Waterloop
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent.fishingPoint.name}}
+          {{surveyEvent?.fishingPoint.name}}
         </dd>
       </div>
 
@@ -72,7 +72,7 @@
           Coördinaten - Lambert 72
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent.fishingPoint.x}}, {{surveyEvent.fishingPoint.y}}
+          {{surveyEvent?.fishingPoint.x}}, {{surveyEvent?.fishingPoint.y}}
         </dd>
       </div>
 
@@ -81,7 +81,7 @@
           Coördinaten - Latitude/Longitude
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent.fishingPoint.lat}}, {{surveyEvent.fishingPoint.lng}}
+          {{surveyEvent?.fishingPoint.lat}}, {{surveyEvent?.fishingPoint.lng}}
         </dd>
       </div>
 
@@ -90,7 +90,7 @@
           Stilstaand water
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent.fishingPoint.waterCode}}
+          {{surveyEvent?.fishingPoint.waterCode}}
         </dd>
       </div>
 
@@ -99,7 +99,7 @@
           Meetplaats omschrijving
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent.fishingPoint.description}}
+          {{surveyEvent?.fishingPoint.description}}
         </dd>
       </div>
 
@@ -114,8 +114,21 @@
     </dl>
   </div>
   <div class="px-4 py-4 sm:px-6 flex justify-end">
-    <!--TODO team validation-->
-    <app-button *ngIf="surveyEvent.status === 'DELETED'"
+    <app-button *ngIf="canDeleteSurveyEvent()"
+                (click)="deleteSurveyEvent()"
+                [style]="'secondary'"
+                class="ml-3"
+                [role]="role.DeleteSurveyEvent"
+                [isUserLinkedToProject]="surveyEvent?.canEdit">Verwijderen
+    </app-button>
+    <app-button *ngIf="canValidateSurveyEvent()"
+                (click)="validateSurveyEvent()"
+                [style]="'secondary'"
+                class="ml-3"
+                [role]="role.ValidateSurveyEvent"
+                [isUserLinkedToProject]="surveyEvent?.canEdit">Valideer
+    </app-button>
+    <app-button *ngIf="canRestoreSurveyEvent()"
                 (click)="reOpenSurveyEvent()"
                 [style]="'secondary'"
                 class="ml-3"
@@ -123,9 +136,9 @@
                 [isUserLinkedToProject]="surveyEvent?.canEdit">Heropenen
     </app-button>
     <app-button [style]="'primary'"
-                [disabled]="surveyEvent.status === 'DELETED'"
+                [disabled]="surveyEvent?.status === 'DELETED'"
                 class="ml-3"
-                [routerLink]="['/projecten', surveyEvent.projectCode.value, 'waarnemingen', surveyEvent.surveyEventId.value, 'bewerk']"
+                [routerLink]="['/projecten', surveyEvent?.projectCode.value, 'waarnemingen', surveyEvent?.surveyEventId.value, 'bewerk']"
                 [role]="role.EditSurveyEvent"
                 [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
     </app-button>

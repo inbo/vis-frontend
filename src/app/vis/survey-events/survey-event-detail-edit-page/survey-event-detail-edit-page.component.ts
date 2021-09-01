@@ -103,16 +103,6 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
       });
   }
 
-  deleteSurveyEvent() {
-    this.surveyEventService.deleteSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
-      this.activatedRoute.parent.snapshot.params.surveyEventId)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.router.navigate(['projecten', this.activatedRoute.parent.snapshot.params.projectCode,
-          'waarnemingen', this.activatedRoute.parent.snapshot.params.surveyEventId]).then(() => window.location.reload());
-      });
-  }
-
   get occurrenceDate() {
     return this.surveyEventForm.get('occurrenceDate');
   }
