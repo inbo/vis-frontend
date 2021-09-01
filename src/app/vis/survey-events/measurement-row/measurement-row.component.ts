@@ -292,4 +292,8 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
   cancel() {
     this.cancelClicked.emit();
   }
+
+  detectChanges() {
+    this.cdr.detectChanges();
+  }
 }
