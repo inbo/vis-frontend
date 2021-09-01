@@ -3,6 +3,7 @@
   <div class="col-span-12 md:col-span-4 lg:col-span-3">
     <div class="relative flex">
       <app-species-search (arrowPressed)="navigateOnArrow($event)" (changed)="onSpeciesChange()"
+                          (enterPressed)="enterPressed($event)"
                           (onSearch)="getSpecies($event)" [index]="formGroupName" [taxons]="taxons"
                           class="flex-grow"></app-species-search>
       <fa-icon *ngIf="type().value === 'GROUP'" [icon]="faWeightHanging" class="self-center text-gray-500 pl-2"

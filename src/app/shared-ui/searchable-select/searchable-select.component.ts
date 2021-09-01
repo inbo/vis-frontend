@@ -198,7 +198,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
 
     const keyDown = fromEvent(document, 'keydown')
       .subscribe((event: KeyboardEvent) => {
-          if (event.key === 'Tab') {
+          if (event.key === 'Tab' || event.key === 'Escape') {
             if ((this.selectButton.nativeElement.contains(event.target) || this.searchBox.nativeElement.contains(event.target)
               || this.valuesList.nativeElement.contains(event.target)) && this.isOpen) {
               this.close();

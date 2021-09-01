@@ -254,11 +254,17 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
       if (this.isLastIndex(this.formGroupName)) {
         this.newline.emit(true);
         setTimeout(() => {
-          const elementId = `${fieldName}-${this.formGroupName + 1}`;
+          let elementId = `${fieldName}-${this.formGroupName + 1}`;
+          if (fieldName === 'species') {
+            elementId += '-button';
+          }
           document.getElementById(elementId).focus();
         }, 0);
       } else {
-        const elementId = `${fieldName}-${this.formGroupName + 1}`;
+        let elementId = `${fieldName}-${this.formGroupName + 1}`;
+        if (fieldName === 'species') {
+          elementId += '-button';
+        }
         const nextElement = document.getElementById(elementId);
         if (nextElement !== null) {
           nextElement.focus();
