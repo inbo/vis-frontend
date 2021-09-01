@@ -3,6 +3,7 @@ import {Directive, EventEmitter, Output} from '@angular/core';
 @Directive()
 export class MeasurementComponentDirective {
   @Output() enterPressed = new EventEmitter<string>();
+  @Output() tabPressed = new EventEmitter<string>();
   @Output() arrowPressed = new EventEmitter<string>();
 
   fieldName(): string {
@@ -13,6 +14,9 @@ export class MeasurementComponentDirective {
     if ($event.key === 'Enter') {
       $event.preventDefault();
       this.enterPressed.emit(this.fieldName());
+    }
+    if ($event.key === 'Tab') {
+      this.tabPressed.emit(this.fieldName());
     }
 
     const isArrowKey = this.isKeyArrowUp($event.key)

@@ -269,6 +269,16 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Add new line when tab is pressed in the comment field
+  tabPressed() {
+    if (!this.editMode) {
+      if (this.isLastIndex(this.formGroupName)) {
+        this.newline.emit(true);
+      }
+    }
+  }
+
+
   save() {
     this.saveClicked.emit();
   }

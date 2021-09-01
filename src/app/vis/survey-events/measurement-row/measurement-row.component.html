@@ -49,6 +49,7 @@
   </div>
   <div class="col-span-11 md:col-span-5 lg:col-span-2">
     <app-measurement-comment (arrowPressed)="navigateOnArrow($event)" (enterPressed)="enterPressed($event)"
+                             (tabPressed)="tabPressed()"
                              [index]="formGroupName"></app-measurement-comment>
     <app-form-error-message [control]="comment()" [submitted]="submitted"
                             showAfterSubmitted="true"></app-form-error-message>
