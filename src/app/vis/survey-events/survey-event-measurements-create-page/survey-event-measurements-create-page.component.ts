@@ -20,7 +20,7 @@ export interface AbstractControlWarn extends AbstractControl {
 export function valueBetweenWarning(fieldName: string, minVal: number, maxVal: number, cdr: ChangeDetectorRef): ValidatorFn {
   return (c: FormGroup) => {
     const field = c.get(fieldName) as AbstractControlWarn;
-    field.warnings = {};
+    field.warnings = null;
 
     if (!field.value) {
       return null;
@@ -28,7 +28,8 @@ export function valueBetweenWarning(fieldName: string, minVal: number, maxVal: n
 
     const min = minVal * c.get('amount').value;
     const max = maxVal * c.get('amount').value;
-    if (min !== null && max !== null) {
+
+    if (minVal !== null && maxVal !== null) {
       const isValid = field.value > max || field.value < min;
       field.warnings = isValid ? {between: {value: field.value, min, max}} : null;
       cdr.detectChanges();
