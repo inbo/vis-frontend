@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
-import {AbstractControlWarn} from '../../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
+import {AbstractControlWarn} from '../../survey-event-measurements-create-page/survey-event-measurements-validators';
 
 @Component({
   selector: 'app-measurement-length-measurements',

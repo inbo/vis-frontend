@@ -10,10 +10,10 @@ import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {lengthOrWeightRequiredForIndividualMeasurement} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
 import {PagingAsyncComponent} from '../../../shared-ui/paging-async/paging-async.component';
 import {MeasurementRowReadonlyComponent} from '../measurement-row-readonly/measurement-row-readonly.component';
+import {lengthOrWeightRequiredForIndividualMeasurement} from '../survey-event-measurements-create-page/survey-event-measurements-validators';
 
 @Component({
   selector: 'app-survey-event-measurements-page',

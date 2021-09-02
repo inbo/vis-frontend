@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AbstractControl, FormGroup, FormGroupDirective} from '@angular/forms';
-import {AbstractControlWarn} from '../../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
+import {AbstractControlWarn} from '../../survey-event-measurements-create-page/survey-event-measurements-validators';
 
 @Component({
   selector: 'app-measurement-length',

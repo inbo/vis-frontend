@@ -3,8 +3,8 @@ import {AbstractControl, FormArray, FormBuilder, FormGroup, FormGroupDirective} 
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {Subscription} from 'rxjs';
 import {TaxaService} from '../../../services/vis.taxa.service';
-import {AbstractControlWarn} from '../survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
+import {AbstractControlWarn} from '../survey-event-measurements-create-page/survey-event-measurements-validators';
 
 @Component({
   selector: 'app-measurement-row-readonly',

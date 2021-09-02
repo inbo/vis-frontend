@@ -1,16 +1,6 @@
-import {
-  AfterViewChecked,
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren
-} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {fromEvent, Observable, Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {AlertService} from '../../../_alert';
@@ -24,42 +14,7 @@ import {Location} from '@angular/common';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 import * as IntroJs from 'intro.js/intro.js';
 import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
-
-export interface AbstractControlWarn extends AbstractControl {
-  warnings: any;
-}
-
-export function valueBetweenWarning(fieldName: string, minVal: number, maxVal: number, cdr: ChangeDetectorRef): ValidatorFn {
-  return (c: FormGroup) => {
-    const field = c.get(fieldName) as AbstractControlWarn;
-    field.warnings = null;
-
-    if (!field.value) {
-      return null;
-    }
-
-    const min = minVal * c.get('amount').value;
-    const max = maxVal * c.get('amount').value;
-
-    if (minVal !== null && maxVal !== null) {
-      const isValid = field.value > max || field.value < min;
-      field.warnings = isValid ? {between: {value: field.value, min, max}} : null;
-      cdr.detectChanges();
-    }
-
-    return null;
-  };
-}
-
-export function lengthOrWeightRequiredForIndividualMeasurement(): ValidatorFn {
-  return (c: AbstractControl) => {
-    if (c.get('amount').value === 1 && (!c.get('length').value && !c.get('weight').value)) {
-      return {lengthOrWeightRequiredForIndividualMeasurement: true};
-    }
-
-    return null;
-  };
-}
+import {lengthOrWeightRequiredForIndividualMeasurement} from './survey-event-measurements-validators';
 
 @Component({
   selector: 'app-survey-event-measurements-create-page',
