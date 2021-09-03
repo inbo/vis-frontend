@@ -9,6 +9,7 @@ import {
   lengthOrWeightRequiredForIndividualMeasurement,
   valueBetweenWarning
 } from '../survey-event-measurements-create-page/survey-event-measurements-validators';
+import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
 
 @Component({
   selector: 'app-measurement-row',
@@ -31,6 +32,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
   taxons: SearchableSelectOption[] = [];
+  private taxon: TaxonDetail;
 
   private formArray: FormArray;
   private subscription = new Subscription();
@@ -92,18 +94,29 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.taxaService.getTaxon(taxaId)
         .subscribe(taxon => {
-          this.weight().setValidators([Validators.min(0)]);
-          this.weight().updateValueAndValidity();
+          this.taxon = taxon;
 
-          this.length().setValidators([Validators.min(0)]);
-          this.length().updateValueAndValidity();
-
-          this.form.setValidators([lengthOrWeightRequiredForIndividualMeasurement(),
-            valueBetweenWarning('weight', taxon.weightMin, taxon.weightMax, this.cdr),
-            valueBetweenWarning('length', taxon.lengthMin, taxon.lengthMax, this.cdr)]);
-          this.form.updateValueAndValidity();
+          this.setTaxonValidators(taxon);
         })
     );
+  }
+
+  private setTaxonValidators(taxon: TaxonDetail) {
+    this.weight().setValidators([Validators.min(0)]);
+    this.weight().updateValueAndValidity();
+
+    this.length().setValidators([Validators.min(0)]);
+    this.length().updateValueAndValidity();
+
+    const formValidators = [lengthOrWeightRequiredForIndividualMeasurement(),
+      valueBetweenWarning('weight', taxon.weightMin, taxon.weightMax, this.cdr),
+      valueBetweenWarning('length', taxon.lengthMin, taxon.lengthMax, this.cdr)];
+
+    for (let index = 0; index < this.individualLengths().length; index++) {
+      formValidators.push(valueBetweenWarning('individualLengths', taxon.weightMin, taxon.weightMax, this.cdr, index, 'length'));
+    }
+    this.form.setValidators(formValidators);
+    this.form.updateValueAndValidity();
   }
 
   navigateOnArrow(key: string) {
@@ -234,6 +247,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     for (let i = 0; i < this.amount().value; i++) {
       this.individualLengths().push(this.createIndividualLength());
     }
+    this.setTaxonValidators(this.taxon);
   }
 
   createIndividualLength(comment?: any): FormGroup {
@@ -244,8 +258,9 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
   }
 
   toIndividualMeasurement() {
-    this.form.get('individualLengths').patchValue([]);
+    this.individualLengths().patchValue([]);
     this.form.get('type').patchValue(this.amount().value > 1 ? 'GROUP' : 'NORMAL');
+    this.setTaxonValidators(this.taxon);
   }
 
   enterPressed(fieldName: string) {

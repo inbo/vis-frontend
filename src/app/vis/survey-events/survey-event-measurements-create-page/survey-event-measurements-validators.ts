@@ -1,21 +1,32 @@
 import {ChangeDetectorRef} from '@angular/core';
-import {AbstractControl, FormGroup, ValidatorFn} from '@angular/forms';
+import {AbstractControl, FormArray, FormGroup, ValidatorFn} from '@angular/forms';
 
 export interface AbstractControlWarn extends AbstractControl {
   warnings: any;
 }
 
-export function valueBetweenWarning(fieldName: string, minVal: number, maxVal: number, cdr: ChangeDetectorRef): ValidatorFn {
+export function valueBetweenWarning(fieldName: string, minVal: number, maxVal: number,
+                                    cdr: ChangeDetectorRef, index?: number, affix?: string): ValidatorFn {
   return (c: FormGroup) => {
-    const field = c.get(fieldName) as AbstractControlWarn;
+    let field = c.get(fieldName) as AbstractControlWarn;
+    const isArrayElement = !isNaN(index) && affix;
+    if (isArrayElement) {
+      const array = (c.get(fieldName) as FormArray);
+      if (array.length === 0 || array.length === index) {
+        return null;
+      }
+
+      field = (c.get(fieldName) as FormArray).at(index).get(affix) as AbstractControlWarn;
+    }
+
     field.warnings = null;
 
     if (!field.value) {
       return null;
     }
 
-    const min = minVal * c.get('amount').value;
-    const max = maxVal * c.get('amount').value;
+    const min = isArrayElement ? minVal : minVal * c.get('amount').value;
+    const max = isArrayElement ? maxVal : maxVal * c.get('amount').value;
 
     if (minVal !== null && maxVal !== null) {
       const isValid = field.value > max || field.value < min;
