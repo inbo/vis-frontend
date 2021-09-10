@@ -43,6 +43,9 @@ import {ProjectEditGuard} from '../core/project-edit-guard.service';
 import {SurveyEventDetailEditPageComponent} from './survey-events/survey-event-detail-edit-page/survey-event-detail-edit-page.component';
 import {SurveyEventAddPageComponent} from './survey-events/survey-event-add-page/survey-event-add-page.component';
 import {LocationDetailComponent} from './location/location-detail/location-detail.component';
+import {ImportsOverviewComponent} from './imports/imports-overview/imports-overview.component';
+import {ImportsDetailComponent} from './imports/imports-detail/imports-detail.component';
+import {ImportsOverviewProcessedComponent} from './imports/imports-overview-processed/imports-overview-processed.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -187,6 +190,21 @@ const routes: Routes = [
       {path: 'instanties', component: InstancesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
       {path: 'teams', component: TeamsPageComponent, canActivate: [AuthGuardWithForcedLogin]}
     ]
+  },
+  {
+    path: 'importeren',
+    component: ImportsOverviewComponent,
+    canActivateChild: [AuthGuardWithForcedLogin]
+  },
+  {
+    path: 'importeren/verwerkt',
+    component: ImportsOverviewProcessedComponent,
+    canActivateChild: [AuthGuardWithForcedLogin]
+  },
+  {
+    path: 'importeren/:id',
+    component: ImportsDetailComponent,
+    canActivateChild: [AuthGuardWithForcedLogin]
   },
 ];
 

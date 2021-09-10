@@ -7,7 +7,8 @@ export class GlobalConstants {
     {title: 'Waarnemingen', url: '/waarnemingen', sublinks: []},
     {title: 'Locaties', url: '/locaties', sublinks: []},
     {title: 'Vissoorten', url: '/vissoorten', sublinks: []},
-    {title: 'Methoden', url: '/methoden', sublinks: []}
+    {title: 'Methoden', url: '/methoden', sublinks: []},
+    {title: 'Importeren', url: '/importeren', sublinks: []}
   ];
 
 }
