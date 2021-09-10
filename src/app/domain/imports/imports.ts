@@ -9,6 +9,12 @@ export interface Import {
 }
 
 export interface ImportDetail {
+  documentTitle: string;
+  url: string;
+  items: ImportProjectDetail[];
+}
+
+export interface ImportProjectDetail {
   project: ProjectDetail;
   surveyEvents: ImportSurveyEvent[];
 }

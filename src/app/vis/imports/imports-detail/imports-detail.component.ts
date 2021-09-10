@@ -7,7 +7,7 @@ import {Title} from '@angular/platform-browser';
 import {ImportsService} from '../../../services/vis.imports.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ImportDetail} from '../../../domain/imports/imports';
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import {faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-imports-detail',
@@ -19,10 +19,17 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
     {title: 'Importeren', url: '/importeren'},
+    {
+      title: 'Google Drive ID: ' + this.activatedRoute.snapshot.params.id,
+      url: '/importeren/' + this.activatedRoute.snapshot.params.id
+    }
   ];
 
+  loading = true;
+
   private subscription = new Subscription();
-  public importOverviews: ImportDetail[] = [];
+  public importDetail: ImportDetail = {documentTitle: '', url: '', items: []};
+
   id: string;
 
   constructor(private titleService: Title, private importsService: ImportsService, private activatedRoute: ActivatedRoute,
@@ -30,8 +37,8 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
     this.titleService.setTitle('Imports');
     this.id = this.activatedRoute.snapshot.params.id;
     this.importsService.getImport(this.id).subscribe(value => {
-      console.log(value);
-      this.importOverviews = value;
+      this.importDetail = value;
+      this.loading = false;
     });
   }
 

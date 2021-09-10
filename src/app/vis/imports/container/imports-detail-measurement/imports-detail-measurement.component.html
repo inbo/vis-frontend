@@ -1,16 +1,20 @@
 <div [class.bg-gray-100]="i % 2 === 0"
      [class.bg-white]="i % 2 !== 0" class="grid grid-flow-row grid-cols-12 gap-x-2 px-2 py-1.5">
   <div class="col-span-12 md:col-span-4 lg:col-span-3">
-    <div class="relative flex  text-sm text-gray-900">
-      {{measurement.taxon.originalValue}}
+    <div class="relative text-sm text-gray-900">
+      <span class="flex">
+        {{measurement.taxon.originalValue}}
 
-      <a *ngIf="measurement.taxon.taxonId" class="text-gray-400 self-center" [routerLink]="['/vissoorten', measurement.taxon.taxonId]"  target="_blank">
-        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
-          <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
-        </svg>
-      </a>
-      <!--                                    <fa-icon *ngIf="measurement.amount && measurement.amount" [icon]="faWeightHanging" class="self-center text-gray-500 pl-2" title="Groepsmeting"></fa-icon>-->
+        <a *ngIf="measurement.taxon.taxonId" class="text-gray-400 self-center" [routerLink]="['/vissoorten', measurement.taxon.taxonId]"  target="_blank">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
+            <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
+          </svg>
+        </a>
+      </span>
+      <div *ngIf="measurement.taxon.taxonId === null" class="mt-1 text-sm text-red-600">
+        Niet gevonden
+      </div>
 
     </div>
   </div>

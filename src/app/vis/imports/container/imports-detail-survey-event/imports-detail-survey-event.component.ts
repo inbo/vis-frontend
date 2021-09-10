@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {faTimesCircle, faPlus, faMinus} from '@fortawesome/free-solid-svg-icons';
-import {ImportDetail, ImportSurveyEvent} from '../../../../domain/imports/imports';
+import {ImportProjectDetail, ImportSurveyEvent} from '../../../../domain/imports/imports';
 
 @Component({
   selector: 'app-imports-detail-survey-event',
@@ -13,7 +13,7 @@ export class ImportsDetailSurveyEventComponent implements OnInit {
 
   showMeasurements = false;
 
-  @Input() importOverview: ImportDetail;
+  @Input() importOverview: ImportProjectDetail;
   @Input() surveyEvent: ImportSurveyEvent;
 
   constructor() {
