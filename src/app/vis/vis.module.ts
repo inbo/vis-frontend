@@ -76,6 +76,11 @@ import { MeasurementFishingTripNumberComponent } from './survey-events/measureme
 import { MeasurementCommentComponent } from './survey-events/measurement-components/measurement-comment/measurement-comment.component';
 import { MeasurementLengthMeasurementsComponent } from './survey-events/measurement-components/measurement-length-measurements/measurement-length-measurements.component';
 import { MeasurementRowReadonlyComponent } from './survey-events/measurement-row-readonly/measurement-row-readonly.component';
+import { ImportsOverviewComponent } from './imports/imports-overview/imports-overview.component';
+import { ImportsDetailComponent } from './imports/imports-detail/imports-detail.component';
+import { ImportsOverviewProcessedComponent } from './imports/imports-overview-processed/imports-overview-processed.component';
+import { ImportsDetailSurveyEventComponent } from './imports/container/imports-detail-survey-event/imports-detail-survey-event.component';
+import { ImportsDetailMeasurementComponent } from './imports/container/imports-detail-measurement/imports-detail-measurement.component';
 
 @NgModule({
   exports: [
@@ -147,6 +152,11 @@ import { MeasurementRowReadonlyComponent } from './survey-events/measurement-row
     MeasurementCommentComponent,
     MeasurementLengthMeasurementsComponent,
     MeasurementRowReadonlyComponent,
+    ImportsOverviewComponent,
+    ImportsDetailComponent,
+    ImportsOverviewProcessedComponent,
+    ImportsDetailSurveyEventComponent,
+    ImportsDetailMeasurementComponent,
   ],
   imports: [
     CommonModule,

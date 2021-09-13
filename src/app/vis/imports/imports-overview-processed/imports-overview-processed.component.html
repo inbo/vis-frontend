@@ -1,0 +1,103 @@
+<app-stacked-layout [navigationLinks]="links">
+  <div slot="content">
+    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
+    <main>
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+        <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
+          <!-- This example requires Tailwind CSS v2.0+ -->
+          <div class="border-b border-gray-200">
+            <div class="sm:flex sm:items-baseline">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Imports
+              </h3>
+              <div class="mt-4 sm:mt-0 sm:ml-10">
+                <nav class="-mb-px flex space-x-8">
+                  <a [routerLink]="['/importeren']" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
+                    Open
+                  </a>
+
+                  <a [routerLink]="['/importeren', 'verwerkt']" class="border-pink-500 text-pink-600 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm" aria-current="page">
+                    Afgesloten
+                  </a>
+                </nav>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+
+        <div class="px-4 py-8 sm:px-0">
+          <!-- This example requires Tailwind CSS v2.0+ -->
+          <div class="flex flex-col">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                  <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                      <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" scope="col">
+                          Titel / aangemaakt op
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" scope="col">
+                          Bewerkt door
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" scope="col">
+                          Drive
+                        </th>
+                        <th class="relative px-6 py-3" scope="col">
+                          <span class="sr-only">Edit</span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                      <tr>
+                        <td *ngIf="loading" class="px-6 py-4" colspan="5">
+                          <app-loading-spinner></app-loading-spinner>
+                        </td>
+                      </tr>
+
+                      <tr *ngFor="let import of imports; let index = index">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="text-sm text-gray-900">{{import.filename}}</div>
+                          <div class="text-sm text-gray-500">{{import.createdTime | date: 'dd/MM/yyyy'}}</div>
+                        </td>
+
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10">
+                              <img alt="" class="h-10 w-10 rounded-full" [src]="import.photoLink">
+                            </div>
+                            <div class="ml-4">
+                              <div class="text-sm font-medium text-gray-900">
+                                {{import.displayName}}
+                              </div>
+                              <div class="text-sm text-gray-500">
+                                {{import.modifiedTime | date: 'dd/MM/yyyy'}}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <a class="text-pink-600 hover:text-pink-900" [href]="import.webViewLink" target="_blank">Open</a>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <a class="text-pink-600 hover:text-pink-900" [routerLink]="['/importeren', import.id]">Detail</a>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+</app-stacked-layout>
