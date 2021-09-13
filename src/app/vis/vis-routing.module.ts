@@ -16,7 +16,6 @@ import {SurveyEventParametersPageComponent} from './survey-events/survey-event-p
 import {SurveyEventParametersEditPageComponent} from './survey-events/survey-event-parameters-edit-page/survey-event-parameters-edit-page.component';
 import {SurveyEventHabitatPageComponent} from './survey-events/survey-event-habitat-page/survey-event-habitat-page.component';
 import {SurveyEventHabitatEditPageComponent} from './survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component';
-import {SurveyEventTrajectPageComponent} from './survey-events/survey-event-traject-page/survey-event-traject-page.component';
 // tslint:disable-next-line:max-line-length
 import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
 import {LocationOverviewPageComponent} from './location/location-overview-page/location-overview-page.component';
@@ -124,12 +123,6 @@ const routes: Routes = [
         canActivate: [AuthGuardWithForcedLogin],
         canDeactivate: [HasUnsavedDataGuard],
         data: {name: 'Hebitat', url: 'habitat/bewerk'}
-      },
-      {
-        path: 'traject',
-        component: SurveyEventTrajectPageComponent,
-        canActivate: [AuthGuardWithForcedLogin],
-        data: {name: 'Traject', url: 'traject'}
       },
       {
         path: 'metingen',

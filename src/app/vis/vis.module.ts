@@ -22,7 +22,6 @@ import {SurveyEventDetailPageComponent} from './survey-events/survey-event-detai
 import {SurveyEventTabsComponent} from './survey-events/survey-event-tabs/survey-event-tabs.component';
 import {SurveyEventParametersPageComponent} from './survey-events/survey-event-parameters-page/survey-event-parameters-page.component';
 import {SurveyEventHabitatPageComponent} from './survey-events/survey-event-habitat-page/survey-event-habitat-page.component';
-import {SurveyEventTrajectPageComponent} from './survey-events/survey-event-traject-page/survey-event-traject-page.component';
 import {SurveyEventMeasurementsCreatePageComponent} from './survey-events/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {SurveyEventHabitatEditPageComponent} from './survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component';
 import {FishSpeciesDetailPageComponent} from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
@@ -107,7 +106,6 @@ import { ImportsDetailMeasurementComponent } from './imports/container/imports-d
     SurveyEventTabsComponent,
     SurveyEventParametersPageComponent,
     SurveyEventHabitatPageComponent,
-    SurveyEventTrajectPageComponent,
     SurveyEventMeasurementsPageComponent,
     SurveyEventHabitatEditPageComponent,
     FishSpeciesDetailPageComponent,
