@@ -45,8 +45,9 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   @Input() options: SearchableSelectOption[];
   @Input() placeholder: string;
   @Output() search: EventEmitter<any> = new EventEmitter();
+  @Output() enterPressed: EventEmitter<any> = new EventEmitter();
 
-  isOpen = false;
+  open = false;
   selectedValue: any;
   selectedValueOption: SearchableSelectOption;
   isDisabled = false;
@@ -115,13 +116,13 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   toggle() {
-    this.isOpen = !this.isOpen;
+    this.open = !this.open;
 
     if (!this.subscription || this.subscription.closed) {
       this.subscription = new Subscription();
     }
 
-    if (this.isOpen) {
+    if (this.open) {
       const keyUp = fromEvent(this.searchBox.nativeElement, 'keyup')
         .pipe(
           debounceTime(300),
@@ -130,7 +131,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
           filter(value => value.length >= 3)
         )
         .subscribe(value => {
-          this.isOpen = true;
+          this.open = true;
           this.markAsTouched();
           this.cdr.detectChanges();
 
@@ -140,7 +141,9 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
       const keyDown = fromEvent(this.searchBox.nativeElement, 'keydown')
         .pipe(
           filter((event: KeyboardEvent) => event.key === 'Enter')
-        ).subscribe(() => {
+        ).subscribe((event) => {
+          this.enterPressed.emit({event, open: this.open});
+
           const option = document.getElementById(`option-0-${this.passedId}`);
           const option1 = document.getElementById(`option-1-${this.passedId}`);
 
@@ -180,6 +183,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
 
   selectOnEnter(event: KeyboardEvent, option: SearchableSelectOption) {
     if (event.key === 'Enter') {
+      this.enterPressed.emit({event, open: this.open});
       this.select(option);
     }
   }
@@ -187,12 +191,12 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   private addCloseListeners() {
     const documentClick = fromEvent(document, 'click')
       .subscribe((event) => {
-          if (!this.selectButton.nativeElement.contains(event.target) && !this.valuesList.nativeElement.contains(event.target)
-            && this.isOpen) {
-            this.close();
-            this.markAsTouched();
-            this.cdr.detectChanges();
-          }
+        if (!this.selectButton.nativeElement.contains(event.target) && !this.valuesList.nativeElement.contains(event.target)
+          && this.open) {
+          this.close();
+          this.markAsTouched();
+          this.cdr.detectChanges();
+        }
         }
       );
 
@@ -200,7 +204,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
       .subscribe((event: KeyboardEvent) => {
           if (event.key === 'Tab' || event.key === 'Escape') {
             if ((this.selectButton.nativeElement.contains(event.target) || this.searchBox.nativeElement.contains(event.target)
-              || this.valuesList.nativeElement.contains(event.target)) && this.isOpen) {
+              || this.valuesList.nativeElement.contains(event.target)) && this.open) {
               this.close();
               this.markAsTouched();
               this.cdr.detectChanges();
@@ -211,13 +215,13 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
 
     const focusOut = fromEvent(this.eRef.nativeElement, 'focusout')
       .subscribe((event: FocusEvent) => {
-          if (!this.selectButton.nativeElement.contains(event.relatedTarget) &&
-            !this.valuesList.nativeElement.contains(event.relatedTarget)
-            && !this.searchBox.nativeElement.contains(event.relatedTarget) && this.isOpen) {
-            this.close();
-            this.markAsTouched();
-            this.cdr.detectChanges();
-          }
+        if (!this.selectButton.nativeElement.contains(event.relatedTarget) &&
+          !this.valuesList.nativeElement.contains(event.relatedTarget)
+          && !this.searchBox.nativeElement.contains(event.relatedTarget) && this.open) {
+          this.close();
+          this.markAsTouched();
+          this.cdr.detectChanges();
+        }
         }
       );
 
@@ -227,7 +231,13 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   private close() {
-    this.isOpen = false;
+    this.open = false;
     this.subscription.unsubscribe();
+  }
+
+  enter(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.enterPressed.emit({event, open: this.open});
+    }
   }
 }
