@@ -49,4 +49,10 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  doImport() {
+    this.importsService.doImport(this.id).subscribe(value => {
+      console.log(value);
+    });
+  }
+
 }

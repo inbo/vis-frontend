@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {VisService} from './vis.service';
-import {Import, ImportDetail, ImportProjectDetail} from '../domain/imports/imports';
+import {Import, ImportDetail} from '../domain/imports/imports';
 import {Observable} from 'rxjs';
 
 @Injectable({
@@ -29,5 +29,9 @@ export class ImportsService extends VisService {
 
   getImport(id: string): Observable<ImportDetail> {
     return this.http.get<ImportDetail>(`${environment.apiUrl}/api/imports/${id}`, {});
+  }
+
+  doImport(id: string): Observable<string> {
+    return this.http.post<string>(`${environment.apiUrl}/api/imports/${id}/import`, {});
   }
 }
