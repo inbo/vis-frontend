@@ -127,12 +127,38 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     } else if (key === 'ArrowDown') {
       this.focusElement(splittedId[0], this.formGroupName + 1);
     } else if (key === 'ArrowLeft') {
-      const previousField = this.previousFieldName(splittedId[0]);
+      const previousField = this.getEnabledPreviousFieldName(splittedId[0]);
+
       this.focusElement(previousField, this.formGroupName);
     } else if (key === 'ArrowRight') {
-      const nextField = this.nextFieldName(splittedId[0]);
+      const nextField = this.getEnabledNextFieldName(splittedId[0]);
+
       this.focusElement(nextField, this.formGroupName);
     }
+  }
+
+  private getEnabledPreviousFieldName(currentFieldName: string) {
+    const previousField = this.previousFieldName(currentFieldName);
+
+    const element = document.getElementById(previousField + '-' + this.formGroupName + (previousField === 'species' ? '-button' : ''));
+    // @ts-ignore
+    if (element.disabled || element.readOnly) {
+      return this.getEnabledPreviousFieldName(previousField);
+    }
+
+    return previousField;
+  }
+
+  private getEnabledNextFieldName(currentFieldName: string) {
+    const nextField = this.nextFieldName(currentFieldName);
+
+    const element = document.getElementById(nextField + '-' + this.formGroupName + (nextField === 'species' ? '-button' : ''));
+    // @ts-ignore
+    if (element.disabled || element.readOnly) {
+      return this.getEnabledNextFieldName(nextField);
+    }
+
+    return nextField;
   }
 
   getSpecies(val: string, id?: number) {
