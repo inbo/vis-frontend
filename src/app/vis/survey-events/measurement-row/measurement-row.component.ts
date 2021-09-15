@@ -108,13 +108,16 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     this.length().setValidators([Validators.min(0)]);
     this.length().updateValueAndValidity();
 
-    const formValidators = [lengthOrWeightRequiredForIndividualMeasurement(),
-      valueBetweenWarning('weight', taxon.weightMin, taxon.weightMax, this.cdr),
-      valueBetweenWarning('length', taxon.lengthMin, taxon.lengthMax, this.cdr)];
+    const formValidators = [lengthOrWeightRequiredForIndividualMeasurement()];
+    if (taxon) {
+      formValidators.push(valueBetweenWarning('weight', taxon.weightMin, taxon.weightMax, this.cdr),
+        valueBetweenWarning('length', taxon.lengthMin, taxon.lengthMax, this.cdr));
 
-    for (let index = 0; index < this.individualLengths().length; index++) {
-      formValidators.push(valueBetweenWarning('individualLengths', taxon.weightMin, taxon.weightMax, this.cdr, index, 'length'));
+      for (let index = 0; index < this.individualLengths().length; index++) {
+        formValidators.push(valueBetweenWarning('individualLengths', taxon.weightMin, taxon.weightMax, this.cdr, index, 'length'));
+      }
     }
+
     this.form.setValidators(formValidators);
     this.form.updateValueAndValidity();
   }

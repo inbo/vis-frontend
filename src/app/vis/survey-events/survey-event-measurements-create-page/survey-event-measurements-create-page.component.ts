@@ -28,6 +28,9 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   faRulerHorizontal = faRulerHorizontal;
   faWeightHanging = faWeightHanging;
 
+  introModalOpen = false;
+  introJs: IntroJs;
+
   tip$: Observable<Tip>;
 
   existingMeasurements: Measurement[];
@@ -71,29 +74,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   ngAfterViewInit() {
     if (localStorage.getItem('measurements-demo') !== 'completed') {
-      const introJs = IntroJs();
-
-      introJs.onbeforechange(function() {
-        switch (this._currentStep) {
-          case 3:
-            _this.amount(0).patchValue(2);
-            _this.items().at(0).get('type').patchValue('GROUP');
-            // TODO best practice?
-            _this.measurementRow.detectChanges();
-            break;
-          case 5:
-            _this.measurementRow.toGroupMeasurement();
-            // TODO best practice?
-            _this.measurementRow.detectChanges();
-            break;
-        }
-      });
-
-      setTimeout(() => introJs.start());
-      // introJs.oncomplete(() => localStorage.setItem('measurements-demo', 'completed'));
-      // introJs.onexit(() => localStorage.setItem('measurements-demo', 'completed'));
-
-      const _this = this;
+      this.introModalOpen = true;
     }
   }
 
@@ -253,5 +234,46 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   cancel() {
     this._location.back();
+  }
+
+  cancelModal() {
+    this.introModalOpen = false;
+  }
+
+  confirmModal() {
+    this.measurementsForm = this.formBuilder.group({
+      items: this.formBuilder.array([this.createMeasurementFormGroup()])
+    });
+
+    this.introModalOpen = false;
+
+    this.introJs = IntroJs();
+    this.introJs.setOption('showBullets', false);
+    this.introJs.oncomplete(() => localStorage.setItem('measurements-demo', 'completed'));
+    this.introJs.onexit(() => localStorage.setItem('measurements-demo', 'completed'));
+
+    this.introJs.onbeforechange(function() {
+      switch (this._currentStep) {
+        case 3:
+          _this.amount(0).patchValue(2);
+          _this.items().at(0).get('type').patchValue('GROUP');
+          // TODO best practice?
+          _this.measurementRow.detectChanges();
+          break;
+        case 5:
+          _this.measurementRow.toGroupMeasurement();
+          // TODO best practice?
+          _this.measurementRow.detectChanges();
+          break;
+      }
+    });
+
+    const _this = this;
+
+    setTimeout(() => this.introJs.start());
+  }
+
+  playIntro() {
+    this.introModalOpen = true;
   }
 }
