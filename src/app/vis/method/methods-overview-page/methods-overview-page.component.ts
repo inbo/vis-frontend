@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {Title} from '@angular/platform-browser';
@@ -10,6 +10,8 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {Method} from '../../../domain/method/method';
+import {ProjectAddComponent} from '../../project/project-add/project-add.component';
+import {MethodEditComponent} from '../method-edit/method-edit.component';
 
 @Component({
   selector: 'app-methods-overview-page',
@@ -21,6 +23,8 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
   breadcrumbLinks: BreadcrumbLink[] = [
     {title: 'Methodes', url: '/methodes'},
   ];
+
+  @ViewChild(MethodEditComponent) methodEditComponent;
 
   loading = false;
   pager: AsyncPage<Method>;
@@ -99,4 +103,7 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
     this.getMethods(1, 20);
   }
 
+  openEdit(methodCode: string) {
+    this.methodEditComponent.open(methodCode);
+  }
 }

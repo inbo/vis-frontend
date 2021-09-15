@@ -80,6 +80,7 @@ import { ImportsDetailComponent } from './imports/imports-detail/imports-detail.
 import { ImportsOverviewProcessedComponent } from './imports/imports-overview-processed/imports-overview-processed.component';
 import { ImportsDetailSurveyEventComponent } from './imports/container/imports-detail-survey-event/imports-detail-survey-event.component';
 import { ImportsDetailMeasurementComponent } from './imports/container/imports-detail-measurement/imports-detail-measurement.component';
+import { MethodEditComponent } from './method/method-edit/method-edit.component';
 
 @NgModule({
   exports: [
@@ -155,6 +156,7 @@ import { ImportsDetailMeasurementComponent } from './imports/container/imports-d
     ImportsOverviewProcessedComponent,
     ImportsDetailSurveyEventComponent,
     ImportsDetailMeasurementComponent,
+    MethodEditComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,74 @@
+<form [formGroup]="editForm">
+  <app-slide-over (isOpenChange)="cancel()" [(isOpen)]="isOpen">
+    <span slot="title">Methode bewerken</span>
+    <div slot="content">
+      <div class="flex-1 flex flex-col justify-between">
+        <div class="px-4 divide-y divide-gray-200 sm:px-6">
+          <div class="space-y-6 pt-6 pb-5">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">
+                Groep
+              </label>
+              <div class="mt-1">
+                {{method?.group.description}}
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700">
+                Code
+              </label>
+              <div class="mt-1">
+                {{method?.code}}
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700" for="description">
+                Beschrijving
+              </label>
+              <div class="mt-1">
+                <input formControlName="description" id="description" name="description" type="text">
+              </div>
+              <app-form-error-message [control]="description" [fieldName]="'Beschrijving'" [submitted]="submitted"></app-form-error-message>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700" for="description">
+                Parameters
+              </label>
+              <p class="mt-2 text-sm text-gray-500" id="parameters-description">Selecteer alle parameters die nodig zijn om de Catch Per Unit Effort (CPUE) te berekenen.</p>
+              <div class="mt-1 border-b border-gray-200 divide-y divide-gray-200">
+                <div *ngFor="let param of allParameters" class="relative flex items-start py-4">
+                  <div class="min-w-0 flex-1 text-sm">
+                    <label class="font-medium text-gray-700 select-none" [for]="param">{{'cpue.parameter.' + param | translate}}</label>
+                  </div>
+                  <div class="ml-3 flex items-center h-5">
+                    <input [checked]="isChecked(param) ? 'checked' : null" [name]="param" [id]="param" (change)="onCheckboxChange($event)" [value]="param" type="checkbox">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="flex-shrink-0 px-4 border-t border-gray-200 py-5 sm:px-6" slot="buttons">
+      <div class="space-x-3 flex justify-end">
+        <span class="inline-flex rounded-md shadow-sm">
+          <button (click)="cancel()" class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out"
+                  type="button">
+            Annuleren
+          </button>
+        </span>
+        <span class="inline-flex rounded-md shadow-sm">
+          <button (click)="saveMethod()" class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-pink-600 hover:bg-pink-500 focus:outline-none focus:border-pink-700 focus:shadow-outline-pink active:bg-pink-700 transition duration-150 ease-in-out"
+                  type="submit">
+            Bewaren
+          </button>
+        </span>
+      </div>
+    </div>
+  </app-slide-over>
+</form>

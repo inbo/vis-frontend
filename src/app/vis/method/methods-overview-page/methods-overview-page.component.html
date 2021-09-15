@@ -52,14 +52,17 @@
                   <table class="min-w-full divide-y divide-gray-200 table-fixed">
                     <thead>
                     <tr>
-                      <th scope="col" class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th scope="col" class="w-3/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Methode
                       </th>
-                      <th scope="col" class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th scope="col" class="w-3/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Groep
                       </th>
-                      <th scope="col" class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th scope="col" class="w-3/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Code
+                      </th>
+                      <th scope="col" class="relative px-6 py-3">
+                        <span class="sr-only">Bewerk</span>
                       </th>
                     </tr>
                     </thead>
@@ -79,6 +82,9 @@
                       </td>
                       <td class="px-6 py-4  text-sm text-gray-900">
                         {{method.code}}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button type="button" (click)="openEdit(method.code)" class="text-pink-600 hover:text-pink-900">Bewerk</button>
                       </td>
                     </tr>
 
@@ -119,6 +125,8 @@
         </div>
       </div>
     </main>
+
+    <app-method-edit></app-method-edit>
   </div>
 
 </app-stacked-layout>
