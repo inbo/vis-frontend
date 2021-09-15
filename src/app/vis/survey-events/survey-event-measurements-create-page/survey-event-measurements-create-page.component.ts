@@ -50,9 +50,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   ngOnInit(): void {
     this.tip$ = this.tipsService.randomTipForPage('METING');
 
-    this.measurementsForm = this.formBuilder.group({
-      items: this.formBuilder.array([this.createMeasurementFormGroup()])
-    });
+    this.initForm();
 
     this.subscription.add(
       fromEvent(window, 'keydown').pipe(
@@ -83,6 +81,12 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       document.getElementById('species-' + (this.items().length - 1))?.scrollIntoView();
       this.scrollIntoView = false;
     }
+  }
+
+  initForm() {
+    this.measurementsForm = this.formBuilder.group({
+      items: this.formBuilder.array([this.createMeasurementFormGroup()])
+    });
   }
 
   createMeasurementFormGroup(species?: any, gender?: any, afvisbeurt?: any, comment?: any): FormGroup {
@@ -241,16 +245,25 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   }
 
   confirmModal() {
-    this.measurementsForm = this.formBuilder.group({
-      items: this.formBuilder.array([this.createMeasurementFormGroup()])
-    });
+    this.initForm();
 
     this.introModalOpen = false;
 
     this.introJs = IntroJs();
-    this.introJs.setOption('showBullets', false);
-    this.introJs.oncomplete(() => localStorage.setItem('measurements-demo', 'completed'));
-    this.introJs.onexit(() => localStorage.setItem('measurements-demo', 'completed'));
+    this.introJs.setOptions({
+      showBullets: false,
+      hidePrev: true,
+      nextLabel: 'Volgende',
+      doneLabel: 'Klaar',
+    });
+    this.introJs.oncomplete(() => {
+      this.initForm();
+      localStorage.setItem('measurements-demo', 'completed');
+    });
+    this.introJs.onexit(() => {
+      this.initForm();
+      localStorage.setItem('measurements-demo', 'completed');
+    });
 
     this.introJs.onbeforechange(function() {
       switch (this._currentStep) {
