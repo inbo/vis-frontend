@@ -23,9 +23,9 @@
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Beschrijving
             </th>
-            <!--<th scope="col" class="relative px-6 py-3">
+            <th scope="col" class="relative px-6 py-3">
               <span class="sr-only">Bewerken</span>
-            </th>-->
+            </th>
           </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
@@ -41,10 +41,10 @@
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               {{team.description}}
             </td>
-            <!--<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-              <a (click)="editAccount(account)"
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <a (click)="editTeam(team)"
                  class="cursor-pointer text-pink-600 hover:text-pink-900">Bewerken</a>
-            </td>-->
+            </td>
           </tr>
           </tbody>
         </table>
@@ -55,4 +55,5 @@
 </div>
 
 <app-team-add></app-team-add>
+<app-team-edit></app-team-edit>
 

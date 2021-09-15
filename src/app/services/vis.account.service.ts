@@ -75,4 +75,12 @@ export class AccountService extends VisService {
 
     return this.http.get<Instance[]>(`${environment.apiUrl}/api/instances/search`, {params});
   }
+
+  listAccountsForTeam(code: string) {
+    return this.http.get<Account[]>(`${environment.apiUrl}/api/teams/${code}/accounts`, {});
+  }
+
+  editTeam(code: string, rawValue: any) {
+    return this.http.put<void>(`${environment.apiUrl}/api/teams/${code}`, rawValue);
+  }
 }

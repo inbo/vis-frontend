@@ -60,26 +60,27 @@ import {TeamsPageComponent} from './settings/teams/teams-page/teams-page.compone
 import {InstancesPageComponent} from './settings/instances/instances-page/instances-page.component';
 import {InstanceAddComponent} from './settings/instances/instance-add/instance-add.component';
 import {SurveyEventDetailEditPageComponent} from './survey-events/survey-event-detail-edit-page/survey-event-detail-edit-page.component';
-import { SurveyEventAddPageComponent } from './survey-events/survey-event-add-page/survey-event-add-page.component';
-import { SurveyEventCopyModalComponent } from './survey-events/survey-event-copy-modal/survey-event-copy-modal.component';
-import { LocationDetailComponent } from './location/location-detail/location-detail.component';
-import { MeasurementRowComponent } from './survey-events/measurement-row/measurement-row.component';
-import { SurveyEventMeasurementsPageComponent } from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { SpeciesSearchComponent } from './survey-events/measurement-components/species-search/species-search.component';
-import { MeasurementLengthComponent } from './survey-events/measurement-components/measurement-length/measurement-length.component';
-import { MeasurementWeightComponent } from './survey-events/measurement-components/measurement-weight/measurement-weight.component';
-import { MeasurementGenderComponent } from './survey-events/measurement-components/measurement-gender/measurement-gender.component';
-import { MeasurementAmountComponent } from './survey-events/measurement-components/measurement-amount/measurement-amount.component';
-import { MeasurementFishingTripNumberComponent } from './survey-events/measurement-components/measurement-fishing-trip-number/measurement-fishing-trip-number.component';
-import { MeasurementCommentComponent } from './survey-events/measurement-components/measurement-comment/measurement-comment.component';
-import { MeasurementLengthMeasurementsComponent } from './survey-events/measurement-components/measurement-length-measurements/measurement-length-measurements.component';
-import { MeasurementRowReadonlyComponent } from './survey-events/measurement-row-readonly/measurement-row-readonly.component';
-import { ImportsOverviewComponent } from './imports/imports-overview/imports-overview.component';
-import { ImportsDetailComponent } from './imports/imports-detail/imports-detail.component';
-import { ImportsOverviewProcessedComponent } from './imports/imports-overview-processed/imports-overview-processed.component';
-import { ImportsDetailSurveyEventComponent } from './imports/container/imports-detail-survey-event/imports-detail-survey-event.component';
-import { ImportsDetailMeasurementComponent } from './imports/container/imports-detail-measurement/imports-detail-measurement.component';
+import {SurveyEventAddPageComponent} from './survey-events/survey-event-add-page/survey-event-add-page.component';
+import {SurveyEventCopyModalComponent} from './survey-events/survey-event-copy-modal/survey-event-copy-modal.component';
+import {LocationDetailComponent} from './location/location-detail/location-detail.component';
+import {MeasurementRowComponent} from './survey-events/measurement-row/measurement-row.component';
+import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {SpeciesSearchComponent} from './survey-events/measurement-components/species-search/species-search.component';
+import {MeasurementLengthComponent} from './survey-events/measurement-components/measurement-length/measurement-length.component';
+import {MeasurementWeightComponent} from './survey-events/measurement-components/measurement-weight/measurement-weight.component';
+import {MeasurementGenderComponent} from './survey-events/measurement-components/measurement-gender/measurement-gender.component';
+import {MeasurementAmountComponent} from './survey-events/measurement-components/measurement-amount/measurement-amount.component';
+import {MeasurementFishingTripNumberComponent} from './survey-events/measurement-components/measurement-fishing-trip-number/measurement-fishing-trip-number.component';
+import {MeasurementCommentComponent} from './survey-events/measurement-components/measurement-comment/measurement-comment.component';
+import {MeasurementLengthMeasurementsComponent} from './survey-events/measurement-components/measurement-length-measurements/measurement-length-measurements.component';
+import {MeasurementRowReadonlyComponent} from './survey-events/measurement-row-readonly/measurement-row-readonly.component';
+import {ImportsOverviewComponent} from './imports/imports-overview/imports-overview.component';
+import {ImportsDetailComponent} from './imports/imports-detail/imports-detail.component';
+import {ImportsOverviewProcessedComponent} from './imports/imports-overview-processed/imports-overview-processed.component';
+import {ImportsDetailSurveyEventComponent} from './imports/container/imports-detail-survey-event/imports-detail-survey-event.component';
+import {ImportsDetailMeasurementComponent} from './imports/container/imports-detail-measurement/imports-detail-measurement.component';
+import {TeamEditComponent} from './settings/teams/team-edit/team-edit.component';
 
 @NgModule({
   exports: [
@@ -155,6 +156,7 @@ import { ImportsDetailMeasurementComponent } from './imports/container/imports-d
     ImportsOverviewProcessedComponent,
     ImportsDetailSurveyEventComponent,
     ImportsDetailMeasurementComponent,
+    TeamEditComponent,
   ],
   imports: [
     CommonModule,
