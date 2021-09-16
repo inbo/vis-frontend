@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
@@ -9,12 +9,16 @@ import {map, take} from 'rxjs/operators';
 import {Method} from '../../../domain/method/method';
 import {Location} from '@angular/common';
 import {HasUnsavedData} from '../../../core/core.interface';
+import {ProjectService} from '../../../services/vis.project.service';
+import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
 
 @Component({
   selector: 'app-survey-event-add-page',
   templateUrl: './survey-event-add-page.component.html'
 })
 export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
+
+  @ViewChild(DatepickerComponent) datepicker: DatepickerComponent;
 
   createSurveyEventForm: FormGroup;
   isOpen = false;
@@ -25,10 +29,18 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
 
   constructor(private surveyEventService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder, private locationsService: LocationsService,
-              private methodsService: MethodsService, private _location: Location) {
+              private methodsService: MethodsService, private _location: Location, private projectService: ProjectService) {
   }
 
   ngOnInit(): void {
+    this.projectService.getProject(this.activatedRoute.parent.snapshot.params.projectCode)
+      .pipe(take(1))
+      .subscribe(value => {
+        this.datepicker.setMinDate(new Date(value.start));
+        this.datepicker.setMaxDate(new Date(value.end));
+      });
+
+
     this.createSurveyEventForm = this.formBuilder.group(
       {
         occurrenceDate: [null, [Validators.required]],

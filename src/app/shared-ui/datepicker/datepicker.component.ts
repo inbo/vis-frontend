@@ -65,7 +65,14 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit, AfterV
         }
       },
     });
+  }
 
+  setMinDate(date: Date) {
+    this.fp.set('minDate', date);
+  }
+
+  setMaxDate(date: Date) {
+    this.fp.set('maxDate', date);
   }
 
   reset() {
