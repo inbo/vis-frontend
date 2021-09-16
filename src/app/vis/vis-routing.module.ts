@@ -45,6 +45,8 @@ import {LocationDetailComponent} from './location/location-detail/location-detai
 import {ImportsOverviewComponent} from './imports/imports-overview/imports-overview.component';
 import {ImportsDetailComponent} from './imports/imports-detail/imports-detail.component';
 import {ImportsOverviewProcessedComponent} from './imports/imports-overview-processed/imports-overview-processed.component';
+import {SurveyEventCpuePageComponent} from './survey-events/survey-event-cpue-page/survey-event-cpue-page.component';
+import {SurveyEventCpueEditPageComponent} from './survey-events/survey-event-cpue-edit-page/survey-event-cpue-edit-page.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -136,6 +138,19 @@ const routes: Routes = [
         canActivate: [AuthGuardWithForcedLogin],
         canDeactivate: [HasUnsavedDataGuard],
         data: {name: 'Metingen', url: 'metingen/toevoegen'}
+      },
+      {
+        path: 'cpue',
+        component: SurveyEventCpuePageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        data: {name: 'cpue', url: 'cpue'}
+      },
+      {
+        path: 'cpue/bewerk',
+        component: SurveyEventCpueEditPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        canDeactivate: [HasUnsavedDataGuard],
+        data: {name: 'cpue', url: 'cpue/bewerk'}
       },
     ]
   },

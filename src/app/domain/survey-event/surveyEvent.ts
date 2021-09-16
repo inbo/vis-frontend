@@ -32,4 +32,8 @@ export interface SurveyEvent {
   canEdit: boolean;
 }
 
+export interface CpueParameters {
+  parameters: Map<string, number>;
+}
+
 

@@ -4,7 +4,7 @@ import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable} from 'rxjs';
 import {Measurement} from '../domain/survey-event/measurement';
-import {SurveyEvent, SurveyEventId} from '../domain/survey-event/surveyEvent';
+import {CpueParameters, SurveyEvent, SurveyEventId} from '../domain/survey-event/surveyEvent';
 import {Parameters} from '../domain/survey-event/parameters';
 import {Habitat} from '../domain/survey-event/habitat';
 import {VisService} from './vis.service';
@@ -100,5 +100,14 @@ export class SurveyEventsService extends VisService {
 
   saveMeasurement(projectCode: string, surveyEventId: any, measurementId: any, formData: any) {
     return this.http.put<SurveyEvent>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/${measurementId}`, formData);
+  }
+
+  cpueParameters(projectCode: string, surveyEventId: number): Observable<CpueParameters> {
+    return this.http.get<CpueParameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue`);
+  }
+
+  updateCpueParameters(projectCode: any, surveyEventId: any, formData: any) {
+    return this.http.put<string>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue`,
+      {parameters: formData});
   }
 }

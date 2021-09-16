@@ -81,6 +81,8 @@ import { ImportsOverviewProcessedComponent } from './imports/imports-overview-pr
 import { ImportsDetailSurveyEventComponent } from './imports/container/imports-detail-survey-event/imports-detail-survey-event.component';
 import { ImportsDetailMeasurementComponent } from './imports/container/imports-detail-measurement/imports-detail-measurement.component';
 import { MethodEditComponent } from './method/method-edit/method-edit.component';
+import { SurveyEventCpuePageComponent } from './survey-events/survey-event-cpue-page/survey-event-cpue-page.component';
+import { SurveyEventCpueEditPageComponent } from './survey-events/survey-event-cpue-edit-page/survey-event-cpue-edit-page.component';
 
 @NgModule({
   exports: [
@@ -157,6 +159,8 @@ import { MethodEditComponent } from './method/method-edit/method-edit.component'
     ImportsDetailSurveyEventComponent,
     ImportsDetailMeasurementComponent,
     MethodEditComponent,
+    SurveyEventCpuePageComponent,
+    SurveyEventCpueEditPageComponent,
   ],
   imports: [
     CommonModule,
