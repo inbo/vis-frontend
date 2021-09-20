@@ -216,6 +216,14 @@
     "lengthOrWeightRequiredForIndividualMeasurement": {
       "short": "L of G verplicht",
       "long": "Lengte of gewicht is verplicht voor een individuele meting"
+    },
+    "projectStartAfterSurveyEvents": {
+      "short": "Prj start > srv event occ",
+      "long": "Bestaande waarneming data mogen niet voor de project start datum vallen"
+    },
+    "projectEndBeforeSurveyEvents": {
+      "short": "Prj einde < srv event occ",
+      "long": "Bestaande waarneming data mogen niet na de project eind datum vallen"
     }
   },
   "COMMON": "Algemeen",

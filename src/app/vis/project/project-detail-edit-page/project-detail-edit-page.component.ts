@@ -1,22 +1,48 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Project} from '../../../domain/project/project';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Observable, Subscription} from 'rxjs';
 import {ProjectService} from '../../../services/vis.project.service';
 import {Role} from '../../../core/_models/role';
 import {AccountService} from '../../../services/vis.account.service';
-import {map} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 import {Location} from '@angular/common';
+import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
+
+function projectStartBeforeSurveyEvents(date: Date): ValidatorFn {
+  return (c: AbstractControl) => {
+    if (date && (new Date(date).valueOf() < new Date(c.value).valueOf())) {
+      return {projectStartAfterSurveyEvents: true};
+    }
+
+    return null;
+  };
+}
+
+function projectEndAfterSurveyEvents(date: Date): ValidatorFn {
+  return (c: AbstractControl) => {
+    console.log(date, new Date(c.value).valueOf(), new Date(date).valueOf());
+    if (date && (new Date(c.value).valueOf() < new Date(date).valueOf())) {
+      return {projectEndBeforeSurveyEvents: true};
+    }
+
+    return null;
+  };
+}
 
 @Component({
   selector: 'app-project-detail-edit-page',
   templateUrl: './project-detail-edit-page.component.html'
 })
 export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {
+
+  @ViewChild('startDatePicker') startDatePicker: DatepickerComponent;
+  @ViewChild('endDatePicker') endDatePicker: DatepickerComponent;
+
   public role = Role;
 
   closeProjectForm: FormGroup;
@@ -24,6 +50,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
   project: Project;
   submitted: boolean;
   closeProjectFormSubmitted: boolean;
+  earliestSurveyEventDate: Date;
+  latestSurveyEventDate: Date;
 
   showCloseProjectModal = false;
 
@@ -59,6 +87,26 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         startDate: [null, [Validators.required]],
         teams: [[]],
         instances: [[]],
+      });
+
+    this.projectService.getEarliestSurveyEventOccurrenceDate(this.activatedRoute.parent.snapshot.params.projectCode)
+      .pipe(take(1))
+      .subscribe(date => {
+        this.earliestSurveyEventDate = date;
+        if (date) {
+          this.startDate.setValidators([Validators.required, projectStartBeforeSurveyEvents(date)]);
+          this.startDatePicker.setMaxDate(new Date(date));
+        }
+      });
+
+    this.projectService.getLatestSurveyEventOccurrenceDate(this.activatedRoute.parent.snapshot.params.projectCode)
+      .pipe(take(1))
+      .subscribe(date => {
+        this.latestSurveyEventDate = date;
+        if (date) {
+          this.endDate.setValidators([Validators.required, projectEndAfterSurveyEvents(date)]);
+          this.endDatePicker.setMinDate(new Date(date));
+        }
       });
 
     this.subscription.add(
@@ -119,10 +167,10 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     }
 
     this.subscription.add(this.projectService.closeProject(this.activatedRoute.parent.snapshot.params.projectCode,
-      this.closeProjectForm.getRawValue()).subscribe(value => {
-        this.projectService.next(value);
-        this.router.navigateByUrl(`/projecten/${this.activatedRoute.parent.snapshot.params.projectCode}`);
-      }
+        this.closeProjectForm.getRawValue()).subscribe(value => {
+          this.projectService.next(value);
+          this.router.navigateByUrl(`/projecten/${this.activatedRoute.parent.snapshot.params.projectCode}`);
+        }
       )
     );
   }
