@@ -1,5 +1,11 @@
 export interface Method {
   code: string;
-  group: string;
+  group: MethodGroup;
+  description: string;
+  calculation: string;
+}
+
+export interface MethodGroup {
+  code: string;
   description: string;
 }

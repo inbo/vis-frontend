@@ -44,4 +44,13 @@ export class MethodsService extends VisService {
       .set('methodGroup', group);
     return this.http.get<Method[]>(`${environment.apiUrl}/api/method-groups/methods`, {params});
   }
+
+  getMethod(methodCode: string): Observable<Method> {
+    return this.http.get<Method>(`${environment.apiUrl}/api/methods/${methodCode}`);
+  }
+
+  updateMethod(formData: any, methodCode: string) {
+    return this.http.put<Method>(`${environment.apiUrl}/api/methods/${methodCode}`, formData);
+
+  }
 }

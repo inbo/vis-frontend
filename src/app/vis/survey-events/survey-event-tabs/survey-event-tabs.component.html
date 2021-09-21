@@ -5,6 +5,7 @@
       <option [value]="'/projecten/' + projectCode + '/waarnemingen/' + surveyEventId ">Algemeen</option>
       <option [value]="'/projecten/' + projectCode + '/waarnemingen/' + surveyEventId + '/waterkwaliteitsparameters'">Waterkwaliteitsparameters</option>
       <option [value]="'/projecten/' + projectCode + '/waarnemingen/' + surveyEventId + '/habitat'">Habitat</option>
+      <option [value]="'/projecten/' + projectCode + '/waarnemingen/' + surveyEventId + '/cpue'">CPUE</option>
       <option [value]="'/projecten/' + projectCode + '/waarnemingen/' + surveyEventId + '/metingen'">Metingen</option>
     </select>
   </div>
@@ -19,6 +20,9 @@
         </a>
         <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'habitat']" routerLinkActive #rla5="routerLinkActive" [ngClass]="rla5.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
           Habitat
+        </a>
+        <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'cpue']" routerLinkActive #rla6="routerLinkActive" [ngClass]="rla6.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+          CPUE parameters
         </a>
         <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'metingen']" routerLinkActive #rla7="routerLinkActive" [ngClass]="rla7.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
           Metingen

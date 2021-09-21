@@ -1,0 +1,141 @@
+<form [formGroup]="editForm">
+  <app-slide-over (isOpenChange)="cancel()" [(isOpen)]="isOpen">
+    <span slot="title">Methode bewerken</span>
+    <div slot="content">
+      <div class="flex-1 flex flex-col justify-between">
+        <div class="px-4 sm:px-6">
+          <div class="space-y-6 pt-6 pb-5">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">
+                Groep
+              </label>
+              <div class="mt-1">
+                {{method?.group.description}}
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700">
+                Code
+              </label>
+              <div class="mt-1">
+                {{method?.code}}
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700" for="description">
+                Beschrijving
+              </label>
+              <div class="mt-1">
+                <input formControlName="description" id="description" name="description" type="text">
+              </div>
+              <app-form-error-message [control]="description" [fieldName]="'Beschrijving'" [submitted]="submitted"></app-form-error-message>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700" for="description">
+                Parameters
+              </label>
+              <p class="mt-2 text-sm text-gray-500" id="parameters-description">Selecteer alle parameters die nodig zijn om de Catch Per Unit Effort (CPUE) te berekenen.</p>
+              <div class="mt-1 border-b border-gray-200 divide-y divide-gray-200">
+                <div *ngFor="let param of allParameters" class="relative flex items-start py-4">
+                  <div class="min-w-0 flex-1 text-sm">
+                    <label [for]="param" class="font-medium text-gray-700 select-none">{{'cpue.parameter.' + param | translate}}</label>
+                  </div>
+                  <div class="ml-3 flex items-center h-5">
+                    <input (change)="onCheckboxChange($event)" [checked]="isChecked(param) ? 'checked' : null" [id]="param" [name]="param" [value]="param" type="checkbox">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="z-50 relative">
+              <label class="block text-sm font-medium text-gray-700" for="calculation">
+                Berekening
+              </label>
+              <div class="mt-1">
+                <span class="relative z-0 inline-flex shadow-sm rounded-md w-full">
+
+                  <input formControlName="calculation" id="calculation" name="calculation" type="text" class="rounded-r-none">
+
+                  <span class="-ml-px relative block">
+                    <button (click)="isQuickSelectionOpen = !isQuickSelectionOpen" aria-expanded="true" aria-haspopup="true" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500" id="option-menu-button" type="button">
+                      <span class="sr-only">Open options</span>
+                      <svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path clip-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" fill-rule="evenodd"/>
+                      </svg>
+                    </button>
+
+                    <div
+                      [ngTransition]="isQuickSelectionOpen"
+                      ngTransitionEnter="transition ease-out duration-100"
+                      ngTransitionEnterStart="transform opacity-0 scale-95"
+                      ngTransitionEnterEnd="transform opacity-100 scale-100"
+                      ngTransitionLeave="transition ease-in duration-75"
+                      ngTransitionLeaveStart="transform opacity-100 scale-100"
+                      ngTransitionLeaveEnd="transform opacity-0 scale-95"
+                      [class.hidden]="!isQuickSelectionOpen"
+                      aria-labelledby="option-menu-button" aria-orientation="vertical" class="origin-top-right absolute right-0 mt-2 -mr-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50" role="menu" tabindex="-1">
+                      <div class="py-1" role="none">
+                        <a (click)="appendKeyToCalculation(key)" *ngFor="let key of controls()" class="text-gray-700 block px-4 py-2 text-sm" tabindex="-1">
+                          {{'cpue.parameter.' + key | translate}} / {{key}}
+                        </a>
+                      </div>
+                    </div>
+                  </span>
+                </span>
+              </div>
+              <app-form-error-message [control]="calculation" [fieldName]="'Berekening'" [submitted]="submitted"></app-form-error-message>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700">
+                Berekening testen
+              </label>
+              <p class="mt-2 text-sm text-gray-500">Hier kan je bovenstaande berekening testen met een aantal fictieve parameters. De onderstaande parameters zullen nooit bijgehouden worden.</p>
+              <div class="mt-1">
+                <form [formGroup]="cpueTestForm">
+                  <div *ngFor="let key of controls()" class="relative flex items-start py-4">
+                    <div class="min-w-0 flex-1 text-sm">
+                      <label [for]="key" class="font-medium text-gray-700 select-none">{{'cpue.parameter.' + key | translate}}</label>
+                    </div>
+                    <div class="ml-3 flex items-center h-5">
+                      <input [formControlName]="key" type="text"/>
+                    </div>
+                  </div>
+                  <div class="relative flex items-center py-4">
+                    <div class="min-w-0 flex-1 text-sm">
+                      <app-button (click)="test()" [style]="'white'">Bereken</app-button>
+                    </div>
+                    <div class="ml-3 flex items-center h-5">
+                      <input [value]="testResult" readonly="readonly" type="text">
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex-shrink-0 px-4 border-t border-gray-200 py-5 sm:px-6" slot="buttons">
+      <div class="space-x-3 flex justify-end">
+        <span class="inline-flex rounded-md shadow-sm">
+          <button (click)="cancel()" class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out"
+                  type="button">
+            Annuleren
+          </button>
+        </span>
+        <span class="inline-flex rounded-md shadow-sm">
+          <button (click)="saveMethod()" class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-pink-600 hover:bg-pink-500 focus:outline-none focus:border-pink-700 focus:shadow-outline-pink active:bg-pink-700 transition duration-150 ease-in-out"
+                  type="submit">
+            Bewaren
+          </button>
+        </span>
+      </div>
+    </div>
+  </app-slide-over>
+</form>

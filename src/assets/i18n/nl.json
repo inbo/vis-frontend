@@ -187,6 +187,15 @@
       "TOTAL": "Totale lengte"
     }
   },
+  "cpue": {
+    "parameter": {
+      "TRAJECT_LENGTH": "Lengte traject",
+      "TIME_UNIT": "Tijdseenheid",
+      "ROD_COUNT":  "Aantal hengels",
+      "DAYS_COUNT": "Aantal dagen",
+      "FISH_CAUGHT":  "Gevangen vissen"
+    }
+  },
   "error": {
     "forbidden": "Sorry, de pagina die u zoekt, is niet gevonden.",
     "internal-server-error": "Sorry, er is een onverwachte fout opgetreden. Contacteer een administrator.",

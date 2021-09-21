@@ -1,0 +1,50 @@
+<div
+  class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
+  <div class="px-4 py-5 sm:px-6">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+      Waarneming CPUE parameters
+    </h3>
+  </div>
+  <div class="px-4 py-5 sm:p-6">
+    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+      <div class="sm:col-span-1" *ngFor="let parameter of parameters?.parameters | keyvalue">
+        <dt class="text-sm font-medium text-gray-500">
+          {{"cpue.parameter." + parameter.key| translate}}
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{parameter.value}}
+        </dd>
+      </div>
+    </dl>
+  </div>
+  <div class="px-4 py-4 sm:px-6 flex justify-end">
+    <!--<app-button *ngIf="canDeleteSurveyEvent()"
+                (click)="deleteSurveyEvent()"
+                [style]="'secondary'"
+                class="ml-3"
+                [role]="role.DeleteSurveyEvent"
+                [isUserLinkedToProject]="surveyEvent?.canEdit">Verwijderen
+    </app-button>
+    <app-button *ngIf="canValidateSurveyEvent()"
+                (click)="validateSurveyEvent()"
+                [style]="'secondary'"
+                class="ml-3"
+                [role]="role.ValidateSurveyEvent"
+                [isUserLinkedToProject]="surveyEvent?.canEdit">Valideer
+    </app-button>
+    <app-button *ngIf="canRestoreSurveyEvent()"
+                (click)="reOpenSurveyEvent()"
+                [style]="'secondary'"
+                class="ml-3"
+                [role]="role.EditSurveyEvent"
+                [isUserLinkedToProject]="surveyEvent?.canEdit">Heropenen
+    </app-button>
+    -->
+
+    <app-button [style]="'primary'"
+                class="ml-3"
+                [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'cpue', 'bewerk']"
+                [role]="role.EditSurveyEvent">Bewerken
+    </app-button>
+  </div>
+</div>
