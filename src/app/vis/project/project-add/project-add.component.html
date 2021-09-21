@@ -51,7 +51,7 @@
                 Startdatum *
               </label>
               <div class="mt-1">
-                <app-datepicker formControlName="startDate"></app-datepicker>
+                <app-datepicker formControlName="startDate" [hideResetButton]="true"></app-datepicker>
                 <app-form-error-message [fieldName]="'Startdatum'" [control]="startDate"
                                         [submitted]="submitted"></app-form-error-message>
 
@@ -67,6 +67,10 @@
                   <option value="FORK">Vork</option>
                   <option value="TOTAL">Totaal</option>
                 </select>
+                <p class="mt-2 text-sm text-gray-500" id="code-description">Bij vorklengte wordt de vis gemeten vanaf de
+                  punt van de snuit tot het einde van de middelste staartvinstralen. Bij totale lengte wordt de vis
+                  gemeten vanaf de punt van de snuit tot het verste uiteinde van de staart.</p>
+
                 <p *ngIf="submitted && lengthType.errors" class="mt-2 text-sm text-red-600">Lengtemaat is verplicht</p>
               </div>
             </div>

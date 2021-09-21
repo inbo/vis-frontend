@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, forwardRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, forwardRef, Input, OnInit, ViewChild} from '@angular/core';
 import flatpickr from 'flatpickr';
 import {Dutch} from 'flatpickr/dist/l10n/nl.js';
 
@@ -17,6 +17,8 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 })
 export class DatepickerComponent implements ControlValueAccessor, OnInit, AfterViewInit {
   private selectedDate: Date;
+
+  @Input() hideResetButton = false;
 
   @ViewChild('datepicker') input;
 
