@@ -20,4 +20,8 @@ export class CpueService extends VisService {
   listAllParameters() {
     return this.http.get<string[]>(`${environment.apiUrl}/api/cpue/parameters`);
   }
+
+  testCalculation(formData: any) {
+    return this.http.put<number>(`${environment.apiUrl}/api/cpue/calculate/test`, formData);
+  }
 }

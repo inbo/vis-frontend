@@ -13,8 +13,9 @@ import {Method} from '../../../domain/method/method';
   templateUrl: './method-edit.component.html'
 })
 export class MethodEditComponent implements OnInit, OnDestroy {
-
+  isQuickSelectionOpen = false;
   editForm: FormGroup;
+  cpueTestForm: FormGroup;
   isOpen = false;
 
   submitted: boolean;
@@ -24,6 +25,7 @@ export class MethodEditComponent implements OnInit, OnDestroy {
 
   method: Method;
   allParameters: string[];
+  testResult = 0;
 
   constructor(private projectService: ProjectService, private formBuilder: FormBuilder, private router: Router,
               private methodsService: MethodsService, private cpueService: CpueService) {
@@ -35,8 +37,11 @@ export class MethodEditComponent implements OnInit, OnDestroy {
     this.cpueService.listAllParameters().subscribe(value => this.allParameters = value);
     this.editForm = this.formBuilder.group({
       description: ['', [Validators.maxLength(50)]],
+      calculation: ['', []],
       parameters: this.formBuilder.array([])
     });
+
+    this.cpueTestForm = this.formBuilder.group({});
   }
 
   ngOnDestroy(): void {
@@ -48,11 +53,13 @@ export class MethodEditComponent implements OnInit, OnDestroy {
 
     if (e.target.checked) {
       checkArray.push(new FormControl(e.target.value));
+      this.cpueTestForm.addControl(e.target.value, new FormControl(1));
     } else {
       let i = 0;
       checkArray.controls.forEach((item: FormControl) => {
         if (item.value === e.target.value) {
           checkArray.removeAt(i);
+          this.cpueTestForm.removeControl(e.target.value);
           return;
         }
         i++;
@@ -67,14 +74,21 @@ export class MethodEditComponent implements OnInit, OnDestroy {
 
     this.isOpen = true;
 
+    this.cpueTestForm = this.formBuilder.group({});
+
     forkJoin([method$, cpue$]).subscribe(([method, parameters]) => {
       this.method = method;
 
       const params = parameters.map(value => new FormControl(value));
       this.editForm = this.formBuilder.group({
         description: [this.method.description, [Validators.required, Validators.maxLength(50)]],
+        calculation: [this.method.calculation, []],
         parameters: new FormArray(params)
       });
+
+      for (const parameter of parameters) {
+        this.cpueTestForm.addControl(parameter, new FormControl(2));
+      }
 
     });
   }
@@ -123,6 +137,10 @@ export class MethodEditComponent implements OnInit, OnDestroy {
     return this.editForm.get('description');
   }
 
+  get calculation() {
+    return this.editForm.get('calculation');
+  }
+
   get startDate() {
     return this.editForm.get('startDate');
   }
@@ -148,5 +166,22 @@ export class MethodEditComponent implements OnInit, OnDestroy {
       }
     }
     return false;
+  }
+
+  test() {
+    const formData = {
+      calculation: this.calculation.value,
+      parameters: this.cpueTestForm.getRawValue()
+    };
+
+    this.cpueService.testCalculation(formData).subscribe(value => this.testResult = value);
+  }
+
+  controls() {
+    return Object.keys(this.cpueTestForm?.controls);
+  }
+
+  appendKeyToCalculation(key: string) {
+    this.calculation.patchValue(this.calculation.value === null ? '' : this.calculation.value + key);
   }
 }

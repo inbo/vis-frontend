@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Role} from '../../../core/_models/role';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
@@ -50,31 +50,8 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData 
           this.surveyEventForm.addControl(key, new FormControl(dto.parameters[key]));
         }
       }
-      console.log(this.surveyEventForm.getRawValue());
     });
 
-  }
-
-  getName(control: AbstractControl): string | null {
-    const group = control.parent;
-
-    if (!group) {
-      return null;
-    }
-
-    let name: string;
-
-    Object.keys(group.controls).forEach(key => {
-      const childControl = group.get(key);
-
-      if (childControl !== control) {
-        return;
-      }
-
-      name = key;
-    });
-
-    return name;
   }
 
   getMethods(val: string) {
@@ -102,15 +79,13 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData 
     formData.fishingPointId = formData.location;
     delete formData.location;
 
+    console.log(formData);
+
     this.surveyEventService.updateCpueParameters(this.projectCode, this.surveyEventId, formData)
       .pipe(take(1))
       .subscribe(() => {
         this.router.navigate(['projecten', this.projectCode, 'waarnemingen', this.surveyEventId, 'cpue']).then();
       });
-  }
-
-  parameters() {
-    return this.surveyEventForm.get('parameters') as FormArray;
   }
 
   hasUnsavedData(): boolean {
