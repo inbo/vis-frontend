@@ -233,6 +233,10 @@
     "projectEndBeforeSurveyEvents": {
       "short": "Prj einde < srv event occ",
       "long": "Bestaande waarneming data mogen niet na de project eind datum vallen"
+    },
+    "invalidCalculation": {
+      "short": "Ongeldige berekening",
+      "long": "Ongeldige berekening"
     }
   },
   "COMMON": "Algemeen",

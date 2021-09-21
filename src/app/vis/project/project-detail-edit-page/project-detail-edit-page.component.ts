@@ -25,7 +25,6 @@ function projectStartBeforeSurveyEvents(date: Date): ValidatorFn {
 
 function projectEndAfterSurveyEvents(date: Date): ValidatorFn {
   return (c: AbstractControl) => {
-    console.log(date, new Date(c.value).valueOf(), new Date(date).valueOf());
     if (date && (new Date(c.value).valueOf() < new Date(date).valueOf())) {
       return {projectEndBeforeSurveyEvents: true};
     }

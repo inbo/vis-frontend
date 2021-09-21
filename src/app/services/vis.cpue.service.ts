@@ -24,4 +24,8 @@ export class CpueService extends VisService {
   testCalculation(formData: any) {
     return this.http.put<number>(`${environment.apiUrl}/api/cpue/calculate/test`, formData);
   }
+
+  validateCalculation(formData: any): Observable<boolean> {
+    return this.http.put<boolean>(`${environment.apiUrl}/api/cpue/calculate/validate`, formData);
+  }
 }

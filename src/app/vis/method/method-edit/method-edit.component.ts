@@ -37,7 +37,7 @@ export class MethodEditComponent implements OnInit, OnDestroy {
     this.cpueService.listAllParameters().subscribe(value => this.allParameters = value);
     this.editForm = this.formBuilder.group({
       description: ['', [Validators.maxLength(50)]],
-      calculation: ['', []],
+      calculation: ['', [], []],
       parameters: this.formBuilder.array([])
     });
 
@@ -65,6 +65,8 @@ export class MethodEditComponent implements OnInit, OnDestroy {
         i++;
       });
     }
+
+    this.editForm.get('calculation').updateValueAndValidity();
   }
 
   public open(methodCode: string) {
@@ -82,7 +84,7 @@ export class MethodEditComponent implements OnInit, OnDestroy {
       const params = parameters.map(value => new FormControl(value));
       this.editForm = this.formBuilder.group({
         description: [this.method.description, [Validators.required, Validators.maxLength(50)]],
-        calculation: [this.method.calculation, []],
+        calculation: [this.method.calculation, [], [this.calculationValidator()]],
         parameters: new FormArray(params)
       });
 
@@ -183,5 +185,17 @@ export class MethodEditComponent implements OnInit, OnDestroy {
 
   appendKeyToCalculation(key: string) {
     this.calculation.patchValue(this.calculation.value === null ? '' : this.calculation.value + key);
+  }
+
+  calculationValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      const formData = {
+        calculation: this.calculation.value,
+        parameters: this.editForm.get('parameters').value
+      };
+
+      return this.cpueService.validateCalculation(formData)
+        .pipe(map(result => !result ? {invalidCalculation: true} : null));
+    };
   }
 }
