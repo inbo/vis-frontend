@@ -1,6 +1,7 @@
 <ng-container *ngIf="form" [formGroup]="form">
   <app-searchable-select (keydown)="keydown($event)"
                          (search)="getSpecies($event)" [id]="'species-' + index"
+                         (enterPressed)="enterPressedEvent($event)"
                          [options]="taxons"
                          [passedId]="'species-' + index"
                          (ngModelChange)="onSpeciesChange()"
