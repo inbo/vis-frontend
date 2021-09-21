@@ -7,6 +7,8 @@ import {AccountService} from '../../../../services/vis.account.service';
 import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../../../core/auth.service';
 import {TeamAddComponent} from '../team-add/team-add.component';
+import {TeamEditComponent} from '../team-edit/team-edit.component';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-teams-page',
@@ -14,7 +16,8 @@ import {TeamAddComponent} from '../team-add/team-add.component';
 })
 export class TeamsPageComponent implements OnInit, OnDestroy {
 
-  @ViewChild(TeamAddComponent) teamAddComponent;
+  @ViewChild(TeamAddComponent) teamAddComponent: TeamAddComponent;
+  @ViewChild(TeamEditComponent) teamEditComponent: TeamEditComponent;
 
   loading = false;
 
@@ -55,5 +58,14 @@ export class TeamsPageComponent implements OnInit, OnDestroy {
 
   addTeam() {
     this.teamAddComponent.open();
+  }
+
+  editTeam(team: Team) {
+    this.accountService.listAccountsForTeam(team.code)
+      .pipe(take(1))
+      .subscribe(accounts => {
+        this.teamEditComponent.setTeam(team, accounts);
+        this.teamEditComponent.open();
+      });
   }
 }

@@ -4,7 +4,8 @@
     <div class="relative flex"
          title="Groepsmeting"
          data-step="4"
-         data-intro="Dit icoon toont aan dat het een groepmeting is.">
+         data-intro="Dit icoon toont aan dat het een groepmeting is."
+         data-position="bottom-right-aligned">
       <app-species-search (arrowPressed)="navigateOnArrow($event)" (changed)="onSpeciesChange()"
                           (enterPressed)="enterPressed($event)" (onSearch)="getSpecies($event)" [index]="formGroupName"
                           [taxons]="taxons" class="flex-grow" data-step="2"
@@ -62,7 +63,8 @@
   </div>
   <div class="col-span-1 md:col-span-3 lg:col-span-2 text-right self-center text-gray-500 space-x-2"
        data-step="6"
-       data-intro="Deze iconen verschijnen wanneer je de meting omvormt naar een groepsmeting met individuele metingen.">
+       data-intro="Deze iconen verschijnen wanneer je de meting omvormt naar een groepsmeting met individuele metingen."
+       data-position="bottom-right-aligned">
      <span (click)="showIndividualLengthItems = !showIndividualLengthItems"
            [class.hidden]="type().value !== 'GROUP_LENGTHS'"
            [title]="showIndividualLengthItems ? 'Verbergen' : 'Openklappen'" class="inline-block"

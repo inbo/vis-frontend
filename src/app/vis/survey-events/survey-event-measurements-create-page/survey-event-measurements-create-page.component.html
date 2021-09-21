@@ -21,62 +21,64 @@
           <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
-                <tr>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Soort
-                  </th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Aantal
-                  </th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Lengte (cm)
-                  </th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Gewicht (gr)
-                  </th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Geslacht
-                  </th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Afvisbeurt
-                  </th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Commentaar
-                  </th>
-                </tr>
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Soort
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Aantal
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Lengte (cm)
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Gewicht (gr)
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Geslacht
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Afvisbeurt
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Commentaar
+                </th>
+              </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
-                <tr>
-                  <td *ngIf="loading" class="px-3 py-4" colspan="7" align="center">
-                    <app-loading-spinner></app-loading-spinner>
-                  </td>
-                </tr>
+              <tr>
+                <td *ngIf="loading" class="px-3 py-4" colspan="7" align="center">
+                  <app-loading-spinner></app-loading-spinner>
+                </td>
+              </tr>
 
-                <tr *ngFor="let measurement of existingMeasurements">
-                  <td class="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {{"taxon.id." + measurement.taxonId | translate}}
-                  </td>
-                  <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                    {{measurement.amount}}
-                    <fa-icon title="Groepsmeting" class="self-center text-gray-500 pl-2" *ngIf="measurement.type === 'GROUP'" [icon]="faWeightHanging"></fa-icon>
-                    <fa-icon title="Groepsmeting met lengtemetingen" class="self-center text-gray-500 pl-2" *ngIf="measurement.type === 'GROUP_LENGTHS'" [icon]="faRulerHorizontal"></fa-icon>
-                  </td>
-                  <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                    {{measurement.length}}
-                  </td>
-                  <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                    {{measurement.weight}}
-                  </td>
-                  <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                    {{'gender.' + measurement.gender | translate}}
-                  </td>
-                  <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                    {{measurement.afvisBeurtNumber}}
-                  </td>
-                  <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                    {{measurement.comment}}
-                  </td>
-                </tr>
+              <tr *ngFor="let measurement of existingMeasurements">
+                <td class="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
+                  {{"taxon.id." + measurement.taxonId | translate}}
+                </td>
+                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
+                  {{measurement.amount}}
+                  <fa-icon title="Groepsmeting" class="self-center text-gray-500 pl-2"
+                           *ngIf="measurement.type === 'GROUP'" [icon]="faWeightHanging"></fa-icon>
+                  <fa-icon title="Groepsmeting met lengtemetingen" class="self-center text-gray-500 pl-2"
+                           *ngIf="measurement.type === 'GROUP_LENGTHS'" [icon]="faRulerHorizontal"></fa-icon>
+                </td>
+                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
+                  {{measurement.length}}
+                </td>
+                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
+                  {{measurement.weight}}
+                </td>
+                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
+                  {{'gender.' + measurement.gender | translate}}
+                </td>
+                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
+                  {{measurement.afvisBeurtNumber}}
+                </td>
+                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
+                  {{measurement.comment}}
+                </td>
+              </tr>
               </tbody>
             </table>
           </div>
@@ -179,7 +181,20 @@
     <span class="text-lg leading-6 font-medium text-gray-900">
       Metingen
     </span>
-    <app-tip-icon tipPage="METING" class="ml-auto"></app-tip-icon>
+    <div class="ml-auto">
+      <!--TODO highlight last in demo-->
+      <button (click)="playIntro()"
+              class="text-pink-600 rounded-full hover:text-pink-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-pink-600 focus:ring-white">
+        <span class="sr-only">Demo afspelen</span>
+        <!-- Heroicon name: play -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      </button>
+      <app-tip-icon tipPage="METING"></app-tip-icon>
+    </div>
   </div>
   <div class="px-4 py-5 sm:p-6">
     <form [formGroup]="measurementsForm" class="space-y-4">
@@ -197,7 +212,8 @@
       </div>
       <div class="space-y-0.5">
         <div formArrayName="items" *ngFor="let item of items().controls; let i = index;" #lines>
-          <app-measurement-row [formGroupName]="i" (newline)="addNewLine()" (removeClicked)="remove($event)" [submitted]="submitted"></app-measurement-row>
+          <app-measurement-row [formGroupName]="i" (newline)="addNewLine()" (removeClicked)="remove($event)"
+                               [submitted]="submitted"></app-measurement-row>
         </div>
       </div>
     </form>
@@ -228,4 +244,17 @@
     <app-button [style]="'primary'" class="ml-3" (click)="createMeasurements()">Bewaren</app-button>
   </div>
   <app-tip *ngIf="tip$ | async as tip" [code]="tip.code" [show]="true"></app-tip>
+
+  <app-modal (onCancel)="cancelModal()" (onPrimary)="confirmModal()" [isOpen]="introModalOpen">
+    <ng-container slot="title">
+      Introductie - Metingen toevoegen
+    </ng-container>
+    <ng-container slot="content">
+      <p class="font-bold text-red-600">LET OP! De demo kan enkel afgespeeld worden op een leeg formulier. Al uw huidige
+        wijzigingen zullen ongedaan gemaakt worden.</p>
+    </ng-container>
+    <ng-container slot="primary-button">
+      Afspelen
+    </ng-container>
+  </app-modal>
 </div>

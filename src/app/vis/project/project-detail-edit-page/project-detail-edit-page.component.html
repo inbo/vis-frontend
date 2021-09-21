@@ -21,7 +21,8 @@
                   <div class="mt-1">
                     <input formControlName="name" type="text" name="name" id="name" autocomplete="name">
                   </div>
-                  <app-form-error-message [fieldName]="'Naam'" [control]="name" [submitted]="submitted"></app-form-error-message>
+                  <app-form-error-message [fieldName]="'Naam'" [control]="name"
+                                          [submitted]="submitted"></app-form-error-message>
                 </div>
 
                 <div class="sm:col-span-6">
@@ -35,7 +36,8 @@
                     <p class="mt-2 text-sm text-gray-500">Beschrijf het project in een aantal zinnen</p>
                     <app-text-counter [max]="2000" [text]="description.value"></app-text-counter>
                   </div>
-                  <app-form-error-message [fieldName]="'Beschrijving'" [control]="description" [submitted]="submitted"></app-form-error-message>
+                  <app-form-error-message [fieldName]="'Beschrijving'" [control]="description"
+                                          [submitted]="submitted"></app-form-error-message>
                 </div>
 
                 <div class="sm:col-span-2">
@@ -43,8 +45,11 @@
                     Startdatum *
                   </label>
                   <div class="mt-1">
-                    <app-datepicker formControlName="startDate"></app-datepicker>
-                    <app-form-error-message [fieldName]="'Startdatum'" [control]="startDate" [submitted]="submitted"></app-form-error-message>
+                    <app-datepicker #startDatePicker formControlName="startDate"></app-datepicker>
+                    <app-form-error-message [fieldName]="'Startdatum'" [control]="startDate"
+                                            [submitted]="submitted"></app-form-error-message>
+                    <span *ngIf="earliestSurveyEventDate"
+                          class="text-gray-500">Vroegste waarneming datum: {{earliestSurveyEventDate | date:'dd/MM/yyyy'}}</span>
                   </div>
                 </div>
                 <div class="sm:col-span-2">
@@ -56,7 +61,8 @@
                       <option value="FORK">Vork</option>
                       <option value="TOTAL">Totaal</option>
                     </select>
-                    <p *ngIf="submitted && lengthType.errors" class="mt-2 text-sm text-red-600">Lengtemaat is verplicht</p>
+                    <p *ngIf="submitted && lengthType.errors" class="mt-2 text-sm text-red-600">Lengtemaat is
+                      verplicht</p>
                   </div>
                 </div>
               </div>
@@ -71,7 +77,8 @@
             Project toegang
           </h3>
           <p class="mt-1 text-sm text-gray-500 max-w-xl">
-            Stel hier de toegang tot het project in. Gebruikers die in een gelinkte instantie/team zitten krijgen toegang tot het project. De aanmaker zal het project altijd kunnen bewerken.
+            Stel hier de toegang tot het project in. Gebruikers die in een gelinkte instantie/team zitten krijgen
+            toegang tot het project. De aanmaker zal het project altijd kunnen bewerken.
           </p>
         </div>
 
@@ -85,7 +92,8 @@
                   </label>
                   <div class="mt-1">
                     <app-multi-select formControlName="instances" [options]="instances$ | async"></app-multi-select>
-                    <app-form-error-message [control]="instances" [fieldName]="'Instanties'" [submitted]="submitted"></app-form-error-message>
+                    <app-form-error-message [control]="instances" [fieldName]="'Instanties'"
+                                            [submitted]="submitted"></app-form-error-message>
                   </div>
                 </div>
                 <div class="sm:col-span-6">
@@ -94,7 +102,8 @@
                   </label>
                   <div class="mt-1">
                     <app-multi-select formControlName="teams" [options]="teams$ | async"></app-multi-select>
-                    <app-form-error-message [control]="teams" [fieldName]="'Teams'" [submitted]="submitted"></app-form-error-message>
+                    <app-form-error-message [control]="teams" [fieldName]="'Teams'"
+                                            [submitted]="submitted"></app-form-error-message>
                   </div>
                 </div>
               </div>
@@ -106,11 +115,15 @@
 
         <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
           <div class="flex justify-end">
-            <button (click)="cancel()" type="button" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+            <button (click)="cancel()" type="button"
+                    class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
               Annuleren
             </button>
-            <app-button *ngIf="!project?.end" (click)="showCloseProjectModal = true" [style]="'secondary'" class="ml-3" [role]="role.EditProject">Afsluiten</app-button>
-            <button (click)="saveProject()" type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+            <app-button *ngIf="!project?.end" (click)="showCloseProjectModal = true" [style]="'secondary'" class="ml-3"
+                        [role]="role.EditProject">Afsluiten
+            </app-button>
+            <button (click)="saveProject()" type="submit"
+                    class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
               Bewaren
             </button>
           </div>
@@ -139,8 +152,11 @@
               Einddatum
             </label>
             <div class="mt-1">
-              <app-datepicker formControlName="endDate"></app-datepicker>
-              <app-form-error-message [fieldName]="'Einddatum'" [control]="endDate" [submitted]="submitted"></app-form-error-message>
+              <app-datepicker #endDatePicker formControlName="endDate"></app-datepicker>
+              <app-form-error-message [fieldName]="'Einddatum'" [control]="endDate"
+                                      [submitted]="submitted"></app-form-error-message>
+              <span *ngIf="latestSurveyEventDate"
+                    class="text-gray-500">Laatste waarneming datum: {{latestSurveyEventDate | date:'dd/MM/yyyy'}}</span>
             </div>
           </div>
         </form>

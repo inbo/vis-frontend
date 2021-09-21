@@ -28,6 +28,9 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   faRulerHorizontal = faRulerHorizontal;
   faWeightHanging = faWeightHanging;
 
+  introModalOpen = false;
+  introJs: IntroJs;
+
   tip$: Observable<Tip>;
 
   existingMeasurements: Measurement[];
@@ -47,9 +50,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   ngOnInit(): void {
     this.tip$ = this.tipsService.randomTipForPage('METING');
 
-    this.measurementsForm = this.formBuilder.group({
-      items: this.formBuilder.array([this.createMeasurementFormGroup()])
-    });
+    this.initForm();
 
     this.subscription.add(
       fromEvent(window, 'keydown').pipe(
@@ -71,29 +72,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   ngAfterViewInit() {
     if (localStorage.getItem('measurements-demo') !== 'completed') {
-      const introJs = IntroJs();
-
-      introJs.onbeforechange(function() {
-        switch (this._currentStep) {
-          case 3:
-            _this.amount(0).patchValue(2);
-            _this.items().at(0).get('type').patchValue('GROUP');
-            // TODO best practice?
-            _this.measurementRow.detectChanges();
-            break;
-          case 5:
-            _this.measurementRow.toGroupMeasurement();
-            // TODO best practice?
-            _this.measurementRow.detectChanges();
-            break;
-        }
-      });
-
-      setTimeout(() => introJs.start());
-      // introJs.oncomplete(() => localStorage.setItem('measurements-demo', 'completed'));
-      // introJs.onexit(() => localStorage.setItem('measurements-demo', 'completed'));
-
-      const _this = this;
+      this.introModalOpen = true;
     }
   }
 
@@ -102,6 +81,12 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
       document.getElementById('species-' + (this.items().length - 1))?.scrollIntoView();
       this.scrollIntoView = false;
     }
+  }
+
+  initForm() {
+    this.measurementsForm = this.formBuilder.group({
+      items: this.formBuilder.array([this.createMeasurementFormGroup()])
+    });
   }
 
   createMeasurementFormGroup(species?: any, gender?: any, afvisbeurt?: any, comment?: any): FormGroup {
@@ -253,5 +238,55 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   cancel() {
     this._location.back();
+  }
+
+  cancelModal() {
+    this.introModalOpen = false;
+  }
+
+  confirmModal() {
+    this.initForm();
+
+    this.introModalOpen = false;
+
+    this.introJs = IntroJs();
+    this.introJs.setOptions({
+      showBullets: false,
+      hidePrev: true,
+      nextLabel: 'Volgende',
+      doneLabel: 'Klaar',
+    });
+    this.introJs.oncomplete(() => {
+      this.initForm();
+      localStorage.setItem('measurements-demo', 'completed');
+    });
+    this.introJs.onexit(() => {
+      this.initForm();
+      localStorage.setItem('measurements-demo', 'completed');
+    });
+
+    this.introJs.onbeforechange(function() {
+      switch (this._currentStep) {
+        case 3:
+          _this.amount(0).patchValue(2);
+          _this.items().at(0).get('type').patchValue('GROUP');
+          // TODO best practice?
+          _this.measurementRow.detectChanges();
+          break;
+        case 5:
+          _this.measurementRow.toGroupMeasurement();
+          // TODO best practice?
+          _this.measurementRow.detectChanges();
+          break;
+      }
+    });
+
+    const _this = this;
+
+    setTimeout(() => this.introJs.start());
+  }
+
+  playIntro() {
+    this.introModalOpen = true;
   }
 }
