@@ -67,7 +67,7 @@
        data-position="bottom-right-aligned">
      <span (click)="showIndividualLengthItems = !showIndividualLengthItems"
            [class.hidden]="type().value !== 'GROUP_LENGTHS'"
-           [title]="showIndividualLengthItems ? 'Verbergen' : 'Openklappen'" class="inline-block"
+           [title]="showIndividualLengthItems ? 'Verbergen' : 'Openklappen'" class="inline-block cursor-pointer"
            data-step="7"
            data-intro="Klik op dit icoon om de individuele lengtemetingen te verbergen.">
       <svg [class.rotate-180]="showIndividualLengthItems" class="w-6 h-6 transform" fill="currentColor"
@@ -76,7 +76,7 @@
                                                                         fill-rule="evenodd"></path></svg>
     </span>
 
-    <span (click)="toGroupMeasurement()" [class.hidden]="type().value !== 'GROUP'" class="inline-block"
+    <span (click)="toGroupMeasurement()" [class.hidden]="type().value !== 'GROUP'" class="inline-block cursor-pointer"
           title="Omvormen naar een groepsmeting met individuele lengtemetingen"
           data-step="5"
           data-intro="Klik op dit icoon om de groepsmeting om te vormen naar een groepsmeting met individuele lengtemetingen.">
@@ -84,7 +84,8 @@
         d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"></path></svg>
     </span>
 
-    <span (click)="toIndividualMeasurement()" [class.hidden]="type().value !== 'GROUP_LENGTHS'" class="inline-block"
+    <span (click)="toIndividualMeasurement()" [class.hidden]="type().value !== 'GROUP_LENGTHS'"
+          class="inline-block cursor-pointer"
           title="Omvormen naar een individuele meting"
           data-step="8"
           data-intro="Klik op dit icoon om de groepsmeting terug om te vormen naar een groepsmeting zonder individuele lengtemetingen.">
@@ -92,20 +93,20 @@
         d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"></path></svg>
     </span>
 
-    <span (click)="remove()" [class.hidden]="editMode && items().length === 1" class="inline-block"
+    <span (click)="remove()" [class.hidden]="editMode && items().length === 1" class="inline-block cursor-pointer"
           title="Verwijder lijn">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path
         stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
         d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
     </span>
 
-    <span (click)="save()" *ngIf="editMode" class="inline-block">
+    <span (click)="save()" *ngIf="editMode" class="inline-block cursor-pointer">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path
         stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
         d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
     </span>
 
-    <span (click)="cancel()" *ngIf="editMode" class="inline-block">
+    <span (click)="cancel()" *ngIf="editMode" class="inline-block cursor-pointer">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path
         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
     </span>

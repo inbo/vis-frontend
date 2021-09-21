@@ -5,8 +5,9 @@
     <div class="col-span-12">
       <div
         class="grid grid-flow-row grid-cols-12 gap-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-2">
+        <div class="col-span-1"></div>
         <div class="col-span-3">Lengte (cm)</div>
-        <div class="col-span-8">Commentaar</div>
+        <div class="col-span-7">Commentaar</div>
         <div></div>
       </div>
     </div>
@@ -18,8 +19,12 @@
                       formArrayName="individualLengths">
           <ng-container [formGroupName]="i">
             <div class="col-span-3">
-              <div class="relative rounded-md shadow-sm">
-                <input [id]="'individuallength-' + i" formControlName="length" min="0" name="length" type="number"
+              <div class="flex items-center">
+                <span class="text-gray-500 w-2/12 float-left">
+                  {{i + 1}}
+                </span>
+                <input class="w-10/12" [id]="'individuallength-' + i" formControlName="length" min="0" name="length"
+                       type="number"
                        (keydown)="navigateIndividualOnArrow($event, i); onEnter($event, i)"/>
                 <div *ngIf="(individualLength(i).dirty || individualLength(i).touched) && individualLength(i).warnings"
                      [title]="'Waarde moet tussen ' + individualLength(i).warnings.between?.min + ' en ' + individualLength(i).warnings.between?.max + ' liggen.'"
@@ -42,7 +47,8 @@
                                       showAfterSubmitted="true"></app-form-error-message> <!--[submitted]="submitted"-->
             </div>
             <div class="col-span-1 text-right self-center text-gray-500 space-x-2">
-                <span (click)="removeIndividualLength(i)" *ngIf="individualLengths().length > 2" class="inline-block"
+                <span (click)="removeIndividualLength(i)" *ngIf="individualLengths().length > 2"
+                      class="inline-block cursor-pointer"
                       title="Verwijder lijn">
                   <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path
                     clip-rule="evenodd"
