@@ -107,7 +107,7 @@ export class SurveyEventsService extends VisService {
   }
 
   updateCpueParameters(projectCode: any, surveyEventId: any, formData: any) {
-    return this.http.put<string>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue`,
+    return this.http.put<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue`,
       {parameters: formData});
   }
 }
