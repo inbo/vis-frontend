@@ -20,10 +20,12 @@
           Status
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-                <span *ngIf="project?.status === 'ACTIVE'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                <span *ngIf="project?.status === 'ACTIVE'"
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                   Actief
                 </span>
-          <span *ngIf="project?.status === 'INACTIVE'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+          <span *ngIf="project?.status === 'INACTIVE'"
+                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                   Inactief
                 </span>
         </dd>
@@ -68,6 +70,14 @@
           {{'lengthType.long.' + project?.lengthType | translate}}
         </dd>
       </div>
+      <div class="sm:col-span-2">
+        <dt class="text-sm font-medium text-gray-500">
+          Contactpersoon
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{project?.contact}}
+        </dd>
+      </div>
     </dl>
   </div>
   <div class="px-4 py-4 sm:px-6 flex justify-end">
@@ -77,13 +87,15 @@
                 [style]="'secondary'"
                 class="ml-3"
                 [role]="role.EditProject"
-                [isUserLinkedToProject]="project?.canEdit">Heropenen</app-button>
+                [isUserLinkedToProject]="project?.canEdit">Heropenen
+    </app-button>
     <app-button [disabled]="!!project?.end"
                 [disabledReason]="'Een afgesloten project kan niet bewerkt worden.'"
                 [style]="'primary'"
                 class="ml-3"
                 [role]="role.EditProject"
                 [routerLink]="['/projecten', project?.code?.value, 'bewerk']"
-                [isUserLinkedToProject]="project?.canEdit">Bewerken</app-button>
+                [isUserLinkedToProject]="project?.canEdit">Bewerken
+    </app-button>
   </div>
 </div>

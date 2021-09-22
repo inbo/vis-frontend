@@ -43,6 +43,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
       description: ['', [Validators.maxLength(2000)]],
       lengthType: ['', [Validators.required]],
       startDate: [null, [Validators.required]],
+      contact: [''],
       teams: [[]],
       instances: [[]]
     });

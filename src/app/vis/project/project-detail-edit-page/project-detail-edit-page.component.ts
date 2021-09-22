@@ -85,6 +85,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         description: [null, [Validators.maxLength(2000)]],
         lengthType: ['', [Validators.required]],
         startDate: [null, [Validators.required]],
+        contact: [''],
         teams: [[]],
         instances: [[]],
       });
@@ -112,11 +113,13 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     this.subscription.add(
       this.projectService.getProject(this.activatedRoute.parent.snapshot.params.projectCode).subscribe((value: Project) => {
         this.titleService.setTitle(value.name);
+
         this.project = value;
         this.projectForm.get('name').patchValue(value.name);
         this.projectForm.get('description').patchValue(value.description);
         this.projectForm.get('startDate').patchValue(new Date(value.start));
         this.projectForm.get('lengthType').patchValue(value.lengthType);
+        this.projectForm.get('contact').patchValue(value.contact);
         this.projectForm.get('teams').patchValue(value.teams === undefined ? [] : value.teams);
         this.projectForm.get('instances').patchValue(value.instances === undefined ? [] : value.instances);
       })

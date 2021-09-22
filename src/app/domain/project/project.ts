@@ -13,6 +13,7 @@ export interface Project {
   start: Date;
   end: Date;
   lengthType: string;
+  contact: string;
   teams: string[];
   instances: string[];
   canEdit: boolean;
