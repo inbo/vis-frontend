@@ -74,7 +74,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
         methodGroup: [queryParams.methodGroup ?? null],
         method: [queryParams.method ?? null],
         species: [queryParams.species ? Number(queryParams.species) : null],
-        status: [queryParams.status != null ? (Array.isArray(queryParams.status) ? queryParams.status : [queryParams.status]) : ['VALID']],
+        status: [queryParams.status != null ? (Array.isArray(queryParams.status) ? queryParams.status : [queryParams.status]) : ['ENTERED', 'VALID']],
         page: [queryParams.page ?? null],
         size: [queryParams.size ?? null]
       },
@@ -107,7 +107,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
       this.filterForm.get('sort').patchValue(params.sort ? params.sort : null);
       this.filterForm.get('measuringPointNumber').patchValue(params.measuringPointNumber ? params.measuringPointNumber : null);
       this.filterForm.get('status').patchValue(params.status ?
-        (Array.isArray(params.status) ? params.status : [params.status]) : ['VALID']);
+        (Array.isArray(params.status) ? params.status : [params.status]) : ['ENTERED', 'VALID']);
       this.filterForm.get('page').patchValue(params.page ? params.page : null);
       this.filterForm.get('size').patchValue(params.size ? params.size : null);
       this.filterForm.get('methodGroup').patchValue(params.methodGroup ? params.methodGroup : null);
@@ -117,8 +117,6 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
       this.getSpecies(null, params.species ? params.species : undefined);
       this.getSurveyEvents();
     }));
-
-    this.getSurveyEvents();
   }
 
   ngOnDestroy(): void {
