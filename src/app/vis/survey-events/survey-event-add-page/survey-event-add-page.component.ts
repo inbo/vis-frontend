@@ -37,7 +37,9 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
       .pipe(take(1))
       .subscribe(value => {
         this.datepicker.setMinDate(new Date(value.start));
-        this.datepicker.setMaxDate(new Date(value.end));
+        if (value.end) {
+          this.datepicker.setMaxDate(new Date(value.end));
+        }
       });
 
 
