@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {forkJoin, Observable, Subscription} from 'rxjs';
-import {AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {AsyncValidatorFn, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {ProjectService} from '../../../services/vis.project.service';
 import {Router} from '@angular/router';
 import {map} from 'rxjs/operators';
@@ -119,14 +119,6 @@ export class MethodEditComponent implements OnInit, OnDestroy {
     this.submitted = false;
   }
 
-  // TODO do same for instance code
-  codeValidator(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.projectService.checkIfProjectExists(control.value)
-        .pipe(map(result => result.valid ? {uniqueCode: true} : null));
-    };
-  }
-
   get code() {
     return this.editForm.get('code');
   }
@@ -188,7 +180,7 @@ export class MethodEditComponent implements OnInit, OnDestroy {
   }
 
   calculationValidator(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+    return (): Observable<ValidationErrors | null> => {
       const formData = {
         calculation: this.calculation.value,
         parameters: this.editForm.get('parameters').value

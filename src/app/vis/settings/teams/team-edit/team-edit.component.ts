@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Observable, Subject} from 'rxjs';
 import {Instance} from '../../../../domain/account/instance';
 import {Account} from '../../../../domain/account/account';
 import {AccountService} from '../../../../services/vis.account.service';
-import {map, take} from 'rxjs/operators';
+import {take} from 'rxjs/operators';
 import {Team} from '../../../../domain/account/team';
 
 @Component({
@@ -32,13 +32,6 @@ export class TeamEditComponent implements OnInit {
       description: [null, [Validators.required]],
       accounts: [[]]
     });
-  }
-
-  codeValidator(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.accountService.checkIfTeamExists(control.value)
-        .pipe(map(result => result.valid ? {uniqueCode: true} : null));
-    };
   }
 
   open() {
