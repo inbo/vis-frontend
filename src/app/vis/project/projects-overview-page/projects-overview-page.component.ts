@@ -10,7 +10,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ProjectAddComponent} from '../project-add/project-add.component';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Role} from '../../../core/_models/role';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, take} from 'rxjs/operators';
 import {ProjectService} from '../../../services/vis.project.service';
 import {AuthService} from '../../../core/auth.service';
 import _ from 'lodash';
@@ -72,14 +72,12 @@ export class ProjectsOverviewPageComponent implements OnInit {
         distinctUntilChanged((a, b) => {
           const filteredObj = (obj) =>
             Object.entries(obj)
-              .filter(([_, value]) => !!value || typeof value === 'boolean')
-              .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+              .filter(([, value]) => !!value || typeof value === 'boolean')
+              .reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
 
           return _.isEqual(filteredObj(a), filteredObj(b));
         })
-      )
-
-        .subscribe(_ => this.filter())
+      ).subscribe(() => this.filter())
     );
 
     this.subscription.add(
@@ -133,6 +131,10 @@ export class ProjectsOverviewPageComponent implements OnInit {
   }
 
   exportProjects() {
-    this.projectService.exportProjects(this.filterForm.getRawValue());
+    this.projectService.exportProjects(this.filterForm.getRawValue())
+      .pipe(take(1))
+      .subscribe(res => {
+        this.projectService.downloadFile(res);
+      });
   }
 }

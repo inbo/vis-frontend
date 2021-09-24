@@ -1,9 +1,9 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Project} from '../domain/project/project';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
-import {Observable, Subject, Subscription} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {VisService} from './vis.service';
 import {Taxon} from '../domain/taxa/taxon';
 import {ProjectFavorites} from '../domain/settings/project-favorite';
@@ -12,9 +12,7 @@ import {ProjectFavorites} from '../domain/settings/project-favorite';
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectService extends VisService implements OnDestroy {
-  // TODO in een service zouden geen subscribes mogen zitten
-  private subscription = new Subscription();
+export class ProjectService extends VisService {
 
   private projectSubject = new Subject<Project>();
 
@@ -24,7 +22,7 @@ export class ProjectService extends VisService implements OnDestroy {
     super();
   }
 
-  private downloadFile(res: HttpResponse<Blob>) {
+  public downloadFile(res: HttpResponse<Blob>) {
     const contentDisposition = res.headers.get('content-disposition');
     const filename = contentDisposition.split(';')[1].split('filename')[1].split('=')[1].trim().replace(/\"/g, '');
     const url = window.URL.createObjectURL(res.body);
@@ -73,17 +71,11 @@ export class ProjectService extends VisService implements OnDestroy {
       }
     });
 
-    this.subscription.add(this.http.get(`${environment.apiUrl}/api/projects/export`, {params, observe: 'response', responseType: 'blob'})
-      .subscribe(res => {
-        this.downloadFile(res);
-      }));
+    return this.http.get(`${environment.apiUrl}/api/projects/export`, {params, observe: 'response', responseType: 'blob'});
   }
 
   exportProject(code: string) {
-    this.subscription.add(this.http.get(`${environment.apiUrl}/api/projects/${code}/export`, {observe: 'response', responseType: 'blob'})
-      .subscribe(res => {
-        this.downloadFile(res);
-      }));
+    return this.http.get(`${environment.apiUrl}/api/projects/${code}/export`, {observe: 'response', responseType: 'blob'});
   }
 
   updateProjectMethods(projectCode: string, methods: string[]) {
@@ -92,10 +84,6 @@ export class ProjectService extends VisService implements OnDestroy {
 
   getProjectTaxa(projectCode: string) {
     return this.http.get<Taxon[]>(`${environment.apiUrl}/api/projects/${projectCode}/taxon`);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   closeProject(projectCode: string, endDate: any) {

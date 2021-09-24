@@ -5,6 +5,7 @@ import {Project} from '../../../domain/project/project';
 import {Subscription} from 'rxjs';
 import {Role} from '../../../core/_models/role';
 import {ProjectService} from '../../../services/vis.project.service';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-project-detail-page',
@@ -27,7 +28,11 @@ export class ProjectDetailPageComponent implements OnInit, OnDestroy {
   }
 
   exportProject() {
-    this.projectService.exportProject(this.activatedRoute.snapshot.params.projectCode);
+    this.projectService.exportProject(this.activatedRoute.snapshot.params.projectCode)
+      .pipe(take(1))
+      .subscribe(res => {
+        this.projectService.downloadFile(res);
+      });
   }
 
   reOpenProject() {
