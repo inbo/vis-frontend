@@ -6,5 +6,9 @@ export interface Taxon {
   id: TaxonId;
   code: TaxonCode;
   nameDutch: string;
+  nameEnglish: string;
+  nameFrench: string;
+  nameGerman: string;
+  nameScientific: string;
   taxonGroups: TaxonGroup[];
 }

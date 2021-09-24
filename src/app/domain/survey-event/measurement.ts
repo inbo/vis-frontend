@@ -2,10 +2,16 @@ export interface MeasurementId {
   value: number;
 }
 
+export interface Taxon {
+  id: number;
+  code: string;
+  nameDutch: string;
+}
+
 export interface Measurement {
   id: number;
   type: string;
-  taxonId: number;
+  taxon: Taxon;
   amount: number;
   length: number;
   weight: number;

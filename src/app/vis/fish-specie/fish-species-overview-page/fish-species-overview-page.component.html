@@ -95,7 +95,7 @@
                         <a [routerLink]="['/vissoorten', item.id.value]">{{item.nameDutch}}</a>
                       </td>
                       <td class="px-6 py-4  text-sm text-gray-900">
-                        {{'taxon.id.' + item.id.value + '.sci' | translate}}
+                        {{item.nameScientific}}
                       </td>
                       <td class="px-6 py-4  text-sm text-gray-900">
                         {{item.taxonGroupText}}
@@ -131,7 +131,7 @@
                             {{item.nameDutch}}
                           </p>
                           <p class="flex items-center text-sm text-gray-500">
-                            {{'taxon.id.' + item.id.value + '.sci' | translate}}
+                            {{item.nameScientific}}
                           </p>
                           <p *ngFor="let taxonGroup of item.taxonGroups" class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
                             {{taxonGroup.name}}

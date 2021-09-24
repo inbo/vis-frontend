@@ -5,10 +5,8 @@ import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
-import {flatMap, map, pluck, take, toArray} from 'rxjs/operators';
-import {Observable, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {TaxaService} from '../../../services/vis.taxa.service';
-import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-fish-species-detail-page',
@@ -22,22 +20,22 @@ export class FishSpeciesDetailPageComponent implements OnInit, OnDestroy {
   breadcrumbLinks: BreadcrumbLink[] = [
     {title: 'Vissoorten', url: '/vissoorten'},
     {
-      title: this.translateService.instant(`taxon.id.${this.activatedRoute.snapshot.params.taxonId}.code`),
+      title: '',
       url: '/vissoorten/' + this.activatedRoute.snapshot.params.taxonId
     },
     {title: 'Details', url: '/vissoorten/' + this.activatedRoute.snapshot.params.taxonId}
   ];
 
-  taxon$: Observable<TaxonDetail>;
-  taxonGroups$: Observable<string[]>;
+  taxon: TaxonDetail;
+  taxonGroups: string[];
 
-  constructor(private titleService: Title, private taxaService: TaxaService, private activatedRoute: ActivatedRoute,
-              private translateService: TranslateService) {
-    this.taxon$ = this.taxaService.getTaxon(this.activatedRoute.snapshot.params.taxonId);
-    this.taxonGroups$ = this.taxon$.pipe(take(1), flatMap(value => value.taxonGroups), map(value => value.name), toArray());
+  constructor(private titleService: Title, private taxaService: TaxaService, private activatedRoute: ActivatedRoute) {
+    this.taxaService.getTaxon(this.activatedRoute.snapshot.params.taxonId).subscribe(value => {
+      this.taxon = value;
+      this.taxonGroups = this.taxon.taxonGroups.map(group => group.name);
 
-    const taxonCode$ = this.taxon$.pipe(take(1), pluck('code', 'value'));
-    this.subscription.add(taxonCode$.subscribe(code => this.titleService.setTitle(code)));
+      this.breadcrumbLinks[1].title = this.taxon.code.value;
+    });
   }
 
   ngOnInit(): void {

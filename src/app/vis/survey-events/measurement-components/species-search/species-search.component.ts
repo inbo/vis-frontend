@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {FormGroup, FormGroupDirective} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 import {SearchableSelectComponent} from '../../../../shared-ui/searchable-select/searchable-select.component';
+import {SearchableSelectOption} from '../../../../shared-ui/searchable-select/option';
 
 @Component({
   selector: 'app-species-search',
@@ -13,7 +14,7 @@ export class SpeciesSearchComponent extends MeasurementComponentDirective implem
 
   @Input() index: number;
 
-  @Input() taxons: any;
+  @Input() taxons: SearchableSelectOption[];
 
   @Output() onSearch: EventEmitter<any> = new EventEmitter();
   @Output() changed: EventEmitter<any> = new EventEmitter();

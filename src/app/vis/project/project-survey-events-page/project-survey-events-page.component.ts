@@ -218,8 +218,9 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
         this.removeTagCallback('method')));
     }
     if (rawValue.species) {
-      tags.push(getTag('surveyEvent.species', this.translateService.instant('taxon.id.' + rawValue.species),
-        this.removeTagCallback('species')));
+      this.taxaService.getTaxon(Number(rawValue.species)).subscribe(value => {
+        tags.push(getTag('surveyEvent.species', value.nameDutch, this.removeTagCallback('species')));
+      });
     }
     if (rawValue.sort) {
       tags.push(getTag('surveyEvent.sort', this.translateService.instant(`surveyEvent.sortOption.${rawValue.sort}`),

@@ -10,6 +10,10 @@ export interface TaxonDetail {
   weightMin: number;
   weightMax: number;
   nameDutch: string;
+  nameEnglish: string;
+  nameFrench: string;
+  nameGerman: string;
+  nameScientific: string;
   taxonGroups: TaxonGroup[];
   taxonGroupText: string;
 }
