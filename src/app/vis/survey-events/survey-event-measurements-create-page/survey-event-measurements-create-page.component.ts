@@ -270,12 +270,10 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         case 3:
           _this.amount(0).patchValue(2);
           _this.items().at(0).get('type').patchValue('GROUP');
-          // TODO best practice?
           _this.measurementRow.detectChanges();
           break;
         case 5:
           _this.measurementRow.toGroupMeasurement();
-          // TODO best practice?
           _this.measurementRow.detectChanges();
           break;
       }

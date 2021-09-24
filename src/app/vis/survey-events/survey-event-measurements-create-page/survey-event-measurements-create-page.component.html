@@ -47,7 +47,7 @@
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
               <tr>
-                <td *ngIf="loading" class="px-3 py-4" colspan="7" align="center">
+                <td *ngIf="loading" class="px-3 py-4" colspan="7">
                   <app-loading-spinner></app-loading-spinner>
                 </td>
               </tr>
@@ -182,7 +182,6 @@
       Metingen
     </span>
     <div class="ml-auto">
-      <!--TODO highlight last in demo-->
       <button (click)="playIntro()"
               data-step="10"
               data-intro="Klik op dit icoon om de demo opnieuw af te spelen."

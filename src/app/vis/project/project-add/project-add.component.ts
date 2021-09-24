@@ -81,7 +81,6 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
     this.submitted = false;
   }
 
-  // TODO do same for instance code
   codeValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return this.projectService.checkIfProjectExists(control.value)
