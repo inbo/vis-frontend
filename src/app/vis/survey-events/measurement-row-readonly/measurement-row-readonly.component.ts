@@ -26,18 +26,8 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
   private formArray: FormArray;
   private subscription = new Subscription();
 
-  private fieldsOrder = [
-    'species',
-    'amount',
-    'length',
-    'weight',
-    'gender',
-    'afvisBeurtNumber',
-    'comment'
-  ];
   showIndividualLengthItems: boolean = true;
   savedMessage = false;
-  taxonName: string;
 
   numberMask(scale: number, min: number, max: number) {
     return {
@@ -58,8 +48,6 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.formArray = this.rootFormGroup.control.get('items') as FormArray;
     this.form = this.formArray.at(this.formGroupName) as FormGroup;
-    // TODO too many calls, refactor this
-    this.taxaService.getTaxon(Number(this.species().value)).subscribe(value => this.taxonName = value.nameDutch);
   }
 
   ngOnDestroy() {

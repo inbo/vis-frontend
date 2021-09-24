@@ -10,6 +10,7 @@ import {
   valueBetweenWarning
 } from '../survey-event-measurements-create-page/survey-event-measurements-validators';
 import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
+import {Taxon} from '../../../domain/survey-event/measurement';
 
 @Component({
   selector: 'app-measurement-row',
@@ -85,11 +86,11 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
   }
 
   private addTaxaValidationsForRowIndex() {
-    if (this.species().value === '') {
+    if (this.species().value === null) {
       return;
     }
 
-    const taxaId = this.species().value;
+    const taxaId = this.species().value.id;
 
     this.subscription.add(
       this.taxaService.getTaxon(taxaId)
@@ -164,12 +165,12 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     return nextField;
   }
 
-  getSpecies(val: string, id?: number) {
-    this.taxaService.getTaxa(val, id).pipe(
+  getSpecies(val: string, t?: Taxon) {
+    this.taxaService.getTaxa(val, t?.id).pipe(
       take(1),
       map(taxa => {
         return taxa.map(taxon => ({
-          selectValue: taxon.id.value,
+          selectValue: {id: taxon.id.value, code: taxon.code.value, nameDutch: taxon.nameDutch},
           option: taxon
         }));
       })

@@ -19,6 +19,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {fromEvent, Subscription} from 'rxjs';
 import {debounceTime, filter, map} from 'rxjs/operators';
 import {SearchableSelectOption} from './option';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-searchable-select',
@@ -67,7 +68,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.selectedValueOption === undefined) {
-      const filtered = this.options?.filter(value => value.selectValue === this.selectedValue);
+      const filtered = this.options?.filter(value => _.isEqual(value.selectValue, this.selectedValue));
       if (!(filtered === undefined || filtered.length === 0)) {
         this.selectedValue = filtered[0].selectValue;
         this.selectedValueOption = filtered[0];
