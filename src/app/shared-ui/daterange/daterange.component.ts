@@ -57,6 +57,7 @@ export class DaterangeComponent implements ControlValueAccessor, OnInit, AfterVi
       mode: 'range',
       onChange: (selectedDates) => {
         if (selectedDates.length === 2) {
+          selectedDates[1].setHours(23, 59, 59, 999);
           _this.selectedDates = selectedDates;
           _this.dateValueChanged();
         } else {
