@@ -9,7 +9,7 @@ export interface FishingPoint {
   code: string;
   flowArea: string;
   name: string;
-  waterCode: string;
+  waterbody: string;
   x: number;
   y: number;
   lat: number;

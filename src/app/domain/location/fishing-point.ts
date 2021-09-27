@@ -2,7 +2,7 @@ export interface FishingPoint {
   id: number;
   code: string;
   description: string;
-  slope: number;
+  incline: number;
 
   x: number;
   y: number;
@@ -16,16 +16,16 @@ export interface FishingPoint {
   vhag: number;
   vhas: number;
   name: string;
-  categoryValue: number;
-  categoryName: string;
+  categoryCode: number;
+  categoryDescription: string;
   basinNumber: number;
   basinName: string;
   flowArea: string;
   qualityTarget: number;
   qualityLabel: string;
-  qualityLabelGeo: string;
+  qualityGeoAccuracy: string;
   zoneNumber: number;
-  waterCode: string;
+  waterbody: string;
   length: number;
   puddleVersion: string;
   puddleCode: string;

@@ -54,7 +54,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         trees: [null],
         buildings: [null],
         industry: [null],
-        loop: [null],
+        current: [null],
         fishPassage: [null],
         bottlenecks: [null],
         vegetations: [null],
@@ -77,7 +77,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         this.habitatForm.get('buildings').patchValue(value.buildings);
         this.habitatForm.get('industry').patchValue(value.industry);
         this.habitatForm.get('fishPassage').patchValue(value.fishPassage);
-        this.habitatForm.get('loop').patchValue(value.loop);
+        this.habitatForm.get('current').patchValue(value.current);
         this.habitatForm.get('bottlenecks').patchValue(value.bottlenecks);
         this.habitatForm.get('vegetations').patchValue(value.vegetations);
       }));
@@ -172,8 +172,8 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     return this.habitatForm.get('industry');
   }
 
-  get loop() {
-    return this.habitatForm.get('loop');
+  get current() {
+    return this.habitatForm.get('current');
   }
 
   get fishPassage() {

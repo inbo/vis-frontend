@@ -34,7 +34,7 @@
                     Helling
                   </dt>
                   <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.slope}}
+                    {{fishingPoint?.incline}}
                   </dd>
                 </div>
                 <div class="sm:col-span-1">
@@ -123,7 +123,7 @@
                     Categorie
                   </dt>
                   <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.categoryName + ': ' + fishingPoint?.categoryValue}}
+                    {{fishingPoint?.categoryDescription + ': ' + fishingPoint?.categoryCode}}
                   </dd>
                 </div>
 
@@ -164,7 +164,7 @@
                     Kwaliteit geo
                   </dt>
                   <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.qualityLabelGeo}}
+                    {{fishingPoint?.qualityGeoAccuracy}}
                   </dd>
                 </div>
                 <div class="sm:col-span-1">
@@ -180,7 +180,7 @@
                     Waterlichaamcode
                   </dt>
                   <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.waterCode}}
+                    {{fishingPoint?.waterbody}}
                   </dd>
                 </div>
                 <div class="sm:col-span-1">

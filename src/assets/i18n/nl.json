@@ -119,7 +119,7 @@
         "unknown": "Onbekend",
         "null": ""
       },
-      "loop": {
+      "current": {
         "DISTURBED": "Verstoord",
         "MODERATE": "Matig",
         "NOT_DISTURBED": "Niet verstoord",
@@ -154,7 +154,7 @@
       "vegetation": {
         "FLOATING_AQUATIC_PLANTS": "Vlottende waterplanten",
         "SOIL_AQUATIC_PLANTS": "Bodem waterplanten",
-        "THREAD_ALGAE": "Draadalgen",
+        "FILAMENTOUS_ALGAE": "Draadalgen",
         "OTHERS": "Andere"
       }
     }

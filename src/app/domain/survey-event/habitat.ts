@@ -13,7 +13,7 @@ export interface Habitat {
   trees: string;
   buildings: string;
   industry: boolean;
-  loop: string;
+  current: string;
   fishPassage: boolean;
   soils: string[];
   bottlenecks: string[];
@@ -29,7 +29,7 @@ export enum Buildings {
   NONE, LOWER_5, BETWEEN_5_10, HIGHER_10, UNKNOWN
 }
 
-export enum Loop {
+export enum Current {
   DISTURBED, MODERATE, NOT_DISTURBED, UNKNOWN
 }
 
@@ -66,5 +66,5 @@ export enum Bottleneck {
 }
 
 export enum Vegetation {
-  FLOATING_AQUATIC_PLANTS, SOIL_AQUATIC_PLANTS, THREAD_ALGAE
+  FLOATING_AQUATIC_PLANTS, SOIL_AQUATIC_PLANTS, FILAMENTOUS_ALGAE
 }

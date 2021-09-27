@@ -4,7 +4,7 @@ import {
   Agriculture,
   Bottleneck,
   Buildings,
-  Loop,
+  Current,
   Meadow,
   Shelter,
   Shore,
@@ -28,7 +28,7 @@ export class HabitatOptionsService {
   private _agriculture: RadioOption<string>[];
   private _buildings: RadioOption<string>[];
   private _industry: RadioOption<boolean>[];
-  private _loop: RadioOption<string>[];
+  private _current: RadioOption<string>[];
   private _fishPassage: RadioOption<boolean>[];
   private _meadow: RadioOption<string>[];
   private _shore: RadioOption<string>[];
@@ -56,7 +56,7 @@ export class HabitatOptionsService {
     this._buildings = Object.keys(Buildings).filter(value => isNaN(Number(value))).map(value => this.createOption('buildings', value));
     this._industry = [{text: 'surveyEvent.habitat.industry.true', value: true}, {text: 'surveyEvent.habitat.industry.false', value: false},
       {text: 'surveyEvent.habitat.industry.unknown', value: null}];
-    this._loop = Object.keys(Loop).filter(value => isNaN(Number(value))).map(value => this.createOption('loop', value));
+    this._current = Object.keys(Current).filter(value => isNaN(Number(value))).map(value => this.createOption('current', value));
     this._fishPassage = [{text: 'surveyEvent.habitat.fish-passage.true', value: true},
       {text: 'surveyEvent.habitat.fish-passage.false', value: false}, {text: 'surveyEvent.habitat.fish-passage.unknown', value: null}];
     this._soil = Object.keys(Soil).filter(value => isNaN(Number(value))).map(value => this.createOption('soil', value));
@@ -101,8 +101,8 @@ export class HabitatOptionsService {
     return this._industry;
   }
 
-  get loop(): RadioOption<string>[] {
-    return this._loop;
+  get current(): RadioOption<string>[] {
+    return this._current;
   }
 
   get fishPassage(): RadioOption<boolean>[] {

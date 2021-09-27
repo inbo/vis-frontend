@@ -48,7 +48,7 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
         trees: [null],
         buildings: [null],
         industry: [null],
-        loop: [null],
+        current: [null],
       });
 
     this.subscription.add(this.surveyEventsService.getHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId)
