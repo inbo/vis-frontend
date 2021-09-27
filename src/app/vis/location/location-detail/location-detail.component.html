@@ -3,220 +3,405 @@
     <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
     <main>
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="px-4 py-5 sm:px-0">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Locatie details
+          </h3>
+        </div>
+
         <div class="px-4 py-8 sm:px-0">
-          <!-- This example requires Tailwind CSS v2.0+ -->
-          <div class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
-            <div class="px-4 py-5 sm:px-6">
-              <h3 class="text-lg leading-6 font-medium text-gray-900">
-                Locatie details
-              </h3>
-            </div>
-            <div class="px-4 py-5 sm:p-6">
-              <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Meetplaatscode
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.code}}
-                  </dd>
+          <div>
+            <div class="md:grid md:grid-cols-3 md:gap-6">
+              <div class="md:col-span-1">
+                <div class="px-4 sm:px-0">
+                  <h3 class="text-lg font-medium leading-6 text-gray-900">Vispunt</h3>
+                  <p class="mt-1 text-sm text-gray-600">
+                    Algemene informatie over het vispunt.
+                  </p>
                 </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Omschrijving
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.description}}
-                  </dd>
+              </div>
+              <div class="mt-5 md:mt-0 md:col-span-2">
+                <div class="shadow sm:rounded-md sm:overflow-hidden">
+                  <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Meetplaatscode
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.code}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Omschrijving
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.description}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Helling
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.incline}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Brak water
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{'TODO'}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Getijdewater
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{'TODO'}}
+                        </dd>
+                      </div>
+                    </dl>
+                  </div>
                 </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Helling
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.incline}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Brak
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{'TODO'}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Getijdewater
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{'TODO'}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Breedte
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{'TODO'}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Coördinaten - Lambert 72 X, Y
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.x + ', ' + fishingPoint?.y}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Coördinaten - Latitude/Longitude
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.lat + ', ' + fishingPoint?.lng}}
-                  </dd>
-                </div>
-
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Snapped coördinaten - Lambert 72 X, Y
-                  </dt>
-                  <dd *ngIf="fishingPoint?.snappedX && fishingPoint?.snappedY" class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.snappedX + ', ' + fishingPoint?.snappedY}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Snapped coördinaten - Latitude/Longitude
-                  </dt>
-                  <dd *ngIf="fishingPoint?.snappedLat && fishingPoint?.snappedLng" class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.snappedLat + ', ' + fishingPoint?.snappedLng}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    VHAS
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.vhas}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    VHAG
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.vhag}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    vhag naam
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.name}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Categorie
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.categoryDescription + ': ' + fishingPoint?.categoryCode}}
-                  </dd>
-                </div>
-
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Bekken
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.basinNumber + ': ' + fishingPoint?.basinName}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Stroomgebied
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.flowArea}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Kwaliteitsdoel
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.qualityTarget}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Kwaliteit
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.qualityLabel}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Kwaliteit geo
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.qualityGeoAccuracy}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    VHA Zone nr
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.zoneNumber}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Waterlichaamcode
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.waterbody}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Lengte
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.length}}
-                  </dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">
-                    Plas
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900">
-                    {{fishingPoint?.puddleCode + ': ' + fishingPoint?.puddleVersion}}
-                  </dd>
-                </div>
-
-
-                <div class="sm:col-span-2">
-                  <app-fishing-points-map [canAddPoints]="false" [zoomLevel]="20"></app-fishing-points-map>
-                </div>
-              </dl>
-            </div>
-            <div class="px-4 py-4 sm:px-6 flex justify-end">
-              <!--              <app-button [disabled]="!!project?.end"-->
-              <!--                          [disabledReason]="'Een afgesloten project kan niet bewerkt worden.'"-->
-              <!--                          [style]="'primary'"-->
-              <!--                          class="ml-3"-->
-              <!--                          [role]="role.EditProject"-->
-              <!--                          [routerLink]="['/projecten', project?.code?.value, 'bewerk']"-->
-              <!--                          [isUserLinkedToProject]="project?.canEdit">Bewerken</app-button>-->
+              </div>
             </div>
           </div>
 
+          <div class="hidden sm:block" aria-hidden="true">
+            <div class="py-5">
+              <div class="border-t border-gray-200"></div>
+            </div>
+          </div>
+
+          <div class="mt-10 sm:mt-0">
+            <div class="md:grid md:grid-cols-3 md:gap-6">
+              <div class="md:col-span-1">
+                <div class="px-4 sm:px-0">
+                  <h3 class="text-lg font-medium leading-6 text-gray-900">Coördinaten</h3>
+                  <p class="mt-1 text-sm text-gray-600">
+                    De coördinaten zijn manueel ingegeven bij het aanmaken van het vispunt. De snapped coördinaten zijn achteraf in een andere applicatie gesnapped op het dichtste punt van de geselecteerde VHA.
+                  </p>
+                </div>
+              </div>
+              <div class="mt-5 md:mt-0 md:col-span-2">
+                <div class="shadow sm:rounded-md sm:overflow-hidden">
+                  <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Coördinaten - Lambert 72 X, Y
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.x + ', ' + fishingPoint?.y}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Coördinaten - Latitude/Longitude
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.lat + ', ' + fishingPoint?.lng}}
+                        </dd>
+                      </div>
+
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Snapped coördinaten - Lambert 72 X, Y
+                        </dt>
+                        <dd *ngIf="fishingPoint?.snappedX && fishingPoint?.snappedY" class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.snappedX + ', ' + fishingPoint?.snappedY}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Snapped coördinaten - Latitude/Longitude
+                        </dt>
+                        <dd *ngIf="fishingPoint?.snappedLat && fishingPoint?.snappedLng" class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.snappedLat + ', ' + fishingPoint?.snappedLng}}
+                        </dd>
+                      </div>
+
+
+                       <div class="sm:col-span-2">
+                         <app-fishing-points-map [canAddPoints]="false" [zoomLevel]="20"></app-fishing-points-map>
+                       </div>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hidden sm:block" aria-hidden="true">
+            <div class="py-5">
+              <div class="border-t border-gray-200"></div>
+            </div>
+          </div>
+
+          <div class="mt-10 sm:mt-0">
+            <div class="md:grid md:grid-cols-3 md:gap-6">
+              <div class="md:col-span-1">
+                <div class="px-4 sm:px-0">
+                  <h3 class="text-lg font-medium leading-6 text-gray-900">Stromend water</h3>
+                  <p class="mt-1 text-sm text-gray-600">
+                    Parameters van het geselecteerde stromend water.
+                  </p>
+                </div>
+              </div>
+              <div class="mt-5 md:mt-0 md:col-span-2">
+                <div class="shadow sm:rounded-md sm:overflow-hidden">
+                  <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          VHAS
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.vhas}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          VHAG
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.vhag}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          vhag naam
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.name}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Categorie
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.categoryDescription + ': ' + fishingPoint?.categoryCode}}
+                        </dd>
+                      </div>
+
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Bekken
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.basinNumber + ': ' + fishingPoint?.basinName}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Stroomgebied
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.flowArea}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Kwaliteitsdoel
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.qualityTarget}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Kwaliteit
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.qualityLabel}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Kwaliteit geo
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.qualityGeoAccuracy}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          VHA Zone nr
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.zoneNumber}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Waterlichaamcode
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.waterbody}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Lengte
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.length}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Plas
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.puddleCode + ': ' + fishingPoint?.puddleVersion}}
+                        </dd>
+                      </div>
+
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="hidden sm:block" aria-hidden="true">
+            <div class="py-5">
+              <div class="border-t border-gray-200"></div>
+            </div>
+          </div>
+
+          <div class="mt-10 sm:mt-0">
+            <div class="md:grid md:grid-cols-3 md:gap-6">
+              <div class="md:col-span-1">
+                <div class="px-4 sm:px-0">
+                  <h3 class="text-lg font-medium leading-6 text-gray-900">Stilstaand water</h3>
+                  <p class="mt-1 text-sm text-gray-600">
+                    Parameters van het geselecteerde stilstaand water.
+                  </p>
+                </div>
+              </div>
+              <div class="mt-5 md:mt-0 md:col-span-2">
+                <div class="shadow sm:rounded-md sm:overflow-hidden">
+                  <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          VHAS
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.vhas}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          VHAG
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.vhag}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          vhag naam
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.name}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Categorie
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.categoryDescription + ': ' + fishingPoint?.categoryCode}}
+                        </dd>
+                      </div>
+
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Bekken
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.basinNumber + ': ' + fishingPoint?.basinName}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Stroomgebied
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.flowArea}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Kwaliteitsdoel
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.qualityTarget}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Kwaliteit
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.qualityLabel}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Kwaliteit geo
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.qualityGeoAccuracy}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          VHA Zone nr
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.zoneNumber}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Waterlichaamcode
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.waterbody}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Lengte
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.length}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Plas
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.puddleCode + ': ' + fishingPoint?.puddleVersion}}
+                        </dd>
+                      </div>
+
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
