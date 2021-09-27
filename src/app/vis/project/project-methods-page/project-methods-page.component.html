@@ -1,55 +1,47 @@
 <div>
   <div class="hidden lg:block flex flex-col">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-          <table class="min-w-full divide-y divide-gray-200 table-fixed">
-            <thead>
-            <tr>
-              <th scope="col"
-                  class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Methode
-              </th>
-              <th scope="col"
-                  class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Groep
-              </th>
-              <th scope="col"
-                  class="w-1/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Code
-              </th>
-              <th scope="col" class="w-1/12 px-6 py-3 bg-gray-50">
-                <span class="sr-only">Filteren</span>
-              </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td *ngIf="loading" class="px-3 py-4" colspan="8">
-                <app-loading-spinner></app-loading-spinner>
-              </td>
-            </tr>
+      <app-table class="min-w-full divide-y divide-gray-200 table-fixed">
+        <thead>
+          <tr>
+            <th appHeader class="w-1/12" scope="col">
+              Methode
+            </th>
+            <th appHeader class="w-1/12" scope="col">
+              Groep
+            </th>
+            <th appHeader class="w-1/12" scope="col">
+              Code
+            </th>
+            <th appHeader class="w-1/12" scope="col">
+              <span class="sr-only">Filteren</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr appRow>
+            <td appCell *ngIf="loading" colspan="4">
+              <app-loading-spinner></app-loading-spinner>
+            </td>
+          </tr>
 
-            <tr *ngFor="let method of methods; let index = index" [class.bg-white]="index % 2 === 0"
-                [class.bg-gray-50]="index % 2 !== 0">
-              <td class="px-6 py-4  text-sm text-gray-900">
-                {{'method.' + method.code | translate}}
-              </td>
-              <td class="px-6 py-4  text-sm text-gray-900">
-                {{'method.' + method.code + '.group' | translate}}
-              </td>
-              <td class="px-6 py-4  text-sm text-gray-900">
-                {{method.code}}
-              </td>
-              <td class="px-6 py-4 text-right text-sm text-gray-900">
-                <a [routerLink]="['/projecten', projectCode, 'waarnemingen']" [queryParams]="{method: method.code}"
-                   target="_blank" class="text-pink-600 hover:text-pink-900">Filter</a>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+          <tr appRow [rownumber]="index" *ngFor="let method of methods; let index = index">
+            <td appCell>
+              {{'method.' + method.code | translate}}
+            </td>
+            <td appCell>
+              {{'method.' + method.code + '.group' | translate}}
+            </td>
+            <td appCell>
+              {{method.code}}
+            </td>
+            <td appCell [actions]="true">
+              <a [queryParams]="{method: method.code}" [routerLink]="['/projecten', projectCode, 'waarnemingen']"
+                 class="text-pink-600 hover:text-pink-900" target="_blank">Filter</a>
+            </td>
+          </tr>
+        </tbody>
+      </app-table>
     </div>
   </div>
 

@@ -2,26 +2,26 @@
   <app-fishing-points-map [projectCode]="projectCode"></app-fishing-points-map>
 </div>
 
-<app-slide-over-filter [tags]="tags" (searchClicked)="filter()" [formGroup]="filterForm"
-                       (resetClicked)="reset()">
+<app-slide-over-filter (resetClicked)="reset()" (searchClicked)="filter()" [formGroup]="filterForm"
+                       [tags]="tags">
   <ng-container slot="content">
     <div class="space-y-4">
       <div>
-        <label for="fishingPointCode" class="block text-sm font-medium text-gray-700">
+        <label class="block text-sm font-medium text-gray-700" for="fishingPointCode">
           Meetplaatscode
         </label>
         <div class="mt-1">
-          <input type="text" id="fishingPointCode" formControlName="fishingPointCode"
-                 placeholder="Meetplaatscode ..."/>
+          <input formControlName="fishingPointCode" id="fishingPointCode" placeholder="Meetplaatscode ..."
+                 type="text"/>
         </div>
       </div>
 
       <div>
-        <label for="description" class="block text-sm font-medium text-gray-700">
+        <label class="block text-sm font-medium text-gray-700" for="description">
           Beschrijving
         </label>
         <div class="mt-1">
-          <input type="text" id="description" formControlName="description" placeholder="Beschrijving ..."/>
+          <input formControlName="description" id="description" placeholder="Beschrijving ..." type="text"/>
         </div>
       </div>
     </div>
@@ -31,52 +31,41 @@
 <div class="px-4 py-8 sm:px-0">
   <div class="hidden lg:block flex flex-col">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-          <table class="min-w-full divide-y divide-gray-200 table-fixed">
-            <thead>
-            <tr>
-              <th scope="col"
-                  class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Meetplaatscode
-              </th>
-              <th scope="col"
-                  class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Beschrijving
-              </th>
-              <th scope="col"
-                  class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+      <app-table>
+        <thead>
+          <tr>
+            <th appHeader scope="col">
+              Meetplaatscode
+            </th>
+            <th appHeader scope="col">
+              Beschrijving
+            </th>
+            <th appHeader scope="col">
+              <span class="sr-only">Bewerk</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr appRow>
+            <td appCell *ngIf="loading" colspan="8">
+              <app-loading-spinner></app-loading-spinner>
+            </td>
+          </tr>
 
-              </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td *ngIf="loading" class="px-3 py-4" colspan="8">
-                <app-loading-spinner></app-loading-spinner>
-              </td>
-            </tr>
-
-            <tr *ngFor="let fishingPoint of fishingPoints$ | async; let index = index"
-                [class.bg-white]="index % 2 === 0"
-                [class.bg-gray-50]="index % 2 !== 0">
-              <td class="px-6 py-4 text-sm text-gray-500 flex">
-                <a [routerLink]="['/locaties', fishingPoint.code]"
-                   class="text-pink-600 hover:text-pink-900">{{fishingPoint.code}}</a>
-              </td>
-              <td class="px-6 py-4  text-sm text-gray-500">
-                {{fishingPoint.description}}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <span (click)="zoomToLocation(fishingPoint)"
-                        class="cursor-pointer text-pink-600 hover:text-pink-900">Zoom</span>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-          <app-paging-async [pager]="pager"></app-paging-async>
-        </div>
-      </div>
+          <tr appRow [rownumber]="index" *ngFor="let fishingPoint of fishingPoints$ | async; let index = index">
+            <td appCell>
+              <a [routerLink]="['/locaties', fishingPoint.code]"
+                 class="text-pink-600 hover:text-pink-900">{{fishingPoint.code}}</a>
+            </td>
+            <td appCell>
+              {{fishingPoint.description}}
+            </td>
+            <td appCell [actions]="true">
+                <span (click)="zoomToLocation(fishingPoint)" class="cursor-pointer text-pink-600 hover:text-pink-900">Zoom</span>
+            </td>
+          </tr>
+        </tbody>
+      </app-table>
     </div>
   </div>
 

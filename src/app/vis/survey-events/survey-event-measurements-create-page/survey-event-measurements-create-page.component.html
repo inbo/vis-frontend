@@ -1,99 +1,93 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <div
   [ngTransition]="showExistingMeasurements"
+  class="pb-4"
   ngTransitionEnter="transition ease-out duration-100"
-  ngTransitionEnterStart="transform opacity-0 scale-95"
   ngTransitionEnterEnd="transform opacity-100 scale-100"
+  ngTransitionEnterStart="transform opacity-0 scale-95"
   ngTransitionLeave="transition ease-in duration-75"
-  ngTransitionLeaveStart="transform opacity-100 scale-100"
   ngTransitionLeaveEnd="transform opacity-0 scale-95"
-  class="pb-4">
+  ngTransitionLeaveStart="transform opacity-100 scale-100">
   <div class="px-4 py-5 sm:px-6">
     <h3 class="text-lg leading-6 font-medium text-gray-900">
       Bestaande metingen
     </h3>
   </div>
   <div>
-    <!-- This example requires Tailwind CSS v2.0+ -->
     <div class="flex flex-col hidden lg:block">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50">
-              <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Soort
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Aantal
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Lengte (cm)
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Gewicht (g)
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Geslacht
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Afvisbeurt
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Commentaar
-                </th>
-              </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
-              <tr>
-                <td *ngIf="loading" class="px-3 py-4" colspan="7">
-                  <app-loading-spinner></app-loading-spinner>
-                </td>
-              </tr>
+        <app-table>
+          <thead>
+            <tr>
+              <th appHeader scope="col">
+                Soort
+              </th>
+              <th appHeader scope="col">
+                Aantal
+              </th>
+              <th appHeader scope="col">
+                Lengte (cm)
+              </th>
+              <th appHeader scope="col">
+                Gewicht (g)
+              </th>
+              <th appHeader scope="col">
+                Geslacht
+              </th>
+              <th appHeader scope="col">
+                Afvisbeurt
+              </th>
+              <th appHeader scope="col">
+                Commentaar
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr appRow>
+              <td appCell *ngIf="loading" colspan="7">
+                <app-loading-spinner></app-loading-spinner>
+              </td>
+            </tr>
 
-              <tr *ngFor="let measurement of existingMeasurements">
-                <td class="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {{measurement.taxon.nameDutch}}
-                </td>
-                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                  {{measurement.amount}}
-                  <fa-icon title="Groepsmeting" class="self-center text-gray-500 pl-2"
-                           *ngIf="measurement.type === 'GROUP'" [icon]="faWeightHanging"></fa-icon>
-                  <fa-icon title="Groepsmeting met lengtemetingen" class="self-center text-gray-500 pl-2"
-                           *ngIf="measurement.type === 'GROUP_LENGTHS'" [icon]="faRulerHorizontal"></fa-icon>
-                </td>
-                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                  {{measurement.length}}
-                </td>
-                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                  {{measurement.weight}}
-                </td>
-                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                  {{'gender.' + measurement.gender | translate}}
-                </td>
-                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                  {{measurement.afvisBeurtNumber}}
-                </td>
-                <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-900">
-                  {{measurement.comment}}
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+            <tr appRow [rownumber]="index" *ngFor="let measurement of existingMeasurements; let index = index">
+              <td appCell [condense]="true">
+                {{measurement.taxon.nameDutch}}
+              </td>
+              <td appCell [condense]="true">
+                {{measurement.amount}}
+                <fa-icon *ngIf="measurement.type === 'GROUP'" [icon]="faWeightHanging"
+                         class="self-center text-gray-500 pl-2" title="Groepsmeting"></fa-icon>
+                <fa-icon *ngIf="measurement.type === 'GROUP_LENGTHS'" [icon]="faRulerHorizontal"
+                         class="self-center text-gray-500 pl-2" title="Groepsmeting met lengtemetingen"></fa-icon>
+              </td>
+              <td appCell [condense]="true">
+                {{measurement.length}}
+              </td>
+              <td appCell [condense]="true">
+                {{measurement.weight}}
+              </td>
+              <td appCell [condense]="true">
+                {{'gender.' + measurement.gender | translate}}
+              </td>
+              <td appCell [condense]="true">
+                {{measurement.afvisBeurtNumber}}
+              </td>
+              <td appCell [condense]="true">
+                {{measurement.comment}}
+              </td>
+            </tr>
+          </tbody>
+        </app-table>
       </div>
     </div>
 
-    <!-- This example requires Tailwind CSS v2.0+ -->
     <div class="bg-white shadow overflow-hidden sm:rounded-md lg:hidden">
       <ul class="divide-y divide-gray-200">
         <li *ngIf="loading">
           <app-loading-spinner></app-loading-spinner>
         </li>
         <li *ngFor="let measurement of existingMeasurements">
-          <a href="#" class="block hover:bg-gray-50">
+          <a class="block hover:bg-gray-50" href="#">
             <div class="px-4 py-4 sm:px-6">
               <div class="flex items-center justify-between">
                 <p class="text-sm font-medium text-pink-600 truncate">
@@ -111,14 +105,14 @@
                     <!-- Heroicon name: hashtag -->
                     <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
                          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
+                      <path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2"></path>
                     </svg>
                     {{measurement.amount}}
                   </p>
                   <p class="flex items-center text-sm text-gray-500 ml-6">
                     <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" stroke="currentColor"
-                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+                         viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M.586 34L16 49.414 49.414 16 34 .586.586 34zM16 46.586L3.414 34 5.5 31.914l4.793 4.793 1.414-1.414L6.914 30.5l3.586-3.586 2.793 2.793 1.414-1.414-2.793-2.793 3.586-3.586 4.793 4.793 1.414-1.414-4.793-4.793 3.586-3.586 2.793 2.793 1.414-1.414-2.793-2.793 3.586-3.586 4.793 4.793 1.414-1.414-4.793-4.793L30.5 6.914l2.793 2.793 1.414-1.414L31.914 5.5 34 3.414 46.586 16 16 46.586z"/>
                     </svg>
@@ -128,8 +122,8 @@
                     <!-- Heroicon name: scale -->
                     <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" stroke="currentColor" viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path>
+                      <path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2"></path>
                     </svg>
                     {{measurement.weight}} gr
                   </p>
@@ -143,11 +137,11 @@
               <div *ngIf="measurement.comment" class="mt-2 flex items-center text-sm text-gray-500">
                 <p class="flex items-center text-sm text-gray-500">
                   <!-- Heroicon name: annotation -->
-                  <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
-                       viewBox="0 0 24 24"
-                       stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+                  <svg aria-hidden="true" class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="none"
+                       stroke="currentColor"
+                       viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2"/>
                   </svg>
                   {{measurement.comment}}
                 </p>
@@ -162,14 +156,14 @@
 </div>
 <div class="w-full pb-4">
   <div class="relative">
-    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+    <div aria-hidden="true" class="absolute inset-0 flex items-center">
       <div class="w-full border-t border-gray-300"></div>
     </div>
     <div class="relative flex justify-center">
-      <button (click)="showExistingMeasurementsClick()" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border
+      <button (click)="showExistingMeasurementsClick()" class="inline-flex items-center shadow-sm px-4 py-1.5 border
                   border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50
-                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-              data-step="1" data-intro="Klik hier voor het tonen van de reeds bestaande metingen voor deze waarneming.">
+                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500" data-intro="Klik hier voor het tonen van de reeds bestaande metingen voor deze waarneming."
+              data-step="1" type="button">
         <span>{{showExistingMeasurements ? 'Verberg' : 'Toon'}} bestaande metingen</span>
       </button>
     </div>
@@ -183,15 +177,15 @@
     </span>
     <div class="ml-auto">
       <button (click)="playIntro()"
-              data-step="10"
+              class="text-pink-600 rounded-full hover:text-pink-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-pink-600 focus:ring-white"
               data-intro="Klik op dit icoon om de demo opnieuw af te spelen."
-              class="text-pink-600 rounded-full hover:text-pink-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-pink-600 focus:ring-white">
+              data-step="10">
         <span class="sr-only">Demo afspelen</span>
         <!-- Heroicon name: play -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2"/>
+          <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
         </svg>
       </button>
       <app-tip-icon tipPage="METING">
@@ -213,8 +207,8 @@
         <div></div>
       </div>
       <div class="space-y-0.5">
-        <div formArrayName="items" *ngFor="let item of items().controls; let i = index;" #lines>
-          <app-measurement-row [formGroupName]="i" (newline)="addNewLine()" (removeClicked)="remove($event)"
+        <div #lines *ngFor="let item of items().controls; let i = index;" formArrayName="items">
+          <app-measurement-row (newline)="addNewLine()" (removeClicked)="remove($event)" [formGroupName]="i"
                                [submitted]="submitted"></app-measurement-row>
         </div>
       </div>
@@ -222,18 +216,18 @@
 
     <div class="px-4 py-8 sm:px-0">
       <div class="relative">
-        <div class="absolute inset-0 flex items-center" aria-hidden="true">
+        <div aria-hidden="true" class="absolute inset-0 flex items-center">
           <div class="w-full border-t border-gray-300"></div>
         </div>
         <div class="relative flex justify-center">
-          <button (click)="addNewLine()" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border
+          <button (click)="addNewLine()" class="inline-flex items-center shadow-sm px-4 py-1.5 border
                   border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50
-                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-            <svg class="-ml-1.5 mr-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                 fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd"
+                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500" type="button">
+            <svg aria-hidden="true" class="-ml-1.5 mr-1 h-5 w-5 text-gray-400" fill="currentColor"
+                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path clip-rule="evenodd"
                     d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                    clip-rule="evenodd"/>
+                    fill-rule="evenodd"/>
             </svg>
             <span>Nieuwe meting</span>
           </button>
@@ -243,7 +237,7 @@
   </div>
   <div class="space-x-3 px-4 py-4 sm:px-6 flex justify-end">
     <app-button (click)="cancel()">Annuleren</app-button>
-    <app-button [style]="'primary'" class="ml-3" (click)="createMeasurements()">Bewaren</app-button>
+    <app-button (click)="createMeasurements()" [style]="'primary'" class="ml-3">Bewaren</app-button>
   </div>
   <app-tip *ngIf="tip$ | async as tip" [code]="tip.code" [show]="true"></app-tip>
 

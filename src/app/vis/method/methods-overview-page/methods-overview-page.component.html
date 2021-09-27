@@ -14,11 +14,11 @@
 
         </div>
 
-        <app-expandable-filter [hideSearchButton]="true" [formGroup]="filterForm" (searchClicked)="filter()" (resetClicked)="filter()" [showAdvancedFilter]="false">
+        <app-expandable-filter (resetClicked)="filter()" (searchClicked)="filter()" [formGroup]="filterForm" [hideSearchButton]="true" [showAdvancedFilter]="false">
           <ng-container slot="simple">
             <div class="self-center">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input type="text" formControlName="description" placeholder="Methode ..." />
+                <input formControlName="description" placeholder="Methode ..." type="text"/>
               </div>
             </div>
 
@@ -26,18 +26,18 @@
               <div class="mt-1 sm:mt-0 sm:col-span-2">
                 <select formControlName="group">
                   <option value="">Groep</option>
-                  <option value="B" [translate]="'method.group.B'"></option>
-                  <option value="E" [translate]="'method.group.E'"></option>
-                  <option value="F" [translate]="'method.group.F'"></option>
-                  <option value="N" [translate]="'method.group.N'"></option>
-                  <option value="O" [translate]="'method.group.O'"></option>
+                  <option [translate]="'method.group.B'" value="B"></option>
+                  <option [translate]="'method.group.E'" value="E"></option>
+                  <option [translate]="'method.group.F'" value="F"></option>
+                  <option [translate]="'method.group.N'" value="N"></option>
+                  <option [translate]="'method.group.O'" value="O"></option>
                 </select>
               </div>
             </div>
 
             <div class="self-center">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input type="text" formControlName="code" placeholder="Code ..." />
+                <input formControlName="code" placeholder="Code ..." type="text"/>
               </div>
             </div>
           </ng-container>
@@ -47,52 +47,47 @@
         <div class="px-4 py-8 sm:px-0">
           <div class="hidden lg:block flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                  <table class="min-w-full divide-y divide-gray-200 table-fixed">
-                    <thead>
-                    <tr>
-                      <th scope="col" class="w-3/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Methode
-                      </th>
-                      <th scope="col" class="w-3/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Groep
-                      </th>
-                      <th scope="col" class="w-3/12 px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Code
-                      </th>
-                      <th scope="col" class="relative px-6 py-3">
-                        <span class="sr-only">Bewerk</span>
-                      </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td *ngIf="loading" class="px-3 py-4" colspan="8">
-                        <app-loading-spinner></app-loading-spinner>
-                      </td>
-                    </tr>
+              <app-table [pager]="pager">
+                <thead>
+                  <tr>
+                    <th appHeader class="w-3/12" scope="col">
+                      Methode
+                    </th>
+                    <th appHeader class="w-3/12" scope="col">
+                      Groep
+                    </th>
+                    <th appHeader class="w-3/12" scope="col">
+                      Code
+                    </th>
+                    <th appHeader scope="col">
+                      <span class="sr-only">Bewerk</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr appRow>
+                    <td appCell *ngIf="loading" colspan="8">
+                      <app-loading-spinner></app-loading-spinner>
+                    </td>
+                  </tr>
 
-                    <tr *ngFor="let method of methods | async; let index = index" [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">
-                      <td class="px-6 py-4  text-sm text-gray-900">
-                        {{'method.' + method.code | translate}}
-                      </td>
-                      <td class="px-6 py-4  text-sm text-gray-900">
-                        {{'method.' + method.code + '.group' | translate}}
-                      </td>
-                      <td class="px-6 py-4  text-sm text-gray-900">
-                        {{method.code}}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button type="button" (click)="openEdit(method.code)" class="text-pink-600 hover:text-pink-900">Bewerk</button>
-                      </td>
-                    </tr>
+                  <tr appRow [rownumber]="index" *ngFor="let method of methods | async; let index = index">
+                    <td appCell>
+                      {{'method.' + method.code | translate}}
+                    </td>
+                    <td appCell>
+                      {{'method.' + method.code + '.group' | translate}}
+                    </td>
+                    <td appCell>
+                      {{method.code}}
+                    </td>
+                    <td appCell actions="true" class="font-medium">
+                      <button (click)="openEdit(method.code)" class="text-pink-600 hover:text-pink-900" type="button">Bewerk</button>
+                    </td>
+                  </tr>
 
-                    </tbody>
-                  </table>
-                  <app-paging-async [pager]="pager"></app-paging-async>
-                </div>
-              </div>
+                </tbody>
+              </app-table>
             </div>
           </div>
 

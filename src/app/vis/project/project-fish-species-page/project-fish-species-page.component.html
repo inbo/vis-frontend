@@ -1,63 +1,59 @@
 <div class="flex flex-col hidden lg:block">
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-      <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Code
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Nederlandse naam
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Wetenschappelijke naam
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Groep
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              </th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-          <tr *ngFor="let item of taxon | async; let index = index;" [class.bg-white]="index % 2 === 0" [class.bg-gray-50]="index % 2 !== 0">
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{item.code.value}}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{item.nameDutch}}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{item.nameScientific}}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{item.taxonGroupText}}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <app-dropdown-minimal>
-                  <a [routerLink]="['/vissoorten', item.id.value]"
-                     class="w-full text-left text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                     id="menu-item-0">Detail</a>
-                  <a target="_blank" [routerLink]="['/projecten', projectCode, 'waarnemingen']"
-                     [queryParams]="{species: item.id.value}"
-                     class="w-full text-left text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                     id="menu-item-0">Filter</a>
-                </app-dropdown-minimal>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <nav *ngIf="(taxon | async)?.length === 0" class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-          <div class="hidden sm:block">
-            <p class="text-sm leading-5 text-gray-700">
-              Geen resultaten
-            </p>
-          </div>
-        </nav>
-      </div>
-    </div>
+    <app-table>
+      <thead class="bg-gray-50">
+        <tr>
+          <th appHeader scope="col">
+            Code
+          </th>
+          <th appHeader scope="col">
+            Nederlandse naam
+          </th>
+          <th appHeader scope="col">
+            Wetenschappelijke naam
+          </th>
+          <th appHeader scope="col">
+            Groep
+          </th>
+          <th appHeader scope="col">
+            <span class="sr-only">Bewerk</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="(taxon | async)?.length === 0" appRow>
+          <td appCell colspan="5">
+            Geen resultaten
+          </td>
+        </tr>
+
+        <tr appRow [rownumber]="index" *ngFor="let item of taxon | async; let index = index;">
+          <td appCell>
+            {{item.code.value}}
+          </td>
+          <td appCell>
+            {{item.nameDutch}}
+          </td>
+          <td appCell>
+            {{item.nameScientific}}
+          </td>
+          <td appCell>
+            {{item.taxonGroupText}}
+          </td>
+          <td appCell [actions]="true">
+            <app-dropdown-minimal>
+              <a [routerLink]="['/vissoorten', item.id.value]"
+                 class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-0" role="menuitem"
+                 tabindex="-1">Detail</a>
+              <a [queryParams]="{species: item.id.value}" [routerLink]="['/projecten', projectCode, 'waarnemingen']"
+                 class="w-full text-left text-gray-700 block px-4 py-2 text-sm"
+                 id="menu-item-0" role="menuitem" tabindex="-1"
+                 target="_blank">Filter</a>
+            </app-dropdown-minimal>
+          </td>
+        </tr>
+      </tbody>
+    </app-table>
   </div>
 </div>
 
