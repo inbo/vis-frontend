@@ -45,50 +45,48 @@
 
 
         <div class="px-4 py-8 sm:px-0">
-          <div class="hidden lg:block flex flex-col">
-            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <app-table [pager]="pager">
-                <thead>
-                  <tr>
-                    <th appHeader class="w-3/12" scope="col">
-                      Methode
-                    </th>
-                    <th appHeader class="w-3/12" scope="col">
-                      Groep
-                    </th>
-                    <th appHeader class="w-3/12" scope="col">
-                      Code
-                    </th>
-                    <th appHeader scope="col">
-                      <span class="sr-only">Bewerk</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr appRow>
-                    <td appCell *ngIf="loading" colspan="8">
-                      <app-loading-spinner></app-loading-spinner>
-                    </td>
-                  </tr>
+          <div class="hidden lg:block">
+            <app-table [pager]="pager">
+              <thead>
+                <tr>
+                  <th appHeader class="w-3/12" scope="col">
+                    Methode
+                  </th>
+                  <th appHeader class="w-3/12" scope="col">
+                    Groep
+                  </th>
+                  <th appHeader class="w-3/12" scope="col">
+                    Code
+                  </th>
+                  <th appHeader scope="col">
+                    <span class="sr-only">Bewerk</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr appRow>
+                  <td *ngIf="loading" appCell colspan="8">
+                    <app-loading-spinner></app-loading-spinner>
+                  </td>
+                </tr>
 
-                  <tr appRow [rownumber]="index" *ngFor="let method of methods | async; let index = index">
-                    <td appCell>
-                      {{'method.' + method.code | translate}}
-                    </td>
-                    <td appCell>
-                      {{'method.' + method.code + '.group' | translate}}
-                    </td>
-                    <td appCell>
-                      {{method.code}}
-                    </td>
-                    <td appCell actions="true" class="font-medium">
-                      <button (click)="openEdit(method.code)" class="text-pink-600 hover:text-pink-900" type="button">Bewerk</button>
-                    </td>
-                  </tr>
+                <tr *ngFor="let method of methods | async; let index = index" [rownumber]="index" appRow>
+                  <td appCell>
+                    {{'method.' + method.code | translate}}
+                  </td>
+                  <td appCell>
+                    {{'method.' + method.code + '.group' | translate}}
+                  </td>
+                  <td appCell>
+                    {{method.code}}
+                  </td>
+                  <td actions="true" appCell class="font-medium">
+                    <button (click)="openEdit(method.code)" class="text-pink-600 hover:text-pink-900" type="button">Bewerk</button>
+                  </td>
+                </tr>
 
-                </tbody>
-              </app-table>
-            </div>
+              </tbody>
+            </app-table>
           </div>
 
           <div class="lg:hidden bg-white shadow overflow-hidden sm:rounded-md">
