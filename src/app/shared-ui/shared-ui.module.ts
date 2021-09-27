@@ -31,8 +31,12 @@ import {ModalComponent} from './modal/modal.component';
 import {MultiTextSearchComponent} from './multi-text-search/multi-text-search.component';
 import {DropdownMinimalComponent} from './dropdown-minimal/dropdown-minimal.component';
 import {MultiSelectComponent} from './multi-select/multi-select.component';
-import {HasRoleDirective} from "./directives/has-role.directive";
-import { TagComponent } from './slide-over-filter/tag/tag.component';
+import {HasRoleDirective} from './directives/has-role.directive';
+import {TagComponent} from './slide-over-filter/tag/tag.component';
+import {RowDirective} from './table/directives/row.directive';
+import { HeaderDirective } from './table/directives/header.directive';
+import { CellDirective } from './table/directives/cell.directive';
+import { TableComponent } from './table/table/table.component';
 
 @NgModule({
   declarations: [
@@ -64,39 +68,47 @@ import { TagComponent } from './slide-over-filter/tag/tag.component';
     DropdownMinimalComponent,
     MultiSelectComponent,
     HasRoleDirective,
-    TagComponent
+    TagComponent,
+    RowDirective,
+    HeaderDirective,
+    CellDirective,
+    TableComponent
   ],
-    exports: [
-        SidebarLayoutComponent,
-        NavigationLinkComponent,
-        ProfileDropdownComponent,
-        StackedLayoutComponent,
-        BreadcrumbComponent,
-        PagingAsyncComponent,
-        PagingComponent,
-        LoadingSpinnerComponent,
-        ToggleWithIconComponent,
-        DatepickerComponent,
-        SlideOverComponent,
-        TextCounterComponent,
-        ExpandableFilterComponent,
-        RadioGroupComponent,
-        CheckGroupComponent,
-        StepComponent,
-        SearchableSelectComponent,
-        DaterangeComponent,
-        TipComponent,
-        HeaderBannerComponent,
-        RoleEnabledButtonComponent,
-        SlideOverFilterComponent,
-        ModalComponent,
-        TipIconComponent,
-        MultiTextSearchComponent,
-        DropdownMinimalComponent,
-        MultiSelectComponent,
-        HasRoleDirective,
-        TagComponent
-    ],
+  exports: [
+    SidebarLayoutComponent,
+    NavigationLinkComponent,
+    ProfileDropdownComponent,
+    StackedLayoutComponent,
+    BreadcrumbComponent,
+    PagingAsyncComponent,
+    PagingComponent,
+    LoadingSpinnerComponent,
+    ToggleWithIconComponent,
+    DatepickerComponent,
+    SlideOverComponent,
+    TextCounterComponent,
+    ExpandableFilterComponent,
+    RadioGroupComponent,
+    CheckGroupComponent,
+    StepComponent,
+    SearchableSelectComponent,
+    DaterangeComponent,
+    TipComponent,
+    HeaderBannerComponent,
+    RoleEnabledButtonComponent,
+    SlideOverFilterComponent,
+    ModalComponent,
+    TipIconComponent,
+    MultiTextSearchComponent,
+    DropdownMinimalComponent,
+    MultiSelectComponent,
+    HasRoleDirective,
+    TagComponent,
+    RowDirective,
+    HeaderDirective,
+    CellDirective,
+    TableComponent
+  ],
   imports: [
     RouterModule,
     CommonModule,
