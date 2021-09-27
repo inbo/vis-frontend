@@ -20,14 +20,9 @@
           Status
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-                <span *ngIf="project?.status === 'ACTIVE'"
-                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                  Actief
-                </span>
-          <span *ngIf="project?.status === 'INACTIVE'"
-                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                  Inactief
-                </span>
+          <app-pill [color]="project?.status === 'ACTIVE' ? 'green' : 'red'">
+            {{project?.status === 'ACTIVE' ? 'Actief' : 'Inactief'}}
+          </app-pill>
         </dd>
       </div>
       <div class="sm:col-span-2">
