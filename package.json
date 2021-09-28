@@ -55,6 +55,7 @@
     "@angular/compiler-cli": "~11.2.7",
     "@tailwindcss/forms": "0.3.2",
     "@tailwindcss/line-clamp": "^0.2.1",
+    "@tailwindcss/aspect-ratio": "^0.2.1",
     "@tailwindcss/typography": "0.4.0",
     "@types/esri-leaflet": "^2.1.6",
     "@types/jasmine": "~3.6.0",

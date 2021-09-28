@@ -38,6 +38,8 @@ import { HeaderDirective } from './table/directives/header.directive';
 import { CellDirective } from './table/directives/cell.directive';
 import { TableComponent } from './table/table/table.component';
 import { PillComponent } from './pill/pill.component';
+import { ImageGridItemComponent } from './image-grid-item/image-grid-item.component';
+import { ImageDetailComponent } from './image-detail/image-detail.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +76,9 @@ import { PillComponent } from './pill/pill.component';
     HeaderDirective,
     CellDirective,
     TableComponent,
-    PillComponent
+    PillComponent,
+    ImageGridItemComponent,
+    ImageDetailComponent
   ],
     exports: [
         SidebarLayoutComponent,
@@ -110,7 +114,9 @@ import { PillComponent } from './pill/pill.component';
         HeaderDirective,
         CellDirective,
         TableComponent,
-        PillComponent
+        PillComponent,
+        ImageGridItemComponent,
+        ImageDetailComponent
     ],
   imports: [
     RouterModule,

@@ -1,21 +1,73 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Project} from '../../../domain/project/project';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
+import {TandemvaultPicture, TandemvaultPictureDetail} from '../../../domain/tandemvault/picture';
+import {PicturesService} from '../../../services/vis.pictures.service';
+import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-project-pictures-page',
   templateUrl: './project-pictures-page.component.html'
 })
-export class ProjectPicturesPageComponent implements OnInit {
-  project: Project;
+export class ProjectPicturesPageComponent implements OnInit, OnDestroy {
+  loading = false;
 
-  constructor(private titleService: Title, private activatedRoute: ActivatedRoute) {
+  pager: AsyncPage<TandemvaultPicture>;
+  pictures: TandemvaultPicture[];
+
+  project: Project;
+  detail: TandemvaultPictureDetail;
+  selectedPicture: TandemvaultPicture;
+
+  subscription = new Subscription();
+
+  constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private picturesService: PicturesService) {
     this.titleService.setTitle(`Project ${this.activatedRoute.snapshot.parent.params.projectCode} afbeeldingen`);
 
+    this.loadPicturesPage();
+
+    this.subscription.add(
+      this.activatedRoute.queryParams.subscribe((params) => {
+          this.loadPicturesPage();
+        }
+      ));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   ngOnInit(): void {
+
   }
 
+  openDetail(picture: TandemvaultPicture) {
+    this.selectedPicture = picture;
+    this.picturesService.getPicture(picture.id).subscribe(value => {
+      this.detail = value;
+    });
+  }
+
+  download(id: any) {
+    this.picturesService.downloadPicture(id).subscribe(value => {
+      window.open(value.url, '_blank');
+    });
+  }
+
+  loadPicturesPage() {
+    this.loading = true;
+    this.pictures = [];
+    const page = this.activatedRoute.snapshot.queryParams.page;
+    this.subscription.add(
+      this.picturesService.getPictures(page, 'afvissingen-estuaria').subscribe((value) => {
+        this.pager = value;
+        this.pictures = value.content;
+        this.loading = false;
+        this.selectedPicture = this.pictures[0];
+        this.openDetail(this.selectedPicture);
+      })
+    );
+  }
 }
