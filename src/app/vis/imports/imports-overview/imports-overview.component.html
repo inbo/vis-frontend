@@ -33,64 +33,62 @@
         <div class="px-4 py-8 sm:px-0">
           <!-- This example requires Tailwind CSS v2.0+ -->
           <div class="flex flex-col">
-            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <app-table>
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th appHeader scope="col">
-                      Titel / aangemaakt op
-                    </th>
-                    <th appHeader scope="col">
-                      Bewerkt door
-                    </th>
-                    <th appHeader scope="col">
-                      Drive
-                    </th>
-                    <th appHeader scope="col">
-                      <span class="sr-only">Edit</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr appRow>
-                    <td *ngIf="loading" appCell colspan="5">
-                      <app-loading-spinner></app-loading-spinner>
-                    </td>
-                  </tr>
+            <app-table>
+              <thead class="bg-gray-50">
+                <tr>
+                  <th appHeader scope="col">
+                    Titel / aangemaakt op
+                  </th>
+                  <th appHeader scope="col">
+                    Bewerkt door
+                  </th>
+                  <th appHeader scope="col">
+                    Drive
+                  </th>
+                  <th appHeader scope="col">
+                    <span class="sr-only">Edit</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr appRow>
+                  <td *ngIf="loading" appCell colspan="5">
+                    <app-loading-spinner></app-loading-spinner>
+                  </td>
+                </tr>
 
-                  <tr appRow [rownumber]="index" *ngFor="let import of imports; let index = index">
-                    <td appCell>
-                      <div class="text-sm text-gray-900">{{import.filename}}</div>
-                      <div class="text-sm text-gray-500">{{import.createdTime | date: 'dd/MM/yyyy'}}</div>
-                    </td>
+                <tr *ngFor="let import of imports; let index = index" [rownumber]="index" appRow>
+                  <td appCell>
+                    <div class="text-sm text-gray-900">{{import.filename}}</div>
+                    <div class="text-sm text-gray-500">{{import.createdTime | date: 'dd/MM/yyyy'}}</div>
+                  </td>
 
-                    <td appCell>
-                      <div class="flex items-center">
-                        <div class="flex-shrink-0 h-10 w-10">
-                          <img [src]="import.photoLink" alt="" class="h-10 w-10 rounded-full">
+                  <td appCell>
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10">
+                        <img [src]="import.photoLink" alt="" class="h-10 w-10 rounded-full">
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">
+                          {{import.displayName}}
                         </div>
-                        <div class="ml-4">
-                          <div class="text-sm font-medium text-gray-900">
-                            {{import.displayName}}
-                          </div>
-                          <div class="text-sm text-gray-500">
-                            {{import.modifiedTime | date: 'dd/MM/yyyy'}}
-                          </div>
+                        <div class="text-sm text-gray-500">
+                          {{import.modifiedTime | date: 'dd/MM/yyyy'}}
                         </div>
                       </div>
-                    </td>
+                    </div>
+                  </td>
 
-                    <td appCell>
-                      <a [href]="import.webViewLink" class="text-pink-600 hover:text-pink-900" target="_blank">Open</a>
-                    </td>
-                    <td appCell [actions]="true">
-                      <a [routerLink]="['/importeren', import.id]" class="text-pink-600 hover:text-pink-900">Detail</a>
-                    </td>
-                  </tr>
+                  <td appCell>
+                    <a [href]="import.webViewLink" class="text-pink-600 hover:text-pink-900" target="_blank">Open</a>
+                  </td>
+                  <td [actions]="true" appCell>
+                    <a [routerLink]="['/importeren', import.id]" class="text-pink-600 hover:text-pink-900">Detail</a>
+                  </td>
+                </tr>
 
-                </tbody>
-              </app-table>
-            </div>
+              </tbody>
+            </app-table>
           </div>
         </div>
       </div>

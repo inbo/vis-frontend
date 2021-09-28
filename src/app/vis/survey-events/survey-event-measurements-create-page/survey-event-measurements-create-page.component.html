@@ -14,71 +14,69 @@
     </h3>
   </div>
   <div>
-    <div class="flex flex-col hidden lg:block">
-      <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <app-table>
-          <thead>
-            <tr>
-              <th appHeader scope="col">
-                Soort
-              </th>
-              <th appHeader scope="col">
-                Aantal
-              </th>
-              <th appHeader scope="col">
-                Lengte (cm)
-              </th>
-              <th appHeader scope="col">
-                Gewicht (g)
-              </th>
-              <th appHeader scope="col">
-                Geslacht
-              </th>
-              <th appHeader scope="col">
-                Afvisbeurt
-              </th>
-              <th appHeader scope="col">
-                Commentaar
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr appRow>
-              <td appCell *ngIf="loading" colspan="7">
-                <app-loading-spinner></app-loading-spinner>
-              </td>
-            </tr>
+    <div class="hidden lg:block">
+      <app-table>
+        <thead>
+          <tr>
+            <th appHeader scope="col">
+              Soort
+            </th>
+            <th appHeader scope="col">
+              Aantal
+            </th>
+            <th appHeader scope="col">
+              Lengte (cm)
+            </th>
+            <th appHeader scope="col">
+              Gewicht (g)
+            </th>
+            <th appHeader scope="col">
+              Geslacht
+            </th>
+            <th appHeader scope="col">
+              Afvisbeurt
+            </th>
+            <th appHeader scope="col">
+              Commentaar
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr appRow>
+            <td *ngIf="loading" appCell colspan="7">
+              <app-loading-spinner></app-loading-spinner>
+            </td>
+          </tr>
 
-            <tr appRow [rownumber]="index" *ngFor="let measurement of existingMeasurements; let index = index">
-              <td appCell [condense]="true">
-                {{measurement.taxon.nameDutch}}
-              </td>
-              <td appCell [condense]="true">
-                {{measurement.amount}}
-                <fa-icon *ngIf="measurement.type === 'GROUP'" [icon]="faWeightHanging"
-                         class="self-center text-gray-500 pl-2" title="Groepsmeting"></fa-icon>
-                <fa-icon *ngIf="measurement.type === 'GROUP_LENGTHS'" [icon]="faRulerHorizontal"
-                         class="self-center text-gray-500 pl-2" title="Groepsmeting met lengtemetingen"></fa-icon>
-              </td>
-              <td appCell [condense]="true">
-                {{measurement.length}}
-              </td>
-              <td appCell [condense]="true">
-                {{measurement.weight}}
-              </td>
-              <td appCell [condense]="true">
-                {{'gender.' + measurement.gender | translate}}
-              </td>
-              <td appCell [condense]="true">
-                {{measurement.afvisBeurtNumber}}
-              </td>
-              <td appCell [condense]="true">
-                {{measurement.comment}}
-              </td>
-            </tr>
-          </tbody>
-        </app-table>
-      </div>
+          <tr *ngFor="let measurement of existingMeasurements; let index = index" [rownumber]="index" appRow>
+            <td [condense]="true" appCell>
+              {{measurement.taxon.nameDutch}}
+            </td>
+            <td [condense]="true" appCell>
+              {{measurement.amount}}
+              <fa-icon *ngIf="measurement.type === 'GROUP'" [icon]="faWeightHanging"
+                       class="self-center text-gray-500 pl-2" title="Groepsmeting"></fa-icon>
+              <fa-icon *ngIf="measurement.type === 'GROUP_LENGTHS'" [icon]="faRulerHorizontal"
+                       class="self-center text-gray-500 pl-2" title="Groepsmeting met lengtemetingen"></fa-icon>
+            </td>
+            <td [condense]="true" appCell>
+              {{measurement.length}}
+            </td>
+            <td [condense]="true" appCell>
+              {{measurement.weight}}
+            </td>
+            <td [condense]="true" appCell>
+              {{'gender.' + measurement.gender | translate}}
+            </td>
+            <td [condense]="true" appCell>
+              {{measurement.afvisBeurtNumber}}
+            </td>
+            <td [condense]="true" appCell>
+              {{measurement.comment}}
+            </td>
+          </tr>
+        </tbody>
+      </app-table>
     </div>
 
     <div class="bg-white shadow overflow-hidden sm:rounded-md lg:hidden">
