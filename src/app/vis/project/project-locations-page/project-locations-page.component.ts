@@ -53,8 +53,6 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
 
       this.getFishingPoints();
     }));
-
-    this.getFishingPoints();
   }
 
   ngOnDestroy(): void {
@@ -98,8 +96,6 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
         relativeTo: this.activatedRoute,
         queryParams
       }).then();
-
-    this.getFishingPoints();
   }
 
   reset() {
