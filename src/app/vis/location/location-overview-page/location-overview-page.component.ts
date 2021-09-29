@@ -61,8 +61,6 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
 
       this.getFishingPoints();
     }));
-
-    this.getFishingPoints();
   }
 
   ngOnDestroy(): void {
