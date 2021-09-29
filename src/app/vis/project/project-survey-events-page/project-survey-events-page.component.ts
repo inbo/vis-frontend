@@ -184,8 +184,6 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
         relativeTo: this.activatedRoute,
         queryParams
       }).then();
-
-    this.getSurveyEvents();
   }
 
   private setTags() {

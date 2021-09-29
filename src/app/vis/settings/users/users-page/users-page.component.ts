@@ -7,9 +7,7 @@ import {UserEditComponent} from '../user-edit/user-edit.component';
 import {AsyncPage} from '../../../../shared-ui/paging-async/asyncPage';
 import {AccountService} from '../../../../services/vis.account.service';
 import {AuthService} from '../../../../core/auth.service';
-import {Team} from '../../../../domain/account/team';
 import {Account} from '../../../../domain/account/account';
-import {Instance} from '../../../../domain/account/instance';
 
 @Component({
   selector: 'app-users-page',
@@ -39,7 +37,9 @@ export class UsersPageComponent implements OnInit {
     this.filterForm = this.formBuilder.group(
       {
         name: [queryParams.name],
-        sort: [queryParams.sort ?? '']
+        sort: [queryParams.sort ?? ''],
+        page: [queryParams.page ?? null],
+        size: [queryParams.size ?? null]
       },
     );
 
@@ -47,19 +47,21 @@ export class UsersPageComponent implements OnInit {
       this.activatedRoute.queryParams.subscribe((params) => {
         this.filterForm.get('name').patchValue(params.name ? params.name : '');
         this.filterForm.get('sort').patchValue(params.sort ? params.sort : '');
-      })
-    );
+        this.filterForm.get('page').patchValue(params.page ? params.page : null);
+        this.filterForm.get('size').patchValue(params.size ? params.size : null);
 
-    this.subscription.add(
-      this.activatedRoute.queryParams.subscribe((params) => {
-        this.getAccounts(params.page ? params.page : 1, params.size ? params.size : 20);
+        this.getAccounts();
       })
     );
   }
 
-  getAccounts(page: number, size: number) {
+  getAccounts() {
     this.loading = true;
     this.accounts = of([]);
+
+    const page = this.filterForm.get('page').value ?? 0;
+    const size = this.filterForm.get('size').value ?? 20;
+
     this.subscription.add(
       this.accountService.listAccounts(page, size, this.filterForm.getRawValue()).subscribe((value) => {
         this.pager = value;
@@ -81,8 +83,6 @@ export class UsersPageComponent implements OnInit {
         queryParams,
         queryParamsHandling: 'merge'
       }).then();
-
-    this.getAccounts(1, 20);
   }
 
   editAccount(account: Account) {
@@ -90,7 +90,6 @@ export class UsersPageComponent implements OnInit {
   }
 
   reload() {
-    const params = this.activatedRoute.snapshot.queryParams;
-    this.getAccounts(params.page ? params.page : 1, params.size ? params.size : 20);
+    window.location.reload();
   }
 }

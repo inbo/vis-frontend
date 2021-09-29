@@ -104,8 +104,6 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
         relativeTo: this.activatedRoute,
         queryParams
       }).then();
-
-    this.getFishingPoints();
   }
 
   reset() {

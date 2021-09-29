@@ -126,8 +126,6 @@ export class ProjectsOverviewPageComponent implements OnInit {
         queryParams,
         queryParamsHandling: 'merge'
       }).then();
-
-    this.getProjects();
   }
 
   exportProjects() {
