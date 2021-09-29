@@ -8,9 +8,7 @@ import {Observable, of, Subscription} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MethodsService} from '../../../services/vis.methods.service';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {Method} from '../../../domain/method/method';
-import {ProjectAddComponent} from '../../project/project-add/project-add.component';
 import {MethodEditComponent} from '../method-edit/method-edit.component';
 
 @Component({
@@ -43,42 +41,41 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
       {
         code: [queryParams.code],
         group: [queryParams.group],
-        description: [queryParams.description]
+        description: [queryParams.description],
+        page: [queryParams.page ?? null],
+        size: [queryParams.size ?? null]
       },
     );
-
-    this.subscription.add(
-      this.filterForm.valueChanges.pipe(
-        debounceTime(300),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
-        .subscribe(_ => this.filter())
-    );
-
 
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
         this.filterForm.get('code').patchValue(params.code ? params.code : '');
         this.filterForm.get('group').patchValue(params.group ? params.group : '');
         this.filterForm.get('description').patchValue(params.description ? params.description : '');
+        this.filterForm.get('page').patchValue(params.page ? params.page : null);
+        this.filterForm.get('size').patchValue(params.size ? params.size : null);
+
+        this.getMethods();
       })
     );
   }
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.activatedRoute.queryParams.subscribe((params) => {
-        this.getMethods(params.page ? params.page : 1, params.size ? params.size : 20);
-      })
-    );
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  getMethods(page: number, size: number) {
+  getMethods() {
+    console.log('getMethods');
+
     this.loading = true;
     this.methods = of([]);
+
+    const page = this.filterForm.get('page').value ?? 0;
+    const size = this.filterForm.get('size').value ?? 20;
+
     this.subscription.add(
       this.methodsService.getMethods(page, size, this.filterForm.getRawValue()).subscribe((value) => {
         this.pager = value;
@@ -100,7 +97,7 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
         queryParamsHandling: 'merge'
       }).then();
 
-    this.getMethods(1, 20);
+    this.getMethods();
   }
 
   openEdit(methodCode: string) {
