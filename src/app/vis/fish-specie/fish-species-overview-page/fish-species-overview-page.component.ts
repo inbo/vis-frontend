@@ -10,7 +10,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Taxon} from '../../../domain/taxa/taxon';
 import {TaxonGroup} from '../../../domain/taxa/taxon-group';
 import {TaxaService} from '../../../services/vis.taxa.service';
-import {debounceTime, distinctUntilChanged} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 @Component({
   selector: 'app-fish-species-overview-page',
@@ -44,7 +44,9 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
         nameDutch: [queryParams.nameDutch],
         nameScientific: [queryParams.nameScientific],
         taxonGroupCode: [queryParams.taxonGroupCode],
-        taxonCode: [queryParams.taxonCode]
+        taxonCode: [queryParams.taxonCode],
+        page: [queryParams.page ?? null],
+        size: [queryParams.size ?? null]
       },
     );
 
@@ -61,8 +63,12 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
         this.filterForm.get('nameScientific').patchValue(params.nameScientific ? params.nameScientific : '');
         this.filterForm.get('taxonGroupCode').patchValue(params.taxonGroupCode ? params.taxonGroupCode : '');
         this.filterForm.get('taxonCode').patchValue(params.taxonCode ? params.taxonCode : '');
+        this.filterForm.get('page').patchValue(params.page ? params.page : null);
+        this.filterForm.get('size').patchValue(params.size ? params.size : null);
 
         this.advancedFilterIsVisible = (params.taxonCode !== undefined && params.taxonCode !== '');
+
+        this.getTaxon();
       })
     );
 
@@ -70,24 +76,21 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(
-      this.activatedRoute.queryParams.subscribe((params) => {
-        this.getTaxon(params.page ? params.page : 1, params.size ? params.size : 20);
-      })
-    );
-
-    this.subscription.add(
       this.taxaService.getTaxonGroups().subscribe((value => this.taxonGroups = value))
     );
-
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  getTaxon(page: number, size: number) {
+  getTaxon() {
     this.loading = true;
     this.taxon = of([]);
+
+    const page = this.filterForm.get('page').value ?? 0;
+    const size = this.filterForm.get('size').value ?? 20;
+
     this.subscription.add(
       this.taxaService.getFilteredTaxa(page, size, this.filterForm.getRawValue()).subscribe((value) => {
         this.pager = value;
@@ -112,7 +115,5 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
         queryParams,
         queryParamsHandling: 'merge'
       }).then();
-
-    this.getTaxon(1, 20);
   }
 }

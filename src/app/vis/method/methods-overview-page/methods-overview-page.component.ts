@@ -10,6 +10,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {Method} from '../../../domain/method/method';
 import {MethodEditComponent} from '../method-edit/method-edit.component';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 @Component({
   selector: 'app-methods-overview-page',
@@ -48,6 +49,13 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
+      this.filterForm.valueChanges.pipe(
+        debounceTime(300),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
+        .subscribe(_ => this.filter())
+    );
+
+    this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
         this.filterForm.get('code').patchValue(params.code ? params.code : '');
         this.filterForm.get('group').patchValue(params.group ? params.group : '');
@@ -68,8 +76,6 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
   }
 
   getMethods() {
-    console.log('getMethods');
-
     this.loading = true;
     this.methods = of([]);
 
@@ -96,8 +102,6 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
         queryParams,
         queryParamsHandling: 'merge'
       }).then();
-
-    this.getMethods();
   }
 
   openEdit(methodCode: string) {
