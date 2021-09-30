@@ -48,12 +48,7 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
       },
     );
 
-    this.subscription.add(
-      this.filterForm.valueChanges.pipe(
-        debounceTime(300),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
-        .subscribe(_ => this.filter())
-    );
+    this.addValueChangeListeners();
 
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
@@ -65,6 +60,26 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
 
         this.getMethods();
       })
+    );
+  }
+
+  private addValueChangeListeners() {
+    this.subscription.add(
+      this.filterForm.get('description').valueChanges
+        .pipe(
+          debounceTime(300),
+          distinctUntilChanged((a, b) => a === b)
+        )
+        .subscribe(_ => this.filter())
+    );
+
+    this.subscription.add(
+      this.filterForm.get('code').valueChanges
+        .pipe(
+          debounceTime(300),
+          distinctUntilChanged((a, b) => a === b)
+        )
+        .subscribe(_ => this.filter())
     );
   }
 
