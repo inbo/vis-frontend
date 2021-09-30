@@ -10,7 +10,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {Method} from '../../../domain/method/method';
 import {MethodEditComponent} from '../method-edit/method-edit.component';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, skip} from 'rxjs/operators';
 
 @Component({
   selector: 'app-methods-overview-page',
@@ -67,8 +67,9 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.filterForm.get('description').valueChanges
         .pipe(
+          skip(1),
           debounceTime(300),
-          distinctUntilChanged((a, b) => a === b)
+          distinctUntilChanged()
         )
         .subscribe(_ => this.filter())
     );
@@ -76,8 +77,9 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.filterForm.get('code').valueChanges
         .pipe(
+          skip(1),
           debounceTime(300),
-          distinctUntilChanged((a, b) => a === b)
+          distinctUntilChanged()
         )
         .subscribe(_ => this.filter())
     );

@@ -10,10 +10,9 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ProjectAddComponent} from '../project-add/project-add.component';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Role} from '../../../core/_models/role';
-import {debounceTime, distinctUntilChanged, take} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, skip, take} from 'rxjs/operators';
 import {ProjectService} from '../../../services/vis.project.service';
 import {AuthService} from '../../../core/auth.service';
-import _ from 'lodash';
 import {AccountService} from '../../../services/vis.account.service';
 import {Team} from '../../../domain/account/team';
 
@@ -66,19 +65,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
       },
     );
 
-    this.subscription.add(
-      this.filterForm.valueChanges.pipe(
-        debounceTime(300),
-        distinctUntilChanged((a, b) => {
-          const filteredObj = (obj) =>
-            Object.entries(obj)
-              .filter(([, value]) => !!value || typeof value === 'boolean')
-              .reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
-
-          return _.isEqual(filteredObj(a), filteredObj(b));
-        })
-      ).subscribe(() => this.filter())
-    );
+    this.addValueChangeListeners();
 
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
@@ -93,7 +80,31 @@ export class ProjectsOverviewPageComponent implements OnInit {
 
         this.advancedFilterIsVisible = ((params.description !== undefined && params.description !== '') ||
           (params.lengthType !== undefined && params.lengthType !== ''));
+
+        this.getProjects();
       })
+    );
+  }
+
+  private addValueChangeListeners() {
+    this.subscription.add(
+      this.filterForm.get('name').valueChanges
+        .pipe(
+          skip(1),
+          debounceTime(300),
+          distinctUntilChanged()
+        )
+        .subscribe(_ => this.filter())
+    );
+
+    this.subscription.add(
+      this.filterForm.get('description').valueChanges
+        .pipe(
+          skip(1),
+          debounceTime(300),
+          distinctUntilChanged()
+        )
+        .subscribe(_ => this.filter())
     );
   }
 
@@ -117,7 +128,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
 
   filter() {
     const rawValue = this.filterForm.getRawValue();
-    const queryParams: Params = {...rawValue};
+    const queryParams: Params = {...rawValue, page: 1};
 
     this.router.navigate(
       [],

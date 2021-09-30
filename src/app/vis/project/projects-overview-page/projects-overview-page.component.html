@@ -11,13 +11,16 @@
             </h3>
             <div class="mt-3 flex sm:mt-0 sm:ml-4">
               <app-button (click)="exportProjects()" [role]="role.ExportProject">Exporteer</app-button>
-              <app-button (click)="openAddProject()" [role]="role.CreateProject" [style]="'primary'" class="ml-3">Nieuw Project</app-button>
+              <app-button (click)="openAddProject()" [role]="role.CreateProject" [style]="'primary'" class="ml-3">Nieuw
+                Project
+              </app-button>
             </div>
           </div>
 
         </div>
 
-        <app-expandable-filter [formGroup]="filterForm" [hideSearchButton]="true" [showAdvancedFilterAtStartup]="advancedFilterIsVisible">
+        <app-expandable-filter [formGroup]="filterForm" [hideSearchButton]="true"
+                               [showAdvancedFilterAtStartup]="advancedFilterIsVisible">
           <ng-container slot="simple">
             <div class="self-center">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -25,21 +28,23 @@
               </div>
             </div>
 
-            <div class="flex items-center">
-              <select class="mt-1" formControlName="status" name="status">
+            <div class="self-center">
+              <select (change)="filter()" class="mt-1 sm:mt-0 sm:col-span-2" formControlName="status" name="status">
                 <option [ngValue]="null">Actief / Niet actief</option>
                 <option value="ACTIVE">Actief</option>
                 <option value="INACTIVE">Niet actief</option>
               </select>
             </div>
             <div class="self-center">
-              <select class="mt-1" formControlName="team" name="team">
+              <select (change)="filter()" class="mt-1 sm:mt-0 sm:col-span-2" formControlName="team" name="team">
                 <option [ngValue]="null">Team ...</option>
-                <option *ngFor="let team of teams$ | async" [value]="team.code">{{team.instanceCode}}/{{team.code}}</option>
+                <option *ngFor="let team of teams$ | async" [value]="team.code">
+                  {{team.instanceCode}}/{{team.code}}
+                </option>
               </select>
             </div>
             <div class="self-center">
-              <select class="mt-1" formControlName="sort" name="sort">
+              <select (change)="filter()" class="mt-1 sm:mt-0 sm:col-span-2" formControlName="sort" name="sort">
                 <option [ngValue]="null">Sorteren op ...</option>
                 <option value="name">Naam</option>
                 <option value="period.begin">Periode</option>
@@ -57,7 +62,7 @@
 
             <div class="self-center">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <select formControlName="lengthType" name="lengthType">
+                <select (change)="filter()" formControlName="lengthType" name="lengthType">
                   <option [ngValue]="null">Lengtemaat selecteren ...</option>
                   <option value="FORK">Vork</option>
                   <option value="TOTAL">Totaal</option>
@@ -73,55 +78,67 @@
           <div class="hidden lg:block">
             <app-table [pager]="pager">
               <thead>
-                <tr>
-                  <th appHeader class="w-3/12" scope="col">
-                    Naam
-                  </th>
-                  <th appHeader class="w-1/12" scope="col">
-                    Team
-                  </th>
-                  <th appHeader class="w-1/12" scope="col">
-                    Status
-                  </th>
-                  <th appHeader class="w-2/12" scope="col">
-                    Periode
-                  </th>
-                  <th appHeader class="w-1/12" scope="col">
-                    <span class="sr-only">Bewerken</span>
-                  </th>
-                </tr>
+              <tr>
+                <th appHeader class="w-3/12" scope="col">
+                  Naam
+                </th>
+                <th appHeader class="w-1/12" scope="col">
+                  Team
+                </th>
+                <th appHeader class="w-1/12" scope="col">
+                  Status
+                </th>
+                <th appHeader class="w-2/12" scope="col">
+                  Periode
+                </th>
+                <th appHeader class="w-1/12" scope="col">
+                  <span class="sr-only">Bewerken</span>
+                </th>
+              </tr>
               </thead>
               <tbody>
-                <tr appRow>
-                  <td *ngIf="loading" appCell colspan="8">
-                    <app-loading-spinner></app-loading-spinner>
-                  </td>
-                </tr>
+              <tr appRow>
+                <td *ngIf="loading" appCell colspan="8">
+                  <app-loading-spinner></app-loading-spinner>
+                </td>
+              </tr>
 
-                <tr *ngFor="let project of projects | async; let index = index" [rownumber]="index" appRow>
-                  <td appCell>
-                    <a [routerLink]="['/projecten', project.code.value]">{{project.name}}</a>
-                  </td>
-                  <td appCell>
-                    <span *ngIf="project.teams && project.teams.length > 0">{{ project.teams[0] }} <span *ngIf="project.teams.length > 1">+{{project.teams.length - 1}}</span></span>
-                  </td>
-                  <td appCell>
-                    <app-pill [color]="project?.status === 'ACTIVE' ? 'green' : 'red'">
-                      {{project?.status === 'ACTIVE' ? 'Actief' : 'Inactief'}}
-                    </app-pill>
-                  </td>
-                  <td appCell>
-                    {{project.start | date:'dd/MM/yyyy'}} {{project.end ? ' - ' : ''}} {{project.end | date:'dd/MM/yyyy'}}
-                  </td>
+              <tr *ngFor="let project of projects | async; let index = index" [rownumber]="index" appRow>
+                <td appCell>
+                  <a [routerLink]="['/projecten', project.code.value]">{{project.name}}</a>
+                </td>
+                <td appCell>
+                  <span *ngIf="project.teams && project.teams.length > 0">{{ project.teams[0] }} <span
+                    *ngIf="project.teams.length > 1">+{{project.teams.length - 1}}</span></span>
+                </td>
+                <td appCell>
+                  <app-pill [color]="project?.status === 'ACTIVE' ? 'green' : 'red'">
+                    {{project?.status === 'ACTIVE' ? 'Actief' : 'Inactief'}}
+                  </app-pill>
+                </td>
+                <td appCell>
+                  {{project.start | date:'dd/MM/yyyy'}} {{project.end ? ' - ' : ''}} {{project.end | date:'dd/MM/yyyy'}}
+                </td>
 
-                  <td [actions]="true" appCell>
-                    <app-dropdown-minimal>
-                      <button [routerLink]="['/projecten', project.code.value]" class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-0" role="menuitem" tabindex="-1">Detail</button>
-                      <button *ngIf="project.canEdit && authService.hasRole(role.EditProject) && !project?.end" [routerLink]="['/projecten', project.code.value, 'bewerk']" class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-1" role="menuitem" tabindex="-1">Bewerken</button>
-                      <button *ngIf="project.canEdit && authService.hasRole(role.CreateSurveyEvent)" [routerLink]="['/projecten', project.code.value, 'waarnemingen', 'toevoegen']" class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-2" role="menuitem" tabindex="-1">Waarneming toevoegen</button>
-                    </app-dropdown-minimal>
-                  </td>
-                </tr>
+                <td [actions]="true" appCell>
+                  <app-dropdown-minimal>
+                    <button [routerLink]="['/projecten', project.code.value]"
+                            class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-0"
+                            role="menuitem" tabindex="-1">Detail
+                    </button>
+                    <button *ngIf="project.canEdit && authService.hasRole(role.EditProject) && !project?.end"
+                            [routerLink]="['/projecten', project.code.value, 'bewerk']"
+                            class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-1"
+                            role="menuitem" tabindex="-1">Bewerken
+                    </button>
+                    <button *ngIf="project.canEdit && authService.hasRole(role.CreateSurveyEvent)"
+                            [routerLink]="['/projecten', project.code.value, 'waarnemingen', 'toevoegen']"
+                            class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-2"
+                            role="menuitem" tabindex="-1">Waarneming toevoegen
+                    </button>
+                  </app-dropdown-minimal>
+                </td>
+              </tr>
 
               </tbody>
             </app-table>
@@ -145,14 +162,21 @@
                     <div class="mt-2 sm:flex sm:justify-between">
                       <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
                         <!-- Heroicon name: calendar -->
-                        <svg aria-hidden="true" class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                          <path clip-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" fill-rule="evenodd"/>
+                        <svg aria-hidden="true" class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor"
+                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                          <path clip-rule="evenodd"
+                                d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                                fill-rule="evenodd"/>
                         </svg>
-                        <p>{{project.start | date:'dd/MM/yyyy mm:ss'}}<span *ngIf="project.end != null"> - {{project.end | date:'dd/MM/yyyy mm:ss'}}</span></p>
+                        <p>{{project.start | date:'dd/MM/yyyy mm:ss'}}<span
+                          *ngIf="project.end != null"> - {{project.end | date:'dd/MM/yyyy mm:ss'}}</span></p>
                       </div>
-                      <div *ngIf="project.teams && project.teams.length > 0" class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
+                      <div *ngIf="project.teams && project.teams.length > 0"
+                           class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
                         </svg>
                         <p>{{project.teams.join(", ")}}</p>
                       </div>
@@ -160,9 +184,20 @@
                   </div>
                   <div class="col-span-1 py-4 sm:px-6">
                     <app-dropdown-minimal>
-                      <button [routerLink]="['/projecten', project.code.value]" class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-0" role="menuitem" tabindex="-1">Detail</button>
-                      <button *ngIf="project.canEdit && authService.hasRole(role.EditProject)" [routerLink]="['/projecten', project.code.value, 'bewerk']" class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-1" role="menuitem" tabindex="-1">Bewerken</button>
-                      <button *ngIf="project.canEdit && authService.hasRole(role.CreateSurveyEvent)" [routerLink]="['/projecten', project.code.value, 'waarnemingen', 'toevoegen']" class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-2" role="menuitem" tabindex="-1">Waarneming toevoegen</button>
+                      <button [routerLink]="['/projecten', project.code.value]"
+                              class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-0"
+                              role="menuitem" tabindex="-1">Detail
+                      </button>
+                      <button *ngIf="project.canEdit && authService.hasRole(role.EditProject)"
+                              [routerLink]="['/projecten', project.code.value, 'bewerk']"
+                              class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-1"
+                              role="menuitem" tabindex="-1">Bewerken
+                      </button>
+                      <button *ngIf="project.canEdit && authService.hasRole(role.CreateSurveyEvent)"
+                              [routerLink]="['/projecten', project.code.value, 'waarnemingen', 'toevoegen']"
+                              class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-2"
+                              role="menuitem" tabindex="-1">Waarneming toevoegen
+                      </button>
                     </app-dropdown-minimal>
                   </div>
                 </div>
