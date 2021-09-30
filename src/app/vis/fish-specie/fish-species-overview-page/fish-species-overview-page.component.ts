@@ -10,7 +10,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Taxon} from '../../../domain/taxa/taxon';
 import {TaxonGroup} from '../../../domain/taxa/taxon-group';
 import {TaxaService} from '../../../services/vis.taxa.service';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, skip} from 'rxjs/operators';
 
 @Component({
   selector: 'app-fish-species-overview-page',
@@ -27,7 +27,7 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
 
   pager: AsyncPage<Taxon>;
   taxon: Observable<Taxon[]>;
-  taxonGroups: AsyncPage<TaxonGroup>;
+  taxonGroups: TaxonGroup[] = [];
 
   filterForm: FormGroup;
   advancedFilterIsVisible = false;
@@ -50,12 +50,7 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
       },
     );
 
-    this.subscription.add(
-      this.filterForm.valueChanges.pipe(
-        debounceTime(300),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
-        .subscribe(_ => this.filter())
-    );
+    this.addValueChangeListeners();
 
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
@@ -72,6 +67,28 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
       })
     );
 
+  }
+
+  private addValueChangeListeners() {
+    this.subscription.add(
+      this.filterForm.get('nameDutch').valueChanges
+        .pipe(
+          skip(1),
+          debounceTime(300),
+          distinctUntilChanged()
+        )
+        .subscribe(_ => this.filter())
+    );
+
+    this.subscription.add(
+      this.filterForm.get('nameScientific').valueChanges
+        .pipe(
+          skip(1),
+          debounceTime(300),
+          distinctUntilChanged()
+        )
+        .subscribe(_ => this.filter())
+    );
   }
 
   ngOnInit(): void {

@@ -41,6 +41,6 @@ export class TaxaService extends VisService {
   }
 
   getTaxonGroups() {
-    return this.http.get<AsyncPage<TaxonGroup>>(`${environment.apiUrl}/api/taxon/groups`);
+    return this.http.get<TaxonGroup[]>(`${environment.apiUrl}/api/taxon/groups`);
   }
 }
