@@ -54,38 +54,62 @@
         <div class="px-4 py-8 sm:px-0">
           <app-table [pager]="pager">
             <thead>
-              <tr>
-                <th appHeader scope="col">
-                  Meetplaatscode
-                </th>
-                <th appHeader scope="col">
-                  Beschrijving
-                </th>
-                <th appHeader scope="col">
-                  <span class="sr-only">Edit</span>
-                </th>
-              </tr>
+            <tr>
+              <th appHeader scope="col">
+                Meetplaatscode
+              </th>
+              <th appHeader scope="col">
+                Beschrijving
+              </th>
+              <th appHeader scope="col">
+                Waterloop
+              </th>
+              <th appHeader scope="col">
+                Bekken
+              </th>
+              <th appHeader scope="col">
+                Provincie
+              </th>
+              <th appHeader scope="col">
+                Gemeente
+              </th>
+              <th appHeader scope="col">
+                <span class="sr-only">Edit</span>
+              </th>
+            </tr>
             </thead>
             <tbody>
-              <tr>
-                <td *ngIf="loading" appCell colspan="8">
-                  <app-loading-spinner></app-loading-spinner>
-                </td>
-              </tr>
+            <tr>
+              <td *ngIf="loading" appCell colspan="8">
+                <app-loading-spinner></app-loading-spinner>
+              </td>
+            </tr>
 
-              <tr *ngFor="let fishingPoint of fishingPoints$ | async; let index = index" [rownumber]="index" appRow>
-                <td appCell>
-                  <a [routerLink]="['/locaties', fishingPoint.code]"
-                     class="text-pink-600 hover:text-pink-900">{{fishingPoint.code}}</a>
-                </td>
-                <td appCell>
-                  {{fishingPoint.description}}
-                </td>
-                <td actions="true" appCell class="font-medium">
+            <tr *ngFor="let fishingPoint of fishingPoints$ | async; let index = index" [rownumber]="index" appRow>
+              <td appCell>
+                <a [routerLink]="['/locaties', fishingPoint.code]"
+                   class="text-pink-600 hover:text-pink-900">{{fishingPoint.code}}</a>
+              </td>
+              <td appCell>
+                {{fishingPoint.description}}
+              </td>
+              <td appCell>
+                {{fishingPoint.name}}
+              </td>
+              <td appCell>
+                {{fishingPoint.basinName}}
+              </td>
+              <td appCell>
+                TODO
+              </td>
+              <td appCell>
+                TODO
+              </td>
+              <td actions="true" appCell class="font-medium">
                         <span (click)="zoomToLocation(fishingPoint)"
                               class="cursor-pointer text-pink-600 hover:text-pink-900">Zoom</span>
-                </td>
-              </tr>
+              </td>
+            </tr>
             </tbody>
           </app-table>
 
