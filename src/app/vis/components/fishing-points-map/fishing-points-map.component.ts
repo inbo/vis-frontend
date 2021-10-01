@@ -131,6 +131,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 stroke: true,
               });
 
+              console.log(fpf);
               const filteredProperties = {
                 CODE: fpf.code,
                 DESCRIPTION: fpf.description,
@@ -283,6 +284,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
           }
         }
       }
+      console.log(feature.properties);
       this.selected.set(layerId, filteredProperties);
     });
   }

@@ -2,7 +2,11 @@ export interface FishingPoint {
   id: number;
   code: string;
   description: string;
+  width: number;
   incline: number;
+  titalWater: boolean;
+  brackfishWater: boolean;
+  fishingIndexType: string;
 
   x: number;
   y: number;
@@ -15,7 +19,7 @@ export interface FishingPoint {
 
   vhag: number;
   vhas: number;
-  name: string;
+  watercourse: string;
   categoryCode: number;
   categoryDescription: string;
   basinNumber: number;
@@ -25,10 +29,13 @@ export interface FishingPoint {
   qualityLabel: string;
   qualityGeoAccuracy: string;
   zoneNumber: number;
-  waterbody: string;
   length: number;
   puddleVersion: string;
   puddleCode: string;
+  waterbodyVersion: string;
+  waterbodyCode: string;
+  lenticWaterbodyCode: string;
+  lenticWaterbodyName: string;
 }
 
 export interface FishingPointFeature {
