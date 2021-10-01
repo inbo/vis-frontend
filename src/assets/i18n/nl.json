@@ -163,12 +163,6 @@
     "MALE": "M",
     "FEMALE": "V",
     "UNKNOWN": "O",
-    "null": ""
-  },
-  "gender": {
-    "MALE": "M",
-    "FEMALE": "V",
-    "UNKNOWN": "O",
     "null": "",
     "full": {
       "MALE": "Mannelijk",
@@ -191,9 +185,9 @@
     "parameter": {
       "TRAJECT_LENGTH": "Lengte traject",
       "TIME_UNIT": "Tijdseenheid",
-      "ROD_COUNT":  "Aantal hengels",
+      "ROD_COUNT": "Aantal hengels",
       "DAYS_COUNT": "Aantal dagen",
-      "FISH_CAUGHT":  "Gevangen vissen"
+      "FISH_CAUGHT": "Gevangen vissen"
     }
   },
   "error": {
@@ -243,6 +237,10 @@
   "METING": "Metingen",
   "location": {
     "fishingPointCode": "Meetplaatscode",
-    "description": "Beschrijving"
+    "description": "Beschrijving",
+    "watercourse": "Waterloop",
+    "basin": "Bekken",
+    "province": "Provincie",
+    "municipality": "Gemeente"
   }
 }
