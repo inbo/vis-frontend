@@ -1,7 +1,9 @@
 <div [formGroup]="form" class="relative rounded-md shadow-sm">
   <input (keydown)="keydown($event)" [class.pr-8]="(weight().dirty || weight().touched) && weight().warnings"
          [id]="'weight-' + index"
-         [imask]="numberMask(3, 0, 99999.999)" formControlName="weight" name="weight"
+         [imask]="numberMask(3, 0, 99999.999)"
+         [unmask]="'typed'"
+         formControlName="weight" name="weight"
          type="text">
   <div *ngIf="(weight().dirty || weight().touched) && weight().warnings"
        [title]="'Waarde moet tussen ' + weight().warnings.between?.min + ' en ' + weight().warnings.between?.max + ' liggen.'"

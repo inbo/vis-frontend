@@ -110,4 +110,8 @@ export class SurveyEventsService extends VisService {
     return this.http.put<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue`,
       {parameters: formData});
   }
+
+  recalculateAutomaticCpue(projectCode: any, surveyEventId: any) {
+    return this.http.put<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue/recalculate`, {});
+  }
 }

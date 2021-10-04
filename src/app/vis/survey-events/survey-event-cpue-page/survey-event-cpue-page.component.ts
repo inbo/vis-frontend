@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {CpueService} from '../../../services/vis.cpue.service';
 import {ActivatedRoute} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {CpueParameters} from '../../../domain/survey-event/surveyEvent';
@@ -19,15 +18,25 @@ export class SurveyEventCpuePageComponent implements OnInit {
   projectCode = this.activatedRoute.snapshot.parent.params.projectCode;
   surveyEventId = this.activatedRoute.snapshot.parent.params.surveyEventId;
 
-  ngOnInit(): void {
-    const cpue$ = this.surveyEventsService.cpueParameters(
-      this.projectCode,
-      this.surveyEventId
-    );
+  private cpue$ = this.surveyEventsService.cpueParameters(
+    this.projectCode,
+    this.surveyEventId
+  );
 
-    cpue$.subscribe(value => {
+  ngOnInit(): void {
+    this.cpue$.subscribe(value => {
       this.parameters = value;
     });
   }
 
+  recalculateAutomaticCpue() {
+    this.surveyEventsService.recalculateAutomaticCpue(
+      this.projectCode,
+      this.surveyEventId
+    ).subscribe(_ => {
+      this.cpue$.subscribe(value => {
+        this.parameters = value;
+      });
+    });
+  }
 }

@@ -41,7 +41,7 @@
   <div class="px-4 py-5 sm:p-6">
 
     <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-      <div class="sm:col-span-1" *ngFor="let parameter of parameters?.parameters | keyvalue">
+      <div class="sm:col-span-1" *ngFor="let parameter of parameters?.parameters">
         <dt class="text-sm font-medium text-gray-500">
           {{"cpue.parameter." + parameter.key| translate}}
         </dt>
@@ -54,6 +54,11 @@
   </div>
   <div class="px-4 py-4 sm:px-6 flex justify-end">
 
+    <app-button [style]="'secondary'"
+                class="ml-3"
+                (click)="recalculateAutomaticCpue()"
+                [role]="role.EditSurveyEvent">Automatische CPUE waarden herberekenen
+    </app-button>
     <app-button [style]="'primary'"
                 class="ml-3"
                 [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'cpue', 'bewerk']"

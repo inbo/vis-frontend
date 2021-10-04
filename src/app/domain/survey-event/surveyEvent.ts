@@ -33,9 +33,15 @@ export interface SurveyEvent {
 }
 
 export interface CpueParameters {
-  parameters: Map<string, number>;
+  parameters: CpueParameter[];
   cpue: number;
   hasParameters: boolean;
+}
+
+export interface CpueParameter {
+  key: string;
+  value: number;
+  automatic: boolean;
 }
 
 

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Role} from '../../../core/_models/role';
-import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
@@ -45,10 +45,8 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData 
     cpue$.subscribe(dto => {
       this.surveyEventForm = new FormGroup({});
 
-      for (const key in dto.parameters) {
-        if (dto.parameters.hasOwnProperty(key)) {
-          this.surveyEventForm.addControl(key, new FormControl(dto.parameters[key]));
-        }
+      for (const parameter of dto.parameters) {
+        this.surveyEventForm.addControl(parameter.key, new FormControl({value: parameter.value, disabled: parameter.automatic}));
       }
     });
 

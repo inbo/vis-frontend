@@ -4,6 +4,7 @@
          [class.focus:ring-gray-500]="amount().value > 1"
          [class.pr-8]="(length().dirty || length().touched) && length().warnings" [id]="'length-' + index"
          [imask]="numberMask(3, 0, 99999.999)"
+         [unmask]="'typed'"
          [readOnly]="amount().value > 1"
          formControlName="length"
          name="length"
