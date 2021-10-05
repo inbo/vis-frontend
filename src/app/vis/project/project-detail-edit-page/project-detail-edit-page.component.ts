@@ -85,6 +85,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         lengthType: ['', [Validators.required]],
         startDate: [null, [Validators.required]],
         contact: [''],
+        tandemvaultcollectionslug: [null, [Validators.maxLength(255)]],
         teams: [[]],
         instances: [[]],
       });
@@ -121,6 +122,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         this.projectForm.get('contact').patchValue(value.contact);
         this.projectForm.get('teams').patchValue(value.teams === undefined ? [] : value.teams);
         this.projectForm.get('instances').patchValue(value.instances === undefined ? [] : value.instances);
+        this.projectForm.get('tandemvaultcollectionslug').patchValue(value.tandemvaultcollectionslug);
       })
     );
   }
@@ -207,5 +209,9 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
   get instances() {
     return this.projectForm.get('instances');
+  }
+
+  get tandemvaultcollectionslug() {
+    return this.projectForm.get('tandemvaultcollectionslug');
   }
 }

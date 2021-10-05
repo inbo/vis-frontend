@@ -10,6 +10,7 @@ export interface Project {
   location: string;
   province: string;
   area: string;
+  tandemvaultcollectionslug: string;
   start: Date;
   end: Date;
   lengthType: string;

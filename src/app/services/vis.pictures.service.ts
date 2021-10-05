@@ -15,10 +15,10 @@ export class PicturesService extends VisService {
     super();
   }
 
-  getPictures(page: number, slug: string) {
+  getPictures(page: number, projectCode: string) {
     const params = new HttpParams().set('page', page ? page.toString() : '0');
 
-    return this.http.get<AsyncPage<TandemvaultPicture>>(`${environment.apiUrl}/api/pictures/slug/` + slug, {params});
+    return this.http.get<AsyncPage<TandemvaultPicture>>(`${environment.apiUrl}/api/pictures/project/` + projectCode, {params});
   }
 
   getPicture(id: number) {

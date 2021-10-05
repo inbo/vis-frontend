@@ -61,7 +61,7 @@ export class ProjectPicturesPageComponent implements OnInit, OnDestroy {
     this.pictures = [];
     const page = this.activatedRoute.snapshot.queryParams.page;
     this.subscription.add(
-      this.picturesService.getPictures(page, 'afvissingen-estuaria').subscribe((value) => {
+      this.picturesService.getPictures(page, this.activatedRoute.snapshot.parent.params.projectCode).subscribe((value) => {
         this.pager = value;
         this.pictures = value.content;
         this.loading = false;

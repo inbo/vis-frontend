@@ -49,14 +49,7 @@
           {{project?.teams.join(", ")}}
         </dd>
       </div>
-      <div class="sm:col-span-2">
-        <dt class="text-sm font-medium text-gray-500">
-          Beschrijving
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{project?.description}}
-        </dd>
-      </div>
+
       <div class="sm:col-span-2">
         <dt class="text-sm font-medium text-gray-500">
           Lengtemaat
@@ -65,12 +58,28 @@
           {{'lengthType.long.' + project?.lengthType | translate}}
         </dd>
       </div>
-      <div class="sm:col-span-2">
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Tandemvault collectie
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{project?.tandemvaultcollectionslug}}
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
         <dt class="text-sm font-medium text-gray-500">
           Contactpersoon
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
           {{project?.contact}}
+        </dd>
+      </div>
+      <div class="sm:col-span-2">
+        <dt class="text-sm font-medium text-gray-500">
+          Beschrijving
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{project?.description}}
         </dd>
       </div>
     </dl>

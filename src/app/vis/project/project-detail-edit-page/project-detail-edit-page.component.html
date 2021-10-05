@@ -49,7 +49,7 @@
                     <app-form-error-message [fieldName]="'Startdatum'" [control]="startDate"
                                             [submitted]="submitted"></app-form-error-message>
                     <span *ngIf="earliestSurveyEventDate"
-                          class="text-gray-500">Vroegste waarneming datum: {{earliestSurveyEventDate | date:'dd/MM/yyyy'}}</span>
+                          class="mt-2 text-sm text-gray-500">Vroegste waarneming datum: {{earliestSurveyEventDate | date:'dd/MM/yyyy'}}</span>
                   </div>
                 </div>
                 <div class="sm:col-span-2">
@@ -72,6 +72,19 @@
                   </label>
                   <div class="mt-1">
                     <input formControlName="contact" type="text" name="contact" id="contact">
+                  </div>
+                </div>
+
+                <div class="sm:col-span-4">
+                  <label for="contact" class="block text-sm font-medium text-gray-700">
+                    Tandemvault collectie
+                  </label>
+                  <div class="mt-1">
+                    <input formControlName="tandemvaultcollectionslug" type="text" name="tandemvaultcollectionslug" id="tandemvaultcollectionslug">
+                    <app-form-error-message [fieldName]="'Tandemvault collectie'" [control]="tandemvaultcollectionslug" [submitted]="submitted"></app-form-error-message>
+                    <p class="mt-2 text-sm text-gray-500">
+                      Noteer hier de collectienaam uit de <em class="font-bold">url</em> om het project te koppelen aan <a class="underline" href="https://inbo.tandemvault.com/" target="_blank">Tandemvault</a>. Let er op dat je de naam uit de url gebruikt en niet de id.
+                    </p>
                   </div>
                 </div>
               </div>
