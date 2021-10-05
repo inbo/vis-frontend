@@ -143,4 +143,16 @@
                 [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
     </app-button>
   </div>
+
+  <app-modal (onCancel)="cancelModal()" (onPrimary)="confirmClicked()" [isOpen]="isModalOpen">
+    <ng-container slot="title">
+      Verwijder waarneming
+    </ng-container>
+    <ng-container slot="content">
+      Bent u zeker dat u deze waarneming wilt verwijderen?
+    </ng-container>
+    <ng-container slot="primary-button">
+      Verwijderen
+    </ng-container>
+  </app-modal>
 </div>

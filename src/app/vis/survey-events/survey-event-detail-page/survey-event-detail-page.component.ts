@@ -14,6 +14,7 @@ import {take} from 'rxjs/operators';
 export class SurveyEventDetailPageComponent implements OnInit {
   role = Role;
   surveyEvent: SurveyEvent;
+  isModalOpen = false;
 
   constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private surveyEventService: SurveyEventsService) {
     this.titleService.setTitle(`Waarneming algemeen ${this.activatedRoute.parent.snapshot.params.surveyEventId}`);
@@ -43,10 +44,7 @@ export class SurveyEventDetailPageComponent implements OnInit {
   }
 
   deleteSurveyEvent() {
-    this.surveyEventService.deleteSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
-      this.activatedRoute.parent.snapshot.params.surveyEventId)
-      .pipe(take(1))
-      .subscribe(() => this.loadSurveyEvent());
+    this.isModalOpen = true;
   }
 
   canValidateSurveyEvent() {
@@ -59,5 +57,19 @@ export class SurveyEventDetailPageComponent implements OnInit {
 
   canDeleteSurveyEvent() {
     return this.surveyEvent?.status === 'ENTERED';
+  }
+
+  cancelModal() {
+    this.isModalOpen = false;
+  }
+
+  confirmClicked() {
+    this.surveyEventService.deleteSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
+      this.activatedRoute.parent.snapshot.params.surveyEventId)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.cancelModal();
+        this.loadSurveyEvent();
+      });
   }
 }
