@@ -17,8 +17,16 @@ export interface FishingPoint {
   snappedLat: number;
   snappedLng: number;
 
-  vhag: number;
+  // Blue layer
+  isLentic: boolean;
+  lenticCode: string;
+  lenticCodeVersion: string;
+  lenticName: string;
+  lenticCodeVmm: string;
+
+  // vha
   vhas: number;
+  vhag: number;
   watercourse: string;
   categoryCode: number;
   categoryDescription: string;
@@ -29,13 +37,7 @@ export interface FishingPoint {
   qualityLabel: string;
   qualityGeoAccuracy: string;
   zoneNumber: number;
-  length: number;
-  puddleVersion: string;
-  puddleCode: string;
-  waterbodyVersion: string;
-  waterbodyCode: string;
-  lenticWaterbodyCode: string;
-  lenticWaterbodyName: string;
+  segmentLength: number;
 }
 
 export interface FishingPointFeature {

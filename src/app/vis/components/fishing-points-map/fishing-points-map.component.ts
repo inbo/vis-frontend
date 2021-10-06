@@ -23,6 +23,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   @Output() pointAdded = new EventEmitter<LatLng>();
   @Output() nearbyWatercoursesFound = new EventEmitter<any>();
   @Output() loaded = new EventEmitter<any>();
+  @Output() blueLayerSelected = new EventEmitter<any>();
+  @Output() vhaLayerSelected = new EventEmitter<any>();
 
   private subscription = new Subscription();
 
@@ -249,6 +251,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
         this.selected.delete(0);
         this.selectFeature(featureCollection, 0);
+        this.vhaLayerSelected.emit(this.selected.get(0));
       });
     }
 
@@ -261,6 +264,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
         this.selected.delete(1);
         this.selectFeature(featureCollection, 1);
+        this.blueLayerSelected.emit(this.selected.get(1));
       });
     }
   }
@@ -279,12 +283,11 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         if (feature.properties.hasOwnProperty(propertiesKey)) {
           const fields = this.visibleFields[layerId] as string[];
 
-          if (fields.indexOf(propertiesKey) > -1) {
-            filteredProperties[propertiesKey] = feature.properties[propertiesKey];
-          }
+          // if (fields.indexOf(propertiesKey) > -1) {
+          filteredProperties[propertiesKey] = feature.properties[propertiesKey];
+          // }
         }
       }
-      console.log(feature.properties);
       this.selected.set(layerId, filteredProperties);
     });
   }

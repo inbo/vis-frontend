@@ -13,8 +13,6 @@ export class LocationCreateStep3Component implements OnInit {
 
   @Input() formGroup;
 
-  selected = {layer: null, properties: {}};
-
   constructor(private titleService: Title) {
     this.titleService.setTitle('Locatie toevoegen');
   }
@@ -25,16 +23,12 @@ export class LocationCreateStep3Component implements OnInit {
     this.map.setCenter(latlng);
   }
 
-  featureSelected(selection: FeatureSelection) {
-    if (selection.layer === 1) {
-      this.formGroup.get('blueLayerInfo').patchValue(selection.properties);
+  featureSelected(properties: any) {
+    if (properties !== null) {
+      this.formGroup.get('blueLayerInfo').patchValue(properties);
     } else {
       this.formGroup.get('blueLayerInfo').patchValue(null);
     }
-    this.selected = selection;
   }
 
-  vhaZoneSelected(selection: FeatureSelection) {
-    this.formGroup.get('vhaZone').patchValue(selection.properties);
-  }
 }
