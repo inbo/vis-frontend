@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
-import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
 import {Observable, of, Subscription} from 'rxjs';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {getTag, Tag} from '../../../shared-ui/slide-over-filter/tag';
@@ -39,11 +39,11 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
   ];
 
   loading = false;
-  pager: AsyncPage<SurveyEvent>;
+  pager: AsyncPage<SurveyEventOverview>;
   filterForm: FormGroup;
   tags = [];
 
-  surveyEvents$: Observable<SurveyEvent[]>;
+  surveyEvents$: Observable<SurveyEventOverview[]>;
   methodGroups$: Observable<MethodGroup[]>;
   methods$: Observable<Method[]>;
   species: SearchableSelectOption[] = [];

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
-import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEvent, SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../core/_models/role';
 import {take} from 'rxjs/operators';
 

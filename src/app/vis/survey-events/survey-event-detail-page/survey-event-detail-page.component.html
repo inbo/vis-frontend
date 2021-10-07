@@ -60,10 +60,10 @@
 
       <div class="sm:col-span-1">
         <dt class="text-sm font-medium text-gray-500">
-          Waterloop
+          Meetplaats omschrijving
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent?.fishingPoint.name}}
+          {{surveyEvent?.fishingPoint.description}}
         </dd>
       </div>
 
@@ -87,28 +87,46 @@
 
       <div class="sm:col-span-1">
         <dt class="text-sm font-medium text-gray-500">
-          Stilstaand water
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent?.fishingPoint.waterbody}}
-        </dd>
-      </div>
-
-      <div class="sm:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
-          Meetplaats omschrijving
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent?.fishingPoint.description}}
-        </dd>
-      </div>
-
-      <div class="sm:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
           Gemeente
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
           TODO
+        </dd>
+      </div>
+
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Provincie
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          TODO
+        </dd>
+      </div>
+
+      <div class="sm:col-span-1" *ngIf="surveyEvent?.fishingPoint?.isLentic">
+        <dt class="text-sm font-medium text-gray-500">
+          Watervlak
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{surveyEvent?.fishingPoint.lenticName}}
+        </dd>
+      </div>
+
+      <div class="sm:col-span-1" *ngIf="!surveyEvent?.fishingPoint?.isLentic">
+        <dt class="text-sm font-medium text-gray-500">
+          Waterloop
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{surveyEvent?.fishingPoint?.watercourse}}
+        </dd>
+      </div>
+
+      <div class="sm:col-span-1" *ngIf="!surveyEvent?.fishingPoint?.isLentic">
+        <dt class="text-sm font-medium text-gray-500">
+          Bekken
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{surveyEvent?.fishingPoint?.basinName}}
         </dd>
       </div>
     </dl>

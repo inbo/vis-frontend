@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
 
 @Component({
   selector: 'app-survey-event-status-pill',
@@ -7,7 +7,7 @@ import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 })
 export class SurveyEventStatusPillComponent implements OnInit {
 
-  @Input() surveyEvent: SurveyEvent;
+  @Input() surveyEvent: SurveyEventOverview;
 
   constructor() {
   }

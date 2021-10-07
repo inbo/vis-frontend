@@ -123,7 +123,7 @@
             Meetpuntnummer
           </th>
           <th appHeader scope="col">
-            Waterloop
+            Waterloop / watervlak
           </th>
           <th appHeader scope="col">
             Bekken
@@ -155,7 +155,7 @@
                class="text-pink-600 hover:text-pink-900">{{surveyEvent.fishingPointCode}}</a>
           </td>
           <td appCell>
-            {{surveyEvent.watercourse}}
+            {{surveyEvent.isLentic ? surveyEvent.lenticName : surveyEvent.watercourse}}
           </td>
           <td appCell>
             {{surveyEvent.basin}}
@@ -224,10 +224,11 @@
                   <path
                     d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"></path>
                 </svg>
-                Waterloop {{surveyEvent.watercourse}}
+                <span *ngIf="!surveyEvent.isLentic">Waterloop {{surveyEvent.watercourse}}</span>
+                <span *ngIf="surveyEvent.isLentic">Watervlak {{surveyEvent.lenticName}}</span>
               </p>
 
-              <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
+              <p *ngIf="!surveyEvent.isLentic" class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
                 <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
                      xmlns="http://www.w3.org/2000/svg">
                   <path

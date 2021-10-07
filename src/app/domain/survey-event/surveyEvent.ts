@@ -1,21 +1,18 @@
 import {ProjectCode} from '../project/project';
 
-export interface SurveyEventId {
-  value: number;
-}
-
-export interface FishingPoint {
-  id: number;
-  code: string;
-  flowArea: string;
-  name: string;
-  waterbody: string;
-  x: number;
-  y: number;
-  lat: number;
-  lng: number;
-  description: string;
-  width: number;
+export interface SurveyEventOverview {
+  surveyEventId: SurveyEventId;
+  projectCode: ProjectCode;
+  occurrence: Date;
+  status: string;
+  method: string;
+  comment: string;
+  fishingPointCode: string;
+  isLentic: boolean;
+  lenticName: string;
+  watercourse: string;
+  basin: string;
+  canEdit: boolean;
 }
 
 export interface SurveyEvent {
@@ -25,11 +22,28 @@ export interface SurveyEvent {
   status: string;
   method: string;
   comment: string;
-  fishingPointCode: string;
-  watercourse: string;
-  basin: string;
   fishingPoint: FishingPoint;
   canEdit: boolean;
+}
+
+export interface SurveyEventId {
+  value: number;
+}
+
+
+export interface FishingPoint {
+  id: number;
+  code: string;
+  isLentic: boolean;
+  lenticName: string;
+  watercourse: string;
+  basinName: string;
+  x: number;
+  y: number;
+  lat: number;
+  lng: number;
+  description: string;
+  width: number;
 }
 
 export interface CpueParameters {

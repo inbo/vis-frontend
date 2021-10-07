@@ -106,11 +106,11 @@ export class ProjectService extends VisService {
     return this.http.get<Project[]>(`${environment.apiUrl}/api/projects/favorite`, {});
   }
 
-  getEarliestSurveyEventOccurrenceDate(projectCode: string) {
+  getEarliestSurveyEventOccurrenceDate(projectCode: string): Observable<Date> {
     return this.http.get<Date>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/earliest`);
   }
 
-  getLatestSurveyEventOccurrenceDate(projectCode: string) {
+  getLatestSurveyEventOccurrenceDate(projectCode: string): Observable<Date> {
     return this.http.get<Date>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/latest`);
   }
 }

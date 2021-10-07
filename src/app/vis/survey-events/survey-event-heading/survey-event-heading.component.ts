@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Project} from '../../../domain/project/project';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEvent, SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ProjectService} from '../../../services/vis.project.service';
 import {FishingPoint} from '../../../domain/location/fishing-point';

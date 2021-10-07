@@ -10,7 +10,7 @@ import {ProjectService} from '../../services/vis.project.service';
 import {Project} from '../../domain/project/project';
 import {AuthService} from '../../core/auth.service';
 import {SurveyEventsService} from '../../services/vis.surveyevents.service';
-import {SurveyEvent} from '../../domain/survey-event/surveyEvent';
+import {SurveyEventOverview} from '../../domain/survey-event/surveyEvent';
 import {AsyncPage} from '../../shared-ui/paging-async/asyncPage';
 import {Role} from '../../core/_models/role';
 import {ClipboardService} from 'ngx-clipboard';
@@ -30,7 +30,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
   alerts$: Observable<ServerAlert[]>;
   favoriteProjects$: Observable<Project[]>;
-  lastSurveyEvents$: Observable<AsyncPage<SurveyEvent>>;
+  lastSurveyEvents$: Observable<AsyncPage<SurveyEventOverview>>;
   recentProjects$: Observable<AsyncPage<Project>>;
 
   private subscription = new Subscription();

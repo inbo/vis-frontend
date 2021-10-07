@@ -8,7 +8,7 @@ import {LocationsService} from '../../../services/vis.locations.service';
 import {Method} from '../../../domain/method/method';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {Role} from '../../../core/_models/role';
-import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEvent, SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
 import {Location} from '@angular/common';
 import {HasUnsavedData} from '../../../core/core.interface';
 

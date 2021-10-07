@@ -3,7 +3,7 @@ import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Observable, of, Subscription} from 'rxjs';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
-import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {map} from 'rxjs/operators';
@@ -31,12 +31,12 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
   role = Role;
 
   loading = false;
-  pager: AsyncPage<SurveyEvent>;
+  pager: AsyncPage<SurveyEventOverview>;
   tags: Tag[] = [];
   methods: Method[];
   projectCode: string;
 
-  surveyEvents$: Observable<SurveyEvent[]>;
+  surveyEvents$: Observable<SurveyEventOverview[]>;
   methodGroups$: Observable<MethodGroup[]>;
   methods$: Observable<Method[]>;
   species: SearchableSelectOption[] = [];

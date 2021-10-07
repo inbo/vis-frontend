@@ -5,7 +5,7 @@ import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {IndividualLength, Measurement} from '../../../domain/survey-event/measurement';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {take} from 'rxjs/operators';
-import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEvent, SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';

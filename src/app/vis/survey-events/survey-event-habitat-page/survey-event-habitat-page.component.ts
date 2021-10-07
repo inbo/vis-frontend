@@ -5,7 +5,7 @@ import {Observable, Subscription} from 'rxjs';
 import {Habitat} from '../../../domain/survey-event/habitat';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
-import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEvent, SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../core/_models/role';
 
 @Component({

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Role} from '../../../core/_models/role';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -22,7 +22,7 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData 
 
   surveyEventForm: FormGroup = new FormGroup({});
   submitted = false;
-  surveyEvent: SurveyEvent;
+  surveyEvent: SurveyEventOverview;
 
   locations: SearchableSelectOption[] = [];
   methods: SearchableSelectOption[] = [];
