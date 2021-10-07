@@ -238,6 +238,7 @@
   "METING": "Metingen",
   "location": {
     "fishingPointCode": "Meetplaatscode",
+    "lenticWaterbody": "Watervlak",
     "description": "Beschrijving",
     "watercourse": "Waterloop",
     "basin": "Bekken",
