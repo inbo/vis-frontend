@@ -123,6 +123,10 @@ export class LocationCreateStep1Component implements OnInit {
     return this.formGroup.get('slope');
   }
 
+  get width() {
+    return this.formGroup.get('width');
+  }
+
   get type() {
     return this.formGroup.get('type');
   }

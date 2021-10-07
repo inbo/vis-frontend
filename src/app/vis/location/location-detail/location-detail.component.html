@@ -61,7 +61,7 @@
                           Brak water
                         </dt>
                         <dd class="mt-1 text-sm text-gray-900">
-                          <input isabled="disabled" type="checkbox" [checked]="fishingPoint?.brackfishWater ? 'checked' : null">
+                          <input disabled="disabled" type="checkbox" [checked]="fishingPoint?.brackfishWater ? 'checked' : null">
                         </dd>
                       </div>
                       <div class="sm:col-span-1">
@@ -135,7 +135,7 @@
 
 
                        <div class="sm:col-span-2">
-                         <app-fishing-points-map [canAddPoints]="false" [zoomLevel]="20"></app-fishing-points-map>
+                         <app-fishing-points-map [canAddPoints]="false" [zoomLevel]="17"></app-fishing-points-map>
                        </div>
                     </dl>
                   </div>
@@ -144,13 +144,13 @@
             </div>
           </div>
 
-          <div class="hidden sm:block" aria-hidden="true">
+          <div class="hidden sm:block" aria-hidden="true" *ngIf="!fishingPoint?.isLentic">
             <div class="py-5">
               <div class="border-t border-gray-200"></div>
             </div>
           </div>
 
-          <div class="mt-10 sm:mt-0">
+          <div class="mt-10 sm:mt-0" *ngIf="!fishingPoint?.isLentic">
             <div class="md:grid md:grid-cols-3 md:gap-6">
               <div class="md:col-span-1">
                 <div class="px-4 sm:px-0">
@@ -264,13 +264,13 @@
           </div>
 
 
-          <div class="hidden sm:block" aria-hidden="true">
+          <div class="hidden sm:block" aria-hidden="true" *ngIf="fishingPoint?.isLentic">
             <div class="py-5">
               <div class="border-t border-gray-200"></div>
             </div>
           </div>
 
-          <div class="mt-10 sm:mt-0">
+          <div class="mt-10 sm:mt-0" *ngIf="fishingPoint?.isLentic">
             <div class="md:grid md:grid-cols-3 md:gap-6">
               <div class="md:col-span-1">
                 <div class="px-4 sm:px-0">
@@ -286,6 +286,22 @@
                     <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                       <div class="sm:col-span-1">
                         <dt class="text-sm font-medium text-gray-500">
+                          Watervlak
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.lenticName}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          VMM Waterlichaam code
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.lenticCodeVmm}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
                           Watervlak code
                         </dt>
                         <dd class="mt-1 text-sm text-gray-900">
@@ -294,10 +310,10 @@
                       </div>
                       <div class="sm:col-span-1">
                         <dt class="text-sm font-medium text-gray-500">
-                          Watervlak naam
+                          Watervlak code versie
                         </dt>
                         <dd class="mt-1 text-sm text-gray-900">
-                          {{fishingPoint?.lenticName}}
+                          {{fishingPoint?.lenticCodeVersion}}
                         </dd>
                       </div>
 

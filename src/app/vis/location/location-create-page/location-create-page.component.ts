@@ -44,6 +44,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
         code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator()]],
         description: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
         slope: [null, [Validators.min(0), Validators.max(99999.999)]],
+        width: [null, [Validators.min(0), Validators.max(99999.999)]],
         type: [null, [Validators.required]],
         vhaInfo: [null, [Validators.required]],
         blueLayerInfo: [null, [Validators.required]],
@@ -90,7 +91,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
   save() {
     this.subscription.add(
       this.locationsService.create(this.formGroup.getRawValue()).subscribe(() => {
-        this.router.navigateByUrl('/locaties');
+        this.router.navigate(['/locaties', this.formGroup.get('code').value]);
       })
     );
   }
