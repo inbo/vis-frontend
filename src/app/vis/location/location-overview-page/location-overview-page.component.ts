@@ -49,6 +49,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
         fishingPointCode: [queryParams.fishingPointCode ?? null],
         description: [queryParams.description ?? null],
         watercourse: [queryParams.watercourse ?? null],
+        lenticWaterbody: [queryParams.lenticWaterbody ?? null],
         basin: [queryParams.basin ?? null],
         province: [queryParams.province ?? null],
         municipality: [queryParams.municipality ?? null],
@@ -61,6 +62,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
       this.filterForm.get('fishingPointCode').patchValue(params.fishingPointCode ? params.fishingPointCode : null);
       this.filterForm.get('description').patchValue(params.description ? params.description : null);
       this.filterForm.get('watercourse').patchValue(params.watercourse ? params.watercourse : null);
+      this.filterForm.get('lenticWaterbody').patchValue(params.lenticWaterbody ? params.lenticWaterbody : null);
       this.filterForm.get('basin').patchValue(params.basin ? params.basin : null);
       this.filterForm.get('province').patchValue(params.province ? params.province : null);
       this.filterForm.get('municipality').patchValue(params.municipality ? params.municipality : null);
@@ -130,6 +132,9 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
     if (rawValue.watercourse) {
       tags.push(getTag('location.watercourse', rawValue.watercourse, this.removeTagCallback('watercourse')));
+    }
+    if (rawValue.lenticWaterbody) {
+      tags.push(getTag('location.lenticWaterbody', rawValue.lenticWaterbody, this.removeTagCallback('lenticWaterbody')));
     }
     if (rawValue.basin) {
       tags.push(getTag('location.basin', rawValue.basin, this.removeTagCallback('basin')));

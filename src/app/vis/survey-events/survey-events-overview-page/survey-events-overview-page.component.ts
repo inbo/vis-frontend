@@ -24,6 +24,7 @@ import {AuthService} from '../../../core/auth.service';
 import {Watercourse} from '../../../domain/location/watercourse';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {Basin} from '../../../domain/location/basin';
+import {LenticWaterbody} from '../../../domain/location/lentic-waterbody';
 
 @Component({
   selector: 'app-survey-events-overview-page',
@@ -50,6 +51,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
   statuses$: Observable<MultiSelectOption[]>;
   watercourses$: Observable<Watercourse[]>;
   basins$: Observable<Basin[]>;
+  lenticWaterbodyNames: LenticWaterbody[];
 
   private subscription = new Subscription();
 
@@ -70,6 +72,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     this.filterForm = this.formBuilder.group(
       {
         watercourse: [queryParams.watercourse ?? null],
+        lenticWaterbody: [queryParams.lenticWaterbody ?? null],
         municipality: [queryParams.municipality ?? null],
         basin: [queryParams.basin ?? null],
         period: [queryParams.period ?? null],
@@ -90,6 +93,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     this.methodGroups$ = this.methodsService.getAllMethodGroups();
     this.watercourses$ = this.locationsService.searchWatercourses();
     this.basins$ = this.locationsService.searchBasins();
+    this.locationsService.searchLenticWaterbodyNames().subscribe(value => this.lenticWaterbodyNames = value);
 
     this.subscription.add(
       this.filterForm.get('methodGroup').valueChanges.subscribe(value => {
@@ -107,6 +111,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
           [new Date(params.period[0]), new Date(params.period[1])] : null;
 
         this.filterForm.get('watercourse').patchValue(params.watercourse ? params.watercourse : null);
+        this.filterForm.get('lenticWaterbody').patchValue(params.lenticWaterbody ? params.lenticWaterbody : null);
         this.filterForm.get('municipality').patchValue(params.municipality ? params.municipality : null);
         this.filterForm.get('basin').patchValue(params.basin ? params.basin : null);
         this.filterForm.get('period').patchValue(period);
@@ -198,6 +203,9 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
 
     if (rawValue.watercourse) {
       tags.push(getTag('surveyEvent.watercourse', rawValue.watercourse, this.removeTagCallback('watercourse')));
+    }
+    if (rawValue.lenticWaterbody) {
+      tags.push(getTag('surveyEvent.lenticWaterbody', rawValue.lenticWaterbody, this.removeTagCallback('lenticWaterbody')));
     }
     if (rawValue.municipality) {
       tags.push(getTag('surveyEvent.municipality', rawValue.municipality, this.removeTagCallback('municipality')));

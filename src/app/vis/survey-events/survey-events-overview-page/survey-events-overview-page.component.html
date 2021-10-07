@@ -31,6 +31,19 @@
               </div>
 
               <div>
+                <label class="block text-sm font-medium text-gray-700" for="lenticWaterbody">
+                  Watervlak
+                </label>
+                <div class="mt-1">
+                  <select class="mt-1" formControlName="lenticWaterbody" id="lenticWaterbody">
+                    <option [ngValue]="null">Watervlak selecteren...</option>
+                    <option *ngFor="let lenticWaterbody of lenticWaterbodyNames"
+                            [value]="lenticWaterbody.name">{{lenticWaterbody.name}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
                 <label class="block text-sm font-medium text-gray-700" for="municipality">
                   Gemeente
                 </label>

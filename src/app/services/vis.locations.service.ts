@@ -10,6 +10,7 @@ import {ProjectFishingPoint} from '../domain/location/project-fishing-point';
 import {Watercourse} from '../domain/location/watercourse';
 import {Basin} from '../domain/location/basin';
 import {Coordinates} from '../domain/location/coordinates';
+import {LenticWaterbody} from '../domain/location/lentic-waterbody';
 
 
 @Injectable({
@@ -88,6 +89,15 @@ export class LocationsService extends VisService {
     }
 
     return this.http.get<Basin[]>(`${environment.apiUrl}/api/basins/search`, {params});
+  }
+
+  searchLenticWaterbodyNames(name?: string): Observable<LenticWaterbody[]> {
+    let params = new HttpParams();
+    if (name) {
+      params = params.set('name', name);
+    }
+
+    return this.http.get<LenticWaterbody[]>(`${environment.apiUrl}/api/lenticwaterbody/search`, {params});
   }
 
   convertCoordinates(x: number, y: number, source: string) {
