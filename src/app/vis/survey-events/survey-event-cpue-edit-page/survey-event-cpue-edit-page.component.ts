@@ -37,12 +37,12 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData 
   private surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
 
   ngOnInit(): void {
-    const cpue$ = this.surveyEventsService.cpueParameters(
+    const parameters$ = this.surveyEventsService.surveyEventParameters(
       this.projectCode,
       this.surveyEventId
     );
 
-    cpue$.subscribe(dto => {
+    parameters$.subscribe(dto => {
       this.surveyEventForm = new FormGroup({});
 
       for (const parameter of dto.parameters) {

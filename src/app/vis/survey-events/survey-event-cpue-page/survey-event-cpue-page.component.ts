@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
-import {CpueParameters} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEventParameters, TaxonCpue} from '../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../core/_models/role';
 
 @Component({
@@ -10,7 +10,9 @@ import {Role} from '../../../core/_models/role';
 })
 export class SurveyEventCpuePageComponent implements OnInit {
   role = Role;
-  parameters: CpueParameters;
+
+  parameters: SurveyEventParameters;
+  taxaCpue: TaxonCpue[];
 
   constructor(private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute) {
   }
@@ -18,13 +20,22 @@ export class SurveyEventCpuePageComponent implements OnInit {
   projectCode = this.activatedRoute.snapshot.parent.params.projectCode;
   surveyEventId = this.activatedRoute.snapshot.parent.params.surveyEventId;
 
-  private cpue$ = this.surveyEventsService.cpueParameters(
+  private taxaCpue$ = this.surveyEventsService.findTaxaCpueForSurveyEvent(
+    this.projectCode,
+    this.surveyEventId
+  );
+
+  private parameters$ = this.surveyEventsService.surveyEventParameters(
     this.projectCode,
     this.surveyEventId
   );
 
   ngOnInit(): void {
-    this.cpue$.subscribe(value => {
+    this.taxaCpue$.subscribe(value => {
+      this.taxaCpue = value;
+    });
+
+    this.parameters$.subscribe(value => {
       this.parameters = value;
     });
   }
@@ -34,8 +45,8 @@ export class SurveyEventCpuePageComponent implements OnInit {
       this.projectCode,
       this.surveyEventId
     ).subscribe(_ => {
-      this.cpue$.subscribe(value => {
-        this.parameters = value;
+      this.taxaCpue$.subscribe(value => {
+        this.taxaCpue = value;
       });
     });
   }

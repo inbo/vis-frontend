@@ -46,13 +46,12 @@ export interface FishingPoint {
   width: number;
 }
 
-export interface CpueParameters {
-  parameters: CpueParameter[];
+export interface SurveyEventParameters {
+  parameters: SurveyEventCpueParameter[];
   hasParameters: boolean;
-  taxonCpues: TaxonCpue[];
 }
 
-export interface CpueParameter {
+export interface SurveyEventCpueParameter {
   key: string;
   value: number;
   automatic: boolean;
@@ -60,6 +59,7 @@ export interface CpueParameter {
 
 export interface TaxonCpue {
   taxonId: number;
+  taxonName: string;
   calculation: string;
   weightSum: number;
   taxaSum: number;

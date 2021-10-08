@@ -4,7 +4,7 @@ import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable} from 'rxjs';
 import {Measurement} from '../domain/survey-event/measurement';
-import {CpueParameters, SurveyEvent, SurveyEventOverview, SurveyEventId} from '../domain/survey-event/surveyEvent';
+import {SurveyEvent, SurveyEventId, SurveyEventOverview, SurveyEventParameters, TaxonCpue} from '../domain/survey-event/surveyEvent';
 import {Parameters} from '../domain/survey-event/parameters';
 import {Habitat} from '../domain/survey-event/habitat';
 import {VisService} from './vis.service';
@@ -102,8 +102,12 @@ export class SurveyEventsService extends VisService {
     return this.http.delete<void>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/${measurementId}`);
   }
 
-  cpueParameters(projectCode: string, surveyEventId: number): Observable<CpueParameters> {
-    return this.http.get<CpueParameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue`);
+  surveyEventParameters(projectCode: string, surveyEventId: number): Observable<SurveyEventParameters> {
+    return this.http.get<SurveyEventParameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue/parameters`);
+  }
+
+  findTaxaCpueForSurveyEvent(projectCode: string, surveyEventId: number): Observable<TaxonCpue[]> {
+    return this.http.get<TaxonCpue[]>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue`);
   }
 
   updateCpueParameters(projectCode: any, surveyEventId: any, formData: any) {
