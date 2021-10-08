@@ -2,6 +2,7 @@ export interface Method {
   code: string;
   group: MethodGroup;
   description: string;
+  unit: string;
   calculation: string;
 }
 

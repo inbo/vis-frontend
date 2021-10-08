@@ -188,7 +188,7 @@
       "TIME_UNIT": "Tijdseenheid",
       "ROD_COUNT": "Aantal hengels",
       "DAYS_COUNT": "Aantal dagen",
-      "FISH_CAUGHT": "Gevangen vissen"
+      "CATCH": "Gevangen vissen / Totaal gewicht"
     }
   },
   "error": {

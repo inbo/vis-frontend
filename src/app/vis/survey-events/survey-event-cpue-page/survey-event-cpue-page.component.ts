@@ -29,8 +29,8 @@ export class SurveyEventCpuePageComponent implements OnInit {
     });
   }
 
-  recalculateAutomaticCpue() {
-    this.surveyEventsService.recalculateAutomaticCpue(
+  recalculateCpue() {
+    this.surveyEventsService.recalculateCpue(
       this.projectCode,
       this.surveyEventId
     ).subscribe(_ => {

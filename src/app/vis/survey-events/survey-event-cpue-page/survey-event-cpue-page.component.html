@@ -1,9 +1,9 @@
-<div class="mb-6" *ngIf="!parameters?.hasParameters">
+<div *ngIf="!parameters?.hasParameters" class="mb-6">
   <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
     <div class="flex">
       <div class="flex-shrink-0">
-        <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+        <svg aria-hidden="true" class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path clip-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" fill-rule="evenodd"/>
         </svg>
       </div>
       <div class="ml-3">
@@ -18,21 +18,7 @@
   </div>
 </div>
 
-
-<div class="pb-5 sm:pb-6">
-  <dl class="grid grid-cols-1 gap-5 sm:grid-cols-3">
-    <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-      <dt class="text-sm font-medium text-gray-500 truncate">
-        CPUE
-      </dt>
-      <dd class="mt-1 text-3xl font-semibold text-gray-900">
-        {{parameters.cpue == null ? 'Onbekend' : parameters.cpue}}
-      </dd>
-    </div>
-  </dl>
-</div>
-
-<div  class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
+<div class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200 mb-8">
   <div class="px-4 py-5 sm:px-6">
     <h3 class="text-lg leading-6 font-medium text-gray-900">
       Waarneming CPUE parameters
@@ -41,7 +27,7 @@
   <div class="px-4 py-5 sm:p-6">
 
     <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-      <div class="sm:col-span-1" *ngFor="let parameter of parameters?.parameters">
+      <div *ngFor="let parameter of parameters?.parameters" class="sm:col-span-1">
         <dt class="text-sm font-medium text-gray-500">
           {{"cpue.parameter." + parameter.key| translate}}
         </dt>
@@ -52,17 +38,57 @@
     </dl>
 
   </div>
+
+
+
   <div class="px-4 py-4 sm:px-6 flex justify-end">
 
-    <app-button [style]="'secondary'"
-                class="ml-3"
-                (click)="recalculateAutomaticCpue()"
-                [role]="role.EditSurveyEvent">Automatische CPUE waarden herberekenen
+    <app-button (click)="recalculateCpue()"
+                [role]="role.EditSurveyEvent"
+                [style]="'secondary'"
+                class="ml-3">CPUE herberekenen
     </app-button>
-    <app-button [style]="'primary'"
-                class="ml-3"
+    <app-button [role]="role.EditSurveyEvent"
                 [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'cpue', 'bewerk']"
-                [role]="role.EditSurveyEvent">Bewerken
+                [style]="'primary'"
+                class="ml-3">Bewerken
     </app-button>
   </div>
 </div>
+
+
+<app-table class="mt-8">
+  <thead>
+    <tr>
+      <th appHeader scope="col">Taxon</th>
+      <th appHeader scope="col">Berekening</th>
+      <th appHeader scope="col">Totaal gewicht</th>
+      <th appHeader scope="col">Totaal aantal</th>
+      <th appHeader scope="col">CPUE Gewicht</th>
+      <th appHeader scope="col">CPUE Aantal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let value of parameters.taxonCpues; let index = index" [rownumber]="index" appRow>
+      <td appCell>
+        {{value.taxonId}}
+      </td>
+      <td appCell>
+        {{value.calculation}}
+      </td>
+      <td appCell>
+        {{value.weightSum}}
+      </td>
+      <td appCell>
+        {{value.taxaSum}}
+      </td>
+      <td class="font-bold" appCell>
+        {{value.weightCpue}} {{value.unit}}
+      </td>
+      <td class="font-bold" appCell>
+        {{value.taxaSumCpue}} {{value.unit}}
+      </td>
+
+    </tr>
+  </tbody>
+</app-table>

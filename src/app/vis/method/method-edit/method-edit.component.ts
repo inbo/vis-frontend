@@ -33,15 +33,17 @@ export class MethodEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     this.cpueService.listAllParameters().subscribe(value => this.allParameters = value);
     this.editForm = this.formBuilder.group({
       description: ['', [Validators.maxLength(50)]],
-      calculation: ['', [], []],
+      unit: ['', [Validators.maxLength(255)]],
+      calculation: ['', [Validators.maxLength(255)], []],
       parameters: this.formBuilder.array([])
     });
 
-    this.cpueTestForm = this.formBuilder.group({});
+    this.cpueTestForm = this.formBuilder.group({
+      CATCH: [100]
+    });
   }
 
   ngOnDestroy(): void {
@@ -76,7 +78,9 @@ export class MethodEditComponent implements OnInit, OnDestroy {
 
     this.isOpen = true;
 
-    this.cpueTestForm = this.formBuilder.group({});
+    this.cpueTestForm = this.formBuilder.group({
+      CATCH: [100]
+    });
 
     forkJoin([method$, cpue$]).subscribe(([method, parameters]) => {
       this.method = method;
@@ -84,6 +88,7 @@ export class MethodEditComponent implements OnInit, OnDestroy {
       const params = parameters.map(value => new FormControl(value));
       this.editForm = this.formBuilder.group({
         description: [this.method.description, [Validators.required, Validators.maxLength(50)]],
+        unit: [this.method.unit, [Validators.maxLength(255)]],
         calculation: [this.method.calculation, [], [this.calculationValidator()]],
         parameters: new FormArray(params)
       });
@@ -129,6 +134,10 @@ export class MethodEditComponent implements OnInit, OnDestroy {
 
   get description() {
     return this.editForm.get('description');
+  }
+
+  get unit() {
+    return this.editForm.get('unit');
   }
 
   get calculation() {

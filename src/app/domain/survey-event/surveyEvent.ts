@@ -48,14 +48,25 @@ export interface FishingPoint {
 
 export interface CpueParameters {
   parameters: CpueParameter[];
-  cpue: number;
   hasParameters: boolean;
+  taxonCpues: TaxonCpue[];
 }
 
 export interface CpueParameter {
   key: string;
   value: number;
   automatic: boolean;
+}
+
+export interface TaxonCpue {
+  taxonId: number;
+  calculation: string;
+  weightSum: number;
+  taxaSum: number;
+  weightCpue: number;
+  taxaSumCpue: number;
+  unit: string;
+  manualInput: boolean;
 }
 
 
