@@ -66,6 +66,7 @@
       <th appHeader scope="col">Totaal aantal</th>
       <th appHeader scope="col">CPUE Gewicht</th>
       <th appHeader scope="col">CPUE Aantal</th>
+      <th appHeader scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -83,12 +84,22 @@
         {{value.taxaSum}}
       </td>
       <td class="font-bold" appCell>
-        {{value.weightCpue}} {{value.unit}}
+        <span *ngIf="value.weightCpue">{{value.weightCpue}} {{value.unit}}</span>
+        <span *ngIf="!value.weightCpue" class="text-red-500">Niet berekend</span>
       </td>
       <td class="font-bold" appCell>
-        {{value.taxaSumCpue}} {{value.unit}}
+        <span *ngIf="value.taxaSumCpue">{{value.taxaSumCpue}} {{value.unit}}</span>
+        <span *ngIf="!value.taxaSumCpue" class="text-red-500">Niet berekend</span>
       </td>
 
+      <td appCell [actions]="true">
+        <div *ngIf="!value.manualInput" title="Automatisch berekende waarden">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+        </div>
+        <div *ngIf="value.manualInput" title="Manueel ingevoerde waarden">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"></path></svg>
+        </div>
+      </td>
     </tr>
   </tbody>
 </app-table>
