@@ -99,3 +99,7 @@ export interface ImportSurveyEventComment {
   value: string;
   valid: boolean;
 }
+
+export interface CreateImportFileResult {
+  spreadsheetId: string;
+}

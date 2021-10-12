@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ProjectService} from '../../../services/vis.project.service';
 import {ProjectFavorites} from '../../../domain/settings/project-favorite';
 import {Project} from '../../../domain/project/project';
 import {ImportsService} from '../../../services/vis.imports.service';
+import {AlertService} from '../../../_alert';
 
 @Component({
   selector: 'app-project-heading',
@@ -16,8 +17,10 @@ export class ProjectHeadingComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
   private settings: ProjectFavorites;
+  isImporting = false;
 
-  constructor(private projectService: ProjectService, private activatedRoute: ActivatedRoute, private importsService: ImportsService) {
+  constructor(private projectService: ProjectService, private activatedRoute: ActivatedRoute, private importsService: ImportsService,
+              private router: Router, private alertService: AlertService) {
   }
 
   ngOnInit(): void {
@@ -59,6 +62,11 @@ export class ProjectHeadingComponent implements OnInit, OnDestroy {
   }
 
   createImportFile() {
-    this.importsService.createFile(this.activatedRoute.snapshot.params.projectCode).subscribe();
+    this.isImporting = true;
+    this.importsService.createFile(this.activatedRoute.snapshot.params.projectCode)
+      .subscribe(value => {
+        this.isImporting = false;
+        this.alertService.success('Spreadsheet aangemaakt', 'Bewerk de aangemaakte spreadsheet <a class="underline" href="/importeren/' + value.spreadsheetId + '">hier</a>.', false);
+      });
   }
 }

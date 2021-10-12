@@ -35,9 +35,11 @@
   <div *ngIf="showCreateSurveyEventButton()" class="flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6 float-right	">
     <div class="flex items-center text-sm text-gray-500">
       <app-button [style]="'secondary'" (click)="createImportFile()"
-                  [isUserLinkedToProject]="project?.canEdit">Import bestand aanmaken
+                  [isUserLinkedToProject]="project?.canEdit" [disabled]="isImporting">
+
+        <app-loading-spinner *ngIf="isImporting"></app-loading-spinner> {{ isImporting ? 'Bezig met aanmaken' : 'Import bestand aanmaken' }}
       </app-button>
-      <app-button [style]="'primary'" [routerLink]="'waarnemingen/toevoegen'"
+      <app-button  class="ml-3" [style]="'primary'" [routerLink]="'waarnemingen/toevoegen'"
                   [isUserLinkedToProject]="project?.canEdit">Waarneming toevoegen
       </app-button>
     </div>
