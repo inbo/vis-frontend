@@ -31,11 +31,13 @@ export class LocationCreateStep2Component implements OnInit {
     }
   }
 
-  nearbyFeaturesFound($event: any) {
-    console.log($event);
+  mapLoaded() {
+    const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
+    this.map.updateTownLayerSelection(latlng);
   }
 
-  mapLoaded() {
-    this.map.queryNearbyWatercourses();
+  townSelected(properties: any) {
+    this.formGroup.get('townInfo').patchValue(properties);
   }
+
 }

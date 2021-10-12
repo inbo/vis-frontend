@@ -2,7 +2,6 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {Title} from '@angular/platform-browser';
 import {latLng} from 'leaflet';
-import {FeatureSelection} from '../../components/fishing-points-map/feature-selection';
 
 @Component({
   selector: 'app-location-create-step3',
@@ -31,4 +30,12 @@ export class LocationCreateStep3Component implements OnInit {
     }
   }
 
+  townSelected(properties: any) {
+    this.formGroup.get('townInfo').patchValue(properties);
+  }
+
+  onLoaded() {
+    const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
+    this.map.updateTownLayerSelection(latlng);
+  }
 }

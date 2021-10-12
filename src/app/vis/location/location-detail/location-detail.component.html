@@ -72,6 +72,39 @@
                           <input disabled="disabled" type="checkbox" [checked]="fishingPoint?.titalWater ? 'checked' : null" />
                         </dd>
                       </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Gemeente
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.municipality}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Provincie
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.province}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          NIS Code
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.nisCode}}
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          NIS Code PR
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{fishingPoint?.nisCodePr}}
+                        </dd>
+                      </div>
+
                     </dl>
                   </div>
                 </div>

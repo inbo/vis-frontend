@@ -44,6 +44,8 @@ export interface FishingPoint {
   lng: number;
   description: string;
   width: number;
+  municipality: string;
+  province: string;
 }
 
 export interface SurveyEventParameters {

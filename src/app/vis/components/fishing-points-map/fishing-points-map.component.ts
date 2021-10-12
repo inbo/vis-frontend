@@ -19,12 +19,17 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   @Input() projectCode; // Get fishing points for a specific project, all fishing points are retrieved when null
   @Input() zoomLevel = 8; // Default zoom level
   @Input() canAddPoints = false; // To be able to add a single new point to the map
+  @Input() fishingPointsLayerVisible = true;
+  @Input() blueLayerVisible = true;
+  @Input() watercoursesLayerVisible = true;
+  @Input() townsLayerVisible = true;
 
   @Output() pointAdded = new EventEmitter<LatLng>();
   @Output() nearbyWatercoursesFound = new EventEmitter<any>();
   @Output() loaded = new EventEmitter<any>();
   @Output() blueLayerSelected = new EventEmitter<any>();
   @Output() vhaLayerSelected = new EventEmitter<any>();
+  @Output() townLayerSelected = new EventEmitter<any>();
 
   private subscription = new Subscription();
 
@@ -40,6 +45,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   layers: Layer[];
   private watercourseLayer: DynamicMapLayer;
   private blueLayer: DynamicMapLayer;
+  private townLayer: DynamicMapLayer;
   newLocationLayerGroup = featureGroup();
 
   highlightSelectionLayer = layerGroup();
@@ -53,8 +59,9 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
 
   private visibleFields = {
-    0: ['BEHEER', 'BEKNAAM', 'BEKNR', 'CATC', 'KWALDOEL', 'LBLCATC', 'LBLGEO', 'LBLKWAL', 'LENGTE', 'NAAM', 'OIDN', 'REGCODE', 'REGCODE1', 'STRMGEB', 'VHAG', 'VHAS', 'VHAZONENUR', 'WTRLICHC'],
-    1: ['OMTWVL', 'OPPWVL', 'WTRLICHC', 'WVLC', 'Versie'],
+    0: ['VHAS', 'VHAG', 'NAAM', 'CATC', 'LBLCATC', 'BEKNR', 'BEKNAAM', 'STRMGEB', 'KWALDOEL', 'LBLKWAL', 'LBLGEO', 'VHAZONENR', 'LENGTE'],
+    1: ['WVLC', 'Versie', 'NAAM', 'WTRLICHC'],
+    3: ['GEMEENTE', 'NISCODE', 'NISCODE_PR', 'PROVINCIE'],
   };
   selected = new Map();
 
@@ -93,16 +100,30 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         }
       );
 
+      this.townLayer = dynamicMapLayer(
+        {
+          url: version.value,
+          layers: [3]
+        }
+      );
+
       const basemapLayer1 = basemapLayer('Topographic');
 
       this.layers = [
         basemapLayer1,
-        this.locationsLayer,
-        this.watercourseLayer,
-        this.blueLayer,
         this.newLocationLayerGroup,
         this.highlightSelectionLayer
       ];
+
+      if (this.fishingPointsLayerVisible) {
+        this.layers.push(this.locationsLayer);
+      }
+      if (this.watercoursesLayerVisible) {
+        this.layers.push(this.watercourseLayer);
+      }
+      if (this.blueLayerVisible) {
+        this.layers.push(this.blueLayer);
+      }
 
       this.layersControl = {
         baseLayers: {
@@ -112,6 +133,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
           Vispunten: this.locationsLayer,
           Waterlopen: this.watercourseLayer,
           'Stilstaande wateren': this.blueLayer,
+          Gemeente: this.townLayer,
         }
       };
 
@@ -133,19 +155,18 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 stroke: true,
               });
 
-              console.log(fpf);
               const filteredProperties = {
                 CODE: fpf.code,
                 DESCRIPTION: fpf.description,
                 X: fpf.x,
                 Y: fpf.y
               };
-              this.selected.set(3, filteredProperties);
+              this.selected.set(4, filteredProperties);
             });
             this.locationsLayer.addLayer(m);
 
           });
-          this.layerMetadata.set(3, {name: 'Vispunten'});
+          this.layerMetadata.set(4, {name: 'Vispunten'});
         })
       );
 
@@ -169,7 +190,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
   zoomTo(latlng: LatLng) {
     this.map.setView(latlng, 15);
-    console.log(latlng);
     this.locationsLayer.getLayers().forEach((value: CircleMarker) => {
       if (value.getLatLng().equals(latlng)) {
         this.clearLocationsSelectedStyle();
@@ -181,9 +201,11 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   private initLegend(version: VhaUrl) {
     const fl0 = featureLayer({url: `${version.value}/0`});
     const fl1 = featureLayer({url: `${version.value}/1`});
+    const fl3 = featureLayer({url: `${version.value}/3`});
 
     fl0.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
     fl1.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
+    fl3.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
 
   }
 
@@ -205,7 +227,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   }
 
   replaceNewLocationMarker(latlng: LatLng) {
-    const m = marker(latlng, {draggable: true});
+    const m = marker(latlng, {draggable: this.canAddPoints});
 
     this.newLocationLayerGroup.clearLayers();
     this.newLocationLayerGroup.addLayer(m);
@@ -242,22 +264,31 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
   clickMap(e: LeafletMouseEvent) {
     this.highlightSelectionLayer.clearLayers();
+    const coordinate = e.latlng;
+    this.updateSelections(coordinate);
+  }
 
-    if (this.map.hasLayer(this.watercourseLayer)) {
-      this.watercourseLayer.identify().on(this.map).layers('visible:0').at(e.latlng).run((error, featureCollection) => {
-        if (error) {
-          return;
-        }
+  public updateSelections(coordinate: LatLng) {
+    this.updateWatercourseSelection(coordinate);
+    this.updateBlueLayerSelection(coordinate);
+    this.updateTownLayerSelection(coordinate);
+  }
 
-        this.selected.delete(0);
-        this.selectFeature(featureCollection, 0);
-        this.vhaLayerSelected.emit(this.selected.get(0));
-      });
-    }
+  public updateTownLayerSelection(coordinate: LatLng) {
+    this.townLayer.identify().on(this.map).layers('all:3').at(coordinate).run((error, featureCollection) => {
+      if (error) {
+        return;
+      }
 
+      this.selected.delete(3);
+      this.selectFeature(featureCollection, 3);
+      this.townLayerSelected.emit(this.selected.get(3));
+    });
+  }
 
+  public updateBlueLayerSelection(coordinate: LatLng) {
     if (this.map.hasLayer(this.blueLayer)) {
-      this.blueLayer.identify().on(this.map).layers('visible:1').at(e.latlng).run((error, featureCollection) => {
+      this.blueLayer.identify().on(this.map).layers('visible:1').at(coordinate).run((error, featureCollection) => {
         if (error) {
           return;
         }
@@ -269,13 +300,29 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
   }
 
+  public updateWatercourseSelection(coordinate: LatLng) {
+    if (this.map.hasLayer(this.watercourseLayer)) {
+      this.watercourseLayer.identify().on(this.map).layers('visible:0').at(coordinate).run((error, featureCollection) => {
+        if (error) {
+          return;
+        }
+
+        this.selected.delete(0);
+        this.selectFeature(featureCollection, 0);
+        this.vhaLayerSelected.emit(this.selected.get(0));
+      });
+    }
+  }
+
   private selectFeature(featureCollection, layerId: number) {
     featureCollection.features.forEach(feature => {
       if (this.selected.has(layerId)) {
         return;
       }
 
-      this.highlightSelectionLayer.addLayer(L.geoJSON(feature, {style: {weight: 6}}));
+      if (layerId !== 3) {
+        this.highlightSelectionLayer.addLayer(L.geoJSON(feature, {style: {weight: 6}}));
+      }
 
       const filteredProperties = {};
 
@@ -283,9 +330,9 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         if (feature.properties.hasOwnProperty(propertiesKey)) {
           const fields = this.visibleFields[layerId] as string[];
 
-          // if (fields.indexOf(propertiesKey) > -1) {
-          filteredProperties[propertiesKey] = feature.properties[propertiesKey];
-          // }
+          if (fields.indexOf(propertiesKey) > -1) {
+            filteredProperties[propertiesKey] = feature.properties[propertiesKey];
+          }
         }
       }
       this.selected.set(layerId, filteredProperties);

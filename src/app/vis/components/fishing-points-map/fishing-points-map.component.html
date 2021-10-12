@@ -59,8 +59,8 @@
                           </dd>
                         </div>
                         <div class="py-4 sm:py-1 sm:grid sm:grid-cols-3 sm:gap-4" *ngFor="let x of s.value | keyvalue">
-                          <dt class="text-sm font-medium text-gray-500 p-1">
-                            {{x.key}}
+                          <dt class="text-sm font-medium text-gray-500 p-1 uppercase">
+                            {{('map.' + s.key + '.' + x.key) | translate}}
                           </dt>
                           <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 p-1">
                             <span class="flex-grow">{{x.value}}</span>

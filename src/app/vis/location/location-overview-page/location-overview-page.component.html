@@ -1,7 +1,6 @@
 <app-stacked-layout [navigationLinks]="links">
   <div slot="content">
     <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
-    <!--    <app-fishing-points-map heightClass="h-125" (featureSelected)="featureSelected($event)"></app-fishing-points-map>-->
 
     <main>
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-96">
@@ -18,8 +17,6 @@
           </div>
 
         </div>
-
-        <!--        <app-fishing-points-map class="fixed bottom-0 inset-x-0" (featureSelected)="featureSelected($event)"></app-fishing-points-map>-->
 
         <div class="px-4 py-8 sm:px-0">
           <app-fishing-points-map class="h-96"></app-fishing-points-map>
@@ -145,10 +142,10 @@
                 {{fishingPoint.basinName}}
               </td>
               <td appCell>
-                TODO
+                {{fishingPoint.province}}
               </td>
               <td appCell>
-                TODO
+                {{fishingPoint.municipality}}
               </td>
               <td actions="true" appCell class="font-medium">
                         <span (click)="zoomToLocation(fishingPoint)"

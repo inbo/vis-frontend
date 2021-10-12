@@ -244,5 +244,34 @@
     "basin": "Bekken",
     "province": "Provincie",
     "municipality": "Gemeente"
+  },
+  "map": {
+    "0": {
+      "VHAS": "VHAS",
+      "VHAG": "VHAG",
+      "NAAM": "Waterloop",
+      "CATC": "Categorie code",
+      "LBLCATC": "Categorie",
+      "BEKNR": "Bekken nummer",
+      "BEKNAAM": "Bekken",
+      "STRMGEB": "Stroomgebied",
+      "KWALDOEL": "Kwaliteitsdoel",
+      "LBLKWAL": "Kwaliteit",
+      "LBLGEO": "Kwaliteit geo",
+      "VHAZONENR": "VHA Zone nummer",
+      "LENGTE": "Lengte segment"
+    },
+    "1": {
+      "WVLC":  "Watervlak code",
+      "Versie":  "Watervlak code versie",
+      "NAAM":  "Watervlak",
+      "WTRLICHC": "VMM Waterlichaam code"
+    },
+    "3": {
+      "GEMEENTE":  "Gemeente",
+      "NISCODE":  "NISCODE",
+      "NISCODE_PR":  "NISCODE PR",
+      "PROVINCIE":  "Provincie"
+    }
   }
 }

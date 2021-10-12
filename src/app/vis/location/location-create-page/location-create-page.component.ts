@@ -48,7 +48,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
         type: [null, [Validators.required]],
         vhaInfo: [null, [Validators.required]],
         blueLayerInfo: [null, [Validators.required]],
-        vhaZone: [null, [Validators.required]],
+        townInfo: [null, [Validators.required]],
       },
     );
   }
@@ -71,13 +71,13 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
   isStep2Valid(): boolean {
     return this.isStep1Valid()
       && this.formGroup.get('vhaInfo').valid
-      && this.formGroup.get('vhaZone').valid;
+      && this.formGroup.get('townInfo').valid;
   }
 
   isStep3Valid(): boolean {
     return this.isStep1Valid()
       && this.formGroup.get('blueLayerInfo').valid
-      && this.formGroup.get('vhaZone').valid;
+      && this.formGroup.get('townInfo').valid;
   }
 
   isTypeFlowing() {
