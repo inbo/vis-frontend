@@ -34,4 +34,8 @@ export class ImportsService extends VisService {
   doImport(id: string): Observable<string> {
     return this.http.post<string>(`${environment.apiUrl}/api/imports/${id}/import`, {});
   }
+
+  createFile(projectCode: any) {
+    return this.http.post<string>(`${environment.apiUrl}/api/imports/project/${projectCode}`, {});
+  }
 }

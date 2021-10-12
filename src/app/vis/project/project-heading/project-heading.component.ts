@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ProjectService} from '../../../services/vis.project.service';
 import {ProjectFavorites} from '../../../domain/settings/project-favorite';
 import {Project} from '../../../domain/project/project';
+import {ImportsService} from '../../../services/vis.imports.service';
 
 @Component({
   selector: 'app-project-heading',
@@ -16,7 +17,7 @@ export class ProjectHeadingComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   private settings: ProjectFavorites;
 
-  constructor(private projectService: ProjectService, private activatedRoute: ActivatedRoute) {
+  constructor(private projectService: ProjectService, private activatedRoute: ActivatedRoute, private importsService: ImportsService) {
   }
 
   ngOnInit(): void {
@@ -55,5 +56,9 @@ export class ProjectHeadingComponent implements OnInit, OnDestroy {
 
   showCreateSurveyEventButton() {
     return !window.location.pathname.endsWith('waarnemingen/toevoegen');
+  }
+
+  createImportFile() {
+    this.importsService.createFile(this.activatedRoute.snapshot.params.projectCode).subscribe();
   }
 }
