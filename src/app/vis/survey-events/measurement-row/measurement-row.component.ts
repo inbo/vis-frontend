@@ -86,7 +86,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
   }
 
   private addTaxaValidationsForRowIndex() {
-    if (this.species().value === null) {
+    if (!this.species().value) {
       return;
     }
 
@@ -274,9 +274,13 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     this.form.get('type').patchValue('GROUP_LENGTHS');
 
     this.individualLengths().clear();
-    for (let i = 0; i < this.amount().value; i++) {
+    const amount = this.amount().value;
+    const individualLengthsSize = amount >= 10 ? 10 : amount;
+    for (let i = 0; i < individualLengthsSize; i++) {
       this.individualLengths().push(this.createIndividualLength());
     }
+
+    this.amount().setValidators(Validators.min(individualLengthsSize));
     this.setTaxonValidators(this.taxon);
   }
 

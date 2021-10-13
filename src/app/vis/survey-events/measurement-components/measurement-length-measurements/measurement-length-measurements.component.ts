@@ -58,13 +58,21 @@ export class MeasurementLengthMeasurementsComponent implements OnInit {
 
   removeIndividualLength(i: number) {
     this.individualLengths().removeAt(i);
-    this.amount().patchValue(this.individualLengths().value.length);
+
+    this.amount().setValidators(Validators.min(this.individualLengths().length));
   }
 
   newLengthOnTab(event: KeyboardEvent, i: number) {
     if (this.isKeyTab(event.key) && this.isLastIndex(i)) {
+      this.addIndividualLength();
+    }
+  }
+
+  private addIndividualLength() {
+    const individualLengthsSize = this.individualLengths().value.length;
+    if (individualLengthsSize < this.amount().value) {
       this.individualLengths().push(this.createIndividualLength());
-      this.amount().patchValue(this.individualLengths().value.length);
+      this.amount().setValidators(Validators.min(individualLengthsSize + 1));
     }
   }
 
@@ -74,7 +82,7 @@ export class MeasurementLengthMeasurementsComponent implements OnInit {
 
   createIndividualLength(comment?: any): FormGroup {
     return this.formBuilder.group({
-      length: new FormControl('', [Validators.min(0)]),
+      length: new FormControl('', [Validators.min(0), Validators.required]),
       comment: new FormControl(comment ?? '', Validators.max(2000))
     });
   }
@@ -82,13 +90,12 @@ export class MeasurementLengthMeasurementsComponent implements OnInit {
   onEnter(event: KeyboardEvent, i: number) {
     if (event.key === 'Enter') {
       if (this.individualLengths().length === (i + 1)) {
-        this.individualLengths().push(this.createIndividualLength());
-        this.amount().patchValue(this.individualLengths().value.length);
+        this.addIndividualLength();
 
         const splittedId = (event.currentTarget as HTMLElement).id.split('-');
         setTimeout(() => {
           const nextElement = document.getElementById(splittedId[0] + '-' + (i + 1));
-          nextElement.focus();
+          nextElement?.focus();
         }, 0);
       } else {
         const splittedId = (event.currentTarget as HTMLElement).id.split('-');

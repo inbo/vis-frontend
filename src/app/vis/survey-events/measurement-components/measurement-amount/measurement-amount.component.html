@@ -1,7 +1,5 @@
 <ng-container [formGroup]="form">
   <input (change)="amountChanged($event)" (keydown)="keydown($event)" [id]="'amount-' + index" formControlName="amount"
          min="0" name="amount"
-         [readOnly]="this.type().value === 'GROUP_LENGTHS' ? true : null"
-         [class]="this.type().value === 'GROUP_LENGTHS' ? 'focus:border-gray-500 bg-gray-100 focus:ring-gray-500' : null"
          type="number"/>
 </ng-container>

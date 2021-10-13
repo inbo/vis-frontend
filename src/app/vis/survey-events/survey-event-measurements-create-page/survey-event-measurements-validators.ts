@@ -16,7 +16,11 @@ export function valueBetweenWarning(fieldName: string, minVal: number, maxVal: n
         return null;
       }
 
-      field = (c.get(fieldName) as FormArray).at(index).get(affix) as AbstractControlWarn;
+      if (!array.at(index)) {
+        return;
+      }
+
+      field = array.at(index).get(affix) as AbstractControlWarn;
     }
 
     field.warnings = null;

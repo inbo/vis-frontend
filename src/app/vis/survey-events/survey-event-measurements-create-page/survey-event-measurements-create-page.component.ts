@@ -72,7 +72,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   ngAfterViewInit() {
     if (localStorage.getItem('measurements-demo') !== 'completed') {
-      this.introModalOpen = true;
+      setTimeout(() => this.introModalOpen = true);
     }
   }
 
