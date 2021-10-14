@@ -2,7 +2,6 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {latLng} from 'leaflet';
-import {FeatureSelection} from "../../components/fishing-points-map/feature-selection";
 
 @Component({
   selector: 'app-location-create-step2',
@@ -40,4 +39,23 @@ export class LocationCreateStep2Component implements OnInit {
     this.formGroup.get('townInfo').patchValue(properties);
   }
 
+  numberMask(scale: number, min: number, max: number) {
+    return {
+      mask: Number,
+      scale,
+      signed: true,
+      thousandsSeparator: '',
+      radix: ',',
+      min,
+      max
+    };
+  }
+
+  get slope() {
+    return this.formGroup.get('slope');
+  }
+
+  get width() {
+    return this.formGroup.get('width');
+  }
 }

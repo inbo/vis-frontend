@@ -29,29 +29,6 @@
           </div>
 
           <div>
-            <label for="slope" class="block text-sm font-medium text-gray-700">
-              Helling
-            </label>
-            <div class="mt-1">
-              <input [imask]="numberMask(3, 0, 99999.999)" [unmask]="true" formControlName="slope" type="text"
-                     name="slope" id="slope">
-            </div>
-            <app-form-error-message [fieldName]="'Helling'" [control]="slope"
-                                    [submitted]="false"></app-form-error-message>
-          </div>
-
-          <div>
-            <label for="width" class="block text-sm font-medium text-gray-700">
-              Breedte
-            </label>
-            <div class="mt-1">
-              <input [imask]="numberMask(2, 0, 99999.99)" [unmask]="true" formControlName="width" type="text"
-                     name="width" id="width">
-            </div>
-            <app-form-error-message [fieldName]="'Breedte'" [control]="width" [submitted]="false"></app-form-error-message>
-          </div>
-
-          <div>
             <label class="block text-sm font-medium text-gray-700">
               Type
             </label>

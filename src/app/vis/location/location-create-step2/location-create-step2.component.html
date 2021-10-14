@@ -1,3 +1,39 @@
 <div>
-  <app-fishing-points-map [zoomLevel]="20" (loaded)="mapLoaded()" (townLayerSelected)="townSelected($event)" (vhaLayerSelected)="featureSelected($event)" [blueLayerVisible]="false" [fishingPointsLayerVisible]="false"></app-fishing-points-map>
+  <div class="grid grid-cols-6 gap-x-4 text-sm">
+    <div class="col-span-6 md:col-span-4">
+      <app-fishing-points-map [zoomLevel]="20" (loaded)="mapLoaded()" (townLayerSelected)="townSelected($event)"
+                              (vhaLayerSelected)="featureSelected($event)" [blueLayerVisible]="false"
+                              [fishingPointsLayerVisible]="false"></app-fishing-points-map>
+    </div>
+
+    <div class="mt-4 md:mt-0 col-span-6 md:col-span-2">
+      <form [formGroup]="formGroup">
+        <div class="grid grid-cols-1 gap-y-6">
+          <div>
+            <label for="slope" class="block text-sm font-medium text-gray-700">
+              Helling
+            </label>
+            <div class="mt-1">
+              <input [imask]="numberMask(3, 0, 99999.999)" [unmask]="true" formControlName="slope" type="text"
+                     name="slope" id="slope">
+            </div>
+            <app-form-error-message [fieldName]="'Helling'" [control]="slope"
+                                    [submitted]="false"></app-form-error-message>
+          </div>
+
+          <div>
+            <label for="width" class="block text-sm font-medium text-gray-700">
+              Breedte
+            </label>
+            <div class="mt-1">
+              <input [imask]="numberMask(2, 0, 99999.99)" [unmask]="true" formControlName="width" type="text"
+                     name="width" id="width">
+            </div>
+            <app-form-error-message [fieldName]="'Breedte'" [control]="width"
+                                    [submitted]="false"></app-form-error-message>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

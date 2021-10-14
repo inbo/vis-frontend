@@ -11,11 +11,13 @@
               </li>
 
               <li class="md:flex-1">
-                <app-step [active]="currentStep >= 2" step="Stap 2" [description]="'Waterloop' + (isTypeStationary() ? ' (nvt)' : '')"></app-step>
+                <app-step [active]="currentStep >= 2" step="Stap 2"
+                          [description]="'Waterloop' + (isTypeStationary() ? ' (nvt)' : '')"></app-step>
               </li>
 
               <li class="md:flex-1">
-                <app-step [active]="currentStep >= 3" step="Stap 3" [description]="'Blauwe laag' + (isTypeFlowing() ? ' (nvt)' : '')"></app-step>
+                <app-step [active]="currentStep >= 3" step="Stap 3"
+                          [description]="'Blauwe laag' + (isTypeFlowing() ? ' (nvt)' : '')"></app-step>
               </li>
             </ol>
           </nav>
@@ -26,7 +28,9 @@
           <app-location-create-step1 [formGroup]="formGroup"></app-location-create-step1>
 
           <div class="flex justify-end mt-5">
-            <app-button [valid]="isStep1Valid()" (click)="currentStep = isTypeFlowing() ? 2 : 3" [style]="'primary'">Volgende</app-button>
+            <app-button [disabled]="!isStep1Valid()" (click)="currentStep = isTypeFlowing() ? 2 : 3"
+                        [style]="'primary'">Volgende
+            </app-button>
           </div>
         </div>
 
@@ -34,7 +38,7 @@
         <div *ngIf="currentStep === 2" class="px-4 py-8 sm:px-0">
           <app-location-create-step2 [formGroup]="formGroup"></app-location-create-step2>
           <div class="flex justify-end mt-5">
-            <app-button [valid]="isStep2Valid()" (click)="save()" [style]="'primary'">Bewaren</app-button>
+            <app-button [disabled]="!isStep2Valid()" (click)="save()" [style]="'primary'">Bewaren</app-button>
           </div>
         </div>
 
@@ -44,7 +48,7 @@
 
 
           <div class="flex justify-end mt-5">
-            <app-button [valid]="isStep3Valid()" (click)="save()" [style]="'primary'">Bewaren</app-button>
+            <app-button [disabled]="!isStep3Valid()" (click)="save()" [style]="'primary'">Bewaren</app-button>
           </div>
         </div>
 

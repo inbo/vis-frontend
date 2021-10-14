@@ -99,32 +99,12 @@ export class LocationCreateStep1Component implements OnInit {
       || (this.formGroup.get('lng').touched && this.formGroup.get('lng').invalid);
   }
 
-  numberMask(scale: number, min: number, max: number) {
-    return {
-      mask: Number,
-      scale,
-      signed: true,
-      thousandsSeparator: '',
-      radix: ',',
-      min,
-      max
-    };
-  }
-
   get code() {
     return this.formGroup.get('code');
   }
 
   get description() {
     return this.formGroup.get('description');
-  }
-
-  get slope() {
-    return this.formGroup.get('slope');
-  }
-
-  get width() {
-    return this.formGroup.get('width');
   }
 
   get type() {
