@@ -1,8 +1,16 @@
 <div class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
   <div class="px-4 py-5 sm:px-6">
-    <h3 class="text-lg leading-6 font-medium text-gray-900">
+    <h3 class="text-lg leading-6 font-medium text-gray-900 float-left">
       Parameters
     </h3>
+    <div *ngIf="surveyEvent$ | async as surveyEvent" class="flex justify-end">
+      <app-button [style]="'primary'"
+                  [disabled]="surveyEvent.status === 'DELETED'"
+                  [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'waterkwaliteitsparameters', 'bewerk']"
+                  [role]="role.EditSurveyEvent"
+                  [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
+      </app-button>
+    </div>
   </div>
   <div class="px-4 py-5 sm:p-6">
     <dl class="sm:divide-y sm:divide-gray-200">
