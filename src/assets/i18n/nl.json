@@ -175,7 +175,7 @@
     "full": {
       "MALE": "Mannelijk",
       "FEMALE": "Vrouwelijk",
-      "UNKNOWN": "Onzijdig",
+      "UNKNOWN": "Onbekend",
       "null": ""
     }
   },
