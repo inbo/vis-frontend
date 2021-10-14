@@ -266,7 +266,8 @@
       "LBLKWAL": "Kwaliteit",
       "LBLGEO": "Kwaliteit geo",
       "VHAZONENR": "VHA Zone nummer",
-      "LENGTE": "Lengte segment"
+      "LENGTE": "Lengte segment",
+      "WTRLICHC": "WTRLICHC"
     },
     "1": {
       "WVLC": "Watervlak code",

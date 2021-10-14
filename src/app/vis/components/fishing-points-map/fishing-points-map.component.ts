@@ -59,7 +59,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
 
   private visibleFields = {
-    0: ['VHAS', 'VHAG', 'NAAM', 'CATC', 'LBLCATC', 'BEKNR', 'BEKNAAM', 'STRMGEB', 'KWALDOEL', 'LBLKWAL', 'LBLGEO', 'VHAZONENR', 'LENGTE'],
+    0: ['VHAS', 'VHAG', 'NAAM', 'CATC', 'LBLCATC', 'BEKNR', 'BEKNAAM', 'STRMGEB', 'KWALDOEL', 'LBLKWAL', 'LBLGEO', 'VHAZONENR', 'LENGTE', 'WTRLICHC'],
     1: ['WVLC', 'Versie', 'NAAM', 'WTRLICHC'],
     3: ['GEMEENTE', 'NISCODE', 'NISCODE_PR', 'PROVINCIE'],
   };
