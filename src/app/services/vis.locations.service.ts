@@ -107,4 +107,8 @@ export class LocationsService extends VisService {
       .set('source', source);
     return this.http.get<Coordinates>(`${environment.apiUrl}/api/coordinates/convert`, {params});
   }
+
+  updateLocation(locationId: number, formData: any) {
+    return this.http.put(`${environment.apiUrl}/api/fishingpoints/${locationId}`, formData);
+  }
 }

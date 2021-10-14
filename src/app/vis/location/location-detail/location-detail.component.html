@@ -22,7 +22,67 @@
               </div>
               <div class="mt-5 md:mt-0 md:col-span-2">
                 <div class="shadow sm:rounded-md sm:overflow-hidden">
-                  <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                  <div *ngIf="editMode" class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    <form [formGroup]="formGroup">
+                      <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                        <div class="sm:col-span-1">
+                          <dt class="text-sm font-medium text-gray-500">
+                            Meetplaatscode
+                          </dt>
+                          <div class="mt-1 text-sm text-gray-900">
+                            <input formControlName="code" id="code" name="code" type="text">
+                          </div>
+                          <app-form-error-message [control]="code" [fieldName]="'Code'" [submitted]="submitted"></app-form-error-message>
+                        </div>
+                        <div class="sm:col-span-1">
+                          <dt class="text-sm font-medium text-gray-500">
+                            Omschrijving
+                          </dt>
+                          <dd class="mt-1 text-sm text-gray-900">
+                            <input formControlName="description" id="description" name="description" type="text">
+                          </dd>
+                          <app-form-error-message [control]="description" [fieldName]="'Omschrijving'" [submitted]="submitted"></app-form-error-message>
+                        </div>
+                        <div class="sm:col-span-1">
+                          <dt class="text-sm font-medium text-gray-500">
+                            Helling
+                          </dt>
+                          <dd class="mt-1 text-sm text-gray-900">
+                            <input [imask]="numberMask(3, 0, 99999.999)" [unmask]="true" formControlName="slope" id="slope" name="slope" type="text">
+                          </dd>
+                          <app-form-error-message [control]="slope" [fieldName]="'Helling'" [submitted]="submitted"></app-form-error-message>
+                        </div>
+                        <div class="sm:col-span-1">
+                          <dt class="text-sm font-medium text-gray-500">
+                            Breedte
+                          </dt>
+                          <dd class="mt-1 text-sm text-gray-900">
+                            <input [imask]="numberMask(2, 0, 99999.99)" [unmask]="true" formControlName="width" id="width" name="width" type="text">
+                          </dd>
+                          <app-form-error-message [control]="width" [fieldName]="'Breedte'" [submitted]="submitted"></app-form-error-message>
+                        </div>
+                        <div class="sm:col-span-1">
+                          <dt class="text-sm font-medium text-gray-500">
+                            Brak water
+                          </dt>
+                          <dd class="mt-1 text-sm text-gray-900">
+                            <input formControlName="brackfishWater" type="checkbox">
+                          </dd>
+                          <app-form-error-message [control]="brackfishWater" [fieldName]="'Brak water'" [submitted]="submitted"></app-form-error-message>
+                        </div>
+                        <div class="sm:col-span-1">
+                          <dt class="text-sm font-medium text-gray-500">
+                            Getijdewater
+                          </dt>
+                          <dd class="mt-1 text-sm text-gray-900">
+                            <input formControlName="titalWater" type="checkbox"/>
+                          </dd>
+                          <app-form-error-message [control]="titalWater" [fieldName]="'Getijdewater'" [submitted]="submitted"></app-form-error-message>
+                        </div>
+                      </dl>
+                    </form>
+                  </div>
+                  <div *ngIf="!editMode" class="px-4 py-5 bg-white space-y-6 sm:p-6">
                     <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                       <div class="sm:col-span-1">
                         <dt class="text-sm font-medium text-gray-500">
@@ -61,7 +121,7 @@
                           Brak water
                         </dt>
                         <dd class="mt-1 text-sm text-gray-900">
-                          <input disabled="disabled" type="checkbox" [checked]="fishingPoint?.brackfishWater ? 'checked' : null">
+                          <input [checked]="fishingPoint?.brackfishWater ? 'checked' : null" disabled="disabled" type="checkbox">
                         </dd>
                       </div>
                       <div class="sm:col-span-1">
@@ -69,9 +129,47 @@
                           Getijdewater
                         </dt>
                         <dd class="mt-1 text-sm text-gray-900">
-                          <input disabled="disabled" type="checkbox" [checked]="fishingPoint?.titalWater ? 'checked' : null" />
+                          <input [checked]="fishingPoint?.titalWater ? 'checked' : null" disabled="disabled" type="checkbox"/>
                         </dd>
                       </div>
+                    </dl>
+                  </div>
+                  <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                    <app-button *ngIf="!editMode" (click)="editMode = true" [style]="'primary'">
+                      Bewerken
+                    </app-button>
+                    <app-button *ngIf="editMode" (click)="cancel()" [style]="'white'">
+                      Annuleren
+                    </app-button>
+                    <app-button *ngIf="editMode" (click)="save()" [style]="'primary'" class="ml-2">
+                      Bewaren
+                    </app-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div aria-hidden="true" class="hidden sm:block">
+            <div class="py-5">
+              <div class="border-t border-gray-200"></div>
+            </div>
+          </div>
+
+          <div class="mt-10 sm:mt-0">
+            <div class="md:grid md:grid-cols-3 md:gap-6">
+              <div class="md:col-span-1">
+                <div class="px-4 sm:px-0">
+                  <h3 class="text-lg font-medium leading-6 text-gray-900">Coördinaten</h3>
+                  <p class="mt-1 text-sm text-gray-600">
+                    De coördinaten zijn manueel ingegeven bij het aanmaken van het vispunt. De snapped coördinaten zijn achteraf in een andere applicatie gesnapped op het dichtste punt van de geselecteerde VHA.
+                  </p>
+                </div>
+              </div>
+              <div class="mt-5 md:mt-0 md:col-span-2">
+                <div class="shadow sm:rounded-md sm:overflow-hidden">
+                  <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                       <div class="sm:col-span-1">
                         <dt class="text-sm font-medium text-gray-500">
                           Gemeente
@@ -104,34 +202,6 @@
                           {{fishingPoint?.nisCodePr}}
                         </dd>
                       </div>
-
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="hidden sm:block" aria-hidden="true">
-            <div class="py-5">
-              <div class="border-t border-gray-200"></div>
-            </div>
-          </div>
-
-          <div class="mt-10 sm:mt-0">
-            <div class="md:grid md:grid-cols-3 md:gap-6">
-              <div class="md:col-span-1">
-                <div class="px-4 sm:px-0">
-                  <h3 class="text-lg font-medium leading-6 text-gray-900">Coördinaten</h3>
-                  <p class="mt-1 text-sm text-gray-600">
-                    De coördinaten zijn manueel ingegeven bij het aanmaken van het vispunt. De snapped coördinaten zijn achteraf in een andere applicatie gesnapped op het dichtste punt van de geselecteerde VHA.
-                  </p>
-                </div>
-              </div>
-              <div class="mt-5 md:mt-0 md:col-span-2">
-                <div class="shadow sm:rounded-md sm:overflow-hidden">
-                  <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
-                    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                       <div class="sm:col-span-1">
                         <dt class="text-sm font-medium text-gray-500">
                           Coördinaten - Lambert 72 X, Y
@@ -167,9 +237,9 @@
                       </div>
 
 
-                       <div class="sm:col-span-2">
-                         <app-fishing-points-map [canAddPoints]="false" [zoomLevel]="17"></app-fishing-points-map>
-                       </div>
+                      <div class="sm:col-span-2">
+                        <app-fishing-points-map [canAddPoints]="false" [zoomLevel]="17"></app-fishing-points-map>
+                      </div>
                     </dl>
                   </div>
                 </div>
@@ -177,13 +247,13 @@
             </div>
           </div>
 
-          <div class="hidden sm:block" aria-hidden="true" *ngIf="!fishingPoint?.isLentic">
+          <div *ngIf="!fishingPoint?.isLentic" aria-hidden="true" class="hidden sm:block">
             <div class="py-5">
               <div class="border-t border-gray-200"></div>
             </div>
           </div>
 
-          <div class="mt-10 sm:mt-0" *ngIf="!fishingPoint?.isLentic">
+          <div *ngIf="!fishingPoint?.isLentic" class="mt-10 sm:mt-0">
             <div class="md:grid md:grid-cols-3 md:gap-6">
               <div class="md:col-span-1">
                 <div class="px-4 sm:px-0">
@@ -306,13 +376,13 @@
           </div>
 
 
-          <div class="hidden sm:block" aria-hidden="true" *ngIf="fishingPoint?.isLentic">
+          <div *ngIf="fishingPoint?.isLentic" aria-hidden="true" class="hidden sm:block">
             <div class="py-5">
               <div class="border-t border-gray-200"></div>
             </div>
           </div>
 
-          <div class="mt-10 sm:mt-0" *ngIf="fishingPoint?.isLentic">
+          <div *ngIf="fishingPoint?.isLentic" class="mt-10 sm:mt-0">
             <div class="md:grid md:grid-cols-3 md:gap-6">
               <div class="md:col-span-1">
                 <div class="px-4 sm:px-0">
