@@ -43,7 +43,7 @@ export interface FishingPoint {
   qualityGeoAccuracy: string;
   zoneNumber: number;
   segmentLength: number;
-  waterbodyCode: number;
+  waterbodyCodeVmm: number;
 }
 
 export interface FishingPointFeature {
