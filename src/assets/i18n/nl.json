@@ -6,7 +6,14 @@
   "surveyEvent": {
     "sortOption": {
       "occurrence": "Datum",
-      "method": "Methode"
+      "method": "Methode",
+      "fishingPoint": {
+        "vha": {
+          "watercourse": "Waterloop",
+          "basinName": "Bekken",
+          "municipality": "Gemeente"
+        }
+      }
     },
     "watercourse": "Waterloop",
     "lenticWaterbody": "Watervlak",
@@ -262,16 +269,16 @@
       "LENGTE": "Lengte segment"
     },
     "1": {
-      "WVLC":  "Watervlak code",
-      "Versie":  "Watervlak code versie",
-      "NAAM":  "Watervlak",
+      "WVLC": "Watervlak code",
+      "Versie": "Watervlak code versie",
+      "NAAM": "Watervlak",
       "WTRLICHC": "VMM Waterlichaam code"
     },
     "3": {
-      "GEMEENTE":  "Gemeente",
-      "NISCODE":  "NISCODE",
-      "NISCODE_PR":  "NISCODE PR",
-      "PROVINCIE":  "Provincie"
+      "GEMEENTE": "Gemeente",
+      "NISCODE": "NISCODE",
+      "NISCODE_PR": "NISCODE PR",
+      "PROVINCIE": "Provincie"
     }
   }
 }

@@ -86,7 +86,8 @@
           Soort
         </label>
         <div class="mt-1">
-          <app-species-search (onSearch)="getSpecies($event)" [index]="species" [taxons]="species" class="flex-grow"></app-species-search>
+          <app-species-search (onSearch)="getSpecies($event)" [index]="species" [taxons]="species"
+                              class="flex-grow"></app-species-search>
 
         </div>
       </div>
@@ -108,6 +109,12 @@
           <option value="">Sorteren op ...</option>
           <option value="occurrence">{{'surveyEvent.sortOption.occurrence' | translate}}</option>
           <option value="method">{{'surveyEvent.sortOption.method' | translate}}</option>
+          <option
+            value="fishingPoint.vha.watercourse">{{'surveyEvent.sortOption.fishingPoint.vha.watercourse' | translate}}</option>
+          <option
+            value="fishingPoint.vha.basinName">{{'surveyEvent.sortOption.fishingPoint.vha.basinName' | translate}}</option>
+          <option
+            value="fishingPoint.vha.municipality">{{'surveyEvent.sortOption.fishingPoint.vha.municipality' | translate}}</option>
         </select>
       </div>
     </div>
@@ -118,78 +125,78 @@
   <div class="hidden lg:block">
     <app-table [pager]="pager">
       <thead>
-        <tr>
-          <th appHeader scope="col">
-            Meetpuntnummer
-          </th>
-          <th appHeader scope="col">
-            Waterloop / watervlak
-          </th>
-          <th appHeader scope="col">
-            Bekken
-          </th>
-          <th appHeader scope="col">
-            Datum
-          </th>
-          <th appHeader scope="col">
-            Methode
-          </th>
-          <th appHeader scope="col">
-            <span class="sr-only">Status</span>
-          </th>
-          <th appHeader scope="col">
-            <span class="sr-only">Bewerken</span>
-          </th>
-        </tr>
+      <tr>
+        <th appHeader scope="col">
+          Meetpuntnummer
+        </th>
+        <th appHeader scope="col">
+          Waterloop / watervlak
+        </th>
+        <th appHeader scope="col">
+          Bekken
+        </th>
+        <th appHeader scope="col">
+          Datum
+        </th>
+        <th appHeader scope="col">
+          Methode
+        </th>
+        <th appHeader scope="col">
+          <span class="sr-only">Status</span>
+        </th>
+        <th appHeader scope="col">
+          <span class="sr-only">Bewerken</span>
+        </th>
+      </tr>
       </thead>
       <tbody>
-        <tr appRow>
-          <td *ngIf="loading" appCell colspan="7">
-            <app-loading-spinner></app-loading-spinner>
-          </td>
-        </tr>
+      <tr appRow>
+        <td *ngIf="loading" appCell colspan="7">
+          <app-loading-spinner></app-loading-spinner>
+        </td>
+      </tr>
 
-        <tr *ngFor="let surveyEvent of surveyEvents$ | async; let index = index" [rownumber]="index" appRow>
-          <td appCell>
-            <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value]"
-               class="text-pink-600 hover:text-pink-900">{{surveyEvent.fishingPointCode}}</a>
-          </td>
-          <td appCell>
-            {{surveyEvent.isLentic ? surveyEvent.lenticName : surveyEvent.watercourse}}
-          </td>
-          <td appCell>
-            {{surveyEvent.basin}}
-          </td>
-          <td appCell>
-            {{ surveyEvent.occurrence | date:'dd/MM/yyyy'}}
-          </td>
-          <td appCell>
-            {{ 'method.' + surveyEvent.method | translate }}
-          </td>
-          <td appCell>
-            <app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>
-          </td>
-          <td [actions]="true" appCell>
-            <app-dropdown-minimal>
-              <button [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value]"
-                      class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-0" role="menuitem"
-                      tabindex="-1">Detail
-              </button>
-              <button
-                *ngIf="surveyEvent.canEdit && authService.hasRole(role.EditSurveyEvent) && surveyEvent.status !== 'DELETED'"
-                [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value, 'bewerk']"
-                class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-1" role="menuitem"
-                tabindex="-1">Bewerken
-              </button>
-              <button
-                *ngIf="surveyEvent.canEdit && authService.hasRole(role.CreateMeasurements) && surveyEvent.status !== 'DELETED'"
-                [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value, 'metingen', 'toevoegen']"
-                class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-2" role="menuitem"
-                tabindex="-1">Metingen toevoegen
-              </button>
-            </app-dropdown-minimal>
-          </td>
-        </tr>
+      <tr *ngFor="let surveyEvent of surveyEvents$ | async; let index = index" [rownumber]="index" appRow>
+        <td appCell>
+          <a [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value]"
+             class="text-pink-600 hover:text-pink-900">{{surveyEvent.fishingPointCode}}</a>
+        </td>
+        <td appCell>
+          {{surveyEvent.isLentic ? surveyEvent.lenticName : surveyEvent.watercourse}}
+        </td>
+        <td appCell>
+          {{surveyEvent.basin}}
+        </td>
+        <td appCell>
+          {{ surveyEvent.occurrence | date:'dd/MM/yyyy'}}
+        </td>
+        <td appCell>
+          {{ 'method.' + surveyEvent.method | translate }}
+        </td>
+        <td appCell>
+          <app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>
+        </td>
+        <td [actions]="true" appCell>
+          <app-dropdown-minimal>
+            <button [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value]"
+                    class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-0" role="menuitem"
+                    tabindex="-1">Detail
+            </button>
+            <button
+              *ngIf="surveyEvent.canEdit && authService.hasRole(role.EditSurveyEvent) && surveyEvent.status !== 'DELETED'"
+              [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value, 'bewerk']"
+              class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-1" role="menuitem"
+              tabindex="-1">Bewerken
+            </button>
+            <button
+              *ngIf="surveyEvent.canEdit && authService.hasRole(role.CreateMeasurements) && surveyEvent.status !== 'DELETED'"
+              [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent.surveyEventId.value, 'metingen', 'toevoegen']"
+              class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-2" role="menuitem"
+              tabindex="-1">Metingen toevoegen
+            </button>
+          </app-dropdown-minimal>
+        </td>
+      </tr>
       </tbody>
     </app-table>
   </div>
