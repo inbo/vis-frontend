@@ -104,8 +104,11 @@
                 </div>
                 <button (click)="copyLocationFromLocation()"
                         class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500">
-                  Kopiëer uit locatie
+                  Kopieer uit locatie
                 </button>
+              </div>
+              <div class="mt-2 text-sm text-red-600" *ngIf="showLocationWidthWarning">
+                Er is geen breedte ingevuld op de locatie. Pas dit <a [routerLink]="['/locaties', locationCode]" class="underline">hier</a> aan om de waarde te kunnen kopiëren.
               </div>
             </div>
             <div class="sm:col-span-4">

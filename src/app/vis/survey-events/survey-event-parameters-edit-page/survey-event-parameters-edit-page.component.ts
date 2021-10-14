@@ -22,6 +22,8 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
 
   submitted: boolean;
   private subscription = new Subscription();
+  showLocationWidthWarning = false;
+  locationCode: string;
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder, private router: Router, private _location: Location) {
@@ -193,7 +195,11 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
       this.surveyEventsService.getSurveyEvent(this.projectCode, this.surveyEventId)
         .subscribe(value => {
           if (value.fishingPoint?.width) {
+            this.showLocationWidthWarning = false;
             this.width.patchValue(value.fishingPoint.width.toString());
+          } else {
+            this.showLocationWidthWarning = true;
+            this.locationCode = value.fishingPoint?.code;
           }
         })
     );
