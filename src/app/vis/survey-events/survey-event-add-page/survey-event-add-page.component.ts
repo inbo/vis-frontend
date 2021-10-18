@@ -11,6 +11,7 @@ import {Location} from '@angular/common';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {ProjectService} from '../../../services/vis.project.service';
 import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
+import {uniqueValidator} from '../survey-event-validators';
 
 @Component({
   selector: 'app-survey-event-add-page',
@@ -47,9 +48,9 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
       {
         occurrenceDate: [null, [Validators.required]],
         location: [null, [Validators.required]],
-        method: [''],
+        method: [null],
         comment: ['', Validators.maxLength(800)]
-      });
+      }, {asyncValidators: [uniqueValidator(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventService)]});
 
     this.getMethods(null);
   }
@@ -120,5 +121,9 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
 
   get comment() {
     return this.createSurveyEventForm.get('comment');
+  }
+
+  get form() {
+    return this.createSurveyEventForm;
   }
 }

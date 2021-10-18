@@ -151,6 +151,8 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
       delete filter.period;
     }
 
+    console.log(filter.begin);
+
     if (filter && filter.species) {
       filter.taxonId = filter.species;
     }

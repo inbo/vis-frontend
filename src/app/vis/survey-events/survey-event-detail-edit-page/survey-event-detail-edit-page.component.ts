@@ -8,9 +8,10 @@ import {LocationsService} from '../../../services/vis.locations.service';
 import {Method} from '../../../domain/method/method';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {Role} from '../../../core/_models/role';
-import {SurveyEvent, SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {Location} from '@angular/common';
 import {HasUnsavedData} from '../../../core/core.interface';
+import {uniqueValidator} from '../survey-event-validators';
 
 @Component({
   selector: 'app-survey-event-detail-edit-page',
@@ -39,7 +40,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
         location: [null, [Validators.required]],
         method: [''],
         comment: ['', Validators.maxLength(800)]
-      });
+      }, {asyncValidators: [uniqueValidator(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventService)]});
 
     this.surveyEventService.getSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
       this.activatedRoute.parent.snapshot.params.surveyEventId)
@@ -117,6 +118,10 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
 
   get comment() {
     return this.surveyEventForm.get('comment');
+  }
+
+  get form() {
+    return this.surveyEventForm;
   }
 
   hasUnsavedData(): boolean {

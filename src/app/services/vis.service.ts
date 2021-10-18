@@ -14,4 +14,15 @@ export class VisService {
     });
     return params;
   }
+
+  protected getParams(filter: any): HttpParams {
+    let params = new HttpParams();
+
+    Object.keys(filter ?? []).forEach((key) => {
+      if (filter[key]) {
+        params = params.set(key, filter[key].toString());
+      }
+    });
+    return params;
+  }
 }

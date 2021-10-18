@@ -8,6 +8,7 @@ import {SurveyEvent, SurveyEventId, SurveyEventOverview, SurveyEventParameters, 
 import {Parameters} from '../domain/survey-event/parameters';
 import {Habitat} from '../domain/survey-event/habitat';
 import {VisService} from './vis.service';
+import {AsyncValidationResult} from './validation';
 
 @Injectable({
   providedIn: 'root'
@@ -117,5 +118,11 @@ export class SurveyEventsService extends VisService {
 
   recalculateCpue(projectCode: any, surveyEventId: any) {
     return this.http.put<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue/recalculate`, {});
+  }
+
+  checkIfSurveyEventExists(projectCode: string, location: any, occurrenceDate: any, method: any) {
+    const params = this.getParams({location, occurrenceDate, method});
+
+    return this.http.get<AsyncValidationResult>(environment.apiUrl + '/api/validation/projects/' + projectCode + '/surveyevents', {params});
   }
 }

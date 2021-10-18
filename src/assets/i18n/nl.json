@@ -239,6 +239,10 @@
     "invalidCalculation": {
       "short": "Ongeldige berekening",
       "long": "Ongeldige berekening"
+    },
+    "uniqueSurveyEvent": {
+      "short": "Datum, loc & methode uniek",
+      "long": "Datum, locatie en methode moeten uniek zijn"
     }
   },
   "COMMON": "Algemeen",
