@@ -20,7 +20,7 @@
           Status
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-          <app-pill [color]="project?.status === 'ACTIVE' ? 'green' : 'red'">
+          <app-pill *ngIf="project" [color]="project.status === 'ACTIVE' ? 'green' : 'red'">
             {{project?.status === 'ACTIVE' ? 'Actief' : 'Inactief'}}
           </app-pill>
         </dd>
