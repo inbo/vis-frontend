@@ -100,7 +100,7 @@
                           {{fishingPoint?.description}}
                         </dd>
                       </div>
-                      <div class="sm:col-span-1">
+                      <div *ngIf="!fishingPoint?.isLentic" class="sm:col-span-1">
                         <dt class="text-sm font-medium text-gray-500">
                           Helling
                         </dt>
@@ -108,7 +108,7 @@
                           {{fishingPoint?.incline}}
                         </dd>
                       </div>
-                      <div class="sm:col-span-1">
+                      <div *ngIf="!fishingPoint?.isLentic" class="sm:col-span-1">
                         <dt class="text-sm font-medium text-gray-500">
                           Breedte
                         </dt>
@@ -238,7 +238,7 @@
 
 
                       <div class="sm:col-span-2">
-                        <app-fishing-points-map [canAddPoints]="false" [zoomLevel]="17"></app-fishing-points-map>
+                        <app-fishing-points-map [canAddPoints]="false" [zoomLevel]="15"></app-fishing-points-map>
                       </div>
                     </dl>
                   </div>

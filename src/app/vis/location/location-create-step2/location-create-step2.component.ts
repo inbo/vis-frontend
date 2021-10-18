@@ -58,4 +58,12 @@ export class LocationCreateStep2Component implements OnInit {
   get width() {
     return this.formGroup.get('width');
   }
+
+  get townInfoValue() {
+    return this.formGroup.get('townInfo').value;
+  }
+
+  get vhaInfoValue() {
+    return this.formGroup.get('vhaInfo').value;
+  }
 }
