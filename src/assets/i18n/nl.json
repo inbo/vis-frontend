@@ -280,6 +280,12 @@
       "NISCODE": "NISCODE",
       "NISCODE_PR": "NISCODE PR",
       "PROVINCIE": "Provincie"
+    },
+    "4": {
+      "CODE": "Meetplaatscode",
+      "DESCRIPTION": "Omschrijving",
+      "X": "X",
+      "Y": "Y"
     }
   }
 }

@@ -84,6 +84,7 @@ import {TeamEditComponent} from './settings/teams/team-edit/team-edit.component'
 import { MethodEditComponent } from './method/method-edit/method-edit.component';
 import { SurveyEventCpuePageComponent } from './survey-events/survey-event-cpue-page/survey-event-cpue-page.component';
 import { SurveyEventCpueEditPageComponent } from './survey-events/survey-event-cpue-edit-page/survey-event-cpue-edit-page.component';
+import { FishingPointsSelectedFeatureComponent } from './components/fishing-points-selected-feature/fishing-points-selected-feature.component';
 
 @NgModule({
   exports: [
@@ -163,6 +164,7 @@ import { SurveyEventCpueEditPageComponent } from './survey-events/survey-event-c
     MethodEditComponent,
     SurveyEventCpuePageComponent,
     SurveyEventCpueEditPageComponent,
+    FishingPointsSelectedFeatureComponent,
   ],
   imports: [
     CommonModule,

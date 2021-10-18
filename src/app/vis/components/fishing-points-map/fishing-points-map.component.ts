@@ -67,6 +67,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
   private layerMetadata = new Map();
   open = false;
+  private clickedLatlng: LatLng;
 
   constructor(private locationsService: LocationsService) {
   }
@@ -148,9 +149,11 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
               radius: 7,
               stroke: false
             });
-            m.on('click', (event: LeafletEvent) => {
+            m.on('click', (event: LeafletMouseEvent) => {
+              this.clickedLatlng = event.latlng;
               const layer = event.target;
               this.clearLocationsSelectedStyle();
+
               layer.setStyle({
                 stroke: true,
               });
@@ -166,7 +169,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
             this.locationsLayer.addLayer(m);
 
           });
-          this.layerMetadata.set(4, {name: 'Vispunten'});
+          this.layerMetadata.set(4, {name: 'Vispunt'});
         })
       );
 
@@ -182,6 +185,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         stroke: false,
       });
     });
+    this.selected.delete(4);
   }
 
   mapReady(map: LeafletMap) {
@@ -263,6 +267,10 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   }
 
   clickMap(e: LeafletMouseEvent) {
+    if (this.clickedLatlng !== e.latlng) {
+      this.clearLocationsSelectedStyle();
+    }
+    this.clickedLatlng = e.latlng;
     this.highlightSelectionLayer.clearLayers();
     const coordinate = e.latlng;
     this.updateSelections(coordinate);
@@ -335,6 +343,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
           }
         }
       }
+      console.log('set layer id ', layerId, filteredProperties);
       this.selected.set(layerId, filteredProperties);
     });
   }
