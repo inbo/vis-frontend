@@ -3,7 +3,7 @@ import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {LocationsService} from '../../../services/vis.locations.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FishingPoint} from '../../../domain/location/fishing-point';
 import {latLng} from 'leaflet';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
@@ -27,8 +27,11 @@ export class LocationDetailComponent implements OnInit {
   editMode = false;
   formGroup: FormGroup;
   submitted = false;
+  isDeleteModalOpen = false;
+  canDelete = false;
 
-  constructor(private locationsService: LocationsService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder) {
+  constructor(private locationsService: LocationsService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -59,7 +62,7 @@ export class LocationDetailComponent implements OnInit {
 
   codeValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return  this.locationsService.checkIfFishingPointExists(control.value)
+      return this.locationsService.checkIfFishingPointExists(control.value)
         .pipe(map(result => {
           if (this.fishingPoint.code === control.value) {
             return null;
@@ -121,5 +124,26 @@ export class LocationDetailComponent implements OnInit {
       this.submitted = false;
       this.editMode = false;
     });
+  }
+
+  remove() {
+    this.locationsService.canDeleteFishingPoint(this.fishingPoint.id).subscribe(value => {
+      this.canDelete = value;
+      this.isDeleteModalOpen = true;
+    });
+  }
+
+  cancelModal() {
+    this.isDeleteModalOpen = false;
+  }
+
+  confirmDeleteClicked() {
+    if (this.canDelete) {
+      this.locationsService.deleteFishingPoint(this.fishingPoint.id).subscribe(value => {
+        this.router.navigate(['/locaties']);
+      });
+    } else {
+      this.isDeleteModalOpen = false;
+    }
   }
 }

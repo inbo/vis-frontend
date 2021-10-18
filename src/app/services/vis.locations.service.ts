@@ -111,4 +111,12 @@ export class LocationsService extends VisService {
   updateLocation(locationId: number, formData: any) {
     return this.http.put(`${environment.apiUrl}/api/fishingpoints/${locationId}`, formData);
   }
+
+  canDeleteFishingPoint(id: number): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.apiUrl}/api/fishingpoints/${id}/candelete`);
+  }
+
+  deleteFishingPoint(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(`${environment.apiUrl}/api/fishingpoints/${id}`);
+  }
 }

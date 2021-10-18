@@ -135,7 +135,10 @@
                     </dl>
                   </div>
                   <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <app-button *ngIf="!editMode" (click)="editMode = true" [style]="'primary'">
+                    <app-button *ngIf="!editMode" (click)="remove()" [style]="'secondary'">
+                      Verwijderen
+                    </app-button>
+                    <app-button *ngIf="!editMode" (click)="editMode = true" [style]="'primary'" class="ml-2">
                       Bewerken
                     </app-button>
                     <app-button *ngIf="editMode" (click)="cancel()" [style]="'white'">
@@ -438,6 +441,23 @@
         </div>
       </div>
     </main>
+
+
   </div>
 
+
+
 </app-stacked-layout>
+<app-modal (onCancel)="cancelModal()" (onPrimary)="confirmDeleteClicked()" [isOpen]="isDeleteModalOpen">
+  <ng-container slot="title">
+    Verwijder locatie
+  </ng-container>
+  <ng-container slot="content">
+    <span *ngIf="canDelete">Bent u zeker dat u deze locatie wilt verwijderen?</span>
+    <span *ngIf="!canDelete">De locatie kan niet verwijderd worden omdat deze in 1 of meerdere waarnemingen gebruikt wordt.</span>
+  </ng-container>
+  <ng-container slot="primary-button">
+    <span *ngIf="canDelete">Verwijderen</span>
+    <span *ngIf="!canDelete">Sluiten</span>
+  </ng-container>
+</app-modal>
