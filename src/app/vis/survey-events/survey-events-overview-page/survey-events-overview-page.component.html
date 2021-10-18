@@ -165,28 +165,25 @@
             <app-table [pager]="pager">
               <thead>
               <tr>
-                <th appHeader scope="col">
-                  Meetpuntnummer
-                </th>
-                <th appHeader scope="col">
-                  Project
-                </th>
-                <th appHeader scope="col">
-                  Waterloop / watervlak
-                </th>
-                <th appHeader scope="col">
-                  Bekken
-                </th>
-                <th appHeader scope="col">
+                <th appHeader scope="col" class="w-2/12">
                   Datum
                 </th>
                 <th appHeader scope="col">
+                  Locatie
+                </th>
+                <th appHeader scope="col" class="w-2/12">
                   Methode
                 </th>
-                <th appHeader scope="col">
+                <th appHeader scope="col" class="w-2/12">
+                  Gemeente
+                </th>
+                <th appHeader scope="col" class="w-1/12">
+                  Project
+                </th>
+                <th appHeader scope="col" class="w-1/12">
                   <span class="sr-only">Status</span>
                 </th>
-                <th appHeader scope="col">
+                <th appHeader scope="col" class="w-1/12">
                   <span class="sr-only">Bewerken</span>
                 </th>
               </tr>
@@ -200,30 +197,27 @@
 
               <tr *ngFor="let surveyEvent of surveyEvents$ | async; let index = index" [rownumber]="index" appRow>
                 <td appCell>
-                  <a
-                    [routerLink]="['/projecten', surveyEvent.projectCode?.value, 'waarnemingen', surveyEvent.surveyEventId.value]"
-                    class="text-pink-600 hover:text-pink-900">{{surveyEvent.fishingPointCode}}</a>
+                  <a [routerLink]="['/projecten', surveyEvent.projectCode?.value, 'waarnemingen', surveyEvent.surveyEventId.value]" class="text-pink-600 hover:text-pink-900">
+                    {{ surveyEvent.occurrence | date:'dd/MM/yyyy'}}
+                  </a>
                 </td>
                 <td appCell>
-                  <a [routerLink]="['/projecten', surveyEvent.projectCode?.value]"
-                     class="text-pink-600 hover:text-pink-900">{{surveyEvent.projectCode.value}}</a>
-                </td>
-                <td appCell>
-                  {{surveyEvent.isLentic ? surveyEvent.lenticName : surveyEvent.watercourse}}
-                </td>
-                <td appCell>
-                  {{surveyEvent.basin}}
-                </td>
-                <td appCell>
-                  {{ surveyEvent.occurrence | date:'dd/MM/yyyy'}}
+                  <div class="text-sm"><a [routerLink]="['/locaties', surveyEvent.fishingPointCode]" class="text-pink-600 hover:text-pink-900">{{surveyEvent.fishingPointCode}}</a></div>
+                  <div class="text-sm">{{surveyEvent.isLentic ? surveyEvent.lenticName : surveyEvent.watercourse}} {{surveyEvent.basin ? ' - ' + surveyEvent.basin : ''}}</div>
                 </td>
                 <td appCell>
                   {{ 'method.' + surveyEvent.method | translate }}
                 </td>
                 <td appCell>
-                  <app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>
+                  {{surveyEvent.municipality}}
                 </td>
                 <td appCell>
+                  <a [routerLink]="['/projecten', surveyEvent.projectCode?.value]" class="text-pink-600 hover:text-pink-900">{{surveyEvent.projectCode.value}}</a>
+                </td>
+                <td appCell>
+                  <app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>
+                </td>
+                <td appCell [actions]="true">
                   <app-dropdown-minimal>
                     <button
                       [routerLink]="['/projecten', surveyEvent.projectCode?.value, 'waarnemingen', surveyEvent.surveyEventId.value]"

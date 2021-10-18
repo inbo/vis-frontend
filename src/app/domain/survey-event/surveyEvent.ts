@@ -5,6 +5,7 @@ export interface SurveyEventOverview {
   projectCode: ProjectCode;
   occurrence: Date;
   status: string;
+  municipality: string;
   method: string;
   comment: string;
   fishingPointCode: string;
