@@ -7,6 +7,7 @@ import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable} from 'rxjs';
 import {Team} from '../domain/account/team';
 import {Instance} from '../domain/account/instance';
+import {AsyncValidationResult} from './validation';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,12 @@ export class AccountService extends VisService {
     super();
   }
 
-  registerAccount() {
-    return this.http.post<string>(environment.apiUrl + '/api/account/register', {});
+  registerAccount(): Observable<void> {
+    return this.http.post<void>(environment.apiUrl + '/api/accounts/register', {});
+  }
+
+  update(username: string, body: any): Observable<void> {
+    return this.http.patch<void>(`${environment.apiUrl}/api/accounts/${username}`, body);
   }
 
   listAccounts(page: number, size: number, filter: any): Observable<AsyncPage<Account>> {
@@ -27,60 +32,50 @@ export class AccountService extends VisService {
     return this.http.get<AsyncPage<Account>>(environment.apiUrl + '/api/accounts', {params});
   }
 
-  listTeams() {
-    return this.http.get<Team[]>(environment.apiUrl + '/api/teams/all', {});
-  }
-
-  update(username: string, body: any) {
-    return this.http.patch<void>(`${environment.apiUrl}/api/account/${username}`, body);
-  }
-
-  getAccounts(val: string) {
+  getAccounts(val: string): Observable<Account[]> {
     const params = new HttpParams()
       .set('name', val);
 
     return this.http.get<Account[]>(`${environment.apiUrl}/api/accounts/search`, {params});
   }
 
-  addTeam(team: any) {
+  listTeams(): Observable<Team[]> {
+    return this.http.get<Team[]>(environment.apiUrl + '/api/teams/all', {});
+  }
+
+  addTeam(team: any): Observable<void> {
     return this.http.post<void>(`${environment.apiUrl}/api/teams`, team);
   }
 
-  listInstances() {
-    return this.http.get<Instance[]>(`${environment.apiUrl}/api/instances/all`, {});
+  checkIfTeamExists(teamCode: any): Observable<AsyncValidationResult> {
+    return this.http.get<AsyncValidationResult>(environment.apiUrl + '/api/validation/teams/code/' + teamCode);
   }
 
-  checkIfTeamExists(teamCode: any): Observable<any> {
-    return this.http.get<any>(environment.apiUrl + '/api/validation/teams/code/' + teamCode);
-  }
-
-  getTeams(page: number, size: number) {
+  getTeams(page: number, size: number): Observable<AsyncPage<Team>> {
     const params = this.getPageParams(page, size, null);
 
     return this.http.get<AsyncPage<Team>>(environment.apiUrl + '/api/teams', {params});
   }
 
-  getInstances(page: number, size: number) {
+  editTeam(code: string, rawValue: any): Observable<void> {
+    return this.http.put<void>(`${environment.apiUrl}/api/teams/${code}`, rawValue);
+  }
+
+  listAccountsForTeam(code: string): Observable<Account[]> {
+    return this.http.get<Account[]>(`${environment.apiUrl}/api/teams/${code}/accounts`, {});
+  }
+
+  listInstances(): Observable<Instance[]> {
+    return this.http.get<Instance[]>(`${environment.apiUrl}/api/instances/all`, {});
+  }
+
+  getInstances(page: number, size: number): Observable<AsyncPage<Team>> {
     const params = this.getPageParams(page, size, null);
 
     return this.http.get<AsyncPage<Team>>(environment.apiUrl + '/api/instances', {params});
   }
 
-  addInstance(instance: any) {
+  addInstance(instance: any): Observable<void> {
     return this.http.post<void>(`${environment.apiUrl}/api/instances`, instance);
-  }
-
-  searchInstances(q: string) {
-    const params = new HttpParams().set('name', q);
-
-    return this.http.get<Instance[]>(`${environment.apiUrl}/api/instances/search`, {params});
-  }
-
-  listAccountsForTeam(code: string) {
-    return this.http.get<Account[]>(`${environment.apiUrl}/api/teams/${code}/accounts`, {});
-  }
-
-  editTeam(code: string, rawValue: any) {
-    return this.http.put<void>(`${environment.apiUrl}/api/teams/${code}`, rawValue);
   }
 }

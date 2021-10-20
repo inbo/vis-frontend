@@ -194,9 +194,21 @@ const routes: Routes = [
     canActivateChild: [ChildRoleGuard],
     data: {roles: [Role.UserAdmin]},
     children: [
-      {path: 'gebruikers', component: UsersPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-      {path: 'instanties', component: InstancesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-      {path: 'teams', component: TeamsPageComponent, canActivate: [AuthGuardWithForcedLogin]}
+      {
+        path: 'gebruikers',
+        component: UsersPageComponent,
+        canActivate: [AuthGuardWithForcedLogin]
+      },
+      {
+        path: 'instanties',
+        component: InstancesPageComponent,
+        canActivate: [AuthGuardWithForcedLogin]
+      },
+      {
+        path: 'teams',
+        component: TeamsPageComponent,
+        canActivate: [AuthGuardWithForcedLogin]
+      }
     ]
   },
   {
