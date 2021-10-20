@@ -146,6 +146,8 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     this.subscription.add(this.surveyEventsService.createMeasurements(measurements, this.activatedRoute.parent.snapshot.params.projectCode,
       this.activatedRoute.parent.snapshot.params.surveyEventId)
       .subscribe(value => {
+        // TODO exception is caught in http.error.interceptor and then mapped to a custom result that is not typesafe
+        // @ts-ignore
         if (value?.code === 400) {
           this.alertService.error('Validatie fouten', 'Het bewaren is niet gelukt, controleer alle gegevens of contacteer een verantwoordelijke.');
         } else {

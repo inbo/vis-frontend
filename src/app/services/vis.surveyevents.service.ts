@@ -64,13 +64,13 @@ export class SurveyEventsService extends VisService {
     return this.http.get<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}`);
   }
 
-  getMeasurements(projectCode: string, surveyEventId: any, page: number, size: number) {
+  getMeasurements(projectCode: string, surveyEventId: any, page: number, size: number): Observable<AsyncPage<Measurement>> {
     const params = this.getPageParams(page, size, null);
 
     return this.http.get<AsyncPage<Measurement>>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`, {params});
   }
 
-  getParameters(projectCode: string, surveyEventId: number) {
+  getParameters(projectCode: string, surveyEventId: number): Observable<Parameters> {
     return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`);
   }
 
@@ -78,28 +78,31 @@ export class SurveyEventsService extends VisService {
     return this.http.get<string[]>(`${environment.apiUrl}/api/surveyevents/code/status`);
   }
 
-  getHabitat(projectCode: string, surveyEventId: number) {
+  getHabitat(projectCode: string, surveyEventId: number): Observable<Habitat> {
     return this.http.get<Habitat>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`);
   }
 
-  updateHabitat(projectCode: string, surveyEventId: any, formData: any) {
+  updateHabitat(projectCode: string, surveyEventId: any, formData: any): Observable<Habitat> {
     return this.http.put<Habitat>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`, formData);
   }
 
-  updateParameters(projectCode: string, surveyEventId: any, formData: any) {
+  updateParameters(projectCode: string, surveyEventId: any, formData: any): Observable<Parameters> {
     return this.http.put<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`,
       formData);
   }
 
-  createMeasurements(measurements: any, projectCode: any, surveyEventId: any): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`, measurements);
+  createMeasurements(measurements: any, projectCode: any, surveyEventId: any): Observable<void> {
+    return this.http.post<void>(
+      `${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`,
+      measurements
+    );
   }
 
-  getAllMeasurementsForSurveyEvent(projectCode: string, surveyEventId: number) {
+  getAllMeasurementsForSurveyEvent(projectCode: string, surveyEventId: number): Observable<Measurement[]> {
     return this.http.get<Measurement[]>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/all`);
   }
 
-  deleteMeasurement(projectCode: string, surveyEventId: number, measurementId: number) {
+  deleteMeasurement(projectCode: string, surveyEventId: number, measurementId: number): Observable<void> {
     return this.http.delete<void>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/${measurementId}`);
   }
 
@@ -111,16 +114,16 @@ export class SurveyEventsService extends VisService {
     return this.http.get<TaxonCpue[]>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue`);
   }
 
-  updateCpueParameters(projectCode: any, surveyEventId: any, formData: any) {
+  updateCpueParameters(projectCode: any, surveyEventId: any, formData: any): Observable<boolean> {
     return this.http.put<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue`,
       {parameters: formData});
   }
 
-  recalculateCpue(projectCode: any, surveyEventId: any) {
+  recalculateCpue(projectCode: any, surveyEventId: any): Observable<boolean> {
     return this.http.put<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue/recalculate`, {});
   }
 
-  checkIfSurveyEventExists(projectCode: string, location: any, occurrenceDate: any, method: any) {
+  checkIfSurveyEventExists(projectCode: string, location: any, occurrenceDate: any, method: any): Observable<AsyncValidationResult> {
     const params = this.getParams({location, occurrenceDate, method});
 
     return this.http.get<AsyncValidationResult>(environment.apiUrl + '/api/validation/projects/' + projectCode + '/surveyevents', {params});
