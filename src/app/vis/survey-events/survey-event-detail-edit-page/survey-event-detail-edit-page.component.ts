@@ -40,7 +40,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
         location: [null, [Validators.required]],
         method: [''],
         comment: ['', Validators.maxLength(800)]
-      }, {asyncValidators: [uniqueValidator(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventService)]});
+      });
 
     this.surveyEventService.getSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
       this.activatedRoute.parent.snapshot.params.surveyEventId)
@@ -55,6 +55,9 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
 
         this.getLocations(null);
         this.getMethods(null);
+
+        this.form.setAsyncValidators([uniqueValidator(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventService,
+          surveyEvent)]);
       });
   }
 

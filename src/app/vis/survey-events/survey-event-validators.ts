@@ -2,12 +2,19 @@ import {AsyncValidatorFn, FormGroup, ValidationErrors} from '@angular/forms';
 import {EMPTY, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {SurveyEventsService} from '../../services/vis.surveyevents.service';
+import {SurveyEvent} from '../../domain/survey-event/surveyEvent';
 
-export function uniqueValidator(projectCode: string, surveyEventService: SurveyEventsService): AsyncValidatorFn {
+export function uniqueValidator(projectCode: string, surveyEventService: SurveyEventsService, surveyEvent?: SurveyEvent): AsyncValidatorFn {
   return (form: FormGroup): Observable<ValidationErrors | null> => {
     const location = form.get('location').value;
     const occurrenceDate = form.get('occurrenceDate').value;
     const method = form.get('method').value;
+
+    if (surveyEvent && (surveyEvent.fishingPoint.id === location
+      && new Date(surveyEvent.occurrence).toISOString() === new Date(occurrenceDate).toISOString()
+      && surveyEvent.method === method)) {
+      return EMPTY;
+    }
 
     if (!location || !occurrenceDate || !method) {
       return EMPTY;
