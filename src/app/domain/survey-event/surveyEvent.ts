@@ -1,8 +1,8 @@
 import {ProjectCode} from '../project/project';
 
 export interface SurveyEventOverview {
-  surveyEventId: SurveyEventId;
-  projectCode: ProjectCode;
+  surveyEventId: number;
+  projectCode: string;
   occurrence: Date;
   status: string;
   municipality: string;
@@ -17,8 +17,8 @@ export interface SurveyEventOverview {
 }
 
 export interface SurveyEvent {
-  surveyEventId: SurveyEventId;
-  projectCode: ProjectCode;
+  surveyEventId: number;
+  projectCode: string;
   occurrence: Date;
   status: string;
   method: string;
@@ -26,11 +26,6 @@ export interface SurveyEvent {
   fishingPoint: FishingPoint;
   canEdit: boolean;
 }
-
-export interface SurveyEventId {
-  value: number;
-}
-
 
 export interface FishingPoint {
   id: number;

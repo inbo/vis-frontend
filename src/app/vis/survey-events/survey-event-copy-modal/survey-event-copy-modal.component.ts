@@ -52,7 +52,7 @@ export class SurveyEventCopyModalComponent implements OnInit {
       .subscribe((surveyEvent) => {
         this.isOpen = false;
         this.router.navigate(['projecten', this.projectCode,
-          'waarnemingen', surveyEvent.surveyEventId?.value]).then(() => window.location.reload());
+          'waarnemingen', surveyEvent.surveyEventId]).then(() => window.location.reload());
       });
   }
 }

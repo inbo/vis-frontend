@@ -98,7 +98,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
       .subscribe(
         (surveyEvent) => {
           this.router.navigate(['projecten', this.activatedRoute.parent.snapshot.params.projectCode,
-            'waarnemingen', surveyEvent.surveyEventId.value]).then();
+            'waarnemingen', surveyEvent.surveyEventId]).then();
         }
       );
   }

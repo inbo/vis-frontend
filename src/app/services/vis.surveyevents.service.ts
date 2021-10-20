@@ -4,7 +4,7 @@ import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable} from 'rxjs';
 import {Measurement} from '../domain/survey-event/measurement';
-import {SurveyEvent, SurveyEventId, SurveyEventOverview, SurveyEventParameters, TaxonCpue} from '../domain/survey-event/surveyEvent';
+import {SurveyEvent, SurveyEventOverview, SurveyEventParameters, TaxonCpue} from '../domain/survey-event/surveyEvent';
 import {Parameters} from '../domain/survey-event/parameters';
 import {Habitat} from '../domain/survey-event/habitat';
 import {VisService} from './vis.service';
@@ -70,7 +70,7 @@ export class SurveyEventsService extends VisService {
     return this.http.get<AsyncPage<Measurement>>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`, {params});
   }
 
-  getParameters(projectCode: string, surveyEventId: SurveyEventId) {
+  getParameters(projectCode: string, surveyEventId: number) {
     return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`);
   }
 
@@ -78,7 +78,7 @@ export class SurveyEventsService extends VisService {
     return this.http.get<string[]>(`${environment.apiUrl}/api/surveyevents/code/status`);
   }
 
-  getHabitat(projectCode: string, surveyEventId: SurveyEventId) {
+  getHabitat(projectCode: string, surveyEventId: number) {
     return this.http.get<Habitat>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`);
   }
 
@@ -95,11 +95,11 @@ export class SurveyEventsService extends VisService {
     return this.http.post(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`, measurements);
   }
 
-  getAllMeasurementsForSurveyEvent(projectCode: string, surveyEventId: SurveyEventId) {
+  getAllMeasurementsForSurveyEvent(projectCode: string, surveyEventId: number) {
     return this.http.get<Measurement[]>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/all`);
   }
 
-  deleteMeasurement(projectCode: string, surveyEventId: SurveyEventId, measurementId: number) {
+  deleteMeasurement(projectCode: string, surveyEventId: number, measurementId: number) {
     return this.http.delete<void>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/${measurementId}`);
   }
 

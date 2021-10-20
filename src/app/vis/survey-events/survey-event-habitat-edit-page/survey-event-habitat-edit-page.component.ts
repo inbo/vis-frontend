@@ -15,7 +15,7 @@ import {Location} from '@angular/common';
   templateUrl: './survey-event-habitat-edit-page.component.html'
 })
 export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {
-  surveyEventId: any;
+  surveyEventId: number;
   habitat: Habitat;
   habitatForm: FormGroup;
   submitted: boolean;

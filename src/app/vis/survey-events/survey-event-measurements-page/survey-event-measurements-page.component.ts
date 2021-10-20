@@ -31,7 +31,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
   public role = Role;
 
   projectCode: any;
-  surveyEventId: any;
+  surveyEventId: number;
 
   isModalOpen = false;
   loading = false;
