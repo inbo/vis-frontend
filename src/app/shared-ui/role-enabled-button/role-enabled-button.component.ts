@@ -93,10 +93,14 @@ export class RoleEnabledButtonComponent implements OnInit, OnDestroy, OnChanges 
       return this.disabledReason ? this.disabledReason : null;
     }
 
+    if (!this.hasRole()) {
+      return 'Je beschikt niet over de nodige rechten';
+    }
+
     if (!this.isUserLinkedToProject) {
       return 'Je ben niet gekoppeld aan de juiste instantie/team om deze actie te kunnen doen';
     }
 
-    return !this.hasRole() ? 'Je beschikt niet over de nodige rechten' : null;
+    return null;
   }
 }

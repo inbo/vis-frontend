@@ -10,6 +10,7 @@ import {FishingPointsMapComponent} from '../../components/fishing-points-map/fis
 import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
+import {Role} from '../../../core/_models/role';
 
 @Component({
   selector: 'app-location-detail',
@@ -17,6 +18,8 @@ import {map, take} from 'rxjs/operators';
 })
 export class LocationDetailComponent implements OnInit {
   @ViewChild(FishingPointsMapComponent, {static: true}) map: FishingPointsMapComponent;
+
+  role = Role;
 
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
@@ -36,8 +39,6 @@ export class LocationDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadFishingPoint();
-
-
   }
 
   private loadFishingPoint() {

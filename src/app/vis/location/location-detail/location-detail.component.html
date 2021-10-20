@@ -135,10 +135,10 @@
                     </dl>
                   </div>
                   <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <app-button *ngIf="!editMode" (click)="remove()" [style]="'secondary'">
+                    <app-button [role]="role.CreateFishingPoint" *ngIf="!editMode" (click)="remove()" [style]="'secondary'">
                       Verwijderen
                     </app-button>
-                    <app-button *ngIf="!editMode" (click)="editMode = true" [style]="'primary'" class="ml-2">
+                    <app-button [role]="role.CreateFishingPoint" *ngIf="!editMode" (click)="editMode = true" [style]="'primary'" class="ml-2">
                       Bewerken
                     </app-button>
                     <app-button *ngIf="editMode" (click)="cancel()" [style]="'white'">
