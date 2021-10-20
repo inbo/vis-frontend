@@ -68,7 +68,11 @@ const routes: Routes = [
         canDeactivate: [HasUnsavedDataGuard],
         data: {roles: [Role.EditProject]}
       },
-      {path: 'waarnemingen', component: ProjectSurveyEventsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+      {
+        path: 'waarnemingen',
+        component: ProjectSurveyEventsPageComponent,
+        canActivate: [AuthGuardWithForcedLogin]
+      },
       {
         path: 'waarnemingen/toevoegen',
         component: SurveyEventAddPageComponent,
@@ -82,7 +86,6 @@ const routes: Routes = [
       {path: 'afbeeldingen', component: ProjectPicturesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
     ]
   },
-
   {
     path: 'projecten/:projectCode/waarnemingen/:surveyEventId',
     component: SurveyEventComponent,
