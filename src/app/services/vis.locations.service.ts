@@ -11,6 +11,7 @@ import {Watercourse} from '../domain/location/watercourse';
 import {Basin} from '../domain/location/basin';
 import {Coordinates} from '../domain/location/coordinates';
 import {LenticWaterbody} from '../domain/location/lentic-waterbody';
+import {AsyncValidationResult} from './validation';
 
 
 @Injectable({
@@ -22,14 +23,14 @@ export class LocationsService extends VisService {
     super();
   }
 
-  getFishingPoints(page: number, size: number, filter: any) {
+  getFishingPoints(page: number, size: number, filter: any): Observable<AsyncPage<FishingPoint>> {
     const params = this.getPageParams(page, size, filter);
 
     return this.http.get<AsyncPage<FishingPoint>>(`${environment.apiUrl}/api/fishingpoints`, {params});
   }
 
-  create(formData: any) {
-    return this.http.post(environment.apiUrl + '/api/fishingpoints', formData);
+  create(formData: any): Observable<void> {
+    return this.http.post<void>(environment.apiUrl + '/api/fishingpoints', formData);
   }
 
   getFishingPointsFeatures(projectCode?: string): Observable<FishingPointFeature[]> {
@@ -43,8 +44,8 @@ export class LocationsService extends VisService {
     return this.http.get<VhaUrl>(`${environment.apiUrl}/api/vhaversion/latest`, {});
   }
 
-  checkIfFishingPointExists(code: string): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/api/validation/fishingpoint/code/${code}`, {});
+  checkIfFishingPointExists(code: string): Observable<AsyncValidationResult> {
+    return this.http.get<AsyncValidationResult>(`${environment.apiUrl}/api/validation/fishingpoint/code/${code}`, {});
   }
 
   searchFishingPoints(val: any, id: number): Observable<FishingPointSearch[]> {
@@ -73,7 +74,7 @@ export class LocationsService extends VisService {
     return this.http.get<AsyncPage<ProjectFishingPoint>>(`${environment.apiUrl}/api/fishingpoints/projectcode/${code}`, {params});
   }
 
-  searchWatercourses(watercourse?: string) {
+  searchWatercourses(watercourse?: string): Observable<Watercourse[]> {
     let params = new HttpParams();
     if (watercourse) {
       params = params.set('watercourse', watercourse);
@@ -82,7 +83,7 @@ export class LocationsService extends VisService {
     return this.http.get<Watercourse[]>(`${environment.apiUrl}/api/watercourses/search`, {params});
   }
 
-  searchBasins(basin?: string) {
+  searchBasins(basin?: string): Observable<Basin[]> {
     let params = new HttpParams();
     if (basin) {
       params = params.set('basin', basin);
@@ -100,7 +101,7 @@ export class LocationsService extends VisService {
     return this.http.get<LenticWaterbody[]>(`${environment.apiUrl}/api/lenticwaterbody/search`, {params});
   }
 
-  convertCoordinates(x: number, y: number, source: string) {
+  convertCoordinates(x: number, y: number, source: string): Observable<Coordinates> {
     const params = new HttpParams()
       .set('x', x.toString())
       .set('y', y.toString())
@@ -116,7 +117,7 @@ export class LocationsService extends VisService {
     return this.http.get<boolean>(`${environment.apiUrl}/api/fishingpoints/${id}/candelete`);
   }
 
-  deleteFishingPoint(id: number): Observable<boolean> {
-    return this.http.delete<boolean>(`${environment.apiUrl}/api/fishingpoints/${id}`);
+  deleteFishingPoint(id: number): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrl}/api/fishingpoints/${id}`);
   }
 }
