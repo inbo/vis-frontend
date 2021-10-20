@@ -154,7 +154,11 @@ const routes: Routes = [
       },
     ]
   },
-  {path: 'locaties', component: LocationOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {
+    path: 'locaties',
+    component: LocationOverviewPageComponent,
+    canActivate: [AuthGuardWithForcedLogin]
+  },
   {
     path: 'locaties/create',
     component: LocationCreatePageComponent,
