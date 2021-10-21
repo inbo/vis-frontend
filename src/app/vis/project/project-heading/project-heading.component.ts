@@ -6,13 +6,14 @@ import {ProjectFavorites} from '../../../domain/settings/project-favorite';
 import {Project} from '../../../domain/project/project';
 import {ImportsService} from '../../../services/vis.imports.service';
 import {AlertService} from '../../../_alert';
+import {Role} from '../../../core/_models/role';
 
 @Component({
   selector: 'app-project-heading',
   templateUrl: './project-heading.component.html'
 })
 export class ProjectHeadingComponent implements OnInit, OnDestroy {
-
+  role = Role;
   project$: Observable<Project> = this.projectService.project$;
 
   private subscription = new Subscription();

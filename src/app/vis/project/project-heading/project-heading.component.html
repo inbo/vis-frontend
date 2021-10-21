@@ -40,6 +40,7 @@
         <app-loading-spinner *ngIf="isImporting"></app-loading-spinner> {{ isImporting ? 'Bezig met aanmaken' : 'Import bestand aanmaken' }}
       </app-button>
       <app-button  class="ml-3" [style]="'primary'" [routerLink]="'waarnemingen/toevoegen'"
+                   [role]="role.CreateSurveyEvent"
                   [isUserLinkedToProject]="project?.canEdit">Waarneming toevoegen
       </app-button>
     </div>
