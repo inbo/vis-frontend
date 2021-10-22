@@ -35,7 +35,7 @@
   <div *ngIf="showCreateSurveyEventButton()" class="flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6 float-right	">
     <div class="flex items-center text-sm text-gray-500">
       <app-button [style]="'secondary'" (click)="createImportFile()"
-                  [isUserLinkedToProject]="project?.canEdit" [disabled]="isImporting">
+                  [isUserLinkedToProject]="project?.canEdit" [disabled]="isImporting" [role]="role.CreateImportfile">
 
         <app-loading-spinner *ngIf="isImporting"></app-loading-spinner> {{ isImporting ? 'Bezig met aanmaken' : 'Import bestand aanmaken' }}
       </app-button>

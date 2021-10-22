@@ -267,6 +267,12 @@ export class AuthService implements OnDestroy {
         case 'BEWERK_METHODE':
           currentRoles.push(Role.EditMethod);
           break;
+        case 'AANMAKEN_IMPORTBESTAND':
+          currentRoles.push(Role.CreateImportfile);
+          break;
+        case 'RAADPLEGEN_IMPORTBESTAND':
+          currentRoles.push(Role.ReadImportfiles);
+          break;
       }
     });
 

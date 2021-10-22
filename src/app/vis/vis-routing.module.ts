@@ -221,17 +221,26 @@ const routes: Routes = [
   {
     path: 'importeren',
     component: ImportsOverviewComponent,
-    canActivateChild: [AuthGuardWithForcedLogin]
+    canActivate: [AuthGuardWithForcedLogin, RoleGuard],
+    data: {
+      roles: [Role.ReadImportfiles]
+    }
   },
   {
     path: 'importeren/verwerkt',
     component: ImportsOverviewProcessedComponent,
-    canActivateChild: [AuthGuardWithForcedLogin]
+    canActivate: [AuthGuardWithForcedLogin, RoleGuard],
+    data: {
+      roles: [Role.ReadImportfiles]
+    }
   },
   {
     path: 'importeren/:id',
     component: ImportsDetailComponent,
-    canActivateChild: [AuthGuardWithForcedLogin]
+    canActivate: [AuthGuardWithForcedLogin, RoleGuard],
+    data: {
+      roles: [Role.ReadImportfiles]
+    }
   },
 ];
 

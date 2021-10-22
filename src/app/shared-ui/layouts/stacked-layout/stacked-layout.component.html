@@ -24,10 +24,13 @@
     <div class="flex justify-between h-16">
       <div class="flex items-center px-2 lg:px-0">
         <div class="hidden lg:flex lg:space-x-4">
-          <a *ngFor="let nl of navigationLinks" [routerLink]="nl.url"
-             class="rounded-md py-2 px-3 text-sm font-medium text-white hover:bg-pink-400">
-            {{nl.title}}
-          </a>
+          <ng-container *ngFor="let nl of navigationLinks">
+            <a *ngIf="nl.role === null || authService.hasRole(nl.role)" [routerLink]="nl.url"
+               class="rounded-md py-2 px-3 text-sm font-medium text-white hover:bg-pink-400">
+              {{nl.title}}
+            </a>
+          </ng-container>
+
         </div>
       </div>
       <div class="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
@@ -81,8 +84,12 @@
   -->
   <div [class.hidden]="!isOpen" class="lg:hidden">
     <div class="pt-2 pb-3 px-2 space-y-1">
-      <a *ngFor="let nl of navigationLinks" [routerLink]="nl.url"
-         class="block rounded-md py-2 px-3 text-base font-medium text-white hover:text-white hover:bg-pink-400">{{nl.title}}</a>
+      <ng-container *ngFor="let nl of navigationLinks">
+        <a *ngIf="nl.role === null || authService.hasRole(nl.role)" [routerLink]="nl.url"
+           class="block rounded-md py-2 px-3 text-base font-medium text-white hover:text-white hover:bg-pink-400">
+          {{nl.title}}
+        </a>
+      </ng-container>
     </div>
     <div class="pt-4 pb-3 border-t border-pink-500">
       <div class="flex items-center px-4">

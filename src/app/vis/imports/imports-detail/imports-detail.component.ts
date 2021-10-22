@@ -8,13 +8,14 @@ import {ImportsService} from '../../../services/vis.imports.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ImportDetail} from '../../../domain/imports/imports';
 import {faTimesCircle} from '@fortawesome/free-solid-svg-icons';
+import {Role} from '../../../core/_models/role';
 
 @Component({
   selector: 'app-imports-detail',
   templateUrl: './imports-detail.component.html'
 })
 export class ImportsDetailComponent implements OnInit, OnDestroy {
-  faTimesCircle = faTimesCircle;
+  role = Role;
 
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
