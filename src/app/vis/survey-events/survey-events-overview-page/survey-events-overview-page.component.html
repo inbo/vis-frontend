@@ -212,7 +212,7 @@
                   {{surveyEvent.municipality}}
                 </td>
                 <td appCell>
-                  <a [routerLink]="['/projecten', surveyEvent.projectCode]" class="text-pink-600 hover:text-pink-900">{{surveyEvent.projectCode.value}}</a>
+                  <a [routerLink]="['/projecten', surveyEvent.projectCode]" class="text-pink-600 hover:text-pink-900">{{surveyEvent.projectCode}}</a>
                 </td>
                 <td appCell>
                   <app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>
@@ -248,7 +248,7 @@
           <ul class="divide-y divide-gray-200">
             <li *ngFor="let surveyEvent of surveyEvents$ | async">
               <a
-                [routerLink]="['/projecten', surveyEvent.projectCode.value, 'waarnemingen', surveyEvent.surveyEventId]"
+                [routerLink]="['/projecten', surveyEvent.projectCode, 'waarnemingen', surveyEvent.surveyEventId]"
                 class="block hover:bg-gray-50">
                 <div class="px-4 py-4 sm:px-6">
                   <div class="flex items-center justify-between">

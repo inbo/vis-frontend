@@ -138,9 +138,9 @@ const routes: Routes = [
       {
         path: 'metingen/toevoegen',
         component: SurveyEventMeasurementsCreatePageComponent,
-        canActivate: [AuthGuardWithForcedLogin],
+        canActivate: [AuthGuardWithForcedLogin, RoleGuard],
         canDeactivate: [HasUnsavedDataGuard],
-        data: {name: 'Metingen', url: 'metingen/toevoegen'}
+        data: {name: 'Metingen', url: 'metingen/toevoegen', roles: [Role.CreateMeasurements]}
       },
       {
         path: 'cpue',

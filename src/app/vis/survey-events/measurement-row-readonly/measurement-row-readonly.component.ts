@@ -5,12 +5,15 @@ import {Subscription} from 'rxjs';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 import {AbstractControlWarn} from '../survey-event-measurements-create-page/survey-event-measurements-validators';
+import {Role} from '../../../core/_models/role';
+import {AuthService} from '../../../core/auth.service';
 
 @Component({
   selector: 'app-measurement-row-readonly',
   templateUrl: './measurement-row-readonly.component.html'
 })
 export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
+  role = Role;
   faWeightHanging = faWeightHanging;
   faRulerHorizontal = faRulerHorizontal;
 
@@ -41,7 +44,8 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
     };
   }
 
-  constructor(private taxaService: TaxaService, private rootFormGroup: FormGroupDirective, private formBuilder: FormBuilder) {
+  constructor(private taxaService: TaxaService, private rootFormGroup: FormGroupDirective, private formBuilder: FormBuilder,
+              public authService: AuthService) {
 
   }
 

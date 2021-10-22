@@ -26,27 +26,19 @@
     {{comment().value}}
   </div>
   <div class="col-span-1 md:col-span-3 lg:col-span-2 text-right self-center text-gray-500 space-x-2">
-    <!-- <span (click)="showIndividualLengthItems = !showIndividualLengthItems" *ngIf="type().value === 'GROUP_LENGTHS'" [title]="showIndividualLengthItems ? 'Verbergen' : 'Openklappen'" class="inline-block">
-      <svg [class.rotate-180]="showIndividualLengthItems" class="w-6 h-6 transform" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" fill-rule="evenodd"></path></svg>
-    </span>-->
 
     <span *ngIf="savedMessage" class="inline-block items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 animate-pulse">
       Bewaard
     </span>
 
-    <span *ngIf="!savedMessage" (click)="remove()" class="inline-block" title="Verwijder lijn">
+    <span *ngIf="!savedMessage && authService.hasRole(role.DeleteMeasurement)" (click)="remove()" class="inline-block" title="Verwijder lijn">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
     </span>
 
-    <span *ngIf="!savedMessage" (click)="edit()" class="inline-block">
+    <span *ngIf="!savedMessage && authService.hasRole(role.CreateMeasurements)" (click)="edit()" class="inline-block">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
     </span>
 
-
-
   </div>
 
-  <!--<div [class.hidden]="!showIndividualLengthItems" class="col-span-12">
-    <app-measurement-length-measurements></app-measurement-length-measurements>
-  </div>-->
 </div>
