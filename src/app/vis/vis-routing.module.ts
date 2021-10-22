@@ -112,9 +112,9 @@ const routes: Routes = [
       {
         path: 'waterkwaliteitsparameters/bewerk',
         component: SurveyEventParametersEditPageComponent,
-        canActivate: [AuthGuardWithForcedLogin],
+        canActivate: [AuthGuardWithForcedLogin, RoleGuard],
         canDeactivate: [HasUnsavedDataGuard],
-        data: {name: 'Waterkwaliteitsparameters', url: 'waterkwaliteitsparameters/bewerk'}
+        data: {name: 'Waterkwaliteitsparameters', url: 'waterkwaliteitsparameters/bewerk', roles: [Role.EditSurveyEvent]}
       },
       {
         path: 'habitat',
@@ -125,9 +125,9 @@ const routes: Routes = [
       {
         path: 'habitat/bewerk',
         component: SurveyEventHabitatEditPageComponent,
-        canActivate: [AuthGuardWithForcedLogin],
+        canActivate: [AuthGuardWithForcedLogin, RoleGuard],
         canDeactivate: [HasUnsavedDataGuard],
-        data: {name: 'Hebitat', url: 'habitat/bewerk'}
+        data: {name: 'Hebitat', url: 'habitat/bewerk', roles: [Role.EditSurveyEvent]}
       },
       {
         path: 'metingen',

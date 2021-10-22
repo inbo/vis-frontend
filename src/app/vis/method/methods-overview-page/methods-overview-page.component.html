@@ -82,9 +82,9 @@
                   {{method.code}}
                 </td>
                 <td actions="true" appCell class="font-medium">
-                  <button (click)="openEdit(method.code)" class="text-pink-600 hover:text-pink-900" type="button">
+                  <app-button [role]="role.EditMethod" [style]="'no-style'" (click)="openEdit(method.code)" class="text-pink-600 hover:text-pink-900" type="button">
                     Bewerk
-                  </button>
+                  </app-button>
                 </td>
               </tr>
 

@@ -261,6 +261,9 @@ export class AuthService implements OnDestroy {
         case 'VERWIJDER_METING':
           currentRoles.push(Role.DeleteMeasurement);
           break;
+        case 'BEWERK_METHODE':
+          currentRoles.push(Role.EditMethod);
+          break;
       }
     });
 

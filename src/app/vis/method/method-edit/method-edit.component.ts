@@ -7,12 +7,15 @@ import {map} from 'rxjs/operators';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {CpueService} from '../../../services/vis.cpue.service';
 import {Method} from '../../../domain/method/method';
+import {Role} from '../../../core/_models/role';
 
 @Component({
   selector: 'app-method-edit',
   templateUrl: './method-edit.component.html'
 })
 export class MethodEditComponent implements OnInit, OnDestroy {
+  role = Role;
+
   isQuickSelectionOpen = false;
   editForm: FormGroup;
   cpueTestForm: FormGroup;

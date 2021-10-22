@@ -11,12 +11,14 @@ import {MethodsService} from '../../../services/vis.methods.service';
 import {Method} from '../../../domain/method/method';
 import {MethodEditComponent} from '../method-edit/method-edit.component';
 import {debounceTime, distinctUntilChanged, skip} from 'rxjs/operators';
+import {Role} from '../../../core/_models/role';
 
 @Component({
   selector: 'app-methods-overview-page',
   templateUrl: './methods-overview-page.component.html'
 })
 export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
+  role = Role;
 
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [

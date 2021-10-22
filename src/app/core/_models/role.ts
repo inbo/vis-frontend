@@ -9,5 +9,6 @@ export enum Role {
   DeleteSurveyEvent = 'VERWIJDER_WAARNEMING',
   CreateMeasurements = 'AANMAKEN_METINGEN',
   DeleteMeasurement = 'VERWIJDER_METING',
+  EditMethod = 'BEWERK_METHODE',
   UserAdmin = 'GEBRUIKER_ADMIN'
 }
