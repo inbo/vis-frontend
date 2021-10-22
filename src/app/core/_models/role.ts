@@ -7,6 +7,7 @@ export enum Role {
   EditSurveyEvent = 'BEWERK_WAARNEMING',
   ValidateSurveyEvent = 'VALIDEER_WAARNEMING',
   DeleteSurveyEvent = 'VERWIJDER_WAARNEMING',
+  EditCpueParameters = 'BEWERK_CPUE_PARAMETERS',
   CreateMeasurements = 'AANMAKEN_METINGEN',
   DeleteMeasurement = 'VERWIJDER_METING',
   EditMethod = 'BEWERK_METHODE',

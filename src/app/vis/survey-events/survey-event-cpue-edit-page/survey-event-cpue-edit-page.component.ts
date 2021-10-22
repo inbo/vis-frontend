@@ -77,8 +77,6 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData 
     formData.fishingPointId = formData.location;
     delete formData.location;
 
-    console.log(formData);
-
     this.surveyEventService.updateCpueParameters(this.projectCode, this.surveyEventId, formData)
       .pipe(take(1))
       .subscribe(() => {

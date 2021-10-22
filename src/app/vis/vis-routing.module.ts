@@ -151,9 +151,9 @@ const routes: Routes = [
       {
         path: 'cpue/bewerk',
         component: SurveyEventCpueEditPageComponent,
-        canActivate: [AuthGuardWithForcedLogin],
+        canActivate: [AuthGuardWithForcedLogin, RoleGuard],
         canDeactivate: [HasUnsavedDataGuard],
-        data: {name: 'cpue', url: 'cpue/bewerk'}
+        data: {name: 'cpue', url: 'cpue/bewerk', roles: [Role.EditCpueParameters]}
       },
     ]
   },

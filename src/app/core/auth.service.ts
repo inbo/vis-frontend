@@ -255,6 +255,9 @@ export class AuthService implements OnDestroy {
         case 'VERWIJDER_WAARNEMING':
           currentRoles.push(Role.DeleteSurveyEvent);
           break;
+        case 'BEWERK_CPUE_PARAMETERS':
+          currentRoles.push(Role.EditCpueParameters);
+          break;
         case 'AANMAKEN_METINGEN':
           currentRoles.push(Role.CreateMeasurements);
           break;
