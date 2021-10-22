@@ -221,7 +221,7 @@ export class AuthService implements OnDestroy {
 
     const useDummyRoles = localStorage.getItem('useDummyRoles') === 'true';
 
-    if (!environment.production && useDummyRoles) {
+    if (environment.env !== 'prd' && useDummyRoles) {
       const localStorageRoles = localStorage.getItem('roles') || '';
       roles = localStorageRoles.split(',');
     }
