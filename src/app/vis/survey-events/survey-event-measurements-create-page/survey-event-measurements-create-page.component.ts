@@ -1,4 +1,14 @@
-import {AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {fromEvent, Observable, Subscription} from 'rxjs';
@@ -236,6 +246,12 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
   hasUnsavedData(): boolean {
     return this.measurementsForm.dirty && !this.submitted;
+  }
+
+  @HostListener('window:beforeunload')
+  hasUnsavedDataBeforeUnload(): any {
+    // Return false when there is unsaved data to show a dialog
+    return !this.hasUnsavedData();
   }
 
   cancel() {

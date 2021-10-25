@@ -81,10 +81,11 @@ import {ImportsOverviewProcessedComponent} from './imports/imports-overview-proc
 import {ImportsDetailSurveyEventComponent} from './imports/container/imports-detail-survey-event/imports-detail-survey-event.component';
 import {ImportsDetailMeasurementComponent} from './imports/container/imports-detail-measurement/imports-detail-measurement.component';
 import {TeamEditComponent} from './settings/teams/team-edit/team-edit.component';
-import { MethodEditComponent } from './method/method-edit/method-edit.component';
-import { SurveyEventCpuePageComponent } from './survey-events/survey-event-cpue-page/survey-event-cpue-page.component';
-import { SurveyEventCpueEditPageComponent } from './survey-events/survey-event-cpue-edit-page/survey-event-cpue-edit-page.component';
-import { FishingPointsSelectedFeatureComponent } from './components/fishing-points-selected-feature/fishing-points-selected-feature.component';
+import {MethodEditComponent} from './method/method-edit/method-edit.component';
+import {SurveyEventCpuePageComponent} from './survey-events/survey-event-cpue-page/survey-event-cpue-page.component';
+import {SurveyEventCpueEditPageComponent} from './survey-events/survey-event-cpue-edit-page/survey-event-cpue-edit-page.component';
+import {FishingPointsSelectedFeatureComponent} from './components/fishing-points-selected-feature/fishing-points-selected-feature.component';
+import {HasUnsavedDataGuard} from '../core/unsaved-changes-guard.service';
 
 @NgModule({
   exports: [
@@ -180,7 +181,7 @@ import { FishingPointsSelectedFeatureComponent } from './components/fishing-poin
     ClipboardModule,
     FontAwesomeModule
   ],
-  providers: [DatePipe]
+  providers: [DatePipe, HasUnsavedDataGuard]
 })
 export class VisModule {
 }

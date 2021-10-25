@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
@@ -129,6 +129,12 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
 
   hasUnsavedData(): boolean {
     return this.surveyEventForm.dirty && !this.submitted;
+  }
+
+  @HostListener('window:beforeunload')
+  hasUnsavedDataBeforeUnload(): any {
+    // Return false when there is unsaved data to show a dialog
+    return !this.hasUnsavedData();
   }
 
   cancel() {

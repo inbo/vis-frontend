@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
@@ -105,6 +105,12 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
 
   hasUnsavedData(): boolean {
     return this.createSurveyEventForm.dirty && !this.submitted;
+  }
+
+  @HostListener('window:beforeunload')
+  hasUnsavedDataBeforeUnload(): any {
+    // Return false when there is unsaved data to show a dialog
+    return !this.hasUnsavedData();
   }
 
   cancel() {

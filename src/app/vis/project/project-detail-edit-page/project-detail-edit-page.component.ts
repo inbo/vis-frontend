@@ -183,6 +183,12 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     return this.projectForm.dirty && !this.submitted;
   }
 
+  @HostListener('window:beforeunload')
+  hasUnsavedDataBeforeUnload(): any {
+    // Return false when there is unsaved data to show a dialog
+    return !this.hasUnsavedData();
+  }
+
   get name() {
     return this.projectForm.get('name');
   }

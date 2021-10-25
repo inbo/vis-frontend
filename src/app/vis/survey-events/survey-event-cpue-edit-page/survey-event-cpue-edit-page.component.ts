@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Role} from '../../../core/_models/role';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
@@ -86,6 +86,12 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData 
 
   hasUnsavedData(): boolean {
     return this.surveyEventForm.dirty && !this.submitted;
+  }
+
+  @HostListener('window:beforeunload')
+  hasUnsavedDataBeforeUnload(): any {
+    // Return false when there is unsaved data to show a dialog
+    return !this.hasUnsavedData();
   }
 
   cancel() {

@@ -111,6 +111,11 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
     return this.parametersForm.dirty && !this.submitted;
   }
 
+  @HostListener('window:beforeunload')
+  hasUnsavedDataBeforeUnload(): any {
+    // Return false when there is unsaved data to show a dialog
+    return !this.hasUnsavedData();
+  }
 
   get oxygen() {
     return this.parametersForm.get('oxygen');

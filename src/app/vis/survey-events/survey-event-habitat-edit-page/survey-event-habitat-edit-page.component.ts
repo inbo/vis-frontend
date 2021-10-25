@@ -112,6 +112,12 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     return this.habitatForm.dirty && !this.submitted;
   }
 
+  @HostListener('window:beforeunload')
+  hasUnsavedDataBeforeUnload(): any {
+    // Return false when there is unsaved data to show a dialog
+    return !this.hasUnsavedData();
+  }
+
   cancel() {
     this._location.back();
   }
