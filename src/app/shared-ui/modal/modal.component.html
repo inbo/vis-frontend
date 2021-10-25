@@ -56,6 +56,11 @@
         </div>
       </div>
       <div *ngIf="showButtons" class="space-x-3 mt-5 sm:mt-4 flex justify-center sm:justify-end">
+        <span *ngIf="showOptional" class="inline-flex">
+          <app-button [style]="'white'" (click)="optionalClicked()">
+            <ng-content select="[slot=optional-button]"></ng-content>
+          </app-button>
+        </span>
         <span class="inline-flex">
           <app-button [style]="'secondary'" (click)="cancel()">
             Annuleren

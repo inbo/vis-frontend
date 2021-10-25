@@ -305,4 +305,9 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
   playIntro() {
     this.introModalOpen = true;
   }
+
+  doNotShowAgain() {
+    localStorage.setItem('measurements-demo', 'completed');
+    this.introModalOpen = false;
+  }
 }

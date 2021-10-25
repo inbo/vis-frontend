@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -8,8 +8,10 @@ export class ModalComponent implements OnInit {
 
   @Input() isOpen = false;
   @Input() showButtons = true;
+  @Input() showOptional = false;
   @Output() onPrimary = new EventEmitter<boolean>();
   @Output() onCancel = new EventEmitter<boolean>();
+  @Output() onOptional = new EventEmitter<boolean>();
 
   constructor() {
   }
@@ -25,4 +27,7 @@ export class ModalComponent implements OnInit {
     this.onPrimary.emit(true);
   }
 
+  optionalClicked() {
+    this.onOptional.emit(true);
+  }
 }
