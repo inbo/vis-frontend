@@ -37,6 +37,8 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   tags: Tag[] = [];
   filterForm: FormGroup;
 
+  highlightedLocation: number;
+
   constructor(private titleService: Title, private locationsService: LocationsService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder) {
     this.titleService.setTitle('Locaties');
@@ -78,6 +80,8 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   }
 
   zoomToLocation(fishingPoint: FishingPoint) {
+    this.highlightedLocation = fishingPoint.id;
+
     const latlng = new LatLng(fishingPoint.lat, fishingPoint.lng);
     this.map.zoomTo(latlng);
     this.mapElement.nativeElement.scrollIntoView();

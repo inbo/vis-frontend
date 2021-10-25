@@ -12,4 +12,6 @@ export interface ProjectFishingPoint {
 
   watercourse: string;
   basinName: string;
+  municipality: string;
+  province: string;
 }

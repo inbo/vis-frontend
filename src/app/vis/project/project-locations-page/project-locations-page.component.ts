@@ -28,6 +28,8 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
   tags: Tag[] = [];
   filterForm: FormGroup;
 
+  highlightedLocation: number;
+
   constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private locationsService: LocationsService,
               private router: Router, private formBuilder: FormBuilder) {
     this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
@@ -70,6 +72,8 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
   }
 
   zoomToLocation(fishingPoint: ProjectFishingPoint) {
+    this.highlightedLocation = fishingPoint.id;
+
     const latlng = new LatLng(fishingPoint.lat, fishingPoint.lng);
     this.map.zoomTo(latlng);
     this.mapElement.nativeElement.scrollIntoView();

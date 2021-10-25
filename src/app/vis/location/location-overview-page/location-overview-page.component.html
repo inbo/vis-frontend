@@ -59,7 +59,8 @@
                   Watervlak
                 </label>
                 <div class="mt-1">
-                  <input formControlName="lenticWaterbody" id="lenticWaterbody" placeholder="Watervlak ..." type="text"/>
+                  <input formControlName="lenticWaterbody" id="lenticWaterbody" placeholder="Watervlak ..."
+                         type="text"/>
                 </div>
               </div>
 
@@ -127,7 +128,8 @@
               </td>
             </tr>
 
-            <tr *ngFor="let fishingPoint of fishingPoints$ | async; let index = index" [rownumber]="index" appRow>
+            <tr *ngFor="let fishingPoint of fishingPoints$ | async; let index = index" [rownumber]="index"
+                [class.bg-pink-100]="highlightedLocation === fishingPoint.id" appRow>
               <td appCell>
                 <a [routerLink]="['/locaties', fishingPoint.code]"
                    class="text-pink-600 hover:text-pink-900">{{fishingPoint.code}}</a>
@@ -154,7 +156,6 @@
             </tr>
             </tbody>
           </app-table>
-
         </div>
       </div>
     </main>
