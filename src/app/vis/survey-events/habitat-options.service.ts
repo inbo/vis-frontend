@@ -1,19 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RadioOption} from '../../shared-ui/radio-group/radioOption';
-import {
-  Agriculture,
-  Bottleneck,
-  Buildings,
-  Current,
-  Meadow,
-  Shelter,
-  Shore,
-  Slope,
-  Soil,
-  Trees,
-  Vegetation,
-  WaterLevel
-} from '../../domain/survey-event/habitat';
+import {Agriculture, Buildings, Current, Meadow, Shelter, Shore, Slope, Trees, WaterLevel} from '../../domain/survey-event/habitat';
 import {CheckOption} from '../../shared-ui/check-group/checkOption';
 
 @Injectable({
@@ -59,9 +46,9 @@ export class HabitatOptionsService {
     this._current = Object.keys(Current).filter(value => isNaN(Number(value))).map(value => this.createOption('current', value));
     this._fishPassage = [{text: 'surveyEvent.habitat.fish-passage.true', value: true},
       {text: 'surveyEvent.habitat.fish-passage.false', value: false}, {text: 'surveyEvent.habitat.fish-passage.unknown', value: null}];
-    this._soil = Object.keys(Soil).filter(value => isNaN(Number(value))).map(value => this.createOption('soil', value));
-    this._bottlenecks = Object.keys(Bottleneck).filter(value => isNaN(Number(value))).map(value => this.createOption('bottleneck', value));
-    this._vegetations = Object.keys(Vegetation).filter(value => isNaN(Number(value))).map(value => this.createOption('vegetation', value));
+    this._soil = ['other', 'grint', 'clay', 'mudd', 'silt', 'stones', 'waterplants', 'sand'].map(value => this.createOption('soil', value));
+    this._bottlenecks = ['motorway', 'diver', 'mill', 'undefined', 'lock', 'reservoir', 'weir', 'decay'].map(value => this.createOption('bottleneck', value));
+    this._vegetations = ['threadAlgae', 'filamentousAlgae'].map(value => this.createOption('vegetation', value));
   }
 
   private createOption(x: string, value: string): RadioOption<string> {
@@ -69,7 +56,7 @@ export class HabitatOptionsService {
     return {value, text};
   }
 
-  get waterLevels(): RadioOption<String>[] {
+  get waterLevels(): RadioOption<string>[] {
     return this._waterLevels;
   }
 

@@ -15,9 +15,9 @@ export interface Habitat {
   industry: boolean;
   current: string;
   fishPassage: boolean;
-  soils: string[];
-  bottlenecks: string[];
-  vegetations: string[];
+  soil: Soil;
+  bottleneck: Bottleneck;
+  vegetation: Vegetation;
 }
 
 
@@ -57,14 +57,29 @@ export enum WaterLevel {
   LOW, NORMAL, HIGH, UNKNOWN
 }
 
-export enum Soil {
-  SAND, CLAY, GRAVEL, MUD, SILT, STONES, OTHER
+export interface Soil {
+  other: boolean;
+  grint: boolean;
+  clay: boolean;
+  mudd: boolean;
+  silt: boolean;
+  stones: boolean;
+  waterplants: boolean;
+  sand: boolean;
 }
 
-export enum Bottleneck {
-  DECAY, MILL, UNDEFINED, DIVER, RESERVOIR, MOTORWAY, LOCK, WEIR
+export interface Bottleneck {
+  motorway: boolean;
+  diver: boolean;
+  mill: boolean;
+  undefined: boolean;
+  lock: boolean;
+  reservoir: boolean;
+  weir: boolean;
+  decay: boolean;
 }
 
-export enum Vegetation {
-  FLOATING_AQUATIC_PLANTS, SOIL_AQUATIC_PLANTS, FILAMENTOUS_ALGAE
+export interface Vegetation {
+  threadAlgae: boolean;
+  filamentousAlgae: boolean;
 }

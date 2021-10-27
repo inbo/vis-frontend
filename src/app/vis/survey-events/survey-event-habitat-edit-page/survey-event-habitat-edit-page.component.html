@@ -9,128 +9,127 @@
       <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Bodem</label>
-          <div class="mt-1">
-            <app-check-group name="soils" [options]="habitatOptions.soil" formControlName="soils"></app-check-group>
+          <div class="mt-1" formGroupName="soil">
+            <app-check-group [options]="habitatOptions.soil" name="soil"></app-check-group>
+
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Waterpeil</label>
           <div class="mt-1">
-            <app-radio-group name="waterLevel" [options]="habitatOptions.waterLevels"
-                             formControlName="waterLevel"></app-radio-group>
+            <app-radio-group [options]="habitatOptions.waterLevels" formControlName="waterLevel"
+                             name="waterLevel"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Natuurlijke schuilplaatsen</label>
           <div class="mt-1">
-            <app-radio-group name="shelters" [options]="habitatOptions.shelters"
-                             formControlName="shelters"></app-radio-group>
+            <app-radio-group [options]="habitatOptions.shelters" formControlName="shelters"
+                             name="shelters"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Poelen</label>
           <div class="mt-1">
-            <app-radio-group name="pool" [options]="habitatOptions.pool" formControlName="pool"></app-radio-group>
+            <app-radio-group [options]="habitatOptions.pool" formControlName="pool" name="pool"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Stroomversnellingen</label>
           <div class="mt-1">
-            <app-radio-group name="rapids" [options]="habitatOptions.rapids" formControlName="rapids"></app-radio-group>
+            <app-radio-group [options]="habitatOptions.rapids" formControlName="rapids" name="rapids"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Bochten</label>
           <div class="mt-1">
-            <app-radio-group name="creeks" [options]="habitatOptions.creeks" formControlName="creeks"></app-radio-group>
+            <app-radio-group [options]="habitatOptions.creeks" formControlName="creeks" name="creeks"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Oever</label>
           <div class="mt-1">
-            <app-radio-group name="shore" [options]="habitatOptions.shore" formControlName="shore"></app-radio-group>
+            <app-radio-group [options]="habitatOptions.shore" formControlName="shore" name="shore"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Taludhelling</label>
           <div class="mt-1">
-            <app-radio-group name="slope" [options]="habitatOptions.slope" formControlName="slope"></app-radio-group>
+            <app-radio-group [options]="habitatOptions.slope" formControlName="slope" name="slope"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Landbouw</label>
           <div class="mt-1">
-            <app-radio-group name="agriculture" [options]="habitatOptions.agriculture"
-                             formControlName="agriculture"></app-radio-group>
+            <app-radio-group [options]="habitatOptions.agriculture" formControlName="agriculture"
+                             name="agriculture"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Weide</label>
           <div class="mt-1">
-            <app-radio-group name="meadow" [options]="habitatOptions.meadow" formControlName="meadow"></app-radio-group>
+            <app-radio-group [options]="habitatOptions.meadow" formControlName="meadow" name="meadow"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Bomen</label>
           <div class="mt-1">
-            <app-radio-group name="trees" [options]="habitatOptions.trees" formControlName="trees"></app-radio-group>
+            <app-radio-group [options]="habitatOptions.trees" formControlName="trees" name="trees"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Bebouwing</label>
           <div class="mt-1">
-            <app-radio-group name="buildings" [options]="habitatOptions.buildings"
-                             formControlName="buildings"></app-radio-group>
+            <app-radio-group [options]="habitatOptions.buildings" formControlName="buildings"
+                             name="buildings"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Industrie</label>
           <div class="mt-1">
-            <app-radio-group name="industry" [options]="habitatOptions.industry"
-                             formControlName="industry"></app-radio-group>
+            <app-radio-group [options]="habitatOptions.industry" formControlName="industry"
+                             name="industry"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Loop</label>
           <div class="mt-1">
-            <app-radio-group name="current" [options]="habitatOptions.current" formControlName="current"></app-radio-group>
+            <app-radio-group [options]="habitatOptions.current" formControlName="current" name="current"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Knelpunt in omgeving van het traject</label>
           <div class="mt-1">
-            <app-check-group name="bottlenecks" [options]="habitatOptions.bottlenecks"
-                             formControlName="bottlenecks"></app-check-group>
+            <app-check-group [options]="habitatOptions.bottlenecks" name="bottleneck"></app-check-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Vispassage</label>
           <div class="mt-1">
-            <app-radio-group name="fishPassage" [options]="habitatOptions.fishPassage"
-                             formControlName="fishPassage"></app-radio-group>
+            <app-radio-group [options]="habitatOptions.fishPassage" formControlName="fishPassage"
+                             name="fishPassage"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Vegetatie</label>
           <div class="mt-1">
-            <app-check-group name="vegetations" [options]="habitatOptions.vegetations"
-                             formControlName="vegetations"></app-check-group>
+            <app-check-group [options]="habitatOptions.vegetations" name="vegetation"></app-check-group>
           </div>
         </div>
 
@@ -139,6 +138,6 @@
   </div>
   <div class="px-4 py-4 sm:px-6 flex justify-end">
     <app-button (click)="cancel()">Annuleren</app-button>
-    <app-button [style]="'primary'" class="ml-3" (click)="saveHabitat()">Bewaren</app-button>
+    <app-button (click)="saveHabitat()" [style]="'primary'" class="ml-3">Bewaren</app-button>
   </div>
 </div>
