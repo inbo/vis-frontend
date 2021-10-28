@@ -41,7 +41,16 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
   ngOnInit(): void {
     this.habitatForm = this.formBuilder.group(
       {
-        soils: [null],
+        soil: this.formBuilder.group({
+          other: [false],
+          grint: [false],
+          clay: [false],
+          mudd: [false],
+          silt: [false],
+          stones: [false],
+          waterplants: [false],
+          sand: [false]
+        }),
         waterLevel: [null],
         shelters: [null],
         pool: [null],
@@ -56,14 +65,25 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         industry: [null],
         current: [null],
         fishPassage: [null],
-        bottlenecks: [null],
-        vegetations: [null],
+        bottleneck: this.formBuilder.group({
+          motorway: [false],
+          diver: [false],
+          mill: [false],
+          undefined: [false],
+          lock: [false],
+          reservoir: [false],
+          weir: [false],
+          decay: [false]
+        }),
+        vegetation: this.formBuilder.group({
+          threadAlgae: [false],
+          filamentousAlgae: [false]
+        })
       });
 
     this.subscription.add(this.surveyEventsService.getHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId)
       .subscribe(value => {
         this.habitat = value;
-        this.habitatForm.get('soils').patchValue(value.soils);
         this.habitatForm.get('waterLevel').patchValue(value.waterLevel);
         this.habitatForm.get('shelters').patchValue(value.shelters);
         this.habitatForm.get('pool').patchValue(value.pool);
@@ -78,8 +98,9 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         this.habitatForm.get('industry').patchValue(value.industry);
         this.habitatForm.get('fishPassage').patchValue(value.fishPassage);
         this.habitatForm.get('current').patchValue(value.current);
-        this.habitatForm.get('bottlenecks').patchValue(value.bottlenecks);
-        this.habitatForm.get('vegetations').patchValue(value.vegetations);
+        // this.habitatForm.get('soil').patchValue(value.soil);
+        // this.habitatForm.get('bottleneck').patchValue(value.bottleneck);
+        // this.habitatForm.get('vegetation').patchValue(value.vegetation);
       }));
   }
 

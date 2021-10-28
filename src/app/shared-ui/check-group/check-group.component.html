@@ -1,14 +1,10 @@
-<fieldset>
-  <legend class="sr-only">
-    {{name}}
-  </legend>
-
-  <div class="-space-y-px md:flex flex-wrap">
+<fieldset [formGroup]="form">
+  <div class="-space-y-px md:flex flex-wrap" formGroupName="soil">
     <div *ngFor="let option of options; let i = index" class="relative border p-4 flex md:w-44" [class.bg-pink-50.border-pink-200.z-10]="isChecked(option.value)" [class.border-gray-200]="!isChecked(option.value)">
       <div class="flex items-center h-5">
-        <input [checked]="isChecked(option.value) ? 'checked' : null" (change)="onClick($event)" [value]="option.value" [id]="name + '-' + i" [name]="name" type="checkbox">
+        <input [formControlName]="option.value" [id]="option.value" [name]="option.value" type="checkbox">
       </div>
-      <label [for]="name + '-' + i" class="ml-3 flex flex-col cursor-pointer">
+      <label [for]="option.value" class="ml-3 flex flex-col cursor-pointer">
         <span class="block text-sm font-medium" [class.text-pink-900]="isChecked(option.value)" [class.text-gray-900]="!isChecked(option.value)">
            {{option.text | translate}}
         </span>

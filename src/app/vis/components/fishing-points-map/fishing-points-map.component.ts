@@ -43,6 +43,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   legend = new Map();
 
   layers: Layer[];
+  private orthoLayer: DynamicMapLayer;
   private watercourseLayer: DynamicMapLayer;
   private blueLayer: DynamicMapLayer;
   private townLayer: DynamicMapLayer;
@@ -87,6 +88,13 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     this.locationsService.latestVhaVersion().pipe(take(1)).subscribe(version => {
       this.initLegend(version);
 
+      this.orthoLayer = dynamicMapLayer(
+        {
+          url: 'https://gisservices.inbo.be/arcgis/rest/services/Orthofoto_WM/MapServer',
+          layers: [0]
+        }
+      );
+
       this.watercourseLayer = dynamicMapLayer(
         {
           url: version.value,
@@ -129,6 +137,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
       this.layersControl = {
         baseLayers: {
           Ortho: basemapLayer1,
+          Orthofoto: this.orthoLayer
         },
         overlays: {
           Vispunten: this.locationsLayer,

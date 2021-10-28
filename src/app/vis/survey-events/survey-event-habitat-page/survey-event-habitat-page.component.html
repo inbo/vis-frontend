@@ -20,10 +20,10 @@
           Bodem
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span *ngIf="habitat?.soils">
-                  <span *ngFor="let v of habitat.soils; let last = last">{{'surveyEvent.habitat.soil.' + v | translate}}
-                    <span *ngIf="!last">, </span></span>
-                </span>
+            <span *ngIf="habitat?.soil">
+              <span *ngFor="let v of soils(); let last = last">{{'surveyEvent.habitat.soil.' + v | translate}}
+                <span *ngIf="!last">, </span></span>
+            </span>
         </dd>
       </div>
 
@@ -153,9 +153,9 @@
           Knelpunt
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span *ngIf="habitat?.bottlenecks">
+                <span *ngIf="habitat?.bottleneck">
                     <span
-                      *ngFor="let v of habitat.bottlenecks; let last = last">{{'surveyEvent.habitat.bottleneck.' + v | translate}}
+                      *ngFor="let v of bottlenecks(); let last = last">{{'surveyEvent.habitat.bottleneck.' + v | translate}}
                       <span *ngIf="!last">, </span></span>
                 </span>
         </dd>
@@ -176,9 +176,9 @@
           Vegetatie
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span *ngIf="habitat?.vegetations">
+                <span *ngIf="habitat?.vegetation">
                   <span
-                    *ngFor="let v of habitat.vegetations; let last = last">{{'surveyEvent.habitat.vegetation.' + v | translate}}
+                    *ngFor="let v of vegetations(); let last = last">{{'surveyEvent.habitat.vegetation.' + v | translate}}
                     <span *ngIf="!last">, </span></span>
                 </span>
         </dd>

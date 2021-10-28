@@ -141,29 +141,28 @@
         "null": ""
       },
       "soil": {
-        "SAND": "Zand",
-        "CLAY": "Klei",
-        "GRAVEL": "Grint",
-        "MUD": "Modder",
-        "SILT": "Slib",
-        "STONES": "Stenen",
-        "OTHER": "Andere"
+        "other":  "Andere",
+        "grint": "Grint",
+        "clay":  "Klei",
+        "mudd": "Modder",
+        "silt":  "Slib",
+        "stones": "Stenen",
+        "waterplants": "Waterplanten",
+        "sand": "Zand"
       },
       "bottleneck": {
-        "DECAY": "Verval",
-        "MILL": "Molen",
-        "DIVER": "Duiker",
-        "RESERVOIR": "Spaarbekken",
-        "MOTORWAY": "Autosnelweg",
-        "LOCK": "Sluis",
-        "WEIR": "Stuw",
-        "UNDEFINED": "Onbepaald"
+        "motorway":  "Autosnelweg",
+        "diver": "Duiker",
+        "mill":  "Molen",
+        "undefined": "Onbepaald",
+        "lock":  "Sluis",
+        "reservoir": "Spaarbekken",
+        "weir":  "Stuw",
+        "decay": "Verval"
       },
       "vegetation": {
-        "FLOATING_AQUATIC_PLANTS": "Vlottende waterplanten",
-        "SOIL_AQUATIC_PLANTS": "Bodem waterplanten",
-        "FILAMENTOUS_ALGAE": "Draadalgen",
-        "OTHERS": "Andere"
+        "threadAlgae":  "thread algae",
+        "filamentousAlgae": "filamentousAlgae"
       }
     }
   },
@@ -181,7 +180,7 @@
   },
   "lengthType": {
     "short": {
-      "FORK": "FL",
+      "FORK": "VL",
       "TOTAL": "TL"
     },
     "long": {
@@ -191,11 +190,16 @@
   },
   "cpue": {
     "parameter": {
-      "TRAJECT_LENGTH": "Lengte traject",
-      "TIME_UNIT": "Tijdseenheid",
-      "ROD_COUNT": "Aantal hengels",
-      "DAYS_COUNT": "Aantal dagen",
-      "CATCH": "Gevangen vissen / Totaal gewicht"
+      "CATCH": "Gevangen vissen / Totaal gewicht",
+      "ENDING_DEPTH" : "Eind diepte",
+      "FYKE_COUNT" : "Aantal fuiken ",
+      "HEIGHT_WATER_COLUMN" :  "Hoogte waterkolom",
+      "NUMBER_DAYS" : "Aantal dagen",
+      "NUMBER_HOURS" :  "Aantal uren",
+      "ROD_COUNT" : "Aantal Hengels",
+      "STARTING_DEPTH" :  "Start diepte",
+      "TRAJECT_LENGTH" : "Traject lengte",
+      "WATER_FLOW_RATE" :  " Stroomsnelheid"
     }
   },
   "error": {

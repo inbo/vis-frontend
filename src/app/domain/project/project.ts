@@ -3,6 +3,7 @@ export interface ProjectCode {
 }
 
 export interface Project {
+  projectId: number;
   code: ProjectCode;
   name: string;
   description: string;
