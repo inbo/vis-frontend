@@ -8,9 +8,13 @@ import {TandemvaultPictureDetail} from '../../domain/tandemvault/picture';
 export class ImageDetailComponent implements OnInit {
 
   @Input()
+  canAddTags = true;
+
+  @Input()
   detail: TandemvaultPictureDetail;
 
   @Output() downloadPicture = new EventEmitter<number>();
+  @Output() addTags = new EventEmitter<number>();
 
   constructor() {
   }
@@ -20,5 +24,9 @@ export class ImageDetailComponent implements OnInit {
 
   download(id: number) {
     this.downloadPicture.emit(id);
+  }
+
+  tags(id: number) {
+    this.addTags.emit(id);
   }
 }

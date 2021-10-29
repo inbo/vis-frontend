@@ -31,12 +31,12 @@ export class SurveyEventComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.url.subscribe(() => {
-      let name = this.activatedRoute.snapshot.firstChild.data.name;
-      let url = this.activatedRoute.snapshot.firstChild.data.url;
+      const name = this.activatedRoute.snapshot.firstChild.data.name;
+      const url = this.activatedRoute.snapshot.firstChild.data.url;
       this.breadcrumbLinks[this.breadcrumbLinks.length - 1] = {
         title: name,
         url: `/projecten/${this.activatedRoute.snapshot.params.projectCode}/waarnemingen/${this.activatedRoute.snapshot.params.surveyEventId}/${url}`
-      }
+      };
     });
   }
 

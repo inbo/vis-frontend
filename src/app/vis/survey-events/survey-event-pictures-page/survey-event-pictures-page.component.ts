@@ -1,18 +1,17 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
+import {TandemvaultPicture, TandemvaultPictureDetail} from '../../../domain/tandemvault/picture';
+import {Subscription} from 'rxjs';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
-import {TandemvaultPicture, TandemvaultPictureDetail} from '../../../domain/tandemvault/picture';
 import {PicturesService} from '../../../services/vis.pictures.service';
-import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
-import {Subscription} from 'rxjs';
 import {ProjectService} from '../../../services/vis.project.service';
-import {Project} from '../../../domain/project/project';
 
 @Component({
-  selector: 'app-project-pictures-page',
-  templateUrl: './project-pictures-page.component.html'
+  selector: 'app-survey-event-pictures-page',
+  templateUrl: './survey-event-pictures-page.component.html'
 })
-export class ProjectPicturesPageComponent implements OnInit, OnDestroy {
+export class SurveyEventPicturesPageComponent implements OnInit, OnDestroy {
   loading = false;
 
   pager: AsyncPage<TandemvaultPicture>;
@@ -23,12 +22,16 @@ export class ProjectPicturesPageComponent implements OnInit, OnDestroy {
 
   subscription = new Subscription();
   projectCode: string;
+  surveyEventId: number;
+  url: string;
   tandemvaultcollectionslug: string;
 
   constructor(private titleService: Title, private activatedRoute: ActivatedRoute,
               private picturesService: PicturesService, private projectService: ProjectService) {
     this.projectCode = this.activatedRoute.snapshot.parent.params.projectCode;
-    this.titleService.setTitle(`Project ${this.projectCode} afbeeldingen`);
+    this.surveyEventId = this.activatedRoute.snapshot.parent.params.surveyEventId;
+    this.url = this.activatedRoute.snapshot.data.url;
+    this.titleService.setTitle(`Waarneming afbeeldingen`);
 
     this.projectService.getProject(this.projectCode).subscribe(value => {
       this.tandemvaultcollectionslug = value.tandemvaultcollectionslug;
@@ -72,15 +75,42 @@ export class ProjectPicturesPageComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.pictures = [];
     const page = this.activatedRoute.snapshot.queryParams.page;
+
+    if (this.url === 'afbeeldingen') {
+      this.subscription.add(
+        this.picturesService.getPicturesForSurveyEvent(page, this.projectCode, this.surveyEventId).subscribe((value) => {
+          this.afterLoadPictures(value);
+        })
+      );
+    } else if (this.url === 'project') {
+      this.subscription.add(
+        this.picturesService.getPictures(page, this.projectCode).subscribe((value) => {
+          this.afterLoadPictures(value);
+        })
+      );
+    } else if (this.url === 'dag') {
+      this.subscription.add(
+        this.picturesService.getPicturesForSurveyEvent(page, this.projectCode, this.surveyEventId).subscribe((value) => {
+          this.afterLoadPictures(value);
+        })
+      );
+    }
+
+  }
+
+  private afterLoadPictures(value: AsyncPage<TandemvaultPicture>) {
+    this.pager = value;
+    this.pictures = value.content;
+    this.loading = false;
+    this.selectedPicture = this.pictures[0];
+    this.openDetail(this.selectedPicture);
+  }
+
+  addTags(assetId: number) {
     this.subscription.add(
-      this.picturesService.getPictures(page, this.projectCode).subscribe((value) => {
-        this.pager = value;
-        this.pictures = value.content;
-        this.loading = false;
-        this.selectedPicture = this.pictures[0];
-        this.openDetail(this.selectedPicture);
+      this.picturesService.addTagsForSurveyEvent(assetId, this.projectCode, this.surveyEventId).subscribe(value => {
+        this.loadDetailPicture(assetId);
       })
     );
   }
-
 }

@@ -86,6 +86,7 @@ import {SurveyEventCpuePageComponent} from './survey-events/survey-event-cpue-pa
 import {SurveyEventCpueEditPageComponent} from './survey-events/survey-event-cpue-edit-page/survey-event-cpue-edit-page.component';
 import {FishingPointsSelectedFeatureComponent} from './components/fishing-points-selected-feature/fishing-points-selected-feature.component';
 import {HasUnsavedDataGuard} from '../core/unsaved-changes-guard.service';
+import { SurveyEventPicturesPageComponent } from './survey-events/survey-event-pictures-page/survey-event-pictures-page.component';
 
 @NgModule({
   exports: [
@@ -166,6 +167,7 @@ import {HasUnsavedDataGuard} from '../core/unsaved-changes-guard.service';
     SurveyEventCpuePageComponent,
     SurveyEventCpueEditPageComponent,
     FishingPointsSelectedFeatureComponent,
+    SurveyEventPicturesPageComponent,
   ],
   imports: [
     CommonModule,

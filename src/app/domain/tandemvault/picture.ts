@@ -24,6 +24,7 @@ export interface TandemvaultPicture {
   upload_guid: string;
   version_number: number;
   width: number;
+  captured_at: Date;
 }
 
 export interface TandemvaultPictureDetail {
@@ -56,6 +57,7 @@ export interface TandemvaultPictureDetail {
   upload_guid: string;
   version_number: number;
   width: number;
+  captured_at: Date;
 }
 
 export interface TandemvaultContributor {

@@ -47,6 +47,7 @@ import {ImportsDetailComponent} from './imports/imports-detail/imports-detail.co
 import {ImportsOverviewProcessedComponent} from './imports/imports-overview-processed/imports-overview-processed.component';
 import {SurveyEventCpuePageComponent} from './survey-events/survey-event-cpue-page/survey-event-cpue-page.component';
 import {SurveyEventCpueEditPageComponent} from './survey-events/survey-event-cpue-edit-page/survey-event-cpue-edit-page.component';
+import {SurveyEventPicturesPageComponent} from './survey-events/survey-event-pictures-page/survey-event-pictures-page.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -155,6 +156,24 @@ const routes: Routes = [
         canDeactivate: [HasUnsavedDataGuard],
         data: {name: 'cpue', url: 'cpue/bewerk', roles: [Role.EditCpueParameters]}
       },
+      {
+        path: 'afbeeldingen',
+        component: SurveyEventPicturesPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        data: {name: 'Afbeeldingen', url: 'afbeeldingen'}
+      },
+      {
+        path: 'afbeeldingen/dag',
+        component: SurveyEventPicturesPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        data: {name: 'Afbeeldingen', url: 'dag'}
+      },
+      {
+        path: 'afbeeldingen/project',
+        component: SurveyEventPicturesPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        data: {name: 'Afbeeldingen', url: 'project'}
+      }
     ]
   },
   {
