@@ -3,7 +3,7 @@ import {forkJoin, Observable, Subscription} from 'rxjs';
 import {AsyncValidatorFn, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {ProjectService} from '../../../services/vis.project.service';
 import {Router} from '@angular/router';
-import {map} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {CpueService} from '../../../services/vis.cpue.service';
 import {Method} from '../../../domain/method/method';
@@ -36,7 +36,7 @@ export class MethodEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.cpueService.listAllParameters().subscribe(value => this.allParameters = value);
+    this.cpueService.listAllParameters().pipe(take(1)).subscribe(value => this.allParameters = value);
     this.editForm = this.formBuilder.group({
       description: ['', [Validators.maxLength(50)]],
       unit: ['', [Validators.maxLength(255)]],
