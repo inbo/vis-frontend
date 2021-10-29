@@ -1,6 +1,7 @@
 export interface SurveyEventOverview {
   surveyEventId: number;
   projectCode: string;
+  projectId: number;
   occurrence: Date;
   status: string;
   municipality: string;

@@ -87,6 +87,7 @@ import {SurveyEventCpueEditPageComponent} from './survey-events/survey-event-cpu
 import {FishingPointsSelectedFeatureComponent} from './components/fishing-points-selected-feature/fishing-points-selected-feature.component';
 import {HasUnsavedDataGuard} from '../core/unsaved-changes-guard.service';
 import { SurveyEventPicturesPageComponent } from './survey-events/survey-event-pictures-page/survey-event-pictures-page.component';
+import { UploadFilesComponent } from './survey-events/survey-event-pictures-page/upload-files/upload-files.component';
 
 @NgModule({
   exports: [
@@ -168,6 +169,7 @@ import { SurveyEventPicturesPageComponent } from './survey-events/survey-event-p
     SurveyEventCpueEditPageComponent,
     FishingPointsSelectedFeatureComponent,
     SurveyEventPicturesPageComponent,
+    UploadFilesComponent,
   ],
   imports: [
     CommonModule,

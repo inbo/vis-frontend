@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpParams, HttpRequest} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {VisService} from './vis.service';
@@ -38,5 +38,23 @@ export class PicturesService extends VisService {
 
   addTagsForSurveyEvent(id: number, projectCode: string, surveyEventId: number): Observable<void> {
     return this.http.put<void>(`${environment.apiUrl}/api/pictures/project/${projectCode}/surveyevent/${surveyEventId}/assets/${id}/addtags`, {});
+  }
+
+  upload(file: File, projectCode: string, surveyEventId: number): Observable<HttpEvent<any>> {
+    const formData: FormData = new FormData();
+
+    formData.append('file', file);
+
+    const req = new HttpRequest(
+      'POST',
+      `${environment.apiUrl}/api/pictures/project/${projectCode}/surveyevent/${surveyEventId}/upload`,
+      formData,
+      {
+        reportProgress: true,
+        responseType: 'json'
+      });
+
+    return this.http.request(req);
+
   }
 }
