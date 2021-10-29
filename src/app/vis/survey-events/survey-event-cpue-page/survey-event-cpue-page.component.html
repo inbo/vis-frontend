@@ -84,11 +84,11 @@
         {{value.taxaSum}}
       </td>
       <td class="font-bold" appCell>
-        <span *ngIf="value.weightCpue">{{value.weightCpue}} {{value.unit}}</span>
+        <span *ngIf="value.weightCpue">{{value.weightCpue}} {{value.weightUnit}}</span>
         <span *ngIf="!value.weightCpue" class="text-red-500">Niet berekend</span>
       </td>
       <td class="font-bold" appCell>
-        <span *ngIf="value.taxaSumCpue">{{value.taxaSumCpue}} {{value.unit}}</span>
+        <span *ngIf="value.taxaSumCpue">{{value.taxaSumCpue}} {{value.amountUnit}}</span>
         <span *ngIf="!value.taxaSumCpue" class="text-red-500">Niet berekend</span>
       </td>
 

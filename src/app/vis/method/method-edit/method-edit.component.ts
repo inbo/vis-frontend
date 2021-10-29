@@ -39,7 +39,8 @@ export class MethodEditComponent implements OnInit, OnDestroy {
     this.cpueService.listAllParameters().pipe(take(1)).subscribe(value => this.allParameters = value);
     this.editForm = this.formBuilder.group({
       description: ['', [Validators.maxLength(50)]],
-      unit: ['', [Validators.maxLength(255)]],
+      weightUnit: ['', [Validators.maxLength(255)]],
+      amountUnit: ['', [Validators.maxLength(255)]],
       calculation: ['', [Validators.maxLength(255)], []],
       parameters: this.formBuilder.array([])
     });
@@ -91,7 +92,8 @@ export class MethodEditComponent implements OnInit, OnDestroy {
       const params = parameters.map(value => new FormControl(value));
       this.editForm = this.formBuilder.group({
         description: [this.method.description, [Validators.required, Validators.maxLength(50)]],
-        unit: [this.method.unit, [Validators.maxLength(255)]],
+        weightUnit: [this.method.weightUnit, [Validators.maxLength(255)]],
+        amountUnit: [this.method.amountUnit, [Validators.maxLength(255)]],
         calculation: [this.method.calculation, [], [this.calculationValidator()]],
         parameters: new FormArray(params)
       });
@@ -139,8 +141,12 @@ export class MethodEditComponent implements OnInit, OnDestroy {
     return this.editForm.get('description');
   }
 
-  get unit() {
-    return this.editForm.get('unit');
+  get weightUnit() {
+    return this.editForm.get('weightUnit');
+  }
+
+  get amountUnit() {
+    return this.editForm.get('amountUnit');
   }
 
   get calculation() {

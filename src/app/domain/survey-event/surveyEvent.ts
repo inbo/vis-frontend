@@ -1,5 +1,3 @@
-import {ProjectCode} from '../project/project';
-
 export interface SurveyEventOverview {
   surveyEventId: number;
   projectCode: string;
@@ -63,7 +61,8 @@ export interface TaxonCpue {
   taxaSum: number;
   weightCpue: number;
   taxaSumCpue: number;
-  unit: string;
+  weightUnit: string;
+  amountUnit: string;
   manualInput: boolean;
 }
 
