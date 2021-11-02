@@ -31,7 +31,7 @@ export class SurveyEventsService extends VisService {
     return this.http.get<AsyncPage<SurveyEventOverview>>(`${environment.apiUrl}/api/surveyevents`, {params});
   }
 
-  updateSurveyEvent(projectCode: any, surveyEventId: any, formData: any): Observable<SurveyEvent> {
+  updateSurveyEvent(projectCode: string, surveyEventId: any, formData: any): Observable<SurveyEvent> {
     return this.http.put<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}`,
       formData);
   }
@@ -91,7 +91,7 @@ export class SurveyEventsService extends VisService {
       formData);
   }
 
-  createMeasurements(measurements: any, projectCode: any, surveyEventId: any): Observable<void> {
+  createMeasurements(measurements: any, projectCode: string, surveyEventId: any): Observable<void> {
     return this.http.post<void>(
       `${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`,
       measurements
@@ -114,12 +114,12 @@ export class SurveyEventsService extends VisService {
     return this.http.get<TaxonCpue[]>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue`);
   }
 
-  updateCpueParameters(projectCode: any, surveyEventId: any, formData: any): Observable<boolean> {
+  updateCpueParameters(projectCode: string, surveyEventId: any, formData: any): Observable<boolean> {
     return this.http.put<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue`,
       {parameters: formData});
   }
 
-  recalculateCpue(projectCode: any, surveyEventId: any): Observable<boolean> {
+  recalculateCpue(projectCode: string, surveyEventId: any): Observable<boolean> {
     return this.http.put<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue/recalculate`, {});
   }
 
