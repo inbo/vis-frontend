@@ -12,6 +12,9 @@ import {map, take} from 'rxjs/operators';
 import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 import {Location} from '@angular/common';
 import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
+import {PicturesService} from '../../../services/vis.pictures.service';
+import {CollectionDetail} from '../../../domain/tandemvault/picture';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 
 function projectStartBeforeSurveyEvents(date: Date): ValidatorFn {
   return (c: AbstractControl) => {
@@ -58,10 +61,13 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
   instances$: Observable<MultiSelectOption[]>;
 
   private subscription = new Subscription();
+  tandemVaultCollections: SearchableSelectOption[] = [];
+  tandemVaultCollectionsFiltered: SearchableSelectOption[] = [];
+  loadingCollections = true;
 
   constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder, private accountService: AccountService,
-              private _location: Location) {
+              private _location: Location, private pictureService: PicturesService) {
 
   }
 
@@ -123,12 +129,32 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         this.projectForm.get('teams').patchValue(value.teams === undefined ? [] : value.teams);
         this.projectForm.get('instances').patchValue(value.instances === undefined ? [] : value.instances);
         this.projectForm.get('tandemvaultcollectionslug').patchValue(value.tandemvaultcollectionslug);
+
+        this.pictureService.allCollections().pipe(
+          map(fishingPoints => {
+            return fishingPoints.map(collection => ({
+              selectValue: collection.slug,
+              option: collection
+            }));
+          })
+        ).subscribe(v => {
+          this.tandemVaultCollections = v as any as SearchableSelectOption[];
+          this.tandemVaultCollectionsFiltered = v as any as SearchableSelectOption[];
+          this.loadingCollections = false;
+        });
       })
     );
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  getCollections($event: string) {
+    if ($event === '') {
+      this.tandemVaultCollectionsFiltered = this.tandemVaultCollections;
+    }
+    this.tandemVaultCollectionsFiltered = this.tandemVaultCollections.filter(value => value.option.name_with_hierarchy.toLowerCase().includes($event.toLowerCase()));
   }
 
   saveProject() {
@@ -219,5 +245,26 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
   get tandemvaultcollectionslug() {
     return this.projectForm.get('tandemvaultcollectionslug');
+  }
+
+  reloadCollections() {
+    if (this.loadingCollections) {
+      return;
+    }
+
+    this.loadingCollections = true;
+
+    this.pictureService.reloadCollections().pipe(
+      map(fishingPoints => {
+        return fishingPoints.map(collection => ({
+          selectValue: collection.slug,
+          option: collection
+        }));
+      })
+    ).subscribe(value => {
+      this.tandemVaultCollections = value as any as SearchableSelectOption[];
+      this.tandemVaultCollectionsFiltered = value as any as SearchableSelectOption[];
+      this.loadingCollections = false;
+    });
   }
 }

@@ -76,14 +76,29 @@
                 </div>
 
                 <div class="sm:col-span-4">
-                  <label for="contact" class="block text-sm font-medium text-gray-700">
-                    Tandemvault collectie
+                  <label for="tandemvaultcollectionslug" class="block text-sm font-medium text-gray-700 flex align-middle text-center">
+                    Tandemvault collectie <svg (click)="reloadCollections()" class="w-4 h-4 ml-2 cursor-pointer text-center text-gray-500" [class.animate]="loadingCollections" [class.animate-spin]="loadingCollections" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> <span class="ml-1 text-sm text-gray-500" *ngIf="loadingCollections">Bezig met het ophalen van de collecties, dit kan even duren.</span>
                   </label>
-                  <div class="mt-1">
-                    <input formControlName="tandemvaultcollectionslug" type="text" name="tandemvaultcollectionslug" id="tandemvaultcollectionslug">
+                  <div class="mt-1 relative">
+                    <app-searchable-select id="tandemvaultcollectionslug" passedId="tandemvaultcollectionslug" placeholder="Selecteer een collectie"
+                                           tabIndex="-1" formControlName="tandemvaultcollectionslug"
+                                           (search)="getCollections($event)"
+                                           [options]="tandemVaultCollectionsFiltered">
+                      <ng-template let-rowDetail #selected>
+                        <div *ngIf="rowDetail" class="flex justify-between content-center">
+                          <span>{{rowDetail.option?.slug}}</span>
+                        </div>
+                      </ng-template>
+
+                      <ng-template let-rowDetail #listItem>
+                        {{rowDetail.option.name_with_hierarchy}}
+                      </ng-template>
+
+                    </app-searchable-select>
+
                     <app-form-error-message [fieldName]="'Tandemvault collectie'" [control]="tandemvaultcollectionslug" [submitted]="submitted"></app-form-error-message>
                     <p class="mt-2 text-sm text-gray-500">
-                      Noteer hier de collectienaam uit de <em class="font-bold">url</em> om het project te koppelen aan <a class="underline" href="https://inbo.tandemvault.com/" target="_blank">Tandemvault</a>. Let er op dat je de naam uit de url gebruikt en niet de id.
+                      Selecteer hier de collectienaam om het project te koppelen aan <a class="underline" href="https://inbo.tandemvault.com/" target="_blank">Tandemvault</a>.
                     </p>
                   </div>
                 </div>

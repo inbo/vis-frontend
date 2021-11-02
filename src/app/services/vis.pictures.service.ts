@@ -3,7 +3,7 @@ import {HttpClient, HttpEvent, HttpParams, HttpRequest} from '@angular/common/ht
 import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {VisService} from './vis.service';
-import {TandemvaultDownloadResult, TandemvaultPicture, TandemvaultPictureDetail} from '../domain/tandemvault/picture';
+import {CollectionDetail, TandemvaultDownloadResult, TandemvaultPicture, TandemvaultPictureDetail} from '../domain/tandemvault/picture';
 import {Observable} from 'rxjs';
 
 
@@ -30,6 +30,14 @@ export class PicturesService extends VisService {
 
   getPicture(id: number) {
     return this.http.get<TandemvaultPictureDetail>(`${environment.apiUrl}/api/pictures/` + id);
+  }
+
+  allCollections(): Observable<CollectionDetail[]> {
+    return this.http.get<CollectionDetail[]>(`${environment.apiUrl}/api/pictures/collections`);
+  }
+
+  reloadCollections(): Observable<CollectionDetail[]> {
+    return this.http.get<CollectionDetail[]>(`${environment.apiUrl}/api/pictures/collections/reload`);
   }
 
   downloadPicture(id: number) {

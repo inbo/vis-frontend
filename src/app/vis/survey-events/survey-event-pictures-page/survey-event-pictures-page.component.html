@@ -1,30 +1,20 @@
 <div class="flex-1 flex flex-col overflow-hidden">
-  <!--<div class="text-center" *ngIf="!loading && pictures.length == 0">
+  <div class="text-center" *ngIf="!loading && tandemvaultcollectionslug == null || tandemvaultcollectionslug == ''">
     <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
     <h3 class="mt-2 text-sm font-medium text-gray-900">Geen afbeeldingen</h3>
     <p class="mt-1 text-sm text-gray-500">
-      <span *ngIf="tandemvaultcollectionslug == null || tandemvaultcollectionslug == ''">Start door Tandemvault te koppelen aan dit project</span>
-      <span *ngIf="tandemvaultcollectionslug !== null && tandemvaultcollectionslug !== ''">Voeg foto's toe aan de Tandemvault collectie</span>
+      <span>Start door Tandemvault te koppelen aan dit project</span>
 
     </p>
     <div class="mt-6">
-      <a *ngIf="tandemvaultcollectionslug == null || tandemvaultcollectionslug == ''"
-         [routerLink]="['/projecten', this.projectCode, 'bewerk']" type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+      <a [routerLink]="['/projecten', this.projectCode, 'bewerk']" type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
         <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
         Bewerk project
       </a>
-
-      <a *ngIf="tandemvaultcollectionslug !== null && tandemvaultcollectionslug !== ''"
-         [href]="'https://inbo.tandemvault.com/browse/' + this.tandemvaultcollectionslug" target="_blank" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-        <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-        Voeg foto's toe
-      </a>
     </div>
-  </div>-->
+  </div>
 
-  <app-upload-files></app-upload-files>
-
-  <div class="flex-1 flex items-stretch overflow-hidden" *ngIf="!loading">
+  <div class="flex-1 flex items-stretch overflow-hidden" *ngIf="!loading && !(tandemvaultcollectionslug == null || tandemvaultcollectionslug == '')">
     <main class="flex-1 overflow-y-auto">
       <div>
 
@@ -82,6 +72,8 @@
           </ul>
 
           <app-paging-async class="mt-6" *ngIf="pager" [pager]="pager"></app-paging-async>
+
+          <app-upload-files></app-upload-files>
         </section>
       </div>
     </main>

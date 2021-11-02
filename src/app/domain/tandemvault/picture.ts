@@ -69,3 +69,11 @@ export interface TandemvaultContributor {
 export interface TandemvaultDownloadResult {
   url: string;
 }
+
+export interface CollectionDetail {
+  id: string;
+  name: string;
+  slug: string;
+  name_with_hierarchy: string;
+  all_assets_count: string;
+}
