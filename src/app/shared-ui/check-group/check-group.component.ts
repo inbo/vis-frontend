@@ -17,8 +17,6 @@ export class CheckGroupComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.rootFormGroup.control;
-    console.log(this.form);
-    console.log(this.name);
   }
 
 

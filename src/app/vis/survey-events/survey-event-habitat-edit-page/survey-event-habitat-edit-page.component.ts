@@ -98,9 +98,27 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         this.habitatForm.get('industry').patchValue(value.industry);
         this.habitatForm.get('fishPassage').patchValue(value.fishPassage);
         this.habitatForm.get('current').patchValue(value.current);
-        // this.habitatForm.get('soil').patchValue(value.soil);
-        // this.habitatForm.get('bottleneck').patchValue(value.bottleneck);
-        // this.habitatForm.get('vegetation').patchValue(value.vegetation);
+
+        this.habitatForm.get('soil').get('other').patchValue(value.soil.other);
+        this.habitatForm.get('soil').get('grint').patchValue(value.soil.grint);
+        this.habitatForm.get('soil').get('clay').patchValue(value.soil.clay);
+        this.habitatForm.get('soil').get('mudd').patchValue(value.soil.mudd);
+        this.habitatForm.get('soil').get('silt').patchValue(value.soil.silt);
+        this.habitatForm.get('soil').get('stones').patchValue(value.soil.stones);
+        this.habitatForm.get('soil').get('waterplants').patchValue(value.soil.waterplants);
+        this.habitatForm.get('soil').get('sand').patchValue(value.soil.sand);
+
+        this.habitatForm.get('bottleneck').get('motorway').patchValue(value.bottleneck.motorway);
+        this.habitatForm.get('bottleneck').get('diver').patchValue(value.bottleneck.diver);
+        this.habitatForm.get('bottleneck').get('mill').patchValue(value.bottleneck.mill);
+        this.habitatForm.get('bottleneck').get('undefined').patchValue(value.bottleneck.undefined);
+        this.habitatForm.get('bottleneck').get('lock').patchValue(value.bottleneck.lock);
+        this.habitatForm.get('bottleneck').get('reservoir').patchValue(value.bottleneck.reservoir);
+        this.habitatForm.get('bottleneck').get('weir').patchValue(value.bottleneck.weir);
+        this.habitatForm.get('bottleneck').get('decay').patchValue(value.bottleneck.decay);
+
+        this.habitatForm.get('vegetation').get('threadAlgae').patchValue(value.vegetation.threadAlgae);
+        this.habitatForm.get('vegetation').get('filamentousAlgae').patchValue(value.vegetation.filamentousAlgae);
       }));
   }
 
