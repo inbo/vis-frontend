@@ -15,6 +15,7 @@ export class ImageDetailComponent implements OnInit {
 
   @Output() downloadPicture = new EventEmitter<number>();
   @Output() addTags = new EventEmitter<number>();
+  @Output() removeTags = new EventEmitter<number>();
 
   constructor() {
   }
@@ -28,5 +29,9 @@ export class ImageDetailComponent implements OnInit {
 
   tags(id: number) {
     this.addTags.emit(id);
+  }
+
+  clearTags(id: number) {
+    this.removeTags.emit(id);
   }
 }

@@ -8,5 +8,5 @@
 
     <app-paging-async *ngIf="pager" [pager]="pager" class="mt-6"></app-paging-async>
   </section>
-  <app-image-detail (addTags)="addTags($event)" (downloadPicture)="download($event)" [detail]="detail"></app-image-detail>
+  <app-image-detail (addTags)="addTags($event)" (removeTags)="removeTags($event)" (downloadPicture)="download($event)" [detail]="detail"></app-image-detail>
 </div>

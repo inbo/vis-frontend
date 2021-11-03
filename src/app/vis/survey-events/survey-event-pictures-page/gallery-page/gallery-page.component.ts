@@ -113,4 +113,20 @@ export class GalleryPageComponent implements OnInit, OnDestroy {
       })
     );
   }
+
+  removeTags(assetId: number) {
+    this.subscription.add(
+      this.picturesService.clearTagsForSurveyEvent(assetId, this.projectCode, this.surveyEventId).subscribe(value => {
+        this.loadDetailPicture(assetId);
+      })
+    );
+  }
+
+  clearTags(assetId: number) {
+    this.subscription.add(
+      this.picturesService.clearTagsForSurveyEvent(assetId, this.projectCode, this.surveyEventId).subscribe(value => {
+        this.loadDetailPicture(assetId);
+      })
+    );
+  }
 }
