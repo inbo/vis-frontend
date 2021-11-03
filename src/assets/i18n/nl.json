@@ -203,9 +203,9 @@
     }
   },
   "error": {
-    "forbidden": "Sorry, de pagina die u zoekt, is niet gevonden.",
-    "internal-server-error": "Sorry, er is een onverwachte fout opgetreden. Contacteer een administrator.",
-    "not-found": "Sorry, de pagina die u zoekt, is niet gevonden."
+    "forbidden": "Sorry, u hebt niet de juiste rechten om deze pagina te zien. Contacteer een verantwoordelijke als u denkt dat dit een fout is.",
+    "internal-server-error": "Sorry, er is een onverwachte fout opgetreden. Contacteer een verantwoordelijke.",
+    "not-found": "Sorry, de pagina die u zoekt is niet gevonden."
   },
   "errorMessage": {
     "required": {
