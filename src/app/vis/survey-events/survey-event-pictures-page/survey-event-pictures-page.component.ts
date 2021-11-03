@@ -37,13 +37,6 @@ export class SurveyEventPicturesPageComponent implements OnInit, OnDestroy {
       this.tandemvaultcollectionslug = value.tandemvaultcollectionslug;
     });
 
-    this.loadPicturesPage();
-
-    this.subscription.add(
-      this.activatedRoute.queryParams.subscribe((params) => {
-          this.loadPicturesPage();
-        }
-      ));
   }
 
   ngOnDestroy(): void {
@@ -54,63 +47,4 @@ export class SurveyEventPicturesPageComponent implements OnInit, OnDestroy {
 
   }
 
-  openDetail(picture: TandemvaultPicture) {
-    this.selectedPicture = picture;
-    this.loadDetailPicture(picture.id);
-  }
-
-  private loadDetailPicture(id: number) {
-    this.picturesService.getPicture(id).subscribe(value => {
-      this.detail = value;
-    });
-  }
-
-  download(id: any) {
-    this.picturesService.downloadPicture(id).subscribe(value => {
-      window.open(value.url, '_blank');
-    });
-  }
-
-  loadPicturesPage() {
-    this.loading = true;
-    this.pictures = [];
-    const page = this.activatedRoute.snapshot.queryParams.page;
-
-    if (this.url === 'afbeeldingen') {
-      this.subscription.add(
-        this.picturesService.getPicturesForSurveyEvent(page, this.projectCode, this.surveyEventId).subscribe((value) => {
-          this.afterLoadPictures(value);
-        })
-      );
-    } else if (this.url === 'project') {
-      this.subscription.add(
-        this.picturesService.getPictures(page, this.projectCode).subscribe((value) => {
-          this.afterLoadPictures(value);
-        })
-      );
-    } else if (this.url === 'dag') {
-      this.subscription.add(
-        this.picturesService.getPicturesForSurveyEvent(page, this.projectCode, this.surveyEventId).subscribe((value) => {
-          this.afterLoadPictures(value);
-        })
-      );
-    }
-
-  }
-
-  private afterLoadPictures(value: AsyncPage<TandemvaultPicture>) {
-    this.pager = value;
-    this.pictures = value.content;
-    this.loading = false;
-    this.selectedPicture = this.pictures[0];
-    this.openDetail(this.selectedPicture);
-  }
-
-  addTags(assetId: number) {
-    this.subscription.add(
-      this.picturesService.addTagsForSurveyEvent(assetId, this.projectCode, this.surveyEventId).subscribe(value => {
-        this.loadDetailPicture(assetId);
-      })
-    );
-  }
 }

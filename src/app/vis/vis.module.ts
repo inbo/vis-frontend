@@ -88,6 +88,8 @@ import {FishingPointsSelectedFeatureComponent} from './components/fishing-points
 import {HasUnsavedDataGuard} from '../core/unsaved-changes-guard.service';
 import { SurveyEventPicturesPageComponent } from './survey-events/survey-event-pictures-page/survey-event-pictures-page.component';
 import { UploadFilesComponent } from './survey-events/survey-event-pictures-page/upload-files/upload-files.component';
+import { GalleryPageComponent } from './survey-events/survey-event-pictures-page/gallery-page/gallery-page.component';
+import { UploadPageComponent } from './survey-events/survey-event-pictures-page/upload-page/upload-page.component';
 
 @NgModule({
   exports: [
@@ -170,6 +172,8 @@ import { UploadFilesComponent } from './survey-events/survey-event-pictures-page
     FishingPointsSelectedFeatureComponent,
     SurveyEventPicturesPageComponent,
     UploadFilesComponent,
+    GalleryPageComponent,
+    UploadPageComponent,
   ],
   imports: [
     CommonModule,

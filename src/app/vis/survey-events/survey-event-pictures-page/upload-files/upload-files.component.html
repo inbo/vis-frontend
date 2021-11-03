@@ -1,7 +1,4 @@
-<!--<div class="bg-gray-500 h-screen w-screen sm:px-8 md:px-16 sm:py-8">-->
-<main class="container mx-auto max-w-screen-lg h-full">
-  <!-- file upload modal -->
-  <article (fileDropped)="addFile($event)" appDnd aria-label="File Upload Modal" class="relative h-full flex flex-col bg-white shadow-xl rounded-md">
+<article (fileDropped)="addFile($event)" appDnd aria-label="File Upload Modal" class="relative h-full flex flex-col">
     <!-- overlay -->
     <div class="w-full h-full absolute top-0 left-0 pointer-events-none z-50 flex flex-col items-center justify-center rounded-md" id="overlay">
       <i>
@@ -19,9 +16,9 @@
           <span>Drag and drop je</span>&nbsp;<span>afbeeldingen hier of</span>
         </p>
         <input #file (change)="onChange($event)" class="hidden" id="hidden-input" multiple type="file"/>
-        <button (click)="file.click()" class="mt-2 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none" id="button">
+        <app-button [style]="'primary'" (click)="file.click()" class="mt-2">
           Upload bestanden
-        </button>
+        </app-button>
       </header>
 
       <h1 class="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
@@ -90,10 +87,6 @@
       </app-button>
     </footer>
   </article>
-
-
-</main>
-<!--</div>-->
 
 
 <style>
