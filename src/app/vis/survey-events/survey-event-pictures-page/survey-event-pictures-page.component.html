@@ -73,7 +73,7 @@
 
           <app-paging-async class="mt-6" *ngIf="pager" [pager]="pager"></app-paging-async>
 
-          <app-upload-files></app-upload-files>
+          <app-upload-files [projectCode]="projectCode" [surveyEventId]="surveyEventId"></app-upload-files>
         </section>
       </div>
     </main>

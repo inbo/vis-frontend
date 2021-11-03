@@ -34,12 +34,13 @@ import {MultiSelectComponent} from './multi-select/multi-select.component';
 import {HasRoleDirective} from './directives/has-role.directive';
 import {TagComponent} from './slide-over-filter/tag/tag.component';
 import {RowDirective} from './table/directives/row.directive';
-import { HeaderDirective } from './table/directives/header.directive';
-import { CellDirective } from './table/directives/cell.directive';
-import { TableComponent } from './table/table/table.component';
-import { PillComponent } from './pill/pill.component';
-import { ImageGridItemComponent } from './image-grid-item/image-grid-item.component';
-import { ImageDetailComponent } from './image-detail/image-detail.component';
+import {HeaderDirective} from './table/directives/header.directive';
+import {CellDirective} from './table/directives/cell.directive';
+import {TableComponent} from './table/table/table.component';
+import {PillComponent} from './pill/pill.component';
+import {ImageGridItemComponent} from './image-grid-item/image-grid-item.component';
+import {ImageDetailComponent} from './image-detail/image-detail.component';
+import {DndDirective} from './directives/dnd.directive';
 
 @NgModule({
   declarations: [
@@ -78,46 +79,48 @@ import { ImageDetailComponent } from './image-detail/image-detail.component';
     TableComponent,
     PillComponent,
     ImageGridItemComponent,
-    ImageDetailComponent
+    ImageDetailComponent,
+    DndDirective
   ],
-    exports: [
-        SidebarLayoutComponent,
-        NavigationLinkComponent,
-        ProfileDropdownComponent,
-        StackedLayoutComponent,
-        BreadcrumbComponent,
-        PagingAsyncComponent,
-        PagingComponent,
-        LoadingSpinnerComponent,
-        ToggleWithIconComponent,
-        DatepickerComponent,
-        SlideOverComponent,
-        TextCounterComponent,
-        ExpandableFilterComponent,
-        RadioGroupComponent,
-        CheckGroupComponent,
-        StepComponent,
-        SearchableSelectComponent,
-        DaterangeComponent,
-        TipComponent,
-        HeaderBannerComponent,
-        RoleEnabledButtonComponent,
-        SlideOverFilterComponent,
-        ModalComponent,
-        TipIconComponent,
-        MultiTextSearchComponent,
-        DropdownMinimalComponent,
-        MultiSelectComponent,
-        HasRoleDirective,
-        TagComponent,
-        RowDirective,
-        HeaderDirective,
-        CellDirective,
-        TableComponent,
-        PillComponent,
-        ImageGridItemComponent,
-        ImageDetailComponent
-    ],
+  exports: [
+    SidebarLayoutComponent,
+    NavigationLinkComponent,
+    ProfileDropdownComponent,
+    StackedLayoutComponent,
+    BreadcrumbComponent,
+    PagingAsyncComponent,
+    PagingComponent,
+    LoadingSpinnerComponent,
+    ToggleWithIconComponent,
+    DatepickerComponent,
+    SlideOverComponent,
+    TextCounterComponent,
+    ExpandableFilterComponent,
+    RadioGroupComponent,
+    CheckGroupComponent,
+    StepComponent,
+    SearchableSelectComponent,
+    DaterangeComponent,
+    TipComponent,
+    HeaderBannerComponent,
+    RoleEnabledButtonComponent,
+    SlideOverFilterComponent,
+    ModalComponent,
+    TipIconComponent,
+    MultiTextSearchComponent,
+    DropdownMinimalComponent,
+    MultiSelectComponent,
+    HasRoleDirective,
+    TagComponent,
+    RowDirective,
+    HeaderDirective,
+    CellDirective,
+    TableComponent,
+    PillComponent,
+    ImageGridItemComponent,
+    ImageDetailComponent,
+    DndDirective
+  ],
   imports: [
     RouterModule,
     CommonModule,
