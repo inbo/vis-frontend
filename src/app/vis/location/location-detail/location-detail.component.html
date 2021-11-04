@@ -77,7 +77,21 @@
                           <dd class="mt-1 text-sm text-gray-900">
                             <input formControlName="titalWater" type="checkbox"/>
                           </dd>
-                          <app-form-error-message [control]="titalWater" [fieldName]="'Getijdewater'" [submitted]="submitted"></app-form-error-message>
+                          <app-form-error-message [control]="titalWater" [fieldName]="'Getijdewater'"
+                                                  [submitted]="submitted"></app-form-error-message>
+                        </div>
+                        <div *ngIf="authService.hasRole(role.EditIndexType)" class="sm:col-span-1">
+                          <dt class="text-sm font-medium text-gray-500">
+                            Indextype
+                          </dt>
+                          <dd class="mt-1 text-sm text-gray-900">
+                            <select class="mt-1" formControlName="indexType" id="indexType">
+                              <option [ngValue]="null">Indextype selecteren...</option>
+                              <option *ngFor="let indexType of indexTypes$ | async"
+                                      [value]="indexType.code">{{indexType.name}}</option>
+                            </select>
+                            <span class="mt-2 text-sm text-gray-500">Voor de berekening van de visindex dient u expliciet het visindex type te selecteren. Dit kan enkel door een persoon die hiervoor de nodige rechten heeft.</span>
+                          </dd>
                         </div>
                       </dl>
                     </form>
@@ -129,7 +143,16 @@
                           Getijdewater
                         </dt>
                         <dd class="mt-1 text-sm text-gray-900">
-                          <input [checked]="fishingPoint?.titalWater ? 'checked' : null" disabled="disabled" type="checkbox"/>
+                          <input [checked]="fishingPoint?.titalWater ? 'checked' : null" disabled="disabled"
+                                 type="checkbox"/>
+                        </dd>
+                      </div>
+                      <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">
+                          Indextype
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                          {{'index.type.' + fishingPoint?.fishingIndexType | translate}}
                         </dd>
                       </div>
                     </dl>

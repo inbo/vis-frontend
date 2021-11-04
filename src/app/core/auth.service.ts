@@ -273,6 +273,9 @@ export class AuthService implements OnDestroy {
         case 'RAADPLEGEN_IMPORTBESTAND':
           currentRoles.push(Role.ReadImportfiles);
           break;
+        case 'BEWERK_INDEX_TYPE':
+          currentRoles.push(Role.EditIndexType);
+          break;
       }
     });
 

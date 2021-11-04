@@ -13,5 +13,6 @@ export enum Role {
     EditMethod = 'BEWERK_METHODE',
     UserAdmin = 'GEBRUIKER_ADMIN',
     CreateImportfile = 'AANMAKEN_IMPORTBESTAND',
-    ReadImportfiles = 'RAADPLEGEN_IMPORTBESTAND'
+    ReadImportfiles = 'RAADPLEGEN_IMPORTBESTAND',
+    EditIndexType = 'BEWERK_INDEX_TYPE'
 }

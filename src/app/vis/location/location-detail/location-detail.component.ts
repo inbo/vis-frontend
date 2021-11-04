@@ -11,6 +11,8 @@ import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErr
 import {Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 import {Role} from '../../../core/_models/role';
+import {IndexType} from '../../../domain/location/index-type';
+import {AuthService} from '../../../core/auth.service';
 
 @Component({
   selector: 'app-location-detail',
@@ -33,8 +35,10 @@ export class LocationDetailComponent implements OnInit {
   isDeleteModalOpen = false;
   canDelete = false;
 
+  indexTypes$: Observable<IndexType[]>;
+
   constructor(private locationsService: LocationsService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder,
-              private router: Router) {
+              private router: Router, public authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -56,9 +60,12 @@ export class LocationDetailComponent implements OnInit {
           width: [value.width ? value.width.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
           brackfishWater: [value.brackfishWater, [Validators.min(0), Validators.max(99999.999)]],
           titalWater: [value.titalWater, [Validators.min(0), Validators.max(99999.999)]],
+          indexType: [value.fishingIndexType]
         },
       );
     });
+
+    this.indexTypes$ = this.locationsService.listIndexTypes();
   }
 
   codeValidator(): AsyncValidatorFn {

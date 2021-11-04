@@ -12,6 +12,7 @@ import {Basin} from '../domain/location/basin';
 import {Coordinates} from '../domain/location/coordinates';
 import {LenticWaterbody} from '../domain/location/lentic-waterbody';
 import {AsyncValidationResult} from './validation';
+import {IndexType} from '../domain/location/index-type';
 
 
 @Injectable({
@@ -119,5 +120,9 @@ export class LocationsService extends VisService {
 
   deleteFishingPoint(id: number): Observable<void> {
     return this.http.delete<void>(`${environment.apiUrl}/api/fishingpoints/${id}`);
+  }
+
+  listIndexTypes() {
+    return this.http.get<IndexType[]>(`${environment.apiUrl}/api/indextypes/all`);
   }
 }
