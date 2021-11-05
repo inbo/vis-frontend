@@ -1,11 +1,17 @@
 import {Injectable} from '@angular/core';
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
 
+export const InterceptorSkip = 'X-Skip-Interceptor';
+export const InterceptorSkipHeader = new HttpHeaders({
+  'X-Skip-Interceptor': ''
+});
+
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
+
   constructor(private router: Router) {
   }
 
@@ -13,6 +19,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    if (request.headers && request.headers.has(InterceptorSkip)) {
+      const headers = request.headers.delete(InterceptorSkip);
+      return next.handle(request.clone({headers}));
+    }
+
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.error instanceof Error) {
@@ -23,7 +34,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           // The response body may contain clues as to what went wrong,
           console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
 
-          if(error.status === 0) {
+          if (error.status === 0) {
             this.router.navigateByUrl('/service-unavailable').then();
           }
           if (error.status === 400) {

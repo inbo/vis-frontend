@@ -8,6 +8,7 @@ import {Observable} from 'rxjs';
 import {Team} from '../domain/account/team';
 import {Instance} from '../domain/account/instance';
 import {AsyncValidationResult} from './validation';
+import {InterceptorSkipHeader} from '../core/http.error.interceptor';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class AccountService extends VisService {
   }
 
   registerAccount(): Observable<void> {
-    return this.http.post<void>(environment.apiUrl + '/api/accounts/register', {});
+    return this.http.post<void>(environment.apiUrl + '/api/accounts/register', {}, {headers: InterceptorSkipHeader});
   }
 
   update(username: string, body: any): Observable<void> {

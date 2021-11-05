@@ -2,7 +2,7 @@ import {Component, OnDestroy} from '@angular/core';
 import {AuthService} from './core/auth.service';
 import {environment} from '../environments/environment';
 import {AccountService} from './services/vis.account.service';
-import {Subscription} from 'rxjs';
+import {EMPTY, Observable, Subscription} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
 
 @Component({
@@ -18,9 +18,14 @@ export class AppComponent implements OnDestroy {
     this.authService.runInitialLoginSequence();
 
     this.subscription.add(
-      this.authService.isDoneLoading$
+      this.authService.isAuthenticated$
         .pipe(
-          mergeMap(value => this.accountService.registerAccount())
+          mergeMap(value => {
+            if (!value) {
+              return EMPTY;
+            }
+            return this.accountService.registerAccount();
+          })
         )
         .subscribe(value => {
           console.log('registered', value);

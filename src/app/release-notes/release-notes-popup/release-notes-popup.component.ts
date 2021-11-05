@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ResolveEnd, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {ReleaseNotesService} from '../../services/vis.release-notes.service';
-import {take} from "rxjs/operators";
+import {take} from 'rxjs/operators';
 
 const EXCLUDE_URLS = ['', 'forbidden', 'not-found', 'internal-server-error', 'service-unavailable'];
 
@@ -37,7 +37,7 @@ export class ReleaseNotesPopupComponent implements OnInit, OnDestroy {
               if (this.showReleaseNotes) {
                 this.releaseNotesService.getCurrentRelease().pipe(take(1)).subscribe(value => this.currentReleaseNotes = value);
               }
-            })
+            });
           }
         })
       ));
