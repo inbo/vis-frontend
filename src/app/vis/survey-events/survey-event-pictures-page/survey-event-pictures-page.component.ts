@@ -1,6 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
-import {TandemvaultPicture, TandemvaultPictureDetail} from '../../../domain/tandemvault/picture';
 import {Subscription} from 'rxjs';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
@@ -8,43 +6,38 @@ import {PicturesService} from '../../../services/vis.pictures.service';
 import {ProjectService} from '../../../services/vis.project.service';
 
 @Component({
-  selector: 'app-survey-event-pictures-page',
-  templateUrl: './survey-event-pictures-page.component.html'
+    selector: 'app-survey-event-pictures-page',
+    templateUrl: './survey-event-pictures-page.component.html'
 })
 export class SurveyEventPicturesPageComponent implements OnInit, OnDestroy {
-  loading = false;
+    loading = true;
 
-  pager: AsyncPage<TandemvaultPicture>;
-  pictures: TandemvaultPicture[];
+    subscription = new Subscription();
+    projectCode: string;
+    surveyEventId: number;
+    url: string;
+    tandemvaultcollectionslug: string;
 
-  detail: TandemvaultPictureDetail;
-  selectedPicture: TandemvaultPicture;
+    constructor(private titleService: Title, private activatedRoute: ActivatedRoute,
+                private picturesService: PicturesService, private projectService: ProjectService) {
+        this.projectCode = this.activatedRoute.snapshot.parent.params.projectCode;
+        this.surveyEventId = this.activatedRoute.snapshot.parent.params.surveyEventId;
+        this.url = this.activatedRoute.snapshot.data.url;
+        this.titleService.setTitle(`Waarneming afbeeldingen`);
 
-  subscription = new Subscription();
-  projectCode: string;
-  surveyEventId: number;
-  url: string;
-  tandemvaultcollectionslug: string;
+        this.projectService.getProject(this.projectCode).subscribe(value => {
+            this.tandemvaultcollectionslug = value.tandemvaultcollectionslug;
+            this.loading = false;
+        });
 
-  constructor(private titleService: Title, private activatedRoute: ActivatedRoute,
-              private picturesService: PicturesService, private projectService: ProjectService) {
-    this.projectCode = this.activatedRoute.snapshot.parent.params.projectCode;
-    this.surveyEventId = this.activatedRoute.snapshot.parent.params.surveyEventId;
-    this.url = this.activatedRoute.snapshot.data.url;
-    this.titleService.setTitle(`Waarneming afbeeldingen`);
+    }
 
-    this.projectService.getProject(this.projectCode).subscribe(value => {
-      this.tandemvaultcollectionslug = value.tandemvaultcollectionslug;
-    });
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 
-  }
+    ngOnInit(): void {
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  ngOnInit(): void {
-
-  }
+    }
 
 }
