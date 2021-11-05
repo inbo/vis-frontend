@@ -54,8 +54,8 @@ export class ProjectHeadingComponent implements OnInit, OnDestroy {
     );
   }
 
-  isFavorite(value: string) {
-    return this.settings?.favorites.indexOf(value) >= 0;
+  isFavorite(projectId: number) {
+    return this.settings?.favorites.indexOf(projectId) >= 0;
   }
 
   showCreateSurveyEventButton() {

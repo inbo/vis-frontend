@@ -1,5 +1,5 @@
 export interface ProjectFavorites {
-  favorites: string[];
+  favorites: number[];
 }
 
 
