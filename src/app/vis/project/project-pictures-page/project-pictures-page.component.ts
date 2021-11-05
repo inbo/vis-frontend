@@ -34,8 +34,6 @@ export class ProjectPicturesPageComponent implements OnInit, OnDestroy {
       this.tandemvaultcollectionslug = value.tandemvaultcollectionslug;
     });
 
-    this.loadPicturesPage();
-
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
           this.loadPicturesPage();

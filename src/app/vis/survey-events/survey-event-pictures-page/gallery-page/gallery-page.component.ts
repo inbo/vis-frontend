@@ -36,9 +36,7 @@ export class GalleryPageComponent implements OnInit, OnDestroy {
     this.projectService.getProject(this.projectCode).subscribe(value => {
       this.tandemvaultcollectionslug = value.tandemvaultcollectionslug;
     });
-
-    this.loadPicturesPage();
-
+    
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
           this.loadPicturesPage();
