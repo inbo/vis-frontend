@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
-import {SurveyEvent, SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../core/_models/role';
 import {take} from 'rxjs/operators';
 
@@ -15,6 +15,7 @@ export class SurveyEventDetailPageComponent implements OnInit {
   role = Role;
   surveyEvent: SurveyEvent;
   isModalOpen = false;
+  projectCode: string;
 
   constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private surveyEventService: SurveyEventsService) {
     this.titleService.setTitle(`Waarneming algemeen ${this.activatedRoute.parent.snapshot.params.surveyEventId}`);
@@ -22,7 +23,8 @@ export class SurveyEventDetailPageComponent implements OnInit {
   }
 
   private loadSurveyEvent() {
-    this.surveyEventService.getSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
+    this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
+    this.surveyEventService.getSurveyEvent(this.projectCode,
       this.activatedRoute.parent.snapshot.params.surveyEventId).subscribe(value => this.surveyEvent = value);
   }
 

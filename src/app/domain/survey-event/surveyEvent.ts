@@ -17,7 +17,7 @@ export interface SurveyEventOverview {
 
 export interface SurveyEvent {
   surveyEventId: number;
-  projectCode: string;
+  projectId: number;
   occurrence: Date;
   status: string;
   method: string;

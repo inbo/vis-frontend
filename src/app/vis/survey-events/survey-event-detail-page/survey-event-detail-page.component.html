@@ -156,7 +156,7 @@
     <app-button [style]="'primary'"
                 [disabled]="surveyEvent?.status === 'DELETED'"
                 class="ml-3"
-                [routerLink]="['/projecten', surveyEvent?.projectCode, 'waarnemingen', surveyEvent?.surveyEventId, 'bewerk']"
+                [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent?.surveyEventId, 'bewerk']"
                 [role]="role.EditSurveyEvent"
                 [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
     </app-button>
