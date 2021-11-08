@@ -13,6 +13,7 @@ import {Coordinates} from '../domain/location/coordinates';
 import {LenticWaterbody} from '../domain/location/lentic-waterbody';
 import {AsyncValidationResult} from './validation';
 import {IndexType} from '../domain/location/index-type';
+import {Municipality} from '../domain/location/municipality';
 
 
 @Injectable({
@@ -91,6 +92,15 @@ export class LocationsService extends VisService {
     }
 
     return this.http.get<Basin[]>(`${environment.apiUrl}/api/basins/search`, {params});
+  }
+
+  searchMunicipalities(q?: string): Observable<Municipality[]> {
+    let params = new HttpParams();
+    if (q) {
+      params = params.set('q', q);
+    }
+
+    return this.http.get<Municipality[]>(`${environment.apiUrl}/api/municipalities/search`, {params});
   }
 
   searchLenticWaterbodyNames(name?: string): Observable<LenticWaterbody[]> {

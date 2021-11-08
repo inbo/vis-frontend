@@ -21,6 +21,7 @@ import {AuthService} from '../../../core/auth.service';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {Watercourse} from '../../../domain/location/watercourse';
 import {Basin} from '../../../domain/location/basin';
+import {Municipality} from '../../../domain/location/municipality';
 
 @Component({
   selector: 'app-project-survey-events-page',
@@ -43,6 +44,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
   statuses$: Observable<MultiSelectOption[]>;
   watercourses$: Observable<Watercourse[]>;
   basins$: Observable<Basin[]>;
+  municipalities$: Observable<Municipality[]>;
 
   filterForm: FormGroup;
 
@@ -85,6 +87,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
     this.methodGroups$ = this.methodsService.getAllMethodGroups();
     this.watercourses$ = this.locationsService.searchWatercourses();
     this.basins$ = this.locationsService.searchBasins();
+    this.municipalities$ = this.locationsService.searchMunicipalities();
 
     this.subscription.add(
       this.filterForm.get('methodGroup').valueChanges.subscribe(value => {

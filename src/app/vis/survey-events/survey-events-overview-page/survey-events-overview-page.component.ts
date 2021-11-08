@@ -25,6 +25,7 @@ import {Watercourse} from '../../../domain/location/watercourse';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {Basin} from '../../../domain/location/basin';
 import {LenticWaterbody} from '../../../domain/location/lentic-waterbody';
+import {Municipality} from '../../../domain/location/municipality';
 
 @Component({
   selector: 'app-survey-events-overview-page',
@@ -51,6 +52,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
   statuses$: Observable<MultiSelectOption[]>;
   watercourses$: Observable<Watercourse[]>;
   basins$: Observable<Basin[]>;
+  municipalities$: Observable<Municipality[]>;
   lenticWaterbodyNames: LenticWaterbody[];
 
   private subscription = new Subscription();
@@ -93,6 +95,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     this.methodGroups$ = this.methodsService.getAllMethodGroups();
     this.watercourses$ = this.locationsService.searchWatercourses();
     this.basins$ = this.locationsService.searchBasins();
+    this.municipalities$ = this.locationsService.searchMunicipalities();
     this.locationsService.searchLenticWaterbodyNames().subscribe(value => this.lenticWaterbodyNames = value);
 
     this.subscription.add(
