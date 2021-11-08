@@ -15,6 +15,16 @@
             <div>
               <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                 <div class="sm:col-span-4">
+                  <label for="code" class="block text-sm font-medium text-gray-700">
+                    Code *
+                  </label>
+                  <div class="mt-1">
+                    <input formControlName="code" type="text" name="code" id="code" autocomplete="code">
+                  </div>
+                  <app-form-error-message [fieldName]="'Code'" [control]="code"
+                                          [submitted]="submitted"></app-form-error-message>
+                </div>
+                <div class="sm:col-span-4">
                   <label for="name" class="block text-sm font-medium text-gray-700">
                     Naam *
                   </label>

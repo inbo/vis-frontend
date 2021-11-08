@@ -2,7 +2,7 @@ import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/co
 import {Project} from '../../../domain/project/project';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Observable, Subscription} from 'rxjs';
 import {ProjectService} from '../../../services/vis.project.service';
@@ -13,7 +13,6 @@ import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 import {Location} from '@angular/common';
 import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
 import {PicturesService} from '../../../services/vis.pictures.service';
-import {CollectionDetail} from '../../../domain/tandemvault/picture';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 
 function projectStartBeforeSurveyEvents(date: Date): ValidatorFn {
@@ -86,6 +85,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
     this.projectForm = this.formBuilder.group(
       {
+        code: [null, [Validators.required, Validators.maxLength(15)], [this.codeValidator()]],
         name: [null, [Validators.required, Validators.maxLength(200)]],
         description: [null, [Validators.maxLength(2000)]],
         lengthType: ['', [Validators.required]],
@@ -121,6 +121,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         this.titleService.setTitle(value.name);
 
         this.project = value;
+        this.projectForm.get('code').patchValue(value.code?.value);
         this.projectForm.get('name').patchValue(value.name);
         this.projectForm.get('description').patchValue(value.description);
         this.projectForm.get('startDate').patchValue(new Date(value.start));
@@ -148,6 +149,13 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  codeValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return this.projectService.checkIfProjectExists(control.value)
+        .pipe(map(result => result.valid ? {uniqueCode: true} : null));
+    };
   }
 
   getCollections($event: string) {
@@ -213,6 +221,10 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
   hasUnsavedDataBeforeUnload(): any {
     // Return false when there is unsaved data to show a dialog
     return !this.hasUnsavedData();
+  }
+
+  get code() {
+    return this.projectForm.get('code');
   }
 
   get name() {
