@@ -17,8 +17,9 @@
             Datum *
           </label>
           <div class="mt-1">
-            <app-datepicker formControlName="occurrenceDate"></app-datepicker>
+            <app-datepicker #occurrenceDatePicker formControlName="occurrenceDate"></app-datepicker>
             <app-form-error-message [fieldName]="'Datum'" [control]="occurrenceDate" [submitted]="submitted"></app-form-error-message>
+            <app-form-error-message [fieldName]="'Waarneming'" [control]="copySurveyEventForm" [submitted]="submitted"></app-form-error-message>
           </div>
         </div>
       </form>
@@ -27,7 +28,7 @@
         <app-button [style]="'secondary'" (click)="isOpen = false">
           Annuleren
         </app-button>
-        <app-button [style]="'primary'" class="ml-3" (click)="copySurveyEvent()">
+        <app-button [disabled]="!copySurveyEventForm.valid" [style]="'primary'" class="ml-3" (click)="copySurveyEvent()">
           Bewaren
         </app-button>
       </div>

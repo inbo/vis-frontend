@@ -24,3 +24,20 @@ export function uniqueValidator(projectCode: string, surveyEventService: SurveyE
       method).pipe(map(result => result.valid ? {uniqueSurveyEvent: true} : null));
   };
 }
+
+export function uniqueNewValidator(
+  projectCode: string,
+  location: number,
+  method: string,
+  surveyEventService: SurveyEventsService): AsyncValidatorFn {
+  return (form: FormGroup): Observable<ValidationErrors | null> => {
+
+
+    if (!form.get('occurrenceDate').value) {
+      return EMPTY;
+    }
+
+    return surveyEventService.checkIfSurveyEventExists(projectCode, location, new Date(form.get('occurrenceDate').value).toISOString(),
+      method).pipe(map(result => result.valid ? {uniqueSurveyEvent: true} : null));
+  };
+}

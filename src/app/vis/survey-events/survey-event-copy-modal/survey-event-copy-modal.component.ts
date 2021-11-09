@@ -1,21 +1,29 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {take} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
+import {uniqueNewValidator, uniqueValidator} from '../survey-event-validators';
 
 @Component({
   selector: 'app-survey-event-copy-modal',
   templateUrl: './survey-event-copy-modal.component.html'
 })
-export class SurveyEventCopyModalComponent implements OnInit {
+export class SurveyEventCopyModalComponent implements OnInit, AfterViewInit {
 
   isOpen = false;
   copySurveyEventForm: FormGroup;
   submitted = false;
 
+  @ViewChild('occurrenceDatePicker') occurrenceDatePicker: DatepickerComponent;
+
   @Input() projectCode;
   @Input() surveyEventId;
+  @Input() startDate: Date;
+  @Input() endDate: Date;
+  @Input() location: number;
+  @Input() method: string;
 
   constructor(private formBuilder: FormBuilder, private surveyEventsService: SurveyEventsService,
               private router: Router) {
@@ -29,7 +37,14 @@ export class SurveyEventCopyModalComponent implements OnInit {
     this.copySurveyEventForm = this.formBuilder.group(
       {
         occurrenceDate: [null, [Validators.required]],
-      });
+      }, {asyncValidators: [uniqueNewValidator(this.projectCode, this.location, this.method,  this.surveyEventsService)]});
+  }
+
+  ngAfterViewInit(): void {
+    this.occurrenceDatePicker.setMinDate(new Date(this.startDate));
+    if (this.endDate) {
+      this.occurrenceDatePicker.setMaxDate(new Date(this.endDate));
+    }
   }
 
   open() {

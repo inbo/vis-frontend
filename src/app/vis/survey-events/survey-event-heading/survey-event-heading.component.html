@@ -1,6 +1,10 @@
 <div class="lg:flex lg:items-center lg:justify-between px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
   <div class="flex-1 min-w-0">
-    <app-survey-event-copy-modal [projectCode]="projectCode"
+    <app-survey-event-copy-modal *ngIf="project && surveyEvent" [projectCode]="projectCode"
+                                 [startDate]="project?.start"
+                                 [endDate]="project?.end"
+                                 [method]="surveyEvent.method"
+                                 [location]="surveyEvent.fishingPoint.id"
                                  [surveyEventId]="surveyEventId"></app-survey-event-copy-modal>
     <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
       Waarneming
