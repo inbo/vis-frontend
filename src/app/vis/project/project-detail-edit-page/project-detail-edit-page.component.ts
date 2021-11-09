@@ -4,7 +4,7 @@ import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {HasUnsavedData} from '../../../core/core.interface';
-import {Observable, Subscription} from 'rxjs';
+import {EMPTY, Observable, Subscription} from 'rxjs';
 import {ProjectService} from '../../../services/vis.project.service';
 import {Role} from '../../../core/_models/role';
 import {AccountService} from '../../../services/vis.account.service';
@@ -153,6 +153,9 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
   codeValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (control.pristine) {
+        return EMPTY;
+      }
       return this.projectService.checkIfProjectExists(control.value)
         .pipe(map(result => result.valid ? {uniqueCode: true} : null));
     };

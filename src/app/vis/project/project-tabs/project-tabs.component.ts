@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-project-tabs',
@@ -7,7 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class ProjectTabsComponent implements OnInit {
 
-  projectCode: string;
+  projectCode$: Observable<string>;
   currentUrl: string;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
@@ -15,7 +17,7 @@ export class ProjectTabsComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUrl = '/' + this.activatedRoute.snapshot.url.join('/');
-    this.projectCode = this.activatedRoute.snapshot.params.projectCode;
+    this.projectCode$ = this.activatedRoute.params.pipe(map(param => param.projectCode));
   }
 
   navigate(location: string) {

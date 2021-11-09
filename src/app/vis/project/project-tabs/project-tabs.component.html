@@ -1,7 +1,8 @@
 <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
   <div class="sm:hidden">
     <label for="tabs" class="sr-only">Select a tab</label>
-    <select [(ngModel)]="currentUrl" #navigationSelect (change)="navigate(navigationSelect.value)" id="tabs" name="tabs">
+    <select *ngIf="projectCode$ | async as projectCode" [(ngModel)]="currentUrl" #navigationSelect
+            (change)="navigate(navigationSelect.value)" id="tabs" name="tabs">
       <option [value]="'/projecten/' + projectCode">Details</option>
       <option [value]="'/projecten/' + projectCode + '/waarnemingen'">Waarnemingen</option>
       <option [value]="'/projecten/' + projectCode + '/locaties'">Project locaties</option>
@@ -12,23 +13,36 @@
   </div>
   <div class="hidden sm:block">
     <div class="border-b border-gray-200">
-      <nav class="-mb-px flex space-x-8" aria-label="Tabs" >
-        <a [routerLink]="['/projecten', projectCode]" [routerLinkActiveOptions]="{exact: true}" routerLinkActive #rla="routerLinkActive" [ngClass]="rla.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+      <nav *ngIf="projectCode$ | async as projectCode" class="-mb-px flex space-x-8" aria-label="Tabs">
+        <a [routerLink]="['/projecten', projectCode]" [routerLinkActiveOptions]="{exact: true}" routerLinkActive
+           #rla="routerLinkActive"
+           [ngClass]="rla.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+           class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
           Details
         </a>
-        <a [routerLink]="['/projecten', projectCode, 'waarnemingen']" routerLinkActive #rla2="routerLinkActive" [ngClass]="rla2.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+        <a [routerLink]="['/projecten', projectCode, 'waarnemingen']" routerLinkActive #rla2="routerLinkActive"
+           [ngClass]="rla2.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+           class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
           Waarnemingen
         </a>
-        <a [routerLink]="['/projecten', projectCode, 'locaties']" routerLinkActive #rla3="routerLinkActive" [ngClass]="rla3.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+        <a [routerLink]="['/projecten', projectCode, 'locaties']" routerLinkActive #rla3="routerLinkActive"
+           [ngClass]="rla3.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+           class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
           Project locaties
         </a>
-        <a [routerLink]="['/projecten', projectCode, 'methoden']" routerLinkActive #rla5="routerLinkActive" [ngClass]="rla5.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+        <a [routerLink]="['/projecten', projectCode, 'methoden']" routerLinkActive #rla5="routerLinkActive"
+           [ngClass]="rla5.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+           class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
           Project methoden
         </a>
-        <a [routerLink]="['/projecten', projectCode, 'vissoorten']" routerLinkActive #rla6="routerLinkActive" [ngClass]="rla6.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+        <a [routerLink]="['/projecten', projectCode, 'vissoorten']" routerLinkActive #rla6="routerLinkActive"
+           [ngClass]="rla6.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+           class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
           Vissoorten
         </a>
-        <a [routerLink]="['/projecten', projectCode, 'afbeeldingen']" routerLinkActive #rla7="routerLinkActive" [ngClass]="rla7.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+        <a [routerLink]="['/projecten', projectCode, 'afbeeldingen']" routerLinkActive #rla7="routerLinkActive"
+           [ngClass]="rla7.isActive ? 'border-pink-500 text-pink-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+           class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm">
           Foto's
         </a>
       </nav>
