@@ -293,7 +293,9 @@
       "CODE": "Meetplaatscode",
       "DESCRIPTION": "Omschrijving",
       "X": "X",
-      "Y": "Y"
+      "Y": "Y",
+      "lat": "Latitude",
+      "lng": "Longitude"
     }
   }
 }

@@ -150,7 +150,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
       this.subscription.add(
         this.locationsService.getFishingPointsFeatures(this.projectCode).subscribe(fishingPointFeatures => {
           fishingPointFeatures.forEach(fpf => {
-            const latlng = latLng(fpf.x, fpf.y);
+            const latlng = latLng(fpf.lat, fpf.lng);
             const m = circleMarker(latlng, {
               fill: true,
               fillColor: '#DC2626',
@@ -171,7 +171,9 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 CODE: fpf.code,
                 DESCRIPTION: fpf.description,
                 X: fpf.x,
-                Y: fpf.y
+                Y: fpf.y,
+                lat: fpf.lat,
+                lng: fpf.lng
               };
               this.selected.set(4, filteredProperties);
             });

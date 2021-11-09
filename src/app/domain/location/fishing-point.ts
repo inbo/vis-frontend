@@ -52,6 +52,8 @@ export interface FishingPointFeature {
   description: string;
   x: number;
   y: number;
+  lat: number;
+  lng: number;
 }
 
 export interface FishingPointSearch {
