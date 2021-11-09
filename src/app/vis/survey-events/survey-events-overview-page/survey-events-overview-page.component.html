@@ -17,16 +17,23 @@
                                [formGroup]="filterForm" [tags]="tags">
           <ng-container slot="content">
             <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700" for="watercourse">
+              <div class="relative sm:col-span-4">
+                <label for="watercourse" class="block text-sm font-medium text-gray-700">
                   Waterloop
                 </label>
                 <div class="mt-1">
-                  <select class="mt-1" formControlName="watercourse" id="watercourse">
-                    <option [ngValue]="null">Waterloop selecteren...</option>
-                    <option *ngFor="let watercourse of watercourses$ | async"
-                            [value]="watercourse.name">{{watercourse.name}}</option>
-                  </select>
+                  <app-searchable-select id="watercourse" passedId="watercourse" placeholder="Selecteer een waterloop"
+                                         tabIndex="-1" formControlName="watercourse"
+                                         (search)="getWatercourses($event)"
+                                         [options]="watercourses">
+                    <ng-template let-rowDetail #selected>
+                      {{rowDetail.option?.name}}
+                    </ng-template>
+
+                    <ng-template let-rowDetail #listItem>
+                      {{rowDetail.option?.name}}
+                    </ng-template>
+                  </app-searchable-select>
                 </div>
               </div>
 

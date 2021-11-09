@@ -13,6 +13,8 @@ import {LatLng} from 'leaflet';
 import {Role} from '../../../core/_models/role';
 import {getTag, Tag} from '../../../shared-ui/slide-over-filter/tag';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {map, take} from 'rxjs/operators';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 
 @Component({
   selector: 'app-location-overview-page',
@@ -38,6 +40,8 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   filterForm: FormGroup;
 
   highlightedLocation: number;
+
+  watercourses: SearchableSelectOption[] = [];
 
   constructor(private titleService: Title, private locationsService: LocationsService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder) {
@@ -158,5 +162,17 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
       this.filterForm.get(formField).reset();
       this.filter();
     };
+  }
+
+  getWatercourses(val: any) {
+    this.locationsService.searchWatercourses(val).pipe(
+      take(1),
+      map(watercourses => {
+        return watercourses.map(watercourse => ({
+          selectValue: watercourse.name,
+          option: watercourse
+        }));
+      })
+    ).subscribe(value => this.watercourses = value as any as SearchableSelectOption[]);
   }
 }
