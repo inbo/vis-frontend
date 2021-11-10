@@ -62,9 +62,6 @@ export interface TaxonCpue {
   taxaSum: number;
   weightCpue: number;
   taxaSumCpue: number;
-  weightUnit: string;
-  amountUnit: string;
+  unit: string;
   manualInput: boolean;
 }
-
-

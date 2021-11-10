@@ -91,24 +91,13 @@
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700" for="weightUnit">
-                CPUE gewicht eenheid
+              <label class="block text-sm font-medium text-gray-700" for="unit">
+                CPUE Eenheid
               </label>
               <div class="mt-1">
-                <input formControlName="weightUnit" id="weightUnit" name="weightUnit" type="text">
+                <input formControlName="unit" id="unit" name="unit" type="text">
               </div>
-              <app-form-error-message [control]="weightUnit" [fieldName]="'CPUE gewicht eenheid'"
-                                      [submitted]="submitted"></app-form-error-message>
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700" for="amountUnit">
-                CPUE aantal eenheid
-              </label>
-              <div class="mt-1">
-                <input formControlName="amountUnit" id="amountUnit" name="amountUnit" type="text">
-              </div>
-              <app-form-error-message [control]="amountUnit" [fieldName]="'CPUE aantal eenheid'"
+              <app-form-error-message [control]="unit" [fieldName]="'Beschrijving'"
                                       [submitted]="submitted"></app-form-error-message>
             </div>
 
