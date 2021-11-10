@@ -75,6 +75,9 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
       this.filterForm.get('page').patchValue(params.page ? params.page : null);
       this.filterForm.get('size').patchValue(params.size ? params.size : null);
 
+      if (this.map) {
+        this.map.updateFishingPointsLayer(this.filterForm.getRawValue());
+      }
       this.getFishingPoints();
     }));
   }

@@ -35,11 +35,13 @@ export class LocationsService extends VisService {
     return this.http.post<void>(environment.apiUrl + '/api/fishingpoints', formData);
   }
 
-  getFishingPointsFeatures(projectCode?: string): Observable<FishingPointFeature[]> {
+  getFishingPointsFeatures(projectCode?: string, filter?: any): Observable<FishingPointFeature[]> {
+    const params = this.getParams(filter);
+
     if (projectCode) {
       return this.http.get<FishingPointFeature[]>(`${environment.apiUrl}/api/fishingpoints/project/${projectCode}/features`, {});
     }
-    return this.http.get<FishingPointFeature[]>(`${environment.apiUrl}/api/fishingpoints/features`, {});
+    return this.http.get<FishingPointFeature[]>(`${environment.apiUrl}/api/fishingpoints/features`, {params});
   }
 
   latestVhaVersion(): Observable<VhaUrl> {

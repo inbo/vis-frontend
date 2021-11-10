@@ -16,6 +16,9 @@ export class VisService {
   }
 
   protected getParams(filter: any): HttpParams {
+    if (!filter) {
+      return null;
+    }
     let params = new HttpParams();
 
     Object.keys(filter ?? []).forEach((key) => {

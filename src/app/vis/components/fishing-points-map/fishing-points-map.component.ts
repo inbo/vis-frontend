@@ -1,19 +1,20 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Subscription} from 'rxjs';
 import * as L from 'leaflet';
-import {circleMarker, CircleMarker, DragEndEvent, featureGroup, LatLng, latLng, Layer, layerGroup, LeafletEvent, LeafletMouseEvent, Map as LeafletMap, MapOptions, Marker, marker} from 'leaflet';
+import {circleMarker, CircleMarker, DragEndEvent, featureGroup, LatLng, latLng, Layer, layerGroup, LeafletMouseEvent, Map as LeafletMap, MapOptions, Marker, marker} from 'leaflet';
 import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
 import {basemapLayer, dynamicMapLayer, DynamicMapLayer, featureLayer} from 'esri-leaflet';
 import * as geojson from 'geojson';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {take} from 'rxjs/operators';
 import {VhaUrl} from '../../../domain/location/vha-version';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-fishing-points-map',
   templateUrl: './fishing-points-map.component.html'
 })
-export class FishingPointsMapComponent implements OnInit, OnDestroy {
+export class FishingPointsMapComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() heightClass = 'h-96';
   @Input() projectCode; // Get fishing points for a specific project, all fishing points are retrieved when null
@@ -23,6 +24,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   @Input() blueLayerVisible = true;
   @Input() watercoursesLayerVisible = true;
   @Input() townsLayerVisible = true;
+  @Input() filter: any;
 
   @Output() pointAdded = new EventEmitter<LatLng>();
   @Output() nearbyWatercoursesFound = new EventEmitter<any>();
@@ -79,6 +81,14 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    const equal = _.isEqual(changes.filter.previousValue, changes.filter.currentValue);
+    if (!equal) {
+      console.log('need filtering');
+
+    }
   }
 
   private setup() {
@@ -146,48 +156,55 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
           Gemeente: this.townLayer,
         }
       };
-
-      this.subscription.add(
-        this.locationsService.getFishingPointsFeatures(this.projectCode).subscribe(fishingPointFeatures => {
-          fishingPointFeatures.forEach(fpf => {
-            const latlng = latLng(fpf.lat, fpf.lng);
-            const m = circleMarker(latlng, {
-              fill: true,
-              fillColor: '#DC2626',
-              fillOpacity: 100,
-              radius: 7,
-              stroke: false
-            });
-            m.on('click', (event: LeafletMouseEvent) => {
-              this.clickedLatlng = event.latlng;
-              const layer = event.target;
-              this.clearLocationsSelectedStyle();
-
-              layer.setStyle({
-                stroke: true,
-              });
-
-              const filteredProperties = {
-                CODE: fpf.code,
-                DESCRIPTION: fpf.description,
-                X: fpf.x,
-                Y: fpf.y,
-                lat: fpf.lat,
-                lng: fpf.lng
-              };
-              this.selected.set(4, filteredProperties);
-            });
-            this.locationsLayer.addLayer(m);
-
-          });
-          this.layerMetadata.set(4, {name: 'Vispunt'});
-        })
-      );
+      this.updateFishingPointsLayer(this.filter);
 
       this.loaded.emit();
     });
 
 
+  }
+
+  public updateFishingPointsLayer(filter: any) {
+    console.log('update fishing points layer');
+
+    this.locationsLayer.clearLayers();
+
+    this.subscription.add(
+      this.locationsService.getFishingPointsFeatures(this.projectCode, filter).subscribe(fishingPointFeatures => {
+        fishingPointFeatures.forEach(fpf => {
+          const latlng = latLng(fpf.lat, fpf.lng);
+          const m = circleMarker(latlng, {
+            fill: true,
+            fillColor: '#DC2626',
+            fillOpacity: 100,
+            radius: 7,
+            stroke: false
+          });
+          m.on('click', (event: LeafletMouseEvent) => {
+            this.clickedLatlng = event.latlng;
+            const layer = event.target;
+            this.clearLocationsSelectedStyle();
+
+            layer.setStyle({
+              stroke: true,
+            });
+
+            const filteredProperties = {
+              CODE: fpf.code,
+              DESCRIPTION: fpf.description,
+              X: fpf.x,
+              Y: fpf.y,
+              lat: fpf.lat,
+              lng: fpf.lng
+            };
+            this.selected.set(4, filteredProperties);
+          });
+          this.locationsLayer.addLayer(m);
+
+        });
+        this.layerMetadata.set(4, {name: 'Vispunt'});
+      })
+    );
   }
 
   private clearLocationsSelectedStyle() {
