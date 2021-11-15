@@ -3,9 +3,9 @@
   <div class="hidden sm:block">
     <p class="text-sm leading-5 text-gray-700">
       Toont
-      <span class="font-medium">{{pager.pageable.offset + (pager.numberOfElements !== 0 ? 1 : 0)}}</span>
+      <span class="font-medium">{{pager.totalElements === 0 ? 0 : pager.pageable.offset + (pager.numberOfElements !== 0 ? 1 : 0)}}</span>
       tot
-      <span class="font-medium">{{pager.pageable.offset + pager.numberOfElements}}</span>
+      <span class="font-medium">{{pager.totalElements === 0 ? 0 : pager.pageable.offset + pager.numberOfElements}}</span>
       van
       <span class="font-medium">{{pager.totalElements}}</span>
       resultaten

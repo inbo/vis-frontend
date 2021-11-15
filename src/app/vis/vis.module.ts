@@ -90,11 +90,17 @@ import { SurveyEventPicturesPageComponent } from './survey-events/survey-event-p
 import { UploadFilesComponent } from './survey-events/survey-event-pictures-page/upload-files/upload-files.component';
 import { GalleryPageComponent } from './survey-events/survey-event-pictures-page/gallery-page/gallery-page.component';
 import { UploadPageComponent } from './survey-events/survey-event-pictures-page/upload-page/upload-page.component';
+import {ImageGridItemComponent} from './components/image-grid-item/image-grid-item.component';
+import {ImageDetailComponent} from './components/image-detail/image-detail.component';
+import { FishSpeciesTabsComponent } from './fish-specie/fish-species-tabs/fish-species-tabs.component';
+import { FishSpeciesComponent } from './fish-specie/fish-species/fish-species.component';
+import { FishSpeciesPicturesPageComponent } from './fish-specie/fish-species-pictures-page/fish-species-pictures-page.component';
 
 @NgModule({
-  exports: [
-    SwitchRoleComponent
-  ],
+    exports: [
+        SwitchRoleComponent,
+        SpeciesSearchComponent
+    ],
   declarations: [
     DashboardPageComponent,
     ProjectsOverviewPageComponent,
@@ -174,6 +180,11 @@ import { UploadPageComponent } from './survey-events/survey-event-pictures-page/
     UploadFilesComponent,
     GalleryPageComponent,
     UploadPageComponent,
+    ImageGridItemComponent,
+    ImageDetailComponent,
+    FishSpeciesTabsComponent,
+    FishSpeciesComponent,
+    FishSpeciesPicturesPageComponent
   ],
   imports: [
     CommonModule,

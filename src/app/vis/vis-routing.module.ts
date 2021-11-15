@@ -50,6 +50,8 @@ import {SurveyEventCpueEditPageComponent} from './survey-events/survey-event-cpu
 import {SurveyEventPicturesPageComponent} from './survey-events/survey-event-pictures-page/survey-event-pictures-page.component';
 import {GalleryPageComponent} from './survey-events/survey-event-pictures-page/gallery-page/gallery-page.component';
 import {UploadPageComponent} from './survey-events/survey-event-pictures-page/upload-page/upload-page.component';
+import {FishSpeciesComponent} from './fish-specie/fish-species/fish-species.component';
+import {FishSpeciesPicturesPageComponent} from './fish-specie/fish-species-pictures-page/fish-species-pictures-page.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -206,7 +208,26 @@ const routes: Routes = [
   },
   {path: 'locaties/:code', component: LocationDetailComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'vissoorten', component: FishSpeciesOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-  {path: 'vissoorten/:taxonId', component: FishSpeciesDetailPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {
+    path: 'vissoorten/:taxonId',
+    component: FishSpeciesComponent,
+    children: [
+      {
+        path: '',
+        component: FishSpeciesDetailPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        pathMatch: 'full',
+        data: {name: 'Details', url: ''}
+      },
+      {
+        path: 'afbeeldingen',
+        component: FishSpeciesPicturesPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        pathMatch: 'full',
+        data: {name: 'Afbeeldingen', url: 'afbeeldingen'}
+      }
+    ]
+  },
   {path: 'methoden', component: MethodsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'waarnemingen', component: SurveyEventsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'profiel', component: ProfilePageComponent, canActivate: [AuthGuardWithForcedLogin]},

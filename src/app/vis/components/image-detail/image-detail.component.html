@@ -1,0 +1,95 @@
+<aside class="hidden w-96 bg-white p-8 border-l border-gray-200 overflow-y-auto lg:block">
+  <div class="pb-16 space-y-6">
+    <div>
+      <div class="block w-full aspect-w-10 aspect-h-7 rounded-lg overflow-hidden">
+        <img [src]="detail?.permalink_url" alt="" class="object-cover">
+      </div>
+      <div class="mt-4 flex items-start justify-between">
+        <div>
+          <h2 class="text-lg font-medium text-gray-900"><span class="sr-only">Details for </span>{{detail?.filename}}</h2>
+          <p class="text-sm font-medium text-gray-500">{{(detail?.file_size / 1000000) | number : 0}} MB</p>
+        </div>
+
+      </div>
+    </div>
+    <div>
+      <h3 class="font-medium text-gray-900">Information</h3>
+      <dl class="mt-2 border-t border-b border-gray-200 divide-y divide-gray-200">
+        <div class="py-3 flex justify-between text-sm font-medium">
+          <dt class="text-gray-500">Geüpload door</dt>
+          <dd class="text-gray-900">{{detail?.contributor.to_s}}</dd>
+        </div>
+
+        <div class="py-3 flex justify-between text-sm font-medium">
+          <dt class="text-gray-500">Genomen op</dt>
+          <dd class="text-gray-900">{{detail?.captured_at | date:'dd/MM/yyyy HH:mm'}}</dd>
+        </div>
+
+        <div class="py-3 flex justify-between text-sm font-medium">
+          <dt class="text-gray-500">Geüpload op</dt>
+          <dd class="text-gray-900">{{detail?.created_at | date:'dd/MM/yyyy HH:mm'}}</dd>
+        </div>
+
+        <div class="py-3 flex justify-between text-sm font-medium">
+          <dt class="text-gray-500">Afmetingen</dt>
+          <dd class="text-gray-900">{{detail?.width}} x {{detail?.height}}</dd>
+        </div>
+
+      </dl>
+    </div>
+    <div>
+      <h3 class="font-medium text-gray-900">Tags</h3>
+      <ul class="mt-2 border-t border-b border-gray-200 divide-y divide-gray-200" role="list">
+        <li *ngFor="let tag of detail?.tag_list" class="py-3 flex justify-between items-center">
+          <div class="flex items-center justify-between w-full">
+            <p class="text-sm font-medium text-gray-900">{{tag}}</p>
+            <button (click)="removeTagClick(detail?.id, tag)" type="button" class="bg-white rounded-full h-8 w-8 flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+              <span class="sr-only">Delete tag</span>
+            </button>
+          </div>
+        </li>
+        <li *ngIf="canAddTags" class="py-3 flex justify-between items-center">
+          <div class="flex items-center w-full">
+            <input [(ngModel)]="customTag" class="mr-2" type="text"/>
+
+            <button (click)="addCustomTag(detail?.id)" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500" type="button">
+              <!-- Heroicon name: solid/plus-sm -->
+              <svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path clip-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" fill-rule="evenodd"/>
+              </svg>
+            </button>
+          </div>
+        </li>
+        <li *ngIf="canAddTags" class="py-3 flex justify-between items-center">
+          <form [formGroup]="addSpeciesTagForm" class="w-full">
+
+            <div class="flex items-center w-full">
+              <app-species-search (onSearch)="getSpecies($event)" [index]="0" [taxons]="species" class="flex-grow mr-2" id="species"></app-species-search>
+
+              <button (click)="addSpeciesTag(detail?.id)" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500" type="button">
+                <!-- Heroicon name: solid/plus-sm -->
+                <svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path clip-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" fill-rule="evenodd"/>
+                </svg>
+              </button>
+            </div>
+          </form>
+        </li>
+      </ul>
+    </div>
+    <div class="flex justify-end">
+      <app-button (click)="tags(detail?.id)" *ngIf="canAddTags" [style]="'secondary'">
+        Koppelen
+      </app-button>
+
+      <app-button (click)="clearTags(detail?.id)" *ngIf="canAddTags" [style]="'secondary'" class="ml-2">
+        Ontkoppelen
+      </app-button>
+
+      <app-button (click)="download(detail?.id)" [style]="'primary'" class="ml-2">
+        Download
+      </app-button>
+    </div>
+  </div>
+</aside>

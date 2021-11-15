@@ -48,6 +48,14 @@ export class PicturesService extends VisService {
     return this.http.put<void>(`${environment.apiUrl}/api/pictures/project/${projectCode}/surveyevent/${surveyEventId}/assets/${id}/addtags`, {});
   }
 
+  addCustomTag(id: number, projectCode: string, surveyEventId: number, tag: string): Observable<void> {
+    return this.http.put<void>(`${environment.apiUrl}/api/pictures/project/${projectCode}/surveyevent/${surveyEventId}/assets/${id}/addcustomtag`, {tag});
+  }
+
+  addSpeciesTag(id: number, projectCode: string, surveyEventId: number, taxonId: number): Observable<void> {
+    return this.http.put<void>(`${environment.apiUrl}/api/pictures/project/${projectCode}/surveyevent/${surveyEventId}/assets/${id}/addspeciestag`, {taxonId});
+  }
+
   clearTagsForSurveyEvent(id: number, projectCode: string, surveyEventId: number): Observable<void> {
     return this.http.put<void>(`${environment.apiUrl}/api/pictures/project/${projectCode}/surveyevent/${surveyEventId}/assets/${id}/cleartags`, {});
   }
@@ -68,5 +76,15 @@ export class PicturesService extends VisService {
 
     return this.http.request(req);
 
+  }
+
+  deleteTag(assetId: number, projectCode: string, surveyEventId: number, tag: string) {
+    return this.http.put<void>(`${environment.apiUrl}/api/pictures/project/${projectCode}/surveyevent/${surveyEventId}/assets/${assetId}/deletetag`, {tag});
+  }
+
+  getPicturesByTag(page: any, tag: string) {
+    const params = new HttpParams().set('page', page ? page.toString() : '0').set('tag', tag);
+
+    return this.http.get<AsyncPage<TandemvaultPicture>>(`${environment.apiUrl}/api/pictures/tag`, {params});
   }
 }

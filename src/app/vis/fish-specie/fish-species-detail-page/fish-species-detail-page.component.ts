@@ -7,6 +7,8 @@ import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {TaxaService} from '../../../services/vis.taxa.service';
+import {TandemvaultPicture} from '../../../domain/tandemvault/picture';
+import {PicturesService} from '../../../services/vis.pictures.service';
 
 @Component({
   selector: 'app-fish-species-detail-page',

@@ -36,7 +36,7 @@ export class GalleryPageComponent implements OnInit, OnDestroy {
     this.projectService.getProject(this.projectCode).subscribe(value => {
       this.tandemvaultcollectionslug = value.tandemvaultcollectionslug;
     });
-    
+
     this.subscription.add(
       this.activatedRoute.queryParams.subscribe((params) => {
           this.loadPicturesPage();
@@ -124,6 +124,26 @@ export class GalleryPageComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.picturesService.clearTagsForSurveyEvent(assetId, this.projectCode, this.surveyEventId).subscribe(value => {
         this.loadDetailPicture(assetId);
+      })
+    );
+  }
+
+  customTagAdded(event: any) {
+    this.picturesService.addCustomTag(event.assetId, this.projectCode, this.surveyEventId, event.tag).subscribe(value => {
+      this.loadDetailPicture(event.assetId);
+    });
+  }
+
+  speciesTagAdded(event: any) {
+    this.picturesService.addSpeciesTag(event.assetId, this.projectCode, this.surveyEventId, event.taxonId).subscribe(value => {
+      this.loadDetailPicture(event.assetId);
+    });
+  }
+
+  removeTag(event: any) {
+    this.subscription.add(
+      this.picturesService.deleteTag(event.assetId, this.projectCode, this.surveyEventId, event.tag).subscribe(value => {
+        this.loadDetailPicture(event.assetId);
       })
     );
   }

@@ -1,0 +1,14 @@
+<app-stacked-layout [navigationLinks]="links">
+  <div slot="content">
+    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
+
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+      <app-fish-species-tabs></app-fish-species-tabs>
+
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+
+    </div>
+  </div>
+</app-stacked-layout>

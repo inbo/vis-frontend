@@ -1,112 +1,94 @@
-<app-stacked-layout [navigationLinks]="links">
-  <div slot="content">
-    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
-
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-      <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
-        <div class="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Vissoort detail
-          </h3>
-        </div>
-
+<div class="bg-white shadow overflow-hidden sm:rounded-lg mb-10">
+  <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Code
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{taxon?.code.value}}
+        </dd>
       </div>
-
-      <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-10">
-        <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
-          <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Code
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{taxon?.code.value}}
-              </dd>
-            </div>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Nederlandse naam
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{taxon?.nameDutch}}
-              </dd>
-            </div>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Lengte minimum (cm)
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{taxon?.lengthMin?.toFixed(2)}}
-              </dd>
-            </div>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Wetenschappelijke naam
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{taxon?.nameScientific}}
-              </dd>
-            </div>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Lengte maximum (cm)
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{taxon?.lengthMax?.toFixed(2)}}
-              </dd>
-            </div>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Engelse naam
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{taxon?.nameEnglish}}
-              </dd>
-            </div>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Gewicht minimum (g)
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{taxon?.weightMin}}
-              </dd>
-            </div>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Franse naam
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{taxon?.nameFrench}}
-              </dd>
-            </div>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Gewicht maximum (g)
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{taxon?.weightMax}}
-              </dd>
-            </div>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Duitse naam
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{taxon?.nameGerman}}
-              </dd>
-            </div>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Groep
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{taxonGroups?.join(', ')}}
-              </dd>
-            </div>
-          </dl>
-        </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Nederlandse naam
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{taxon?.nameDutch}}
+        </dd>
       </div>
-    </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Lengte minimum (cm)
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{taxon?.lengthMin?.toFixed(2)}}
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Wetenschappelijke naam
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{taxon?.nameScientific}}
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Lengte maximum (cm)
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{taxon?.lengthMax?.toFixed(2)}}
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Engelse naam
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{taxon?.nameEnglish}}
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Gewicht minimum (g)
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{taxon?.weightMin}}
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Franse naam
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{taxon?.nameFrench}}
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Gewicht maximum (g)
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{taxon?.weightMax}}
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Duitse naam
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{taxon?.nameGerman}}
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Groep
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          {{taxonGroups?.join(', ')}}
+        </dd>
+      </div>
+    </dl>
   </div>
-</app-stacked-layout>
+</div>

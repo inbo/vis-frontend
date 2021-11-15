@@ -38,8 +38,6 @@ import {HeaderDirective} from './table/directives/header.directive';
 import {CellDirective} from './table/directives/cell.directive';
 import {TableComponent} from './table/table/table.component';
 import {PillComponent} from './pill/pill.component';
-import {ImageGridItemComponent} from './image-grid-item/image-grid-item.component';
-import {ImageDetailComponent} from './image-detail/image-detail.component';
 import {DndDirective} from './directives/dnd.directive';
 
 @NgModule({
@@ -78,8 +76,6 @@ import {DndDirective} from './directives/dnd.directive';
     CellDirective,
     TableComponent,
     PillComponent,
-    ImageGridItemComponent,
-    ImageDetailComponent,
     DndDirective
   ],
   exports: [
@@ -117,8 +113,6 @@ import {DndDirective} from './directives/dnd.directive';
     CellDirective,
     TableComponent,
     PillComponent,
-    ImageGridItemComponent,
-    ImageDetailComponent,
     DndDirective
   ],
   imports: [

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TandemvaultPicture} from '../../domain/tandemvault/picture';
+import {TandemvaultPicture} from '../../../domain/tandemvault/picture';
 
 @Component({
   selector: 'app-image-grid-item',
@@ -13,7 +13,8 @@ export class ImageGridItemComponent implements OnInit {
   @Input()
   selectedPicture: TandemvaultPicture;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
