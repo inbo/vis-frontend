@@ -95,6 +95,9 @@ import {ImageDetailComponent} from './components/image-detail/image-detail.compo
 import { FishSpeciesTabsComponent } from './fish-specie/fish-species-tabs/fish-species-tabs.component';
 import { FishSpeciesComponent } from './fish-specie/fish-species/fish-species.component';
 import { FishSpeciesPicturesPageComponent } from './fish-specie/fish-species-pictures-page/fish-species-pictures-page.component';
+import { LocationComponent } from './location/location/location.component';
+import { LocationTabsComponent } from './location/location-tabs/location-tabs.component';
+import { LocationPicturesPageComponent } from './location/location-pictures-page/location-pictures-page.component';
 
 @NgModule({
     exports: [
@@ -184,7 +187,10 @@ import { FishSpeciesPicturesPageComponent } from './fish-specie/fish-species-pic
     ImageDetailComponent,
     FishSpeciesTabsComponent,
     FishSpeciesComponent,
-    FishSpeciesPicturesPageComponent
+    FishSpeciesPicturesPageComponent,
+    LocationComponent,
+    LocationTabsComponent,
+    LocationPicturesPageComponent
   ],
   imports: [
     CommonModule,

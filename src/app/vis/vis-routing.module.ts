@@ -52,6 +52,8 @@ import {GalleryPageComponent} from './survey-events/survey-event-pictures-page/g
 import {UploadPageComponent} from './survey-events/survey-event-pictures-page/upload-page/upload-page.component';
 import {FishSpeciesComponent} from './fish-specie/fish-species/fish-species.component';
 import {FishSpeciesPicturesPageComponent} from './fish-specie/fish-species-pictures-page/fish-species-pictures-page.component';
+import {LocationComponent} from './location/location/location.component';
+import {LocationPicturesPageComponent} from './location/location-pictures-page/location-pictures-page.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -206,7 +208,28 @@ const routes: Routes = [
       role: Role.CreateFishingPoint
     }
   },
-  {path: 'locaties/:code', component: LocationDetailComponent, canActivate: [AuthGuardWithForcedLogin]},
+  {
+    path: 'locaties/:code',
+    component: LocationComponent,
+    children: [
+      {
+        path: '',
+        component: LocationDetailComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        pathMatch: 'full',
+        data: {name: 'Details', url: ''}
+      },
+      {
+        path: 'afbeeldingen',
+        component: LocationPicturesPageComponent,
+        canActivate: [AuthGuardWithForcedLogin],
+        pathMatch: 'full',
+        data: {name: 'Afbeeldingen', url: 'afbeeldingen'}
+      }
+    ]
+  },
+
+
   {path: 'vissoorten', component: FishSpeciesOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {
     path: 'vissoorten/:taxonId',
