@@ -1,0 +1,17 @@
+<div *ngIf="!loading" class="flex-1 flex items-stretch overflow-hidden">
+  <main class="flex-1 overflow-y-auto">
+    <div>
+      <section aria-labelledby="gallery-heading" class="mt-8 pb-16 pl-1 pr-6">
+        <ul class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 mb-6" role="list">
+          <li (click)="openDetail(picture)" *ngFor="let picture of pictures" class="relative">
+            <app-image-grid-item [picture]="picture" [selectedPicture]="selectedPicture"></app-image-grid-item>
+          </li>
+        </ul>
+
+        <app-paging-async *ngIf="pager" [pager]="pager" class="mt-6"></app-paging-async>
+      </section>
+    </div>
+  </main>
+
+  <app-image-detail (downloadPicture)="download($event)" [canAddTags]="false" [detail]="detail"></app-image-detail>
+</div>
