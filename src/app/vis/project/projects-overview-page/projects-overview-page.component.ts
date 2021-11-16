@@ -40,6 +40,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
   teams$: Observable<Team[]>;
 
   private subscription = new Subscription();
+  private projectSubscription = new Subscription();
 
   constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder, public authService: AuthService,
@@ -113,7 +114,11 @@ export class ProjectsOverviewPageComponent implements OnInit {
     this.projects = of([]);
     const page = this.filterForm.get('page').value ?? 0;
     const size = this.filterForm.get('size').value ?? 20;
-    this.subscription.add(
+
+    this.projectSubscription.unsubscribe();
+    this.projectSubscription = new Subscription();
+
+    this.projectSubscription.add(
       this.projectService.getProjects(page, size, this.filterForm.getRawValue()).subscribe((value) => {
         this.pager = value;
         this.projects = of(value.content);
