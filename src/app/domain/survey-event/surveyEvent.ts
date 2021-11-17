@@ -24,6 +24,8 @@ export interface SurveyEvent {
   comment: string;
   fishingPoint: FishingPoint;
   canEdit: boolean;
+  createUser: string;
+  createDate: Date;
 }
 
 export interface FishingPoint {
