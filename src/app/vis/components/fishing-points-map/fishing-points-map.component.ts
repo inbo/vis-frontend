@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Subscription} from 'rxjs';
 import * as L from 'leaflet';
+import 'leaflet.locatecontrol';
 import {circleMarker, CircleMarker, DragEndEvent, featureGroup, LatLng, latLng, Layer, layerGroup, LeafletMouseEvent, Map as LeafletMap, MapOptions, Marker, marker} from 'leaflet';
 import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
 import {basemapLayer, dynamicMapLayer, DynamicMapLayer, featureLayer} from 'esri-leaflet';
@@ -93,7 +94,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy, OnChanges {
 
   private setup() {
     this.locationsLayer = L.markerClusterGroup({removeOutsideVisibleBounds: true, spiderfyOnMaxZoom: false, disableClusteringAtZoom: 19});
-
 
     this.locationsService.latestVhaVersion().pipe(take(1)).subscribe(version => {
       this.initLegend(version);
@@ -218,6 +218,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy, OnChanges {
 
   mapReady(map: LeafletMap) {
     this.map = map;
+    L.control.locate({icon: 'fa fa-map-marker-alt'}).addTo(this.map);
   }
 
   zoomTo(latlng: LatLng) {

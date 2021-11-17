@@ -2,6 +2,8 @@
 @import 'flatpickr/dist/flatpickr.css';
 @import 'flatpickr/dist/themes/light.css';
 @import 'flatpickr-tailwind.css';
+@import '@fortawesome/fontawesome-free/css/all.css';
+@import 'leaflet.locatecontrol/dist/L.Control.Locate.css';
 
 @layer base {
   [type='checkbox'], [type=radio] {
