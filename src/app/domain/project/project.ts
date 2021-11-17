@@ -19,6 +19,8 @@ export interface Project {
   teams: string[];
   instances: string[];
   canEdit: boolean;
+  createUser: string;
+  createDate: Date;
 }
 
 
