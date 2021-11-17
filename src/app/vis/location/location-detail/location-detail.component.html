@@ -21,7 +21,8 @@
                   <div class="mt-1 text-sm text-gray-900">
                     <input formControlName="code" id="code" name="code" type="text">
                   </div>
-                  <app-form-error-message [control]="code" [fieldName]="'Code'" [submitted]="submitted"></app-form-error-message>
+                  <app-form-error-message [control]="code" [fieldName]="'Code'"
+                                          [submitted]="submitted"></app-form-error-message>
                 </div>
                 <div class="sm:col-span-1">
                   <dt class="text-sm font-medium text-gray-500">
@@ -30,25 +31,30 @@
                   <dd class="mt-1 text-sm text-gray-900">
                     <input formControlName="description" id="description" name="description" type="text">
                   </dd>
-                  <app-form-error-message [control]="description" [fieldName]="'Omschrijving'" [submitted]="submitted"></app-form-error-message>
+                  <app-form-error-message [control]="description" [fieldName]="'Omschrijving'"
+                                          [submitted]="submitted"></app-form-error-message>
                 </div>
                 <div class="sm:col-span-1">
                   <dt class="text-sm font-medium text-gray-500">
                     Helling
                   </dt>
                   <dd class="mt-1 text-sm text-gray-900">
-                    <input [imask]="numberMask(3, 0, 99999.999)" [unmask]="true" formControlName="slope" id="slope" name="slope" type="text">
+                    <input [imask]="numberMask(3, 0, 99999.999)" [unmask]="true" formControlName="slope" id="slope"
+                           name="slope" type="text">
                   </dd>
-                  <app-form-error-message [control]="slope" [fieldName]="'Helling'" [submitted]="submitted"></app-form-error-message>
+                  <app-form-error-message [control]="slope" [fieldName]="'Helling'"
+                                          [submitted]="submitted"></app-form-error-message>
                 </div>
                 <div class="sm:col-span-1">
                   <dt class="text-sm font-medium text-gray-500">
                     Breedte
                   </dt>
                   <dd class="mt-1 text-sm text-gray-900">
-                    <input [imask]="numberMask(2, 0, 99999.99)" [unmask]="true" formControlName="width" id="width" name="width" type="text">
+                    <input [imask]="numberMask(2, 0, 99999.99)" [unmask]="true" formControlName="width" id="width"
+                           name="width" type="text">
                   </dd>
-                  <app-form-error-message [control]="width" [fieldName]="'Breedte'" [submitted]="submitted"></app-form-error-message>
+                  <app-form-error-message [control]="width" [fieldName]="'Breedte'"
+                                          [submitted]="submitted"></app-form-error-message>
                 </div>
                 <div class="sm:col-span-1">
                   <dt class="text-sm font-medium text-gray-500">
@@ -57,7 +63,8 @@
                   <dd class="mt-1 text-sm text-gray-900">
                     <input formControlName="brackfishWater" type="checkbox">
                   </dd>
-                  <app-form-error-message [control]="brackfishWater" [fieldName]="'Brak water'" [submitted]="submitted"></app-form-error-message>
+                  <app-form-error-message [control]="brackfishWater" [fieldName]="'Brak water'"
+                                          [submitted]="submitted"></app-form-error-message>
                 </div>
                 <div class="sm:col-span-1">
                   <dt class="text-sm font-medium text-gray-500">
@@ -124,7 +131,8 @@
                   Brak water
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900">
-                  <input [checked]="fishingPoint?.brackfishWater ? 'checked' : null" disabled="disabled" type="checkbox">
+                  <input [checked]="fishingPoint?.brackfishWater ? 'checked' : null" disabled="disabled"
+                         type="checkbox">
                 </dd>
               </div>
               <div class="sm:col-span-1">
@@ -144,13 +152,32 @@
                   {{'index.type.' + fishingPoint?.fishingIndexType | translate}}
                 </dd>
               </div>
+              <div class="sm:col-span-1">
+              </div>
+              <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-gray-500">
+                  Aangemaakt door
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900">
+                  {{fishingPoint?.createUser}}
+                </dd>
+              </div>
+              <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-gray-500">
+                  Aangemaakt op
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900">
+                  {{fishingPoint?.createDate}}
+                </dd>
+              </div>
             </dl>
           </div>
           <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
             <app-button (click)="remove()" *ngIf="!editMode" [role]="role.CreateFishingPoint" [style]="'secondary'">
               Verwijderen
             </app-button>
-            <app-button (click)="editMode = true" *ngIf="!editMode" [role]="role.CreateFishingPoint" [style]="'primary'" class="ml-2">
+            <app-button (click)="editMode = true" *ngIf="!editMode" [role]="role.CreateFishingPoint" [style]="'primary'"
+                        class="ml-2">
               Bewerken
             </app-button>
             <app-button (click)="cancel()" *ngIf="editMode" [style]="'white'">
@@ -177,7 +204,8 @@
         <div class="px-4 sm:px-0">
           <h3 class="text-lg font-medium leading-6 text-gray-900">Coördinaten</h3>
           <p class="mt-1 text-sm text-gray-600">
-            De coördinaten zijn manueel ingegeven bij het aanmaken van het vispunt. De snapped coördinaten zijn achteraf in een andere applicatie gesnapped op het dichtste punt van de geselecteerde VHA.
+            De coördinaten zijn manueel ingegeven bij het aanmaken van het vispunt. De snapped coördinaten zijn achteraf
+            in een andere applicatie gesnapped op het dichtste punt van de geselecteerde VHA.
           </p>
         </div>
       </div>

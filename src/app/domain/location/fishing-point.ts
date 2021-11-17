@@ -8,6 +8,9 @@ export interface FishingPoint {
   brackfishWater: boolean;
   fishingIndexType: string;
 
+  createUser: string;
+  createDate: Date;
+
   municipality: string;
   province: string;
   nisCode: string;
