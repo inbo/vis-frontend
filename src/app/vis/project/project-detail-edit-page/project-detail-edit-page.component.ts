@@ -125,7 +125,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         this.projectForm.get('name').patchValue(value.name);
         this.projectForm.get('description').patchValue(value.description);
         // Don't set start date if it is after earliest survey event date to show datepicker correctly
-        if (this.earliestSurveyEventDate >= new Date(value.start)) {
+        if (this.earliestSurveyEventDate == null || (new Date(this.earliestSurveyEventDate) >= new Date(value.start))) {
           this.projectForm.get('startDate').patchValue(new Date(value.start));
         }
         this.projectForm.get('lengthType').patchValue(value.lengthType);
