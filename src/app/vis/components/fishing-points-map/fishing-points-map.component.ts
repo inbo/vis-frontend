@@ -155,6 +155,57 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
       };
       this.updateFishingPointsLayer(this.filter);
 
+
+      // @ts-ignore
+      const layer0 = esri_geo.mapServiceProvider({
+        url: version.value,
+        searchFields: ['NAAM'],
+        label: 'Waterlopen',
+        layers: [0],
+        formatSuggestion(feature) {
+          return `${feature.properties.NAAM}`;
+        }
+      });
+
+      // @ts-ignore
+      const layer1 = esri_geo.mapServiceProvider({
+        url: version.value,
+        searchFields: ['NAAM', 'WVLC'],
+        label: 'Watervlakken',
+        layers: [1],
+        formatSuggestion(feature) {
+          return `${feature.properties.NAAM} - ${feature.properties.WVLC}`;
+        }
+      });
+
+      // @ts-ignore
+      const streetSearch = esri_geo.geocodeServiceProvider({
+        url: 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer',
+        label: 'Straten',
+        formatSuggestion(feature) {
+          return feature.properties;
+        }
+      });
+
+      // @ts-ignore
+      const searchControl = esri_geo.geosearch({
+        zoomToResult: true,
+        placeholder: 'Zoek naar waterlopen/watervlakken/straten',
+        title: 'Zoeken',
+        useMapBounds: false,
+        providers: [layer0, layer1, streetSearch]
+      });
+
+      searchControl.addTo(this.map);
+
+      searchControl.on('results', data => {
+        this.searchLayer.clearLayers();
+        for (let i = data.results.length - 1; i >= 0; i--) {
+          this.searchLayer.addLayer(L.marker(data.results[i].latlng));
+        }
+      });
+
+
       this.loaded.emit();
     });
 
@@ -214,56 +265,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   mapReady(map: LeafletMap) {
     this.map = map;
     L.control.locate({icon: 'fa fa-map-marker-alt'}).addTo(this.map);
-
-    // @ts-ignore
-    const layer0 = esri_geo.mapServiceProvider({
-      url: 'https://gisservices.inbo.be/arcgis/rest/services/VIS_VHA_WV/MapServer',
-      searchFields: ['NAAM'],
-      label: 'Waterlopen',
-      layers: [0],
-      formatSuggestion(feature) {
-        return `${feature.properties.NAAM}`; // format suggestions like this.
-      }
-    });
-
-    // @ts-ignore
-    const layer1 = esri_geo.mapServiceProvider({
-      url: 'https://gisservices.inbo.be/arcgis/rest/services/VIS_VHA_WV/MapServer',
-      searchFields: ['NAAM', 'WVLC'],
-      label: 'Watervlakken',
-      layers: [1],
-      formatSuggestion(feature) {
-        return `${feature.properties.NAAM} - ${feature.properties.WVLC}`; // format suggestions like this.
-      }
-    });
-
-    // @ts-ignore
-    const streetSearch = esri_geo.geocodeServiceProvider({
-      url: 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer',
-      label: 'Straten',
-      formatSuggestion(feature) {
-        return feature.properties;
-      }
-    });
-
-    // @ts-ignore
-    const searchControl = esri_geo.geosearch({
-      zoomToResult: true,
-      placeholder: 'Zoek naar waterlopen/watervlakken',
-      title: 'Zoeken',
-      useMapBounds: false,
-      providers: [layer0, layer1, streetSearch]
-    });
-
-    searchControl.addTo(map);
-
-    searchControl.on('results', data => {
-      console.log('results', data);
-      this.searchLayer.clearLayers();
-      for (let i = data.results.length - 1; i >= 0; i--) {
-        this.searchLayer.addLayer(L.marker(data.results[i].latlng));
-      }
-    });
   }
 
   zoomTo(latlng: LatLng) {
@@ -408,7 +409,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
       const filteredProperties = {};
 
-      console.log(feature.properties);
       for (const propertiesKey in feature.properties) {
         if (feature.properties.hasOwnProperty(propertiesKey)) {
           const fields = this.visibleFields[layerId] as string[];
