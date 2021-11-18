@@ -4,6 +4,8 @@
 @import 'flatpickr-tailwind.css';
 @import '@fortawesome/fontawesome-free/css/all.css';
 @import 'leaflet.locatecontrol/dist/L.Control.Locate.css';
+@import 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css';
+@import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 
 @layer base {
   [type='checkbox'], [type=radio] {

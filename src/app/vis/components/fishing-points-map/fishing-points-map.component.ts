@@ -1,21 +1,22 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Subscription} from 'rxjs';
 import * as L from 'leaflet';
-import 'leaflet.locatecontrol';
 import {circleMarker, CircleMarker, DragEndEvent, featureGroup, LatLng, latLng, Layer, layerGroup, LeafletMouseEvent, Map as LeafletMap, MapOptions, Marker, marker} from 'leaflet';
+import 'leaflet-defaulticon-compatibility';
+import * as esri_geo from 'esri-leaflet-geocoder';
+import 'leaflet.locatecontrol';
 import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
 import {basemapLayer, dynamicMapLayer, DynamicMapLayer, featureLayer} from 'esri-leaflet';
 import * as geojson from 'geojson';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {take} from 'rxjs/operators';
 import {VhaUrl} from '../../../domain/location/vha-version';
-import _ from 'lodash';
 
 @Component({
   selector: 'app-fishing-points-map',
   templateUrl: './fishing-points-map.component.html'
 })
-export class FishingPointsMapComponent implements OnInit, OnDestroy, OnChanges {
+export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
   @Input() heightClass = 'h-96';
   @Input() projectCode; // Get fishing points for a specific project, all fishing points are retrieved when null
@@ -56,6 +57,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy, OnChanges {
 
   features: geojson.Feature[] = [];
   locationsLayer: L.MarkerClusterGroup;
+  searchLayer: L.LayerGroup;
   markerClusterData = [];
 
   private map: LeafletMap;
@@ -84,16 +86,9 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy, OnChanges {
     this.subscription.unsubscribe();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    const equal = _.isEqual(changes.filter.previousValue, changes.filter.currentValue);
-    if (!equal) {
-      console.log('need filtering');
-
-    }
-  }
-
   private setup() {
     this.locationsLayer = L.markerClusterGroup({removeOutsideVisibleBounds: true, spiderfyOnMaxZoom: false, disableClusteringAtZoom: 19});
+    this.searchLayer = L.layerGroup();
 
     this.locationsService.latestVhaVersion().pipe(take(1)).subscribe(version => {
       this.initLegend(version);
@@ -134,6 +129,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy, OnChanges {
         this.highlightSelectionLayer
       ];
 
+      this.layers.push(this.searchLayer);
+
       if (this.fishingPointsLayerVisible) {
         this.layers.push(this.locationsLayer);
       }
@@ -165,8 +162,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public updateFishingPointsLayer(filter: any) {
-    console.log('update fishing points layer');
-
     this.locationsLayer.clearLayers();
 
     this.subscription.add(
@@ -219,6 +214,56 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy, OnChanges {
   mapReady(map: LeafletMap) {
     this.map = map;
     L.control.locate({icon: 'fa fa-map-marker-alt'}).addTo(this.map);
+
+    // @ts-ignore
+    const layer0 = esri_geo.mapServiceProvider({
+      url: 'https://gisservices.inbo.be/arcgis/rest/services/VIS_VHA_WV/MapServer',
+      searchFields: ['NAAM'],
+      label: 'Waterlopen',
+      layers: [0],
+      formatSuggestion(feature) {
+        return `${feature.properties.NAAM}`; // format suggestions like this.
+      }
+    });
+
+    // @ts-ignore
+    const layer1 = esri_geo.mapServiceProvider({
+      url: 'https://gisservices.inbo.be/arcgis/rest/services/VIS_VHA_WV/MapServer',
+      searchFields: ['NAAM', 'WVLC'],
+      label: 'Watervlakken',
+      layers: [1],
+      formatSuggestion(feature) {
+        return `${feature.properties.NAAM} - ${feature.properties.WVLC}`; // format suggestions like this.
+      }
+    });
+
+    // @ts-ignore
+    const streetSearch = esri_geo.geocodeServiceProvider({
+      url: 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer',
+      label: 'Straten',
+      formatSuggestion(feature) {
+        return feature.properties;
+      }
+    });
+
+    // @ts-ignore
+    const searchControl = esri_geo.geosearch({
+      zoomToResult: true,
+      placeholder: 'Zoek naar waterlopen/watervlakken',
+      title: 'Zoeken',
+      useMapBounds: false,
+      providers: [layer0, layer1, streetSearch]
+    });
+
+    searchControl.addTo(map);
+
+    searchControl.on('results', data => {
+      console.log('results', data);
+      this.searchLayer.clearLayers();
+      for (let i = data.results.length - 1; i >= 0; i--) {
+        this.searchLayer.addLayer(L.marker(data.results[i].latlng));
+      }
+    });
   }
 
   zoomTo(latlng: LatLng) {
@@ -363,6 +408,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy, OnChanges {
 
       const filteredProperties = {};
 
+      console.log(feature.properties);
       for (const propertiesKey in feature.properties) {
         if (feature.properties.hasOwnProperty(propertiesKey)) {
           const fields = this.visibleFields[layerId] as string[];
@@ -372,7 +418,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy, OnChanges {
           }
         }
       }
-      console.log('set layer id ', layerId, filteredProperties);
       this.selected.set(layerId, filteredProperties);
     });
   }

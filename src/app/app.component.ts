@@ -27,8 +27,7 @@ export class AppComponent implements OnDestroy {
             return this.accountService.registerAccount();
           })
         )
-        .subscribe(value => {
-          console.log('registered', value);
+        .subscribe(_ => {
         })
     );
 
