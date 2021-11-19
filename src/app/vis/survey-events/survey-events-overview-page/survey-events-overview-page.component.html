@@ -63,16 +63,23 @@
                 </div>
               </div>
 
-              <div>
-                <label class="block text-sm font-medium text-gray-700" for="basin">
+              <div class="relative sm:col-span-4">
+                <label for="basin" class="block text-sm font-medium text-gray-700">
                   Bekken
                 </label>
                 <div class="mt-1">
-                  <select class="mt-1" formControlName="basin" id="basin">
-                    <option [ngValue]="null">Bekken selecteren...</option>
-                    <option *ngFor="let basin of basins$ | async"
-                            [value]="basin.name">{{basin.name}}</option>
-                  </select>
+                  <app-searchable-select id="basin" passedId="basin" placeholder="Selecteer een bekken"
+                                         tabIndex="-1" formControlName="basin"
+                                         (search)="getBasins($event)"
+                                         [options]="basins">
+                    <ng-template let-rowDetail #selected>
+                      {{rowDetail.option?.name}}
+                    </ng-template>
+
+                    <ng-template let-rowDetail #listItem>
+                      {{rowDetail.option?.name}}
+                    </ng-template>
+                  </app-searchable-select>
                 </div>
               </div>
 

@@ -56,6 +56,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     lenticWaterbodyNames: LenticWaterbody[];
 
     watercourses: SearchableSelectOption[] = [];
+  basins: SearchableSelectOption[] = [];
 
     private subscription = new Subscription();
 
@@ -262,14 +263,26 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getWatercourses(val: any) {
-        this.locationsService.searchWatercourses(val).pipe(
-            take(1),
-            map(watercourses => {
-                return watercourses.map(watercourse => ({
-                    selectValue: watercourse.name,
-                    option: watercourse
-                }));
-            })
-        ).subscribe(value => this.watercourses = value as any as SearchableSelectOption[]);
+      this.locationsService.searchWatercourses(val).pipe(
+        take(1),
+        map(watercourses => {
+          return watercourses.map(watercourse => ({
+            selectValue: watercourse.name,
+            option: watercourse
+          }));
+        })
+      ).subscribe(value => this.watercourses = value as any as SearchableSelectOption[]);
     }
+
+  getBasins(val: any) {
+    this.locationsService.searchBasins(val).pipe(
+      take(1),
+      map(basins => {
+        return basins.map(basin => ({
+          selectValue: basin.name,
+          option: basin
+        }));
+      })
+    ).subscribe(value => this.basins = value as any as SearchableSelectOption[]);
+  }
 }
