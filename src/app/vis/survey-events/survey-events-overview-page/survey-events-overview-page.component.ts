@@ -22,8 +22,6 @@ import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
 import {LocationsService} from '../../../services/vis.locations.service';
-import {LenticWaterbody} from '../../../domain/location/lentic-waterbody';
-import {Municipality} from '../../../domain/location/municipality';
 
 @Component({
   selector: 'app-survey-events-overview-page',
@@ -48,11 +46,10 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
   methods$: Observable<Method[]>;
   species: SearchableSelectOption[] = [];
   statuses$: Observable<MultiSelectOption[]>;
-  municipalities$: Observable<Municipality[]>;
-  lenticWaterbodyNames: LenticWaterbody[];
 
   watercourses: SearchableSelectOption[] = [];
   lenticWaterbodies: SearchableSelectOption[] = [];
+  municipalities: SearchableSelectOption[] = [];
   basins: SearchableSelectOption[] = [];
 
   private subscription = new Subscription();
@@ -93,8 +90,6 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     this.getSpecies(null, queryParams.species ? queryParams.species : undefined);
 
     this.methodGroups$ = this.methodsService.getAllMethodGroups();
-    this.municipalities$ = this.locationsService.searchMunicipalities();
-    this.locationsService.searchLenticWaterbodyNames().subscribe(value => this.lenticWaterbodyNames = value);
 
     this.subscription.add(
       this.filterForm.get('methodGroup').valueChanges.subscribe(value => {
@@ -269,18 +264,6 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     ).subscribe(value => this.watercourses = value as any as SearchableSelectOption[]);
   }
 
-  getBasins(val: any) {
-    this.locationsService.searchBasins(val).pipe(
-      take(1),
-      map(basins => {
-        return basins.map(basin => ({
-          selectValue: basin.name,
-          option: basin
-        }));
-      })
-    ).subscribe(value => this.basins = value as any as SearchableSelectOption[]);
-  }
-
   getLenticWaterbodies(val: any) {
     this.locationsService.searchLenticWaterbodyNames(val).pipe(
       take(1),
@@ -291,5 +274,29 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
         }));
       })
     ).subscribe(value => this.lenticWaterbodies = value as any as SearchableSelectOption[]);
+  }
+
+  getMunicipalities(val: any) {
+    this.locationsService.searchMunicipalities(val).pipe(
+      take(1),
+      map(municipalities => {
+        return municipalities.map(municipality => ({
+          selectValue: municipality.name,
+          option: municipality
+        }));
+      })
+    ).subscribe(value => this.municipalities = value as any as SearchableSelectOption[]);
+  }
+
+  getBasins(val: any) {
+    this.locationsService.searchBasins(val).pipe(
+      take(1),
+      map(basins => {
+        return basins.map(basin => ({
+          selectValue: basin.name,
+          option: basin
+        }));
+      })
+    ).subscribe(value => this.basins = value as any as SearchableSelectOption[]);
   }
 }
