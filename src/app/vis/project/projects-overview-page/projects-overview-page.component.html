@@ -43,13 +43,6 @@
                 </option>
               </select>
             </div>
-            <div class="self-center">
-              <select (change)="filter()" class="mt-1 sm:mt-0 sm:col-span-2" formControlName="sort" name="sort">
-                <option [ngValue]="null">Sorteren op ...</option>
-                <option value="name">Naam</option>
-                <option value="period.begin">Periode</option>
-              </select>
-            </div>
           </ng-container>
 
           <ng-container slot="advanced">
@@ -80,7 +73,7 @@
               <thead>
               <tr>
                 <th appHeader class="w-3/12" scope="col">
-                  Naam
+                  Naam <app-table-sort sortField="name"></app-table-sort>
                 </th>
                 <th appHeader class="w-1/12" scope="col">
                   Team
@@ -89,7 +82,7 @@
                   Status
                 </th>
                 <th appHeader class="w-2/12" scope="col">
-                  Periode
+                  Periode <app-table-sort sortField="period.begin"></app-table-sort>
                 </th>
                 <th appHeader class="w-1/12" scope="col">
                   <span class="sr-only">Bewerken</span>
