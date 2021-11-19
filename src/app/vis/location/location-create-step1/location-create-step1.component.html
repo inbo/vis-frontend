@@ -66,8 +66,9 @@
             <p *ngIf="coordinatesAreInvalid()" class="mt-2 text-sm text-red-600">De coördinaten zijn niet geldig</p>
             <p class="mt-2 text-sm text-gray-500" id="email-description">Dubbelklik op de kaart om een punt te
               selecteren of voer deze manueel in</p>
+            <p *ngIf="coordinatesAreEmpty()" class="mt-2 text-sm text-red-600">Het is verplicht om een punt op de kaart
+              te kiezen of coördinaten in te vullen</p>
           </div>
-
         </div>
       </form>
     </div>

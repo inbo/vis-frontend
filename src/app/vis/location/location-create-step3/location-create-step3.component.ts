@@ -46,4 +46,8 @@ export class LocationCreateStep3Component implements OnInit {
   get blueLayerInfoValue() {
     return this.formGroup.get('blueLayerInfo').value;
   }
+
+  blueLayerInfoEmpty() {
+    return this.formGroup.get('blueLayerInfo').invalid;
+  }
 }

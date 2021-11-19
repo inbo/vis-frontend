@@ -99,6 +99,11 @@ export class LocationCreateStep1Component implements OnInit {
       || (this.formGroup.get('lng').touched && this.formGroup.get('lng').invalid);
   }
 
+  coordinatesAreEmpty() {
+    return (this.formGroup.get('lat').invalid)
+      || (this.formGroup.get('lng').invalid);
+  }
+
   get code() {
     return this.formGroup.get('code');
   }

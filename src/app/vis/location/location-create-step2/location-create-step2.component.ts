@@ -66,4 +66,8 @@ export class LocationCreateStep2Component implements OnInit {
   get vhaInfoValue() {
     return this.formGroup.get('vhaInfo').value;
   }
+
+  vhaInfoEmpty() {
+    return this.formGroup.get('vhaInfo').invalid;
+  }
 }
