@@ -110,22 +110,22 @@
             <thead>
             <tr>
               <th appHeader scope="col">
-                Meetplaatscode
+                Meetplaatscode <app-table-sort sortField="code"></app-table-sort>
               </th>
               <th appHeader scope="col">
-                Beschrijving
+                Beschrijving <app-table-sort sortField="description"></app-table-sort>
               </th>
               <th appHeader scope="col">
-                Waterloop / watervlak
+                Waterloop / watervlak <app-table-sort sortField="vha.waterbody.watercourse" title="Sorteren op waterloop"></app-table-sort> <app-table-sort sortField="vha.lenticWaterbody.name" title="Sorteren op watervlak" class="ml-0.5"></app-table-sort>
               </th>
               <th appHeader scope="col">
-                Bekken
+                Bekken <app-table-sort sortField="vha.waterbody.basin.name"></app-table-sort>
               </th>
               <th appHeader scope="col">
-                Provincie
+                Provincie <app-table-sort sortField="vha.province"></app-table-sort>
               </th>
               <th appHeader scope="col">
-                Gemeente
+                Gemeente <app-table-sort sortField="vha.municipality"></app-table-sort>
               </th>
               <th appHeader scope="col">
                 <span class="sr-only">Edit</span>

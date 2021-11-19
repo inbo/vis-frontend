@@ -60,7 +60,8 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
         province: [queryParams.province ?? null],
         municipality: [queryParams.municipality ?? null],
         page: [queryParams.page ?? null],
-        size: [queryParams.size ?? null]
+        size: [queryParams.size ?? null],
+        sort: [queryParams.sort ?? null],
       },
     );
 
@@ -74,6 +75,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
       this.filterForm.get('municipality').patchValue(params.municipality ? params.municipality : null);
       this.filterForm.get('page').patchValue(params.page ? params.page : null);
       this.filterForm.get('size').patchValue(params.size ? params.size : null);
+      this.filterForm.get('sort').patchValue(params.sort ? params.sort : null);
 
       if (this.map) {
         this.map.updateFishingPointsLayer(this.filterForm.getRawValue());
