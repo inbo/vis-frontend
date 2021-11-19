@@ -14,6 +14,7 @@ export class UploadFilesComponent implements OnInit {
 
   files: FilePreview[] = [];
   progressInfos: any[] = [];
+  uploadStarted = false;
 
   constructor(private picturesService: PicturesService, private changeDetection: ChangeDetectorRef,
               private sanitizer: DomSanitizer) {
@@ -45,6 +46,7 @@ export class UploadFilesComponent implements OnInit {
 
 
   uploadAll() {
+    this.uploadStarted = true;
     for (let i = 0; i < this.files.length; i++) {
       const file = this.files[i].file;
       this.upload(i, file);

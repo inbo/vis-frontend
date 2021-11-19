@@ -1,43 +1,43 @@
 <article (fileDropped)="addFile($event)" appDnd aria-label="File Upload Modal" class="relative h-full flex flex-col">
-    <!-- overlay -->
-    <div class="w-full h-full absolute top-0 left-0 pointer-events-none z-50 flex flex-col items-center justify-center rounded-md" id="overlay">
-      <i>
-        <svg class="fill-current w-12 h-12 mb-3 text-blue-700" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M19.479 10.092c-.212-3.951-3.473-7.092-7.479-7.092-4.005 0-7.267 3.141-7.479 7.092-2.57.463-4.521 2.706-4.521 5.408 0 3.037 2.463 5.5 5.5 5.5h13c3.037 0 5.5-2.463 5.5-5.5 0-2.702-1.951-4.945-4.521-5.408zm-7.479-1.092l4 4h-3v4h-2v-4h-3l4-4z"/>
-        </svg>
-      </i>
-      <p class="text-lg text-blue-700">Drop files to upload</p>
-    </div>
+  <!-- overlay -->
+  <div class="w-full h-full absolute top-0 left-0 pointer-events-none z-50 flex flex-col items-center justify-center rounded-md" id="overlay">
+    <i>
+      <svg class="fill-current w-12 h-12 mb-3 text-blue-700" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.479 10.092c-.212-3.951-3.473-7.092-7.479-7.092-4.005 0-7.267 3.141-7.479 7.092-2.57.463-4.521 2.706-4.521 5.408 0 3.037 2.463 5.5 5.5 5.5h13c3.037 0 5.5-2.463 5.5-5.5 0-2.702-1.951-4.945-4.521-5.408zm-7.479-1.092l4 4h-3v4h-2v-4h-3l4-4z"/>
+      </svg>
+    </i>
+    <p class="text-lg text-blue-700">Drop files to upload</p>
+  </div>
 
-    <!-- scroll area -->
-    <section class="h-full overflow-auto p-8 w-full h-full flex flex-col">
-      <header class="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
-        <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
-          <span>Drag and drop je</span>&nbsp;<span>afbeeldingen hier of</span>
-        </p>
-        <input #file (change)="onChange($event)" class="hidden" id="hidden-input" multiple type="file"/>
-        <app-button [style]="'primary'" (click)="file.click()" class="mt-2">
-          Upload bestanden
-        </app-button>
-      </header>
+  <!-- scroll area -->
+  <section class="h-full overflow-auto p-8 w-full h-full flex flex-col">
+    <header class="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
+      <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
+        <span>Drag and drop je</span>&nbsp;<span>afbeeldingen hier of</span>
+      </p>
+      <input #file (change)="onChange($event)" class="hidden" id="hidden-input" multiple type="file"/>
+      <app-button (click)="file.click()" [style]="'primary'" class="mt-2">
+        Upload bestanden
+      </app-button>
+    </header>
 
-      <h1 class="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
-        Te Uploaden
-      </h1>
+    <h1 class="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
+      Te Uploaden
+    </h1>
 
-      <ul class="flex flex-1 flex-wrap -m-1" id="gallery">
-        <li *ngIf="files.length === 0" class="h-full w-full text-center flex flex-col items-center justify-center items-center" id="empty">
-          <img alt="no data" class="mx-auto w-32" src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"/>
-          <span class="text-small text-gray-500">Geen bestanden geselecteerd</span>
-        </li>
+    <ul class="flex flex-1 flex-wrap -m-1" id="gallery">
+      <li *ngIf="files.length === 0" class="h-full w-full text-center flex flex-col items-center justify-center items-center" id="empty">
+        <img alt="no data" class="mx-auto w-32" src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"/>
+        <span class="text-small text-gray-500">Geen bestanden geselecteerd</span>
+      </li>
 
-        <li *ngFor="let file of files; let index = index" class="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-24">
-          <article class="group hasImage w-full h-full rounded-md focus:outline-none focus:shadow-outline bg-gray-100 cursor-pointer relative text-transparent hover:text-white shadow-sm" tabindex="0">
-            <img [src]="file.url" alt="upload preview" class="img-preview w-full h-full sticky object-cover rounded-md bg-fixed"/>
+      <li *ngFor="let file of files; let index = index" class="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-24">
+        <article class="group hasImage w-full h-full rounded-md focus:outline-none focus:shadow-outline bg-gray-100 cursor-pointer relative text-transparent hover:text-white shadow-sm" tabindex="0">
+          <img [src]="file.url" alt="upload preview" class="img-preview w-full h-full sticky object-cover rounded-md bg-fixed"/>
 
-            <section class="flex flex-col rounded-md text-xs break-words w-full h-full z-20 absolute top-0 py-2 px-3">
-              <h1 class="flex-1">{{file.file.name}}</h1>
-              <div class="flex">
+          <section class="flex flex-col rounded-md text-xs break-words w-full h-full z-20 absolute top-0 py-2 px-3">
+            <h1 class="flex-1">{{file.file.name}}</h1>
+            <div class="flex">
                 <span class="p-1">
                   <i>
                     <svg class="fill-current w-4 h-4 ml-auto pt-" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -46,47 +46,63 @@
                   </i>
                 </span>
 
-                <p class="p-1 size text-xs">{{fileSize(file.file)}}</p>
-                <button (click)="remove(index)" class="delete ml-auto focus:outline-none hover:bg-gray-300 p-1 rounded-md">
-                  <svg class="pointer-events-none fill-current w-4 h-4 ml-auto" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                    <path class="pointer-events-none" d="M3 6l3 18h12l3-18h-18zm19-4v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.316c0 .901.73 2 1.631 2h5.711z"/>
-                  </svg>
-                </button>
-              </div>
-            </section>
-          </article>
-        </li>
-      </ul>
-    </section>
+              <p class="p-1 size text-xs">{{fileSize(file.file)}}</p>
+              <button (click)="remove(index)" class="delete ml-auto focus:outline-none hover:bg-gray-300 p-1 rounded-md">
+                <svg class="pointer-events-none fill-current w-4 h-4 ml-auto" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                  <path class="pointer-events-none" d="M3 6l3 18h12l3-18h-18zm19-4v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.316c0 .901.73 2 1.631 2h5.711z"/>
+                </svg>
+              </button>
+            </div>
+          </section>
+        </article>
+      </li>
+    </ul>
+  </section>
 
-    <section class="mb-2 p-8">
-      <div class="relative pt-1" *ngFor="let progressInfo of progressInfos" >
-        <div class="flex mb-2 items-center justify-between">
-          <div>
-            <app-pill [color]="'pink'">{{ progressInfo.fileName }}</app-pill>
-          </div>
-          <div class="text-right">
+  <section class="mb-2 p-8">
+    <div *ngFor="let progressInfo of progressInfos" class="relative pt-1">
+      <div class="flex mb-2 items-center justify-between">
+        <div>
+          <app-pill [color]="'pink'">{{ progressInfo.fileName }}</app-pill>
+        </div>
+        <div class="text-right">
           <span class="text-xs font-semibold inline-block text-pink-800">
             {{progressInfo.value}}%
           </span>
-          </div>
-        </div>
-        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-pink-200">
-          <div class=" shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pink-800" [style]="'width: ' + progressInfo.value + '%'"></div>
         </div>
       </div>
-    </section>
+      <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-pink-200">
+        <div [style]="'width: ' + progressInfo.value + '%'" class=" shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pink-800"></div>
+      </div>
+    </div>
+  </section>
 
-    <!-- sticky footer -->
-    <footer class="flex justify-end px-8 pb-8 pt-4">
-      <app-button (click)="uploadAll()" [style]="'primary'">
-        Uploaden
-      </app-button>
-      <app-button (click)="reset()" [style]="'white'" class="ml-3">
-        Reset
-      </app-button>
-    </footer>
-  </article>
+  <div class="rounded-md bg-blue-50 p-4" *ngIf="uploadStarted">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <svg aria-hidden="true" class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path clip-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" fill-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="ml-3 flex-1 md:flex md:justify-between">
+        <p class="text-sm text-blue-700">
+          Het kan enkele minuten duren voordat de foto's in Tandemvault zitten. De foto's zullen straks verschijnen in de tabs Waarneming en Project.
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- sticky footer -->
+  <footer class="flex justify-end px-8 pb-8 pt-4">
+    <app-button (click)="uploadAll()" [style]="'primary'">
+      Uploaden
+    </app-button>
+    <app-button (click)="reset()" [style]="'white'" class="ml-3">
+      Reset
+    </app-button>
+  </footer>
+</article>
 
 
 <style>
