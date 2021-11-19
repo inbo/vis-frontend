@@ -39,6 +39,8 @@ import {CellDirective} from './table/directives/cell.directive';
 import {TableComponent} from './table/table/table.component';
 import {PillComponent} from './pill/pill.component';
 import {DndDirective} from './directives/dnd.directive';
+import { TableSortComponent } from './table/table-sort/table-sort.component';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -76,7 +78,8 @@ import {DndDirective} from './directives/dnd.directive';
     CellDirective,
     TableComponent,
     PillComponent,
-    DndDirective
+    DndDirective,
+    TableSortComponent
   ],
   exports: [
     SidebarLayoutComponent,
@@ -113,7 +116,8 @@ import {DndDirective} from './directives/dnd.directive';
     CellDirective,
     TableComponent,
     PillComponent,
-    DndDirective
+    DndDirective,
+    TableSortComponent
   ],
   imports: [
     RouterModule,
@@ -121,7 +125,8 @@ import {DndDirective} from './directives/dnd.directive';
     NgTransitionModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslateModule
+    TranslateModule,
+    FontAwesomeModule
   ]
 })
 export class SharedUiModule {

@@ -7,7 +7,6 @@ import {Title} from '@angular/platform-browser';
 import {ImportsService} from '../../../services/vis.imports.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ImportDetail} from '../../../domain/imports/imports';
-import {faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 import {Role} from '../../../core/_models/role';
 
 @Component({

@@ -156,8 +156,6 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
             delete filter.period;
         }
 
-        console.log(filter.begin);
-
         if (filter && filter.species) {
             filter.taxonId = filter.species;
         }
@@ -242,14 +240,6 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
         }
         if (rawValue.my) {
             tags.push(getTag('surveyEvent.my', rawValue.my ? 'Ja' : 'Nee', this.removeTagCallback('my')));
-        }
-        if (rawValue.sort) {
-            let sort = rawValue.sort;
-            if (rawValue.sort.includes(',')) {
-                sort = sort.split(',')[0];
-            }
-            tags.push(getTag('surveyEvent.sort', this.translateService.instant(`surveyEvent.sortOption.${sort}`),
-                this.removeTagCallback('sort')));
         }
         if (rawValue.status) {
             const readableStatuses = this.filterForm.get('status').value
