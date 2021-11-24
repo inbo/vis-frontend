@@ -14,9 +14,14 @@ export class PagingAsyncComponent {
   @Input() pageProperty = 'page';
   @Input() sizeProperty = 'size';
   @Input() resetParams: Params = {};
+  @Input() showSizeSelector = false;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
 
+  }
+
+  setSize(size: number) {
+    this.setPage(0, size);
   }
 
   setPage(page: number, size: number) {

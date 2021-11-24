@@ -9,6 +9,9 @@
                          formControlName="species"
                          tabIndex="-1">
     <ng-template #selected let-rowDetail>
+      <div *ngIf="!rowDetail" class="flex justify-between content-center">
+        &nbsp;
+      </div>
       <div *ngIf="rowDetail" class="flex justify-between content-center">
         <span>{{rowDetail.option.nameDutch}}</span>
         <a tabindex="-1" [routerLink]="['/vissoorten', rowDetail.option.id.value]" class="text-gray-400 self-center"
