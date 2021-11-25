@@ -28,6 +28,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
 
   @ViewChild(FishingPointsMapComponent) map: FishingPointsMapComponent;
   @ViewChild(FishingPointsMapComponent, {read: ElementRef}) mapElement: ElementRef;
+  @ViewChild('filename') filenameInput: ElementRef;
 
   private subscription = new Subscription();
 
@@ -41,7 +42,10 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
 
   highlightedLocation: number;
 
+  locationCodesToExport: string[] = [];
+
   watercourses: SearchableSelectOption[] = [];
+  exportMode = false;
 
   constructor(private titleService: Title, private locationsService: LocationsService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder) {
@@ -179,5 +183,35 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
         }));
       })
     ).subscribe(value => this.watercourses = value as any as SearchableSelectOption[]);
+  }
+
+  export() {
+    this.locationsService.exportLocations(this.locationCodesToExport, this.filenameInput.nativeElement.value)
+      .pipe(take(1))
+      .subscribe(res => {
+        this.locationsService.downloadFile(res);
+      });
+  }
+
+  isMarkedForExport(fishingPoint: FishingPoint) {
+    return this.locationCodesToExport.indexOf(fishingPoint.code) >= 0;
+  }
+
+  toggleToExport(fishingPoint: FishingPoint) {
+    const index = this.locationCodesToExport.indexOf(fishingPoint.code);
+    if (index >= 0) {
+      this.locationCodesToExport.splice(index, 1);
+    } else {
+      this.locationCodesToExport.push(fishingPoint.code);
+    }
+  }
+
+  removeLocationCodeToExport(locationCode: string) {
+    const index = this.locationCodesToExport.indexOf(locationCode);
+    this.locationCodesToExport.splice(index, 1);
+  }
+
+  toggleExportMode() {
+    this.exportMode = !this.exportMode;
   }
 }

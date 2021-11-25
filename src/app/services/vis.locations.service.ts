@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable} from 'rxjs';
@@ -23,6 +23,17 @@ export class LocationsService extends VisService {
 
   constructor(private http: HttpClient) {
     super();
+  }
+
+  public downloadFile(res: HttpResponse<Blob>) {
+    const contentDisposition = res.headers.get('content-disposition');
+    const filename = contentDisposition.split(';')[1].split('filename')[1].split('=')[1].trim().replace(/\"/g, '');
+    const url = window.URL.createObjectURL(res.body);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+
+    link.click();
   }
 
   getFishingPoints(page: number, size: number, filter: any): Observable<AsyncPage<FishingPoint>> {
@@ -136,5 +147,12 @@ export class LocationsService extends VisService {
 
   listIndexTypes() {
     return this.http.get<IndexType[]>(`${environment.apiUrl}/api/indextypes/all`);
+  }
+
+  exportLocations(locationCodesToExport: string[], filename: string) {
+    const params = new HttpParams();
+
+    return this.http.post(`${environment.apiUrl}/api/fishingpoints/export`,
+      {codes: locationCodesToExport, filename}, {params, observe: 'response', responseType: 'blob'});
   }
 }
