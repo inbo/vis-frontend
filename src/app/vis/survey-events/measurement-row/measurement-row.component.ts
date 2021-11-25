@@ -276,9 +276,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     this.individualLengths().clear();
     const amount = this.amount().value;
     const individualLengthsSize = amount >= 10 ? 10 : amount;
-    for (let i = 0; i < individualLengthsSize; i++) {
-      this.individualLengths().push(this.createIndividualLength());
-    }
+    this.individualLengths().push(this.createIndividualLength());
 
     this.amount().setValidators(Validators.min(individualLengthsSize));
     this.setTaxonValidators(this.taxon);
