@@ -98,6 +98,7 @@ import { FishSpeciesPicturesPageComponent } from './fish-specie/fish-species-pic
 import { LocationComponent } from './location/location/location.component';
 import { LocationTabsComponent } from './location/location-tabs/location-tabs.component';
 import { LocationPicturesPageComponent } from './location/location-pictures-page/location-pictures-page.component';
+import { MeasurementLengthMeasurementsReadonlyComponent } from './survey-events/measurement-components/measurement-length-measurements-readonly/measurement-length-measurements-readonly.component';
 
 @NgModule({
     exports: [
@@ -190,7 +191,8 @@ import { LocationPicturesPageComponent } from './location/location-pictures-page
     FishSpeciesPicturesPageComponent,
     LocationComponent,
     LocationTabsComponent,
-    LocationPicturesPageComponent
+    LocationPicturesPageComponent,
+    MeasurementLengthMeasurementsReadonlyComponent
   ],
   imports: [
     CommonModule,

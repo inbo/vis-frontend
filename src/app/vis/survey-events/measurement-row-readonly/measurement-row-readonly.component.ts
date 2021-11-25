@@ -19,6 +19,7 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
 
   @Input() formGroupName: number;
   @Input() submitted = false;
+  @Input() showSaveMessage = false;
 
   @Output() editClicked = new EventEmitter<any>();
   @Output() removeClicked = new EventEmitter<any>();
@@ -29,7 +30,7 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
   private formArray: FormArray;
   private subscription = new Subscription();
 
-  showIndividualLengthItems: boolean = true;
+  showIndividualLengthItems = false;
   savedMessage = false;
 
   numberMask(scale: number, min: number, max: number) {
@@ -52,6 +53,10 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.formArray = this.rootFormGroup.control.get('items') as FormArray;
     this.form = this.formArray.at(this.formGroupName) as FormGroup;
+
+    if (this.showSaveMessage) {
+      this.showSavedMessage();
+    }
   }
 
   ngOnDestroy() {
@@ -103,9 +108,14 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
   }
 
   showSavedMessage() {
+    this.showSaveMessage = false;
     this.savedMessage = true;
     setTimeout(() => {
       this.savedMessage = false;
     }, 2500);
+  }
+
+  toggleIndividualMeasurement() {
+    this.showIndividualLengthItems = !this.showIndividualLengthItems;
   }
 }

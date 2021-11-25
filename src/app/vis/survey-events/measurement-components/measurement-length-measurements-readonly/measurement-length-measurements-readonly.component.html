@@ -1,0 +1,48 @@
+<div [class.hidden]="!(type().value === 'GROUP_LENGTHS')" [formGroup]="form" class="col-span-12 pt-2">
+  <div class="grid grid-flow-row grid-cols-12 gap-2 px-2 py-1.5">
+
+    <!--   Length measurements headers   -->
+    <div class="col-span-12">
+      <div
+        class="grid grid-flow-row grid-cols-12 gap-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-2">
+        <div class="col-span-1"></div>
+        <div class="col-span-3">Lengte (cm)</div>
+        <div class="col-span-7">Commentaar</div>
+        <div></div>
+      </div>
+    </div>
+
+    <!--   Length measurements  -->
+    <div class="col-span-12">
+      <div class="grid grid-flow-row grid-cols-12 gap-2 px-2 py-1.5">
+        <ng-container *ngFor="let item of individualLengths().controls; let i = index;"
+                      formArrayName="individualLengths">
+          <ng-container [formGroupName]="i">
+            <div class="col-span-3">
+              <div class="relative flex items-center">
+                <span class="text-gray-500 w-2/12 float-left text-sm">
+                  {{i + 1}}
+                </span>
+                <span class="text-gray-500 text-sm">{{item.get('length').value}}</span>
+                <div *ngIf="(individualLength(i).dirty || individualLength(i).touched) && individualLength(i).warnings"
+                     [title]="'Waarde moet tussen ' + individualLength(i).warnings.between?.min + ' en ' + individualLength(i).warnings.between?.max + ' liggen.'"
+                     class="absolute inset-y-0 right-0 pr-8 flex items-center">
+                  <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path clip-rule="evenodd"
+                          d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                          fill-rule="evenodd"></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-8 text-gray-500 text-sm">
+              {{item.get('comment').value}}
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+
+  </div>
+</div>

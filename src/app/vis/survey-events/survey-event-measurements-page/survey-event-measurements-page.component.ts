@@ -5,7 +5,7 @@ import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {IndividualLength, Measurement} from '../../../domain/survey-event/measurement';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {take} from 'rxjs/operators';
-import {SurveyEvent, SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
@@ -42,7 +42,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
   surveyEvent: SurveyEvent;
   form: FormGroup;
   rowEditNumber: number;
-  private rowSavedNumber: number;
+  savedIndex: number;
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               public authService: AuthService, private formBuilder: FormBuilder) {
@@ -138,10 +138,9 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
     this.surveyEventsService.saveMeasurement(this.projectCode, this.surveyEventId, data.get('id').value, data.getRawValue())
       .pipe(take(1))
       .subscribe(() => {
+        this.savedIndex = this.rowEditNumber;
         this.rowEditNumber = null;
-        this.measurementRowReadonlyComponents.get(i - 1).showSavedMessage();
       });
-
   }
 
   cancel(i: number) {
@@ -162,21 +161,26 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
 
     if (!data.dirty) {
       this.rowEditNumber = i + 1;
-      setTimeout(() => {
-        this.measurementRowComponents.get(0).focusElement(fieldName, this.rowEditNumber);
-      }, 0);
+      this.focusFieldname(fieldName);
       return;
     }
 
     this.surveyEventsService.saveMeasurement(this.projectCode, this.surveyEventId, data.get('id').value, data.getRawValue())
       .pipe(take(1))
       .subscribe(() => {
+        this.savedIndex = this.rowEditNumber;
         this.rowEditNumber = i + 1;
-        setTimeout(() => {
-          this.measurementRowReadonlyComponents.get(this.rowEditNumber - 1).showSavedMessage();
-          this.measurementRowComponents.get(0).focusElement(fieldName, this.rowEditNumber);
-        }, 0);
+        this.focusFieldname(fieldName)
 
       });
+  }
+
+  private focusFieldname(fieldName: string) {
+    setTimeout(() => {
+      const element = this.measurementRowComponents.get(0);
+      if (element !== undefined) {
+        element.focusElement(fieldName, this.rowEditNumber);
+      }
+    }, 0);
   }
 }
