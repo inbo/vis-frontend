@@ -223,10 +223,6 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
         tags.push(getTag('surveyEvent.species', value.nameDutch, this.removeTagCallback('species')));
       });
     }
-    if (rawValue.sort) {
-      tags.push(getTag('surveyEvent.sort', this.translateService.instant(`surveyEvent.sortOption.${rawValue.sort}`),
-        this.removeTagCallback('sort')));
-    }
     if (rawValue.status) {
       const readableStatuses = this.filterForm.get('status').value
         .map(value => this.translateService.instant(`surveyEvent.status.${value}`)).join(', ');
