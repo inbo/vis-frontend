@@ -6,7 +6,7 @@ import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {map} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {TaxaService} from '../../../services/vis.taxa.service';
@@ -46,6 +46,12 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
   basins$: Observable<Basin[]>;
   municipalities$: Observable<Municipality[]>;
 
+  watercourses: SearchableSelectOption[] = [];
+  lenticWaterbodies: SearchableSelectOption[] = [];
+  municipalities: SearchableSelectOption[] = [];
+  basins: SearchableSelectOption[] = [];
+  fishingPointCodes: SearchableSelectOption[] = [];
+
   filterForm: FormGroup;
 
   private subscription = new Subscription();
@@ -68,6 +74,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
     this.filterForm = this.formBuilder.group(
       {
         watercourse: [queryParams.watercourse ?? null],
+        lenticWaterbody: [queryParams.lenticWaterbody ?? null],
         municipality: [queryParams.municipality ?? null],
         basin: [queryParams.basin ?? null],
         period: [queryParams.period ?? null],
@@ -104,6 +111,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
         [new Date(params.period[0]), new Date(params.period[1])] : null;
 
       this.filterForm.get('watercourse').patchValue(params.watercourse ? params.watercourse : null);
+      this.filterForm.get('lenticWaterbody').patchValue(params.lenticWaterbody ? params.lenticWaterbody : null);
       this.filterForm.get('municipality').patchValue(params.municipality ? params.municipality : null);
       this.filterForm.get('basin').patchValue(params.basin ? params.basin : null);
       this.filterForm.get('period').patchValue(period);
@@ -196,6 +204,9 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
     if (rawValue.watercourse) {
       tags.push(getTag('surveyEvent.watercourse', rawValue.watercourse, this.removeTagCallback('watercourse')));
     }
+    if (rawValue.lenticWaterbody) {
+      tags.push(getTag('surveyEvent.lenticWaterbody', rawValue.lenticWaterbody, this.removeTagCallback('lenticWaterbody')));
+    }
     if (rawValue.municipality) {
       tags.push(getTag('surveyEvent.municipality', rawValue.municipality, this.removeTagCallback('municipality')));
     }
@@ -241,5 +252,65 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
 
   reset() {
     this.filter();
+  }
+
+  getWatercourses(val: any) {
+    this.locationsService.searchWatercourses(val).pipe(
+      take(1),
+      map(watercourses => {
+        return watercourses.map(watercourse => ({
+          selectValue: watercourse.name,
+          option: watercourse
+        }));
+      })
+    ).subscribe(value => this.watercourses = value as any as SearchableSelectOption[]);
+  }
+
+  getLenticWaterbodies(val: any) {
+    this.locationsService.searchLenticWaterbodyNames(val).pipe(
+      take(1),
+      map(lenticWaterBodies => {
+        return lenticWaterBodies.map(lenticWaterbody => ({
+          selectValue: lenticWaterbody.name,
+          option: lenticWaterbody
+        }));
+      })
+    ).subscribe(value => this.lenticWaterbodies = value as any as SearchableSelectOption[]);
+  }
+
+  getMunicipalities(val: any) {
+    this.locationsService.searchMunicipalities(val).pipe(
+      take(1),
+      map(municipalities => {
+        return municipalities.map(municipality => ({
+          selectValue: municipality.name,
+          option: municipality
+        }));
+      })
+    ).subscribe(value => this.municipalities = value as any as SearchableSelectOption[]);
+  }
+
+  getBasins(val: any) {
+    this.locationsService.searchBasins(val).pipe(
+      take(1),
+      map(basins => {
+        return basins.map(basin => ({
+          selectValue: basin.name,
+          option: basin
+        }));
+      })
+    ).subscribe(value => this.basins = value as any as SearchableSelectOption[]);
+  }
+
+  getFishingPointCodes(val: any) {
+    this.locationsService.searchFishingPointCodes(val).pipe(
+      take(1),
+      map(fishingPointCodes => {
+        return fishingPointCodes.map(fishingPointCode => ({
+          selectValue: fishingPointCode.name,
+          option: fishingPointCode
+        }));
+      })
+    ).subscribe(value => this.fishingPointCodes = value as any as SearchableSelectOption[]);
   }
 }
