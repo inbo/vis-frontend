@@ -27,11 +27,11 @@
                                          (search)="getWatercourses($event)"
                                          [options]="watercourses">
                     <ng-template let-rowDetail #selected>
-                      {{rowDetail.option?.name}}
+                      {{rowDetail?.option?.name}}
                     </ng-template>
 
                     <ng-template let-rowDetail #listItem>
-                      {{rowDetail.option?.name}}
+                      {{rowDetail?.option?.name}}
                     </ng-template>
                   </app-searchable-select>
                 </div>
@@ -48,11 +48,11 @@
                                          (search)="getLenticWaterbodies($event)"
                                          [options]="lenticWaterbodies">
                     <ng-template let-rowDetail #selected>
-                      {{rowDetail.option?.name}}
+                      {{rowDetail?.option?.name}}
                     </ng-template>
 
                     <ng-template let-rowDetail #listItem>
-                      {{rowDetail.option?.name}}
+                      {{rowDetail?.option?.name}}
                     </ng-template>
                   </app-searchable-select>
                 </div>
@@ -68,11 +68,11 @@
                                          (search)="getMunicipalities($event)"
                                          [options]="municipalities">
                     <ng-template let-rowDetail #selected>
-                      {{rowDetail.option?.name}}
+                      {{rowDetail?.option?.name}}
                     </ng-template>
 
                     <ng-template let-rowDetail #listItem>
-                      {{rowDetail.option?.name}}
+                      {{rowDetail?.option?.name}}
                     </ng-template>
                   </app-searchable-select>
                 </div>
@@ -88,11 +88,11 @@
                                          (search)="getBasins($event)"
                                          [options]="basins">
                     <ng-template let-rowDetail #selected>
-                      {{rowDetail.option?.name}}
+                      {{rowDetail?.option?.name}}
                     </ng-template>
 
                     <ng-template let-rowDetail #listItem>
-                      {{rowDetail.option?.name}}
+                      {{rowDetail?.option?.name}}
                     </ng-template>
                   </app-searchable-select>
                 </div>
@@ -107,14 +107,24 @@
                 </div>
               </div>
 
-              <div>
-                <label class="block text-sm font-medium text-gray-700" for="measuringPointNumber">
+              <div class="relative sm:col-span-4">
+                <label for="measuringPointNumber" class="block text-sm font-medium text-gray-700">
                   Meetplaatscode
                 </label>
                 <div class="mt-1">
-                  <input formControlName="measuringPointNumber" id="measuringPointNumber"
-                         placeholder="Meetplaatscode ..."
-                         type="text"/>
+                  <app-searchable-select id="measuringPointNumber" passedId="measuringPointNumber"
+                                         placeholder="Selecteer een meetplaatscode"
+                                         tabIndex="-1" formControlName="measuringPointNumber"
+                                         (search)="getFishingPointCodes($event)"
+                                         [options]="fishingPointCodes">
+                    <ng-template let-rowDetail #selected>
+                      {{rowDetail?.option?.name}}
+                    </ng-template>
+
+                    <ng-template let-rowDetail #listItem>
+                      {{rowDetail?.option?.name}}
+                    </ng-template>
+                  </app-searchable-select>
                 </div>
               </div>
 
@@ -182,19 +192,28 @@
               <thead>
               <tr>
                 <th appHeader scope="col" class="w-2/12">
-                  Datum <app-table-sort sortField="occurrence"></app-table-sort>
+                  Datum
+                  <app-table-sort sortField="occurrence"></app-table-sort>
                 </th>
                 <th appHeader scope="col">
-                  Locatie <app-table-sort sortField="fishingPoint.code" title="Sorteren op meetplaatscode"></app-table-sort><app-table-sort sortField="fishingPoint.vha.watercourse" class="ml-0.5" title="Sorteren op waterloop"></app-table-sort><app-table-sort sortField="fishingPoint.vha.basinName" class="ml-0.5" title="Sorteren op watervlak"></app-table-sort>
+                  Locatie
+                  <app-table-sort sortField="fishingPoint.code" title="Sorteren op meetplaatscode"></app-table-sort>
+                  <app-table-sort sortField="fishingPoint.vha.watercourse" class="ml-0.5"
+                                  title="Sorteren op waterloop"></app-table-sort>
+                  <app-table-sort sortField="fishingPoint.vha.basinName" class="ml-0.5"
+                                  title="Sorteren op watervlak"></app-table-sort>
                 </th>
                 <th appHeader scope="col" class="w-2/12">
-                  Methode <app-table-sort sortField="method"></app-table-sort>
+                  Methode
+                  <app-table-sort sortField="method"></app-table-sort>
                 </th>
                 <th appHeader scope="col" class="w-2/12">
-                  Gemeente <app-table-sort sortField="fishingPoint.vha.municipality"></app-table-sort>
+                  Gemeente
+                  <app-table-sort sortField="fishingPoint.vha.municipality"></app-table-sort>
                 </th>
                 <th appHeader scope="col" class="w-2/12">
-                  Project <app-table-sort sortField="project.code"></app-table-sort>
+                  Project
+                  <app-table-sort sortField="project.code"></app-table-sort>
                 </th>
                 <th appHeader scope="col" class="w-1/12">
                   <span class="sr-only">Status</span>
@@ -213,13 +232,17 @@
 
               <tr *ngFor="let surveyEvent of surveyEvents$ | async; let index = index" [rownumber]="index" appRow>
                 <td appCell>
-                  <a [routerLink]="['/projecten', surveyEvent.projectCode, 'waarnemingen', surveyEvent.surveyEventId]" class="text-pink-600 hover:text-pink-900">
+                  <a [routerLink]="['/projecten', surveyEvent.projectCode, 'waarnemingen', surveyEvent.surveyEventId]"
+                     class="text-pink-600 hover:text-pink-900">
                     {{ surveyEvent.occurrence | date:'dd/MM/yyyy'}}
                   </a>
                 </td>
                 <td appCell>
-                  <div class="text-sm"><a [routerLink]="['/locaties', surveyEvent.fishingPointCode]" class="text-pink-600 hover:text-pink-900">{{surveyEvent.fishingPointCode}}</a></div>
-                  <div class="text-sm">{{surveyEvent.isLentic ? surveyEvent.lenticName : surveyEvent.watercourse}} {{surveyEvent.basin ? ' - ' + surveyEvent.basin : ''}}</div>
+                  <div class="text-sm"><a [routerLink]="['/locaties', surveyEvent.fishingPointCode]"
+                                          class="text-pink-600 hover:text-pink-900">{{surveyEvent.fishingPointCode}}</a>
+                  </div>
+                  <div
+                    class="text-sm">{{surveyEvent.isLentic ? surveyEvent.lenticName : surveyEvent.watercourse}} {{surveyEvent.basin ? ' - ' + surveyEvent.basin : ''}}</div>
                 </td>
                 <td appCell>
                   {{ 'method.' + surveyEvent.method | translate }}
@@ -228,7 +251,8 @@
                   {{surveyEvent.municipality}}
                 </td>
                 <td appCell>
-                  <a [routerLink]="['/projecten', surveyEvent.projectCode]" class="text-pink-600 hover:text-pink-900">{{surveyEvent.projectCode}}</a>
+                  <a [routerLink]="['/projecten', surveyEvent.projectCode]"
+                     class="text-pink-600 hover:text-pink-900">{{surveyEvent.projectCode}}</a>
                 </td>
                 <td appCell>
                   <app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>

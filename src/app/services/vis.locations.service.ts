@@ -14,6 +14,7 @@ import {LenticWaterbody} from '../domain/location/lentic-waterbody';
 import {AsyncValidationResult} from './validation';
 import {IndexType} from '../domain/location/index-type';
 import {Municipality} from '../domain/location/municipality';
+import {FishingPointCode} from '../domain/location/fishing-point-code';
 
 
 @Injectable({
@@ -123,6 +124,15 @@ export class LocationsService extends VisService {
     }
 
     return this.http.get<LenticWaterbody[]>(`${environment.apiUrl}/api/lenticwaterbody/search`, {params});
+  }
+
+  searchFishingPointCodes(name?: string): Observable<FishingPointCode[]> {
+    let params = new HttpParams();
+    if (name) {
+      params = params.set('name', name);
+    }
+
+    return this.http.get<FishingPointCode[]>(`${environment.apiUrl}/api/fishingpointcode/search`, {params});
   }
 
   convertCoordinates(x: number, y: number, source: string): Observable<Coordinates> {
