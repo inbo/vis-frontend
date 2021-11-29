@@ -45,6 +45,12 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   locationCodesToExport: string[] = [];
 
   watercourses: SearchableSelectOption[] = [];
+  lenticWaterbodies: SearchableSelectOption[] = [];
+  provinces: SearchableSelectOption[] = [];
+  municipalities: SearchableSelectOption[] = [];
+  basins: SearchableSelectOption[] = [];
+  fishingPointCodes: SearchableSelectOption[] = [];
+
   exportMode = false;
 
   constructor(private titleService: Title, private locationsService: LocationsService, private activatedRoute: ActivatedRoute,
@@ -80,6 +86,13 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
       this.filterForm.get('page').patchValue(params.page ? params.page : null);
       this.filterForm.get('size').patchValue(params.size ? params.size : null);
       this.filterForm.get('sort').patchValue(params.sort ? params.sort : null);
+
+      this.getWatercourses(queryParams.watercourse ? queryParams.watercourse : null);
+      this.getLenticWaterbodies(queryParams.lenticWaterbody ? queryParams.lenticWaterbody : null);
+      this.getProvinces(queryParams.province ? queryParams.province : null);
+      this.getMunicipalities(queryParams.municipality ? queryParams.municipality : null);
+      this.getBasins(queryParams.basin ? queryParams.basin : null);
+      this.getFishingPointCodes(queryParams.fishingPointCode ? queryParams.fishingPointCode : null);
 
       if (this.map) {
         this.map.updateFishingPointsLayer(this.filterForm.getRawValue());
@@ -183,6 +196,66 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
         }));
       })
     ).subscribe(value => this.watercourses = value as any as SearchableSelectOption[]);
+  }
+
+  getLenticWaterbodies(val: any) {
+    this.locationsService.searchLenticWaterbodyNames(val).pipe(
+      take(1),
+      map(lenticWaterBodies => {
+        return lenticWaterBodies.map(lenticWaterbody => ({
+          selectValue: lenticWaterbody.name,
+          option: lenticWaterbody
+        }));
+      })
+    ).subscribe(value => this.lenticWaterbodies = value as any as SearchableSelectOption[]);
+  }
+
+  getProvinces(val: any) {
+    this.locationsService.searchProvinces(val).pipe(
+      take(1),
+      map(provinces => {
+        return provinces.map(province => ({
+          selectValue: province.name,
+          option: province
+        }));
+      })
+    ).subscribe(value => this.provinces = value as any as SearchableSelectOption[]);
+  }
+
+  getMunicipalities(val: any) {
+    this.locationsService.searchMunicipalities(val).pipe(
+      take(1),
+      map(municipalities => {
+        return municipalities.map(municipality => ({
+          selectValue: municipality.name,
+          option: municipality
+        }));
+      })
+    ).subscribe(value => this.municipalities = value as any as SearchableSelectOption[]);
+  }
+
+  getBasins(val: any) {
+    this.locationsService.searchBasins(val).pipe(
+      take(1),
+      map(basins => {
+        return basins.map(basin => ({
+          selectValue: basin.name,
+          option: basin
+        }));
+      })
+    ).subscribe(value => this.basins = value as any as SearchableSelectOption[]);
+  }
+
+  getFishingPointCodes(val: any) {
+    this.locationsService.searchFishingPointCodes(val).pipe(
+      take(1),
+      map(fishingPointCodes => {
+        return fishingPointCodes.map(fishingPointCode => ({
+          selectValue: fishingPointCode.name,
+          option: fishingPointCode
+        }));
+      })
+    ).subscribe(value => this.fishingPointCodes = value as any as SearchableSelectOption[]);
   }
 
   export() {

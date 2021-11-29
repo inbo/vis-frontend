@@ -77,7 +77,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
       this.getProvinces(queryParams.province ? queryParams.province : null);
       this.getMunicipalities(queryParams.municipality ? queryParams.municipality : null);
       this.getBasins(queryParams.basin ? queryParams.basin : null);
-      this.getFishingPointCodes(queryParams.measuringPointNumber ? queryParams.measuringPointNumber : null);
+      this.getFishingPointCodes(queryParams.fishingPointCode ? queryParams.fishingPointCode : null);
 
       this.getFishingPoints();
     }));
