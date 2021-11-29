@@ -6,13 +6,24 @@
                        [tags]="tags">
   <ng-container slot="content">
     <div class="space-y-4">
-      <div>
-        <label class="block text-sm font-medium text-gray-700" for="fishingPointCode">
+      <div class="relative sm:col-span-4">
+        <label for="fishingPointCode" class="block text-sm font-medium text-gray-700">
           Meetplaatscode
         </label>
         <div class="mt-1">
-          <input formControlName="fishingPointCode" id="fishingPointCode" placeholder="Meetplaatscode ..."
-                 type="text"/>
+          <app-searchable-select id="fishingPointCode" passedId="fishingPointCode"
+                                 placeholder="Selecteer een meetplaatscode"
+                                 tabIndex="-1" formControlName="fishingPointCode"
+                                 (search)="getFishingPointCodes($event)"
+                                 [options]="fishingPointCodes">
+            <ng-template let-rowDetail #selected>
+              {{rowDetail?.option?.name}}
+            </ng-template>
+
+            <ng-template let-rowDetail #listItem>
+              {{rowDetail?.option?.name}}
+            </ng-template>
+          </app-searchable-select>
         </div>
       </div>
 
@@ -45,39 +56,84 @@
         </div>
       </div>
 
-      <div>
-        <label class="block text-sm font-medium text-gray-700" for="lenticWaterbody">
+      <div class="relative sm:col-span-4">
+        <label for="lenticWaterbody" class="block text-sm font-medium text-gray-700">
           Watervlak
         </label>
         <div class="mt-1">
-          <input formControlName="lenticWaterbody" id="lenticWaterbody" placeholder="Watervlak ..." type="text"/>
+          <app-searchable-select id="lenticWaterbody" passedId="lenticWaterbody"
+                                 placeholder="Selecteer een watervlak"
+                                 tabIndex="-1" formControlName="lenticWaterbody"
+                                 (search)="getLenticWaterbodies($event)"
+                                 [options]="lenticWaterbodies">
+            <ng-template let-rowDetail #selected>
+              {{rowDetail?.option?.name}}
+            </ng-template>
+
+            <ng-template let-rowDetail #listItem>
+              {{rowDetail?.option?.name}}
+            </ng-template>
+          </app-searchable-select>
         </div>
       </div>
 
-      <div>
-        <label class="block text-sm font-medium text-gray-700" for="basin">
+      <div class="relative sm:col-span-4">
+        <label for="basin" class="block text-sm font-medium text-gray-700">
           Bekken
         </label>
         <div class="mt-1">
-          <input formControlName="basin" id="basin" placeholder="Bekken ..." type="text"/>
+          <app-searchable-select id="basin" passedId="basin" placeholder="Selecteer een bekken"
+                                 tabIndex="-1" formControlName="basin"
+                                 (search)="getBasins($event)"
+                                 [options]="basins">
+            <ng-template let-rowDetail #selected>
+              {{rowDetail?.option?.name}}
+            </ng-template>
+
+            <ng-template let-rowDetail #listItem>
+              {{rowDetail?.option?.name}}
+            </ng-template>
+          </app-searchable-select>
         </div>
       </div>
 
-      <div>
-        <label class="block text-sm font-medium text-gray-700" for="province">
+      <div class="relative sm:col-span-4">
+        <label for="province" class="block text-sm font-medium text-gray-700">
           Provincie
         </label>
         <div class="mt-1">
-          <input formControlName="province" id="province" placeholder="Provincie ..." type="text"/>
+          <app-searchable-select id="province" passedId="province" placeholder="Selecteer een provincie"
+                                 tabIndex="-1" formControlName="province"
+                                 (search)="getProvinces($event)"
+                                 [options]="provinces">
+            <ng-template let-rowDetail #selected>
+              {{rowDetail?.option?.name}}
+            </ng-template>
+
+            <ng-template let-rowDetail #listItem>
+              {{rowDetail?.option?.name}}
+            </ng-template>
+          </app-searchable-select>
         </div>
       </div>
 
-      <div>
-        <label class="block text-sm font-medium text-gray-700" for="municipality">
+      <div class="relative sm:col-span-4">
+        <label for="municipality" class="block text-sm font-medium text-gray-700">
           Gemeente
         </label>
         <div class="mt-1">
-          <input formControlName="municipality" id="municipality" placeholder="Gemeente ..." type="text"/>
+          <app-searchable-select id="municipality" passedId="municipality" placeholder="Selecteer een gemeente"
+                                 tabIndex="-1" formControlName="municipality"
+                                 (search)="getMunicipalities($event)"
+                                 [options]="municipalities">
+            <ng-template let-rowDetail #selected>
+              {{rowDetail?.option?.name}}
+            </ng-template>
+
+            <ng-template let-rowDetail #listItem>
+              {{rowDetail?.option?.name}}
+            </ng-template>
+          </app-searchable-select>
         </div>
       </div>
     </div>

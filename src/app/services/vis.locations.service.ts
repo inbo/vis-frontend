@@ -15,6 +15,7 @@ import {AsyncValidationResult} from './validation';
 import {IndexType} from '../domain/location/index-type';
 import {Municipality} from '../domain/location/municipality';
 import {FishingPointCode} from '../domain/location/fishing-point-code';
+import {Province} from '../domain/location/province';
 
 
 @Injectable({
@@ -106,6 +107,15 @@ export class LocationsService extends VisService {
     }
 
     return this.http.get<Basin[]>(`${environment.apiUrl}/api/basins/search`, {params});
+  }
+
+  searchProvinces(q?: string): Observable<Province[]> {
+    let params = new HttpParams();
+    if (q) {
+      params = params.set('q', q);
+    }
+
+    return this.http.get<Province[]>(`${environment.apiUrl}/api/provinces/search`, {params});
   }
 
   searchMunicipalities(q?: string): Observable<Municipality[]> {
