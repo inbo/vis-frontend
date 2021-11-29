@@ -89,6 +89,11 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
       },
     );
 
+    this.getWatercourses(queryParams.watercourse ? queryParams.watercourse : null);
+    this.getLenticWaterbodies(queryParams.lenticWaterbody ? queryParams.lenticWaterbody : null);
+    this.getMunicipalities(queryParams.municipality ? queryParams.municipality : null);
+    this.getBasins(queryParams.basin ? queryParams.basin : null);
+    this.getFishingPointCodes(queryParams.measuringPointNumber ? queryParams.measuringPointNumber : null);
     this.getSpecies(null, queryParams.species ? queryParams.species : undefined);
 
     this.methodGroups$ = this.methodsService.getAllMethodGroups();

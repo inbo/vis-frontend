@@ -72,6 +72,13 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
       this.filterForm.get('page').patchValue(params.page ? params.page : null);
       this.filterForm.get('size').patchValue(params.size ? params.size : null);
 
+      this.getWatercourses(queryParams.watercourse ? queryParams.watercourse : null);
+      this.getLenticWaterbodies(queryParams.lenticWaterbody ? queryParams.lenticWaterbody : null);
+      this.getProvinces(queryParams.province ? queryParams.province : null);
+      this.getMunicipalities(queryParams.municipality ? queryParams.municipality : null);
+      this.getBasins(queryParams.basin ? queryParams.basin : null);
+      this.getFishingPointCodes(queryParams.measuringPointNumber ? queryParams.measuringPointNumber : null);
+
       this.getFishingPoints();
     }));
   }
