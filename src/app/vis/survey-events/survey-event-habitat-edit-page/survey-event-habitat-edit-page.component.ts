@@ -11,225 +11,225 @@ import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {Location} from '@angular/common';
 
 @Component({
-  selector: 'app-survey-event-habitat-edit-page',
-  templateUrl: './survey-event-habitat-edit-page.component.html'
+    selector: 'app-survey-event-habitat-edit-page',
+    templateUrl: './survey-event-habitat-edit-page.component.html'
 })
 export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {
-  surveyEventId: number;
-  habitat: Habitat;
-  habitatForm: FormGroup;
-  submitted: boolean;
+    surveyEventId: number;
+    habitat: Habitat;
+    habitatForm: FormGroup;
+    submitted: boolean;
 
-  private subscription = new Subscription();
+    private subscription = new Subscription();
 
-  public numberMask: any = {
-    mask: Number,
-    scale: 1,
-    signed: false,
-    thousandsSeparator: '',
-    radix: ',',
-  };
+    public numberMask: any = {
+        mask: Number,
+        scale: 1,
+        signed: false,
+        thousandsSeparator: '',
+        radix: ',',
+    };
 
-  constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
-              private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService, private alertService: AlertService,
-              private router: Router, private _location: Location) {
-    this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
-    this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
+    constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
+                private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService, private alertService: AlertService,
+                private router: Router, private _location: Location) {
+        this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
+        this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
 
-  }
-
-  ngOnInit(): void {
-    this.habitatForm = this.formBuilder.group(
-      {
-        soil: this.formBuilder.group({
-          other: [false],
-          grint: [false],
-          clay: [false],
-          mudd: [false],
-          silt: [false],
-          stones: [false],
-          waterplants: [false],
-          sand: [false]
-        }),
-        waterLevel: [null],
-        shelters: [null],
-        pool: [null],
-        rapids: [null],
-        creeks: [null],
-        shore: [null],
-        slope: [null],
-        agriculture: [null],
-        meadow: [null],
-        trees: [null],
-        buildings: [null],
-        industry: [null],
-        current: [null],
-        fishPassage: [null],
-        bottleneck: this.formBuilder.group({
-          motorway: [false],
-          diver: [false],
-          mill: [false],
-          undefined: [false],
-          lock: [false],
-          reservoir: [false],
-          weir: [false],
-          decay: [false]
-        }),
-        vegetation: this.formBuilder.group({
-          threadAlgae: [false],
-          filamentousAlgae: [false]
-        })
-      });
-
-    this.subscription.add(this.surveyEventsService.getHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId)
-      .subscribe(value => {
-        this.habitat = value;
-        this.habitatForm.get('waterLevel').patchValue(value.waterLevel);
-        this.habitatForm.get('shelters').patchValue(value.shelters);
-        this.habitatForm.get('pool').patchValue(value.pool);
-        this.habitatForm.get('rapids').patchValue(value.rapids);
-        this.habitatForm.get('creeks').patchValue(value.creeks);
-        this.habitatForm.get('shore').patchValue(value.shore);
-        this.habitatForm.get('slope').patchValue(value.slope);
-        this.habitatForm.get('agriculture').patchValue(value.agriculture);
-        this.habitatForm.get('meadow').patchValue(value.meadow);
-        this.habitatForm.get('trees').patchValue(value.trees);
-        this.habitatForm.get('buildings').patchValue(value.buildings);
-        this.habitatForm.get('industry').patchValue(value.industry);
-        this.habitatForm.get('fishPassage').patchValue(value.fishPassage);
-        this.habitatForm.get('current').patchValue(value.current);
-
-        this.habitatForm.get('soil').get('other').patchValue(value.soil.other);
-        this.habitatForm.get('soil').get('grint').patchValue(value.soil.grint);
-        this.habitatForm.get('soil').get('clay').patchValue(value.soil.clay);
-        this.habitatForm.get('soil').get('mudd').patchValue(value.soil.mudd);
-        this.habitatForm.get('soil').get('silt').patchValue(value.soil.silt);
-        this.habitatForm.get('soil').get('stones').patchValue(value.soil.stones);
-        this.habitatForm.get('soil').get('waterplants').patchValue(value.soil.waterplants);
-        this.habitatForm.get('soil').get('sand').patchValue(value.soil.sand);
-
-        this.habitatForm.get('bottleneck').get('motorway').patchValue(value.bottleneck.motorway);
-        this.habitatForm.get('bottleneck').get('diver').patchValue(value.bottleneck.diver);
-        this.habitatForm.get('bottleneck').get('mill').patchValue(value.bottleneck.mill);
-        this.habitatForm.get('bottleneck').get('undefined').patchValue(value.bottleneck.undefined);
-        this.habitatForm.get('bottleneck').get('lock').patchValue(value.bottleneck.lock);
-        this.habitatForm.get('bottleneck').get('reservoir').patchValue(value.bottleneck.reservoir);
-        this.habitatForm.get('bottleneck').get('weir').patchValue(value.bottleneck.weir);
-        this.habitatForm.get('bottleneck').get('decay').patchValue(value.bottleneck.decay);
-
-        this.habitatForm.get('vegetation').get('threadAlgae').patchValue(value.vegetation.threadAlgae);
-        this.habitatForm.get('vegetation').get('filamentousAlgae').patchValue(value.vegetation.filamentousAlgae);
-      }));
-  }
-
-  saveHabitat() {
-    this.submitted = true;
-    if (this.habitatForm.invalid) {
-      return;
     }
 
-    const formData = this.habitatForm.getRawValue();
+    ngOnInit(): void {
+        this.habitatForm = this.formBuilder.group(
+            {
+                soil: this.formBuilder.group({
+                    other: [false],
+                    grint: [false],
+                    clay: [false],
+                    mudd: [false],
+                    silt: [false],
+                    stones: [false],
+                    sand: [false]
+                }),
+                waterLevel: [null],
+                shelters: [null],
+                pool: [null],
+                rapids: [null],
+                creeks: [null],
+                shore: [null],
+                slope: [null],
+                agriculture: [null],
+                meadow: [null],
+                trees: [null],
+                buildings: [null],
+                industry: [null],
+                current: [null],
+                fishPassage: [null],
+                bottleneck: this.formBuilder.group({
+                    motorway: [false],
+                    diver: [false],
+                    mill: [false],
+                    undefined: [false],
+                    lock: [false],
+                    reservoir: [false],
+                    weir: [false],
+                    decay: [false]
+                }),
+                vegetation: this.formBuilder.group({
+                    threadAlgae: [false],
+                    filamentousAlgae: [false],
+                    soilWaterPlants: [false]
+                })
+            });
 
-    this.subscription.add(
-      this.surveyEventsService.updateHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId, formData)
-        .subscribe(() => {
+        this.subscription.add(this.surveyEventsService.getHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId)
+            .subscribe(value => {
+                this.habitat = value;
+                this.habitatForm.get('waterLevel').patchValue(value.waterLevel);
+                this.habitatForm.get('shelters').patchValue(value.shelters);
+                this.habitatForm.get('pool').patchValue(value.pool);
+                this.habitatForm.get('rapids').patchValue(value.rapids);
+                this.habitatForm.get('creeks').patchValue(value.creeks);
+                this.habitatForm.get('shore').patchValue(value.shore);
+                this.habitatForm.get('slope').patchValue(value.slope);
+                this.habitatForm.get('agriculture').patchValue(value.agriculture);
+                this.habitatForm.get('meadow').patchValue(value.meadow);
+                this.habitatForm.get('trees').patchValue(value.trees);
+                this.habitatForm.get('buildings').patchValue(value.buildings);
+                this.habitatForm.get('industry').patchValue(value.industry);
+                this.habitatForm.get('fishPassage').patchValue(value.fishPassage);
+                this.habitatForm.get('current').patchValue(value.current);
 
-          this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
-            this.activatedRoute.parent.snapshot.params.surveyEventId, 'habitat']);
-        })
-    );
-  }
+                this.habitatForm.get('soil').get('other').patchValue(value.soil.other);
+                this.habitatForm.get('soil').get('grint').patchValue(value.soil.grint);
+                this.habitatForm.get('soil').get('clay').patchValue(value.soil.clay);
+                this.habitatForm.get('soil').get('mudd').patchValue(value.soil.mudd);
+                this.habitatForm.get('soil').get('silt').patchValue(value.soil.silt);
+                this.habitatForm.get('soil').get('stones').patchValue(value.soil.stones);
+                this.habitatForm.get('soil').get('sand').patchValue(value.soil.sand);
 
-  @HostListener('window:beforeunload', ['$event'])
-  public onPageUnload($event: BeforeUnloadEvent) {
-    if (this.habitatForm.dirty) {
-      $event.returnValue = true;
+                this.habitatForm.get('bottleneck').get('motorway').patchValue(value.bottleneck.motorway);
+                this.habitatForm.get('bottleneck').get('diver').patchValue(value.bottleneck.diver);
+                this.habitatForm.get('bottleneck').get('mill').patchValue(value.bottleneck.mill);
+                this.habitatForm.get('bottleneck').get('undefined').patchValue(value.bottleneck.undefined);
+                this.habitatForm.get('bottleneck').get('lock').patchValue(value.bottleneck.lock);
+                this.habitatForm.get('bottleneck').get('reservoir').patchValue(value.bottleneck.reservoir);
+                this.habitatForm.get('bottleneck').get('weir').patchValue(value.bottleneck.weir);
+                this.habitatForm.get('bottleneck').get('decay').patchValue(value.bottleneck.decay);
+
+                this.habitatForm.get('vegetation').get('threadAlgae').patchValue(value.vegetation.threadAlgae);
+                this.habitatForm.get('vegetation').get('filamentousAlgae').patchValue(value.vegetation.filamentousAlgae);
+                this.habitatForm.get('vegetation').get('soilWaterPlants').patchValue(value.vegetation.soilWaterPlants);
+            }));
     }
-  }
 
-  hasUnsavedData(): boolean {
-    return this.habitatForm.dirty && !this.submitted;
-  }
+    saveHabitat() {
+        this.submitted = true;
+        if (this.habitatForm.invalid) {
+            return;
+        }
 
-  @HostListener('window:beforeunload')
-  hasUnsavedDataBeforeUnload(): any {
-    // Return false when there is unsaved data to show a dialog
-    return !this.hasUnsavedData();
-  }
+        const formData = this.habitatForm.getRawValue();
 
-  cancel() {
-    this._location.back();
-  }
+        this.subscription.add(
+            this.surveyEventsService.updateHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId, formData)
+                .subscribe(() => {
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+                    this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
+                        this.activatedRoute.parent.snapshot.params.surveyEventId, 'habitat']);
+                })
+        );
+    }
 
-  get soils() {
-    return this.habitatForm.get('soils');
-  }
+    @HostListener('window:beforeunload', ['$event'])
+    public onPageUnload($event: BeforeUnloadEvent) {
+        if (this.habitatForm.dirty) {
+            $event.returnValue = true;
+        }
+    }
 
-  get waterLevel() {
-    return this.habitatForm.get('waterLevel');
-  }
+    hasUnsavedData(): boolean {
+        return this.habitatForm.dirty && !this.submitted;
+    }
 
-  get shelters() {
-    return this.habitatForm.get('shelters');
-  }
+    @HostListener('window:beforeunload')
+    hasUnsavedDataBeforeUnload(): any {
+        // Return false when there is unsaved data to show a dialog
+        return !this.hasUnsavedData();
+    }
 
-  get pool() {
-    return this.habitatForm.get('pool');
-  }
+    cancel() {
+        this._location.back();
+    }
 
-  get rapids() {
-    return this.habitatForm.get('rapids');
-  }
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 
-  get creeks() {
-    return this.habitatForm.get('creeks');
-  }
+    get soils() {
+        return this.habitatForm.get('soils');
+    }
 
-  get shore() {
-    return this.habitatForm.get('shore');
-  }
+    get waterLevel() {
+        return this.habitatForm.get('waterLevel');
+    }
 
-  get slope() {
-    return this.habitatForm.get('slope');
-  }
+    get shelters() {
+        return this.habitatForm.get('shelters');
+    }
 
-  get agriculture() {
-    return this.habitatForm.get('agriculture');
-  }
+    get pool() {
+        return this.habitatForm.get('pool');
+    }
 
-  get meadow() {
-    return this.habitatForm.get('meadow');
-  }
+    get rapids() {
+        return this.habitatForm.get('rapids');
+    }
 
-  get trees() {
-    return this.habitatForm.get('trees');
-  }
+    get creeks() {
+        return this.habitatForm.get('creeks');
+    }
 
-  get buildings() {
-    return this.habitatForm.get('buildings');
-  }
+    get shore() {
+        return this.habitatForm.get('shore');
+    }
 
-  get industry() {
-    return this.habitatForm.get('industry');
-  }
+    get slope() {
+        return this.habitatForm.get('slope');
+    }
 
-  get current() {
-    return this.habitatForm.get('current');
-  }
+    get agriculture() {
+        return this.habitatForm.get('agriculture');
+    }
 
-  get fishPassage() {
-    return this.habitatForm.get('fishPassage');
-  }
+    get meadow() {
+        return this.habitatForm.get('meadow');
+    }
 
-  get bottlenecks() {
-    return this.habitatForm.get('bottlenecks');
-  }
+    get trees() {
+        return this.habitatForm.get('trees');
+    }
 
-  get vegetations() {
-    return this.habitatForm.get('vegetations');
-  }
+    get buildings() {
+        return this.habitatForm.get('buildings');
+    }
+
+    get industry() {
+        return this.habitatForm.get('industry');
+    }
+
+    get current() {
+        return this.habitatForm.get('current');
+    }
+
+    get fishPassage() {
+        return this.habitatForm.get('fishPassage');
+    }
+
+    get bottlenecks() {
+        return this.habitatForm.get('bottlenecks');
+    }
+
+    get vegetations() {
+        return this.habitatForm.get('vegetations');
+    }
 }
