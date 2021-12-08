@@ -6,6 +6,7 @@
 @import 'leaflet.locatecontrol/dist/L.Control.Locate.css';
 @import 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css';
 @import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
+@import '@runette/leaflet-fullscreen/dist/leaflet.fullscreen.css';
 
 @layer base {
   [type='checkbox'], [type=radio] {

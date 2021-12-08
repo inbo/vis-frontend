@@ -99,6 +99,7 @@ import { LocationComponent } from './location/location/location.component';
 import { LocationTabsComponent } from './location/location-tabs/location-tabs.component';
 import { LocationPicturesPageComponent } from './location/location-pictures-page/location-pictures-page.component';
 import { MeasurementLengthMeasurementsReadonlyComponent } from './survey-events/measurement-components/measurement-length-measurements-readonly/measurement-length-measurements-readonly.component';
+import {NgxLeafletFullscreenModule} from '@runette/ngx-leaflet-fullscreen';
 
 @NgModule({
     exports: [
@@ -206,7 +207,8 @@ import { MeasurementLengthMeasurementsReadonlyComponent } from './survey-events/
     LeafletMarkerClusterModule,
     NgTransitionModule,
     ClipboardModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgxLeafletFullscreenModule
   ],
   providers: [DatePipe, HasUnsavedDataGuard]
 })

@@ -1,3 +1,4 @@
+/// <reference types='@runette/leaflet-fullscreen' />
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Subscription} from 'rxjs';
 import * as L from 'leaflet';
@@ -42,6 +43,12 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     doubleClickZoom: false
   };
 
+  fullscreenOptions: {[key:string]:any} = {
+    position: 'topleft',
+    title: 'View Fullscreen',
+    titleCancel: 'Exit Fullscreen',
+  };
+
   layersControl: LeafletControlLayersConfig;
 
   legend = new Map();
@@ -60,7 +67,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   searchLayer: L.LayerGroup;
   markerClusterData = [];
 
-  private map: LeafletMap;
+  map: LeafletMap;
   center: LatLng = latLng(51.2, 4.14);
 
 

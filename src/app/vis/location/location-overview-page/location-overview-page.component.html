@@ -2,6 +2,8 @@
   <div slot="content">
     <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
 
+    <app-fishing-points-map [filter]="filterForm.getRawValue()" heightClass="h-[35vh]"></app-fishing-points-map>
+
     <main>
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-96">
         <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
@@ -20,10 +22,6 @@
             </div>
           </div>
 
-        </div>
-
-        <div class="px-4 py-8 sm:px-0">
-          <app-fishing-points-map [filter]="filterForm.getRawValue()" class="h-96"></app-fishing-points-map>
         </div>
 
         <app-slide-over-filter (resetClicked)="reset()" (searchClicked)="filter()" [formGroup]="filterForm"
