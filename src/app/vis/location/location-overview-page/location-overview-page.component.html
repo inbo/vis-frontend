@@ -30,6 +30,19 @@
                                [tags]="tags">
           <ng-container slot="content">
             <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700" for="fishingPointCodeFree">
+                  Meetplaatscode vrije filter
+                </label>
+                <div class="mt-1">
+                  <input formControlName="fishingPointCodeFree" id="fishingPointCodeFree"
+                         placeholder="Meetplaatscode ..." type="text"/>
+                </div>
+                <p class="mt-2 text-sm text-gray-500" id="code-description">Dit is een vrij tekstveld. Je kan hier %
+                  gebruiken om aan te vullen, zowel voor als na de tekst.
+                  <br>Bv: ABC% gaat alle meetplaatscodes beginnend met ABC zoeken.</p>
+              </div>
+
               <div class="relative sm:col-span-4">
                 <label for="fishingPointCode" class="block text-sm font-medium text-gray-700">
                   Meetplaatscode

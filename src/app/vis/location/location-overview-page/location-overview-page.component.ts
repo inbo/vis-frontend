@@ -62,6 +62,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     const queryParams = this.activatedRoute.snapshot.queryParams;
     this.filterForm = this.formBuilder.group(
       {
+        fishingPointCodeFree: [queryParams.fishingPointCodeFree ?? null],
         fishingPointCode: [queryParams.fishingPointCode ?? null],
         description: [queryParams.description ?? null],
         watercourse: [queryParams.watercourse ?? null],
@@ -76,6 +77,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(this.activatedRoute.queryParams.subscribe((params) => {
+      this.filterForm.get('fishingPointCodeFree').patchValue(params.fishingPointCodeFree ? params.fishingPointCodeFree : null);
       this.filterForm.get('fishingPointCode').patchValue(params.fishingPointCode ? params.fishingPointCode : null);
       this.filterForm.get('description').patchValue(params.description ? params.description : null);
       this.filterForm.get('watercourse').patchValue(params.watercourse ? params.watercourse : null);
@@ -154,6 +156,9 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     const rawValue = this.filterForm.getRawValue();
     const tags: Tag[] = [];
 
+    if (rawValue.fishingPointCodeFree) {
+      tags.push(getTag('location.fishingPointCodeFree', rawValue.fishingPointCodeFree, this.removeTagCallback('fishingPointCodeFree')));
+    }
     if (rawValue.fishingPointCode) {
       tags.push(getTag('location.fishingPointCode', rawValue.fishingPointCode, this.removeTagCallback('fishingPointCode')));
     }
