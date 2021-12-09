@@ -58,9 +58,6 @@ export class MethodEditComponent implements OnInit, OnDestroy {
 
     if (e.target.checked) {
       checkArray.push(new FormControl(e.target.value));
-      if (e.target.value.startsWith('INDEXCALC')) {
-        return;
-      }
       this.cpueTestForm.addControl(e.target.value, new FormControl(1));
     } else {
       let i = 0;
@@ -100,9 +97,6 @@ export class MethodEditComponent implements OnInit, OnDestroy {
       });
 
       for (const parameter of parameters) {
-        if (parameter.startsWith('INDEXCALC')) {
-          continue;
-        }
         this.cpueTestForm.addControl(parameter, new FormControl(2));
       }
 
@@ -181,9 +175,17 @@ export class MethodEditComponent implements OnInit, OnDestroy {
   }
 
   test() {
+    const calculation = this.calculation.value;
+    const parameters = this.cpueTestForm.getRawValue();
+
+    // Filter parameters used in calculation
+    Object.keys(parameters)
+      .filter(key => !calculation.includes(key))
+      .forEach(key => delete parameters[key]);
+
     const formData = {
-      calculation: this.calculation.value,
-      parameters: this.cpueTestForm.getRawValue()
+      calculation,
+      parameters
     };
 
     this.cpueService.testCalculation(formData).subscribe(value => this.testResult = value);
@@ -207,5 +209,9 @@ export class MethodEditComponent implements OnInit, OnDestroy {
       return this.cpueService.validateCalculation(formData)
         .pipe(map(result => !result ? {invalidCalculation: true} : null));
     };
+  }
+
+  isParameterUsedInCalculation(key: string) {
+    return this.calculation.value.includes(key);
   }
 }
