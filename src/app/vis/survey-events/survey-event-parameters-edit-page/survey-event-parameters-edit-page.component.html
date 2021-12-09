@@ -42,7 +42,7 @@
                 Conductiviteit (uS/cm)
               </label>
               <div class="mt-1">
-                <input [imask]="numberMask(0, -99999, 99999)" [unmask]="true" formControlName="conductivity" type="text"
+                <input [imask]="numberMask(1, -99999.9, 99999.9)" [unmask]="true" formControlName="conductivity" type="text"
                        name="conductivity" id="conductivity">
               </div>
             </div>
