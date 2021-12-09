@@ -9,6 +9,7 @@ export class ModalComponent implements OnInit {
   @Input() isOpen = false;
   @Input() showButtons = true;
   @Input() showOptional = false;
+  @Input() showIcon = true;
   @Output() onPrimary = new EventEmitter<boolean>();
   @Output() onCancel = new EventEmitter<boolean>();
   @Output() onOptional = new EventEmitter<boolean>();

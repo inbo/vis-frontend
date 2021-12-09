@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Parameters} from '../../../domain/survey-event/parameters';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -15,6 +15,9 @@ import {isNumeric} from 'rxjs/internal-compatibility';
 })
 export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {
 
+  @ViewChild('distance') distanceInput: ElementRef;
+  @ViewChild('time') timeInput: ElementRef;
+
   projectCode: string;
   surveyEventId: any;
 
@@ -25,6 +28,7 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
   private subscription = new Subscription();
   showLocationWidthWarning = false;
   locationCode: string;
+  isModalOpen = false;
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder, private router: Router, private _location: Location) {
@@ -221,4 +225,26 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
       this.averageDepth.patchValue(Math.floor(avg).toString());
     }
   }
+
+  openFlowRatePopup() {
+    this.isModalOpen = true;
+  }
+
+  cancelModal() {
+    this.isModalOpen = false;
+  }
+
+  confirmClicked() {
+    this.calculateFlowRate();
+  }
+
+  private calculateFlowRate() {
+    const distance = this.distanceInput.nativeElement.value as unknown as number;
+    const time = this.timeInput.nativeElement.value as unknown as number;
+    const value = Math.round( (distance / time) * 100 + Number.EPSILON ) / 100;
+    console.log(value);
+    this.flowRate.patchValue(value.toString());
+    this.isModalOpen = false;
+  }
+
 }

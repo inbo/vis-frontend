@@ -148,9 +148,15 @@
               <label for="flowRate" class="block text-sm font-medium text-gray-700">
                 Stroomsnelheid (m/s)
               </label>
-              <div class="mt-1">
-                <input [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="flowRate" type="text"
-                       name="flowRate" id="flowRate">
+              <div class="mt-1 flex rounded-md shadow-sm">
+                <div class="relative flex items-stretch flex-grow focus-within:z-10">
+                  <input class="rounded-none rounded-l-md" [imask]="numberMask(2, -9.99, 9.99)" [unmask]="true" formControlName="flowRate" type="text"
+                         name="flowRate" id="flowRate">
+                </div>
+                <button (click)="openFlowRatePopup()"
+                        class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500">
+                  Bereken
+                </button>
               </div>
             </div>
           </div>
@@ -162,4 +168,31 @@
     <app-button (click)="cancel()">Annuleren</app-button>
     <app-button [style]="'primary'" class="ml-3" (click)="saveParameters()">Bewaren</app-button>
   </div>
+
+  <app-modal [showIcon]="false" (onCancel)="cancelModal()" (onPrimary)="confirmClicked()" [isOpen]="isModalOpen">
+    <ng-container slot="title">
+      Stroomsnelheid berekenen
+    </ng-container>
+    <ng-container slot="content">
+      <div class="w-full">
+        <label for="distance" class="block text-sm font-medium text-gray-700">
+          Afstand (m)
+        </label>
+        <div class="mt-1">
+          <input #distance id="distance" name="distance" type="number" />
+        </div>
+      </div>
+      <div class="w-full mt-2">
+        <label for="time" class="block text-sm font-medium text-gray-700">
+          Tijd (s)
+        </label>
+        <div class="mt-1">
+          <input #time id="time" name="time" type="number" />
+        </div>
+      </div>
+    </ng-container>
+    <ng-container slot="primary-button">
+      Bereken
+    </ng-container>
+  </app-modal>
 </div>
