@@ -38,9 +38,8 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
       .pipe(take(1))
       .subscribe(value => {
         this.datepicker.setMinDate(new Date(value.start));
-        if (value.end) {
-          this.datepicker.setMaxDate(new Date(value.end));
-        }
+        // Set max date to today's date or to survey end date
+        this.datepicker.setMaxDate(value.end ? new Date(value.end) > new Date() ? new Date() : new Date(value.end) : new Date());
       });
 
 
@@ -128,7 +127,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
   get comment() {
     return this.createSurveyEventForm.get('comment');
   }
-  
+
   get method() {
     return this.createSurveyEventForm.get('method');
   }

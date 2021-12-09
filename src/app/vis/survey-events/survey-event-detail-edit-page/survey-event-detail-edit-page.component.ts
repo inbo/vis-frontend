@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
@@ -12,12 +12,16 @@ import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {Location} from '@angular/common';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {uniqueValidator} from '../survey-event-validators';
+import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
+import {ProjectService} from '../../../services/vis.project.service';
 
 @Component({
   selector: 'app-survey-event-detail-edit-page',
   templateUrl: './survey-event-detail-edit-page.component.html'
 })
 export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedData {
+
+  @ViewChild(DatepickerComponent) datepicker: DatepickerComponent;
 
   public role = Role;
 
@@ -30,7 +34,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
 
   constructor(private surveyEventService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder, private locationsService: LocationsService,
-              private methodsService: MethodsService, private _location: Location) {
+              private methodsService: MethodsService, private _location: Location, private projectService: ProjectService) {
   }
 
   ngOnInit(): void {
@@ -40,6 +44,14 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
         location: [null, [Validators.required]],
         method: ['', [Validators.required]],
         comment: ['', Validators.maxLength(800)]
+      });
+
+    this.projectService.getProject(this.activatedRoute.parent.snapshot.params.projectCode)
+      .pipe(take(1))
+      .subscribe(value => {
+        this.datepicker.setMinDate(new Date(value.start));
+        // Set max date to today's date or to survey end date
+        this.datepicker.setMaxDate(value.end ? new Date(value.end) > new Date() ? new Date() : new Date(value.end) : new Date());
       });
 
     this.surveyEventService.getSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
