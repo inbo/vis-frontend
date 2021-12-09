@@ -64,7 +64,6 @@ export interface Soil {
   mudd: boolean;
   silt: boolean;
   stones: boolean;
-  waterplants: boolean;
   sand: boolean;
 }
 
@@ -82,4 +81,5 @@ export interface Bottleneck {
 export interface Vegetation {
   threadAlgae: boolean;
   filamentousAlgae: boolean;
+  soilWaterPlants: boolean;
 }

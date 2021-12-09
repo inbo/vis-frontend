@@ -82,9 +82,6 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
     if (this.habitat.soil.stones) {
       soils.push('stones');
     }
-    if (this.habitat.soil.waterplants) {
-      soils.push('waterplants');
-    }
     if (this.habitat.soil.sand) {
       soils.push('sand');
     }
@@ -138,6 +135,9 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
     }
     if (this.habitat.vegetation.threadAlgae) {
       vegetations.push('threadAlgae');
+    }
+    if (this.habitat.vegetation.soilWaterPlants) {
+      vegetations.push('soilWaterPlants');
     }
 
     return vegetations;

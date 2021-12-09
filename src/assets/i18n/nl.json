@@ -147,7 +147,6 @@
         "mudd": "Modder",
         "silt":  "Slib",
         "stones": "Stenen",
-        "waterplants": "Waterplanten",
         "sand": "Zand"
       },
       "bottleneck": {
@@ -161,8 +160,9 @@
         "decay": "Verval"
       },
       "vegetation": {
-        "threadAlgae":  "thread algae",
-        "filamentousAlgae": "filamentousAlgae"
+        "threadAlgae": "Draadalgen",
+        "filamentousAlgae": "Vlottende waterplanten",
+        "soilWaterPlants": "Bodemwaterplanten"
       }
     }
   },
