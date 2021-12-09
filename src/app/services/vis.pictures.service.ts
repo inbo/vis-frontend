@@ -87,4 +87,8 @@ export class PicturesService extends VisService {
 
     return this.http.get<AsyncPage<TandemvaultPicture>>(`${environment.apiUrl}/api/pictures/tag`, {params});
   }
+
+  createCollectionForProject(projectCode: string) {
+    return this.http.post<void>(`${environment.apiUrl}/api/pictures/project/${projectCode}`, {});
+  }
 }

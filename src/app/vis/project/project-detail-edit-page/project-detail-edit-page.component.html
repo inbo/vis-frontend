@@ -111,7 +111,13 @@
                       Selecteer hier de collectienaam om het project te koppelen aan <a class="underline" href="https://inbo.tandemvault.com/" target="_blank">Tandemvault</a>.
                     </p>
                   </div>
+
+                  <div class="mt-2">
+                    <app-button [style]="'white'" (click)="isModalOpen = true">Nieuwe collectie maken</app-button>
+                  </div>
+
                 </div>
+
               </div>
             </div>
 
@@ -219,4 +225,16 @@
       </div>
     </div>
   </div>
+
+  <app-modal (onCancel)="cancelModal()" (onPrimary)="confirmClicked()" [isOpen]="isModalOpen">
+    <ng-container slot="title">
+      Tandemvault collectie aanmaken
+    </ng-container>
+    <ng-container slot="content">
+      Bent u zeker dat u een nieuwe collectie wil aanmaken. Indien deze reeds bestaat kan je de collectie selecteren in plaats van aan te maken.
+    </ng-container>
+    <ng-container slot="primary-button">
+      Aanmaken en koppelen aan project
+    </ng-container>
+  </app-modal>
 </div>

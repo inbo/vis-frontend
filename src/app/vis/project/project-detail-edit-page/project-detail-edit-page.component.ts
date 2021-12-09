@@ -63,6 +63,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
   tandemVaultCollections: SearchableSelectOption[] = [];
   tandemVaultCollectionsFiltered: SearchableSelectOption[] = [];
   loadingCollections = true;
+  isModalOpen = false;
 
   constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder, private accountService: AccountService,
@@ -115,7 +116,10 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
           this.endDatePicker.setMinDate(new Date(date));
         }
       });
+    this.loadData();
+  }
 
+  private loadData() {
     this.subscription.add(
       this.projectService.getProject(this.activatedRoute.parent.snapshot.params.projectCode).subscribe((value: Project) => {
         this.titleService.setTitle(value.name);
@@ -135,8 +139,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         this.projectForm.get('tandemvaultcollectionslug').patchValue(value.tandemvaultcollectionslug);
 
         this.pictureService.allCollections().pipe(
-          map(fishingPoints => {
-            return fishingPoints.map(collection => ({
+          map(tandemvaultCollection => {
+            return tandemvaultCollection.map(collection => ({
               selectValue: collection.slug,
               option: collection
             }));
@@ -284,5 +288,14 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
       this.tandemVaultCollectionsFiltered = value as any as SearchableSelectOption[];
       this.loadingCollections = false;
     });
+  }
+
+  cancelModal() {
+    this.isModalOpen = false;
+  }
+
+  confirmClicked() {
+    this.pictureService.createCollectionForProject(this.project.code.value).subscribe(value => this.loadData());
+    this.isModalOpen = false;
   }
 }
