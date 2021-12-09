@@ -57,7 +57,7 @@
 
                 <div class="relative sm:col-span-4">
                   <label for="method" class="block text-sm font-medium text-gray-700">
-                    Methode
+                    Methode *
                   </label>
                   <div class="mt-1">
                     <app-searchable-select id="method" passedId="method" placeholder="Selecteer een methode"
@@ -74,6 +74,8 @@
 
                     </app-searchable-select>
                   </div>
+                  <app-form-error-message [fieldName]="'Methode'" [control]="method"
+                                          [submitted]="submitted"></app-form-error-message>
                 </div>
 
                 <div class="sm:col-span-6">

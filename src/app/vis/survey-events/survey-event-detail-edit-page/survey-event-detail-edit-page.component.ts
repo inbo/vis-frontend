@@ -38,7 +38,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
       {
         occurrenceDate: [null, [Validators.required]],
         location: [null, [Validators.required]],
-        method: [''],
+        method: ['', [Validators.required]],
         comment: ['', Validators.maxLength(800)]
       });
 

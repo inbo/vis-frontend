@@ -48,7 +48,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
       {
         occurrenceDate: [null, [Validators.required]],
         location: [null, [Validators.required]],
-        method: [null],
+        method: [null, [Validators.required]],
         comment: ['', Validators.maxLength(800)]
       }, {asyncValidators: [uniqueValidator(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventService)]});
 
@@ -127,6 +127,10 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
 
   get comment() {
     return this.createSurveyEventForm.get('comment');
+  }
+  
+  get method() {
+    return this.createSurveyEventForm.get('method');
   }
 
   get form() {
