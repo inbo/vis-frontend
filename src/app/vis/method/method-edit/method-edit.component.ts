@@ -58,6 +58,9 @@ export class MethodEditComponent implements OnInit, OnDestroy {
 
     if (e.target.checked) {
       checkArray.push(new FormControl(e.target.value));
+      if (e.target.value.startsWith('INDEXCALC')) {
+        return;
+      }
       this.cpueTestForm.addControl(e.target.value, new FormControl(1));
     } else {
       let i = 0;
@@ -97,6 +100,9 @@ export class MethodEditComponent implements OnInit, OnDestroy {
       });
 
       for (const parameter of parameters) {
+        if (parameter.startsWith('INDEXCALC')) {
+          continue;
+        }
         this.cpueTestForm.addControl(parameter, new FormControl(2));
       }
 
