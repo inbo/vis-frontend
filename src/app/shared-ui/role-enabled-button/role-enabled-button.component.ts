@@ -19,7 +19,7 @@ export class RoleEnabledButtonComponent implements OnInit, OnDestroy, OnChanges 
   projectCode: ProjectCode;
 
   @Input()
-  isUserLinkedToProject: boolean;
+  isUserLinkedToProject = true;
 
   @Input()
   style: string;
