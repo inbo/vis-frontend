@@ -54,6 +54,7 @@ import {FishSpeciesComponent} from './fish-specie/fish-species/fish-species.comp
 import {FishSpeciesPicturesPageComponent} from './fish-specie/fish-species-pictures-page/fish-species-pictures-page.component';
 import {LocationComponent} from './location/location/location.component';
 import {LocationPicturesPageComponent} from './location/location-pictures-page/location-pictures-page.component';
+import {UploadInformationComponent} from './survey-events/survey-event-pictures-page/upload-information/upload-information.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -173,12 +174,6 @@ const routes: Routes = [
             data: {name: 'Afbeeldingen', url: 'afbeeldingen'}
           },
           {
-            path: 'dag',
-            component: GalleryPageComponent,
-            canActivate: [AuthGuardWithForcedLogin],
-            data: {name: 'Afbeeldingen', url: 'dag'}
-          },
-          {
             path: 'project',
             component: GalleryPageComponent,
             canActivate: [AuthGuardWithForcedLogin],
@@ -189,6 +184,12 @@ const routes: Routes = [
             component: UploadPageComponent,
             canActivate: [AuthGuardWithForcedLogin],
             data: {name: 'Afbeeldingen', url: 'upload'}
+          },
+          {
+            path: 'info',
+            component: UploadInformationComponent,
+            canActivate: [AuthGuardWithForcedLogin],
+            data: {name: 'Afbeeldingen', url: 'info'}
           }
         ]
       },

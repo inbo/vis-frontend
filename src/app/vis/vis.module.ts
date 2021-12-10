@@ -100,6 +100,7 @@ import { LocationTabsComponent } from './location/location-tabs/location-tabs.co
 import { LocationPicturesPageComponent } from './location/location-pictures-page/location-pictures-page.component';
 import { MeasurementLengthMeasurementsReadonlyComponent } from './survey-events/measurement-components/measurement-length-measurements-readonly/measurement-length-measurements-readonly.component';
 import {NgxLeafletFullscreenModule} from '@runette/ngx-leaflet-fullscreen';
+import {UploadInformationComponent} from './survey-events/survey-event-pictures-page/upload-information/upload-information.component';
 
 @NgModule({
     exports: [
@@ -185,6 +186,7 @@ import {NgxLeafletFullscreenModule} from '@runette/ngx-leaflet-fullscreen';
     UploadFilesComponent,
     GalleryPageComponent,
     UploadPageComponent,
+    UploadInformationComponent,
     ImageGridItemComponent,
     ImageDetailComponent,
     FishSpeciesTabsComponent,
