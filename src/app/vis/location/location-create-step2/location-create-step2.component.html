@@ -27,7 +27,7 @@
               Breedte (m)
             </label>
             <div class="mt-1">
-              <input [imask]="numberMask(2, 0, 99999.99)" [unmask]="true" formControlName="width" type="text"
+              <input [imask]="numberMask(2, 0.01, 99999.99)" [unmask]="true" formControlName="width" type="text"
                      name="width" id="width">
             </div>
             <app-form-error-message [fieldName]="'Breedte'" [control]="width"
