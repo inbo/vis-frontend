@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Parameters} from '../../../domain/survey-event/parameters';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -7,12 +7,16 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Location} from '@angular/common';
+import {isNumeric} from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-survey-event-parameters-edit-page',
   templateUrl: './survey-event-parameters-edit-page.component.html'
 })
 export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {
+
+  @ViewChild('distance') distanceInput: ElementRef;
+  @ViewChild('time') timeInput: ElementRef;
 
   projectCode: string;
   surveyEventId: any;
@@ -24,6 +28,7 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
   private subscription = new Subscription();
   showLocationWidthWarning = false;
   locationCode: string;
+  isModalOpen = false;
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder, private router: Router, private _location: Location) {
@@ -209,4 +214,36 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
         })
     );
   }
+
+  calculateAvgDepth() {
+    if (isNumeric(this.minDepth.value) && isNumeric(this.maxDepth.value)) {
+      const min = this.minDepth.value as number;
+      const max = this.maxDepth.value as number;
+      const sum = +min + +max;
+      const avg = sum / 2;
+
+      this.averageDepth.patchValue(Math.floor(avg).toString());
+    }
+  }
+
+  openFlowRatePopup() {
+    this.isModalOpen = true;
+  }
+
+  cancelModal() {
+    this.isModalOpen = false;
+  }
+
+  confirmClicked() {
+    this.calculateFlowRate();
+  }
+
+  private calculateFlowRate() {
+    const distance = this.distanceInput.nativeElement.value as unknown as number;
+    const time = this.timeInput.nativeElement.value as unknown as number;
+    const value = Math.round( (distance / time) * 100 + Number.EPSILON ) / 100;
+    this.flowRate.patchValue(value.toString());
+    this.isModalOpen = false;
+  }
+
 }

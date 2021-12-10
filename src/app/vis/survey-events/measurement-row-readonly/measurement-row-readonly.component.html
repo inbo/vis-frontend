@@ -2,7 +2,7 @@
      [class.bg-white]="formGroupName % 2 !== 0" [formGroup]="form" class="grid grid-flow-row grid-cols-12 gap-x-2 px-2 py-1.5">
   <div class="col-span-12 md:col-span-4 lg:col-span-3">
     <div class="relative flex  text-sm text-gray-900">
-      {{species().value.nameDutch}}
+      {{order().value | number:'3.0'}} - {{species().value.nameDutch}}
       <fa-icon *ngIf="type().value === 'GROUP'" [icon]="faWeightHanging" class="self-center text-gray-500 pl-2" title="Groepsmeting"></fa-icon>
       <fa-icon *ngIf="type().value === 'GROUP_LENGTHS'" [icon]="faRulerHorizontal" class="self-center text-gray-500 pl-2" title="Groepsmeting met lengtemetingen"></fa-icon>
     </div>

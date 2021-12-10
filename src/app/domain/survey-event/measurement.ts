@@ -10,6 +10,7 @@ export interface Taxon {
 
 export interface Measurement {
   id: number;
+  order: number;
   type: string;
   taxon: Taxon;
   amount: number;

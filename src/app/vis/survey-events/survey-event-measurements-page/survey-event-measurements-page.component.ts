@@ -1,4 +1,4 @@
-import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
@@ -14,12 +14,13 @@ import {MeasurementRowComponent} from '../measurement-row/measurement-row.compon
 import {PagingAsyncComponent} from '../../../shared-ui/paging-async/paging-async.component';
 import {MeasurementRowReadonlyComponent} from '../measurement-row-readonly/measurement-row-readonly.component';
 import {lengthOrWeightRequiredForIndividualMeasurement} from '../survey-event-measurements-create-page/survey-event-measurements-validators';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-survey-event-measurements-page',
   templateUrl: './survey-event-measurements-page.component.html'
 })
-export class SurveyEventMeasurementsPageComponent implements OnInit {
+export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
   @ViewChildren(MeasurementRowComponent) measurementRowComponents!: QueryList<MeasurementRowComponent>;
   @ViewChildren(MeasurementRowReadonlyComponent) measurementRowReadonlyComponents!: QueryList<MeasurementRowReadonlyComponent>;
 
@@ -44,11 +45,17 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
   rowEditNumber: number;
   savedIndex: number;
 
+  subscription = new Subscription();
+
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               public authService: AuthService, private formBuilder: FormBuilder) {
     this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
     this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
     this.titleService.setTitle('Waarneming metingen ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -63,6 +70,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
     const il = measurement.individualLengths ? measurement.individualLengths.map(value => this.createIndividualLength(value)) : [];
     return this.formBuilder.group({
       id: new FormControl(measurement.id),
+      order: new FormControl(measurement.order),
       type: new FormControl(measurement.type),
       species: new FormControl(measurement.taxon, [Validators.required]),
       amount: new FormControl(measurement.amount, Validators.min(0)),
@@ -89,7 +97,8 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
 
   private init() {
     this.activatedRoute.queryParams.subscribe((params) => {
-      this.loadMeasurements(params.page ? params.page : 1, params.size ? params.size : 20);
+      const sort = params.sort ? params.sort : null;
+      this.loadMeasurements(params.page ? params.page : 1, params.size ? params.size : 20, sort);
     });
 
     this.surveyEventsService.getSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
@@ -98,9 +107,9 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
       .subscribe(value => this.surveyEvent = value);
   }
 
-  loadMeasurements(page: number, size: number) {
+  loadMeasurements(page: number, size: number, sort: string) {
     this.loading = true;
-    this.surveyEventsService.getMeasurements(this.projectCode, this.surveyEventId, page, size).subscribe((value) => {
+    this.surveyEventsService.getMeasurements(this.projectCode, this.surveyEventId, page, size, sort).subscribe((value) => {
       this.pager = value;
       this.measurements = value.content;
       this.loading = false;
@@ -170,7 +179,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit {
       .subscribe(() => {
         this.savedIndex = this.rowEditNumber;
         this.rowEditNumber = i + 1;
-        this.focusFieldname(fieldName)
+        this.focusFieldname(fieldName);
 
       });
   }
