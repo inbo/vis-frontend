@@ -242,7 +242,6 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
     const distance = this.distanceInput.nativeElement.value as unknown as number;
     const time = this.timeInput.nativeElement.value as unknown as number;
     const value = Math.round( (distance / time) * 100 + Number.EPSILON ) / 100;
-    console.log(value);
     this.flowRate.patchValue(value.toString());
     this.isModalOpen = false;
   }
