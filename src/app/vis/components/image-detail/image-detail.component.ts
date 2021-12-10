@@ -15,6 +15,9 @@ export class ImageDetailComponent implements OnInit {
   canAddTags = true;
 
   @Input()
+  slug: string;
+
+  @Input()
   detail: TandemvaultPictureDetail;
 
   @Output() downloadPicture = new EventEmitter<number>();

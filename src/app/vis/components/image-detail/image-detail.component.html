@@ -6,7 +6,10 @@
       </div>
       <div class="mt-4 flex items-start justify-between">
         <div>
-          <h2 class="text-lg font-medium text-gray-900"><span class="sr-only">Details for </span>{{detail?.filename}}</h2>
+          <h2 class="text-lg font-medium text-gray-900">
+            <span class="sr-only">Details for </span>
+            <a class="underline" target="_blank" [href]="'https://inbo.tandemvault.com/browse/' + slug + '#' + detail?.catalogue_number">{{detail?.filename}}</a>
+          </h2>
           <p class="text-sm font-medium text-gray-500">{{(detail?.file_size / 1000000) | number : 0}} MB</p>
         </div>
 
