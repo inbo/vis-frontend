@@ -11,16 +11,39 @@
       class="max-w-none inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl
          transform transition-all sm:my-8 sm:align-middle sm:max-w-6xl sm:p-6"
       role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-      <form [formGroup]="copySurveyEventForm" class="space-y-8 divide-y divide-gray-200">
+      <form [formGroup]="copySurveyEventForm" class="space-y-4">
         <div class="sm:col-span-2">
           <label class="block text-sm font-medium text-gray-700">
             Datum *
           </label>
           <div class="mt-1">
             <app-datepicker #occurrenceDatePicker formControlName="occurrenceDate"></app-datepicker>
-            <app-form-error-message [fieldName]="'Datum'" [control]="occurrenceDate" [submitted]="submitted"></app-form-error-message>
-            <app-form-error-message [fieldName]="'Waarneming'" [control]="copySurveyEventForm" [submitted]="submitted"></app-form-error-message>
+            <app-form-error-message [fieldName]="'Datum'" [control]="occurrenceDate"
+                                    [submitted]="submitted"></app-form-error-message>
           </div>
+        </div>
+
+        <div class="relative sm:col-span-4">
+          <label for="method" class="block text-sm font-medium text-gray-700">
+            Methode
+          </label>
+          <div class="mt-1">
+            <app-searchable-select id="method" passedId="method" placeholder="Selecteer een methode"
+                                   tabIndex="-1"
+                                   formControlName="method" (search)="getMethods($event)"
+                                   [options]="methods">
+              <ng-template let-rowDetail #selected>
+                {{rowDetail.option.code + ' - ' + rowDetail.option.description}}
+              </ng-template>
+
+              <ng-template let-rowDetail #listItem>
+                {{rowDetail.option.code + ' - ' + rowDetail.option.description}}
+              </ng-template>
+
+            </app-searchable-select>
+          </div>
+          <app-form-error-message [fieldName]="'Waarneming'" [control]="copySurveyEventForm"
+                                  [submitted]="submitted"></app-form-error-message>
         </div>
       </form>
 
@@ -28,7 +51,8 @@
         <app-button [style]="'secondary'" (click)="isOpen = false">
           Annuleren
         </app-button>
-        <app-button [disabled]="!copySurveyEventForm.valid" [style]="'primary'" class="ml-3" (click)="copySurveyEvent()">
+        <app-button [disabled]="!copySurveyEventForm.valid" [style]="'primary'" class="ml-3"
+                    (click)="copySurveyEvent()">
           Bewaren
         </app-button>
       </div>

@@ -28,14 +28,14 @@ export function uniqueValidator(projectCode: string, surveyEventService: SurveyE
 export function uniqueNewValidator(
   projectCode: string,
   location: number,
-  method: string,
+  existingMethod: string,
   surveyEventService: SurveyEventsService): AsyncValidatorFn {
   return (form: FormGroup): Observable<ValidationErrors | null> => {
-
-
     if (!form.get('occurrenceDate').value) {
       return EMPTY;
     }
+    const newMethod = form.get('method').value;
+    const method = newMethod ? newMethod : existingMethod;
 
     return surveyEventService.checkIfSurveyEventExists(projectCode, location, new Date(form.get('occurrenceDate').value).toISOString(),
       method).pipe(map(result => result.valid ? {uniqueSurveyEvent: true} : null));
