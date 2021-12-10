@@ -150,7 +150,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
       this.layersControl = {
         baseLayers: {
-          Ortho: basemapLayer1,
+          Kaart: basemapLayer1,
           Orthofoto: this.orthoLayer
         },
         overlays: {
