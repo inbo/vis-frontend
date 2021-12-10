@@ -6,14 +6,14 @@
           <form [formGroup]="form">
             <div
               class="grid grid-flow-row grid-cols-12 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 gap-2 text-left text-xs font-medium text-gray-500 tracking-wider px-2 py-4">
-              <div class="upercase col-span-12 md:col-span-4 lg:col-span-3">Soort</div>
-              <div class="upercase col-span-4 md:col-span-2 lg:col-span-1">Aantal</div>
-              <div class="col-span-4 md:col-span-3 lg:col-span-1">LENGTE (cm)</div>
-              <div class="col-span-4 md:col-span-3 lg:col-span-1">GEWICHT (g)</div>
-              <div class="upercase col-span-4 md:col-span-2 lg:col-span-1">Geslacht</div>
-              <div class="upercase col-span-4 md:col-span-2 lg:col-span-1"><span class="hidden md:block">Afvisbeurt</span><span
+              <div class="upercase col-span-12 md:col-span-4 lg:col-span-3">NR. <app-table-sort class="mr-2" sortField="order"></app-table-sort> SOORT <app-table-sort sortField="taxon.nameDutch"></app-table-sort></div>
+              <div class="upercase col-span-4 md:col-span-2 lg:col-span-1">AANTAL <app-table-sort sortField="amount"></app-table-sort></div>
+              <div class="col-span-4 md:col-span-3 lg:col-span-1">LENGTE (cm) <app-table-sort sortField="length"></app-table-sort></div>
+              <div class="col-span-4 md:col-span-3 lg:col-span-1">GEWICHT (g) <app-table-sort sortField="weight"></app-table-sort></div>
+              <div class="upercase col-span-4 md:col-span-2 lg:col-span-1">GESLACHT <app-table-sort sortField="gender"></app-table-sort></div>
+              <div class="upercase col-span-4 md:col-span-2 lg:col-span-1"><span class="hidden md:block">AFVISBEURT <app-table-sort sortField="afvisBeurtNumber"></app-table-sort></span><span
                 class="md:hidden">Afvisb.</span></div>
-              <div class="col-span-12 md:col-span-5 lg:col-span-2">Commentaar</div>
+              <div class="col-span-12 md:col-span-5 lg:col-span-2">COMMENTAAR <app-table-sort sortField="comment"></app-table-sort></div>
               <div></div>
             </div>
             <div class="space-y-0.5">

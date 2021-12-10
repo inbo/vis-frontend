@@ -95,6 +95,10 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
     return this.form.get('type');
   }
 
+  order(): AbstractControl {
+    return this.form.get('order');
+  }
+
   individualLengths(): FormArray {
     return this.form.get('individualLengths') as FormArray;
   }
