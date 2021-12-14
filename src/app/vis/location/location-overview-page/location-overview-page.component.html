@@ -225,7 +225,9 @@
             <thead>
             <tr>
               <th appHeader scope="col">
-                Meetplaatscode
+                <input #checkboxAll *ngIf="exportMode" (change)="toggleAllToExport()"
+                       [checked]="isAllMarkedForExport() ? 'checked' : null" class="mr-1" type="checkbox"/>
+                code
                 <app-table-sort sortField="code"></app-table-sort>
               </th>
               <th appHeader scope="col">
@@ -266,7 +268,7 @@
                 [class.bg-pink-100]="highlightedLocation === fishingPoint.id"
                 [rownumber]="index" appRow>
               <td appCell>
-                <input *ngIf="exportMode" (change)="toggleToExport(fishingPoint)"
+                <input #checkbox *ngIf="exportMode" (change)="toggleToExport(fishingPoint)"
                        [checked]="isMarkedForExport(fishingPoint) ? 'checked' : null" class="mr-2" type="checkbox"/>
                 <a [routerLink]="['/locaties', fishingPoint.code]"
                    class="text-pink-600 hover:text-pink-900">{{fishingPoint.code}}</a>

@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {Title} from '@angular/platform-browser';
@@ -29,6 +29,8 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   @ViewChild(FishingPointsMapComponent) map: FishingPointsMapComponent;
   @ViewChild(FishingPointsMapComponent, {read: ElementRef}) mapElement: ElementRef;
   @ViewChild('filename') filenameInput: ElementRef;
+  @ViewChildren('checkbox') checkboxes: QueryList<ElementRef<HTMLInputElement>>;
+  @ViewChild('checkboxAll') checkboxAll: ElementRef<HTMLInputElement>;
 
   private subscription = new Subscription();
 
@@ -291,5 +293,24 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
 
   toggleExportMode() {
     this.exportMode = !this.exportMode;
+  }
+
+  toggleAllToExport() {
+    const isAllChecked = this.checkboxAll.nativeElement.checked;
+
+    this.checkboxes.forEach(item => {
+        if (isAllChecked && !item.nativeElement.checked) {
+          item.nativeElement.click();
+        } else if (!isAllChecked && item.nativeElement.checked) {
+          item.nativeElement.click();
+        }
+      }
+    );
+  }
+
+  isAllMarkedForExport() {
+    let result = false;
+    this.checkboxes.forEach(item => result = result || item.nativeElement.checked);
+    return result;
   }
 }
