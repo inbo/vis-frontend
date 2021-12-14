@@ -19,9 +19,7 @@ export class TaxaService extends VisService {
 
   getTaxa(val: string, id?: number) {
     let params = new HttpParams()
-      .set('nameDutch', val)
-      .set('nameScientific', val)
-      .set('taxonCode', val);
+      .set('nameDutch', val);
 
     if (id !== undefined) {
       params = params.set('id', id.toString());
