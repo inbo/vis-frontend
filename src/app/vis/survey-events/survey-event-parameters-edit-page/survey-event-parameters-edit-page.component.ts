@@ -221,8 +221,8 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
       const max = this.maxDepth.value as number;
       const sum = +min + +max;
       const avg = sum / 2;
-
-      this.averageDepth.patchValue(Math.floor(avg).toString());
+      const value = Math.round( avg * 100 + Number.EPSILON ) / 100;
+      this.averageDepth.patchValue(value.toString());
     }
   }
 
