@@ -48,7 +48,7 @@ export class HabitatOptionsService {
       {text: 'surveyEvent.habitat.fish-passage.false', value: false}, {text: 'surveyEvent.habitat.fish-passage.unknown', value: null}];
     this._soil = ['other', 'grint', 'clay', 'mudd', 'silt', 'stones', 'sand'].map(value => this.createOption('soil', value));
     this._bottlenecks = ['motorway', 'diver', 'mill', 'undefined', 'lock', 'reservoir', 'weir', 'decay'].map(value => this.createOption('bottleneck', value));
-    this._vegetations = ['threadAlgae', 'filamentousAlgae', 'soilWaterPlants'].map(value => this.createOption('vegetation', value));
+    this._vegetations = ['filamentousAlgae', 'soilWaterPlants', 'threadAlgae'].map(value => this.createOption('vegetation', value));
   }
 
   private createOption(x: string, value: string): RadioOption<string> {
