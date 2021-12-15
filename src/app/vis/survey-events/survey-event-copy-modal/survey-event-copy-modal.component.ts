@@ -48,9 +48,9 @@ export class SurveyEventCopyModalComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.occurrenceDatePicker.setMinDate(new Date(this.startDate));
-    if (this.endDate) {
-      this.occurrenceDatePicker.setMaxDate(new Date(this.endDate));
-    }
+    // Set max date to today's date or to survey end date
+    this.occurrenceDatePicker.setMaxDate(this.endDate ? new Date(this.endDate) > new Date() ? new Date() : new Date(this.endDate) :
+      new Date());
   }
 
   open() {
