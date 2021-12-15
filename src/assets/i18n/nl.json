@@ -200,9 +200,9 @@
       "STARTING_DEPTH": "Start diepte (m)",
       "TRAJECT_LENGTH": "Traject lengte (m)",
       "WATER_FLOW_RATE": "Stroomsnelheid (m/s)",
-      "INDEXCALC_FISHING_WIDTH": "Afvisbreedte (index berekening)",
-      "INDEXCALC_FYKE_WIDTH": "Fuikbreedte (index berekening)",
-      "INDEXCALC_FYKE_LENGTH": "Fuiklengte (index berekening)",
+      "INDEXCALC_FISHING_WIDTH": "Afvisbreedte (m) (index berekening)",
+      "INDEXCALC_FYKE_WIDTH": "Fuikbreedte (m) (index berekening)",
+      "INDEXCALC_FYKE_LENGTH": "Fuiklengte (m) (index berekening)",
       "INDEXCALC_FYKE_INTAKE_NBR": "Aantal fuikmonden (index berekening)"
     }
   },
