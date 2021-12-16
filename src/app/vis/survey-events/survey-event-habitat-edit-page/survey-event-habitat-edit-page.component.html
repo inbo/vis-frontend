@@ -10,8 +10,8 @@
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Bodem</label>
           <div class="mt-1" formGroupName="soil">
-            <app-check-group [options]="habitatOptions.soil" name="soil"></app-check-group>
-
+            <app-check-group [options]="habitatOptions.soil" name="soil"
+                             (checked)="soilChecked($event)"></app-check-group>
           </div>
         </div>
 

@@ -46,7 +46,7 @@ export class HabitatOptionsService {
     this._current = Object.keys(Current).filter(value => isNaN(Number(value))).map(value => this.createOption('current', value));
     this._fishPassage = [{text: 'surveyEvent.habitat.fish-passage.true', value: true},
       {text: 'surveyEvent.habitat.fish-passage.false', value: false}, {text: 'surveyEvent.habitat.fish-passage.unknown', value: null}];
-    this._soil = ['other', 'grint', 'clay', 'mudd', 'silt', 'stones', 'sand'].map(value => this.createOption('soil', value));
+    this._soil = ['other', 'grint', 'clay', 'mudd', 'silt', 'stones', 'sand', 'unknown'].map(value => this.createOption('soil', value));
     this._bottlenecks = ['motorway', 'diver', 'mill', 'undefined', 'lock', 'reservoir', 'weir', 'decay'].map(value => this.createOption('bottleneck', value));
     this._vegetations = ['filamentousAlgae', 'soilWaterPlants', 'threadAlgae'].map(value => this.createOption('vegetation', value));
   }

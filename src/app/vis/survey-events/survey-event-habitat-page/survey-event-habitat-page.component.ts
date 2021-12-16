@@ -85,6 +85,9 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
     if (this.habitat.soil.sand) {
       soils.push('sand');
     }
+    if (this.habitat.soil.unknown) {
+      soils.push('unknown');
+    }
 
     return soils;
   }

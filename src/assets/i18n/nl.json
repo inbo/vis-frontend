@@ -141,13 +141,14 @@
         "null": ""
       },
       "soil": {
-        "other":  "Andere",
+        "other": "Andere",
         "grint": "Grint",
-        "clay":  "Klei",
+        "clay": "Klei",
         "mudd": "Modder",
-        "silt":  "Slib",
+        "silt": "Slib",
         "stones": "Stenen",
-        "sand": "Zand"
+        "sand": "Zand",
+        "unknown": "Onbekend"
       },
       "bottleneck": {
         "motorway":  "Autosnelweg",

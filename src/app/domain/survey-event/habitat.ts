@@ -65,6 +65,7 @@ export interface Soil {
   silt: boolean;
   stones: boolean;
   sand: boolean;
+  unknown: boolean;
 }
 
 export interface Bottleneck {
