@@ -60,6 +60,10 @@ export class PicturesService extends VisService {
     return this.http.put<void>(`${environment.apiUrl}/api/pictures/project/${projectCode}/surveyevent/${surveyEventId}/assets/${id}/cleartags`, {});
   }
 
+  createCollectionForSurveyEvent(projectCode: string, surveyEventId: number) {
+    return this.http.post<void>(`${environment.apiUrl}/api/pictures/project/${projectCode}/surveyevent/${surveyEventId}/subcollection`, {});
+  }
+
   upload(file: File, projectCode: string, surveyEventId: number): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
 

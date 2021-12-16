@@ -46,11 +46,13 @@ export class UploadFilesComponent implements OnInit {
 
 
   uploadAll() {
-    this.uploadStarted = true;
-    for (let i = 0; i < this.files.length; i++) {
-      const file = this.files[i].file;
-      this.upload(i, file);
-    }
+    this.picturesService.createCollectionForSurveyEvent(this.projectCode, this.surveyEventId).subscribe(value => {
+      this.uploadStarted = true;
+      for (let i = 0; i < this.files.length; i++) {
+        const file = this.files[i].file;
+        this.upload(i, file);
+      }
+    });
   }
 
   upload(idx: number, file: File) {

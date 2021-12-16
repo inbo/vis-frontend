@@ -108,12 +108,8 @@
 
                     <app-form-error-message [fieldName]="'Tandemvault collectie'" [control]="tandemvaultcollectionslug" [submitted]="submitted"></app-form-error-message>
                     <p class="mt-2 text-sm text-gray-500">
-                      Selecteer hier de collectienaam om het project te koppelen aan <a class="underline" href="https://inbo.tandemvault.com/" target="_blank">Tandemvault</a>.
+                      Selecteer hier de collectienaam om het project te koppelen aan <a class="underline" href="https://inbo.tandemvault.com/" target="_blank">Tandemvault</a>. Een nieuwe collectie kan je via de knop onderaan het formulier aanmaken.
                     </p>
-                  </div>
-
-                  <div class="mt-2">
-                    <app-button [style]="'white'" (click)="isModalOpen = true">Nieuwe collectie maken</app-button>
                   </div>
 
                 </div>
@@ -168,17 +164,17 @@
 
         <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
           <div class="flex justify-end">
-            <button (click)="cancel()" type="button"
-                    class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+            <app-button [disabled]="projectForm.dirty" [disabledReason]="'Bewaar eerst je gegevens voordat je een collectie laat aanmaken.'" [style]="'white'" (click)="isModalOpen = true">Nieuwe tandemvault collectie maken</app-button>
+
+            <app-button [style]="'white'" (click)="cancel()" class="ml-3">
               Annuleren
-            </button>
-            <app-button *ngIf="!project?.end" (click)="showCloseProjectModal = true" [style]="'secondary'" class="ml-3"
-                        [role]="role.EditProject">Afsluiten
             </app-button>
-            <button (click)="saveProject()" type="submit"
-                    class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+            <app-button *ngIf="!project?.end" (click)="showCloseProjectModal = true" [style]="'secondary'" class="ml-3" [role]="role.EditProject">
+              Afsluiten
+            </app-button>
+            <app-button [style]="'primary'" (click)="saveProject()" class="ml-3">
               Bewaren
-            </button>
+            </app-button>
           </div>
         </div>
       </div>
@@ -232,6 +228,8 @@
     </ng-container>
     <ng-container slot="content">
       Bent u zeker dat u een nieuwe collectie wil aanmaken. Indien deze reeds bestaat kan je de collectie selecteren in plaats van aan te maken.
+      <br />
+      <span class="text-red-500">Opgelet! Indien de collectie reeds bestaat zal er gewoon een nieuwe aangemaakt worden.</span>
     </ng-container>
     <ng-container slot="primary-button">
       Aanmaken en koppelen aan project

@@ -295,7 +295,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
   }
 
   confirmClicked() {
-    this.pictureService.createCollectionForProject(this.project.code.value).subscribe(value => this.loadData());
+    this.pictureService.createCollectionForProject(this.project.code.value)
+      .subscribe(value => this.router.navigate(['/projecten', this.project.code.value]).then());
     this.isModalOpen = false;
   }
 }
