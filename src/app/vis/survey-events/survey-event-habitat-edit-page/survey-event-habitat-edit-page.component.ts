@@ -49,7 +49,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
           silt: [false],
           stones: [false],
           sand: [false],
-          unknown: [false]
+          unknownSoil: [false]
         }),
         waterLevel: [null],
         shelters: [null],
@@ -73,7 +73,8 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
           lock: [false],
           reservoir: [false],
           weir: [false],
-          decay: [false]
+          decay: [false],
+          unknownBottleneck: [false]
         }),
         vegetation: this.formBuilder.group({
           threadAlgae: [false],
@@ -107,7 +108,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         this.habitatForm.get('soil').get('silt').patchValue(value.soil.silt);
         this.habitatForm.get('soil').get('stones').patchValue(value.soil.stones);
         this.habitatForm.get('soil').get('sand').patchValue(value.soil.sand);
-        this.habitatForm.get('soil').get('unknown').patchValue(value.soil.unknown);
+        this.habitatForm.get('soil').get('unknownSoil').patchValue(value.soil.unknown);
         if (value.soil.unknown) {
           this.disableSoil();
         }
@@ -120,6 +121,10 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         this.habitatForm.get('bottleneck').get('reservoir').patchValue(value.bottleneck.reservoir);
         this.habitatForm.get('bottleneck').get('weir').patchValue(value.bottleneck.weir);
         this.habitatForm.get('bottleneck').get('decay').patchValue(value.bottleneck.decay);
+        this.habitatForm.get('bottleneck').get('unknownBottleneck').patchValue(value.bottleneck.unknown);
+        if (value.bottleneck.unknown) {
+          this.disableBottleneck();
+        }
 
         this.habitatForm.get('vegetation').get('threadAlgae').patchValue(value.vegetation.threadAlgae);
         this.habitatForm.get('vegetation').get('filamentousAlgae').patchValue(value.vegetation.filamentousAlgae);
@@ -134,6 +139,8 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     }
 
     const formData = this.habitatForm.getRawValue();
+    formData.soil.unknown = formData.soil.unknownSoil;
+    formData.bottleneck.unknown = formData.bottleneck.unknownBottleneck;
 
     this.subscription.add(
       this.surveyEventsService.updateHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId, formData)
@@ -239,11 +246,21 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
   }
 
   soilChecked($event: any) {
-    if ($event.option === 'unknown') {
+    if ($event.option === 'unknownSoil') {
       if ($event.checked) {
         this.disableSoil();
       } else {
         this.enableSoil();
+      }
+    }
+  }
+
+  bottleneckChecked($event: any) {
+    if ($event.option === 'unknownBottleneck') {
+      if ($event.checked) {
+        this.disableBottleneck();
+      } else {
+        this.enableBottleneck();
       }
     }
   }
@@ -273,5 +290,35 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     this.habitatForm.get('soil').get('silt').enable();
     this.habitatForm.get('soil').get('stones').enable();
     this.habitatForm.get('soil').get('sand').enable();
+  }
+
+  private disableBottleneck() {
+    this.habitatForm.get('bottleneck').get('motorway').patchValue(false);
+    this.habitatForm.get('bottleneck').get('motorway').disable();
+    this.habitatForm.get('bottleneck').get('diver').patchValue(false);
+    this.habitatForm.get('bottleneck').get('diver').disable();
+    this.habitatForm.get('bottleneck').get('mill').patchValue(false);
+    this.habitatForm.get('bottleneck').get('mill').disable();
+    this.habitatForm.get('bottleneck').get('undefined').patchValue(false);
+    this.habitatForm.get('bottleneck').get('undefined').disable();
+    this.habitatForm.get('bottleneck').get('lock').patchValue(false);
+    this.habitatForm.get('bottleneck').get('lock').disable();
+    this.habitatForm.get('bottleneck').get('reservoir').patchValue(false);
+    this.habitatForm.get('bottleneck').get('reservoir').disable();
+    this.habitatForm.get('bottleneck').get('weir').patchValue(false);
+    this.habitatForm.get('bottleneck').get('weir').disable();
+    this.habitatForm.get('bottleneck').get('decay').patchValue(false);
+    this.habitatForm.get('bottleneck').get('decay').disable();
+  }
+
+  private enableBottleneck() {
+    this.habitatForm.get('bottleneck').get('motorway').enable();
+    this.habitatForm.get('bottleneck').get('diver').enable();
+    this.habitatForm.get('bottleneck').get('mill').enable();
+    this.habitatForm.get('bottleneck').get('undefined').enable();
+    this.habitatForm.get('bottleneck').get('lock').enable();
+    this.habitatForm.get('bottleneck').get('reservoir').enable();
+    this.habitatForm.get('bottleneck').get('weir').enable();
+    this.habitatForm.get('bottleneck').get('decay').enable();
   }
 }

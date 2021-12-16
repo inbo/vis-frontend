@@ -77,6 +77,7 @@ export interface Bottleneck {
   reservoir: boolean;
   weir: boolean;
   decay: boolean;
+  unknown: boolean;
 }
 
 export interface Vegetation {

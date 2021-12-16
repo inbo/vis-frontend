@@ -148,17 +148,20 @@
         "silt": "Slib",
         "stones": "Stenen",
         "sand": "Zand",
-        "unknown": "Onbekend"
+        "unknown": "Onbekend",
+        "unknownSoil": "Onbekend"
       },
       "bottleneck": {
-        "motorway":  "Autosnelweg",
+        "motorway": "Autosnelweg",
         "diver": "Duiker",
-        "mill":  "Molen",
+        "mill": "Molen",
         "undefined": "Onbepaald",
-        "lock":  "Sluis",
+        "lock": "Sluis",
         "reservoir": "Spaarbekken",
-        "weir":  "Stuw",
-        "decay": "Verval"
+        "weir": "Stuw",
+        "decay": "Verval",
+        "unknown": "Onbekend",
+        "unknownBottleneck": "Onbekend"
       },
       "vegetation": {
         "threadAlgae": "Draadalgen",

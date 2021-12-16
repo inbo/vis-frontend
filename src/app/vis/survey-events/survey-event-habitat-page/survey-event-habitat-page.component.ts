@@ -127,6 +127,10 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
       bottlenecks.push('decay');
     }
 
+    if (this.habitat.bottleneck.unknown) {
+      bottlenecks.push('unknown');
+    }
+
     return bottlenecks;
   }
 
