@@ -79,7 +79,8 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         vegetation: this.formBuilder.group({
           threadAlgae: [false],
           filamentousAlgae: [false],
-          soilWaterPlants: [false]
+          soilWaterPlants: [false],
+          unknownVegetation: [false]
         })
       });
 
@@ -129,6 +130,10 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
         this.habitatForm.get('vegetation').get('threadAlgae').patchValue(value.vegetation.threadAlgae);
         this.habitatForm.get('vegetation').get('filamentousAlgae').patchValue(value.vegetation.filamentousAlgae);
         this.habitatForm.get('vegetation').get('soilWaterPlants').patchValue(value.vegetation.soilWaterPlants);
+        this.habitatForm.get('vegetation').get('unknownVegetation').patchValue(value.vegetation.unknown);
+        if (value.vegetation.unknown) {
+          this.disableVegetation();
+        }
       }));
   }
 
@@ -141,6 +146,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     const formData = this.habitatForm.getRawValue();
     formData.soil.unknown = formData.soil.unknownSoil;
     formData.bottleneck.unknown = formData.bottleneck.unknownBottleneck;
+    formData.vegetation.unknown = formData.vegetation.unknownVegetation;
 
     this.subscription.add(
       this.surveyEventsService.updateHabitat(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId, formData)
@@ -265,6 +271,16 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     }
   }
 
+  vegetationChecked($event: any) {
+    if ($event.option === 'unknownVegetation') {
+      if ($event.checked) {
+        this.disableVegetation();
+      } else {
+        this.enableVegetation();
+      }
+    }
+  }
+
   private disableSoil() {
     this.habitatForm.get('soil').get('other').patchValue(false);
     this.habitatForm.get('soil').get('other').disable();
@@ -320,5 +336,20 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
     this.habitatForm.get('bottleneck').get('reservoir').enable();
     this.habitatForm.get('bottleneck').get('weir').enable();
     this.habitatForm.get('bottleneck').get('decay').enable();
+  }
+
+  private disableVegetation() {
+    this.habitatForm.get('vegetation').get('threadAlgae').patchValue(false);
+    this.habitatForm.get('vegetation').get('threadAlgae').disable();
+    this.habitatForm.get('vegetation').get('filamentousAlgae').patchValue(false);
+    this.habitatForm.get('vegetation').get('filamentousAlgae').disable();
+    this.habitatForm.get('vegetation').get('soilWaterPlants').patchValue(false);
+    this.habitatForm.get('vegetation').get('soilWaterPlants').disable();
+  }
+
+  private enableVegetation() {
+    this.habitatForm.get('vegetation').get('threadAlgae').enable();
+    this.habitatForm.get('vegetation').get('filamentousAlgae').enable();
+    this.habitatForm.get('vegetation').get('soilWaterPlants').enable();
   }
 }

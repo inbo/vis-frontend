@@ -84,4 +84,5 @@ export interface Vegetation {
   threadAlgae: boolean;
   filamentousAlgae: boolean;
   soilWaterPlants: boolean;
+  unknown: boolean;
 }

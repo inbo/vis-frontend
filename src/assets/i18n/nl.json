@@ -166,7 +166,9 @@
       "vegetation": {
         "threadAlgae": "Draadalgen",
         "filamentousAlgae": "Vlottende waterplanten",
-        "soilWaterPlants": "Bodemwaterplanten"
+        "soilWaterPlants": "Bodemwaterplanten",
+        "unknown": "Onbekend",
+        "unknownVegetation": "Onbekend"
       }
     }
   },

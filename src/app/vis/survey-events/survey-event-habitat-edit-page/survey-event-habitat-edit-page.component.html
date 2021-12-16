@@ -131,7 +131,8 @@
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Vegetatie</label>
           <div class="mt-1">
-            <app-check-group [options]="habitatOptions.vegetations" name="vegetation"></app-check-group>
+            <app-check-group [options]="habitatOptions.vegetations" name="vegetation"
+                             (checked)="vegetationChecked($event)"></app-check-group>
           </div>
         </div>
 

@@ -49,7 +49,7 @@ export class HabitatOptionsService {
     this._soil = ['other', 'grint', 'clay', 'mudd', 'silt', 'stones', 'sand', 'unknownSoil'].map(value => this.createOption('soil', value));
     this._bottlenecks = ['motorway', 'diver', 'mill', 'undefined', 'lock', 'reservoir', 'weir', 'decay', 'unknownBottleneck'].map(value =>
       this.createOption('bottleneck', value));
-    this._vegetations = ['filamentousAlgae', 'soilWaterPlants', 'threadAlgae'].map(value => this.createOption('vegetation', value));
+    this._vegetations = ['filamentousAlgae', 'soilWaterPlants', 'threadAlgae', 'unknownVegetation'].map(value => this.createOption('vegetation', value));
   }
 
   private createOption(x: string, value: string): RadioOption<string> {

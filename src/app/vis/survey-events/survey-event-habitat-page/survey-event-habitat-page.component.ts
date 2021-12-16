@@ -146,6 +146,9 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
     if (this.habitat.vegetation.soilWaterPlants) {
       vegetations.push('soilWaterPlants');
     }
+    if (this.habitat.vegetation.unknown) {
+      vegetations.push('unknown');
+    }
 
     return vegetations;
   }
