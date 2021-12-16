@@ -8,7 +8,7 @@
         <div>
           <h2 class="text-lg font-medium text-gray-900">
             <span class="sr-only">Details for </span>
-            <a class="underline" target="_blank" [href]="'https://inbo.tandemvault.com/browse/' + slug + '#' + detail?.catalogue_number">{{detail?.filename}}</a>
+            <a [href]="'https://inbo.tandemvault.com/browse/' + slug + '#' + detail?.catalogue_number" class="underline" target="_blank">{{detail?.filename}}</a>
           </h2>
           <p class="text-sm font-medium text-gray-500">{{(detail?.file_size / 1000000) | number : 0}} MB</p>
         </div>
@@ -46,8 +46,10 @@
         <li *ngFor="let tag of detail?.tag_list" class="py-3 flex justify-between items-center">
           <div class="flex items-center justify-between w-full">
             <p class="text-sm font-medium text-gray-900">{{tag}}</p>
-            <button (click)="removeTagClick(detail?.id, tag)" type="button" class="bg-white rounded-full h-8 w-8 flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+            <button (click)="removeTagClick(detail?.id, tag)" class="bg-white rounded-full h-8 w-8 flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500" type="button">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              </svg>
               <span class="sr-only">Delete tag</span>
             </button>
           </div>
@@ -81,16 +83,16 @@
         </li>
       </ul>
     </div>
-    <div class="flex justify-end">
-      <app-button (click)="tags(detail?.id)" *ngIf="canAddTags" [style]="'secondary'">
-        Koppelen
+    <div class="grid grid-cols-2 grid-rows-2 gap-y-3">
+      <app-button class="col-span-2" (click)="tags(detail?.id)" *ngIf="canAddTags" [style]="'secondary'">
+        Koppelen aan waarneming / tags bijwerken
       </app-button>
 
-      <app-button (click)="clearTags(detail?.id)" *ngIf="canAddTags" [style]="'secondary'" class="ml-2">
-        Ontkoppelen
+      <app-button (click)="clearTags(detail?.id)" *ngIf="canAddTags" [style]="'secondary'">
+        Tags verwijderen
       </app-button>
 
-      <app-button (click)="download(detail?.id)" [style]="'primary'" class="ml-2">
+      <app-button (click)="download(detail?.id)" [style]="'primary'">
         Download
       </app-button>
     </div>
