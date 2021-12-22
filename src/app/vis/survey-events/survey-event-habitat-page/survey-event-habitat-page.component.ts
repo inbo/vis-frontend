@@ -85,6 +85,9 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
     if (this.habitat.soil.sand) {
       soils.push('sand');
     }
+    if (this.habitat.soil.unknown) {
+      soils.push('unknown');
+    }
 
     return soils;
   }
@@ -124,6 +127,10 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
       bottlenecks.push('decay');
     }
 
+    if (this.habitat.bottleneck.unknown) {
+      bottlenecks.push('unknown');
+    }
+
     return bottlenecks;
   }
 
@@ -138,6 +145,9 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
     }
     if (this.habitat.vegetation.soilWaterPlants) {
       vegetations.push('soilWaterPlants');
+    }
+    if (this.habitat.vegetation.unknown) {
+      vegetations.push('unknown');
     }
 
     return vegetations;

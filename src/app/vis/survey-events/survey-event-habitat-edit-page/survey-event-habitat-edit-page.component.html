@@ -10,8 +10,8 @@
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Bodem</label>
           <div class="mt-1" formGroupName="soil">
-            <app-check-group [options]="habitatOptions.soil" name="soil"></app-check-group>
-
+            <app-check-group [options]="habitatOptions.soil" name="soil"
+                             (checked)="soilChecked($event)"></app-check-group>
           </div>
         </div>
 
@@ -107,14 +107,16 @@
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Loop</label>
           <div class="mt-1">
-            <app-radio-group [options]="habitatOptions.current" formControlName="current" name="current"></app-radio-group>
+            <app-radio-group [options]="habitatOptions.current" formControlName="current"
+                             name="current"></app-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Knelpunt in omgeving van het traject</label>
           <div class="mt-1">
-            <app-check-group [options]="habitatOptions.bottlenecks" name="bottleneck"></app-check-group>
+            <app-check-group [options]="habitatOptions.bottlenecks" name="bottleneck"
+                             (checked)="bottleneckChecked($event)"></app-check-group>
           </div>
         </div>
 
@@ -129,7 +131,8 @@
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Vegetatie</label>
           <div class="mt-1">
-            <app-check-group [options]="habitatOptions.vegetations" name="vegetation"></app-check-group>
+            <app-check-group [options]="habitatOptions.vegetations" name="vegetation"
+                             (checked)="vegetationChecked($event)"></app-check-group>
           </div>
         </div>
 

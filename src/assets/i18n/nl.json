@@ -141,28 +141,34 @@
         "null": ""
       },
       "soil": {
-        "other":  "Andere",
+        "other": "Andere",
         "grint": "Grint",
-        "clay":  "Klei",
+        "clay": "Klei",
         "mudd": "Modder",
-        "silt":  "Slib",
+        "silt": "Slib",
         "stones": "Stenen",
-        "sand": "Zand"
+        "sand": "Zand",
+        "unknown": "Onbekend",
+        "unknownSoil": "Onbekend"
       },
       "bottleneck": {
-        "motorway":  "Autosnelweg",
+        "motorway": "Autosnelweg",
         "diver": "Duiker",
-        "mill":  "Molen",
+        "mill": "Molen",
         "undefined": "Onbepaald",
-        "lock":  "Sluis",
+        "lock": "Sluis",
         "reservoir": "Spaarbekken",
-        "weir":  "Stuw",
-        "decay": "Verval"
+        "weir": "Stuw",
+        "decay": "Verval",
+        "unknown": "Onbekend",
+        "unknownBottleneck": "Onbekend"
       },
       "vegetation": {
         "threadAlgae": "Draadalgen",
         "filamentousAlgae": "Vlottende waterplanten",
-        "soilWaterPlants": "Bodemwaterplanten"
+        "soilWaterPlants": "Bodemwaterplanten",
+        "unknown": "Onbekend",
+        "unknownVegetation": "Onbekend"
       }
     }
   },
