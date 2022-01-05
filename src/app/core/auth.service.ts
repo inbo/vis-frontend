@@ -279,6 +279,8 @@ export class AuthService implements OnDestroy {
       }
     });
 
+    console.log(currentRoles);
+
     return currentRoles;
   }
 
