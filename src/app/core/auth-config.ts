@@ -7,7 +7,7 @@ export const authConfig: AuthConfig = {
   responseType: 'code',
   redirectUri: window.location.origin,
   silentRefreshRedirectUri: window.location.origin + '/silent-refresh.html',
-  scope: 'openid profile email',
+  scope: 'openid profile email roles',
   useSilentRefresh: true,
   silentRefreshTimeout: 2000,
   sessionChecksEnabled: true,
