@@ -175,9 +175,17 @@ export class MethodEditComponent implements OnInit, OnDestroy {
   }
 
   test() {
+    const calculation = this.calculation.value;
+    const parameters = this.cpueTestForm.getRawValue();
+
+    // Filter parameters used in calculation
+    Object.keys(parameters)
+      .filter(key => !calculation.includes(key))
+      .forEach(key => delete parameters[key]);
+
     const formData = {
-      calculation: this.calculation.value,
-      parameters: this.cpueTestForm.getRawValue()
+      calculation,
+      parameters
     };
 
     this.cpueService.testCalculation(formData).subscribe(value => this.testResult = value);
@@ -201,5 +209,9 @@ export class MethodEditComponent implements OnInit, OnDestroy {
       return this.cpueService.validateCalculation(formData)
         .pipe(map(result => !result ? {invalidCalculation: true} : null));
     };
+  }
+
+  isParameterUsedInCalculation(key: string) {
+    return this.calculation.value.includes(key);
   }
 }

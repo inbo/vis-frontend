@@ -108,14 +108,17 @@
               <p class="mt-2 text-sm text-gray-500">Hier kan je bovenstaande berekening testen met een aantal fictieve parameters. De onderstaande parameters zullen nooit bijgehouden worden.</p>
               <div class="mt-1">
                 <form [formGroup]="cpueTestForm">
-                  <div *ngFor="let key of controls()" class="relative flex items-start py-4">
-                    <div class="min-w-0 flex-1 text-sm">
-                      <label [for]="key" class="font-medium text-gray-700 select-none">{{'cpue.parameter.' + key | translate}}</label>
+                  <ng-container *ngFor="let key of controls()">
+                    <div *ngIf="isParameterUsedInCalculation(key)" class="relative flex items-start py-4">
+                      <div class="min-w-0 flex-1 text-sm">
+                        <label [for]="key"
+                               class="font-medium text-gray-700 select-none">{{'cpue.parameter.' + key | translate}}</label>
+                      </div>
+                      <div class="ml-3 flex items-center h-5">
+                        <input [formControlName]="key" type="text"/>
+                      </div>
                     </div>
-                    <div class="ml-3 flex items-center h-5">
-                      <input [formControlName]="key" type="text"/>
-                    </div>
-                  </div>
+                  </ng-container>
                   <div class="relative flex items-center py-4">
                     <div class="min-w-0 flex-1 text-sm">
                       <app-button (click)="test()" [style]="'white'">Bereken</app-button>
