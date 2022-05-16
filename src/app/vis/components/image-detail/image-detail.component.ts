@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {TaxaService} from '../../../services/vis.taxa.service';
-import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {TandemvaultPictureDetail} from '../../../domain/tandemvault/picture';
 import {FormBuilder, FormGroup} from '@angular/forms';
 

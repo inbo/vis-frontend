@@ -3,7 +3,7 @@ import {HasUnsavedData} from '../../../core/core.interface';
 import {Role} from '../../../core/_models/role';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
-import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LocationsService} from '../../../services/vis.locations.service';
@@ -11,6 +11,10 @@ import {MethodsService} from '../../../services/vis.methods.service';
 import {Location} from '@angular/common';
 import {map, take} from 'rxjs/operators';
 import {Method} from '../../../domain/method/method';
+import {
+  SearchableSelectConfig,
+  SearchableSelectConfigBuilder
+} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
   selector: 'app-survey-event-cpue-edit-page',
@@ -23,8 +27,6 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData 
   surveyEventForm: FormGroup = new FormGroup({});
   submitted = false;
   surveyEvent: SurveyEventOverview;
-
-  locations: SearchableSelectOption[] = [];
   methods: SearchableSelectOption[] = [];
 
   constructor(private surveyEventService: SurveyEventsService, private activatedRoute: ActivatedRoute,
@@ -46,7 +48,10 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData 
       this.surveyEventForm = new FormGroup({});
 
       for (const parameter of dto.parameters) {
-        this.surveyEventForm.addControl(parameter.key, new FormControl({value: parameter.value, disabled: parameter.automatic}));
+        this.surveyEventForm.addControl(parameter.key, new FormControl({
+          value: parameter.value,
+          disabled: parameter.automatic
+        }));
       }
     });
 

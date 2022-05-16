@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {FormGroup, FormGroupDirective} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 import {SearchableSelectComponent} from '../../../../shared-ui/searchable-select/searchable-select.component';
-import {SearchableSelectOption} from '../../../../shared-ui/searchable-select/option';
+import {SearchableSelectOption} from '../../../../shared-ui/searchable-select/SearchableSelectOption';
 
 @Component({
   selector: 'app-species-search',

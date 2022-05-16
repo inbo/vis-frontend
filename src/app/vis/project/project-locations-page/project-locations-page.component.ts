@@ -10,7 +10,11 @@ import {FishingPointsMapComponent} from '../../components/fishing-points-map/fis
 import {getTag, Tag} from '../../../shared-ui/slide-over-filter/tag';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {map, take} from 'rxjs/operators';
-import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
+import {
+  SearchableSelectConfig,
+  SearchableSelectConfigBuilder
+} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
   selector: 'app-project-locations-page',
@@ -38,11 +42,17 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
   municipalities: SearchableSelectOption[] = [];
   basins: SearchableSelectOption[] = [];
   fishingPointCodes: SearchableSelectOption[] = [];
+  fishingPointSearchableSelectConfig: SearchableSelectConfig;
 
   constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private locationsService: LocationsService,
               private router: Router, private formBuilder: FormBuilder) {
     this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
     this.titleService.setTitle('Project ' + this.projectCode + ' locaties');
+
+    this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
+      .minQueryLength(2)
+      .searchPlaceholder('Minstens 2 karakters...')
+      .build();
   }
 
   ngOnInit(): void {

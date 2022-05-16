@@ -100,7 +100,8 @@
                                  placeholder="Selecteer een meetplaatscode"
                                  tabIndex="-1" formControlName="measuringPointNumber"
                                  (search)="getFishingPointCodes($event)"
-                                 [options]="fishingPointCodes">
+                                 [options]="fishingPointCodes"
+                                 [configuration]="fishingPointSearchableSelectConfig">
             <ng-template let-rowDetail #selected>
               {{rowDetail?.option?.name}}
             </ng-template>

@@ -1,6 +1,6 @@
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LocationsService} from '../../../services/vis.locations.service';
@@ -12,6 +12,10 @@ import {HasUnsavedData} from '../../../core/core.interface';
 import {ProjectService} from '../../../services/vis.project.service';
 import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
 import {uniqueValidator} from '../survey-event-validators';
+import {
+  SearchableSelectConfig,
+  SearchableSelectConfigBuilder
+} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
   selector: 'app-survey-event-add-page',
@@ -27,10 +31,15 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
 
   locations: SearchableSelectOption[] = [];
   methods: SearchableSelectOption[] = [];
+  fishingPointSearchableSelectConfig: SearchableSelectConfig;
 
   constructor(private surveyEventService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder, private locationsService: LocationsService,
               private methodsService: MethodsService, private _location: Location, private projectService: ProjectService) {
+    this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
+      .minQueryLength(2)
+      .searchPlaceholder('Minstens 2 karakters...')
+      .build();
   }
 
   ngOnInit(): void {

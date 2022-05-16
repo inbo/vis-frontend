@@ -30,7 +30,8 @@
                     <app-searchable-select id="location" passedId="location" placeholder="Selecteer een locatie"
                                            tabIndex="-1" formControlName="location"
                                            (search)="getLocations($event)"
-                                           [options]="locations">
+                                           [options]="locations"
+                                           [configuration]="fishingPointSearchableSelectConfig">
                       <ng-template let-rowDetail #selected>
                         <div *ngIf="rowDetail" class="flex justify-between content-center">
                           <span>{{rowDetail.option?.code + ' - ' + rowDetail.option?.description}}</span>

@@ -13,7 +13,7 @@ import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 import {Location} from '@angular/common';
 import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
 import {PicturesService} from '../../../services/vis.pictures.service';
-import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 
 function projectStartBeforeSurveyEvents(date: Date): ValidatorFn {
   return (c: AbstractControl) => {

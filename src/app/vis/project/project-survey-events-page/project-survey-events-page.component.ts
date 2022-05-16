@@ -7,7 +7,7 @@ import {SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {map, take} from 'rxjs/operators';
-import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {getTag, Tag} from '../../../shared-ui/slide-over-filter/tag';
@@ -22,6 +22,10 @@ import {LocationsService} from '../../../services/vis.locations.service';
 import {Watercourse} from '../../../domain/location/watercourse';
 import {Basin} from '../../../domain/location/basin';
 import {Municipality} from '../../../domain/location/municipality';
+import {
+  SearchableSelectConfig,
+  SearchableSelectConfigBuilder
+} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
   selector: 'app-project-survey-events-page',
@@ -51,6 +55,7 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
   municipalities: SearchableSelectOption[] = [];
   basins: SearchableSelectOption[] = [];
   fishingPointCodes: SearchableSelectOption[] = [];
+  fishingPointSearchableSelectConfig: SearchableSelectConfig;
 
   filterForm: FormGroup;
 
@@ -60,6 +65,10 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
               private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder,
               private taxaService: TaxaService, private datePipe: DatePipe, private translateService: TranslateService,
               public authService: AuthService, private locationsService: LocationsService) {
+    this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
+      .minQueryLength(2)
+      .searchPlaceholder('Minstens 2 karakters...')
+      .build();
   }
 
   ngOnInit(): void {

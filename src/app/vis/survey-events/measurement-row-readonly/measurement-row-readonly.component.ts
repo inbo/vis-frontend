@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormGroup, FormGroupDirective} from '@angular/forms';
-import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {Subscription} from 'rxjs';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';

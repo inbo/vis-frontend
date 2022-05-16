@@ -14,7 +14,11 @@ import {Role} from '../../../core/_models/role';
 import {getTag, Tag} from '../../../shared-ui/slide-over-filter/tag';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {map, take} from 'rxjs/operators';
-import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
+import {
+  SearchableSelectConfig,
+  SearchableSelectConfigBuilder
+} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
   selector: 'app-location-overview-page',
@@ -45,6 +49,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   highlightedLocation: number;
 
   locationCodesToExport: string[] = [];
+  exportMode = false;
 
   watercourses: SearchableSelectOption[] = [];
   lenticWaterbodies: SearchableSelectOption[] = [];
@@ -52,12 +57,16 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
   municipalities: SearchableSelectOption[] = [];
   basins: SearchableSelectOption[] = [];
   fishingPointCodes: SearchableSelectOption[] = [];
-
-  exportMode = false;
+  fishingPointSearchableSelectConfig: SearchableSelectConfig;
 
   constructor(private titleService: Title, private locationsService: LocationsService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder) {
     this.titleService.setTitle('Locaties');
+
+    this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
+      .minQueryLength(2)
+      .searchPlaceholder('Minstens 2 karakters...')
+      .build();
   }
 
   ngOnInit(): void {

@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
 import {Observable, of, Subscription} from 'rxjs';
-import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {getTag, Tag} from '../../../shared-ui/slide-over-filter/tag';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
@@ -22,6 +22,10 @@ import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
 import {LocationsService} from '../../../services/vis.locations.service';
+import {
+  SearchableSelectConfig,
+  SearchableSelectConfigBuilder
+} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
   selector: 'app-survey-events-overview-page',
@@ -52,6 +56,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
   municipalities: SearchableSelectOption[] = [];
   basins: SearchableSelectOption[] = [];
   fishingPointCodes: SearchableSelectOption[] = [];
+  fishingPointSearchableSelectConfig: SearchableSelectConfig;
 
   private subscription = new Subscription();
 
@@ -59,6 +64,10 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
               private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder,
               private taxaService: TaxaService, private datePipe: DatePipe, private translateService: TranslateService,
               public authService: AuthService, private locationsService: LocationsService) {
+    this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
+      .minQueryLength(2)
+      .searchPlaceholder('Minstens 2 karakters...')
+      .build();
   }
 
   ngOnInit(): void {

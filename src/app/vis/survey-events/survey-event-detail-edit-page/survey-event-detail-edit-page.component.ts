@@ -2,7 +2,7 @@ import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
-import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {map, take} from 'rxjs/operators';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {Method} from '../../../domain/method/method';
@@ -14,6 +14,10 @@ import {HasUnsavedData} from '../../../core/core.interface';
 import {uniqueValidator} from '../survey-event-validators';
 import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
 import {ProjectService} from '../../../services/vis.project.service';
+import {
+  SearchableSelectConfig,
+  SearchableSelectConfigBuilder
+} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
   selector: 'app-survey-event-detail-edit-page',
@@ -31,10 +35,15 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
 
   locations: SearchableSelectOption[] = [];
   methods: SearchableSelectOption[] = [];
+  fishingPointSearchableSelectConfig: SearchableSelectConfig;
 
   constructor(private surveyEventService: SurveyEventsService, private activatedRoute: ActivatedRoute,
               private router: Router, private formBuilder: FormBuilder, private locationsService: LocationsService,
               private methodsService: MethodsService, private _location: Location, private projectService: ProjectService) {
+    this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
+      .minQueryLength(2)
+      .searchPlaceholder('Minstens 2 karakters...')
+      .build();
   }
 
   ngOnInit(): void {

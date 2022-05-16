@@ -5,7 +5,7 @@ import {map, take} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
 import {uniqueNewValidator} from '../survey-event-validators';
-import {SearchableSelectOption} from '../../../shared-ui/searchable-select/option';
+import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {Method} from '../../../domain/method/method';
 import {MethodsService} from '../../../services/vis.methods.service';
 

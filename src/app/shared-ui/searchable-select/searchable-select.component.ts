@@ -18,7 +18,8 @@ import {
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {fromEvent, Subscription} from 'rxjs';
 import {debounceTime, filter, map} from 'rxjs/operators';
-import {SearchableSelectOption} from './option';
+import {SearchableSelectOption} from './SearchableSelectOption';
+import {SearchableSelectConfig, SearchableSelectConfigBuilder} from './SearchableSelectConfig';
 import _ from 'lodash';
 
 @Component({
@@ -44,14 +45,15 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   @Input() passedId: string;
   @Input() formControlName: string;
   @Input() options: SearchableSelectOption[];
-  @Input() placeholder: string;
+  @Input() configuration?: SearchableSelectConfig = new SearchableSelectConfigBuilder().build();
+
   @Output() search: EventEmitter<any> = new EventEmitter();
   @Output() enterPressed: EventEmitter<any> = new EventEmitter();
 
   open = false;
+  isDisabled = false;
   selectedValue: any;
   selectedValueOption: SearchableSelectOption;
-  isDisabled = false;
 
   private touched = false;
 
@@ -77,7 +79,6 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   ngAfterViewInit() {
-
   }
 
   ngOnDestroy() {
@@ -129,7 +130,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
           debounceTime(300),
           filter((event: KeyboardEvent) => event.key !== 'Tab' && event.key !== 'Enter'),
           map((event: KeyboardEvent) => (event.target as HTMLInputElement).value),
-          filter(value => value.length >= 3)
+          filter(value => value.length >= this.configuration.minQueryLength)
         )
         .subscribe(value => {
           this.open = true;
