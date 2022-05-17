@@ -192,7 +192,7 @@
 
       <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>&#8203;
       <div
-        class="max-w-none inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl
+        class="max-w-none inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left shadow-xl
          transform transition-all sm:my-8 sm:align-middle sm:max-w-6xl sm:p-6"
         role="dialog" aria-modal="true" aria-labelledby="modal-headline">
         <form [formGroup]="closeProjectForm" class="space-y-8 divide-y divide-gray-200">
@@ -204,13 +204,14 @@
               <app-datepicker #endDatePicker formControlName="endDate"></app-datepicker>
               <app-form-error-message [fieldName]="'Einddatum'" [control]="endDate"
                                       [submitted]="submitted"></app-form-error-message>
-              <span *ngIf="latestSurveyEventDate"
-                    class="text-gray-500">Laatste waarneming datum: {{latestSurveyEventDate | date:'dd/MM/yyyy'}}</span>
+              <p *ngIf="latestSurveyEventDate"
+                    class="my-2 text-gray-500">Laatste waarneming datum: {{latestSurveyEventDate | date:'dd/MM/yyyy'}}
+              </p>
             </div>
           </div>
         </form>
 
-        <div class="py-4 flex justify-end">
+        <div class="py-2 mt-6 flex justify-end">
           <app-button [style]="'secondary'" (click)="showCloseProjectModal = false">
             Annuleren
           </app-button>
