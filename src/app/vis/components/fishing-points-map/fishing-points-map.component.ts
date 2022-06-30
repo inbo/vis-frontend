@@ -301,8 +301,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
   zoomTo(latlng: LatLng) {
     this.map.setView(latlng, 15);
-    console.log(this.locationsLayer.getLayers());
-    console.log(latlng);
     this.locationsLayer.getLayers().forEach((value: CircleMarker) => {
       console.log('highlighting the dot');
       if (value.getLatLng().equals(latlng)) {
