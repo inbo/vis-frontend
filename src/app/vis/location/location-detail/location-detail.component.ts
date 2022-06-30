@@ -5,7 +5,7 @@ import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FishingPoint} from '../../../domain/location/fishing-point';
-import {LatLng, latLng} from 'leaflet';
+import {LatLng} from 'leaflet';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
@@ -52,7 +52,7 @@ export class LocationDetailComponent implements OnInit {
       .findByCode(code)
       .subscribe(value => {
         this.fishingPoint = value;
-        const latlng = latLng(this.fishingPoint.lat, this.fishingPoint.lng);
+        const latlng = new LatLng(this.fishingPoint.lat, this.fishingPoint.lng);
         this.fishingPointsMap.setCenter(latlng);
 
         this.formGroup = this.formBuilder.group(
