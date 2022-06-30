@@ -1,21 +1,38 @@
 /// <reference types='@runette/leaflet-fullscreen' />
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import * as L from 'leaflet';
-import {circleMarker, CircleMarker, DragEndEvent, featureGroup, LatLng, latLng, Layer, layerGroup, LeafletMouseEvent, Map as LeafletMap, MapOptions, Marker, marker} from 'leaflet';
+import {
+  circleMarker,
+  CircleMarker,
+  DragEndEvent,
+  featureGroup,
+  LatLng,
+  latLng,
+  Layer,
+  layerGroup,
+  LeafletMouseEvent,
+  Map as LeafletMap,
+  MapOptions,
+  Marker,
+  marker,
+} from 'leaflet';
 import 'leaflet-defaulticon-compatibility';
 import * as esri_geo from 'esri-leaflet-geocoder';
 import 'leaflet.locatecontrol';
-import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
+import {
+  LeafletControlLayersConfig,
+} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
 import {basemapLayer, dynamicMapLayer, DynamicMapLayer, featureLayer} from 'esri-leaflet';
 import * as geojson from 'geojson';
 import {LocationsService} from '../../../services/vis.locations.service';
-import {take} from 'rxjs/operators';
+import {mapTo, switchMap, take, tap} from 'rxjs/operators';
 import {VhaUrl} from '../../../domain/location/vha-version';
+import {FishingPoint} from '../../../domain/location/fishing-point';
 
 @Component({
   selector: 'app-fishing-points-map',
-  templateUrl: './fishing-points-map.component.html'
+  templateUrl: './fishing-points-map.component.html',
 })
 export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
@@ -28,6 +45,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   @Input() watercoursesLayerVisible = true;
   @Input() townsLayerVisible = true;
   @Input() filter: any;
+  @Input() highlightPoint: FishingPoint;
 
   @Output() pointAdded = new EventEmitter<LatLng>();
   @Output() nearbyWatercoursesFound = new EventEmitter<any>();
@@ -40,10 +58,10 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
   options: MapOptions = {
     maxZoom: 19,
-    doubleClickZoom: false
+    doubleClickZoom: false,
   };
 
-  fullscreenOptions: {[key:string]:any} = {
+  fullscreenOptions: { [key: string]: any } = {
     position: 'topleft',
     title: 'View Fullscreen',
     titleCancel: 'Exit Fullscreen',
@@ -94,170 +112,177 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
   }
 
   private setup() {
-    this.locationsLayer = L.markerClusterGroup({removeOutsideVisibleBounds: true, spiderfyOnMaxZoom: false, disableClusteringAtZoom: 19});
+    this.locationsLayer = L.markerClusterGroup({
+      removeOutsideVisibleBounds: true,
+      spiderfyOnMaxZoom: false,
+      disableClusteringAtZoom: 19,
+    });
     this.searchLayer = L.layerGroup();
 
-    this.locationsService.latestVhaVersion().pipe(take(1)).subscribe(version => {
-      this.initLegend(version);
-
-      this.orthoLayer = dynamicMapLayer(
-        {
-          url: 'https://gisservices.inbo.be/arcgis/rest/services/Orthofoto_WM/MapServer',
-          layers: [0]
-        }
-      );
-
-      this.watercourseLayer = dynamicMapLayer(
-        {
-          url: version.value,
-          layers: [0]
-        }
-      );
-
-      this.blueLayer = dynamicMapLayer(
-        {
-          url: version.value,
-          layers: [1]
-        }
-      );
-
-      this.townLayer = dynamicMapLayer(
-        {
-          url: version.value,
-          layers: [3]
-        }
-      );
-
-      const basemapLayer1 = basemapLayer('Topographic');
-
-      this.layers = [
-        basemapLayer1,
-        this.newLocationLayerGroup,
-        this.highlightSelectionLayer
-      ];
-
-      this.layers.push(this.searchLayer);
-
-      if (this.fishingPointsLayerVisible) {
-        this.layers.push(this.locationsLayer);
-      }
-      if (this.watercoursesLayerVisible) {
-        this.layers.push(this.watercourseLayer);
-      }
-      if (this.blueLayerVisible) {
-        this.layers.push(this.blueLayer);
-      }
-
-      this.layersControl = {
-        baseLayers: {
-          Kaart: basemapLayer1,
-          Orthofoto: this.orthoLayer
-        },
-        overlays: {
-          Vispunten: this.locationsLayer,
-          Waterlopen: this.watercourseLayer,
-          'Stilstaande wateren': this.blueLayer,
-          Gemeente: this.townLayer,
-        }
-      };
-      this.updateFishingPointsLayer(this.filter);
-
-
-      // @ts-ignore
-      const layer0 = esri_geo.mapServiceProvider({
-        url: version.value,
-        searchFields: ['NAAM'],
-        label: 'Waterlopen',
-        layers: [0],
-        formatSuggestion(feature) {
-          return `${feature.properties.NAAM}`;
-        }
-      });
-
-      // @ts-ignore
-      const layer1 = esri_geo.mapServiceProvider({
-        url: version.value,
-        searchFields: ['NAAM', 'WVLC'],
-        label: 'Watervlakken',
-        layers: [1],
-        formatSuggestion(feature) {
-          return `${feature.properties.NAAM} - ${feature.properties.WVLC}`;
-        }
-      });
-
-      // @ts-ignore
-      const streetSearch = esri_geo.geocodeServiceProvider({
-        url: 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer',
-        label: 'Straten',
-        formatSuggestion(feature) {
-          return feature.properties;
-        }
-      });
-
-      // @ts-ignore
-      const searchControl = esri_geo.geosearch({
-        zoomToResult: true,
-        placeholder: 'Zoek naar waterlopen/watervlakken/straten',
-        title: 'Zoeken',
-        useMapBounds: false,
-        providers: [layer0, layer1, streetSearch]
-      });
-
-      searchControl.addTo(this.map);
-
-      searchControl.on('results', data => {
-        this.searchLayer.clearLayers();
-        for (let i = data.results.length - 1; i >= 0; i--) {
-          this.searchLayer.addLayer(L.marker(data.results[i].latlng));
-        }
-      });
-
-
-      this.loaded.emit();
-    });
-
-
+    this.locationsService.latestVhaVersion()
+      .pipe(
+        take(1),
+        tap(version => this.initLegend(version)),
+        tap(version => this.initializeLayers(version)),
+        switchMap(() => this.updateFishingPointsLayer(this.filter)),
+      )
+      .subscribe(() => this.loaded.emit());
   }
 
-  public updateFishingPointsLayer(filter: any) {
+  private initializeLayers(version: VhaUrl) {
+    this.orthoLayer = dynamicMapLayer(
+      {
+        url: 'https://gisservices.inbo.be/arcgis/rest/services/Orthofoto_WM/MapServer',
+        layers: [0],
+      },
+    );
+
+    this.watercourseLayer = dynamicMapLayer(
+      {
+        url: version.value,
+        layers: [0],
+      },
+    );
+
+    this.blueLayer = dynamicMapLayer(
+      {
+        url: version.value,
+        layers: [1],
+      },
+    );
+
+    this.townLayer = dynamicMapLayer(
+      {
+        url: version.value,
+        layers: [3],
+      },
+    );
+
+    const basemapLayer1 = basemapLayer('Topographic');
+
+    this.layers = [
+      basemapLayer1,
+      this.newLocationLayerGroup,
+      this.highlightSelectionLayer,
+    ];
+
+    this.layers.push(this.searchLayer);
+
+    if (this.fishingPointsLayerVisible) {
+      this.layers.push(this.locationsLayer);
+    }
+    if (this.watercoursesLayerVisible) {
+      this.layers.push(this.watercourseLayer);
+    }
+    if (this.blueLayerVisible) {
+      this.layers.push(this.blueLayer);
+    }
+
+    this.layersControl = {
+      baseLayers: {
+        Kaart: basemapLayer1,
+        Orthofoto: this.orthoLayer,
+      },
+      overlays: {
+        Vispunten: this.locationsLayer,
+        Waterlopen: this.watercourseLayer,
+        'Stilstaande wateren': this.blueLayer,
+        Gemeente: this.townLayer,
+      },
+    };
+
+    // @ts-ignore
+    const layer0 = esri_geo.mapServiceProvider({
+      url: version.value,
+      searchFields: ['NAAM'],
+      label: 'Waterlopen',
+      layers: [0],
+      formatSuggestion(feature) {
+        return `${feature.properties.NAAM}`;
+      },
+    });
+
+    // @ts-ignore
+    const layer1 = esri_geo.mapServiceProvider({
+      url: version.value,
+      searchFields: ['NAAM', 'WVLC'],
+      label: 'Watervlakken',
+      layers: [1],
+      formatSuggestion(feature) {
+        return `${feature.properties.NAAM} - ${feature.properties.WVLC}`;
+      },
+    });
+
+    // @ts-ignore
+    const streetSearch = esri_geo.geocodeServiceProvider({
+      url: 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer',
+      label: 'Straten',
+      formatSuggestion(feature) {
+        return feature.properties;
+      },
+    });
+
+    // @ts-ignore
+    const searchControl = esri_geo.geosearch({
+      zoomToResult: true,
+      placeholder: 'Zoek naar waterlopen/watervlakken/straten',
+      title: 'Zoeken',
+      useMapBounds: false,
+      providers: [layer0, layer1, streetSearch],
+    });
+
+    searchControl.addTo(this.map);
+
+    searchControl.on('results', data => {
+      this.searchLayer.clearLayers();
+      for (let i = data.results.length - 1; i >= 0; i--) {
+        this.searchLayer.addLayer(L.marker(data.results[i].latlng));
+      }
+    });
+  }
+
+  updateFishingPointsLayer(filter: any): Observable<void> {
     this.locationsLayer.clearLayers();
 
-    this.subscription.add(
-      this.locationsService.getFishingPointsFeatures(this.projectCode, filter).subscribe(fishingPointFeatures => {
-        fishingPointFeatures.forEach(fpf => {
-          const latlng = latLng(fpf.lat, fpf.lng);
-          const m = circleMarker(latlng, {
-            fill: true,
-            fillColor: '#DC2626',
-            fillOpacity: 100,
-            radius: 7,
-            stroke: false
-          });
-          m.on('click', (event: LeafletMouseEvent) => {
-            this.clickedLatlng = event.latlng;
-            const layer = event.target;
-            this.clearLocationsSelectedStyle();
-
-            layer.setStyle({
-              stroke: true,
+    return this.locationsService
+      .getFishingPointsFeatures(this.projectCode, filter)
+      .pipe(
+        tap(fishingPointFeatures => {
+          fishingPointFeatures.forEach(fpf => {
+            const latlng = latLng(fpf.lat, fpf.lng);
+            const circleMark = circleMarker(latlng, {
+              fill: true,
+              fillColor: '#DC2626',
+              fillOpacity: 100,
+              radius: 7,
+              stroke: false,
             });
+            circleMark.on('click', (event: LeafletMouseEvent) => {
+              this.clickedLatlng = event.latlng;
+              const layer = event.target;
+              this.clearLocationsSelectedStyle();
 
-            const filteredProperties = {
-              CODE: fpf.code,
-              DESCRIPTION: fpf.description,
-              X: fpf.x,
-              Y: fpf.y,
-              lat: fpf.lat,
-              lng: fpf.lng
-            };
-            this.selected.set(4, filteredProperties);
+              layer.setStyle({
+                stroke: true,
+              });
+
+              const filteredProperties = {
+                CODE: fpf.code,
+                DESCRIPTION: fpf.description,
+                X: fpf.x,
+                Y: fpf.y,
+                lat: fpf.lat,
+                lng: fpf.lng,
+              };
+              this.selected.set(4, filteredProperties);
+            });
+            this.locationsLayer.addLayer(circleMark);
+
           });
-          this.locationsLayer.addLayer(m);
-
-        });
-        this.layerMetadata.set(4, {name: 'Vispunt'});
-      })
-    );
+          this.layerMetadata.set(4, {name: 'Vispunt'});
+        }),
+        mapTo(undefined),
+      );
   }
 
   private clearLocationsSelectedStyle() {
@@ -276,7 +301,10 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
   zoomTo(latlng: LatLng) {
     this.map.setView(latlng, 15);
+    console.log(this.locationsLayer.getLayers());
+    console.log(latlng);
     this.locationsLayer.getLayers().forEach((value: CircleMarker) => {
+      console.log('highlighting the dot');
       if (value.getLatLng().equals(latlng)) {
         this.clearLocationsSelectedStyle();
         value.setStyle({stroke: true});
