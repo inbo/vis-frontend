@@ -45,6 +45,7 @@ export class SearchableSelectComponent implements OnInit, OnDestroy, AfterViewIn
   @Input() passedId: string;
   @Input() formControlName: string;
   @Input() options: SearchableSelectOption[];
+  @Input() placeholder: string;
   @Input() configuration?: SearchableSelectConfig = new SearchableSelectConfigBuilder().build();
 
   @Output() search: EventEmitter<any> = new EventEmitter();

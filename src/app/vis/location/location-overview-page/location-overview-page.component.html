@@ -1,304 +1,323 @@
 <app-stacked-layout [navigationLinks]="links">
-  <div slot="content">
-    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
+    <div slot="content">
+        <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
 
-    <app-fishing-points-map [filter]="filterForm.getRawValue()" heightClass="h-[35vh]"></app-fishing-points-map>
+        <app-fishing-points-map [filter]="filterForm.getRawValue()" heightClass="h-[35vh]"></app-fishing-points-map>
 
-    <main>
-      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-96">
-        <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
-          <div class="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-              Locatie overzicht
-            </h3>
-            <div class="mt-3 flex sm:mt-0 sm:ml-4">
-              <app-button (click)="toggleExportMode()" [style]="'secondary'" class="mr-2">
-                {{exportMode ? 'Annuleer export' : 'Exporteren'}}
-              </app-button>
+        <main>
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-96">
+                <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
+                    <div class="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                            Locatie overzicht
+                        </h3>
+                        <div class="mt-3 flex sm:mt-0 sm:ml-4">
+                            <app-button (click)="toggleExportMode()" [style]="'secondary'" class="mr-2">
+                                {{exportMode ? 'Annuleer export' : 'Exporteren'}}
+                            </app-button>
 
-              <app-button [role]="role.CreateFishingPoint" [routerLink]="['/locaties/create']" [style]="'primary'">
-                Nieuwe locatie
-              </app-button>
-            </div>
-          </div>
+                            <app-button [role]="role.CreateFishingPoint" [routerLink]="['/locaties/create']"
+                                        [style]="'primary'">
+                                Nieuwe locatie
+                            </app-button>
+                        </div>
+                    </div>
 
-        </div>
-
-        <app-slide-over-filter (resetClicked)="reset()" (searchClicked)="filter()" [formGroup]="filterForm"
-                               [tags]="tags">
-          <ng-container slot="content">
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700" for="fishingPointCodeFree">
-                  Meetplaatscode vrije filter
-                </label>
-                <div class="mt-1">
-                  <input formControlName="fishingPointCodeFree" id="fishingPointCodeFree"
-                         placeholder="Meetplaatscode ..." type="text"/>
                 </div>
-                <p class="mt-2 text-sm text-gray-500" id="code-description">Dit is een vrij tekstveld. Je kan hier %
-                  gebruiken om aan te vullen, zowel voor als na de tekst.
-                  <br>Bv: ABC% gaat alle meetplaatscodes beginnend met ABC zoeken.</p>
-              </div>
 
-              <div class="relative sm:col-span-4">
-                <label for="fishingPointCode" class="block text-sm font-medium text-gray-700">
-                  Meetplaatscode
-                </label>
-                <div class="mt-1">
-                  <app-searchable-select id="fishingPointCode" passedId="fishingPointCode"
-                                         placeholder="Selecteer een meetplaatscode"
-                                         tabIndex="-1" formControlName="fishingPointCode"
-                                         (search)="getFishingPointCodes($event)"
-                                         [options]="fishingPointCodes"
-                                         [configuration]="fishingPointSearchableSelectConfig">
-                    <ng-template let-rowDetail #selected>
-                      {{rowDetail?.option?.name}}
-                    </ng-template>
+                <app-slide-over-filter (resetClicked)="reset()"
+                                       (searchClicked)="filter()"
+                                       [formGroup]="filterForm"
+                                       [tags]="tags">
+                    <ng-container slot="content">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700" for="fishingPointCodeFree">
+                                    Meetplaatscode vrije filter
+                                </label>
+                                <div class="mt-1">
+                                    <input formControlName="fishingPointCodeFree"
+                                           id="fishingPointCodeFree"
+                                           placeholder="Meetplaatscode ..."
+                                           type="text"/>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-500" id="code-description">Dit is een vrij tekstveld.
+                                    Je kan hier % gebruiken om aan te vullen, zowel voor als na de tekst.
+                                    Je kan ook een lijst van specifieke meetplaatscodes invullen, gescheiden door een
+                                    komma.
+                                    <br>Bv: ABC% gaat alle meetplaatscodes beginnend met ABC zoeken.
+                                    <br>Bv: GEMF1,GEMF2,GEMF3 gaat specifiek deze locaties teruggeven.
+                                </p>
+                            </div>
 
-                    <ng-template let-rowDetail #listItem>
-                      {{rowDetail?.option?.name}}
-                    </ng-template>
-                  </app-searchable-select>
-                </div>
-              </div>
+                            <div class="relative sm:col-span-4">
+                                <label for="fishingPointCode" class="block text-sm font-medium text-gray-700">
+                                    Meetplaatscode
+                                </label>
+                                <div class="mt-1">
+                                    <app-searchable-select id="fishingPointCode"
+                                                           passedId="fishingPointCode"
+                                                           placeholder="Selecteer een meetplaatscode"
+                                                           tabIndex="-1" formControlName="fishingPointCode"
+                                                           (search)="getFishingPointCodes($event)"
+                                                           [options]="fishingPointCodes"
+                                                           [configuration]="fishingPointSearchableSelectConfig">
+                                        <ng-template let-rowDetail #selected>
+                                            {{rowDetail?.option?.name}}
+                                        </ng-template>
 
-              <div>
-                <label class="block text-sm font-medium text-gray-700" for="description">
-                  Beschrijving
-                </label>
-                <div class="mt-1">
-                  <input formControlName="description" id="description" placeholder="Beschrijving ..." type="text"/>
-                </div>
-              </div>
+                                        <ng-template let-rowDetail #listItem>
+                                            {{rowDetail?.option?.name}}
+                                        </ng-template>
+                                    </app-searchable-select>
+                                </div>
+                            </div>
 
-              <div class="relative sm:col-span-4">
-                <label class="block text-sm font-medium text-gray-700" for="watercourse">
-                  Waterloop
-                </label>
-                <div class="mt-1">
-                  <app-searchable-select (search)="getWatercourses($event)" [options]="watercourses"
-                                         formControlName="watercourse"
-                                         id="watercourse" passedId="watercourse"
-                                         placeholder="Selecteer een waterloop"
-                                         tabIndex="-1">
-                    <ng-template #selected let-rowDetail>
-                      {{rowDetail?.option?.name}}
-                    </ng-template>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700" for="description">
+                                    Beschrijving
+                                </label>
+                                <div class="mt-1">
+                                    <input formControlName="description" id="description" placeholder="Beschrijving ..."
+                                           type="text"/>
+                                </div>
+                            </div>
 
-                    <ng-template #listItem let-rowDetail>
-                      {{rowDetail?.option?.name}}
-                    </ng-template>
-                  </app-searchable-select>
-                </div>
-              </div>
+                            <div class="relative sm:col-span-4">
+                                <label class="block text-sm font-medium text-gray-700" for="watercourse">
+                                    Waterloop
+                                </label>
+                                <div class="mt-1">
+                                    <app-searchable-select (search)="getWatercourses($event)" [options]="watercourses"
+                                                           formControlName="watercourse"
+                                                           id="watercourse" passedId="watercourse"
+                                                           placeholder="Selecteer een waterloop"
+                                                           tabIndex="-1">
+                                        <ng-template #selected let-rowDetail>
+                                            {{rowDetail?.option?.name}}
+                                        </ng-template>
 
-              <div class="relative sm:col-span-4">
-                <label for="lenticWaterbody" class="block text-sm font-medium text-gray-700">
-                  Watervlak
-                </label>
-                <div class="mt-1">
-                  <app-searchable-select id="lenticWaterbody" passedId="lenticWaterbody"
-                                         placeholder="Selecteer een watervlak"
-                                         tabIndex="-1" formControlName="lenticWaterbody"
-                                         (search)="getLenticWaterbodies($event)"
-                                         [options]="lenticWaterbodies">
-                    <ng-template let-rowDetail #selected>
-                      {{rowDetail?.option?.name}}
-                    </ng-template>
+                                        <ng-template #listItem let-rowDetail>
+                                            {{rowDetail?.option?.name}}
+                                        </ng-template>
+                                    </app-searchable-select>
+                                </div>
+                            </div>
 
-                    <ng-template let-rowDetail #listItem>
-                      {{rowDetail?.option?.name}}
-                    </ng-template>
-                  </app-searchable-select>
-                </div>
-              </div>
+                            <div class="relative sm:col-span-4">
+                                <label for="lenticWaterbody" class="block text-sm font-medium text-gray-700">
+                                    Watervlak
+                                </label>
+                                <div class="mt-1">
+                                    <app-searchable-select id="lenticWaterbody" passedId="lenticWaterbody"
+                                                           placeholder="Selecteer een watervlak"
+                                                           tabIndex="-1" formControlName="lenticWaterbody"
+                                                           (search)="getLenticWaterbodies($event)"
+                                                           [options]="lenticWaterbodies">
+                                        <ng-template let-rowDetail #selected>
+                                            {{rowDetail?.option?.name}}
+                                        </ng-template>
 
-              <div class="relative sm:col-span-4">
-                <label for="basin" class="block text-sm font-medium text-gray-700">
-                  Bekken
-                </label>
-                <div class="mt-1">
-                  <app-searchable-select id="basin" passedId="basin" placeholder="Selecteer een bekken"
-                                         tabIndex="-1" formControlName="basin"
-                                         (search)="getBasins($event)"
-                                         [options]="basins">
-                    <ng-template let-rowDetail #selected>
-                      {{rowDetail?.option?.name}}
-                    </ng-template>
+                                        <ng-template let-rowDetail #listItem>
+                                            {{rowDetail?.option?.name}}
+                                        </ng-template>
+                                    </app-searchable-select>
+                                </div>
+                            </div>
 
-                    <ng-template let-rowDetail #listItem>
-                      {{rowDetail?.option?.name}}
-                    </ng-template>
-                  </app-searchable-select>
-                </div>
-              </div>
+                            <div class="relative sm:col-span-4">
+                                <label for="basin" class="block text-sm font-medium text-gray-700">
+                                    Bekken
+                                </label>
+                                <div class="mt-1">
+                                    <app-searchable-select id="basin" passedId="basin"
+                                                           placeholder="Selecteer een bekken"
+                                                           tabIndex="-1" formControlName="basin"
+                                                           (search)="getBasins($event)"
+                                                           [options]="basins">
+                                        <ng-template let-rowDetail #selected>
+                                            {{rowDetail?.option?.name}}
+                                        </ng-template>
 
-              <div class="relative sm:col-span-4">
-                <label for="province" class="block text-sm font-medium text-gray-700">
-                  Provincie
-                </label>
-                <div class="mt-1">
-                  <app-searchable-select id="province" passedId="province" placeholder="Selecteer een provincie"
-                                         tabIndex="-1" formControlName="province"
-                                         (search)="getProvinces($event)"
-                                         [options]="provinces">
-                    <ng-template let-rowDetail #selected>
-                      {{rowDetail?.option?.name}}
-                    </ng-template>
+                                        <ng-template let-rowDetail #listItem>
+                                            {{rowDetail?.option?.name}}
+                                        </ng-template>
+                                    </app-searchable-select>
+                                </div>
+                            </div>
 
-                    <ng-template let-rowDetail #listItem>
-                      {{rowDetail?.option?.name}}
-                    </ng-template>
-                  </app-searchable-select>
-                </div>
-              </div>
+                            <div class="relative sm:col-span-4">
+                                <label for="province" class="block text-sm font-medium text-gray-700">
+                                    Provincie
+                                </label>
+                                <div class="mt-1">
+                                    <app-searchable-select id="province" passedId="province"
+                                                           placeholder="Selecteer een provincie"
+                                                           tabIndex="-1" formControlName="province"
+                                                           (search)="getProvinces($event)"
+                                                           [options]="provinces">
+                                        <ng-template let-rowDetail #selected>
+                                            {{rowDetail?.option?.name}}
+                                        </ng-template>
 
-              <div class="relative sm:col-span-4">
-                <label for="municipality" class="block text-sm font-medium text-gray-700">
-                  Gemeente
-                </label>
-                <div class="mt-1">
-                  <app-searchable-select id="municipality" passedId="municipality" placeholder="Selecteer een gemeente"
-                                         tabIndex="-1" formControlName="municipality"
-                                         (search)="getMunicipalities($event)"
-                                         [options]="municipalities">
-                    <ng-template let-rowDetail #selected>
-                      {{rowDetail?.option?.name}}
-                    </ng-template>
+                                        <ng-template let-rowDetail #listItem>
+                                            {{rowDetail?.option?.name}}
+                                        </ng-template>
+                                    </app-searchable-select>
+                                </div>
+                            </div>
 
-                    <ng-template let-rowDetail #listItem>
-                      {{rowDetail?.option?.name}}
-                    </ng-template>
-                  </app-searchable-select>
-                </div>
-              </div>
-            </div>
-          </ng-container>
-        </app-slide-over-filter>
+                            <div class="relative sm:col-span-4">
+                                <label for="municipality" class="block text-sm font-medium text-gray-700">
+                                    Gemeente
+                                </label>
+                                <div class="mt-1">
+                                    <app-searchable-select id="municipality" passedId="municipality"
+                                                           placeholder="Selecteer een gemeente"
+                                                           tabIndex="-1" formControlName="municipality"
+                                                           (search)="getMunicipalities($event)"
+                                                           [options]="municipalities">
+                                        <ng-template let-rowDetail #selected>
+                                            {{rowDetail?.option?.name}}
+                                        </ng-template>
+
+                                        <ng-template let-rowDetail #listItem>
+                                            {{rowDetail?.option?.name}}
+                                        </ng-template>
+                                    </app-searchable-select>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </app-slide-over-filter>
 
 
-        <div *ngIf="exportMode" class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200 mt-8">
-          <div class="px-4 py-5 sm:px-6">
-            Te exporteren locaties
-          </div>
-          <div class="px-4 py-5 sm:p-6">
-            <p *ngIf="locationCodesToExport.length === 0" class="mt-2 text-sm text-gray-500">Selecteer in onderstaande
-              tabel locaties om te exporteren.</p>
-            <div *ngIf="locationCodesToExport.length > 0" class="mt-2 text-sm text-gray-500">
-              <label for="filename" class="block text-sm font-medium text-gray-700">
-                Bestandsnaam
-              </label>
-              <div class="mt-1">
-                <input #filename type="text" name="filename" id="filename">
-              </div>
-            </div>
-            <div *ngIf="locationCodesToExport.length > 0" class="mt-2">
-              <label for="filename" class="block text-sm font-medium text-gray-700">
-                Meetplaatscodes
-              </label>
-              <div class="mt-1 space-x-2 space-y-2 mt-2">
+                <div *ngIf="exportMode"
+                     class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200 mt-8">
+                    <div class="px-4 py-5 sm:px-6">
+                        Te exporteren locaties
+                    </div>
+                    <div class="px-4 py-5 sm:p-6">
+                        <p *ngIf="locationCodesToExport.length === 0" class="mt-2 text-sm text-gray-500">Selecteer in
+                            onderstaande
+                            tabel locaties om te exporteren.</p>
+                        <div *ngIf="locationCodesToExport.length > 0" class="mt-2 text-sm text-gray-500">
+                            <label for="filename" class="block text-sm font-medium text-gray-700">
+                                Bestandsnaam
+                            </label>
+                            <div class="mt-1">
+                                <input #filename type="text" name="filename" id="filename">
+                            </div>
+                        </div>
+                        <div *ngIf="locationCodesToExport.length > 0" class="mt-2">
+                            <label for="filename" class="block text-sm font-medium text-gray-700">
+                                Meetplaatscodes
+                            </label>
+                            <div class="mt-1 space-x-2 space-y-2 mt-2">
                 <span *ngFor="let locationCode of locationCodesToExport"
                       class="inline-flex rounded-full items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-pink-100 text-pink-700">
                   {{locationCode}}
-                  <button (click)="removeLocationCodeToExport(locationCode)"
-                          class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-pink-400 hover:bg-pink-200 hover:text-pink-500 focus:outline-none focus:bg-pink-500 focus:text-white"
-                          type="button">
+                    <button (click)="removeLocationCodeToExport(locationCode)"
+                            class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-pink-400 hover:bg-pink-200 hover:text-pink-500 focus:outline-none focus:bg-pink-500 focus:text-white"
+                            type="button">
                     <span class="sr-only">Verwijdere meetplaatscode</span>
                     <svg class="h-2 w-2" fill="none" stroke="currentColor" viewBox="0 0 8 8">
                       <path d="M1 1l6 6m0-6L1 7" stroke-linecap="round" stroke-width="1.5"/>
                     </svg>
                   </button>
                 </span>
-              </div>
+                            </div>
 
-            </div>
-          </div>
-          <div class="px-4 py-4 sm:px-6 text-right">
-            <app-button (click)="export()" [style]="'primary'" class="ml-2">
-              Exporteer
-            </app-button>
-          </div>
-        </div>
+                        </div>
+                    </div>
+                    <div class="px-4 py-4 sm:px-6 text-right">
+                        <app-button (click)="export()" [style]="'primary'" class="ml-2">
+                            Exporteer
+                        </app-button>
+                    </div>
+                </div>
 
-        <div class="px-4 py-8 sm:px-0">
-          <app-table [pager]="pager">
-            <thead>
-            <tr>
-              <th appHeader scope="col">
-                <input #checkboxAll *ngIf="exportMode" (change)="toggleAllToExport()"
-                       [checked]="isAllMarkedForExport() ? 'checked' : null" class="mr-1" type="checkbox"/>
-                code
-                <app-table-sort sortField="code"></app-table-sort>
-              </th>
-              <th appHeader scope="col">
-                Beschrijving
-                <app-table-sort sortField="description"></app-table-sort>
-              </th>
-              <th appHeader scope="col">
-                Waterloop / watervlak
-                <app-table-sort sortField="vha.waterbody.watercourse" title="Sorteren op waterloop"></app-table-sort>
-                <app-table-sort class="ml-0.5" sortField="vha.lenticWaterbody.name"
-                                title="Sorteren op watervlak"></app-table-sort>
-              </th>
-              <th appHeader scope="col">
-                Bekken
-                <app-table-sort sortField="vha.waterbody.basin.name"></app-table-sort>
-              </th>
-              <th appHeader scope="col">
-                Provincie
-                <app-table-sort sortField="vha.province"></app-table-sort>
-              </th>
-              <th appHeader scope="col">
-                Gemeente
-                <app-table-sort sortField="vha.municipality"></app-table-sort>
-              </th>
-              <th appHeader scope="col">
-                <span class="sr-only">Edit</span>
-              </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td *ngIf="loading" appCell colspan="8">
-                <app-loading-spinner></app-loading-spinner>
-              </td>
-            </tr>
+                <div class="px-4 py-8 sm:px-0">
+                    <app-table [pager]="pager">
+                        <thead>
+                        <tr>
+                            <th appHeader scope="col">
+                                <input #checkboxAll *ngIf="exportMode" (change)="toggleAllToExport()"
+                                       [checked]="isAllMarkedForExport() ? 'checked' : null" class="mr-1"
+                                       type="checkbox"/>
+                                code
+                                <app-table-sort sortField="code"></app-table-sort>
+                            </th>
+                            <th appHeader scope="col">
+                                Beschrijving
+                                <app-table-sort sortField="description"></app-table-sort>
+                            </th>
+                            <th appHeader scope="col">
+                                Waterloop / watervlak
+                                <app-table-sort sortField="vha.waterbody.watercourse"
+                                                title="Sorteren op waterloop"></app-table-sort>
+                                <app-table-sort class="ml-0.5" sortField="vha.lenticWaterbody.name"
+                                                title="Sorteren op watervlak"></app-table-sort>
+                            </th>
+                            <th appHeader scope="col">
+                                Bekken
+                                <app-table-sort sortField="vha.waterbody.basin.name"></app-table-sort>
+                            </th>
+                            <th appHeader scope="col">
+                                Provincie
+                                <app-table-sort sortField="vha.province"></app-table-sort>
+                            </th>
+                            <th appHeader scope="col">
+                                Gemeente
+                                <app-table-sort sortField="vha.municipality"></app-table-sort>
+                            </th>
+                            <th appHeader scope="col">
+                                <span class="sr-only">Edit</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td *ngIf="loading" appCell colspan="8">
+                                <app-loading-spinner></app-loading-spinner>
+                            </td>
+                        </tr>
 
-            <tr *ngFor="let fishingPoint of fishingPoints$ | async; let index = index"
-                [class.bg-pink-100]="highlightedLocation === fishingPoint.id"
-                [rownumber]="index" appRow>
-              <td appCell>
-                <input #checkbox *ngIf="exportMode" (change)="toggleToExport(fishingPoint)"
-                       [checked]="isMarkedForExport(fishingPoint) ? 'checked' : null" class="mr-2" type="checkbox"/>
-                <a [routerLink]="['/locaties', fishingPoint.code]"
-                   class="text-pink-600 hover:text-pink-900">{{fishingPoint.code}}</a>
-              </td>
-              <td appCell>
-                {{fishingPoint.description}}
-              </td>
-              <td appCell>
-                {{fishingPoint.isLentic ? fishingPoint.lenticName : fishingPoint.watercourse}}
-              </td>
-              <td appCell>
-                {{fishingPoint.basinName}}
-              </td>
-              <td appCell>
-                {{fishingPoint.province}}
-              </td>
-              <td appCell>
-                {{fishingPoint.municipality}}
-              </td>
-              <td actions="true" appCell class="font-medium">
+                        <tr *ngFor="let fishingPoint of fishingPoints; let index = index"
+                            [class.bg-pink-100]="highlightedLocation === fishingPoint.id"
+                            [rownumber]="index" appRow>
+                            <td appCell>
+                                <input #checkbox *ngIf="exportMode" (change)="toggleToExport(fishingPoint)"
+                                       [checked]="isMarkedForExport(fishingPoint) ? 'checked' : null" class="mr-2"
+                                       type="checkbox"/>
+                                <a [routerLink]="['/locaties', fishingPoint.code]"
+                                   class="text-pink-600 hover:text-pink-900">{{fishingPoint.code}}</a>
+                            </td>
+                            <td appCell>
+                                {{fishingPoint.description}}
+                            </td>
+                            <td appCell>
+                                {{fishingPoint.isLentic ? fishingPoint.lenticName : fishingPoint.watercourse}}
+                            </td>
+                            <td appCell>
+                                {{fishingPoint.basinName}}
+                            </td>
+                            <td appCell>
+                                {{fishingPoint.province}}
+                            </td>
+                            <td appCell>
+                                {{fishingPoint.municipality}}
+                            </td>
+                            <td actions="true" appCell class="font-medium">
                         <span (click)="zoomToLocation(fishingPoint)"
                               class="cursor-pointer text-pink-600 hover:text-pink-900">Zoom</span>
-              </td>
-            </tr>
-            </tbody>
-          </app-table>
-        </div>
-      </div>
-    </main>
-  </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </app-table>
+                </div>
+            </div>
+        </main>
+    </div>
 
 </app-stacked-layout>
