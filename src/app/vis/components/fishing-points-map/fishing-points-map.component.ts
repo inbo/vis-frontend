@@ -5,7 +5,6 @@ import * as L from 'leaflet';
 import {
     circleMarker,
     CircleMarker,
-    DragEndEvent,
     featureGroup,
     LatLng,
     latLng,
@@ -20,11 +19,8 @@ import {
 import 'leaflet-defaulticon-compatibility';
 import * as esri_geo from 'esri-leaflet-geocoder';
 import 'leaflet.locatecontrol';
-import 'esri-leaflet-vector';
-import {
-    LeafletControlLayersConfig,
-} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
-import {basemapLayer, dynamicMapLayer, DynamicMapLayer, featureLayer} from 'esri-leaflet';
+import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
+import {dynamicMapLayer, DynamicMapLayer, featureLayer} from 'esri-leaflet';
 import * as geojson from 'geojson';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {mapTo, switchMap, take, tap} from 'rxjs/operators';
@@ -163,7 +159,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
             maxZoom: 19,
             attribution: '© OpenStreetMap',
         });
-
 
         this.layers = [
             basemapLayer1,
@@ -362,7 +357,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
         const that = this;
 
-        m.on('dragend', (event: DragEndEvent) => {
+        m.on('dragend', () => {
             that.pointAdded.emit(m.getLatLng());
         });
         this.newLocationLayerGroup.clearLayers();
@@ -374,7 +369,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
     public queryNearbyWatercourses() {
         const coordinate = (this.newLocationLayerGroup.getLayers()[0] as Marker).getLatLng();
-        this.watercourseLayer.query().layer(0).nearby(coordinate, 5).run((error, featureCollection, response) => {
+        this.watercourseLayer.query().layer(0).nearby(coordinate, 5).run((error, featureCollection) => {
             this.nearbyWatercoursesFound.emit(featureCollection);
         });
     }

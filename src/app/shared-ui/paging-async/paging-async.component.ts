@@ -2,14 +2,12 @@ import {Component, Input} from '@angular/core';
 import {AsyncPage} from './asyncPage';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 
-/**
- *
- */
 @Component({
   selector: 'app-paging-async',
   templateUrl: './paging-async.component.html'
 })
 export class PagingAsyncComponent {
+
   @Input() pager: AsyncPage<any>;
   @Input() pageProperty = 'page';
   @Input() sizeProperty = 'size';

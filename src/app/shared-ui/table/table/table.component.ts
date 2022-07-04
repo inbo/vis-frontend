@@ -1,17 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Pager} from '../../paging/pager';
+import {Component, Input} from '@angular/core';
+import {AsyncPage} from '../../paging-async/asyncPage';
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html'
+    selector: 'app-table',
+    templateUrl: './table.component.html',
 })
-export class TableComponent implements OnInit {
-  @Input()
-  pager: Pager;
+export class TableComponent<T> {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+    @Input() pager: AsyncPage<T>;
 
 }
