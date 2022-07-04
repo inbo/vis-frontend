@@ -39,10 +39,6 @@ export class LocationsService extends VisService {
     }
 
     getFishingPoints(page: number, size: number, filter: any): Observable<AsyncPage<FishingPoint>> {
-        if (filter.fishingPointCodeFree?.includes(',')) {
-            filter.fishingPointCodes = filter.fishingPointCodeFree.replace(' ', '');
-            filter.fishingPointCodeFree = undefined;
-        }
         const params = this.getPageParams(page, size, filter);
 
         return this.http.get<AsyncPage<FishingPoint>>(`${environment.apiUrl}/api/fishingpoints`, {params});
