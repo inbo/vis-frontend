@@ -212,6 +212,6 @@ export class MethodEditComponent implements OnInit, OnDestroy {
   }
 
   isParameterUsedInCalculation(key: string) {
-    return this.calculation.value.includes(key);
+    return this.calculation?.value?.includes(key);
   }
 }

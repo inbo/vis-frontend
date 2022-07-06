@@ -23,6 +23,7 @@ import {
 @Component({
     selector: 'app-location-overview-page',
     templateUrl: './location-overview-page.component.html',
+    styleUrls: ['./location-overview-page.component.scss']
 })
 export class LocationOverviewPageComponent implements OnInit, OnDestroy {
 
@@ -305,6 +306,9 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
 
     toggleExportMode() {
         this.exportMode = !this.exportMode;
+        if (!this.exportMode) {
+            this.locationCodesToExport = [];
+        }
     }
 
     toggleAllToExport() {
@@ -324,5 +328,9 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
         let result = false;
         this.checkboxes.forEach(item => result = result || item.nativeElement.checked);
         return result;
+    }
+
+    resetExport() {
+        this.locationCodesToExport = [];
     }
 }

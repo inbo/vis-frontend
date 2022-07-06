@@ -238,6 +238,9 @@
                         </div>
                     </div>
                     <div class="px-4 py-4 sm:px-6 text-right">
+                        <app-button (click)="resetExport()" [style]="'secondary'" class="ml-2">
+                            Reset
+                        </app-button>
                         <app-button (click)="export()" [style]="'primary'" class="ml-2">
                             Exporteer
                         </app-button>
@@ -248,37 +251,39 @@
                     <app-table [pager]="pager">
                         <thead>
                         <tr>
-                            <th appHeader scope="col">
+                            <th class="table-header-cell" scope="col" *ngIf="exportMode">
                                 <input #checkboxAll *ngIf="exportMode" (change)="toggleAllToExport()"
                                        [checked]="isAllMarkedForExport() ? 'checked' : null" class="mr-1"
                                        type="checkbox"/>
+                            </th>
+                            <th class="table-header-cell" scope="col">
                                 code
                                 <app-table-sort sortField="code"></app-table-sort>
                             </th>
-                            <th appHeader scope="col">
+                            <th class="table-header-cell" scope="col">
                                 Beschrijving
                                 <app-table-sort sortField="description"></app-table-sort>
                             </th>
-                            <th appHeader scope="col">
+                            <th class="table-header-cell" scope="col">
                                 Waterloop / watervlak
                                 <app-table-sort sortField="vha.waterbody.watercourse"
                                                 title="Sorteren op waterloop"></app-table-sort>
                                 <app-table-sort class="ml-0.5" sortField="vha.lenticWaterbody.name"
                                                 title="Sorteren op watervlak"></app-table-sort>
                             </th>
-                            <th appHeader scope="col">
+                            <th class="table-header-cell" scope="col">
                                 Bekken
                                 <app-table-sort sortField="vha.waterbody.basin.name"></app-table-sort>
                             </th>
-                            <th appHeader scope="col">
+                            <th class="table-header-cell" scope="col">
                                 Provincie
                                 <app-table-sort sortField="vha.province"></app-table-sort>
                             </th>
-                            <th appHeader scope="col">
+                            <th class="table-header-cell" scope="col">
                                 Gemeente
                                 <app-table-sort sortField="vha.municipality"></app-table-sort>
                             </th>
-                            <th appHeader scope="col">
+                            <th class="table-header-cell" scope="col">
                                 <span class="sr-only">Edit</span>
                             </th>
                         </tr>
@@ -293,10 +298,12 @@
                         <tr *ngFor="let fishingPoint of fishingPoints; let index = index"
                             [class.bg-pink-100]="highlightedLocation === fishingPoint.id"
                             [rownumber]="index" appRow>
-                            <td appCell>
+                            <td appCell *ngIf="exportMode">
                                 <input #checkbox *ngIf="exportMode" (change)="toggleToExport(fishingPoint)"
                                        [checked]="isMarkedForExport(fishingPoint) ? 'checked' : null" class="mr-2"
                                        type="checkbox"/>
+                            </td>
+                            <td appCell>
                                 <a [routerLink]="['/locaties', fishingPoint.code]"
                                    class="text-pink-600 hover:text-pink-900">{{fishingPoint.code}}</a>
                             </td>

@@ -11,7 +11,7 @@ import {ProjectService} from '../../../services/vis.project.service';
 })
 export class ProjectFishSpeciesPageComponent implements OnInit {
 
-  taxon: Observable<Taxon[]>;
+   taxon: Observable<Taxon[]>;
 
   projectCode: string;
 

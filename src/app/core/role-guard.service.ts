@@ -13,8 +13,6 @@ export class RoleGuard implements CanActivate {
 
     for (const neededRole of roles) {
       if (this.authService.clientRoles.indexOf(neededRole) >= 0) {
-        console.log(neededRole);
-        console.log(this.authService.clientRoles);
         return true;
       }
     }

@@ -36,16 +36,16 @@
             <app-table>
               <thead class="bg-gray-50">
                 <tr>
-                  <th appHeader scope="col">
+                  <th class="table-header-cell" scope="col">
                     Titel / aangemaakt op
                   </th>
-                  <th appHeader scope="col">
+                  <th class="table-header-cell" scope="col">
                     Bewerkt door
                   </th>
-                  <th appHeader scope="col">
+                  <th class="table-header-cell" scope="col">
                     Drive
                   </th>
-                  <th appHeader scope="col">
+                  <th class="table-header-cell" scope="col">
                     <span class="sr-only">Edit</span>
                   </th>
                 </tr>
@@ -57,33 +57,33 @@
                   </td>
                 </tr>
 
-                <tr *ngFor="let import of imports; let index = index" [rownumber]="index" appRow>
+                <tr *ngFor="let importItem of imports; let index = index" [rownumber]="index" appRow>
                   <td appCell>
-                    <div class="text-sm text-gray-900">{{import.filename}}</div>
-                    <div class="text-sm text-gray-500">{{import.createdTime | date: 'dd/MM/yyyy'}}</div>
+                    <div class="text-sm text-gray-900">{{importItem.filename}}</div>
+                    <div class="text-sm text-gray-500">{{importItem.createdTime | date: 'dd/MM/yyyy'}}</div>
                   </td>
 
                   <td appCell>
                     <div class="flex items-center">
                       <div class="flex-shrink-0 h-10 w-10">
-                        <img [src]="import.photoLink" alt="" class="h-10 w-10 rounded-full">
+                        <img [src]="importItem.photoLink" alt="" class="h-10 w-10 rounded-full">
                       </div>
                       <div class="ml-4">
                         <div class="text-sm font-medium text-gray-900">
-                          {{import.displayName}}
+                          {{importItem.displayName}}
                         </div>
                         <div class="text-sm text-gray-500">
-                          {{import.modifiedTime | date: 'dd/MM/yyyy'}}
+                          {{importItem.modifiedTime | date: 'dd/MM/yyyy'}}
                         </div>
                       </div>
                     </div>
                   </td>
 
                   <td appCell>
-                    <a [href]="import.webViewLink" class="text-pink-600 hover:text-pink-900" target="_blank">Open</a>
+                    <a [href]="importItem.webViewLink" class="text-pink-600 hover:text-pink-900" target="_blank">Open</a>
                   </td>
                   <td [actions]="true" appCell>
-                    <a [routerLink]="['/importeren', import.id]" class="text-pink-600 hover:text-pink-900">Detail</a>
+                    <a [routerLink]="['/importeren', importItem.id]" class="text-pink-600 hover:text-pink-900">Detail</a>
                   </td>
                 </tr>
 
