@@ -23,7 +23,7 @@ import {
 @Component({
     selector: 'app-location-overview-page',
     templateUrl: './location-overview-page.component.html',
-    styleUrls: ['./location-overview-page.component.scss']
+    styleUrls: ['./location-overview-page.component.scss'],
 })
 export class LocationOverviewPageComponent implements OnInit, OnDestroy {
 
@@ -60,8 +60,11 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     fishingPointCodes: SearchableSelectOption[] = [];
     fishingPointSearchableSelectConfig: SearchableSelectConfig;
 
-    constructor(private titleService: Title, private locationsService: LocationsService, private activatedRoute: ActivatedRoute,
-                private router: Router, private formBuilder: FormBuilder) {
+    constructor(private titleService: Title,
+                private locationsService: LocationsService,
+                private activatedRoute: ActivatedRoute,
+                private router: Router,
+                private formBuilder: FormBuilder) {
         this.titleService.setTitle('Locaties');
 
         this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
@@ -279,7 +282,8 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     export() {
-        this.locationsService.exportLocations(this.locationCodesToExport, this.filenameInput.nativeElement.value)
+        this.locationsService
+            .exportLocations(this.locationCodesToExport, this.filenameInput.nativeElement.value)
             .pipe(take(1))
             .subscribe(res => {
                 this.locationsService.downloadFile(res);
@@ -332,5 +336,14 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
 
     resetExport() {
         this.locationCodesToExport = [];
+    }
+
+    selectAllFilteredLocations() {
+        this.locationsService
+            .getFishingPointCodes(this.filterForm.getRawValue())
+            .pipe(take(1))
+            .subscribe(
+                codes => this.locationCodesToExport = codes || []
+            )
     }
 }
