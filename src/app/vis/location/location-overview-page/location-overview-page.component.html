@@ -60,6 +60,7 @@
                                                            placeholder="Selecteer een meetplaatscode"
                                                            tabIndex="-1" formControlName="fishingPointCode"
                                                            (search)="getFishingPointCodes($event)"
+                                                           (reset)="fishingPointCodes = []"
                                                            [options]="fishingPointCodes"
                                                            [configuration]="fishingPointSearchableSelectConfig">
                                         <ng-template let-rowDetail #selected>
@@ -88,7 +89,9 @@
                                     Waterloop
                                 </label>
                                 <div class="mt-1">
-                                    <app-searchable-select (search)="getWatercourses($event)" [options]="watercourses"
+                                    <app-searchable-select (search)="getWatercourses($event)"
+                                                           [options]="watercourses"
+                                                           (reset)="watercourses = []"
                                                            formControlName="watercourse"
                                                            id="watercourse" passedId="watercourse"
                                                            placeholder="Selecteer een waterloop"
@@ -113,7 +116,8 @@
                                                            placeholder="Selecteer een watervlak"
                                                            tabIndex="-1" formControlName="lenticWaterbody"
                                                            (search)="getLenticWaterbodies($event)"
-                                                           [options]="lenticWaterbodies">
+                                                           [options]="lenticWaterbodies"
+                                                           (reset)="lenticWaterbodies = []">
                                         <ng-template let-rowDetail #selected>
                                             {{rowDetail?.option?.name}}
                                         </ng-template>
@@ -134,7 +138,8 @@
                                                            placeholder="Selecteer een bekken"
                                                            tabIndex="-1" formControlName="basin"
                                                            (search)="getBasins($event)"
-                                                           [options]="basins">
+                                                           [options]="basins"
+                                                           (reset)="basins = []">
                                         <ng-template let-rowDetail #selected>
                                             {{rowDetail?.option?.name}}
                                         </ng-template>
@@ -155,7 +160,8 @@
                                                            placeholder="Selecteer een provincie"
                                                            tabIndex="-1" formControlName="province"
                                                            (search)="getProvinces($event)"
-                                                           [options]="provinces">
+                                                           [options]="provinces"
+                                                           (reset)="provinces = []">
                                         <ng-template let-rowDetail #selected>
                                             {{rowDetail?.option?.name}}
                                         </ng-template>
@@ -176,7 +182,8 @@
                                                            placeholder="Selecteer een gemeente"
                                                            tabIndex="-1" formControlName="municipality"
                                                            (search)="getMunicipalities($event)"
-                                                           [options]="municipalities">
+                                                           [options]="municipalities"
+                                                           (reset)="municipalities = []">
                                         <ng-template let-rowDetail #selected>
                                             {{rowDetail?.option?.name}}
                                         </ng-template>

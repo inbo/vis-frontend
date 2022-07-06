@@ -163,7 +163,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     reset() {
-        this.filter();
+        this.filterForm.reset();
     }
 
     private setTags() {
