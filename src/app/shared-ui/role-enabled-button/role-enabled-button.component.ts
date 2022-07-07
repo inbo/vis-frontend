@@ -98,7 +98,7 @@ export class RoleEnabledButtonComponent implements OnInit, OnDestroy, OnChanges 
     }
 
     if (!this.isUserLinkedToProject) {
-      return 'Je ben niet gekoppeld aan de juiste instantie/team om deze actie te kunnen doen';
+      return 'Je bent niet gekoppeld aan de juiste instantie/team om deze actie te kunnen doen';
     }
 
     return null;
