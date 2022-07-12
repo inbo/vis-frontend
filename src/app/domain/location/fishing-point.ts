@@ -53,6 +53,7 @@ export interface FishingPointFeature {
   id: number;
   code: string;
   description: string;
+  watercourse: string;
   x: number;
   y: number;
   lat: number;

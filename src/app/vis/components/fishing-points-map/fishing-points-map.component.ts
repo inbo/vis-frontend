@@ -5,7 +5,7 @@ import * as L from 'leaflet';
 import {
     circleMarker,
     CircleMarker,
-    featureGroup,
+    featureGroup, FullscreenOptions,
     LatLng,
     latLng,
     Layer,
@@ -26,6 +26,8 @@ import {LocationsService} from '../../../services/vis.locations.service';
 import {mapTo, switchMap, take, tap} from 'rxjs/operators';
 import {VhaUrl} from '../../../domain/location/vha-version';
 import {FishingPoint} from '../../../domain/location/fishing-point';
+import {NgxTippyProps, NgxTippyService} from 'ngx-tippy-wrapper';
+import tippy from 'tippy.js';
 
 @Component({
     selector: 'app-fishing-points-map',
@@ -58,7 +60,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         doubleClickZoom: false,
     };
 
-    fullscreenOptions: { [key: string]: any } = {
+    fullscreenOptions: any = {
         position: 'topleft',
         title: 'View Fullscreen',
         titleCancel: 'Exit Fullscreen',
@@ -97,7 +99,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     open = false;
     private clickedLatlng: LatLng;
 
-    constructor(private locationsService: LocationsService) {
+    constructor(private locationsService: LocationsService,
+                private tippyService: NgxTippyService) {
     }
 
     ngOnInit(): void {
@@ -256,6 +259,14 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                             fillOpacity: 100,
                             radius: 7,
                             stroke: false,
+                        });
+                        circleMark.on('mouseover', event => {
+                            tippy(circleMark.getElement(),
+                                {
+                                    allowHTML: true,
+                                    content: `<p>Code: ${fpf.code}</p> 
+                                              <p>Waterloop: ${fpf.watercourse}</p>`,
+                                }).show();
                         });
                         circleMark.on('click', (event: LeafletMouseEvent) => {
                             this.clickedLatlng = event.latlng;

@@ -19,74 +19,76 @@ import {environment} from '../environments/environment';
 import {MultiTranslateHttpLoader} from './core/multi-http-loader';
 import {ErrorsModule} from './errors/errors.module';
 import {HttpErrorInterceptor} from './core/http.error.interceptor';
+import {NgxTippyModule} from 'ngx-tippy-wrapper';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    CommonModule,
-    LandingPageModule,
-    BrowserModule,
-    CoreModule.forRoot(),
-    NgTransitionModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AlertModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      },
-      defaultLanguage: 'nl',
-      useDefaultLang: true
-    }),
-    SharedUiModule,
-    VisModule,
-    ReleaseNotesModule,
-    ErrorsModule,
-    // should always be last so that unknown routes are routed to the 404 page
-    AppRoutingModule
-  ],
-  providers: [
-    {
-      provide: MissingTranslationHandler,
-      useClass: MyMissingTranslationHandler
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
-      multi: true
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeTranslations,
-      deps: [TranslateService, Injector],
-      multi: true
-    }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+    ],
+    imports: [
+        CommonModule,
+        LandingPageModule,
+        BrowserModule,
+        CoreModule.forRoot(),
+        NgTransitionModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AlertModule,
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient],
+            },
+            defaultLanguage: 'nl',
+            useDefaultLang: true,
+        }),
+        SharedUiModule,
+        VisModule,
+        ReleaseNotesModule,
+        ErrorsModule,
+        NgxTippyModule,
+        // should always be last so that unknown routes are routed to the 404 page
+        AppRoutingModule,
+    ],
+    providers: [
+        {
+            provide: MissingTranslationHandler,
+            useClass: MyMissingTranslationHandler,
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpErrorInterceptor,
+            multi: true,
+        },
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeTranslations,
+            deps: [TranslateService, Injector],
+            multi: true,
+        },
+    ],
+    bootstrap: [AppComponent],
 })
 export class AppModule {
 }
 
 function HttpLoaderFactory(http: HttpClient) {
-  return new MultiTranslateHttpLoader(http, [
-    {prefix: './assets/i18n/', suffix: '.json'},
-    {prefix: `${environment.apiUrl}/translations/`, suffix: ''}
-  ]);
+    return new MultiTranslateHttpLoader(http, [
+        {prefix: './assets/i18n/', suffix: '.json'},
+        {prefix: `${environment.apiUrl}/translations/`, suffix: ''},
+    ]);
 }
 
 function initializeTranslations(translate: TranslateService, injector: Injector) {
-  return () => new Promise<any>((resolve: any) => {
-    translate.use('nl').subscribe(() => {
-      console.log(`Successfully initialized 'nl' language.'`);
-    }, err => {
-      console.error(`Problem with 'nl' language initialization.'`);
-    }, () => {
-      resolve(null);
+    return () => new Promise<any>((resolve: any) => {
+        translate.use('nl').subscribe(() => {
+            console.log(`Successfully initialized 'nl' language.'`);
+        }, err => {
+            console.error(`Problem with 'nl' language initialization.'`);
+        }, () => {
+            resolve(null);
+        });
     });
-  });
 }
