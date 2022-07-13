@@ -1,87 +1,89 @@
 <div class="hidden lg:block">
-  <app-table>
-    <thead class="bg-gray-50">
-      <tr>
-        <th appHeader scope="col">
-          Code
-        </th>
-        <th appHeader scope="col">
-          Nederlandse naam
-        </th>
-        <th appHeader scope="col">
-          Wetenschappelijke naam
-        </th>
-        <th appHeader scope="col">
-          Groep
-        </th>
-        <th appHeader scope="col">
-          <span class="sr-only">Bewerk</span>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngIf="(taxon | async)?.length === 0" appRow>
-        <td appCell colspan="5">
-          Geen resultaten
-        </td>
-      </tr>
+    <app-table>
+        <thead class="bg-gray-50">
+        <tr>
+            <th class="table-header-cell" scope="col">
+                Code
+            </th>
+            <th class="table-header-cell" scope="col">
+                Nederlandse naam
+            </th>
+            <th class="table-header-cell" scope="col">
+                Wetenschappelijke naam
+            </th>
+            <th class="table-header-cell" scope="col">
+                Groep
+            </th>
+            <th class="table-header-cell" scope="col">
+                <span class="sr-only">Bewerk</span>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="(taxon | async)?.length === 0" appRow>
+            <td appCell colspan="5">
+                Geen resultaten
+            </td>
+        </tr>
 
-      <tr *ngFor="let item of taxon | async; let index = index;" [rownumber]="index" appRow>
-        <td appCell>
-          {{item.code.value}}
-        </td>
-        <td appCell>
-          {{item.nameDutch}}
-        </td>
-        <td appCell>
-          {{item.nameScientific}}
-        </td>
-        <td appCell>
-          {{item.taxonGroupText}}
-        </td>
-        <td [actions]="true" appCell>
-          <app-dropdown-minimal>
-            <a [routerLink]="['/vissoorten', item.id.value]"
-               class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-0" role="menuitem"
-               tabindex="-1">Detail</a>
-            <a [queryParams]="{species: item.id.value}" [routerLink]="['/projecten', projectCode, 'waarnemingen']"
-               class="w-full text-left text-gray-700 block px-4 py-2 text-sm"
-               id="menu-item-0" role="menuitem" tabindex="-1"
-               target="_blank">Filter</a>
-          </app-dropdown-minimal>
-        </td>
-      </tr>
-    </tbody>
-  </app-table>
+        <tr *ngFor="let item of taxon | async; let index = index;" [rownumber]="index" appRow>
+            <td appCell>
+                {{item.code.value}}
+            </td>
+            <td appCell>
+                {{item.nameDutch}}
+            </td>
+            <td appCell>
+                {{item.nameScientific}}
+            </td>
+            <td appCell>
+                {{item.taxonGroupText}}
+            </td>
+            <td [actions]="true" appCell>
+                <app-dropdown-minimal>
+                    <a [routerLink]="['/vissoorten', item.id.value]"
+                       class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-0" role="menuitem"
+                       tabindex="-1">Detail</a>
+                    <a [queryParams]="{species: item.id.value}"
+                       [routerLink]="['/projecten', projectCode, 'waarnemingen']"
+                       class="w-full text-left text-gray-700 block px-4 py-2 text-sm"
+                       role="menuitem" tabindex="-1"
+                       target="_blank">Filter</a>
+                </app-dropdown-minimal>
+            </td>
+        </tr>
+        </tbody>
+    </app-table>
 </div>
 
 <div class="lg:hidden bg-white shadow overflow-hidden sm:rounded-md">
-  <ul class="divide-y divide-gray-200">
-    <li *ngFor="let item of taxon | async">
-      <a [routerLink]="['/vissoorten', item.id.value]" class="block hover:bg-gray-50">
-        <div class="px-4 py-4 sm:px-6">
-          <div class="flex items-center justify-between">
-            <p class="text-sm font-medium text-pink-600 truncate">
-              {{item.code.value}}
-            </p>
-          </div>
-          <div class="mt-2 sm:flex sm:justify-between">
-            <div class="sm:flex">
-              <div class="sm:flex">
-                <p class="flex items-center text-sm text-gray-500">
-                  {{item.nameDutch}}
-                </p>
-                <p class="flex items-center text-sm text-gray-500">
-                  {{item.nameScientific}}
-                </p>
-                <p *ngFor="let taxonGroup of item.taxonGroups" class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
-                  {{taxonGroup.name}}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </a>
-    </li>
-  </ul>
+    <ul class="divide-y divide-gray-200">
+        <li *ngFor="let item of taxon | async">
+            <a [routerLink]="['/vissoorten', item.id.value]" class="block hover:bg-gray-50">
+                <div class="px-4 py-4 sm:px-6">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm font-medium text-pink-600 truncate">
+                            {{item.code.value}}
+                        </p>
+                    </div>
+                    <div class="mt-2 sm:flex sm:justify-between">
+                        <div class="sm:flex">
+                            <div class="sm:flex">
+                                <p class="flex items-center text-sm text-gray-500">
+                                    {{item.nameDutch}}
+                                </p>
+                                <p class="flex items-center text-sm text-gray-500">
+                                    {{item.nameScientific}}
+                                </p>
+                                <p *ngFor="let taxonGroup of item.taxonGroups"
+                                   class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
+                                    {{taxonGroup.name}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </li>
+    </ul>
 </div>

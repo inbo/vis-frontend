@@ -160,7 +160,9 @@
                   Soort
                 </label>
                 <div class="mt-1">
-                  <app-species-search (onSearch)="getSpecies($event)" [index]="species" [taxons]="species"
+                  <app-species-search (onSearch)="getSpecies($event)"
+                                      [index]="species.length"
+                                      [taxons]="species"
                                       class="flex-grow" id="species"></app-species-search>
                 </div>
               </div>
@@ -192,11 +194,11 @@
             <app-table [pager]="pager">
               <thead>
               <tr>
-                <th appHeader scope="col" class="w-2/12">
+                <th scope="col" class="table-header-cell w-2/12">
                   Datum
                   <app-table-sort sortField="occurrence"></app-table-sort>
                 </th>
-                <th appHeader scope="col">
+                <th class="table-header-cell" scope="col">
                   Locatie
                   <app-table-sort sortField="fishingPoint.code" title="Sorteren op meetplaatscode"></app-table-sort>
                   <app-table-sort sortField="fishingPoint.vha.watercourse" class="ml-0.5"
@@ -204,22 +206,22 @@
                   <app-table-sort sortField="fishingPoint.vha.basinName" class="ml-0.5"
                                   title="Sorteren op watervlak"></app-table-sort>
                 </th>
-                <th appHeader scope="col" class="w-2/12">
+                <th scope="col" class="table-header-cell w-2/12">
                   Methode
                   <app-table-sort sortField="method"></app-table-sort>
                 </th>
-                <th appHeader scope="col" class="w-2/12">
+                <th scope="col" class="table-header-cell w-2/12">
                   Gemeente
                   <app-table-sort sortField="fishingPoint.vha.municipality"></app-table-sort>
                 </th>
-                <th appHeader scope="col" class="w-2/12">
+                <th scope="col" class="table-header-cell w-2/12">
                   Project
                   <app-table-sort sortField="project.code"></app-table-sort>
                 </th>
-                <th appHeader scope="col" class="w-1/12">
+                <th scope="col" class="table-header-cell w-1/12">
                   <span class="sr-only">Status</span>
                 </th>
-                <th appHeader scope="col">
+                <th class="table-header-cell" scope="col">
                   <span class="sr-only">Bewerken</span>
                 </th>
               </tr>
