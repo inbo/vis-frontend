@@ -16,6 +16,7 @@ import {IndexType} from '../domain/location/index-type';
 import {Municipality} from '../domain/location/municipality';
 import {FishingPointCode} from '../domain/location/fishing-point-code';
 import {Province} from '../domain/location/province';
+import {map} from 'rxjs/operators';
 
 
 @Injectable({
@@ -55,6 +56,16 @@ export class LocationsService extends VisService {
             return this.http.get<FishingPointFeature[]>(`${environment.apiUrl}/api/fishingpoints/project/${projectCode}/features`, {});
         }
         return this.http.get<FishingPointFeature[]>(`${environment.apiUrl}/api/fishingpoints/features`, {params});
+    }
+
+    getFishingPointCodes(filter: any): Observable<Array<string>> {
+        const params = this.getParams(filter);
+
+        return this.http
+            .get<{ fishingPointCodes: Array<string> }>(`${environment.apiUrl}/api/fishingpointcodes`, {params})
+            .pipe(
+                map(responseBody => responseBody.fishingPointCodes),
+            );
     }
 
     latestVhaVersion(): Observable<VhaUrl> {

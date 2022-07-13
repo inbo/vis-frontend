@@ -205,9 +205,9 @@
                         Te exporteren locaties
                     </div>
                     <div class="px-4 py-5 sm:p-6">
-                        <p *ngIf="locationCodesToExport.length === 0" class="mt-2 text-sm text-gray-500">Selecteer in
-                            onderstaande
-                            tabel locaties om te exporteren.</p>
+                        <p *ngIf="locationCodesToExport.length === 0" class="mt-2 text-sm text-gray-500">
+                            Selecteer in onderstaande tabel locaties om te exporteren.
+                        </p>
                         <div *ngIf="locationCodesToExport.length > 0" class="mt-2 text-sm text-gray-500">
                             <label for="filename" class="block text-sm font-medium text-gray-700">
                                 Bestandsnaam
@@ -220,13 +220,15 @@
                             <label for="filename" class="block text-sm font-medium text-gray-700">
                                 Meetplaatscodes
                             </label>
-                            <div class="mt-1 space-x-2 space-y-2 mt-2">
-                <span *ngFor="let locationCode of locationCodesToExport"
-                      class="inline-flex rounded-full items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-pink-100 text-pink-700">
-                  {{locationCode}}
-                    <button (click)="removeLocationCodeToExport(locationCode)"
-                            class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-pink-400 hover:bg-pink-200 hover:text-pink-500 focus:outline-none focus:bg-pink-500 focus:text-white"
-                            type="button">
+                            <div class="mt-1 space-x-2 space-y-2 mt-2 max-h-[150px] overflow-y-auto">
+                                <span *ngFor="let locationCode of locationCodesToExport"
+                                      class="inline-flex rounded-full items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-pink-100 text-pink-700">
+                                    {{locationCode}}
+                                    <button (click)="removeLocationCodeToExport(locationCode)"
+                                            class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center
+                            justify-center text-pink-400 hover:bg-pink-200 hover:text-pink-500
+                            focus:outline-none focus:bg-pink-500 focus:text-white"
+                                            type="button">
                     <span class="sr-only">Verwijdere meetplaatscode</span>
                     <svg class="h-2 w-2" fill="none" stroke="currentColor" viewBox="0 0 8 8">
                       <path d="M1 1l6 6m0-6L1 7" stroke-linecap="round" stroke-width="1.5"/>
@@ -237,13 +239,18 @@
 
                         </div>
                     </div>
-                    <div class="px-4 py-4 sm:px-6 text-right">
-                        <app-button (click)="resetExport()" [style]="'secondary'" class="ml-2">
-                            Reset
+                    <div class="px-4 py-4 sm:px-6 flex justify-between">
+                        <app-button (click)="selectAllFilteredLocations()" [style]="'white'" class="ml-2">
+                            Select all filtered locations
                         </app-button>
-                        <app-button (click)="export()" [style]="'primary'" class="ml-2">
-                            Exporteer
-                        </app-button>
+                        <div>
+                            <app-button (click)="resetExport()" [style]="'secondary'" class="ml-2">
+                                Reset
+                            </app-button>
+                            <app-button (click)="export()" [style]="'primary'" class="ml-2">
+                                Exporteer
+                            </app-button>
+                        </div>
                     </div>
                 </div>
 
