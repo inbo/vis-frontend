@@ -5,7 +5,7 @@ import * as L from 'leaflet';
 import {
     circleMarker,
     CircleMarker,
-    featureGroup, FullscreenOptions,
+    featureGroup,
     LatLng,
     latLng,
     Layer,
@@ -15,6 +15,7 @@ import {
     MapOptions,
     Marker,
     marker,
+    tooltip,
 } from 'leaflet';
 import 'leaflet-defaulticon-compatibility';
 import * as esri_geo from 'esri-leaflet-geocoder';
@@ -26,8 +27,7 @@ import {LocationsService} from '../../../services/vis.locations.service';
 import {mapTo, switchMap, take, tap} from 'rxjs/operators';
 import {VhaUrl} from '../../../domain/location/vha-version';
 import {FishingPoint} from '../../../domain/location/fishing-point';
-import {NgxTippyProps, NgxTippyService} from 'ngx-tippy-wrapper';
-import tippy from 'tippy.js';
+import {NgxTippyService} from 'ngx-tippy-wrapper';
 
 @Component({
     selector: 'app-fishing-points-map',
@@ -35,7 +35,7 @@ import tippy from 'tippy.js';
 })
 export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
-    @Input() heightClass = 'h-96';
+    @Input() mapHeight = '24rem';
     @Input() projectCode; // Get fishing points for a specific project, all fishing points are retrieved when null
     @Input() zoomLevel = 8; // Default zoom level
     @Input() canAddPoints = false; // To be able to add a single new point to the map
@@ -86,7 +86,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
     map: LeafletMap;
     center: LatLng = latLng(51.2, 4.14);
-
+    open = false;
+    showTooltips = true;
 
     private visibleFields = {
         0: ['VHAS', 'VHAG', 'NAAM', 'CATC', 'LBLCATC', 'BEKNR', 'BEKNAAM', 'STRMGEB', 'KWALDOEL', 'LBLKWAL', 'LBLGEO', 'VHAZONENR', 'LENGTE', 'WTRLICHC'],
@@ -96,7 +97,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     selected = new Map();
 
     private layerMetadata = new Map();
-    open = false;
     private clickedLatlng: LatLng;
 
     constructor(private locationsService: LocationsService,
@@ -251,23 +251,27 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
             .getFishingPointsFeatures(this.projectCode, filter)
             .pipe(
                 tap(fishingPointFeatures => {
-                    fishingPointFeatures.forEach(fpf => {
-                        const latlng = latLng(fpf.lat, fpf.lng);
+                    fishingPointFeatures.forEach(fishingPointFeature => {
+                        const latlng = latLng(fishingPointFeature.lat, fishingPointFeature.lng);
                         const circleMark = circleMarker(latlng, {
                             fill: true,
-                            fillColor: '#DC2626',
+                            fillColor: '#C04384',
                             fillOpacity: 100,
                             radius: 7,
                             stroke: false,
                         });
-                        circleMark.on('mouseover', event => {
-                            tippy(circleMark.getElement(),
-                                {
-                                    allowHTML: true,
-                                    content: `<p>Code: ${fpf.code}</p> 
-                                              <p>Waterloop: ${fpf.watercourse}</p>`,
-                                }).show();
-                        });
+                        const fishingPointLabel = document.createElement('div');
+                        fishingPointLabel.innerHTML = `<p>${fishingPointFeature.code}</p> 
+                                              <p>${fishingPointFeature.watercourse}</p>`;
+                        fishingPointLabel.style.textAlign = 'center';
+                        circleMark
+                            .bindTooltip(
+                                tooltip({
+                                    direction: 'top',
+                                    permanent: true,
+                                    offset: [0, -7],
+                                }).setContent(fishingPointLabel));
+
                         circleMark.on('click', (event: LeafletMouseEvent) => {
                             this.clickedLatlng = event.latlng;
                             const layer = event.target;
@@ -278,14 +282,15 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                             });
 
                             const filteredProperties = {
-                                CODE: fpf.code,
-                                DESCRIPTION: fpf.description,
-                                X: fpf.x,
-                                Y: fpf.y,
-                                lat: fpf.lat,
-                                lng: fpf.lng,
+                                CODE: fishingPointFeature.code,
+                                DESCRIPTION: fishingPointFeature.description,
+                                X: fishingPointFeature.x,
+                                Y: fishingPointFeature.y,
+                                lat: fishingPointFeature.lat,
+                                lng: fishingPointFeature.lng,
                             };
                             this.selected.set(4, filteredProperties);
+                            this.openInfo();
                         });
                         this.locationsLayer.addLayer(circleMark);
 
@@ -481,5 +486,14 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
     openInfo() {
         this.open = true;
+    }
+
+    toggleTooltips() {
+        this.showTooltips = !this.showTooltips;
+        if (this.showTooltips) {
+            document.getElementsByClassName('leaflet-tooltip-pane').item(0).classList.remove('invisible');
+        } else {
+            document.getElementsByClassName('leaflet-tooltip-pane').item(0).classList.add('invisible');
+        }
     }
 }

@@ -1,4 +1,13 @@
-import {Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    HostListener,
+    OnDestroy,
+    OnInit,
+    QueryList,
+    ViewChild,
+    ViewChildren,
+} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {Title} from '@angular/platform-browser';
@@ -47,11 +56,8 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     filterForm: FormGroup;
 
     highlightedLocation: number;
-    private subscription = new Subscription();
-
     locationCodesToExport: string[] = [];
     exportMode = false;
-
     watercourses: SearchableSelectOption[] = [];
     lenticWaterbodies: SearchableSelectOption[] = [];
     provinces: SearchableSelectOption[] = [];
@@ -59,6 +65,8 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     basins: SearchableSelectOption[] = [];
     fishingPointCodes: SearchableSelectOption[] = [];
     fishingPointSearchableSelectConfig: SearchableSelectConfig;
+    mapHeight = this.calculateMapHeight();
+    private subscription = new Subscription();
 
     constructor(private titleService: Title,
                 private locationsService: LocationsService,
@@ -71,6 +79,11 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
             .minQueryLength(2)
             .searchPlaceholder('Minstens 2 karakters...')
             .build();
+    }
+
+    @HostListener('window:resize')
+    onResize() {
+        this.mapHeight = this.calculateMapHeight();
     }
 
     ngOnInit(): void {
@@ -168,38 +181,6 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
 
     reset() {
         this.filterForm.reset();
-    }
-
-    private setTags() {
-        const rawValue = this.filterForm.getRawValue();
-        const tags: Tag[] = [];
-
-        if (rawValue.fishingPointCodeFree) {
-            tags.push(getTag('location.fishingPointCodeFree', rawValue.fishingPointCodeFree, this.removeTagCallback('fishingPointCodeFree')));
-        }
-        if (rawValue.fishingPointCode) {
-            tags.push(getTag('location.fishingPointCode', rawValue.fishingPointCode, this.removeTagCallback('fishingPointCode')));
-        }
-        if (rawValue.description) {
-            tags.push(getTag('location.description', rawValue.description, this.removeTagCallback('description')));
-        }
-        if (rawValue.watercourse) {
-            tags.push(getTag('location.watercourse', rawValue.watercourse, this.removeTagCallback('watercourse')));
-        }
-        if (rawValue.lenticWaterbody) {
-            tags.push(getTag('location.lenticWaterbody', rawValue.lenticWaterbody, this.removeTagCallback('lenticWaterbody')));
-        }
-        if (rawValue.basin) {
-            tags.push(getTag('location.basin', rawValue.basin, this.removeTagCallback('basin')));
-        }
-        if (rawValue.province) {
-            tags.push(getTag('location.province', rawValue.province, this.removeTagCallback('province')));
-        }
-        if (rawValue.municipality) {
-            tags.push(getTag('location.municipality', rawValue.municipality, this.removeTagCallback('municipality')));
-        }
-
-        this.tags = tags;
     }
 
     removeTagCallback(formField: string) {
@@ -343,7 +324,43 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
             .getFishingPointCodes(this.filterForm.getRawValue())
             .pipe(take(1))
             .subscribe(
-                codes => this.locationCodesToExport = codes || []
-            )
+                codes => this.locationCodesToExport = codes || [],
+            );
+    }
+
+    private calculateMapHeight() {
+        return Math.round((window.innerHeight - 157) * 0.8);
+    }
+
+    private setTags() {
+        const rawValue = this.filterForm.getRawValue();
+        const tags: Tag[] = [];
+
+        if (rawValue.fishingPointCodeFree) {
+            tags.push(getTag('location.fishingPointCodeFree', rawValue.fishingPointCodeFree, this.removeTagCallback('fishingPointCodeFree')));
+        }
+        if (rawValue.fishingPointCode) {
+            tags.push(getTag('location.fishingPointCode', rawValue.fishingPointCode, this.removeTagCallback('fishingPointCode')));
+        }
+        if (rawValue.description) {
+            tags.push(getTag('location.description', rawValue.description, this.removeTagCallback('description')));
+        }
+        if (rawValue.watercourse) {
+            tags.push(getTag('location.watercourse', rawValue.watercourse, this.removeTagCallback('watercourse')));
+        }
+        if (rawValue.lenticWaterbody) {
+            tags.push(getTag('location.lenticWaterbody', rawValue.lenticWaterbody, this.removeTagCallback('lenticWaterbody')));
+        }
+        if (rawValue.basin) {
+            tags.push(getTag('location.basin', rawValue.basin, this.removeTagCallback('basin')));
+        }
+        if (rawValue.province) {
+            tags.push(getTag('location.province', rawValue.province, this.removeTagCallback('province')));
+        }
+        if (rawValue.municipality) {
+            tags.push(getTag('location.municipality', rawValue.municipality, this.removeTagCallback('municipality')));
+        }
+
+        this.tags = tags;
     }
 }

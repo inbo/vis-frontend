@@ -2,7 +2,10 @@
     <div slot="content">
         <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
 
-        <app-fishing-points-map [filter]="filterForm.getRawValue()" heightClass="h-[35vh]"></app-fishing-points-map>
+        <app-fishing-points-map class="fishing-point-map"
+                                [filter]="filterForm.getRawValue()"
+                                [mapHeight]="mapHeight + 'px'">
+        </app-fishing-points-map>
 
         <main>
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-96">
