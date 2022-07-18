@@ -30,8 +30,10 @@
           <div class="mt-1">
             <app-searchable-select id="method" passedId="method" placeholder="Selecteer een methode"
                                    tabIndex="-1"
-                                   formControlName="method" (search)="getMethods($event)"
-                                   [options]="methods">
+                                   formControlName="method"
+                                   [configuration]="methodSearchConfiguration"
+                                   (search)="filterMethods($event)"
+                                   [options]="filteredMethods">
               <ng-template let-rowDetail #selected>
                 {{rowDetail.option.code + ' - ' + rowDetail.option.description}}
               </ng-template>
