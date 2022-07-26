@@ -46,7 +46,7 @@
         "NORMAL": "Normaal",
         "HIGH": "Hoog",
         "UNKNOWN": "Onbekend",
-        "null": ""
+        "null": "Geen gegevens"
       },
       "shelter": {
         "MANY": "Zeer veel",
@@ -55,7 +55,7 @@
         "FEW": "Weinig",
         "NONE": "Geen",
         "UNKNOWN": "Onbekend",
-        "null": ""
+        "null": "Geen gegevens"
       },
       "minDepth": "Minimum diepte (m)",
       "maxDepth": "Maximum diepte (m)",
@@ -63,47 +63,47 @@
         "true": "Aanwezig",
         "false": "Afwezig",
         "unknown": "Onbekend",
-        "null": ""
+        "null": "Geen gegevens"
       },
       "rapids": {
         "true": "Aanwezig",
         "false": "Afwezig",
         "unknown": "Onbekend",
-        "null": ""
+        "null": "Geen gegevens"
       },
       "creeks": {
         "true": "Aanwezig",
         "false": "Afwezig",
         "unknown": "Onbekend",
-        "null": ""
+        "null": "Geen gegevens"
       },
       "shore": {
         "REINFORCED": "Verstevigd",
         "PARTIALLY_REINFORCED": "Gedeeltelijk verstevigd",
         "NATURAL": "Natuurlijk",
         "UNKNOWN": "Onbekend",
-        "null": ""
+        "null": "Geen gegevens"
       },
       "slope": {
         "GENTLE": "Flauw",
         "MODERATE": "Matig",
         "STEEP": "Steil",
         "UNKNOWN": "Onbekend",
-        "null": ""
+        "null": "Geen gegevens"
       },
       "agriculture": {
         "NONE": "Geen",
         "ONE": "Eén",
         "BOTH": "Beide",
         "UNKNOWN": "Onbekend",
-        "null": ""
+        "null": "Geen gegevens"
       },
       "meadow": {
         "NONE": "Geen",
         "ONE": "Eén",
         "BOTH": "Beide",
         "UNKNOWN": "Onbekend",
-        "null": ""
+        "null": "Geen gegevens"
       },
       "trees": {
         "NONE": "Geen",
@@ -111,7 +111,7 @@
         "BETWEEN_10_50": ">10 & <50",
         "HIGHER_50": ">50",
         "UNKNOWN": "Onbekend",
-        "null": ""
+        "null": "Geen gegevens"
       },
       "buildings": {
         "NONE": "Geen",
@@ -119,26 +119,26 @@
         "BETWEEN_5_10": ">5 & <10",
         "HIGHER_10": ">10",
         "UNKNOWN": "Onbekend",
-        "null": ""
+        "null": "Geen gegevens"
       },
       "industry": {
         "true": "Aanwezig",
         "false": "Afwezig",
         "unknown": "Onbekend",
-        "null": ""
+        "null": "Geen gegevens"
       },
       "current": {
         "DISTURBED": "Verstoord",
         "MODERATE": "Matig",
         "NOT_DISTURBED": "Niet verstoord",
         "UNKNOWN": "Onbekend",
-        "null": ""
+        "null": "Geen gegevens"
       },
       "fish-passage": {
         "true": "Aanwezig",
         "false": "Afwezig",
         "unknown": "Onbekend",
-        "null": ""
+        "null": "Geen gegevens"
       },
       "soil": {
         "other": "Andere",
