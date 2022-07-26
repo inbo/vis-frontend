@@ -1,197 +1,224 @@
 <div class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
-  <div class="px-4 py-5 sm:px-6">
-    <h3 class="text-lg leading-6 font-medium text-gray-900 float-left">
-      Habitat
-    </h3>
-    <div *ngIf="surveyEvent$ | async as surveyEvent" class="flex justify-end">
-      <app-button [style]="'primary'"
-                  [disabled]="surveyEvent.status === 'DELETED'"
-                  class="ml-3"
-                  [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'habitat', 'bewerk']"
-                  [role]="role.EditSurveyEvent"
-                  [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
-      </app-button>
+    <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900 float-left">
+            Habitat
+        </h3>
+        <div *ngIf="surveyEvent$ | async as surveyEvent" class="flex justify-end">
+            <app-button [style]="'primary'"
+                        [disabled]="surveyEvent.status === 'DELETED'"
+                        class="ml-3"
+                        [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'habitat', 'bewerk']"
+                        [role]="role.EditSurveyEvent"
+                        [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
+            </app-button>
+        </div>
     </div>
-  </div>
-  <div class="px-4 py-5 sm:p-6">
-    <dl class="sm:divide-y sm:divide-gray-200">
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Bodem
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            <span *ngIf="habitat?.soil">
+    <div class="px-4 py-5 sm:p-6">
+        <dl class="sm:divide-y sm:divide-gray-200">
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Bodem
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <span *ngIf="habitat?.soil; else unknownValue">
               <span *ngFor="let v of soils(); let last = last">{{'surveyEvent.habitat.soil.' + v | translate}}
-                <span *ngIf="!last">, </span></span>
+                  <span *ngIf="!last">, </span></span>
             </span>
-        </dd>
-      </div>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Waterpeil
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span
-                  *ngIf="habitat?.waterLevel">{{'surveyEvent.habitat.waterLevel.' + habitat.waterLevel | translate}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Waterpeil
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.waterLevel; else unknownValue">
+                    {{'surveyEvent.habitat.waterLevel.' + habitat.waterLevel | translate}}
+                </span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Natuurlijke schuilplaatsen
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="habitat?.shelters">{{'surveyEvent.habitat.shelter.' + habitat.shelters | translate}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Natuurlijke schuilplaatsen
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="habitat?.shelters; else unknownValue">
+                        {{'surveyEvent.habitat.shelter.' + habitat.shelters | translate}}
+                    </span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Poelen
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="habitat">{{'surveyEvent.habitat.pool.' + habitat.pool | translate}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Poelen
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="habitat?.pool; else unknownValue">
+                        {{'surveyEvent.habitat.pool.' + habitat.pool | translate}}
+                    </span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Stroomversnellingen
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="habitat">{{'surveyEvent.habitat.rapids.' + habitat.rapids | translate}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Stroomversnellingen
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="habitat?.rapids; else unknownValue">
+                        {{'surveyEvent.habitat.rapids.' + habitat.rapids | translate}}
+                    </span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Bochten
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="habitat">{{'surveyEvent.habitat.creeks.' + habitat.creeks | translate}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Bochten
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="habitat?.creeks; else unknownValue">
+                        {{'surveyEvent.habitat.creeks.' + habitat.creeks | translate}}
+                    </span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Oever
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="habitat?.shore">{{'surveyEvent.habitat.shore.' + habitat.shore | translate}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Oever
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="habitat?.shore; else unknownValue">
+                        {{'surveyEvent.habitat.shore.' + habitat.shore | translate}}
+                    </span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Taludhelling
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="habitat?.slope">{{'surveyEvent.habitat.slope.' + habitat.slope | translate}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Taludhelling
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="habitat?.slope; else unknownValue">
+                        {{'surveyEvent.habitat.slope.' + habitat.slope | translate}}
+                    </span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Landbouw
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span
-                  *ngIf="habitat?.agriculture">{{'surveyEvent.habitat.agriculture.' + habitat.agriculture | translate}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Landbouw
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.agriculture; else unknownValue">
+                    {{'surveyEvent.habitat.agriculture.' + habitat.agriculture | translate}}
+                </span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Weide
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="habitat?.meadow">{{'surveyEvent.habitat.meadow.' + habitat.meadow | translate}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Weide
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="habitat?.meadow; else unknownValue">
+                        {{'surveyEvent.habitat.meadow.' + habitat.meadow | translate}}
+                    </span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Bomen
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="habitat?.trees">{{'surveyEvent.habitat.trees.' + habitat.trees | translate}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Bomen
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="habitat?.trees; else unknownValue">
+                        {{'surveyEvent.habitat.trees.' + habitat.trees | translate}}
+                    </span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Bebouwing
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span
-                  *ngIf="habitat?.buildings">{{'surveyEvent.habitat.buildings.' + habitat.buildings | translate}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Bebouwing
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.buildings; else unknownValue">
+                    {{'surveyEvent.habitat.buildings.' + habitat.buildings | translate}}
+                </span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Industrie
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span
-                  *ngIf="habitat">{{'surveyEvent.habitat.industry.' + habitat.industry | translate}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Industrie
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.industry; else unknownValue">
+                    {{'surveyEvent.habitat.industry.' + habitat.industry | translate}}
+                </span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Loop
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="habitat?.current">{{'surveyEvent.habitat.current.' + habitat.current | translate}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Loop
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="habitat?.current; else unknownValue">
+                        {{'surveyEvent.habitat.current.' + habitat.current | translate}}
+                    </span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Knelpunt
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span *ngIf="habitat?.bottleneck">
-                    <span
-                      *ngFor="let v of bottlenecks(); let last = last">{{'surveyEvent.habitat.bottleneck.' + v | translate}}
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Knelpunt
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.bottleneck; else unknownValue">
+                    <span *ngFor="let v of bottlenecks(); let last = last">
+                        {{'surveyEvent.habitat.bottleneck.' + v | translate}}
+                        <span *ngIf="!last">, </span></span>
+                </span>
+                </dd>
+            </div>
+
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Vispassage
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.fishPassage; else unknownValue">
+                    {{'surveyEvent.habitat.fish-passage.' + habitat.fishPassage | translate}}
+                </span>
+                </dd>
+            </div>
+
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Vegetatie
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <span *ngIf="habitat?.vegetation; else unknownValue">
+                  <span *ngFor="let v of vegetations(); let last = last">
+                      {{'surveyEvent.habitat.vegetation.' + v | translate}}
                       <span *ngIf="!last">, </span></span>
                 </span>
-        </dd>
-      </div>
-
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Vispassage
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span
-                  *ngIf="habitat">{{'surveyEvent.habitat.fish-passage.' + habitat.fishPassage | translate}}</span>
-        </dd>
-      </div>
-
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Vegetatie
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span *ngIf="habitat?.vegetation">
-                  <span
-                    *ngFor="let v of vegetations(); let last = last">{{'surveyEvent.habitat.vegetation.' + v | translate}}
-                    <span *ngIf="!last">, </span></span>
-                </span>
-        </dd>
-      </div>
-    </dl>
-  </div>
-  <div *ngIf="surveyEvent$ | async as surveyEvent" class="px-4 py-4 sm:px-6 flex justify-end">
-    <app-button [style]="'primary'"
-                [disabled]="surveyEvent.status === 'DELETED'"
-                class="ml-3"
-                [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'habitat', 'bewerk']"
-                [role]="role.EditSurveyEvent"
-                [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
-    </app-button>
-  </div>
+                </dd>
+            </div>
+        </dl>
+    </div>
+    <div *ngIf="surveyEvent$ | async as surveyEvent" class="px-4 py-4 sm:px-6 flex justify-end">
+        <app-button [style]="'primary'"
+                    [disabled]="surveyEvent.status === 'DELETED'"
+                    class="ml-3"
+                    [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'habitat', 'bewerk']"
+                    [role]="role.EditSurveyEvent"
+                    [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
+        </app-button>
+    </div>
 </div>
+
+<ng-template #unknownValue>
+    <span>Onbekend</span>
+</ng-template>
