@@ -19,7 +19,7 @@
           Zuurstof mg/l
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.oxygen">{{parameters?.oxygen}}</span>
+          <span *ngIf="parameters?.oxygen; else nullValue">{{parameters?.oxygen}}</span>
         </dd>
       </div>
 
@@ -28,7 +28,7 @@
           Zuurstof %
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.oxygenPercentage">{{parameters?.oxygenPercentage}} %</span>
+          <span *ngIf="parameters?.oxygenPercentage; else nullValue">{{parameters?.oxygenPercentage}} %</span>
         </dd>
       </div>
 
@@ -37,7 +37,7 @@
           Watertemperatuur (°C)
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.temperature">{{parameters?.temperature}}</span>
+          <span *ngIf="parameters?.temperature; else nullValue">{{parameters?.temperature}}</span>
         </dd>
       </div>
 
@@ -46,7 +46,7 @@
           Conductiviteit (uS/cm)
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.conductivity">{{parameters?.conductivity}}</span>
+          <span *ngIf="parameters?.conductivity; else nullValue">{{parameters?.conductivity}}</span>
         </dd>
       </div>
 
@@ -55,7 +55,7 @@
           Zoutgehalte (°/oo)
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.salinity">{{parameters?.salinity}}</span>
+          <span *ngIf="parameters?.salinity; else nullValue">{{parameters?.salinity}}</span>
         </dd>
       </div>
 
@@ -64,7 +64,7 @@
           pH
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.ph">{{parameters?.ph}}</span>
+          <span *ngIf="parameters?.ph; else nullValue">{{parameters?.ph}}</span>
         </dd>
       </div>
 
@@ -73,7 +73,7 @@
           Turbiditeit (NTU)
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.turbidity">{{parameters?.turbidity}}</span>
+          <span *ngIf="parameters?.turbidity; else nullValue">{{parameters?.turbidity}}</span>
           <span
             *ngIf="parameters?.turbidityOutOfRange === true">{{'surveyEvent.turbidity.outOfRange' | translate}}</span>
         </dd>
@@ -84,7 +84,7 @@
           Secchi (m)
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.secchi">{{parameters?.secchi}}</span>
+          <span *ngIf="parameters?.secchi; else nullValue">{{parameters?.secchi}}</span>
         </dd>
       </div>
 
@@ -93,7 +93,7 @@
           Breedte (m)
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.width">{{parameters?.width}}</span>
+          <span *ngIf="parameters?.width; else nullValue">{{parameters?.width}}</span>
         </dd>
       </div>
 
@@ -102,7 +102,7 @@
           Minimum diepte (m)
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.minDepth">{{parameters?.minDepth}}</span>
+          <span *ngIf="parameters?.minDepth; else nullValue">{{parameters?.minDepth}}</span>
         </dd>
       </div>
 
@@ -111,7 +111,7 @@
           Maximum diepte (m)
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.maxDepth">{{parameters?.maxDepth}}</span>
+          <span *ngIf="parameters?.maxDepth; else nullValue">{{parameters?.maxDepth}}</span>
         </dd>
       </div>
 
@@ -120,7 +120,7 @@
           Gemiddelde diepte (m)
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.averageDepth">{{parameters?.averageDepth}}</span>
+          <span *ngIf="parameters?.averageDepth; else nullValue">{{parameters?.averageDepth}}</span>
         </dd>
       </div>
 
@@ -129,7 +129,7 @@
           Stroomsnelheid (m/s)
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.flowRate">{{parameters?.flowRate}}</span>
+          <span *ngIf="parameters?.flowRate; else nullValue">{{parameters?.flowRate}}</span>
         </dd>
       </div>
     </dl>
@@ -143,3 +143,7 @@
     </app-button>
   </div>
 </div>
+
+<ng-template #nullValue>
+    <span>Geen gegevens</span>
+</ng-template>
