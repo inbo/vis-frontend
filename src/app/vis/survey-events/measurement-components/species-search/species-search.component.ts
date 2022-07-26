@@ -13,7 +13,6 @@ export class SpeciesSearchComponent extends MeasurementComponentDirective implem
   @ViewChild(SearchableSelectComponent) searchableSelect: SearchableSelectComponent;
 
   @Input() index: number;
-
   @Input() taxons: SearchableSelectOption[];
 
   @Output() onSearch: EventEmitter<any> = new EventEmitter();
@@ -35,7 +34,6 @@ export class SpeciesSearchComponent extends MeasurementComponentDirective implem
     }
     super.keydown($event);
   }
-
 
   onSpeciesChange() {
     this.changed.emit();
