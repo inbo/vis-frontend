@@ -1,147 +1,148 @@
 <div class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
-  <div class="px-4 py-5 sm:px-6">
-    <h3 class="text-lg leading-6 font-medium text-gray-900 float-left">
-      Parameters
-    </h3>
-    <div *ngIf="surveyEvent$ | async as surveyEvent" class="flex justify-end">
-      <app-button [style]="'primary'"
-                  [disabled]="surveyEvent.status === 'DELETED'"
-                  [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'waterkwaliteitsparameters', 'bewerk']"
-                  [role]="role.EditSurveyEvent"
-                  [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
-      </app-button>
+    <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900 float-left">
+            Parameters
+        </h3>
+        <div *ngIf="surveyEvent$ | async as surveyEvent" class="flex justify-end">
+            <app-button [style]="'primary'"
+                        [disabled]="surveyEvent.status === 'DELETED'"
+                        [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'waterkwaliteitsparameters', 'bewerk']"
+                        [role]="role.EditSurveyEvent"
+                        [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
+            </app-button>
+        </div>
     </div>
-  </div>
-  <div class="px-4 py-5 sm:p-6">
-    <dl class="sm:divide-y sm:divide-gray-200">
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Zuurstof mg/l
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.oxygen; else nullValue">{{parameters?.oxygen}}</span>
-        </dd>
-      </div>
+    <div class="px-4 py-5 sm:p-6">
+        <dl class="sm:divide-y sm:divide-gray-200">
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Zuurstof mg/l
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="parameters?.oxygen; else nullValue">{{parameters?.oxygen}}</span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Zuurstof %
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.oxygenPercentage; else nullValue">{{parameters?.oxygenPercentage}} %</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Zuurstof %
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="parameters?.oxygenPercentage; else nullValue">{{parameters?.oxygenPercentage}} %</span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Watertemperatuur (°C)
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.temperature; else nullValue">{{parameters?.temperature}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Watertemperatuur (°C)
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="parameters?.temperature; else nullValue">{{parameters?.temperature}}</span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Conductiviteit (uS/cm)
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.conductivity; else nullValue">{{parameters?.conductivity}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Conductiviteit (uS/cm)
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="parameters?.conductivity; else nullValue">{{parameters?.conductivity}}</span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Zoutgehalte (°/oo)
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.salinity; else nullValue">{{parameters?.salinity}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Zoutgehalte (°/oo)
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="parameters?.salinity; else nullValue">{{parameters?.salinity}}</span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          pH
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.ph; else nullValue">{{parameters?.ph}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    pH
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="parameters?.ph; else nullValue">{{parameters?.ph}}</span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Turbiditeit (NTU)
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.turbidity; else nullValue">{{parameters?.turbidity}}</span>
-          <span
-            *ngIf="parameters?.turbidityOutOfRange === true">{{'surveyEvent.turbidity.outOfRange' | translate}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Turbiditeit (NTU)
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="parameters?.turbidity; else nullValue">{{parameters?.turbidity}}</span>
+                    <span
+                            *ngIf="parameters?.turbidityOutOfRange === true">{{'surveyEvent.turbidity.outOfRange' | translate}}</span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Secchi (m)
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.secchi; else nullValue">{{parameters?.secchi}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Secchi (m)
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="parameters?.secchi; else nullValue">{{parameters?.secchi}}</span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Breedte (m)
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.width; else nullValue">{{parameters?.width}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Breedte (m)
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="parameters?.width; else nullValue">{{parameters?.width}}</span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Minimum diepte (m)
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.minDepth; else nullValue">{{parameters?.minDepth}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Minimum diepte (m)
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="parameters?.minDepth; else nullValue">{{parameters?.minDepth}}</span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Maximum diepte (m)
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.maxDepth; else nullValue">{{parameters?.maxDepth}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Maximum diepte (m)
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="parameters?.maxDepth; else nullValue">{{parameters?.maxDepth}}</span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Gemiddelde diepte (m)
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.averageDepth; else nullValue">{{parameters?.averageDepth}}</span>
-        </dd>
-      </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Gemiddelde diepte (m)
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="parameters?.averageDepth; else nullValue">{{parameters?.averageDepth}}</span>
+                </dd>
+            </div>
 
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-        <dt class="text-sm font-medium text-gray-500">
-          Stroomsnelheid (m/s)
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span *ngIf="parameters?.flowRate; else nullValue">{{parameters?.flowRate}}</span>
-        </dd>
-      </div>
-    </dl>
-  </div>
-  <div *ngIf="surveyEvent$ | async as surveyEvent" class="px-4 py-4 sm:px-6 flex justify-end">
-    <app-button [style]="'primary'"
-                [disabled]="surveyEvent.status === 'DELETED'"
-                [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'waterkwaliteitsparameters', 'bewerk']"
-                [role]="role.EditSurveyEvent"
-                [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
-    </app-button>
-  </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                    Stroomsnelheid (m/s)
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span *ngIf="parameters?.flowRate; else nullValue">{{parameters?.flowRate}}</span>
+                </dd>
+            </div>
+        </dl>
+    </div>
+    <div *ngIf="surveyEvent$ | async as surveyEvent" class="px-4 py-4 sm:px-6 flex justify-end">
+        <app-button [style]="'primary'"
+                    [disabled]="surveyEvent.status === 'DELETED'"
+                    [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'waterkwaliteitsparameters', 'bewerk']"
+                    [role]="role.EditSurveyEvent"
+                    [isUserLinkedToProject]="surveyEvent?.canEdit">
+            Bewerken
+        </app-button>
+    </div>
 </div>
 
 <ng-template #nullValue>
