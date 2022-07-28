@@ -1,28 +1,26 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {take, tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
 import {uniqueNewValidator} from '../survey-event-validators';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {Method} from '../../../domain/method/method';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
+import {LocationsService} from '../../../services/vis.locations.service';
 
 @Component({
     selector: 'app-survey-event-copy-modal',
     templateUrl: './survey-event-copy-modal.component.html',
 })
-export class SurveyEventCopyModalComponent implements OnInit, AfterViewInit {
-
-    @ViewChild('occurrenceDatePicker') occurrenceDatePicker: DatepickerComponent;
+export class SurveyEventCopyModalComponent implements OnInit {
 
     @Input() projectCode;
     @Input() surveyEventId;
     @Input() startDate: Date;
     @Input() endDate: Date;
-    @Input() location: number;
+    @Input() fishingPointId: number;
     @Input() method: string;
 
     isOpen = false;
@@ -30,11 +28,24 @@ export class SurveyEventCopyModalComponent implements OnInit, AfterViewInit {
     submitted = false;
 
     allMethods: Array<Method> = [];
-    filteredMethods: SearchableSelectOption[] = [];
-    methodSearchConfiguration = new SearchableSelectConfigBuilder().minQueryLength(0).build();
+    filteredMethods: SearchableSelectOption<string>[] = [];
+    fishingPointCodes: SearchableSelectOption<number>[] = [];
+    methodSearchConfiguration = new SearchableSelectConfigBuilder()
+        .minQueryLength(0)
+        .searchPlaceholder('')
+        .build();
+    fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
+        .minQueryLength(2)
+        .searchPlaceholder('Minstens 2 karakters...')
+        .build();
+    minDate: Date;
+    maxDate: Date;
 
-    constructor(private formBuilder: FormBuilder, private surveyEventsService: SurveyEventsService,
-                private router: Router, private methodsService: MethodsService) {
+    constructor(private formBuilder: FormBuilder,
+                private surveyEventsService: SurveyEventsService,
+                private router: Router,
+                private methodsService: MethodsService,
+                private locationsService: LocationsService) {
     }
 
     ngOnInit(): void {
@@ -43,19 +54,16 @@ export class SurveyEventCopyModalComponent implements OnInit, AfterViewInit {
         }
 
         this.getAllMethods();
+        this.getFishingPointCodes(undefined, this.fishingPointId);
 
+        this.minDate = new Date(this.startDate);
+        this.maxDate = this.endDate ? new Date(this.endDate) > new Date() ? new Date() : new Date(this.endDate) : new Date();
         this.copySurveyEventForm = this.formBuilder.group(
             {
-                occurrenceDate: [null, [Validators.required]],
-                method: [null],
-            }, {asyncValidators: [uniqueNewValidator(this.projectCode, this.location, this.method, this.surveyEventsService)]});
-    }
-
-    ngAfterViewInit(): void {
-        this.occurrenceDatePicker.setMinDate(new Date(this.startDate));
-        // Set max date to today's date or to survey end date
-        this.occurrenceDatePicker.setMaxDate(this.endDate ? new Date(this.endDate) > new Date() ? new Date() : new Date(this.endDate) :
-            new Date());
+                occurrenceDate: [new Date(), [Validators.required]],
+                method: [this.method],
+                fishingPointId: [this.fishingPointId],
+            }, {asyncValidators: [uniqueNewValidator(this.projectCode, this.fishingPointId, this.method, this.surveyEventsService)]});
     }
 
     open() {
@@ -75,10 +83,10 @@ export class SurveyEventCopyModalComponent implements OnInit, AfterViewInit {
 
         this.surveyEventsService.copySurveyEvent(this.projectCode, this.surveyEventId, this.copySurveyEventForm.getRawValue())
             .pipe(take(1))
-            .subscribe((surveyEvent) => {
+            .subscribe(() => {
                 this.isOpen = false;
-                this.router.navigate(['projecten', this.projectCode,
-                    'waarnemingen', surveyEvent.surveyEventId]).then(() => window.location.reload());
+                // this.router.navigate(['projecten', this.projectCode,
+                //     'waarnemingen', surveyEvent.surveyEventId]);
             });
     }
 
@@ -98,8 +106,20 @@ export class SurveyEventCopyModalComponent implements OnInit, AfterViewInit {
                 method.code.toLowerCase().includes(query)
                 || method.description.toLowerCase().includes(query))
             .map(method => ({
-                selectValue: method.code,
-                option: method,
+                displayValue: `${method.code} - ${method.description}`,
+                value: method.code,
             }));
+    }
+
+    getFishingPointCodes(searchTerm: string, id?: number) {
+        this.locationsService
+            .searchFishingPoints(searchTerm, id)
+            .pipe(take(1))
+            .subscribe(fishingPointSearchResults =>
+                this.fishingPointCodes = fishingPointSearchResults
+                    .map(fishingPointCode => ({
+                        displayValue: fishingPointCode.code,
+                        value: fishingPointCode.id,
+                    })));
     }
 }

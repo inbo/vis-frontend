@@ -7,7 +7,7 @@
         "statements"
       ]
     },
-    "array-type": false,
+    "array-type": [true, "generic"],
     "arrow-return-shorthand": true,
     "curly": true,
     "deprecation": {

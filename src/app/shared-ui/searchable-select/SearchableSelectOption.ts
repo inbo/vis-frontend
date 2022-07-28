@@ -1,4 +1,4 @@
-export interface SearchableSelectOption {
-  selectValue: any;
-  option: any;
+export interface SearchableSelectOption<V, K = string> {
+  value: V;
+  displayValue: K;
 }

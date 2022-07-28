@@ -1,83 +1,98 @@
-import {AfterViewInit, Component, forwardRef, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, forwardRef, Input, ViewChild} from '@angular/core';
 import flatpickr from 'flatpickr';
 import {Dutch} from 'flatpickr/dist/l10n/nl.js';
 
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
-  selector: 'app-datepicker',
-  templateUrl: './datepicker.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DatepickerComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-datepicker',
+    templateUrl: './datepicker.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => DatepickerComponent),
+            multi: true,
+        },
+    ],
 })
-export class DatepickerComponent implements ControlValueAccessor, OnInit, AfterViewInit {
-  private selectedDate: Date;
+export class DatepickerComponent implements ControlValueAccessor, AfterViewInit {
 
-  @Input() hideResetButton = false;
+    private selectedDate: Date;
+    private _minDate: Date;
+    private _maxDate: Date;
 
-  @ViewChild('datepicker') input;
+    @Input() hideResetButton = false;
+    @Input() initialDate;
 
-  private onChange: Function;
-  private onTouch: Function;
-  private fp: any;
+    @Input() set minDate(val: Date) {
+        this.setMinDate(val);
+    };
 
-  writeValue(obj: Date): void {
-    this.selectedDate = obj;
-    if (this.fp !== undefined) {
-      this.fp.setDate(obj);
+    @Input() set maxDate(val: Date) {
+        this.setMaxDate(val);
     }
-  }
 
-  registerOnChange(fn: Function): void {
-    this.onChange = fn;
-  }
+    @ViewChild('datepicker') input;
 
-  registerOnTouched(fn: Function): void {
-    this.onTouch = fn;
-  }
+    private onChange: Function;
+    private onTouch: Function;
+    private fp: any;
 
-  dateValueChanged(): void {
-    this.onChange(this.selectedDate);
-  }
-
-  constructor() {
-  }
-
-  ngOnInit(): void {
-  }
-
-  ngAfterViewInit() {
-    const _this = this;
-
-    this.fp = flatpickr(this.input.nativeElement, {
-      locale: Dutch,
-      dateFormat: 'd-m-Y',
-      onChange: (selectedDates) => {
-        if (selectedDates.length === 1) {
-          _this.selectedDate = selectedDates[0];
-          _this.dateValueChanged();
-        } else {
-          _this.selectedDate = null;
-          _this.dateValueChanged();
+    writeValue(obj: Date): void {
+        this.selectedDate = obj;
+        if (this.fp !== undefined) {
+            this.fp.setDate(obj);
         }
-      },
-    });
-  }
+    }
 
-  setMinDate(date: Date) {
-    this.fp.set('minDate', date);
-  }
+    registerOnChange(fn: Function): void {
+        this.onChange = fn;
+    }
 
-  setMaxDate(date: Date) {
-    this.fp.set('maxDate', date);
-  }
+    registerOnTouched(fn: Function): void {
+        this.onTouch = fn;
+    }
 
-  reset() {
-    this.fp.clear();
-  }
+    dateValueChanged(): void {
+        this.onChange(this.selectedDate);
+    }
+
+    ngAfterViewInit() {
+        const _this = this;
+
+        this.fp = flatpickr(this.input.nativeElement, {
+            locale: Dutch,
+            dateFormat: 'd-m-Y',
+            minDate: this._minDate,
+            maxDate: this._maxDate,
+            defaultDate: this.selectedDate,
+            onChange: (selectedDates) => {
+                if (selectedDates.length === 1) {
+                    _this.selectedDate = selectedDates[0];
+                    _this.dateValueChanged();
+                } else {
+                    _this.selectedDate = null;
+                    _this.dateValueChanged();
+                }
+            },
+        });
+    }
+
+    private setMinDate(date: Date) {
+        this._minDate = date;
+        if (this.fp) {
+            this.fp.set('minDate', date);
+        }
+    }
+
+    private setMaxDate(date: Date) {
+        this._maxDate = date;
+        if (this.fp) {
+            this.fp.set('maxDate', date);
+        }
+    }
+
+    reset() {
+        this.fp.clear();
+    }
 }

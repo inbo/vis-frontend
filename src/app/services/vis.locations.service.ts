@@ -76,10 +76,10 @@ export class LocationsService extends VisService {
         return this.http.get<AsyncValidationResult>(`${environment.apiUrl}/api/validation/fishingpoint/code/${code}`, {});
     }
 
-    searchFishingPoints(val: any, id: number): Observable<FishingPointSearch[]> {
+    searchFishingPoints(searchTerm: string, id: number): Observable<FishingPointSearch[]> {
         let params = new HttpParams()
-            .set('code', val)
-            .set('description', val);
+            .set('code', searchTerm)
+            .set('description', searchTerm);
 
         if (id) {
             params = params.set('id', id?.toString());

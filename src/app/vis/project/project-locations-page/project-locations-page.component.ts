@@ -9,12 +9,18 @@ import {LatLng} from 'leaflet';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {getTag, Tag} from '../../../shared-ui/slide-over-filter/tag';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {map, take} from 'rxjs/operators';
+import {take} from 'rxjs/operators';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {
     SearchableSelectConfig,
     SearchableSelectConfigBuilder,
 } from '../../../shared-ui/searchable-select/SearchableSelectConfig';
+import {Watercourse} from '../../../domain/location/watercourse';
+import {LenticWaterbody} from '../../../domain/location/lentic-waterbody';
+import {Province} from '../../../domain/location/province';
+import {Municipality} from '../../../domain/location/municipality';
+import {Basin} from '../../../domain/location/basin';
+import {FishingPointCode} from '../../../domain/location/fishing-point-code';
 
 @Component({
     selector: 'app-project-locations-page',
@@ -37,12 +43,12 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
 
     highlightedLocation: number;
 
-    watercourses: SearchableSelectOption[] = [];
-    lenticWaterbodies: SearchableSelectOption[] = [];
-    provinces: SearchableSelectOption[] = [];
-    municipalities: SearchableSelectOption[] = [];
-    basins: SearchableSelectOption[] = [];
-    fishingPointCodes: SearchableSelectOption[] = [];
+    watercourses: SearchableSelectOption<Watercourse>[] = [];
+    lenticWaterbodies: SearchableSelectOption<LenticWaterbody>[] = [];
+    provinces: SearchableSelectOption<Province>[] = [];
+    municipalities: SearchableSelectOption<Municipality>[] = [];
+    basins: SearchableSelectOption<Basin>[] = [];
+    fishingPointCodes: SearchableSelectOption<FishingPointCode>[] = [];
     fishingPointSearchableSelectConfig: SearchableSelectConfig;
 
     constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private locationsService: LocationsService,
@@ -180,74 +186,67 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     }
 
     getWatercourses(val: any) {
-        this.locationsService.searchWatercourses(val).pipe(
-            take(1),
-            map(watercourses => {
-                return watercourses.map(watercourse => ({
-                    selectValue: watercourse.name,
-                    option: watercourse,
-                }));
-            }),
-        ).subscribe(value => this.watercourses = value as any as SearchableSelectOption[]);
+        this.locationsService
+            .searchWatercourses(val)
+            .pipe(take(1))
+            .subscribe(watercourses =>
+                this.watercourses = watercourses.map(watercourse => ({
+                    displayValue: watercourse.name,
+                    value: watercourse,
+                })));
     }
 
     getLenticWaterbodies(val: any) {
-        this.locationsService.searchLenticWaterbodyNames(val).pipe(
-            take(1),
-            map(lenticWaterBodies => {
-                return lenticWaterBodies.map(lenticWaterbody => ({
-                    selectValue: lenticWaterbody.name,
-                    option: lenticWaterbody,
-                }));
-            }),
-        ).subscribe(value => this.lenticWaterbodies = value as any as SearchableSelectOption[]);
+        this.locationsService
+            .searchLenticWaterbodyNames(val)
+            .pipe(take(1))
+            .subscribe(lenticWaterBodies => this.lenticWaterbodies = lenticWaterBodies
+                .map(lenticWaterbody => ({
+                    displayValue: lenticWaterbody.name,
+                    value: lenticWaterbody,
+                })));
     }
 
-    getProvinces(val: any) {
-        this.locationsService.searchProvinces(val).pipe(
-            take(1),
-            map(provinces => {
-                return provinces.map(province => ({
-                    selectValue: province.name,
-                    option: province,
-                }));
-            }),
-        ).subscribe(value => this.provinces = value as any as SearchableSelectOption[]);
+    getProvinces(searchQuery: string) {
+        this.locationsService
+            .searchProvinces(searchQuery)
+            .pipe(take(1))
+            .subscribe(provinces => this.provinces = provinces
+                .map(province => ({
+                    displayValue: province.name,
+                    value: province,
+                })));
     }
 
     getMunicipalities(val: any) {
-        this.locationsService.searchMunicipalities(val).pipe(
-            take(1),
-            map(municipalities => {
-                return municipalities.map(municipality => ({
-                    selectValue: municipality.name,
-                    option: municipality,
-                }));
-            }),
-        ).subscribe(value => this.municipalities = value as any as SearchableSelectOption[]);
+        this.locationsService
+            .searchMunicipalities(val)
+            .pipe(take(1))
+            .subscribe(municipalities => this.municipalities = municipalities
+                .map(municipality => ({
+                    displayValue: municipality.name,
+                    value: municipality,
+                })));
     }
 
     getBasins(val: any) {
-        this.locationsService.searchBasins(val).pipe(
-            take(1),
-            map(basins => {
-                return basins.map(basin => ({
-                    selectValue: basin.name,
-                    option: basin,
-                }));
-            }),
-        ).subscribe(value => this.basins = value as any as SearchableSelectOption[]);
+        this.locationsService
+            .searchBasins(val)
+            .pipe(take(1))
+            .subscribe(basins => this.basins = basins.map(basin => ({
+                displayValue: basin.name,
+                value: basin,
+            })));
     }
 
     getFishingPointCodes(val: any) {
-        this.locationsService.searchFishingPointCodes(val).pipe(
-            take(1),
-            map(fishingPointCodes => {
-                return fishingPointCodes.map(fishingPointCode => ({
-                    selectValue: fishingPointCode.name,
-                    option: fishingPointCode,
-                }));
-            }),
-        ).subscribe(value => this.fishingPointCodes = value as any as SearchableSelectOption[]);
+        this.locationsService
+            .searchFishingPointCodes(val)
+            .pipe(take(1))
+            .subscribe(fishingPointCodes =>
+                this.fishingPointCodes = fishingPointCodes.map(fishingPointCode => ({
+                    displayValue: fishingPointCode.name,
+                    value: fishingPointCode,
+                })));
     }
 }

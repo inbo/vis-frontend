@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
-import {map, take} from 'rxjs/operators';
+import {map, take, tap} from 'rxjs/operators';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {Method} from '../../../domain/method/method';
 import {MethodsService} from '../../../services/vis.methods.service';
@@ -15,150 +15,160 @@ import {uniqueValidator} from '../survey-event-validators';
 import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
 import {ProjectService} from '../../../services/vis.project.service';
 import {
-  SearchableSelectConfig,
-  SearchableSelectConfigBuilder
+    SearchableSelectConfig,
+    SearchableSelectConfigBuilder,
 } from '../../../shared-ui/searchable-select/SearchableSelectConfig';
+import {FishingPointSearch} from '../../../domain/location/fishing-point';
+import {of} from 'rxjs';
 
 @Component({
-  selector: 'app-survey-event-detail-edit-page',
-  templateUrl: './survey-event-detail-edit-page.component.html'
+    selector: 'app-survey-event-detail-edit-page',
+    templateUrl: './survey-event-detail-edit-page.component.html',
 })
 export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedData {
 
-  @ViewChild(DatepickerComponent) datepicker: DatepickerComponent;
+    @ViewChild(DatepickerComponent) datepicker: DatepickerComponent;
 
-  public role = Role;
+    public role = Role;
 
-  surveyEventForm: FormGroup;
-  submitted = false;
-  surveyEvent: SurveyEvent;
+    surveyEventForm: FormGroup;
+    submitted = false;
+    surveyEvent: SurveyEvent;
 
-  locations: SearchableSelectOption[] = [];
-  methods: SearchableSelectOption[] = [];
-  fishingPointSearchableSelectConfig: SearchableSelectConfig;
+    fishingPoints: SearchableSelectOption<FishingPointSearch>[] = [];
+    filteredMethods: SearchableSelectOption<Method>[] = [];
+    fishingPointSearchableSelectConfig: SearchableSelectConfig;
+    minDate: Date;
+    maxDate: Date;
 
-  constructor(private surveyEventService: SurveyEventsService, private activatedRoute: ActivatedRoute,
-              private router: Router, private formBuilder: FormBuilder, private locationsService: LocationsService,
-              private methodsService: MethodsService, private _location: Location, private projectService: ProjectService) {
-    this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
-      .minQueryLength(2)
-      .searchPlaceholder('Minstens 2 karakters...')
-      .build();
-  }
+    private allMethods: Array<Method>;
 
-  ngOnInit(): void {
-    this.surveyEventForm = this.formBuilder.group(
-      {
-        occurrenceDate: [null, [Validators.required]],
-        location: [null, [Validators.required]],
-        method: ['', [Validators.required]],
-        comment: ['', Validators.maxLength(800)]
-      });
-
-    this.projectService.getProject(this.activatedRoute.parent.snapshot.params.projectCode)
-      .pipe(take(1))
-      .subscribe(value => {
-        this.datepicker.setMinDate(new Date(value.start));
-        // Set max date to today's date or to survey end date
-        this.datepicker.setMaxDate(value.end ? new Date(value.end) > new Date() ? new Date() : new Date(value.end) : new Date());
-      });
-
-    this.surveyEventService.getSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
-      this.activatedRoute.parent.snapshot.params.surveyEventId)
-      .pipe(take(1))
-      .subscribe(surveyEvent => {
-        this.surveyEvent = surveyEvent;
-
-        this.occurrenceDate.patchValue(new Date(surveyEvent.occurrence));
-        this.location.patchValue(surveyEvent.fishingPoint?.id);
-        this.comment.patchValue(surveyEvent.comment);
-        this.method.patchValue(surveyEvent.method);
-
-        this.getLocations(null);
-        this.getMethods(null);
-
-        this.form.setAsyncValidators([uniqueValidator(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventService,
-          surveyEvent)]);
-      });
-  }
-
-  getLocations(val: any) {
-    this.locationsService.searchFishingPoints(val, this.surveyEvent?.fishingPoint?.id).pipe(
-      take(1),
-      map(fishingPoints => {
-        return fishingPoints.map(fishingPoint => ({
-          selectValue: fishingPoint.id,
-          option: fishingPoint
-        }));
-      })
-    ).subscribe(value => this.locations = value as any as SearchableSelectOption[]);
-  }
-
-  getMethods(val: string) {
-    this.methodsService.getAllMethods().pipe(
-      take(1),
-      map((values: Method[]) => val === null ? values : values.filter(value => value.description.toLowerCase().includes(val))),
-      map(methods => {
-        return methods.map(method => ({
-          selectValue: method.code,
-          option: method
-        }));
-      })
-    ).subscribe(value => this.methods = value as any as SearchableSelectOption[]);
-
-  }
-
-  saveSurveyEvent() {
-    this.submitted = true;
-
-    if (this.surveyEventForm.invalid) {
-      return;
+    constructor(private surveyEventService: SurveyEventsService, private activatedRoute: ActivatedRoute,
+                private router: Router, private formBuilder: FormBuilder, private locationsService: LocationsService,
+                private methodsService: MethodsService, private _location: Location, private projectService: ProjectService) {
+        this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
+            .minQueryLength(2)
+            .searchPlaceholder('Minstens 2 karakters...')
+            .build();
     }
 
-    const formData = this.surveyEventForm.getRawValue();
-    formData.fishingPointId = formData.location;
-    delete formData.location;
+    ngOnInit(): void {
+        this.surveyEventForm = this.formBuilder.group(
+            {
+                occurrenceDate: [null, [Validators.required]],
+                location: [null, [Validators.required]],
+                method: ['', [Validators.required]],
+                comment: ['', Validators.maxLength(800)],
+            });
 
-    this.surveyEventService.updateSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
-      this.activatedRoute.parent.snapshot.params.surveyEventId, formData)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.router.navigate(['projecten', this.activatedRoute.parent.snapshot.params.projectCode,
-          'waarnemingen', this.activatedRoute.parent.snapshot.params.surveyEventId]).then();
-      });
-  }
+        this.projectService.getProject(this.activatedRoute.parent.snapshot.params.projectCode)
+            .pipe(take(1))
+            .subscribe(value => {
+                this.minDate = new Date(value.start);
+                // Set max date to today's date or to survey end date
+                this.maxDate = value.end ? new Date(value.end) > new Date() ? new Date() : new Date(value.end) : new Date();
+            });
 
-  get occurrenceDate() {
-    return this.surveyEventForm.get('occurrenceDate');
-  }
+        this.surveyEventService.getSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
+            this.activatedRoute.parent.snapshot.params.surveyEventId)
+            .pipe(take(1))
+            .subscribe(surveyEvent => {
+                this.surveyEvent = surveyEvent;
 
-  get location() {
-    return this.surveyEventForm.get('location');
-  }
+                this.occurrenceDate.patchValue(new Date(surveyEvent.occurrence));
+                this.location.patchValue(surveyEvent.fishingPoint?.id);
+                this.comment.patchValue(surveyEvent.comment);
+                this.method.patchValue(surveyEvent.method);
 
-  get method() {
-    return this.surveyEventForm.get('method');
-  }
+                this.getLocations(null);
+                this.getMethods(null);
 
-  get comment() {
-    return this.surveyEventForm.get('comment');
-  }
+                this.form.setAsyncValidators([uniqueValidator(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventService,
+                    surveyEvent)]);
+            });
+    }
 
-  get form() {
-    return this.surveyEventForm;
-  }
+    getLocations(searchQuery: string) {
+        this.locationsService
+            .searchFishingPoints(searchQuery, this.surveyEvent?.fishingPoint?.id)
+            .pipe(take(1))
+            .subscribe(fishingPoints =>
+                this.fishingPoints = fishingPoints
+                    .map(fishingPoint => ({
+                        displayValue: `${fishingPoint.id}`,
+                        value: fishingPoint,
+                    })));
+    }
 
-  hasUnsavedData(): boolean {
-    return this.surveyEventForm.dirty && !this.submitted;
-  }
+    getMethods(searchQuery: string) {
+        (this.allMethods ?
+            of(this.allMethods)
+            : this.methodsService.getAllMethods())
+            .pipe(
+                take(1),
+                tap(allMethods => this.allMethods = allMethods),
+                map((values: Method[]) => searchQuery === null ? values : values.filter(value => value.description.toLowerCase().includes(searchQuery))),
+            ).subscribe(
+            methods =>
+                this.filteredMethods = methods
+                    .map(method => ({
+                        displayValue: method.code,
+                        value: method,
+                    })));
 
-  @HostListener('window:beforeunload')
-  hasUnsavedDataBeforeUnload(): any {
-    // Return false when there is unsaved data to show a dialog
-    return !this.hasUnsavedData();
-  }
+    }
 
-  cancel() {
-    this._location.back();
-  }
+    saveSurveyEvent() {
+        this.submitted = true;
+
+        if (this.surveyEventForm.invalid) {
+            return;
+        }
+
+        const formData = this.surveyEventForm.getRawValue();
+        formData.fishingPointId = formData.location;
+        delete formData.location;
+
+        this.surveyEventService.updateSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
+            this.activatedRoute.parent.snapshot.params.surveyEventId, formData)
+            .pipe(take(1))
+            .subscribe(() => {
+                this.router.navigate(['projecten', this.activatedRoute.parent.snapshot.params.projectCode,
+                    'waarnemingen', this.activatedRoute.parent.snapshot.params.surveyEventId]).then();
+            });
+    }
+
+    get occurrenceDate() {
+        return this.surveyEventForm.get('occurrenceDate');
+    }
+
+    get location() {
+        return this.surveyEventForm.get('location');
+    }
+
+    get method() {
+        return this.surveyEventForm.get('method');
+    }
+
+    get comment() {
+        return this.surveyEventForm.get('comment');
+    }
+
+    get form() {
+        return this.surveyEventForm;
+    }
+
+    hasUnsavedData(): boolean {
+        return this.surveyEventForm.dirty && !this.submitted;
+    }
+
+    @HostListener('window:beforeunload')
+    hasUnsavedDataBeforeUnload(): any {
+        // Return false when there is unsaved data to show a dialog
+        return !this.hasUnsavedData();
+    }
+
+    cancel() {
+        this._location.back();
+    }
 }

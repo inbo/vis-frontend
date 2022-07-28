@@ -1,5 +1,4 @@
 import {
-    AfterViewInit,
     ChangeDetectorRef,
     Component,
     ContentChild,
@@ -9,7 +8,6 @@ import {
     Input,
     OnChanges,
     OnDestroy,
-    OnInit,
     Output,
     SimpleChanges,
     TemplateRef,
@@ -33,7 +31,11 @@ import _ from 'lodash';
         },
     ],
 })
-export class SearchableSelectComponent implements OnDestroy, ControlValueAccessor, OnChanges {
+export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAccessor, OnChanges {
+
+    get options(): SearchableSelectOption<T>[] {
+        return this._options;
+    }
 
     @ContentChild('listItem', {static: false}) listItemTemplateRef: TemplateRef<any>;
     @ContentChild('selected', {static: false}) selectedTemplateRef: TemplateRef<any>;
@@ -42,22 +44,30 @@ export class SearchableSelectComponent implements OnDestroy, ControlValueAccesso
     @ViewChild('valuesList') valuesList: ElementRef;
     @ViewChild('selectButton') selectButton: ElementRef;
 
+    @Input()
+    set options(value: SearchableSelectOption<T>[]) {
+        this._options = value;
+        if (!this.selectedValueOption && this.selectedValue) {
+            this.selectedValueOption = this._options.find(option => option.value === this.selectedValue);
+        }
+    }
+
     @Input() passedId: string;
     @Input() formControlName: string;
-    @Input() options: SearchableSelectOption[];
     @Input() placeholder: string;
     @Input() configuration?: SearchableSelectConfig = new SearchableSelectConfigBuilder().build();
 
-    @Output() search: EventEmitter<any> = new EventEmitter();
+    @Output() search: EventEmitter<string> = new EventEmitter();
     @Output() enterPressed: EventEmitter<any> = new EventEmitter();
     @Output() reset = new EventEmitter<void>();
 
     open = false;
     isDisabled = false;
     selectedValue: any;
-    selectedValueOption: SearchableSelectOption;
+    selectedValueOption: SearchableSelectOption<T>;
 
     private touched = false;
+    private _options: SearchableSelectOption<T>[];
 
     private onChange: (value) => void;
     private onTouched: () => void;
@@ -70,9 +80,9 @@ export class SearchableSelectComponent implements OnDestroy, ControlValueAccesso
 
     ngOnChanges(changes: SimpleChanges) {
         if (this.selectedValueOption === undefined) {
-            const filtered = this.options?.filter(value => _.isEqual(value.selectValue, this.selectedValue));
+            const filtered = this._options?.filter(value => _.isEqual(value.displayValue, this.selectedValue));
             if (filtered?.length > 0) {
-                this.selectedValue = filtered[0].selectValue;
+                this.selectedValue = filtered[0].displayValue;
                 this.selectedValueOption = filtered[0];
             }
         }
@@ -88,6 +98,9 @@ export class SearchableSelectComponent implements OnDestroy, ControlValueAccesso
             this.reset.emit();
         }
         this.selectedValue = obj;
+        if (this.selectedValueOption === undefined) {
+            this.selectedValueOption = this._options?.find(option => option.value === obj);
+        }
     }
 
     registerOnChange(onChange: any): void {
@@ -101,7 +114,7 @@ export class SearchableSelectComponent implements OnDestroy, ControlValueAccesso
     markAsTouched() {
         if (!this.touched) {
             this.touched = true;
-            this.onTouched();
+            this.onTouched && this.onTouched();
         }
     }
 
@@ -109,10 +122,10 @@ export class SearchableSelectComponent implements OnDestroy, ControlValueAccesso
         this.isDisabled = isDisabled;
     }
 
-    select(option: SearchableSelectOption) {
-        this.selectedValue = option.selectValue;
+    select(option: SearchableSelectOption<T>) {
+        this.selectedValue = option.value;
         this.selectedValueOption = option;
-        this.onChange(this.selectedValue);
+        this.onChange && this.onChange(this.selectedValue);
 
         this.markAsTouched();
         this.close();
@@ -184,7 +197,7 @@ export class SearchableSelectComponent implements OnDestroy, ControlValueAccesso
         }
     }
 
-    selectOnEnter(event: KeyboardEvent, option: SearchableSelectOption) {
+    selectOnEnter(event: KeyboardEvent, option: SearchableSelectOption<T>) {
         if (event.key === 'Enter') {
             this.enterPressed.emit({event, open: this.open});
             this.select(option);

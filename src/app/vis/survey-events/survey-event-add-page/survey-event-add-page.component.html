@@ -1,117 +1,125 @@
 <div>
-  <div class="max-w-none mx-auto">
-    <form [formGroup]="createSurveyEventForm" class="space-y-8 divide-y divide-gray-200">
-      <div class="bg-white overflow-visible sm:rounded-lg sm:shadow">
-        <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Waarneming toevoegen
-          </h3>
-        </div>
-        <div class="bg-white px-4 py-5 sm:px-6">
-          <div class="space-y-8 divide-y divide-gray-200">
-            <div>
-              <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-                <div class="sm:col-span-4">
-                  <label class="block text-sm font-medium text-gray-700">
-                    Datum *
-                  </label>
-                  <div class="mt-1">
-                    <app-datepicker formControlName="occurrenceDate"></app-datepicker>
-                  </div>
-                  <app-form-error-message [fieldName]="'Datum'" [control]="occurrenceDate"
-                                          [submitted]="submitted"></app-form-error-message>
+    <div class="max-w-none mx-auto">
+        <form [formGroup]="createSurveyEventForm" class="space-y-8 divide-y divide-gray-200">
+            <div class="bg-white overflow-visible sm:rounded-lg sm:shadow">
+                <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        Waarneming toevoegen
+                    </h3>
                 </div>
+                <div class="bg-white px-4 py-5 sm:px-6">
+                    <div class="space-y-8 divide-y divide-gray-200">
+                        <div>
+                            <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                                <div class="sm:col-span-4">
+                                    <label class="block text-sm font-medium text-gray-700">
+                                        Datum *
+                                    </label>
+                                    <div class="mt-1">
+                                        <app-datepicker formControlName="occurrenceDate"
+                                                        [minDate]="minDate"
+                                                        [maxDate]="maxDate">
+                                        </app-datepicker>
+                                    </div>
+                                    <app-form-error-message [fieldName]="'Datum'" [control]="occurrenceDate"
+                                                            [submitted]="submitted"></app-form-error-message>
+                                </div>
 
-                <div class="relative sm:col-span-4">
-                  <label for="location" class="block text-sm font-medium text-gray-700">
-                    Locatie *
-                  </label>
-                  <div class="mt-1">
-                    <app-searchable-select id="location" passedId="location" placeholder="Selecteer een locatie"
-                                           tabIndex="-1" formControlName="location"
-                                           (search)="getLocations($event)"
-                                           [options]="locations"
-                                           [configuration]="fishingPointSearchableSelectConfig">
-                      <ng-template let-rowDetail #selected>
-                        <div *ngIf="rowDetail" class="flex justify-between content-center">
-                          <span>{{rowDetail.option?.code + ' - ' + rowDetail.option?.description}}</span>
-                          <a tabindex="-1" [routerLink]="['/locaties', rowDetail.option.code]" class="text-gray-400 self-center"
-                             target="_blank">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
-                              <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
-                            </svg>
-                          </a>
+                                <div class="relative sm:col-span-4">
+                                    <label for="location" class="block text-sm font-medium text-gray-700">
+                                        Locatie *
+                                    </label>
+                                    <div class="mt-1">
+                                        <app-searchable-select id="location" passedId="location"
+                                                               placeholder="Selecteer een locatie"
+                                                               tabIndex="-1" formControlName="location"
+                                                               (search)="getLocations($event)"
+                                                               [options]="locations"
+                                                               [configuration]="fishingPointSearchableSelectConfig">
+                                            <ng-template let-rowDetail #selected>
+                                                <div *ngIf="rowDetail" class="flex justify-between content-center">
+                                                    <span>{{rowDetail.option?.code + ' - ' + rowDetail.option?.description}}</span>
+                                                    <a tabindex="-1" [routerLink]="['/locaties', rowDetail.option.code]"
+                                                       class="text-gray-400 self-center"
+                                                       target="_blank">
+                                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                    d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
+                                                            <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                            </ng-template>
+
+                                            <ng-template let-rowDetail #listItem>
+                                                {{rowDetail.option.code + ' - ' + rowDetail.option.description}}
+                                            </ng-template>
+
+                                        </app-searchable-select>
+                                    </div>
+                                    <app-form-error-message [fieldName]="'Locatie'" [control]="location"
+                                                            [submitted]="submitted"></app-form-error-message>
+                                </div>
+
+                                <div class="relative sm:col-span-4">
+                                    <label for="method" class="block text-sm font-medium text-gray-700">
+                                        Methode *
+                                    </label>
+                                    <div class="mt-1">
+                                        <app-searchable-select id="method" passedId="method"
+                                                               placeholder="Selecteer een methode"
+                                                               tabIndex="-1"
+                                                               formControlName="method" (search)="getMethods($event)"
+                                                               [options]="filteredMethods">
+                                            <ng-template let-rowDetail #selected>
+                                                {{rowDetail.option.code + ' - ' + rowDetail.option.description}}
+                                            </ng-template>
+
+                                            <ng-template let-rowDetail #listItem>
+                                                {{rowDetail.option.code + ' - ' + rowDetail.option.description}}
+                                            </ng-template>
+
+                                        </app-searchable-select>
+                                    </div>
+                                    <app-form-error-message [fieldName]="'Methode'" [control]="method"
+                                                            [submitted]="submitted"></app-form-error-message>
+                                </div>
+
+                                <div class="sm:col-span-6">
+                                    <label for="comment" class="block text-sm font-medium text-gray-700">
+                                        Commentaar
+                                    </label>
+                                    <div class="mt-1">
+                                        <textarea formControlName="comment" id="comment" name="comment"
+                                                  rows="3"></textarea>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <app-text-counter [max]="800" [text]="comment.value"></app-text-counter>
+                                    </div>
+                                    <app-form-error-message [fieldName]="'Commentaar'" [control]="comment"
+                                                            [submitted]="submitted"></app-form-error-message>
+                                </div>
+                            </div>
+                            <app-form-error-message [fieldName]="'Waarneming'" [control]="form"
+                                                    [submitted]="submitted"></app-form-error-message>
                         </div>
-                      </ng-template>
-
-                      <ng-template let-rowDetail #listItem>
-                        {{rowDetail.option.code + ' - ' + rowDetail.option.description}}
-                      </ng-template>
-
-                    </app-searchable-select>
-                  </div>
-                  <app-form-error-message [fieldName]="'Locatie'" [control]="location"
-                                          [submitted]="submitted"></app-form-error-message>
+                    </div>
                 </div>
 
-                <div class="relative sm:col-span-4">
-                  <label for="method" class="block text-sm font-medium text-gray-700">
-                    Methode *
-                  </label>
-                  <div class="mt-1">
-                    <app-searchable-select id="method" passedId="method" placeholder="Selecteer een methode"
-                                           tabIndex="-1"
-                                           formControlName="method" (search)="getMethods($event)"
-                                           [options]="methods">
-                      <ng-template let-rowDetail #selected>
-                        {{rowDetail.option.code + ' - ' + rowDetail.option.description}}
-                      </ng-template>
-
-                      <ng-template let-rowDetail #listItem>
-                        {{rowDetail.option.code + ' - ' + rowDetail.option.description}}
-                      </ng-template>
-
-                    </app-searchable-select>
-                  </div>
-                  <app-form-error-message [fieldName]="'Methode'" [control]="method"
-                                          [submitted]="submitted"></app-form-error-message>
+                <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
+                    <div class="flex justify-end">
+                        <button (click)="cancel()" type="button"
+                                class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+                            Annuleren
+                        </button>
+                        <button (click)="createSurveyEvent()" type="button"
+                                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+                            Bewaren
+                        </button>
+                    </div>
                 </div>
-
-                <div class="sm:col-span-6">
-                  <label for="comment" class="block text-sm font-medium text-gray-700">
-                    Commentaar
-                  </label>
-                  <div class="mt-1">
-                    <textarea formControlName="comment" id="comment" name="comment" rows="3"></textarea>
-                  </div>
-                  <div class="flex justify-between">
-                    <app-text-counter [max]="800" [text]="comment.value"></app-text-counter>
-                  </div>
-                  <app-form-error-message [fieldName]="'Commentaar'" [control]="comment"
-                                          [submitted]="submitted"></app-form-error-message>
-                </div>
-              </div>
-              <app-form-error-message [fieldName]="'Waarneming'" [control]="form"
-                                      [submitted]="submitted"></app-form-error-message>
             </div>
-          </div>
-        </div>
-
-        <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
-          <div class="flex justify-end">
-            <button (click)="cancel()" type="button"
-                    class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-              Annuleren
-            </button>
-            <button (click)="createSurveyEvent()" type="button"
-                    class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-              Bewaren
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
+        </form>
+    </div>
 </div>
