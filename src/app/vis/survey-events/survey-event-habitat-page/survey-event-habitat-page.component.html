@@ -20,7 +20,7 @@
                     Bodem
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            <span *ngIf="habitat?.soil; else unknownValue">
+            <span *ngIf="habitat?.soil; else nullValue">
               <span *ngFor="let v of soils(); let last = last">{{'surveyEvent.habitat.soil.' + v | translate}}
                   <span *ngIf="!last">, </span></span>
             </span>
@@ -32,7 +32,7 @@
                     Waterpeil
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span *ngIf="habitat?.waterLevel; else unknownValue">
+                <span *ngIf="habitat?.waterLevel; else nullValue">
                     {{'surveyEvent.habitat.waterLevel.' + habitat.waterLevel | translate}}
                 </span>
                 </dd>
@@ -43,7 +43,7 @@
                     Natuurlijke schuilplaatsen
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    <span *ngIf="habitat?.shelters; else unknownValue">
+                    <span *ngIf="habitat?.shelters; else nullValue">
                         {{'surveyEvent.habitat.shelter.' + habitat.shelters | translate}}
                     </span>
                 </dd>
@@ -54,7 +54,7 @@
                     Poelen
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    <span *ngIf="habitat?.pool; else unknownValue">
+                    <span *ngIf="habitat?.pool; else nullValue">
                         {{'surveyEvent.habitat.pool.' + habitat.pool | translate}}
                     </span>
                 </dd>
@@ -65,7 +65,7 @@
                     Stroomversnellingen
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    <span *ngIf="habitat?.rapids; else unknownValue">
+                    <span *ngIf="habitat?.rapids; else nullValue">
                         {{'surveyEvent.habitat.rapids.' + habitat.rapids | translate}}
                     </span>
                 </dd>
@@ -76,7 +76,7 @@
                     Bochten
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    <span *ngIf="habitat?.creeks; else unknownValue">
+                    <span *ngIf="habitat?.creeks; else nullValue">
                         {{'surveyEvent.habitat.creeks.' + habitat.creeks | translate}}
                     </span>
                 </dd>
@@ -87,7 +87,7 @@
                     Oever
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    <span *ngIf="habitat?.shore; else unknownValue">
+                    <span *ngIf="habitat?.shore; else nullValue">
                         {{'surveyEvent.habitat.shore.' + habitat.shore | translate}}
                     </span>
                 </dd>
@@ -98,7 +98,7 @@
                     Taludhelling
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    <span *ngIf="habitat?.slope; else unknownValue">
+                    <span *ngIf="habitat?.slope; else nullValue">
                         {{'surveyEvent.habitat.slope.' + habitat.slope | translate}}
                     </span>
                 </dd>
@@ -109,7 +109,7 @@
                     Landbouw
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span *ngIf="habitat?.agriculture; else unknownValue">
+                <span *ngIf="habitat?.agriculture; else nullValue">
                     {{'surveyEvent.habitat.agriculture.' + habitat.agriculture | translate}}
                 </span>
                 </dd>
@@ -120,7 +120,7 @@
                     Weide
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    <span *ngIf="habitat?.meadow; else unknownValue">
+                    <span *ngIf="habitat?.meadow; else nullValue">
                         {{'surveyEvent.habitat.meadow.' + habitat.meadow | translate}}
                     </span>
                 </dd>
@@ -131,7 +131,7 @@
                     Bomen
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    <span *ngIf="habitat?.trees; else unknownValue">
+                    <span *ngIf="habitat?.trees; else nullValue">
                         {{'surveyEvent.habitat.trees.' + habitat.trees | translate}}
                     </span>
                 </dd>
@@ -142,7 +142,7 @@
                     Bebouwing
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span *ngIf="habitat?.buildings; else unknownValue">
+                <span *ngIf="habitat?.buildings; else nullValue">
                     {{'surveyEvent.habitat.buildings.' + habitat.buildings | translate}}
                 </span>
                 </dd>
@@ -153,7 +153,7 @@
                     Industrie
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span *ngIf="habitat?.industry; else unknownValue">
+                <span *ngIf="habitat?.industry; else nullValue">
                     {{'surveyEvent.habitat.industry.' + habitat.industry | translate}}
                 </span>
                 </dd>
@@ -164,7 +164,7 @@
                     Loop
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    <span *ngIf="habitat?.current; else unknownValue">
+                    <span *ngIf="habitat?.current; else nullValue">
                         {{'surveyEvent.habitat.current.' + habitat.current | translate}}
                     </span>
                 </dd>
@@ -175,7 +175,7 @@
                     Knelpunt
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span *ngIf="habitat?.bottleneck; else unknownValue">
+                <span *ngIf="habitat?.bottleneck; else nullValue">
                     <span *ngFor="let v of bottlenecks(); let last = last">
                         {{'surveyEvent.habitat.bottleneck.' + v | translate}}
                         <span *ngIf="!last">, </span></span>
@@ -188,7 +188,7 @@
                     Vispassage
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span *ngIf="habitat?.fishPassage; else unknownValue">
+                <span *ngIf="habitat?.fishPassage; else nullValue">
                     {{'surveyEvent.habitat.fish-passage.' + habitat.fishPassage | translate}}
                 </span>
                 </dd>
@@ -199,7 +199,7 @@
                     Vegetatie
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span *ngIf="habitat?.vegetation; else unknownValue">
+                <span *ngIf="habitat?.vegetation; else nullValue">
                   <span *ngFor="let v of vegetations(); let last = last">
                       {{'surveyEvent.habitat.vegetation.' + v | translate}}
                       <span *ngIf="!last">, </span></span>
@@ -219,6 +219,6 @@
     </div>
 </div>
 
-<ng-template #unknownValue>
+<ng-template #nullValue>
     <span>Geen gegevens</span>
 </ng-template>
