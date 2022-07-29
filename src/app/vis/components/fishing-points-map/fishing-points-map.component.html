@@ -60,15 +60,23 @@
                 </div>
                 <div class="mt-6 relative flex-1 px-4 sm:px-6">
                     <div class="absolute inset-0 px-4 sm:px-6">
-                        <app-fishing-points-selected-feature *ngIf="selected && selected.has(4)"
-                                                             [properties]="selected.get(4)" [layerName]="layerName(4)"
-                                                             [layerNumber]="4"></app-fishing-points-selected-feature>
+                        <!-- Vispunt -->
+                        <app-fishing-points-selected-feature *ngIf="selected && selected.has(5)"
+                                                             [properties]="selected.get(5)" [layerName]="layerName(5)"
+                                                             [layerNumber]="5"></app-fishing-points-selected-feature>
+                        <!-- VHA Waterloop -->
                         <app-fishing-points-selected-feature *ngIf="selected && selected.has(0)"
                                                              [properties]="selected.get(0)" [layerName]="layerName(0)"
                                                              [layerNumber]="0"></app-fishing-points-selected-feature>
+                        <!-- BRU hydro -->
+                        <app-fishing-points-selected-feature *ngIf="selected && selected.has(4)"
+                                                             [properties]="selected.get(4)" [layerName]="layerName(4)"
+                                                             [layerNumber]="0"></app-fishing-points-selected-feature>
+                        <!-- Watervlak -->
                         <app-fishing-points-selected-feature *ngIf="selected && selected.has(1)"
                                                              [properties]="selected.get(1)" [layerName]="layerName(1)"
                                                              [layerNumber]="1"></app-fishing-points-selected-feature>
+                        <!-- Gemeente -->
                         <app-fishing-points-selected-feature *ngIf="selected && selected.has(3)"
                                                              [properties]="selected.get(3)" [layerName]="layerName(3)"
                                                              [layerNumber]="3"></app-fishing-points-selected-feature>

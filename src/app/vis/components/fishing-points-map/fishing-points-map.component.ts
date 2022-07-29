@@ -97,6 +97,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     };
     selected = new Map();
 
+    private locationsLayerId = 5;
     private layerMetadata = new Map();
     private clickedLatlng: LatLng;
 
@@ -290,13 +291,13 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                                 lat: fishingPointFeature.lat,
                                 lng: fishingPointFeature.lng,
                             };
-                            this.selected.set(5, filteredProperties);
+                            this.selected.set(this.locationsLayerId, filteredProperties);
                             this.openInfo();
                         });
                         this.locationsLayer.addLayer(circleMark);
 
                     });
-                    this.layerMetadata.set(5, {name: 'Vispunt'});
+                    this.layerMetadata.set(this.locationsLayerId, {name: 'Vispunt'});
                 }),
                 mapTo(undefined),
             );
@@ -308,7 +309,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 stroke: false,
             });
         });
-        this.selected.delete(4);
+        this.selected.delete(this.locationsLayerId);
     }
 
     mapReady(map: LeafletMap) {
