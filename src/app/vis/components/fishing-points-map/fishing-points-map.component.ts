@@ -86,7 +86,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
     map: LeafletMap;
     center: LatLng = latLng(51.2, 4.14);
-    open = false;
+    openSelectionPanel = false;
     showTooltips = true;
 
     private visibleFields = {
@@ -292,7 +292,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                                 lng: fishingPointFeature.lng,
                             };
                             this.selected.set(this.locationsLayerId, filteredProperties);
-                            this.openInfo();
+                            this.openSelection();
                         });
                         this.locationsLayer.addLayer(circleMark);
 
@@ -396,6 +396,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         this.highlightSelectionLayer.clearLayers();
         const coordinate = e.latlng;
         this.updateSelections(coordinate);
+        this.openSelection();
     }
 
     public updateSelections(coordinate: LatLng) {
@@ -494,11 +495,11 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     closeSelection() {
-        this.open = false;
+        this.openSelectionPanel = false;
     }
 
-    openInfo() {
-        this.open = true;
+    openSelection() {
+        this.openSelectionPanel = true;
     }
 
     toggleTooltips() {
