@@ -300,6 +300,13 @@
       "NISCODE_PR": "NISCODE PR",
       "PROVINCIE": "Provincie"
     },
+    "4": {
+      "type": "Type waterloop",
+      "naam": "Waterloop",
+      "beschrijvi": "Beschrijving",
+      "codecat": "Categorie code",
+      "categorie": "Categorie"
+    },
     "5": {
       "CODE": "Meetplaatscode",
       "DESCRIPTION": "Omschrijving",

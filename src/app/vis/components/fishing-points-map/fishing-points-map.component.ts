@@ -203,7 +203,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
             label: 'Waterlopen',
             layers: [0, 4],
             formatSuggestion(feature) {
-                return `${feature.properties.NAAM} || ${feature.properties.naam}`;
+                return `${feature.properties.NAAM || feature.properties.naam}`;
             },
         });
 
@@ -333,7 +333,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         const fl1 = featureLayer({url: `${version.value}/1`});
         const fl3 = featureLayer({url: `${version.value}/3`});
         const fl4 = featureLayer({url: `${version.value}/4`});
-        // TODO: switch legend between VHA & BRU ?
 
         fl0.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
         fl1.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
@@ -388,13 +387,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
     }
 
-    public queryNearbyWatercourses() {
-        const coordinate = (this.newLocationLayerGroup.getLayers()[0] as Marker).getLatLng();
-        this.watercourseLayer.query().layer(0).nearby(coordinate, 5).run((error, featureCollection) => {
-            this.nearbyWatercoursesFound.emit(featureCollection);
-        });
-    }
-
     clickMap(e: LeafletMouseEvent) {
         if (this.clickedLatlng !== e.latlng) {
             this.clearLocationsSelectedStyle();
@@ -406,7 +398,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     public updateSelections(coordinate: LatLng) {
-        this.updateWatercourseSelection(coordinate);
+        this.updateVHAWatercourseSelection(coordinate);
+        this.updateBRUWatercourseSelection(coordinate);
         this.updateBlueLayerSelection(coordinate);
         this.updateTownLayerSelection(coordinate);
     }
@@ -437,9 +430,9 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         }
     }
 
-    public updateWatercourseSelection(coordinate: LatLng) {
+    public updateVHAWatercourseSelection(coordinate: LatLng) {
         if (this.map.hasLayer(this.watercourseLayer)) {
-            this.watercourseLayer.identify().on(this.map).layers('visible:0,4').at(coordinate).run((error, featureCollection) => {
+            this.watercourseLayer.identify().on(this.map).layers('visible:0').at(coordinate).run((error, featureCollection) => {
                 if (error) {
                     return;
                 }
@@ -447,6 +440,20 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 this.selected.delete(0);
                 this.selectFeature(featureCollection, 0);
                 this.vhaLayerSelected.emit(this.selected.get(0));
+            });
+        }
+    }
+
+    public updateBRUWatercourseSelection(coordinate: LatLng) {
+        if (this.map.hasLayer(this.watercourseLayer)) {
+            this.watercourseLayer.identify().on(this.map).layers('visible:4').at(coordinate).run((error, featureCollection) => {
+                if (error) {
+                    return;
+                }
+
+                this.selected.delete(4);
+                this.selectFeature(featureCollection, 4);
+                this.vhaLayerSelected.emit(this.selected.get(4));
             });
         }
     }
