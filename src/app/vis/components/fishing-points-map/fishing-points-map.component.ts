@@ -396,7 +396,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         this.highlightSelectionLayer.clearLayers();
         const coordinate = e.latlng;
         this.updateSelections(coordinate);
-        this.openSelection();
     }
 
     public updateSelections(coordinate: LatLng) {
