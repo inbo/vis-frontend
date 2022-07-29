@@ -271,6 +271,14 @@
     "province": "Provincie",
     "municipality": "Gemeente"
   },
+  "layer": {
+    "VHA_Waterlopen": "VHA waterloop",
+    "Watervlakken": "Watervlak",
+    "VHA_zones": "VHA zone",
+    "Gemeenten": "Plaats",
+    "BRU_hydro": "Brusselse waterloop",
+    "Vispunt": "Vispunt"
+  },
   "map": {
     "0": {
       "VHAS": "VHAS",

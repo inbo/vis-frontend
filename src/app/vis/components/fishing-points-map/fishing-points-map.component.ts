@@ -337,7 +337,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         fl0.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
         fl1.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
         fl3.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
-        fl4.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
+        // Layer 4, BRU_hydro contains mostly the same legend entries as layer 0, VHA_Waterlopen.
+        fl4.metadata((error, metadata) => this.layerMetadata.set(metadata.id, metadata));
 
     }
 
