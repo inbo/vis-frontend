@@ -11,16 +11,7 @@ import {getTag, Tag} from '../../../shared-ui/slide-over-filter/tag';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {take} from 'rxjs/operators';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
-import {
-    SearchableSelectConfig,
-    SearchableSelectConfigBuilder,
-} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
-import {Watercourse} from '../../../domain/location/watercourse';
-import {LenticWaterbody} from '../../../domain/location/lentic-waterbody';
-import {Province} from '../../../domain/location/province';
-import {Municipality} from '../../../domain/location/municipality';
-import {Basin} from '../../../domain/location/basin';
-import {FishingPointCode} from '../../../domain/location/fishing-point-code';
+import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
     selector: 'app-project-locations-page',
@@ -43,12 +34,12 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
 
     highlightedLocation: number;
 
-    watercourses: SearchableSelectOption<Watercourse>[] = [];
-    lenticWaterbodies: SearchableSelectOption<LenticWaterbody>[] = [];
-    provinces: SearchableSelectOption<Province>[] = [];
-    municipalities: SearchableSelectOption<Municipality>[] = [];
-    basins: SearchableSelectOption<Basin>[] = [];
-    fishingPointCodes: SearchableSelectOption<FishingPointCode>[] = [];
+    watercourses: SearchableSelectOption<string>[] = [];
+    lenticWaterbodies: SearchableSelectOption<string>[] = [];
+    provinces: SearchableSelectOption<string>[] = [];
+    municipalities: SearchableSelectOption<string>[] = [];
+    basins: SearchableSelectOption<string>[] = [];
+    fishingPointCodes: SearchableSelectOption<string>[] = [];
     fishingPointSearchableSelectConfig: SearchableSelectConfig;
 
     constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private locationsService: LocationsService,
@@ -192,7 +183,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
             .subscribe(watercourses =>
                 this.watercourses = watercourses.map(watercourse => ({
                     displayValue: watercourse.name,
-                    value: watercourse,
+                    value: watercourse.name,
                 })));
     }
 
@@ -203,7 +194,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
             .subscribe(lenticWaterBodies => this.lenticWaterbodies = lenticWaterBodies
                 .map(lenticWaterbody => ({
                     displayValue: lenticWaterbody.name,
-                    value: lenticWaterbody,
+                    value: lenticWaterbody.name,
                 })));
     }
 
@@ -214,7 +205,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
             .subscribe(provinces => this.provinces = provinces
                 .map(province => ({
                     displayValue: province.name,
-                    value: province,
+                    value: province.name,
                 })));
     }
 
@@ -225,7 +216,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
             .subscribe(municipalities => this.municipalities = municipalities
                 .map(municipality => ({
                     displayValue: municipality.name,
-                    value: municipality,
+                    value: municipality.name,
                 })));
     }
 
@@ -235,7 +226,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
             .pipe(take(1))
             .subscribe(basins => this.basins = basins.map(basin => ({
                 displayValue: basin.name,
-                value: basin,
+                value: basin.name,
             })));
     }
 
@@ -246,7 +237,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
             .subscribe(fishingPointCodes =>
                 this.fishingPointCodes = fishingPointCodes.map(fishingPointCode => ({
                     displayValue: fishingPointCode.name,
-                    value: fishingPointCode,
+                    value: fishingPointCode.name,
                 })));
     }
 }

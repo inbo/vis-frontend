@@ -22,16 +22,7 @@ import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
 import {LocationsService} from '../../../services/vis.locations.service';
-import {
-    SearchableSelectConfig,
-    SearchableSelectConfigBuilder,
-} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
-import {Watercourse} from '../../../domain/location/watercourse';
-import {LenticWaterbody} from '../../../domain/location/lentic-waterbody';
-import {Municipality} from '../../../domain/location/municipality';
-import {Basin} from '../../../domain/location/basin';
-import {FishingPointCode} from '../../../domain/location/fishing-point-code';
-import {Taxon} from '../../../domain/taxa/taxon';
+import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
     selector: 'app-survey-events-overview-page',
@@ -54,14 +45,14 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     surveyEvents$: Observable<SurveyEventOverview[]>;
     methodGroups$: Observable<MethodGroup[]>;
     methods$: Observable<Method[]>;
-    species: SearchableSelectOption<Taxon>[] = [];
+    species: SearchableSelectOption<number>[] = [];
     statuses$: Observable<MultiSelectOption[]>;
 
-    watercourses: SearchableSelectOption<Watercourse>[] = [];
-    lenticWaterbodies: SearchableSelectOption<LenticWaterbody>[] = [];
-    municipalities: SearchableSelectOption<Municipality>[] = [];
-    basins: SearchableSelectOption<Basin>[] = [];
-    fishingPointCodes: SearchableSelectOption<FishingPointCode>[] = [];
+    watercourses: SearchableSelectOption<string>[] = [];
+    lenticWaterbodies: SearchableSelectOption<string>[] = [];
+    municipalities: SearchableSelectOption<string>[] = [];
+    basins: SearchableSelectOption<string>[] = [];
+    fishingPointCodes: SearchableSelectOption<string>[] = [];
     fishingPointSearchableSelectConfig: SearchableSelectConfig;
 
     private subscription = new Subscription();
@@ -194,8 +185,8 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
             .subscribe(taxa =>
                 this.species = taxa
                     .map(taxon => ({
-                        displayValue: `${taxon.id.value}`,
-                        value: taxon,
+                        displayValue: taxon.nameDutch,
+                        value: taxon.id.value,
                     })));
     }
 
@@ -284,7 +275,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
                 this.watercourses = watercourses
                     .map(watercourse => ({
                         displayValue: watercourse.name,
-                        value: watercourse,
+                        value: watercourse.name,
                     })));
     }
 
@@ -296,7 +287,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
                 this.lenticWaterbodies = lenticWaterBodies
                     .map(lenticWaterbody => ({
                         displayValue: lenticWaterbody.name,
-                        value: lenticWaterbody,
+                        value: lenticWaterbody.name,
                     })));
     }
 
@@ -308,7 +299,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
                 this.municipalities = municipalities
                     .map(municipality => ({
                         displayValue: municipality.name,
-                        value: municipality,
+                        value: municipality.name,
                     })));
     }
 
@@ -319,7 +310,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
             .subscribe(basins =>
                 this.basins = basins.map(basin => ({
                     displayValue: basin.name,
-                    value: basin,
+                    value: basin.name,
                 })));
     }
 
@@ -331,7 +322,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
                 this.fishingPointCodes = fishingPointCodes
                     .map(fishingPointCode => ({
                         displayValue: fishingPointCode.name,
-                        value: fishingPointCode,
+                        value: fishingPointCode.name,
                     })));
     }
 }

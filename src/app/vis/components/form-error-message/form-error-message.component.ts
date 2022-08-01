@@ -24,7 +24,7 @@ export class FormErrorMessageComponent implements OnInit {
   }
 
   displayErrorMessage() {
-    if (this.control.errors) {
+    if (this.control?.errors) {
       return (this.showAfterSubmitted && this.submitted) || (!this.showAfterSubmitted && (this.submitted ||
         (this.control.dirty || this.control.touched))) && this.control.invalid;
     }

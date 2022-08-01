@@ -12,11 +12,7 @@ import {HasUnsavedData} from '../../../core/core.interface';
 import {ProjectService} from '../../../services/vis.project.service';
 import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
 import {uniqueValidator} from '../survey-event-validators';
-import {
-    SearchableSelectConfig,
-    SearchableSelectConfigBuilder,
-} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
-import {FishingPointSearch} from '../../../domain/location/fishing-point';
+import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 import {of} from 'rxjs';
 
 @Component({
@@ -31,8 +27,8 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
     isOpen = false;
     submitted = false;
 
-    locations: SearchableSelectOption<FishingPointSearch>[] = [];
-    filteredMethods: SearchableSelectOption<Method>[] = [];
+    fishingPoints: SearchableSelectOption<number>[] = [];
+    filteredMethods: SearchableSelectOption<string>[] = [];
     fishingPointSearchableSelectConfig: SearchableSelectConfig;
     minDate: Date;
     maxDate: Date;
@@ -59,9 +55,9 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
 
         this.createSurveyEventForm = this.formBuilder.group(
             {
-                occurrenceDate: [null, [Validators.required]],
-                location: [null, [Validators.required]],
-                method: [null, [Validators.required]],
+                occurrenceDate: [undefined, [Validators.required]],
+                fishingPointId: [undefined, [Validators.required]],
+                method: [undefined, [Validators.required]],
                 comment: ['', Validators.maxLength(800)],
             }, {asyncValidators: [uniqueValidator(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventService)]});
 
@@ -73,10 +69,10 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
             .searchFishingPoints(searchTerm, undefined)
             .pipe(take(1))
             .subscribe(fishingPoints =>
-                this.locations = fishingPoints
+                this.fishingPoints = fishingPoints
                     .map(fishingPoint => ({
-                        displayValue: `${fishingPoint.id}`,
-                        value: fishingPoint,
+                        displayValue: fishingPoint.code,
+                        value: fishingPoint.id,
                     })));
     }
 
@@ -87,13 +83,17 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
             .pipe(
                 take(1),
                 tap(allMethods => this.allMethods = allMethods),
-                map((values: Method[]) => searchQuery === null ? values : values.filter(value => value.description.toLowerCase().includes(searchQuery))),
+                map((values: Method[]) => searchQuery === null
+                    ? values
+                    : values.filter(value =>
+                        value.description.toLowerCase().includes(searchQuery.toLowerCase())
+                        || value.code.toLowerCase().includes(searchQuery.toLowerCase()))),
             ).subscribe(
             methods =>
                 this.filteredMethods = methods
                     .map(method => ({
-                        displayValue: method.code,
-                        value: method,
+                        displayValue: `${method.code} - ${method.description}`,
+                        value: method.code,
                     })));
 
     }
@@ -106,8 +106,6 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
         }
 
         const formData = this.createSurveyEventForm.getRawValue();
-        formData.fishingPointId = formData.location;
-        delete formData.location;
 
         this.surveyEventService.createSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode, formData)
             .pipe(take(1))

@@ -1,7 +1,6 @@
 import {
     ChangeDetectorRef,
     Component,
-    ContentChild,
     ElementRef,
     EventEmitter,
     forwardRef,
@@ -10,7 +9,6 @@ import {
     OnDestroy,
     Output,
     SimpleChanges,
-    TemplateRef,
     ViewChild,
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
@@ -23,6 +21,7 @@ import _ from 'lodash';
 @Component({
     selector: 'app-searchable-select',
     templateUrl: './searchable-select.component.html',
+    styleUrls: ['/searchable-select.component.scss'],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
@@ -36,9 +35,6 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
     get options(): SearchableSelectOption<T>[] {
         return this._options;
     }
-
-    @ContentChild('listItem', {static: false}) listItemTemplateRef: TemplateRef<any>;
-    @ContentChild('selected', {static: false}) selectedTemplateRef: TemplateRef<any>;
 
     @ViewChild('searchBox') searchBox: ElementRef<HTMLInputElement>;
     @ViewChild('valuesList') valuesList: ElementRef;
