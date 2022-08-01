@@ -27,17 +27,15 @@
             </svg>
         </div>
     </div>
-    <div
-            class="absolute top-0 right-0 bottom-0 max-w-full flex z-50" style="z-index: 1000">
-        <div
-                [ngTransition]="open"
+    <div class="absolute top-0 right-0 bottom-0 max-w-full flex z-50" style="z-index: 1000">
+        <div    [ngTransition]="openSelectionPanel"
                 ngTransitionEnter="transform transition ease-in-out duration-500 sm:duration-700"
                 ngTransitionEnterStart="translate-x-full"
                 ngTransitionEnterEnd="translate-x-0"
                 ngTransitionLeave="transform transition ease-in-out duration-500 sm:duration-700"
                 ngTransitionLeaveStart="translate-x-0"
                 ngTransitionLeaveEnd="translate-x-full"
-                class="w-screen max-w-md" [class.hidden]="!open">
+                class="w-screen max-w-md" [class.hidden]="!openSelectionPanel">
             <div class="h-full flex flex-col py-6 bg-white shadow-xl overflow-y-auto overflow-x-hidden">
                 <div class="px-4 sm:px-6">
                     <div class="flex items-start justify-between">
@@ -47,8 +45,7 @@
                         <div class="ml-3 h-7 flex items-center">
                             <button (click)="closeSelection()" type="button"
                                     class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                <span class="sr-only">Close panel</span>
-                                <!-- Heroicon name: outline/x -->
+                                <span class="sr-only">Sluit selectie</span>
                                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke="currentColor" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -60,15 +57,23 @@
                 </div>
                 <div class="mt-6 relative flex-1 px-4 sm:px-6">
                     <div class="absolute inset-0 px-4 sm:px-6">
-                        <app-fishing-points-selected-feature *ngIf="selected && selected.has(4)"
-                                                             [properties]="selected.get(4)" [layerName]="layerName(4)"
-                                                             [layerNumber]="4"></app-fishing-points-selected-feature>
+                        <!-- Vispunt -->
+                        <app-fishing-points-selected-feature *ngIf="selected && selected.has(5)"
+                                                             [properties]="selected.get(5)" [layerName]="layerName(5)"
+                                                             [layerNumber]="5"></app-fishing-points-selected-feature>
+                        <!-- VHA Waterloop -->
                         <app-fishing-points-selected-feature *ngIf="selected && selected.has(0)"
                                                              [properties]="selected.get(0)" [layerName]="layerName(0)"
                                                              [layerNumber]="0"></app-fishing-points-selected-feature>
+                        <!-- BRU hydro -->
+                        <app-fishing-points-selected-feature *ngIf="selected && selected.has(4)"
+                                                             [properties]="selected.get(4)" [layerName]="layerName(4)"
+                                                             [layerNumber]="4"></app-fishing-points-selected-feature>
+                        <!-- Watervlak -->
                         <app-fishing-points-selected-feature *ngIf="selected && selected.has(1)"
                                                              [properties]="selected.get(1)" [layerName]="layerName(1)"
                                                              [layerNumber]="1"></app-fishing-points-selected-feature>
+                        <!-- Gemeente -->
                         <app-fishing-points-selected-feature *ngIf="selected && selected.has(3)"
                                                              [properties]="selected.get(3)" [layerName]="layerName(3)"
                                                              [layerNumber]="3"></app-fishing-points-selected-feature>

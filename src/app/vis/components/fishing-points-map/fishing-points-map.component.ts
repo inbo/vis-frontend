@@ -86,16 +86,18 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
     map: LeafletMap;
     center: LatLng = latLng(51.2, 4.14);
-    open = false;
+    openSelectionPanel = false;
     showTooltips = true;
 
     private visibleFields = {
         0: ['VHAS', 'VHAG', 'NAAM', 'CATC', 'LBLCATC', 'BEKNR', 'BEKNAAM', 'STRMGEB', 'KWALDOEL', 'LBLKWAL', 'LBLGEO', 'VHAZONENR', 'LENGTE', 'WTRLICHC'],
         1: ['WVLC', 'Versie', 'NAAM', 'WTRLICHC'],
         3: ['GEMEENTE', 'NISCODE', 'NISCODE_PR', 'PROVINCIE'],
+        4: ['type', 'naam', 'beschrijvi', 'codecat', 'categorie'],
     };
     selected = new Map();
 
+    private locationsLayerId = 5;
     private layerMetadata = new Map();
     private clickedLatlng: LatLng;
 
@@ -140,7 +142,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         this.watercourseLayer = dynamicMapLayer(
             {
                 url: version.value,
-                layers: [0],
+                layers: [0, 4],
             },
         );
 
@@ -158,13 +160,13 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
             },
         );
 
-        const basemapLayer1 = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        const osmTileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap',
         });
 
         this.layers = [
-            basemapLayer1,
+            osmTileLayer,
             this.newLocationLayerGroup,
             this.highlightSelectionLayer,
         ];
@@ -183,7 +185,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
         this.layersControl = {
             baseLayers: {
-                Kaart: basemapLayer1,
+                Kaart: osmTileLayer,
                 Orthofoto: this.orthoLayer,
             },
             overlays: {
@@ -195,18 +197,18 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         };
 
         // @ts-ignore
-        const layer0 = esri_geo.mapServiceProvider({
+        const waterlopenSearch = esri_geo.mapServiceProvider({
             url: version.value,
-            searchFields: ['NAAM'],
+            searchFields: ['NAAM', 'naam'],
             label: 'Waterlopen',
-            layers: [0],
+            layers: [0, 4],
             formatSuggestion(feature) {
-                return `${feature.properties.NAAM}`;
+                return `${feature.properties.NAAM || feature.properties.naam}`;
             },
         });
 
         // @ts-ignore
-        const layer1 = esri_geo.mapServiceProvider({
+        const watervlakkenSearch = esri_geo.mapServiceProvider({
             url: version.value,
             searchFields: ['NAAM', 'WVLC'],
             label: 'Watervlakken',
@@ -231,7 +233,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
             placeholder: 'Zoek naar waterlopen/watervlakken/straten',
             title: 'Zoeken',
             useMapBounds: false,
-            providers: [layer0, layer1, streetSearch],
+            providers: [waterlopenSearch, watervlakkenSearch, streetSearch],
         });
 
         searchControl.addTo(this.map);
@@ -261,7 +263,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                             stroke: false,
                         });
                         const fishingPointLabel = document.createElement('div');
-                        fishingPointLabel.innerHTML = `<p>${fishingPointFeature.code}</p> 
+                        fishingPointLabel.innerHTML = `<p>${fishingPointFeature.code}</p>
                                               <p>${fishingPointFeature.watercourse}</p>`;
                         fishingPointLabel.style.textAlign = 'center';
                         circleMark
@@ -289,25 +291,25 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                                 lat: fishingPointFeature.lat,
                                 lng: fishingPointFeature.lng,
                             };
-                            this.selected.set(4, filteredProperties);
-                            this.openInfo();
+                            this.selected.set(this.locationsLayerId, filteredProperties);
+                            this.openSelection();
                         });
                         this.locationsLayer.addLayer(circleMark);
 
                     });
-                    this.layerMetadata.set(4, {name: 'Vispunt'});
+                    this.layerMetadata.set(this.locationsLayerId, {name: 'Vispunt'});
                 }),
                 mapTo(undefined),
             );
     }
 
     private clearLocationsSelectedStyle() {
-        this.locationsLayer.eachLayer((layer1: CircleMarker) => {
-            layer1.setStyle({
+        this.locationsLayer.eachLayer((layer: CircleMarker) => {
+            layer.setStyle({
                 stroke: false,
             });
         });
-        this.selected.delete(4);
+        this.selected.delete(this.locationsLayerId);
     }
 
     mapReady(map: LeafletMap) {
@@ -330,10 +332,13 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         const fl0 = featureLayer({url: `${version.value}/0`});
         const fl1 = featureLayer({url: `${version.value}/1`});
         const fl3 = featureLayer({url: `${version.value}/3`});
+        const fl4 = featureLayer({url: `${version.value}/4`});
 
         fl0.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
         fl1.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
         fl3.metadata((error, metadata) => this.convertMetadataToLegend(metadata));
+        // Layer 4, BRU_hydro contains mostly the same legend entries as layer 0, VHA_Waterlopen.
+        fl4.metadata((error, metadata) => this.layerMetadata.set(metadata.id, metadata));
 
     }
 
@@ -383,13 +388,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
     }
 
-    public queryNearbyWatercourses() {
-        const coordinate = (this.newLocationLayerGroup.getLayers()[0] as Marker).getLatLng();
-        this.watercourseLayer.query().layer(0).nearby(coordinate, 5).run((error, featureCollection) => {
-            this.nearbyWatercoursesFound.emit(featureCollection);
-        });
-    }
-
     clickMap(e: LeafletMouseEvent) {
         if (this.clickedLatlng !== e.latlng) {
             this.clearLocationsSelectedStyle();
@@ -401,7 +399,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     public updateSelections(coordinate: LatLng) {
-        this.updateWatercourseSelection(coordinate);
+        this.updateVHAWatercourseSelection(coordinate);
+        this.updateBRUWatercourseSelection(coordinate);
         this.updateBlueLayerSelection(coordinate);
         this.updateTownLayerSelection(coordinate);
     }
@@ -432,7 +431,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         }
     }
 
-    public updateWatercourseSelection(coordinate: LatLng) {
+    public updateVHAWatercourseSelection(coordinate: LatLng) {
         if (this.map.hasLayer(this.watercourseLayer)) {
             this.watercourseLayer.identify().on(this.map).layers('visible:0').at(coordinate).run((error, featureCollection) => {
                 if (error) {
@@ -442,6 +441,20 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 this.selected.delete(0);
                 this.selectFeature(featureCollection, 0);
                 this.vhaLayerSelected.emit(this.selected.get(0));
+            });
+        }
+    }
+
+    public updateBRUWatercourseSelection(coordinate: LatLng) {
+        if (this.map.hasLayer(this.watercourseLayer)) {
+            this.watercourseLayer.identify().on(this.map).layers('visible:4').at(coordinate).run((error, featureCollection) => {
+                if (error) {
+                    return;
+                }
+
+                this.selected.delete(4);
+                this.selectFeature(featureCollection, 4);
+                this.vhaLayerSelected.emit(this.selected.get(4));
             });
         }
     }
@@ -481,11 +494,11 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     closeSelection() {
-        this.open = false;
+        this.openSelectionPanel = false;
     }
 
-    openInfo() {
-        this.open = true;
+    openSelection() {
+        this.openSelectionPanel = true;
     }
 
     toggleTooltips() {
