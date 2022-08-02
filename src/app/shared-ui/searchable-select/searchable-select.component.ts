@@ -89,11 +89,12 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
     }
 
     writeValue(obj: any): void {
+        this.selectedValue = obj;
         if (obj === null && this.searchBox) {
             this.searchBox.nativeElement.value = '';
             this.reset.emit();
+            this.selectedValueOption = undefined;
         }
-        this.selectedValue = obj;
         if (this.selectedValueOption === undefined) {
             this.selectedValueOption = this._options?.find(option => option.value === obj);
         }
