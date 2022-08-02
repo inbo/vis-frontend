@@ -271,6 +271,14 @@
     "province": "Provincie",
     "municipality": "Gemeente"
   },
+  "layer": {
+    "VHA_Waterlopen": "VHA waterloop",
+    "Watervlakken": "Watervlak",
+    "VHA_zones": "VHA zone",
+    "Gemeenten": "Plaats",
+    "BRU_hydro": "Brusselse waterloop",
+    "Vispunt": "Vispunt"
+  },
   "map": {
     "0": {
       "VHAS": "VHAS",
@@ -301,6 +309,13 @@
       "PROVINCIE": "Provincie"
     },
     "4": {
+      "type": "Type waterloop",
+      "naam": "Waterloop",
+      "beschrijvi": "Beschrijving",
+      "codecat": "Categorie code",
+      "categorie": "Categorie"
+    },
+    "5": {
       "CODE": "Meetplaatscode",
       "DESCRIPTION": "Omschrijving",
       "X": "X",
