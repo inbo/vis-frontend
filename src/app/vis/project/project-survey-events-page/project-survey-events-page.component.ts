@@ -23,308 +23,310 @@ import {Watercourse} from '../../../domain/location/watercourse';
 import {Basin} from '../../../domain/location/basin';
 import {Municipality} from '../../../domain/location/municipality';
 import {
-  SearchableSelectConfig,
-  SearchableSelectConfigBuilder
+    SearchableSelectConfig,
+    SearchableSelectConfigBuilder,
 } from '../../../shared-ui/searchable-select/SearchableSelectConfig';
+import {LenticWaterbody} from '../../../domain/location/lentic-waterbody';
+import {FishingPointCode} from '../../../domain/location/fishing-point-code';
+import {Taxon} from '../../../domain/taxa/taxon';
 
 @Component({
-  selector: 'app-project-survey-events-page',
-  templateUrl: './project-survey-events-page.component.html'
+    selector: 'app-project-survey-events-page',
+    templateUrl: './project-survey-events-page.component.html',
 })
 export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
 
-  role = Role;
+    role = Role;
 
-  loading = false;
-  pager: AsyncPage<SurveyEventOverview>;
-  tags: Tag[] = [];
-  methods: Method[];
-  projectCode: string;
+    loading = false;
+    pager: AsyncPage<SurveyEventOverview>;
+    tags: Tag[] = [];
+    methods: Method[];
+    projectCode: string;
 
-  surveyEvents$: Observable<SurveyEventOverview[]>;
-  methodGroups$: Observable<MethodGroup[]>;
-  methods$: Observable<Method[]>;
-  species: SearchableSelectOption[] = [];
-  statuses$: Observable<MultiSelectOption[]>;
-  watercourses$: Observable<Watercourse[]>;
-  basins$: Observable<Basin[]>;
-  municipalities$: Observable<Municipality[]>;
+    surveyEvents$: Observable<SurveyEventOverview[]>;
+    methodGroups$: Observable<MethodGroup[]>;
+    methods$: Observable<Method[]>;
+    species: SearchableSelectOption<Taxon>[] = [];
+    statuses$: Observable<MultiSelectOption[]>;
+    watercourses$: Observable<Watercourse[]>;
+    basins$: Observable<Basin[]>;
+    municipalities$: Observable<Municipality[]>;
 
-  watercourses: SearchableSelectOption[] = [];
-  lenticWaterbodies: SearchableSelectOption[] = [];
-  municipalities: SearchableSelectOption[] = [];
-  basins: SearchableSelectOption[] = [];
-  fishingPointCodes: SearchableSelectOption[] = [];
-  fishingPointSearchableSelectConfig: SearchableSelectConfig;
+    watercourses: SearchableSelectOption<Watercourse>[] = [];
+    lenticWaterbodies: SearchableSelectOption<LenticWaterbody>[] = [];
+    municipalities: SearchableSelectOption<Municipality>[] = [];
+    basins: SearchableSelectOption<Basin>[] = [];
+    fishingPointCodes: SearchableSelectOption<FishingPointCode>[] = [];
 
-  filterForm: FormGroup;
+    fishingPointSearchableSelectConfig: SearchableSelectConfig;
 
-  private subscription = new Subscription();
+    filterForm: FormGroup;
 
-  constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private methodsService: MethodsService,
-              private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder,
-              private taxaService: TaxaService, private datePipe: DatePipe, private translateService: TranslateService,
-              public authService: AuthService, private locationsService: LocationsService) {
-    this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
-      .minQueryLength(2)
-      .searchPlaceholder('Minstens 2 karakters...')
-      .build();
-  }
+    private subscription = new Subscription();
 
-  ngOnInit(): void {
-    this.titleService.setTitle(`Waarnemingen voor ${this.activatedRoute.parent.snapshot.params.projectCode}`);
-    this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
+    constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private methodsService: MethodsService,
+                private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder,
+                private taxaService: TaxaService, private datePipe: DatePipe, private translateService: TranslateService,
+                public authService: AuthService, private locationsService: LocationsService) {
+        this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
+            .minQueryLength(2)
+            .searchPlaceholder('Minstens 2 karakters...')
+            .build();
+    }
 
-    this.statuses$ = this.surveyEventsService.listStatusCodes().pipe(map(values => values.map(value => {
-      return {value, displayValue: this.translateService.instant('surveyEvent.status.' + value)};
-    })));
+    ngOnInit(): void {
+        this.titleService.setTitle(`Waarnemingen voor ${this.activatedRoute.parent.snapshot.params.projectCode}`);
+        this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
 
-    const queryParams = this.activatedRoute.snapshot.queryParams;
-    this.filterForm = this.formBuilder.group(
-      {
-        watercourse: [queryParams.watercourse ?? null],
-        lenticWaterbody: [queryParams.lenticWaterbody ?? null],
-        municipality: [queryParams.municipality ?? null],
-        basin: [queryParams.basin ?? null],
-        period: [queryParams.period ?? null],
-        sort: [queryParams.sort ?? null],
-        measuringPointNumber: [queryParams.measuringPointNumber ?? null],
-        methodGroup: [queryParams.methodGroup ?? null],
-        method: [queryParams.method ?? null],
-        species: [queryParams.species ? Number(queryParams.species) : null],
-        status: [queryParams.status != null ? (Array.isArray(queryParams.status) ? queryParams.status : [queryParams.status]) : ['ENTERED', 'VALID']],
-        page: [queryParams.page ?? null],
-        size: [queryParams.size ?? null]
-      },
-    );
+        this.statuses$ = this.surveyEventsService.listStatusCodes().pipe(map(values => values.map(value => {
+            return {value, displayValue: this.translateService.instant('surveyEvent.status.' + value)};
+        })));
 
-    this.getWatercourses(queryParams.watercourse ? queryParams.watercourse : null);
-    this.getLenticWaterbodies(queryParams.lenticWaterbody ? queryParams.lenticWaterbody : null);
-    this.getMunicipalities(queryParams.municipality ? queryParams.municipality : null);
-    this.getBasins(queryParams.basin ? queryParams.basin : null);
-    this.getFishingPointCodes(queryParams.measuringPointNumber ? queryParams.measuringPointNumber : null);
-    this.getSpecies(null, queryParams.species ? queryParams.species : undefined);
+        const queryParams = this.activatedRoute.snapshot.queryParams;
+        this.filterForm = this.formBuilder.group(
+            {
+                watercourse: [queryParams.watercourse ?? null],
+                lenticWaterbody: [queryParams.lenticWaterbody ?? null],
+                municipality: [queryParams.municipality ?? null],
+                basin: [queryParams.basin ?? null],
+                period: [queryParams.period ?? null],
+                sort: [queryParams.sort ?? null],
+                measuringPointNumber: [queryParams.measuringPointNumber ?? null],
+                methodGroup: [queryParams.methodGroup ?? null],
+                method: [queryParams.method ?? null],
+                species: [queryParams.species ? Number(queryParams.species) : null],
+                status: [queryParams.status != null ? (Array.isArray(queryParams.status) ? queryParams.status : [queryParams.status]) : ['ENTERED', 'VALID']],
+                page: [queryParams.page ?? null],
+                size: [queryParams.size ?? null],
+            },
+        );
 
-    this.methodGroups$ = this.methodsService.getAllMethodGroups();
-    this.watercourses$ = this.locationsService.searchWatercourses();
-    this.basins$ = this.locationsService.searchBasins();
-    this.municipalities$ = this.locationsService.searchMunicipalities();
+        this.getWatercourses(queryParams.watercourse ? queryParams.watercourse : null);
+        this.getLenticWaterbodies(queryParams.lenticWaterbody ? queryParams.lenticWaterbody : null);
+        this.getMunicipalities(queryParams.municipality ? queryParams.municipality : null);
+        this.getBasins(queryParams.basin ? queryParams.basin : null);
+        this.getFishingPointCodes(queryParams.measuringPointNumber ? queryParams.measuringPointNumber : null);
+        this.getSpecies(null, queryParams.species ? queryParams.species : undefined);
 
-    this.subscription.add(
-      this.filterForm.get('methodGroup').valueChanges.subscribe(value => {
-        if (value) {
-          this.methods$ = this.methodsService.getMethodsForGroup(value);
-        } else {
-          this.methods$ = this.methodsService.getAllMethods();
+        this.methodGroups$ = this.methodsService.getAllMethodGroups();
+        this.watercourses$ = this.locationsService.searchWatercourses();
+        this.basins$ = this.locationsService.searchBasins();
+        this.municipalities$ = this.locationsService.searchMunicipalities();
+
+        this.subscription.add(
+            this.filterForm.get('methodGroup').valueChanges.subscribe(value => {
+                if (value) {
+                    this.methods$ = this.methodsService.getMethodsForGroup(value);
+                } else {
+                    this.methods$ = this.methodsService.getAllMethods();
+                }
+            }),
+        );
+
+        this.subscription.add(this.activatedRoute.queryParams.subscribe((params) => {
+            const period = params.period && (params.period[0] && params.period[1]) ?
+                [new Date(params.period[0]), new Date(params.period[1])] : null;
+
+            this.filterForm.get('watercourse').patchValue(params.watercourse ? params.watercourse : null);
+            this.filterForm.get('lenticWaterbody').patchValue(params.lenticWaterbody ? params.lenticWaterbody : null);
+            this.filterForm.get('municipality').patchValue(params.municipality ? params.municipality : null);
+            this.filterForm.get('basin').patchValue(params.basin ? params.basin : null);
+            this.filterForm.get('period').patchValue(period);
+            this.filterForm.get('sort').patchValue(params.sort ? params.sort : null);
+            this.filterForm.get('measuringPointNumber').patchValue(params.measuringPointNumber ? params.measuringPointNumber : null);
+            this.filterForm.get('status').patchValue(params.status ?
+                (Array.isArray(params.status) ? params.status : [params.status]) : ['ENTERED', 'VALID']);
+            this.filterForm.get('page').patchValue(params.page ? params.page : null);
+            this.filterForm.get('size').patchValue(params.size ? params.size : null);
+            this.filterForm.get('methodGroup').patchValue(params.methodGroup ? params.methodGroup : null);
+            this.filterForm.get('method').patchValue(params.method ? params.method : null);
+            this.filterForm.get('species').patchValue(params.species ? Number(params.species) : null);
+
+            this.getSpecies(null, params.species ? params.species : undefined);
+            this.getSurveyEvents();
+        }));
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
+
+    getSurveyEvents() {
+        this.setTags();
+
+        this.loading = true;
+        this.surveyEvents$ = of([]);
+
+        const filter = this.filterForm?.getRawValue();
+        if (filter && filter.period?.length === 2) {
+            filter.begin = new Date(filter.period[0]).toISOString();
+            filter.end = new Date(filter.period[1]).toISOString();
+            delete filter.period;
         }
-      })
-    );
 
-    this.subscription.add(this.activatedRoute.queryParams.subscribe((params) => {
-      const period = params.period && (params.period[0] && params.period[1]) ?
-        [new Date(params.period[0]), new Date(params.period[1])] : null;
+        if (filter && filter.species) {
+            filter.taxonId = filter.species;
+        }
 
-      this.filterForm.get('watercourse').patchValue(params.watercourse ? params.watercourse : null);
-      this.filterForm.get('lenticWaterbody').patchValue(params.lenticWaterbody ? params.lenticWaterbody : null);
-      this.filterForm.get('municipality').patchValue(params.municipality ? params.municipality : null);
-      this.filterForm.get('basin').patchValue(params.basin ? params.basin : null);
-      this.filterForm.get('period').patchValue(period);
-      this.filterForm.get('sort').patchValue(params.sort ? params.sort : null);
-      this.filterForm.get('measuringPointNumber').patchValue(params.measuringPointNumber ? params.measuringPointNumber : null);
-      this.filterForm.get('status').patchValue(params.status ?
-        (Array.isArray(params.status) ? params.status : [params.status]) : ['ENTERED', 'VALID']);
-      this.filterForm.get('page').patchValue(params.page ? params.page : null);
-      this.filterForm.get('size').patchValue(params.size ? params.size : null);
-      this.filterForm.get('methodGroup').patchValue(params.methodGroup ? params.methodGroup : null);
-      this.filterForm.get('method').patchValue(params.method ? params.method : null);
-      this.filterForm.get('species').patchValue(params.species ? Number(params.species) : null);
+        const page = this.filterForm.get('page').value ?? 0;
+        const size = this.filterForm.get('size').value ?? 20;
 
-      this.getSpecies(null, params.species ? params.species : undefined);
-      this.getSurveyEvents();
-    }));
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  getSurveyEvents() {
-    this.setTags();
-
-    this.loading = true;
-    this.surveyEvents$ = of([]);
-
-    const filter = this.filterForm?.getRawValue();
-    if (filter && filter.period?.length === 2) {
-      filter.begin = new Date(filter.period[0]).toISOString();
-      filter.end = new Date(filter.period[1]).toISOString();
-      delete filter.period;
+        this.subscription.add(
+            this.surveyEventsService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size, filter)
+                .subscribe((value) => {
+                    this.pager = value;
+                    this.surveyEvents$ = of(value.content);
+                    this.loading = false;
+                }),
+        );
     }
 
-    if (filter && filter.species) {
-      filter.taxonId = filter.species;
+    getSpecies(val: string, id?: number) {
+        this.taxaService.getTaxa(val, id)
+            .pipe(take(1))
+            .subscribe(taxa =>
+                this.species = taxa
+                    .map(taxon => ({
+                        displayValue: `${taxon.id.value}`,
+                        value: taxon,
+                    })));
     }
 
-    const page = this.filterForm.get('page').value ?? 0;
-    const size = this.filterForm.get('size').value ?? 20;
 
-    this.subscription.add(
-      this.surveyEventsService.getSurveyEvents(this.activatedRoute.parent.snapshot.params.projectCode, page, size, filter)
-        .subscribe((value) => {
-          this.pager = value;
-          this.surveyEvents$ = of(value.content);
-          this.loading = false;
-        })
-    );
-  }
+    filter() {
+        if (this.filterForm.get('period').value?.length < 2) {
+            return;
+        }
 
-  getSpecies(val: string, id?: number) {
-    this.taxaService.getTaxa(val, id).pipe(
-      map(taxa => {
-        return taxa.map(taxon => ({
-          selectValue: taxon.id.value,
-          option: taxon
-        }));
-      })
-    ).subscribe(value => this.species = value);
-  }
+        const rawValue = this.filterForm.getRawValue();
+        if (rawValue && rawValue.species) {
+            rawValue.taxonId = rawValue.species;
+        }
 
+        const queryParams: Params = {...rawValue};
+        queryParams.page = 1;
 
-  filter() {
-    if (this.filterForm.get('period').value?.length < 2) {
-      return;
+        this.router.navigate(
+            [],
+            {
+                relativeTo: this.activatedRoute,
+                queryParams,
+            }).then();
     }
 
-    const rawValue = this.filterForm.getRawValue();
-    if (rawValue && rawValue.species) {
-      rawValue.taxonId = rawValue.species;
+    private setTags() {
+        const rawValue = this.filterForm.getRawValue();
+        const tags: Tag[] = [];
+
+        if (rawValue.watercourse) {
+            tags.push(getTag('surveyEvent.watercourse', rawValue.watercourse, this.removeTagCallback('watercourse')));
+        }
+        if (rawValue.lenticWaterbody) {
+            tags.push(getTag('surveyEvent.lenticWaterbody', rawValue.lenticWaterbody, this.removeTagCallback('lenticWaterbody')));
+        }
+        if (rawValue.municipality) {
+            tags.push(getTag('surveyEvent.municipality', rawValue.municipality, this.removeTagCallback('municipality')));
+        }
+        if (rawValue.basin) {
+            tags.push(getTag('surveyEvent.basin', rawValue.basin, this.removeTagCallback('basin')));
+        }
+        if (rawValue.period && rawValue.period.length === 2) {
+            const period = `${this.datePipe.transform(rawValue.period[0], 'dd/MM/yyyy')} - ${this.datePipe.transform(rawValue.period[1], 'dd/MM/yyyy')}`;
+            tags.push(getTag('surveyEvent.period', period, this.removeTagCallback('period')));
+        }
+        if (rawValue.measuringPointNumber) {
+            tags.push(getTag('surveyEvent.measuringPointNumber', rawValue.measuringPointNumber,
+                this.removeTagCallback('measuringPointNumber')));
+        }
+        if (rawValue.methodGroup) {
+            tags.push(getTag('surveyEvent.methodGroup', this.translateService.instant('method.group.' + rawValue.methodGroup),
+                this.removeTagCallback('methodGroup')));
+        }
+        if (rawValue.method) {
+            tags.push(getTag('surveyEvent.method', this.translateService.instant('method.' + rawValue.method),
+                this.removeTagCallback('method')));
+        }
+        if (rawValue.species) {
+            this.taxaService.getTaxon(Number(rawValue.species)).subscribe(value => {
+                tags.push(getTag('surveyEvent.species', value.nameDutch, this.removeTagCallback('species')));
+            });
+        }
+        if (rawValue.status) {
+            const readableStatuses = this.filterForm.get('status').value
+                .map(value => this.translateService.instant(`surveyEvent.status.${value}`)).join(', ');
+            tags.push(getTag('surveyEvent.statusTitle', readableStatuses, this.removeTagCallback('status')));
+        }
+
+        this.tags = tags;
     }
 
-    const queryParams: Params = {...rawValue};
-    queryParams.page = 1;
-
-    this.router.navigate(
-      [],
-      {
-        relativeTo: this.activatedRoute,
-        queryParams
-      }).then();
-  }
-
-  private setTags() {
-    const rawValue = this.filterForm.getRawValue();
-    const tags: Tag[] = [];
-
-    if (rawValue.watercourse) {
-      tags.push(getTag('surveyEvent.watercourse', rawValue.watercourse, this.removeTagCallback('watercourse')));
-    }
-    if (rawValue.lenticWaterbody) {
-      tags.push(getTag('surveyEvent.lenticWaterbody', rawValue.lenticWaterbody, this.removeTagCallback('lenticWaterbody')));
-    }
-    if (rawValue.municipality) {
-      tags.push(getTag('surveyEvent.municipality', rawValue.municipality, this.removeTagCallback('municipality')));
-    }
-    if (rawValue.basin) {
-      tags.push(getTag('surveyEvent.basin', rawValue.basin, this.removeTagCallback('basin')));
-    }
-    if (rawValue.period && rawValue.period.length === 2) {
-      const period = `${this.datePipe.transform(rawValue.period[0], 'dd/MM/yyyy')} - ${this.datePipe.transform(rawValue.period[1], 'dd/MM/yyyy')}`;
-      tags.push(getTag('surveyEvent.period', period, this.removeTagCallback('period')));
-    }
-    if (rawValue.measuringPointNumber) {
-      tags.push(getTag('surveyEvent.measuringPointNumber', rawValue.measuringPointNumber,
-        this.removeTagCallback('measuringPointNumber')));
-    }
-    if (rawValue.methodGroup) {
-      tags.push(getTag('surveyEvent.methodGroup', this.translateService.instant('method.group.' + rawValue.methodGroup),
-        this.removeTagCallback('methodGroup')));
-    }
-    if (rawValue.method) {
-      tags.push(getTag('surveyEvent.method', this.translateService.instant('method.' + rawValue.method),
-        this.removeTagCallback('method')));
-    }
-    if (rawValue.species) {
-      this.taxaService.getTaxon(Number(rawValue.species)).subscribe(value => {
-        tags.push(getTag('surveyEvent.species', value.nameDutch, this.removeTagCallback('species')));
-      });
-    }
-    if (rawValue.status) {
-      const readableStatuses = this.filterForm.get('status').value
-        .map(value => this.translateService.instant(`surveyEvent.status.${value}`)).join(', ');
-      tags.push(getTag('surveyEvent.statusTitle', readableStatuses, this.removeTagCallback('status')));
+    removeTagCallback(formField: string) {
+        return () => {
+            this.filterForm.get(formField).reset();
+            this.filter();
+        };
     }
 
-    this.tags = tags;
-  }
+    reset() {
+        this.filter();
+    }
 
-  removeTagCallback(formField: string) {
-    return () => {
-      this.filterForm.get(formField).reset();
-      this.filter();
-    };
-  }
+    getWatercourses(searchQuery: string) {
+        this.locationsService
+            .searchWatercourses(searchQuery)
+            .pipe(take(1))
+            .subscribe(watercourses =>
+                this.watercourses = watercourses
+                    .map(watercourse => ({
+                        displayValue: watercourse.name,
+                        value: watercourse,
+                    })));
+    }
 
-  reset() {
-    this.filter();
-  }
+    getLenticWaterbodies(searchQuery: string) {
+        this.locationsService
+            .searchLenticWaterbodyNames(searchQuery)
+            .pipe(take(1))
+            .subscribe(lenticWaterBodies =>
+                this.lenticWaterbodies = lenticWaterBodies
+                    .map(lenticWaterbody => ({
+                        displayValue: lenticWaterbody.name,
+                        value: lenticWaterbody,
+                    })));
+    }
 
-  getWatercourses(val: any) {
-    this.locationsService.searchWatercourses(val).pipe(
-      take(1),
-      map(watercourses => {
-        return watercourses.map(watercourse => ({
-          selectValue: watercourse.name,
-          option: watercourse
-        }));
-      })
-    ).subscribe(value => this.watercourses = value as any as SearchableSelectOption[]);
-  }
+    getMunicipalities(searchQuery: string) {
+        this.locationsService
+            .searchMunicipalities(searchQuery)
+            .pipe(take(1))
+            .subscribe(municipalities =>
+                this.municipalities = municipalities.map(municipality => ({
+                    displayValue: municipality.name,
+                    value: municipality,
+                })));
+    }
 
-  getLenticWaterbodies(val: any) {
-    this.locationsService.searchLenticWaterbodyNames(val).pipe(
-      take(1),
-      map(lenticWaterBodies => {
-        return lenticWaterBodies.map(lenticWaterbody => ({
-          selectValue: lenticWaterbody.name,
-          option: lenticWaterbody
-        }));
-      })
-    ).subscribe(value => this.lenticWaterbodies = value as any as SearchableSelectOption[]);
-  }
+    getBasins(val: any) {
+        this.locationsService
+            .searchBasins(val)
+            .pipe(take(1))
+            .subscribe(basins =>
+                this.basins = basins.map(basin => ({
+                    displayValue: basin.name,
+                    value: basin,
+                })));
+    }
 
-  getMunicipalities(val: any) {
-    this.locationsService.searchMunicipalities(val).pipe(
-      take(1),
-      map(municipalities => {
-        return municipalities.map(municipality => ({
-          selectValue: municipality.name,
-          option: municipality
-        }));
-      })
-    ).subscribe(value => this.municipalities = value as any as SearchableSelectOption[]);
-  }
-
-  getBasins(val: any) {
-    this.locationsService.searchBasins(val).pipe(
-      take(1),
-      map(basins => {
-        return basins.map(basin => ({
-          selectValue: basin.name,
-          option: basin
-        }));
-      })
-    ).subscribe(value => this.basins = value as any as SearchableSelectOption[]);
-  }
-
-  getFishingPointCodes(val: any) {
-    this.locationsService.searchFishingPointCodes(val).pipe(
-      take(1),
-      map(fishingPointCodes => {
-        return fishingPointCodes.map(fishingPointCode => ({
-          selectValue: fishingPointCode.name,
-          option: fishingPointCode
-        }));
-      })
-    ).subscribe(value => this.fishingPointCodes = value as any as SearchableSelectOption[]);
-  }
+    getFishingPointCodes(searchQuery: string) {
+        this.locationsService
+            .searchFishingPointCodes(searchQuery)
+            .pipe(take(1))
+            .subscribe(fishingPointCodes =>
+                this.fishingPointCodes = fishingPointCodes
+                    .map(fishingPointCode => ({
+                        displayValue: fishingPointCode.name,
+                        value: fishingPointCode,
+                    })));
+    }
 }

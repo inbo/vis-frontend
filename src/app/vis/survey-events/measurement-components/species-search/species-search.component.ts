@@ -1,8 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormGroup, FormGroupDirective} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
-import {SearchableSelectComponent} from '../../../../shared-ui/searchable-select/searchable-select.component';
 import {SearchableSelectOption} from '../../../../shared-ui/searchable-select/SearchableSelectOption';
+import {Taxon} from '../../../../domain/taxa/taxon';
+import {TaxonRowValue} from '../../measurement-row/taxon-row-value.model';
 
 @Component({
   selector: 'app-species-search',
@@ -10,13 +11,11 @@ import {SearchableSelectOption} from '../../../../shared-ui/searchable-select/Se
 })
 export class SpeciesSearchComponent extends MeasurementComponentDirective implements OnInit {
 
-  @ViewChild(SearchableSelectComponent) searchableSelect: SearchableSelectComponent;
-
   @Input() index: number;
-  @Input() taxons: SearchableSelectOption[];
+  @Input() taxons: SearchableSelectOption<Taxon, TaxonRowValue>[];
 
-  @Output() onSearch: EventEmitter<any> = new EventEmitter();
-  @Output() changed: EventEmitter<any> = new EventEmitter();
+  @Output() onSearch: EventEmitter<string> = new EventEmitter();
+  @Output() changed: EventEmitter<void> = new EventEmitter();
 
   form: FormGroup;
 
@@ -39,7 +38,7 @@ export class SpeciesSearchComponent extends MeasurementComponentDirective implem
     this.changed.emit();
   }
 
-  getSpecies($event: any) {
+  getSpecies($event: string) {
     this.onSearch.emit($event);
   }
 

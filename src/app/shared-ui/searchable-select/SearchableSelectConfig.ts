@@ -11,7 +11,7 @@ export class SearchableSelectConfigBuilder {
   constructor() {
     this._configuration = {
       minQueryLength: 3,
-      searchPlaceholder: 'Minstens 3 karakters...',
+      searchPlaceholder: `Minstens 3 karakters...`,
       resultPlaceholder: 'Selecteer een waarde',
       noResultsMessage: 'Er zijn geen resultaten gevonden'
     };

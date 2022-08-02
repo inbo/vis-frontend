@@ -201,7 +201,10 @@
               Einddatum
             </label>
             <div class="mt-1">
-              <app-datepicker #endDatePicker formControlName="endDate"></app-datepicker>
+              <app-datepicker #endDatePicker
+                              formControlName="endDate"
+                              [maxDate]="maxDate">
+              </app-datepicker>
               <app-form-error-message [fieldName]="'Einddatum'" [control]="endDate"
                                       [submitted]="submitted"></app-form-error-message>
               <p *ngIf="latestSurveyEventDate"
