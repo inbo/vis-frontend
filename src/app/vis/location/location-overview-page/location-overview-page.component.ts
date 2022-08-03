@@ -1,13 +1,4 @@
-import {
-    Component,
-    ElementRef,
-    HostListener,
-    OnDestroy,
-    OnInit,
-    QueryList,
-    ViewChild,
-    ViewChildren,
-} from '@angular/core';
+import {Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {Title} from '@angular/platform-browser';
@@ -24,16 +15,7 @@ import {getTag, Tag} from '../../../shared-ui/slide-over-filter/tag';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {take} from 'rxjs/operators';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
-import {
-    SearchableSelectConfig,
-    SearchableSelectConfigBuilder,
-} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
-import {Watercourse} from '../../../domain/location/watercourse';
-import {LenticWaterbody} from '../../../domain/location/lentic-waterbody';
-import {Municipality} from '../../../domain/location/municipality';
-import {Basin} from '../../../domain/location/basin';
-import {FishingPointCode} from '../../../domain/location/fishing-point-code';
-import {Province} from '../../../domain/location/province';
+import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
     selector: 'app-location-overview-page',
@@ -65,12 +47,12 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     locationCodesToExport: string[] = [];
     exportMode = false;
 
-    watercourses: SearchableSelectOption<Watercourse>[] = [];
-    lenticWaterbodies: SearchableSelectOption<LenticWaterbody>[] = [];
-    municipalities: SearchableSelectOption<Municipality>[] = [];
-    basins: SearchableSelectOption<Basin>[] = [];
-    fishingPointCodes: SearchableSelectOption<FishingPointCode>[] = [];
-    provinces: SearchableSelectOption<Province>[] = [];
+    watercourses: SearchableSelectOption<string>[] = [];
+    lenticWaterbodies: SearchableSelectOption<string>[] = [];
+    municipalities: SearchableSelectOption<string>[] = [];
+    basins: SearchableSelectOption<string>[] = [];
+    fishingPointCodes: SearchableSelectOption<string>[] = [];
+    provinces: SearchableSelectOption<string>[] = [];
 
     fishingPointSearchableSelectConfig: SearchableSelectConfig;
     mapHeight = this.calculateMapHeight();
@@ -206,7 +188,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
                 this.watercourses = watercourses
                     .map(watercourse => ({
                         displayValue: watercourse.name,
-                        value: watercourse,
+                        value: watercourse.name,
                     })));
     }
 
@@ -218,7 +200,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
                 this.lenticWaterbodies = lenticWaterBodies
                     .map(lenticWaterbody => ({
                         displayValue: lenticWaterbody.name,
-                        value: lenticWaterbody,
+                        value: lenticWaterbody.name,
                     })));
     }
 
@@ -229,7 +211,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
             .subscribe(municipalities =>
                 this.municipalities = municipalities.map(municipality => ({
                     displayValue: municipality.name,
-                    value: municipality,
+                    value: municipality.name,
                 })));
     }
 
@@ -240,7 +222,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
             .subscribe(basins =>
                 this.basins = basins.map(basin => ({
                     displayValue: basin.name,
-                    value: basin,
+                    value: basin.name,
                 })));
     }
 
@@ -252,7 +234,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
                 this.fishingPointCodes = fishingPointCodes
                     .map(fishingPointCode => ({
                         displayValue: fishingPointCode.name,
-                        value: fishingPointCode,
+                        value: fishingPointCode.name,
                     })));
     }
 
@@ -263,7 +245,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
             .subscribe(provinces => this.provinces = provinces
                 .map(province => ({
                     displayValue: province.name,
-                    value: province,
+                    value: province.name,
                 })));
     }
 

@@ -6,7 +6,7 @@ import {SurveyEvent} from '../../domain/survey-event/surveyEvent';
 
 export function uniqueValidator(projectCode: string, surveyEventService: SurveyEventsService, surveyEvent?: SurveyEvent): AsyncValidatorFn {
     return (form: FormGroup): Observable<ValidationErrors | null> => {
-        const location = form.get('location').value;
+        const location = form.get('fishingPointId').value;
         const occurrenceDate = form.get('occurrenceDate').value;
         const method = form.get('method').value;
 

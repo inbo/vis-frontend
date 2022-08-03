@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
@@ -12,13 +12,8 @@ import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {Location} from '@angular/common';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {uniqueValidator} from '../survey-event-validators';
-import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
 import {ProjectService} from '../../../services/vis.project.service';
-import {
-    SearchableSelectConfig,
-    SearchableSelectConfigBuilder,
-} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
-import {FishingPointSearch} from '../../../domain/location/fishing-point';
+import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 import {of} from 'rxjs';
 
 @Component({
@@ -27,16 +22,14 @@ import {of} from 'rxjs';
 })
 export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedData {
 
-    @ViewChild(DatepickerComponent) datepicker: DatepickerComponent;
-
     public role = Role;
 
     surveyEventForm: FormGroup;
     submitted = false;
     surveyEvent: SurveyEvent;
 
-    fishingPoints: SearchableSelectOption<FishingPointSearch>[] = [];
-    filteredMethods: SearchableSelectOption<Method>[] = [];
+    fishingPoints: SearchableSelectOption<number>[] = [];
+    filteredMethods: SearchableSelectOption<string>[] = [];
     fishingPointSearchableSelectConfig: SearchableSelectConfig;
     minDate: Date;
     maxDate: Date;
@@ -95,8 +88,9 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
             .subscribe(fishingPoints =>
                 this.fishingPoints = fishingPoints
                     .map(fishingPoint => ({
-                        displayValue: `${fishingPoint.id}`,
-                        value: fishingPoint,
+                        displayValue: `${fishingPoint.code} - ${fishingPoint.description}`,
+                        value: fishingPoint.id,
+                        externalLink: `/locations/${fishingPoint.code}`,
                     })));
     }
 
@@ -107,13 +101,17 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
             .pipe(
                 take(1),
                 tap(allMethods => this.allMethods = allMethods),
-                map((values: Method[]) => searchQuery === null ? values : values.filter(value => value.description.toLowerCase().includes(searchQuery))),
+                map((values: Method[]) => searchQuery === null
+                    ? values
+                    : values.filter(value =>
+                        value.description.toLowerCase().includes(searchQuery.toLowerCase())
+                        || value.code.toLowerCase().includes(searchQuery.toLowerCase()))),
             ).subscribe(
             methods =>
                 this.filteredMethods = methods
                     .map(method => ({
-                        displayValue: method.code,
-                        value: method,
+                        displayValue: `${method.code} - ${method.description}`,
+                        value: method.code,
                     })));
 
     }
@@ -159,13 +157,13 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
     }
 
     hasUnsavedData(): boolean {
-        return this.surveyEventForm.dirty && !this.submitted;
+        return this.surveyEventForm.touched && this.surveyEventForm.dirty && !this.submitted;
     }
 
     @HostListener('window:beforeunload')
     hasUnsavedDataBeforeUnload(): any {
         // Return false when there is unsaved data to show a dialog
-        return !this.hasUnsavedData();
+        return this.hasUnsavedData();
     }
 
     cancel() {

@@ -1,25 +1,8 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    EventEmitter,
-    Input,
-    OnDestroy,
-    OnInit,
-    Output,
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
-import {map, take} from 'rxjs/operators';
+import {take} from 'rxjs/operators';
 import {TaxaService} from '../../../services/vis.taxa.service';
-import {
-    AbstractControl,
-    FormArray,
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    FormGroupDirective,
-    Validators,
-} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 import {
@@ -28,7 +11,6 @@ import {
 } from '../survey-event-measurements-create-page/survey-event-measurements-validators';
 import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
 import {Taxon} from '../../../domain/taxa/taxon';
-import {TaxonRowValue} from './taxon-row-value.model';
 
 @Component({
     selector: 'app-measurement-row',
@@ -51,7 +33,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     @Output() enterClicked = new EventEmitter<string>();
 
     form: FormGroup;
-    taxons: SearchableSelectOption<Taxon, TaxonRowValue>[] = [];
+    taxons: SearchableSelectOption<number>[] = [];
     private taxon: TaxonDetail;
 
     private formArray: FormArray;
@@ -112,6 +94,10 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         }
 
         const taxaId = this.species().value.id;
+
+        if(!taxaId) {
+            return;
+        }
 
         this.subscription.add(
             this.taxaService.getTaxon(taxaId)
@@ -188,21 +174,15 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
     getSpecies(val: string, taxon?: Taxon) {
         this.taxaService
-            .getTaxa(val, taxon?.id.value)
+            .getTaxa(val, taxon?.id?.value)
             .pipe(
                 take(1),
-                map(taxa => {
-                    return taxa.map(taxon => ({
-                        displayValue: {
-                            id: taxon.id.value,
-                            code: taxon.code.value,
-                            nameDutch: taxon.nameDutch,
-                        },
-                        value: taxon,
-                    } as SearchableSelectOption<Taxon, TaxonRowValue>));
-                }),
-            ).subscribe(value => {
-            this.taxons = value;
+            ).subscribe(taxa => {
+            this.taxons = taxa.map(taxon => ({
+                displayValue: taxon.nameDutch,
+                externalLink: `/vissoorten/${taxon.id.value}`,
+                value: taxon.id.value,
+            }));
             this.cdr.detectChanges();
         });
     }

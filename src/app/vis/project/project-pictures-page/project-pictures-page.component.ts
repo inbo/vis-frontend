@@ -6,7 +6,6 @@ import {PicturesService} from '../../../services/vis.pictures.service';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Subscription} from 'rxjs';
 import {ProjectService} from '../../../services/vis.project.service';
-import {Project} from '../../../domain/project/project';
 
 @Component({
   selector: 'app-project-pictures-page',
@@ -51,7 +50,7 @@ export class ProjectPicturesPageComponent implements OnInit, OnDestroy {
 
   openDetail(picture: TandemvaultPicture) {
     this.selectedPicture = picture;
-    this.loadDetailPicture(picture.id);
+    picture?.id && this.loadDetailPicture(picture.id);
   }
 
   private loadDetailPicture(id: number) {

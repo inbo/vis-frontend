@@ -1,0 +1,37 @@
+.input-element {
+  @apply bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-2 py-2 text-left cursor-default
+  focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500
+  sm:text-sm;
+}
+
+.input-value-container {
+  @apply block truncate;
+}
+
+.no-results-message {
+  @apply text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9;
+}
+
+.search-result-item {
+  @apply text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-pink-600 focus:text-white focus:bg-pink-600;
+}
+
+.search-result-item__text {
+  @apply font-normal block truncate;
+
+  &--selected {
+    @apply font-semibold;
+  }
+}
+
+.input-icon {
+  @apply absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none;
+}
+
+.search-box-container {
+  @apply text-gray-900 cursor-default select-none relative py-2 px-3 border-b border-gray-300;
+}
+
+.search-box {
+  @apply p-1 px-2 pr-10 appearance-none outline-none w-full text-gray-800;
+}

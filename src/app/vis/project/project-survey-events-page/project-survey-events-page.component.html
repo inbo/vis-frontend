@@ -6,17 +6,13 @@
                     Waterloop
                 </label>
                 <div class="mt-1">
-                    <app-searchable-select id="watercourse" passedId="watercourse" placeholder="Selecteer een waterloop"
-                                           tabIndex="-1" formControlName="watercourse"
+                    <app-searchable-select id="watercourse"
+                                           passedId="watercourse"
+                                           placeholder="Selecteer een waterloop"
+                                           tabIndex="-1"
+                                           formControlName="watercourse"
                                            (search)="getWatercourses($event)"
                                            [options]="watercourses">
-                        <ng-template let-rowDetail #selected>
-                            {{rowDetail?.option?.name}}
-                        </ng-template>
-
-                        <ng-template let-rowDetail #listItem>
-                            {{rowDetail?.option?.name}}
-                        </ng-template>
                     </app-searchable-select>
                 </div>
             </div>
@@ -31,13 +27,6 @@
                                            tabIndex="-1" formControlName="lenticWaterbody"
                                            (search)="getLenticWaterbodies($event)"
                                            [options]="lenticWaterbodies">
-                        <ng-template let-rowDetail #selected>
-                            {{rowDetail?.option?.name}}
-                        </ng-template>
-
-                        <ng-template let-rowDetail #listItem>
-                            {{rowDetail?.option?.name}}
-                        </ng-template>
                     </app-searchable-select>
                 </div>
             </div>
@@ -52,13 +41,6 @@
                                            tabIndex="-1" formControlName="municipality"
                                            (search)="getMunicipalities($event)"
                                            [options]="municipalities">
-                        <ng-template let-rowDetail #selected>
-                            {{rowDetail?.option?.name}}
-                        </ng-template>
-
-                        <ng-template let-rowDetail #listItem>
-                            {{rowDetail?.option?.name}}
-                        </ng-template>
                     </app-searchable-select>
                 </div>
             </div>
@@ -72,13 +54,6 @@
                                            tabIndex="-1" formControlName="basin"
                                            (search)="getBasins($event)"
                                            [options]="basins">
-                        <ng-template let-rowDetail #selected>
-                            {{rowDetail?.option?.name}}
-                        </ng-template>
-
-                        <ng-template let-rowDetail #listItem>
-                            {{rowDetail?.option?.name}}
-                        </ng-template>
                     </app-searchable-select>
                 </div>
             </div>
@@ -97,19 +72,14 @@
                     Meetplaatscode
                 </label>
                 <div class="mt-1">
-                    <app-searchable-select id="measuringPointNumber" passedId="measuringPointNumber"
+                    <app-searchable-select id="measuringPointNumber"
+                                           passedId="measuringPointNumber"
                                            placeholder="Selecteer een meetplaatscode"
-                                           tabIndex="-1" formControlName="measuringPointNumber"
+                                           tabIndex="-1"
+                                           formControlName="measuringPointNumber"
                                            (search)="getFishingPointCodes($event)"
                                            [options]="fishingPointCodes"
                                            [configuration]="fishingPointSearchableSelectConfig">
-                        <ng-template let-rowDetail #selected>
-                            {{rowDetail?.option?.name}}
-                        </ng-template>
-
-                        <ng-template let-rowDetail #listItem>
-                            {{rowDetail?.option?.name}}
-                        </ng-template>
                     </app-searchable-select>
                 </div>
             </div>

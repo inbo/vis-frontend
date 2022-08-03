@@ -2,15 +2,7 @@ import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/co
 import {Project} from '../../../domain/project/project';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
-import {
-    AbstractControl,
-    AsyncValidatorFn,
-    FormBuilder,
-    FormGroup,
-    ValidationErrors,
-    ValidatorFn,
-    Validators,
-} from '@angular/forms';
+import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {EMPTY, Observable, Subscription} from 'rxjs';
 import {ProjectService} from '../../../services/vis.project.service';
@@ -22,7 +14,6 @@ import {Location} from '@angular/common';
 import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
 import {PicturesService} from '../../../services/vis.pictures.service';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
-import {CollectionDetail} from '../../../domain/tandemvault/picture';
 
 function projectStartBeforeSurveyEvents(date: Date): ValidatorFn {
     return (c: AbstractControl) => {
@@ -69,8 +60,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     instances$: Observable<MultiSelectOption[]>;
 
     private subscription = new Subscription();
-    tandemVaultCollections: SearchableSelectOption<CollectionDetail>[] = [];
-    tandemVaultCollectionsFiltered: SearchableSelectOption<CollectionDetail>[] = [];
+    tandemVaultCollections: SearchableSelectOption<string>[] = [];
+    tandemVaultCollectionsFiltered: SearchableSelectOption<string>[] = [];
     loadingCollections = true;
     isModalOpen = false;
     maxDate: Date;
@@ -151,8 +142,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
                     map(tandemvaultCollection => {
                         return tandemvaultCollection.map(collection => ({
                             displayValue: collection.slug,
-                            value: collection,
-                        } as SearchableSelectOption<CollectionDetail>));
+                            value: collection.name_with_hierarchy,
+                        } as SearchableSelectOption<string>));
                     }),
                 ).subscribe(tandemVaultCollectionSearchOptions => {
                     this.tandemVaultCollections = tandemVaultCollectionSearchOptions;
@@ -181,7 +172,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         if ($event === '') {
             this.tandemVaultCollectionsFiltered = this.tandemVaultCollections;
         }
-        this.tandemVaultCollectionsFiltered = this.tandemVaultCollections.filter(value => value.value.name_with_hierarchy.toLowerCase().includes($event.toLowerCase()));
+        this.tandemVaultCollectionsFiltered = this.tandemVaultCollections
+            .filter(value => value.value.toLowerCase().includes($event.toLowerCase()));
     }
 
     saveProject() {
@@ -291,8 +283,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
                 map(fishingPoints =>
                     fishingPoints.map(collection => ({
                         displayValue: collection.slug,
-                        value: collection,
-                    } as SearchableSelectOption<CollectionDetail>))),
+                        value: collection.name_with_hierarchy,
+                    } as SearchableSelectOption<string>))),
             ).subscribe(collectionSelectOptions => {
             this.tandemVaultCollections = collectionSelectOptions;
             this.tandemVaultCollectionsFiltered = collectionSelectOptions;
