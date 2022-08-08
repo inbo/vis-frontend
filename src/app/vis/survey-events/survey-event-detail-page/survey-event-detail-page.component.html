@@ -1,194 +1,206 @@
 <div
-     class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
-  <div class="px-4 py-5 sm:px-6">
-    <h3 class="text-lg leading-6 font-medium text-gray-900">
-      Waarneming details
-    </h3>
-  </div>
-  <div class="px-4 py-5 sm:p-6">
-    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-      <div class="sm:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
-          Datum
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent?.occurrence | date:'dd/MM/yyyy'}}
-        </dd>
-      </div>
-      <div class="sm:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
-          Status
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          <app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>
-        </dd>
-      </div>
-      <div class="sm:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
-          Methode
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{'method.' + surveyEvent?.method | translate}}
-        </dd>
-      </div>
+		class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
+	<div class="px-4 py-5 sm:px-6">
+		<h3 class="text-lg leading-6 font-medium text-gray-900">
+			Waarneming details
+		</h3>
+	</div>
+	<div class="px-4 py-5 sm:p-6">
+		<dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+			<div class="sm:col-span-1">
+				<dt class="text-sm font-medium text-gray-500">
+					Datum
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					{{surveyEvent?.occurrence | date:'dd/MM/yyyy'}}
+				</dd>
+			</div>
+			<div class="sm:col-span-1">
+				<dt class="text-sm font-medium text-gray-500">
+					Status
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					<app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>
+				</dd>
+			</div>
+			<div class="sm:col-span-1">
+				<dt class="text-sm font-medium text-gray-500">
+					Methode
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					{{'method.' + surveyEvent?.method | translate}}
+				</dd>
+			</div>
 
-      <div class="sm:col-span-2">
-        <dt class="text-sm font-medium text-gray-500">
-          Commentaar
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent?.comment}}
-        </dd>
-      </div>
+			<div class="sm:col-span-2">
+				<dt class="text-sm font-medium text-gray-500">
+					Commentaar
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					{{surveyEvent?.comment}}
+				</dd>
+			</div>
 
-      <div class="sm:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
-          Meetplaatscode
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          <a target="_blank" [routerLink]="['/locaties', surveyEvent?.fishingPoint.code]"
-             class="cursor-pointer text-pink-600 hover:text-pink-900">
-            {{surveyEvent?.fishingPoint.code}}
-            <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-4 w-4" fill="none" viewBox="0 0 24 24"
-                 stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-            </svg>
-          </a>
-        </dd>
-      </div>
+			<div class="sm:col-span-1">
+				<dt class="text-sm font-medium text-gray-500">
+					Meetplaatscode
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					<a target="_blank"
+					   [routerLink]="['/locaties', surveyEvent?.fishingPoint.code]"
+					   class="cursor-pointer text-pink-600 hover:text-pink-900">
+						{{surveyEvent?.fishingPoint.code}}
+						<svg xmlns="http://www.w3.org/2000/svg"
+						     class="inline-block h-4 w-4"
+						     fill="none"
+						     viewBox="0 0 24 24"
+						     stroke="currentColor">
+							<path stroke-linecap="round"
+							      stroke-linejoin="round"
+							      stroke-width="2"
+							      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+						</svg>
+					</a>
+				</dd>
+			</div>
 
-      <div class="sm:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
-          Meetplaats omschrijving
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent?.fishingPoint.description}}
-        </dd>
-      </div>
+			<div class="sm:col-span-1">
+				<dt class="text-sm font-medium text-gray-500">
+					Meetplaats omschrijving
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					{{surveyEvent?.fishingPoint.description}}
+				</dd>
+			</div>
 
-      <div class="sm:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
-          Coördinaten - Lambert 72 X, Y
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent?.fishingPoint.x}}, {{surveyEvent?.fishingPoint.y}}
-        </dd>
-      </div>
+			<div class="sm:col-span-1">
+				<dt class="text-sm font-medium text-gray-500">
+					Coördinaten - Lambert 72 X, Y
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					{{surveyEvent?.fishingPoint.x}}, {{surveyEvent?.fishingPoint.y}}
+				</dd>
+			</div>
 
-      <div class="sm:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
-          Coördinaten - Latitude/Longitude
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent?.fishingPoint.lat}}, {{surveyEvent?.fishingPoint.lng}}
-        </dd>
-      </div>
+			<div class="sm:col-span-1">
+				<dt class="text-sm font-medium text-gray-500">
+					Coördinaten - Latitude/Longitude
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					{{surveyEvent?.fishingPoint.lat}}, {{surveyEvent?.fishingPoint.lng}}
+				</dd>
+			</div>
 
-      <div class="sm:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
-          Gemeente
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent?.fishingPoint.municipality}}
-        </dd>
-      </div>
+			<div class="sm:col-span-1">
+				<dt class="text-sm font-medium text-gray-500">
+					Gemeente
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					{{surveyEvent?.fishingPoint.municipality}}
+				</dd>
+			</div>
 
-      <div class="sm:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
-          Provincie
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent?.fishingPoint.province}}
-        </dd>
-      </div>
+			<div class="sm:col-span-1">
+				<dt class="text-sm font-medium text-gray-500">
+					Provincie
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					{{surveyEvent?.fishingPoint.province}}
+				</dd>
+			</div>
 
-      <div class="sm:col-span-1" *ngIf="surveyEvent?.fishingPoint?.isLentic">
-        <dt class="text-sm font-medium text-gray-500">
-          Watervlak
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent?.fishingPoint.lenticName}}
-        </dd>
-      </div>
+			<div class="sm:col-span-1"
+			     *ngIf="surveyEvent?.fishingPoint?.isLentic">
+				<dt class="text-sm font-medium text-gray-500">
+					Watervlak
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					{{surveyEvent?.fishingPoint.lenticName}}
+				</dd>
+			</div>
 
-      <div class="sm:col-span-1" *ngIf="!surveyEvent?.fishingPoint?.isLentic">
-        <dt class="text-sm font-medium text-gray-500">
-          Waterloop
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent?.fishingPoint?.watercourse}}
-        </dd>
-      </div>
+			<div class="sm:col-span-1"
+			     *ngIf="!surveyEvent?.fishingPoint?.isLentic">
+				<dt class="text-sm font-medium text-gray-500">
+					Waterloop
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					{{surveyEvent?.fishingPoint?.watercourse}}
+				</dd>
+			</div>
 
-      <div class="sm:col-span-1" *ngIf="!surveyEvent?.fishingPoint?.isLentic">
-        <dt class="text-sm font-medium text-gray-500">
-          Bekken
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent?.fishingPoint?.basinName}}
-        </dd>
-      </div>
+			<div class="sm:col-span-1"
+			     *ngIf="!surveyEvent?.fishingPoint?.isLentic">
+				<dt class="text-sm font-medium text-gray-500">
+					Bekken
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					{{surveyEvent?.fishingPoint?.basinName}}
+				</dd>
+			</div>
 
-      <div class="sm:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
-          Aangemaakt door
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent?.createUser}}
-        </dd>
-      </div>
+			<div class="sm:col-span-1">
+				<dt class="text-sm font-medium text-gray-500">
+					Aangemaakt door
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					{{surveyEvent?.createUser}}
+				</dd>
+			</div>
 
-      <div class="sm:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
-          Aangemaakt op
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{surveyEvent?.createDate | date:'dd/MM/yyyy'}}
-        </dd>
-      </div>
-    </dl>
-  </div>
-  <div class="px-4 py-4 sm:px-6 flex justify-end">
-    <app-button *ngIf="canDeleteSurveyEvent()"
-                (click)="deleteSurveyEvent()"
-                [style]="'secondary'"
-                class="ml-3"
-                [role]="role.DeleteSurveyEvent"
-                [isUserLinkedToProject]="surveyEvent?.canEdit">Verwijderen
-    </app-button>
-    <app-button *ngIf="canValidateSurveyEvent()"
-                (click)="validateSurveyEvent()"
-                [style]="'secondary'"
-                class="ml-3"
-                [role]="role.ValidateSurveyEvent"
-                [isUserLinkedToProject]="surveyEvent?.canEdit">Valideer
-    </app-button>
-    <app-button *ngIf="canRestoreSurveyEvent()"
-                (click)="reOpenSurveyEvent()"
-                [style]="'secondary'"
-                class="ml-3"
-                [role]="role.EditSurveyEvent"
-                [isUserLinkedToProject]="surveyEvent?.canEdit">Heropenen
-    </app-button>
-    <app-button [style]="'primary'"
-                [disabled]="surveyEvent?.status === 'DELETED'"
-                class="ml-3"
-                [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent?.surveyEventId, 'bewerk']"
-                [role]="role.EditSurveyEvent"
-                [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
-    </app-button>
-  </div>
+			<div class="sm:col-span-1">
+				<dt class="text-sm font-medium text-gray-500">
+					Aangemaakt op
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					{{surveyEvent?.createDate | date:'dd/MM/yyyy'}}
+				</dd>
+			</div>
+		</dl>
+	</div>
+	<div class="px-4 py-4 sm:px-6 flex justify-end">
+		<app-button *ngIf="canDeleteSurveyEvent()"
+		            (click)="deleteSurveyEvent()"
+		            [style]="'secondary'"
+		            class="ml-3"
+		            [role]="role.DeleteSurveyEvent"
+		            [isUserLinkedToProject]="surveyEvent?.canEdit">Verwijderen
+		</app-button>
+		<app-button *ngIf="canValidateSurveyEvent()"
+		            (click)="validateSurveyEvent()"
+		            [style]="'secondary'"
+		            class="ml-3"
+		            [role]="role.ValidateSurveyEvent"
+		            [isUserLinkedToProject]="surveyEvent?.canEdit">Valideer
+		</app-button>
+		<app-button *ngIf="canRestoreSurveyEvent()"
+		            (click)="reOpenSurveyEvent()"
+		            [style]="'secondary'"
+		            class="ml-3"
+		            [role]="role.EditSurveyEvent"
+		            [isUserLinkedToProject]="surveyEvent?.canEdit">Heropenen
+		</app-button>
+		<app-button *ngIf="surveyEvent?.status === 'ENTERED'"
+		            [style]="'primary'"
+		            [disabled]="surveyEvent?.status !== 'ENTERED'"
+		            class="ml-3"
+		            [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent?.surveyEventId, 'bewerk']"
+		            [role]="role.EditSurveyEvent"
+		            [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
+		</app-button>
+	</div>
 
-  <app-modal (onCancel)="cancelModal()" (onPrimary)="confirmClicked()" [isOpen]="isModalOpen">
-    <ng-container slot="title">
-      Verwijder waarneming
-    </ng-container>
-    <ng-container slot="content">
-      Bent u zeker dat u deze waarneming wilt verwijderen?
-    </ng-container>
-    <ng-container slot="primary-button">
-      Verwijderen
-    </ng-container>
-  </app-modal>
+	<app-modal (onCancel)="cancelModal()"
+	           (onPrimary)="confirmClicked()"
+	           [isOpen]="isModalOpen">
+		<ng-container slot="title">
+			Verwijder waarneming
+		</ng-container>
+		<ng-container slot="content">
+			Bent u zeker dat u deze waarneming wilt verwijderen?
+		</ng-container>
+		<ng-container slot="primary-button">
+			Verwijderen
+		</ng-container>
+	</app-modal>
 </div>
