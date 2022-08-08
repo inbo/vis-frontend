@@ -31,7 +31,7 @@ export class PagingAsyncComponent {
         relativeTo: this.activatedRoute,
         queryParams,
         queryParamsHandling: 'merge'
-      }).then();
+      });
   }
 
   next() {

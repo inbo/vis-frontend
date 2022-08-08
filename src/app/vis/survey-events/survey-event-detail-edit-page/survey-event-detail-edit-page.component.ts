@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
-import {map, take, tap} from 'rxjs/operators';
+import {debounceTime, filter, map, switchMap, take, tap} from 'rxjs/operators';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {Method} from '../../../domain/method/method';
 import {MethodsService} from '../../../services/vis.methods.service';
@@ -11,10 +11,11 @@ import {Role} from '../../../core/_models/role';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {Location} from '@angular/common';
 import {HasUnsavedData} from '../../../core/core.interface';
-import {uniqueValidator} from '../survey-event-validators';
 import {ProjectService} from '../../../services/vis.project.service';
-import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
-import {of} from 'rxjs';
+import {SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
+import {of, Subscription} from 'rxjs';
+import {uniqueNewValidator} from '../survey-event-validators';
+import {startOfDay} from 'date-fns';
 
 @Component({
     selector: 'app-survey-event-detail-edit-page',
@@ -30,26 +31,33 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
 
     fishingPoints: SearchableSelectOption<number>[] = [];
     filteredMethods: SearchableSelectOption<string>[] = [];
-    fishingPointSearchableSelectConfig: SearchableSelectConfig;
+    fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
+        .minQueryLength(2)
+        .searchPlaceholder('Minstens 2 karakters...')
+        .build();
     minDate: Date;
     maxDate: Date;
+    existingSurveyEventsWithLocationMethodAndOccurrenceDate: Array<SurveyEvent>;
 
     private allMethods: Array<Method>;
+    private projectId: number;
+    private formSubscription: Subscription;
 
-    constructor(private surveyEventService: SurveyEventsService, private activatedRoute: ActivatedRoute,
-                private router: Router, private formBuilder: FormBuilder, private locationsService: LocationsService,
-                private methodsService: MethodsService, private _location: Location, private projectService: ProjectService) {
-        this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
-            .minQueryLength(2)
-            .searchPlaceholder('Minstens 2 karakters...')
-            .build();
+    constructor(private surveyEventService: SurveyEventsService,
+                private activatedRoute: ActivatedRoute,
+                private router: Router,
+                private formBuilder: FormBuilder,
+                private locationsService: LocationsService,
+                private methodsService: MethodsService,
+                private _location: Location,
+                private projectService: ProjectService) {
     }
 
     ngOnInit(): void {
         this.surveyEventForm = this.formBuilder.group(
             {
                 occurrenceDate: [null, [Validators.required]],
-                location: [null, [Validators.required]],
+                fishingPointId: [null, [Validators.required]],
                 method: ['', [Validators.required]],
                 comment: ['', Validators.maxLength(800)],
             });
@@ -57,9 +65,11 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
         this.projectService.getProject(this.activatedRoute.parent.snapshot.params.projectCode)
             .pipe(take(1))
             .subscribe(value => {
+                this.projectId = value.projectId;
                 this.minDate = new Date(value.start);
                 // Set max date to today's date or to survey end date
                 this.maxDate = value.end ? new Date(value.end) > new Date() ? new Date() : new Date(value.end) : new Date();
+                this.form.setAsyncValidators([uniqueNewValidator(this.projectId, this.surveyEventService)]);
             });
 
         this.surveyEventService.getSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
@@ -75,10 +85,25 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
 
                 this.getLocations(null);
                 this.getMethods(null);
-
-                this.form.setAsyncValidators([uniqueValidator(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventService,
-                    surveyEvent)]);
             });
+
+        this.formSubscription = this.surveyEventForm
+            .valueChanges
+            .pipe(
+                debounceTime(500),
+                filter(() => {
+                    return this.surveyEventForm.valid;
+                }),
+                switchMap(() => this.surveyEventService
+                    .searchSurveyEvents(
+                        this.surveyEventForm.get('fishingPointId').value,
+                        this.surveyEventForm.get('method').value,
+                        startOfDay(new Date(this.surveyEventForm.get('occurrenceDate').value))),
+                ),
+                tap(foundSurveyEvents =>
+                    this.existingSurveyEventsWithLocationMethodAndOccurrenceDate = foundSurveyEvents
+                        .filter(surveyEvent => surveyEvent.surveyEventId !== this.surveyEvent.surveyEventId)),
+            ).subscribe();
     }
 
     getLocations(searchQuery: string) {
@@ -124,15 +149,14 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
         }
 
         const formData = this.surveyEventForm.getRawValue();
-        formData.fishingPointId = formData.location;
-        delete formData.location;
 
-        this.surveyEventService.updateSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
-            this.activatedRoute.parent.snapshot.params.surveyEventId, formData)
+        this.surveyEventService
+            .updateSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
+                this.activatedRoute.parent.snapshot.params.surveyEventId, formData)
             .pipe(take(1))
             .subscribe(() => {
                 this.router.navigate(['projecten', this.activatedRoute.parent.snapshot.params.projectCode,
-                    'waarnemingen', this.activatedRoute.parent.snapshot.params.surveyEventId]).then();
+                    'waarnemingen', this.activatedRoute.parent.snapshot.params.surveyEventId]);
             });
     }
 
@@ -141,7 +165,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
     }
 
     get location() {
-        return this.surveyEventForm.get('location');
+        return this.surveyEventForm.get('fishingPointId');
     }
 
     get method() {

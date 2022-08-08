@@ -21,6 +21,6 @@ export class ProjectTabsComponent implements OnInit {
   }
 
   navigate(location: string) {
-    this.router.navigate([location]).then();
+    this.router.navigate([location]);
   }
 }

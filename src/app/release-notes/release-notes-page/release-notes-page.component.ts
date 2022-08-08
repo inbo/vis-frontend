@@ -44,7 +44,7 @@ export class ReleaseNotesPageComponent implements OnInit, OnDestroy {
     if (!release) {
       this.subscription.add(
         this.releaseNotesService.getLatestRelease().subscribe(value => {
-          this.router.navigate(['/releases/' + value]).then();
+          this.router.navigate(['/releases/' + value]);
         })
       );
     } else {

@@ -30,7 +30,7 @@
 										<app-searchable-select id="location"
 										                       passedId="location"
 										                       placeholder="Selecteer een locatie"
-										                       formControlName="location"
+										                       formControlName="fishingPointId"
 										                       (search)="getLocations($event)"
 										                       [options]="fishingPoints"
 										                       [configuration]="fishingPointSearchableSelectConfig">
@@ -79,6 +79,18 @@
 							<app-form-error-message [fieldName]="'Waarneming'"
 							                        [control]="form"
 							                        [submitted]="submitted"></app-form-error-message>
+						</div>
+					</div>
+
+					<div class="py-3"
+					     *ngIf="existingSurveyEventsWithLocationMethodAndOccurrenceDate?.length > 0">
+						<p>Bestaande waarnemingen met deze methode, datum en vispunt zijn gevonden:</p>
+						<div *ngFor="let foundSurveyEvent of existingSurveyEventsWithLocationMethodAndOccurrenceDate">
+							<a class="underline text-pink-600 cursor-pointer"
+							   [routerLink]="['/projecten', foundSurveyEvent.projectId, 'waarnemingen', foundSurveyEvent.surveyEventId]"
+							   target="_blank">
+								{{foundSurveyEvent.surveyEventId}}
+							</a>
 						</div>
 					</div>
 				</div>

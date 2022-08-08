@@ -13,7 +13,7 @@
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="modal-headline">
-            <form [formGroup]="copySurveyEventForm" class="space-y-4">
+            <form [formGroup]="copySurveyEventForm" class="space-y-4" *ngIf="copySurveyEventForm">
                 <div class="sm:col-span-2">
                     <label class="block text-sm font-medium text-gray-700">
                         Datum *
@@ -66,7 +66,7 @@
                 <div class="relative sm:col-span-4 text-sm">
                     <app-form-error-message [fieldName]="'Waarneming'"
                                             [control]="copySurveyEventForm"
-                                            [submitted]="submitted">
+                                            [submitted]="true">
                     </app-form-error-message>
                 </div>
             </form>
@@ -75,7 +75,9 @@
                 <app-button [style]="'secondary'" (click)="isOpen = false">
                     Annuleren
                 </app-button>
-                <app-button [disabled]="!copySurveyEventForm.valid" [style]="'primary'" class="ml-3"
+                <app-button [disabled]="copySurveyEventForm?.invalid"
+                            [style]="'primary'"
+                            class="ml-3"
                             (click)="copySurveyEvent()">
                     Bewaren
                 </app-button>

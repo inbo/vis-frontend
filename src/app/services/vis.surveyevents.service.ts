@@ -27,11 +27,12 @@ export class SurveyEventsService extends VisService {
         return this.http.get<AsyncPage<SurveyEventOverview>>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents`, {params});
     }
 
-    searchSurveyEvents(fishingPoint: number, method: string, occurrenceDate: Date): Observable<Array<SurveyEvent>> {
-        const params = new HttpParams()
+    searchSurveyEvents(fishingPoint: number, method: string, occurrenceDate: Date, projectId?: number): Observable<Array<SurveyEvent>> {
+        let params = new HttpParams()
             .append('fishingPointId', `${fishingPoint}`)
             .append('date', format(occurrenceDate, 'yyyy-MM-dd'))
             .append('method', method);
+        params = projectId ? params.append('projectId', `${projectId}`) : params;
 
         return this.http.get<Array<SurveyEvent>>(`${environment.apiUrl}/api/surveyevents/search`, {params})
             .pipe(

@@ -68,7 +68,7 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData 
             .updateCpueParameters(this.projectCode, this.surveyEventId, formData)
             .pipe(take(1))
             .subscribe(() => {
-                this.router.navigate(['projecten', this.projectCode, 'waarnemingen', this.surveyEventId, 'cpue']).then();
+                this.router.navigate(['projecten', this.projectCode, 'waarnemingen', this.surveyEventId, 'cpue']);
             });
     }
 

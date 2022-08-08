@@ -205,7 +205,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
             {
                 relativeTo: this.activatedRoute,
                 queryParams,
-            }).then();
+            });
     }
 
     private setTags() {

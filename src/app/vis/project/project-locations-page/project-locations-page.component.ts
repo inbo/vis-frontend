@@ -133,7 +133,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
             {
                 relativeTo: this.activatedRoute,
                 queryParams,
-            }).then();
+            });
     }
 
     reset() {

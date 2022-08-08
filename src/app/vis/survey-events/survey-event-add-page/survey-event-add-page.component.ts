@@ -11,7 +11,7 @@ import {Location} from '@angular/common';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {ProjectService} from '../../../services/vis.project.service';
 import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
-import {uniqueValidator} from '../survey-event-validators';
+import {uniqueNewValidator} from '../survey-event-validators';
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 import {of, Subscription} from 'rxjs';
 import {startOfDay} from 'date-fns';
@@ -57,13 +57,14 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
             });
 
 
+        const projectId = this.activatedRoute.parent.snapshot.queryParams.projectId;
         this.createSurveyEventForm = this.formBuilder.group(
             {
                 occurrenceDate: [undefined, [Validators.required]],
                 fishingPointId: [undefined, [Validators.required]],
                 method: [undefined, [Validators.required]],
                 comment: ['', Validators.maxLength(800)],
-            }, {asyncValidators: [uniqueValidator(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventService)]});
+            }, {asyncValidators: [uniqueNewValidator(projectId, this.surveyEventService)]});
 
         this.getMethods(null);
 

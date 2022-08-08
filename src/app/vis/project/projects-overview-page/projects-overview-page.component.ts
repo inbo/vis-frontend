@@ -141,7 +141,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
         relativeTo: this.activatedRoute,
         queryParams,
         queryParamsHandling: 'merge'
-      }).then();
+      });
   }
 
   exportProjects() {
