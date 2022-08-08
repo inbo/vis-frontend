@@ -71,7 +71,7 @@ export class TableSortComponent implements OnInit, OnDestroy {
         relativeTo: this.activatedRoute,
         queryParams,
         queryParamsHandling: 'merge'
-      }).then();
+      });
   }
 
   private nextOrder() {

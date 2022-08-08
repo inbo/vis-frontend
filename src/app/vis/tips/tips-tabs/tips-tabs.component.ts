@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {TipsService} from '../../../services/vis.tips.service';
@@ -23,7 +23,7 @@ export class TipsTabsComponent implements OnInit {
   navigate(location: string) {
     console.log('navigate');
     this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
-      this.router.navigate([location]).then();
+      this.router.navigate([location]);
     });
   }
 }

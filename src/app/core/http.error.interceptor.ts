@@ -35,19 +35,19 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
 
           if (error.status === 0) {
-            this.router.navigateByUrl('/service-unavailable').then();
+            this.router.navigateByUrl('/service-unavailable');
           }
           if (error.status === 400) {
             return of(new HttpResponse({body: {code: 400}}));
           }
           if (error.status === 403) {
-            this.router.navigateByUrl('/forbidden').then();
+            this.router.navigateByUrl('/forbidden');
           }
           if (error.status === 500) {
-            this.router.navigateByUrl('/internal-server-error').then();
+            this.router.navigateByUrl('/internal-server-error');
           }
           if (error.status === 503) {
-            this.router.navigateByUrl('/service-unavailable').then();
+            this.router.navigateByUrl('/service-unavailable');
           }
         }
 

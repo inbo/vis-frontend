@@ -13,6 +13,7 @@ import {Role} from '../../../core/_models/role';
   templateUrl: './project-heading.component.html'
 })
 export class ProjectHeadingComponent implements OnInit, OnDestroy {
+
   role = Role;
   project$: Observable<Project> = this.projectService.project$;
 

@@ -17,7 +17,7 @@ export class ChildRoleGuard implements CanActivateChild {
       }
     }
 
-    this.router.navigateByUrl('/forbidden').then();
+    this.router.navigateByUrl('/forbidden');
     return false;
   }
 }

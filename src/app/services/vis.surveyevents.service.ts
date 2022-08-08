@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable} from 'rxjs';
@@ -9,123 +9,142 @@ import {Parameters} from '../domain/survey-event/parameters';
 import {Habitat} from '../domain/survey-event/habitat';
 import {VisService} from './vis.service';
 import {AsyncValidationResult} from './validation';
+import {format} from 'date-fns';
+import {map} from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class SurveyEventsService extends VisService {
 
-  constructor(private http: HttpClient) {
-    super();
-  }
+    constructor(private http: HttpClient) {
+        super();
+    }
 
-  getSurveyEvents(projectCode: string, page: number, size: number, filter: any): Observable<AsyncPage<SurveyEventOverview>> {
-    const params = this.getPageParams(page, size, filter);
+    getSurveyEvents(projectCode: string, page: number, size: number, filter: any): Observable<AsyncPage<SurveyEventOverview>> {
+        const params = this.getPageParams(page, size, filter);
 
-    return this.http.get<AsyncPage<SurveyEventOverview>>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents`, {params});
-  }
+        return this.http.get<AsyncPage<SurveyEventOverview>>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents`, {params});
+    }
 
-  getAllSurveyEvents(page: number, size: number, filter: any): Observable<AsyncPage<SurveyEventOverview>> {
-    const params = this.getPageParams(page, size, filter);
+    searchSurveyEvents(fishingPoint: number, method: string, occurrenceDate: Date, projectId?: number): Observable<Array<SurveyEvent>> {
+        let params = new HttpParams()
+            .append('fishingPointId', `${fishingPoint}`)
+            .append('date', format(occurrenceDate, 'yyyy-MM-dd'))
+            .append('method', method);
+        params = projectId ? params.append('projectId', `${projectId}`) : params;
 
-    return this.http.get<AsyncPage<SurveyEventOverview>>(`${environment.apiUrl}/api/surveyevents`, {params});
-  }
+        return this.http.get<Array<SurveyEvent>>(`${environment.apiUrl}/api/surveyevents/search`, {params})
+            .pipe(
+                map(partialSurveyEvents => partialSurveyEvents
+                    .map(surveyEvent => ({
+                        ...surveyEvent,
+                        surveyEventId: (surveyEvent.surveyEventId as any as { value: number }).value,
+                    } as SurveyEvent))),
+            );
+    }
 
-  updateSurveyEvent(projectCode: string, surveyEventId: any, formData: any): Observable<SurveyEvent> {
-    return this.http.put<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}`,
-      formData);
-  }
+    getAllSurveyEvents(page: number, size: number, filter: any): Observable<AsyncPage<SurveyEventOverview>> {
+        const params = this.getPageParams(page, size, filter);
 
-  createSurveyEvent(projectCode: string, formData: any): Observable<SurveyEvent> {
-    return this.http.post<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents`, formData);
-  }
+        return this.http.get<AsyncPage<SurveyEventOverview>>(`${environment.apiUrl}/api/surveyevents`, {params});
+    }
 
-  reOpenSurveyEvent(projectCode: string, surveyEventId: any): Observable<SurveyEvent> {
-    return this.http.post<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/reopen`, {});
-  }
+    updateSurveyEvent(projectCode: string, surveyEventId: any, formData: any): Observable<SurveyEvent> {
+        return this.http.put<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}`,
+            formData);
+    }
 
-  validateSurveyEvent(projectCode: string, surveyEventId: any): Observable<SurveyEvent> {
-    return this.http.post<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/validate`, {});
-  }
+    createSurveyEvent(projectCode: string, formData: any): Observable<SurveyEvent> {
+        return this.http.post<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents`, formData);
+    }
 
-  copySurveyEvent(projectCode: string, surveyEventId: any, formData: any): Observable<SurveyEvent> {
-    return this.http.post<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/copy`, formData);
-  }
+    reOpenSurveyEvent(projectCode: string, surveyEventId: any): Observable<SurveyEvent> {
+        return this.http.post<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/reopen`, {});
+    }
 
-  deleteSurveyEvent(projectCode: string, surveyEventId: any): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}`);
-  }
+    validateSurveyEvent(projectCode: string, surveyEventId: any): Observable<SurveyEvent> {
+        return this.http.post<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/validate`, {});
+    }
 
-  saveMeasurement(projectCode: string, surveyEventId: any, measurementId: any, formData: any): Observable<void> {
-    return this.http.put<void>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/${measurementId}`, formData);
-  }
+    copySurveyEvent(projectCode: string, surveyEventId: any, formData: any): Observable<SurveyEvent> {
+        return this.http.post<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/copy`, formData);
+    }
 
-  getSurveyEvent(projectCode: string, surveyEventId: number): Observable<SurveyEvent> {
-    return this.http.get<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}`);
-  }
+    deleteSurveyEvent(projectCode: string, surveyEventId: any): Observable<void> {
+        return this.http.delete<void>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}`);
+    }
 
-  getMeasurements(projectCode: string, surveyEventId: any, page: number, size: number, sort: string): Observable<AsyncPage<Measurement>> {
-    const params = this.getPageParams(page, size, {sort});
+    saveMeasurement(projectCode: string, surveyEventId: any, measurementId: any, formData: any): Observable<void> {
+        return this.http.put<void>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/${measurementId}`, formData);
+    }
 
-    return this.http.get<AsyncPage<Measurement>>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`, {params});
-  }
+    getSurveyEvent(projectCode: string, surveyEventId: number): Observable<SurveyEvent> {
+        return this.http.get<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}`);
+    }
 
-  getParameters(projectCode: string, surveyEventId: number): Observable<Parameters> {
-    return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`);
-  }
+    getMeasurements(projectCode: string, surveyEventId: any, page: number, size: number, sort: string): Observable<AsyncPage<Measurement>> {
+        const params = this.getPageParams(page, size, {sort});
 
-  listStatusCodes(): Observable<string[]> {
-    return this.http.get<string[]>(`${environment.apiUrl}/api/surveyevents/code/status`);
-  }
+        return this.http.get<AsyncPage<Measurement>>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`, {params});
+    }
 
-  getHabitat(projectCode: string, surveyEventId: number): Observable<Habitat> {
-    return this.http.get<Habitat>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`);
-  }
+    getParameters(projectCode: string, surveyEventId: number): Observable<Parameters> {
+        return this.http.get<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`);
+    }
 
-  updateHabitat(projectCode: string, surveyEventId: any, formData: any): Observable<Habitat> {
-    return this.http.put<Habitat>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`, formData);
-  }
+    listStatusCodes(): Observable<string[]> {
+        return this.http.get<string[]>(`${environment.apiUrl}/api/surveyevents/code/status`);
+    }
 
-  updateParameters(projectCode: string, surveyEventId: any, formData: any): Observable<Parameters> {
-    return this.http.put<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`,
-      formData);
-  }
+    getHabitat(projectCode: string, surveyEventId: number): Observable<Habitat> {
+        return this.http.get<Habitat>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`);
+    }
 
-  createMeasurements(measurements: any, projectCode: string, surveyEventId: any): Observable<void> {
-    return this.http.post<void>(
-      `${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`,
-      measurements
-    );
-  }
+    updateHabitat(projectCode: string, surveyEventId: any, formData: any): Observable<Habitat> {
+        return this.http.put<Habitat>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/habitat`, formData);
+    }
 
-  getAllMeasurementsForSurveyEvent(projectCode: string, surveyEventId: number): Observable<Measurement[]> {
-    return this.http.get<Measurement[]>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/all`);
-  }
+    updateParameters(projectCode: string, surveyEventId: any, formData: any): Observable<Parameters> {
+        return this.http.put<Parameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/parameters`,
+            formData);
+    }
 
-  deleteMeasurement(projectCode: string, surveyEventId: number, measurementId: number): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/${measurementId}`);
-  }
+    createMeasurements(measurements: any, projectCode: string, surveyEventId: any): Observable<void> {
+        return this.http.post<void>(
+            `${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements`,
+            measurements,
+        );
+    }
 
-  surveyEventParameters(projectCode: string, surveyEventId: number): Observable<SurveyEventParameters> {
-    return this.http.get<SurveyEventParameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue/parameters`);
-  }
+    getAllMeasurementsForSurveyEvent(projectCode: string, surveyEventId: number): Observable<Measurement[]> {
+        return this.http.get<Measurement[]>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/all`);
+    }
 
-  findTaxaCpueForSurveyEvent(projectCode: string, surveyEventId: number): Observable<TaxonCpue[]> {
-    return this.http.get<TaxonCpue[]>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue`);
-  }
+    deleteMeasurement(projectCode: string, surveyEventId: number, measurementId: number): Observable<void> {
+        return this.http.delete<void>(`${environment.apiUrl}/api/project/${projectCode}/surveyevents/${surveyEventId}/measurements/${measurementId}`);
+    }
 
-  updateCpueParameters(projectCode: string, surveyEventId: any, formData: any): Observable<boolean> {
-    return this.http.put<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue`,
-      {parameters: formData});
-  }
+    surveyEventParameters(projectCode: string, surveyEventId: number): Observable<SurveyEventParameters> {
+        return this.http.get<SurveyEventParameters>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue/parameters`);
+    }
 
-  recalculateCpue(projectCode: string, surveyEventId: any): Observable<boolean> {
-    return this.http.put<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue/recalculate`, {});
-  }
+    findTaxaCpueForSurveyEvent(projectCode: string, surveyEventId: number): Observable<TaxonCpue[]> {
+        return this.http.get<TaxonCpue[]>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue`);
+    }
 
-  checkIfSurveyEventExists(projectCode: string, location: any, occurrenceDate: any, method: any): Observable<AsyncValidationResult> {
-    const params = this.getParams({location, occurrenceDate, method});
+    updateCpueParameters(projectCode: string, surveyEventId: any, formData: any): Observable<boolean> {
+        return this.http.put<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue`,
+            {parameters: formData});
+    }
 
-    return this.http.get<AsyncValidationResult>(environment.apiUrl + '/api/validation/projects/' + projectCode + '/surveyevents', {params});
-  }
+    recalculateCpue(projectCode: string, surveyEventId: any): Observable<boolean> {
+        return this.http.put<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue/recalculate`, {});
+    }
+
+    checkIfSurveyEventExists(projectCode: string, location: any, occurrenceDate: any, method: any): Observable<AsyncValidationResult> {
+        const params = this.getParams({location, occurrenceDate, method});
+
+        return this.http.get<AsyncValidationResult>(environment.apiUrl + '/api/validation/projects/' + projectCode + '/surveyevents', {params});
+    }
 }

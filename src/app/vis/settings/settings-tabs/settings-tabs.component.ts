@@ -17,6 +17,6 @@ export class SettingsTabsComponent implements OnInit {
   }
 
   navigate(location: string) {
-    this.router.navigate([location]).then();
+    this.router.navigate([location]);
   }
 }

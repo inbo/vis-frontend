@@ -120,7 +120,7 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
         relativeTo: this.activatedRoute,
         queryParams,
         queryParamsHandling: 'merge'
-      }).then();
+      });
   }
 
   openEdit(methodCode: string) {

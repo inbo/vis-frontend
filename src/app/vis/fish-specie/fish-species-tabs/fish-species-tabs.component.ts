@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-fish-species-tabs',
@@ -19,7 +17,7 @@ export class FishSpeciesTabsComponent implements OnInit {
   }
 
   navigate(location: string) {
-    this.router.navigate([location]).then();
+    this.router.navigate([location]);
   }
 
 }

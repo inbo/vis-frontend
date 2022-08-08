@@ -9,6 +9,7 @@ import {Method} from '../../../domain/method/method';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 import {LocationsService} from '../../../services/vis.locations.service';
+import {Project} from '../../../domain/project/project';
 
 @Component({
     selector: 'app-survey-event-copy-modal',
@@ -16,8 +17,8 @@ import {LocationsService} from '../../../services/vis.locations.service';
 })
 export class SurveyEventCopyModalComponent implements OnInit {
 
-    @Input() projectCode;
-    @Input() surveyEventId;
+    @Input() project: Project;
+    @Input() surveyEventId: number;
     @Input() startDate: Date;
     @Input() endDate: Date;
     @Input() fishingPointId: number;
@@ -49,7 +50,7 @@ export class SurveyEventCopyModalComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (!this.projectCode || !this.surveyEventId) {
+        if (!this.project?.projectId || !this.surveyEventId) {
             throw new Error('Attributes "projectCode" and "surveyEventId" are required');
         }
 
@@ -63,7 +64,8 @@ export class SurveyEventCopyModalComponent implements OnInit {
                 occurrenceDate: [new Date(), [Validators.required]],
                 method: [this.method],
                 fishingPointId: [this.fishingPointId],
-            }, {asyncValidators: [uniqueNewValidator(this.projectCode, this.fishingPointId, this.method, this.surveyEventsService)]});
+            }, {asyncValidators: [uniqueNewValidator(this.project.projectId, this.surveyEventsService)]});
+        this.copySurveyEventForm.updateValueAndValidity();
     }
 
     open() {
@@ -81,7 +83,7 @@ export class SurveyEventCopyModalComponent implements OnInit {
             return;
         }
 
-        this.surveyEventsService.copySurveyEvent(this.projectCode, this.surveyEventId, this.copySurveyEventForm.getRawValue())
+        this.surveyEventsService.copySurveyEvent(this.project.code.value, this.surveyEventId, this.copySurveyEventForm.getRawValue())
             .pipe(take(1))
             .subscribe(() => {
                 this.isOpen = false;

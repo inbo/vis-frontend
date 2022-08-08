@@ -131,6 +131,6 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
         relativeTo: this.activatedRoute,
         queryParams,
         queryParamsHandling: 'merge'
-      }).then();
+      });
   }
 }

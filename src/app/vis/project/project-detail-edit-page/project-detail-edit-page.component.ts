@@ -190,7 +190,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
                     this.project = response;
                     this.projectForm.reset();
                     this.projectService.next(response);
-                    this.router.navigate(['/projecten', this.project.code.value]).then();
+                    this.router.navigate(['/projecten', this.project.code.value]);
                 },
                 (error) => console.log(error),
             ),

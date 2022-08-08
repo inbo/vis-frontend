@@ -1,13 +1,13 @@
 import {
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren
+    AfterViewChecked,
+    AfterViewInit,
+    Component,
+    HostListener,
+    OnDestroy,
+    OnInit,
+    QueryList,
+    ViewChild,
+    ViewChildren,
 } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -163,7 +163,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         } else {
           this.submitted = true;
           this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
-            this.activatedRoute.parent.snapshot.params.surveyEventId, 'metingen']).then();
+            this.activatedRoute.parent.snapshot.params.surveyEventId, 'metingen']);
         }
       }));
   }

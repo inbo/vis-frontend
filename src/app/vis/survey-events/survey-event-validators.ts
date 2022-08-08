@@ -1,43 +1,28 @@
 import {AsyncValidatorFn, FormGroup, ValidationErrors} from '@angular/forms';
-import {EMPTY, Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {SurveyEventsService} from '../../services/vis.surveyevents.service';
-import {SurveyEvent} from '../../domain/survey-event/surveyEvent';
-
-export function uniqueValidator(projectCode: string, surveyEventService: SurveyEventsService, surveyEvent?: SurveyEvent): AsyncValidatorFn {
-    return (form: FormGroup): Observable<ValidationErrors | null> => {
-        const location = form.get('fishingPointId').value;
-        const occurrenceDate = form.get('occurrenceDate').value;
-        const method = form.get('method').value;
-
-        if (surveyEvent && (surveyEvent.fishingPoint.id === location
-            && new Date(surveyEvent.occurrence).toISOString() === new Date(occurrenceDate).toISOString()
-            && surveyEvent.method === method)) {
-            return EMPTY;
-        }
-
-        if (!location || !occurrenceDate || !method) {
-            return EMPTY;
-        }
-
-        return surveyEventService.checkIfSurveyEventExists(projectCode, location, new Date(occurrenceDate).toISOString(),
-            method).pipe(map(result => result.valid ? {uniqueSurveyEvent: true} : null));
-    };
-}
+import {isValid} from 'date-fns';
 
 export function uniqueNewValidator(
-    projectCode: string,
-    location: number,
-    existingMethod: string,
+    projectId: number,
     surveyEventService: SurveyEventsService): AsyncValidatorFn {
     return (form: FormGroup): Observable<ValidationErrors | null> => {
-        if (!form.get('occurrenceDate').value) {
-            return EMPTY;
-        }
-        const newMethod = form.get('method').value;
-        const method = newMethod ? newMethod : existingMethod;
+        const method = form.get('method').value;
+        const occurrenceDate = new Date(form.get('occurrenceDate').value);
+        const fishingPoint = form.get('fishingPointId').value;
 
-        return surveyEventService.checkIfSurveyEventExists(projectCode, location, new Date(form.get('occurrenceDate').value).toISOString(),
-            method).pipe(map(result => result.valid ? {uniqueSurveyEvent: true} : null));
+        if (!method || !isValid(occurrenceDate) || !projectId || !fishingPoint) {
+            return of({uniqueSurveyEvent: false});
+        }
+        return surveyEventService
+            .searchSurveyEvents(
+                fishingPoint,
+                method,
+                occurrenceDate,
+                projectId)
+            .pipe(
+                map(result => result.length === 0 ? null : {uniqueSurveyEvent: false}),
+            );
     };
 }

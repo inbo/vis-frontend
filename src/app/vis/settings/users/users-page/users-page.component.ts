@@ -82,7 +82,7 @@ export class UsersPageComponent implements OnInit {
         relativeTo: this.activatedRoute,
         queryParams,
         queryParamsHandling: 'merge'
-      }).then();
+      });
   }
 
   editAccount(account: Account) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
@@ -16,7 +16,7 @@ export class LocationTabsComponent implements OnInit {
   }
 
   navigate(location: string) {
-    this.router.navigate([location]).then();
+    this.router.navigate([location]);
   }
 
 }
