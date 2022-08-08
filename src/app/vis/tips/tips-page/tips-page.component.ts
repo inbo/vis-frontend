@@ -8,35 +8,40 @@ import {Tip} from '../../../domain/tip/tip';
 import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'app-tips-page',
-  templateUrl: './tips-page.component.html'
+    selector: 'app-tips-page',
+    templateUrl: './tips-page.component.html',
 })
 export class TipsPageComponent implements OnInit, OnDestroy {
 
-  tips: Tip[];
+    tips: Tip[];
 
-  private subscription = new Subscription();
+    private subscription = new Subscription();
 
-  constructor(private titleService: Title, private tipsService: TipsService, private activatedRoute: ActivatedRoute,
-              private translateService: TranslateService) {
-  }
+    constructor(private titleService: Title,
+                private tipsService: TipsService,
+                private activatedRoute: ActivatedRoute,
+                private translateService: TranslateService) {
+    }
 
-  ngOnInit(): void {
-    this.subscription.add(this.activatedRoute.params.subscribe(
-      params => {
-        this.getTips(params.tipPage);
-      }
-    ));
-  }
+    ngOnInit(): void {
+        this.subscription.add(this.activatedRoute.params.subscribe(
+            params => {
+                this.getTips(params.tipPage);
+            },
+        ));
+    }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 
-  private getTips(tipPage: any) {
-    this.tipsService.getPage(this.activatedRoute.snapshot.params.tipPage).pipe(take(1)).subscribe(value => {
-      this.titleService.setTitle(`Tips: ${this.translateService.instant(this.activatedRoute.snapshot.params.tipPage)}`);
-      this.tips = value;
-    });
-  }
+    private getTips(tipPage: any) {
+        this.tipsService
+            .getPage(this.activatedRoute.snapshot.params.tipPage)
+            .pipe(take(1))
+            .subscribe(value => {
+                this.titleService.setTitle(`Tips: ${this.translateService.instant(this.activatedRoute.snapshot.params.tipPage)}`);
+                this.tips = value;
+            });
+    }
 }
