@@ -1,0 +1,7 @@
+export enum LayerId {
+    TOWN_LAYER = 3,
+    VHA_WATERCOURSE_LAYER= 0,
+    BRU_WATERCOURSE_LAYER = 4,
+    FISHING_POINT_LAYER= 5,
+    BLUE_LAYER = 1
+}

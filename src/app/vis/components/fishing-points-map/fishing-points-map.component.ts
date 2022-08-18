@@ -13,7 +13,6 @@ import {
     LeafletMouseEvent,
     Map as LeafletMap,
     MapOptions,
-    Marker,
     marker,
     tooltip,
 } from 'leaflet';
@@ -27,7 +26,7 @@ import {LocationsService} from '../../../services/vis.locations.service';
 import {mapTo, switchMap, take, tap} from 'rxjs/operators';
 import {VhaUrl} from '../../../domain/location/vha-version';
 import {FishingPoint} from '../../../domain/location/fishing-point';
-import {NgxTippyService} from 'ngx-tippy-wrapper';
+import {LayerId} from './layer-id.enum';
 
 @Component({
     selector: 'app-fishing-points-map',
@@ -97,12 +96,10 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     };
     selected = new Map();
 
-    private locationsLayerId = 5;
     private layerMetadata = new Map();
     private clickedLatlng: LatLng;
 
-    constructor(private locationsService: LocationsService,
-                private tippyService: NgxTippyService) {
+    constructor(private locationsService: LocationsService) {
     }
 
     ngOnInit(): void {
@@ -135,28 +132,28 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         this.orthoLayer = dynamicMapLayer(
             {
                 url: 'https://gisservices.inbo.be/arcgis/rest/services/Orthofoto_WM/MapServer',
-                layers: [0],
+                layers: [LayerId.VHA_WATERCOURSE_LAYER],
             },
         );
 
         this.watercourseLayer = dynamicMapLayer(
             {
                 url: version.value,
-                layers: [0, 4],
+                layers: [LayerId.VHA_WATERCOURSE_LAYER, LayerId.BRU_WATERCOURSE_LAYER],
             },
         );
 
         this.blueLayer = dynamicMapLayer(
             {
                 url: version.value,
-                layers: [1],
+                layers: [LayerId.BLUE_LAYER],
             },
         );
 
         this.townLayer = dynamicMapLayer(
             {
                 url: version.value,
-                layers: [3],
+                layers: [LayerId.TOWN_LAYER],
             },
         );
 
@@ -201,7 +198,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
             url: version.value,
             searchFields: ['NAAM', 'naam'],
             label: 'Waterlopen',
-            layers: [0, 4],
+            layers: [LayerId.VHA_WATERCOURSE_LAYER, LayerId.BRU_WATERCOURSE_LAYER],
             formatSuggestion(feature) {
                 return `${feature.properties.NAAM || feature.properties.naam}`;
             },
@@ -212,7 +209,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
             url: version.value,
             searchFields: ['NAAM', 'WVLC'],
             label: 'Watervlakken',
-            layers: [1],
+            layers: [LayerId.BLUE_LAYER],
             formatSuggestion(feature) {
                 return `${feature.properties.NAAM} - ${feature.properties.WVLC}`;
             },
@@ -275,6 +272,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                                 }).setContent(fishingPointLabel));
 
                         circleMark.on('click', (event: LeafletMouseEvent) => {
+                            L.DomEvent.stopPropagation(event);
                             this.clickedLatlng = event.latlng;
                             const layer = event.target;
                             this.clearLocationsSelectedStyle();
@@ -291,13 +289,13 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                                 lat: fishingPointFeature.lat,
                                 lng: fishingPointFeature.lng,
                             };
-                            this.selected.set(this.locationsLayerId, filteredProperties);
+                            this.selected.set(LayerId.FISHING_POINT_LAYER, filteredProperties);
                             this.openSelection();
                         });
                         this.locationsLayer.addLayer(circleMark);
 
                     });
-                    this.layerMetadata.set(this.locationsLayerId, {name: 'Vispunt'});
+                    this.layerMetadata.set(LayerId.FISHING_POINT_LAYER, {name: 'Vispunt'});
                 }),
                 mapTo(undefined),
             );
@@ -309,7 +307,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 stroke: false,
             });
         });
-        this.selected.delete(this.locationsLayerId);
+        this.selected.delete(LayerId.FISHING_POINT_LAYER);
     }
 
     mapReady(map: LeafletMap) {
@@ -320,7 +318,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     zoomTo(latlng: LatLng) {
         this.map.setView(latlng, 15);
         this.locationsLayer.getLayers().forEach((value: CircleMarker) => {
-            console.log('highlighting the dot');
             if (value.getLatLng().equals(latlng)) {
                 this.clearLocationsSelectedStyle();
                 value.setStyle({stroke: true});
@@ -399,10 +396,11 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     public updateSelections(coordinate: LatLng) {
+        this.closeSelection();
+        this.updateTownLayerSelection(coordinate);
         this.updateVHAWatercourseSelection(coordinate);
         this.updateBRUWatercourseSelection(coordinate);
         this.updateBlueLayerSelection(coordinate);
-        this.updateTownLayerSelection(coordinate);
     }
 
     public updateTownLayerSelection(coordinate: LatLng) {
@@ -411,9 +409,9 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 return;
             }
 
-            this.selected.delete(3);
-            this.selectFeature(featureCollection, 3);
-            this.townLayerSelected.emit(this.selected.get(3));
+            this.selected.delete(LayerId.TOWN_LAYER);
+            this.selectFeature(featureCollection, LayerId.TOWN_LAYER);
+            this.townLayerSelected.emit(this.selected.get(LayerId.TOWN_LAYER));
         });
     }
 
@@ -424,24 +422,29 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                     return;
                 }
 
-                this.selected.delete(1);
-                this.selectFeature(featureCollection, 1);
-                this.blueLayerSelected.emit(this.selected.get(1));
+                this.selected.delete(LayerId.BLUE_LAYER);
+                this.selectFeature(featureCollection, LayerId.BLUE_LAYER);
+                this.blueLayerSelected.emit(this.selected.get(LayerId.BLUE_LAYER));
             });
         }
     }
 
     public updateVHAWatercourseSelection(coordinate: LatLng) {
         if (this.map.hasLayer(this.watercourseLayer)) {
-            this.watercourseLayer.identify().on(this.map).layers('visible:0').at(coordinate).run((error, featureCollection) => {
-                if (error) {
-                    return;
-                }
+            this.watercourseLayer
+                .identify()
+                .on(this.map)
+                .layers('visible:0')
+                .at(coordinate)
+                .run((error, featureCollection) => {
+                    if (error) {
+                        return;
+                    }
 
-                this.selected.delete(0);
-                this.selectFeature(featureCollection, 0);
-                this.vhaLayerSelected.emit(this.selected.get(0));
-            });
+                    this.selected.delete(LayerId.VHA_WATERCOURSE_LAYER);
+                    this.selectFeature(featureCollection, LayerId.VHA_WATERCOURSE_LAYER);
+                    this.vhaLayerSelected.emit(this.selected.get(LayerId.VHA_WATERCOURSE_LAYER));
+                });
         }
     }
 
@@ -452,9 +455,9 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                     return;
                 }
 
-                this.selected.delete(4);
-                this.selectFeature(featureCollection, 4);
-                this.vhaLayerSelected.emit(this.selected.get(4));
+                this.selected.delete(LayerId.BRU_WATERCOURSE_LAYER);
+                this.selectFeature(featureCollection, LayerId.BRU_WATERCOURSE_LAYER);
+                this.vhaLayerSelected.emit(this.selected.get(LayerId.BRU_WATERCOURSE_LAYER));
             });
         }
     }
@@ -464,8 +467,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
             if (this.selected.has(layerId)) {
                 return;
             }
-
-            if (layerId !== 3) {
+            if (layerId !== LayerId.TOWN_LAYER) {
                 this.highlightSelectionLayer.addLayer(L.geoJSON(feature, {style: {weight: 6}}));
             }
 
@@ -482,6 +484,9 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
             }
             this.selected.set(layerId, filteredProperties);
         });
+        if (featureCollection.features.length > 0 && layerId !== LayerId.TOWN_LAYER) {
+            this.openSelection();
+        }
     }
 
     setCenter(latlng: LatLng) {
