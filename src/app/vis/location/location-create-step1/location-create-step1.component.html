@@ -1,76 +1,169 @@
 <div>
-  <div class="grid grid-cols-6 gap-x-4 text-sm">
-    <div class="col-span-6 md:col-span-4">
-      <app-fishing-points-map [canAddPoints]="true" (pointAdded)="pointAdded($event)"></app-fishing-points-map>
-    </div>
+	<div class="grid grid-cols-6 gap-x-4 text-sm">
+		<div class="col-span-6 md:col-span-4">
+			<app-fishing-points-map [canAddPoints]="true"
+			                        [enableSidebar]="false"
+			                        (pointAdded)="pointAdded($event)"></app-fishing-points-map>
+		</div>
 
-    <div class="mt-4 md:mt-0 col-span-6 md:col-span-2">
-      <form [formGroup]="formGroup">
-        <div class="grid grid-cols-1 gap-y-6">
-          <div>
-            <label for="code" class="block text-sm font-medium text-gray-700">
-              Meetplaatscode
-            </label>
-            <div class="mt-1">
-              <input formControlName="code" type="text" name="code" id="code">
-            </div>
-            <app-form-error-message [fieldName]="'Code'" [control]="code" [submitted]="false"></app-form-error-message>
-          </div>
+		<div class="mt-4 md:mt-0 col-span-6 md:col-span-2">
+			<form [formGroup]="formGroup">
+				<div class="grid grid-cols-1 gap-y-6">
+					<div>
+						<label for="code"
+						       class="block text-sm font-medium text-gray-700">
+							Meetplaatscode
+						</label>
+						<div class="mt-1">
+							<input formControlName="code"
+							       type="text"
+							       name="code"
+							       id="code">
+						</div>
+						<app-form-error-message [fieldName]="'Code'"
+						                        [control]="code"
+						                        [submitted]="false"></app-form-error-message>
+					</div>
 
-          <div>
-            <label for="description" class="block text-sm font-medium text-gray-700">
-              Omschrijving
-            </label>
-            <div class="mt-1">
-              <input formControlName="description" type="text" name="description" id="description">
-            </div>
-            <app-form-error-message [fieldName]="'Omschrijving'" [control]="description"
-                                    [submitted]="false"></app-form-error-message>
-          </div>
+					<div>
+						<label for="description"
+						       class="block text-sm font-medium text-gray-700">
+							Omschrijving
+						</label>
+						<div class="mt-1">
+							<input formControlName="description"
+							       type="text"
+							       name="description"
+							       id="description">
+						</div>
+						<app-form-error-message [fieldName]="'Omschrijving'"
+						                        [control]="description"
+						                        [submitted]="false"></app-form-error-message>
+					</div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-700">
-              Type
-            </label>
-            <div class="mt-1">
-              <div class="flex flex-col space-y-4">
-                <div class="flex items-center">
-                  <input formControlName="type" id="flowing" value="flowing" type="radio">
-                  <label for="flowing" class="ml-3 block text-sm font-medium text-gray-700">
-                    Stromend water
-                  </label>
-                </div>
-                <div class="flex items-center">
-                  <input formControlName="type" id="stationary" value="stationary" type="radio">
-                  <label for="stationary" class="ml-3 block text-sm font-medium text-gray-700">
-                    Stilstaand water
-                  </label>
-                </div>
-              </div>
-              <app-form-error-message [fieldName]="'Type'" [control]="type"
-                                      [submitted]="false"></app-form-error-message>
-            </div>
-          </div>
 
-          <div>
-            <label for="lat" class="block text-sm font-medium text-gray-700">Latitude - Longitude</label>
-            <div class="mt-1 flex space-x-2">
-              <input formControlName="lat" type="text" name="lat" id="lat">
-              <input formControlName="lng" type="text" name="lng" id="lng">
-            </div>
-            <label for="lat" class="block text-sm font-medium text-gray-700">x - y (Lambert 72)</label>
-            <div class="mt-1 flex space-x-2">
-              <input formControlName="x" type="text" name="x" id="x">
-              <input formControlName="y" type="text" name="y" id="y">
-            </div>
-            <p *ngIf="coordinatesAreInvalid()" class="mt-2 text-sm text-red-600">De coördinaten zijn niet geldig</p>
-            <p class="mt-2 text-sm text-gray-500" id="email-description">Dubbelklik op de kaart om een punt te
-              selecteren of voer deze manueel in</p>
-            <p *ngIf="coordinatesAreEmpty()" class="mt-2 text-sm text-red-600">Het is verplicht om een punt op de kaart
-              te kiezen of coördinaten in te vullen</p>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
+					<div *ngIf="editMode; else createMode">
+						<div class="mt-1">
+							<div class="flex flex-row items-center">
+								<div class="flex items-center mr-6">
+									<input formControlName="brackishWater"
+									       type="checkbox">
+									<label class="ml-3 block text-sm font-medium text-gray-700">
+										Brak water
+									</label>
+								</div>
+								<div class="flex items-center">
+									<input formControlName="tidalWater"
+									       type="checkbox">
+									<label class="ml-3 block text-sm font-medium text-gray-700">
+										Getijdewater
+									</label>
+								</div>
+							</div>
+							<app-form-error-message [fieldName]="'Type'"
+							                        [control]="type"
+							                        [submitted]="false"></app-form-error-message>
+						</div>
+
+						<div *ngIf="canEditIndexType"
+						     class="sm:col-span-1 mt-4">
+							<dt class="text-sm font-medium text-gray-500 flex items-center">
+								Indextype
+								<svg xmlns="http://www.w3.org/2000/svg"
+								     class="h-5 w-5 ml-1"
+								     fill="none"
+								     viewBox="0 0 24 24"
+								     stroke="currentColor"
+								     stroke-width="2"
+								     ngxTippy="Voor de berekening van de visindex dient u expliciet het visindex type te selecteren. Dit kan enkel door een persoon die hiervoor de nodige rechten heeft.">
+									<path stroke-linecap="round"
+									      stroke-linejoin="round"
+									      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+								</svg>
+							</dt>
+							<dd class="mt-1 text-sm text-gray-900">
+								<select class="mt-1"
+								        formControlName="indexType"
+								        id="indexType">
+									<option [ngValue]="null">Indextype selecteren...</option>
+									<option *ngFor="let indexType of indexTypes"
+									        [value]="indexType.code">{{indexType.name}}</option>
+								</select>
+							</dd>
+						</div>
+					</div>
+
+					<ng-template #createMode>
+						<div>
+							<label class="block text-sm font-medium text-gray-700">
+								Type
+							</label>
+							<div class="mt-1">
+								<div class="flex flex-col space-y-4">
+									<div class="flex items-center">
+										<input name="fishingPointType"
+										       (change)="fishingPointType = FishingPointType.FLOWING; fishingPointTypeChange.emit($event.target.value) //noinspection UnresolvedVariable"
+										       [value]="FishingPointType.FLOWING"
+										       [checked]="fishingPointType === FishingPointType.FLOWING"
+										       type="radio">
+										<label class="ml-3 block text-sm font-medium text-gray-700">
+											Stromend water
+										</label>
+									</div>
+									<div class="flex items-center">
+										<input name="fishingPointType"
+										       [checked]="fishingPointType === FishingPointType.STAGNANT"
+										       (change)="fishingPointType = FishingPointType.STAGNANT; fishingPointTypeChange.emit($event.target.value) //noinspection UnresolvedVariable"
+										       [value]="FishingPointType.STAGNANT"
+										       type="radio">
+										<label class="ml-3 block text-sm font-medium text-gray-700">
+											Stilstaand water
+										</label>
+									</div>
+								</div>
+								<app-form-error-message [fieldName]="'Type'"
+								                        [control]="type"
+								                        [submitted]="false"></app-form-error-message>
+							</div>
+						</div>
+					</ng-template>
+
+					<div>
+						<label for="lat"
+						       class="block text-sm font-medium text-gray-700">Latitude - Longitude</label>
+						<div class="mt-1 flex space-x-2">
+							<input formControlName="lat"
+							       type="text"
+							       name="lat"
+							       id="lat">
+							<input formControlName="lng"
+							       type="text"
+							       name="lng"
+							       id="lng">
+						</div>
+						<label for="lat"
+						       class="block text-sm font-medium text-gray-700">x - y (Lambert 72)</label>
+						<div class="mt-1 flex space-x-2">
+							<input formControlName="x"
+							       type="text"
+							       name="x"
+							       id="x">
+							<input formControlName="y"
+							       type="text"
+							       name="y"
+							       id="y">
+						</div>
+						<p *ngIf="coordinatesAreInvalid()"
+						   class="mt-2 text-sm text-red-600">De coördinaten zijn niet geldig</p>
+						<p class="mt-2 text-sm text-gray-500"
+						   id="email-description">Dubbelklik op de kaart om een punt te
+						                          selecteren of voer deze manueel in</p>
+						<p *ngIf="coordinatesAreEmpty()"
+						   class="mt-2 text-sm text-red-600">Het is verplicht om een punt op de kaart
+						                                     te kiezen of coördinaten in te vullen</p>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>

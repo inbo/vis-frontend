@@ -44,6 +44,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     @Input() townsLayerVisible = true;
     @Input() filter: any;
     @Input() highlightPoint: FishingPoint;
+    @Input() enableSidebar: boolean;
 
     @Output() pointAdded = new EventEmitter<LatLng>();
     @Output() nearbyWatercoursesFound = new EventEmitter<any>();
@@ -503,7 +504,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     openSelection() {
-        this.openSelectionPanel = true;
+        this.openSelectionPanel = this.enableSidebar;
     }
 
     toggleTooltips() {

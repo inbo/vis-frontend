@@ -8,6 +8,7 @@ import {latLng} from 'leaflet';
   templateUrl: './location-create-step2.component.html'
 })
 export class LocationCreateStep2Component implements OnInit {
+
   @ViewChild(FishingPointsMapComponent, {static: true}) map: FishingPointsMapComponent;
 
   @Input() formGroup;
@@ -51,8 +52,8 @@ export class LocationCreateStep2Component implements OnInit {
     };
   }
 
-  get slope() {
-    return this.formGroup.get('slope');
+  get incline() {
+    return this.formGroup.get('incline');
   }
 
   get width() {
