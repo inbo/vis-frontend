@@ -68,8 +68,8 @@ export class LocationDetailComponent implements OnInit {
                         description: [value.description, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
                         slope: [value.incline ? value.incline.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
                         width: [value.width ? value.width.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
-                        brackfishWater: [value.brackfishWater, [Validators.min(0), Validators.max(99999.999)]],
-                        titalWater: [value.titalWater, [Validators.min(0), Validators.max(99999.999)]],
+                        brackishWater: [value.brackishWater, [Validators.min(0), Validators.max(99999.999)]],
+                        tidalWater: [value.tidalWater, [Validators.min(0), Validators.max(99999.999)]],
                         indexType: [value.fishingIndexType],
                     },
                 );
@@ -107,12 +107,12 @@ export class LocationDetailComponent implements OnInit {
         return this.formGroup.get('width');
     }
 
-    get brackfishWater() {
-        return this.formGroup.get('brackfishWater');
+    get brackishWater() {
+        return this.formGroup.get('brackishWater');
     }
 
-    get titalWater() {
-        return this.formGroup.get('titalWater');
+    get tidalWater() {
+        return this.formGroup.get('tidalWater');
     }
 
     numberMask(scale: number, min: number, max: number) {

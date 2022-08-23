@@ -36,6 +36,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
     currentStep = FishingPointCreationStep.GENERAL;
 
     formGroup: FormGroup;
+    originalFishingPoint: FishingPoint;
     fishingPointType = FishingPointType.STAGNANT;
     canEditIndexType = false;
     indexTypes: Array<IndexType> = [];
@@ -62,9 +63,6 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
             description: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
             incline: [null, [Validators.min(0), Validators.max(99999.999)]],
             width: [null, [Validators.min(0), Validators.max(99999.999)]],
-            vhaInfo: [null, [Validators.required]],
-            blueLayerInfo: [null, [Validators.required]],
-            townInfo: [null, [Validators.required]],
         };
         if (this.activatedRoute.snapshot.queryParamMap.has(LocationCreatePageComponent.FISHING_POINT_ID_QP)) {
             const fishingPointId = this.activatedRoute.snapshot.queryParamMap.get(LocationCreatePageComponent.FISHING_POINT_ID_QP);
@@ -83,12 +81,13 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
                         if (this.authService.hasRole(Role.EditIndexType)) {
                             controlsConfig = {
                                 ...controlsConfig,
-                                indexType: [null],
+                                fishingIndexType: [null],
                             };
                         }
                     }),
                     tap(fishingPoint => {
                         this.fishingPointType = fishingPoint.isLentic ? FishingPointType.STAGNANT : FishingPointType.FLOWING;
+                        this.originalFishingPoint = {...fishingPoint};
                     }),
                     tap(() => {
                         this.locationsService
@@ -102,6 +101,9 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
                 {
                     ...controlsConfig,
                     ...(fishingPoint.id ? {id: [fishingPoint.id]} : {}),
+                    vhaInfo: [null, [Validators.required]],
+                    blueLayerInfo: [null, [Validators.required]],
+                    townInfo: [null, [Validators.required]],
                     code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator(fishingPoint)]],
                 },
             );
@@ -129,7 +131,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
             result = result
                 && this.formGroup?.get('brackishWater').valid
                 && this.formGroup?.get('tidalWater').valid
-                && this.formGroup?.get('indexType').valid;
+                && this.formGroup?.get('fishingIndexType').valid;
         } else {
             result = result && this.fishingPointType !== undefined;
         }
@@ -137,6 +139,9 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
     }
 
     isWaterCourseValid(): boolean {
+        if(this.editMode) {
+            return true;
+        }
         return this.isGeneralStepValid()
             && this.formGroup?.get('vhaInfo').valid
             && this.formGroup?.get('townInfo').valid;
@@ -149,6 +154,10 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
     }
 
     goToNextStep(): void {
+        if(this.editMode && this.fishingPointType === FishingPointType.STAGNANT) {
+            this.save();
+            return;
+        }
         if (this.fishingPointType === FishingPointType.STAGNANT) {
             this.currentStep = FishingPointCreationStep.BLUE_LAYER;
         } else {

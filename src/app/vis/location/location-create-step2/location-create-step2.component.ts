@@ -2,73 +2,71 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {latLng} from 'leaflet';
+import {FormGroup} from '@angular/forms';
 
 @Component({
-  selector: 'app-location-create-step2',
-  templateUrl: './location-create-step2.component.html'
+    selector: 'app-location-create-step2',
+    templateUrl: './location-create-step2.component.html',
 })
 export class LocationCreateStep2Component implements OnInit {
 
-  @ViewChild(FishingPointsMapComponent, {static: true}) map: FishingPointsMapComponent;
+    @ViewChild(FishingPointsMapComponent, {static: true}) map: FishingPointsMapComponent;
 
-  @Input() formGroup;
+    @Input() formGroup: FormGroup;
+    @Input() editMode = false;
 
-  constructor(private titleService: Title) {
-    this.titleService.setTitle('Locatie toevoegen');
-  }
-
-  ngOnInit(): void {
-    const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
-    this.map.replaceNewLocationMarker(latlng);
-    this.map.setCenter(latlng);
-  }
-
-  featureSelected(properties: any) {
-    if (properties !== null) {
-      this.formGroup.get('vhaInfo').patchValue(properties);
-    } else {
-      this.formGroup.get('vhaInfo').patchValue(null);
+    constructor(private titleService: Title) {
+        this.titleService.setTitle('Locatie toevoegen');
     }
-  }
 
-  mapLoaded() {
-    const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
-    this.map.updateTownLayerSelection(latlng);
-  }
+    ngOnInit(): void {
+        const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
+        this.map.replaceNewLocationMarker(latlng);
+        this.map.setCenter(latlng);
+    }
 
-  townSelected(properties: any) {
-    this.formGroup.get('townInfo').patchValue(properties);
-  }
+    featureSelected(properties: any) {
+        this.formGroup.get('vhaInfo').patchValue(properties);
+    }
 
-  numberMask(scale: number, min: number, max: number) {
-    return {
-      mask: Number,
-      scale,
-      signed: true,
-      thousandsSeparator: '',
-      radix: ',',
-      min,
-      max
-    };
-  }
+    mapLoaded() {
+        const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
+        this.map.updateTownLayerSelection(latlng);
+    }
 
-  get incline() {
-    return this.formGroup.get('incline');
-  }
+    townSelected(properties: any) {
+        this.formGroup.get('townInfo').patchValue(properties);
+    }
 
-  get width() {
-    return this.formGroup.get('width');
-  }
+    numberMask(scale: number, min: number, max: number) {
+        return {
+            mask: Number,
+            scale,
+            signed: true,
+            thousandsSeparator: '',
+            radix: ',',
+            min,
+            max,
+        };
+    }
 
-  get townInfoValue() {
-    return this.formGroup.get('townInfo').value;
-  }
+    get incline() {
+        return this.formGroup.get('incline');
+    }
 
-  get vhaInfoValue() {
-    return this.formGroup.get('vhaInfo').value;
-  }
+    get width() {
+        return this.formGroup.get('width');
+    }
 
-  vhaInfoEmpty() {
-    return this.formGroup.get('vhaInfo').invalid;
-  }
+    get townInfoValue() {
+        return this.formGroup.get('townInfo').value;
+    }
+
+    get vhaInfoValue() {
+        return this.formGroup.get('vhaInfo').value;
+    }
+
+    vhaInfoEmpty() {
+        return this.formGroup.get('vhaInfo').invalid;
+    }
 }

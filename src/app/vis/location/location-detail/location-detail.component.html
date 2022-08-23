@@ -80,10 +80,10 @@
 										Brak water
 									</dt>
 									<dd class="mt-1 text-sm text-gray-900">
-										<input formControlName="brackfishWater"
+										<input formControlName="brackishWater"
 										       type="checkbox">
 									</dd>
-									<app-form-error-message [control]="brackfishWater"
+									<app-form-error-message [control]="brackishWater"
 									                        [fieldName]="'Brak water'"
 									                        [submitted]="submitted"></app-form-error-message>
 								</div>
@@ -92,10 +92,10 @@
 										Getijdewater
 									</dt>
 									<dd class="mt-1 text-sm text-gray-900">
-										<input formControlName="titalWater"
+										<input formControlName="tidalWater"
 										       type="checkbox"/>
 									</dd>
-									<app-form-error-message [control]="titalWater"
+									<app-form-error-message [control]="tidalWater"
 									                        [fieldName]="'Getijdewater'"
 									                        [submitted]="submitted"></app-form-error-message>
 								</div>
@@ -160,7 +160,7 @@
 									Brak water
 								</dt>
 								<dd class="mt-1 text-sm text-gray-900">
-									<input [checked]="fishingPoint?.brackfishWater ? 'checked' : null"
+									<input [checked]="fishingPoint?.brackishWater ? 'checked' : null"
 									       disabled="disabled"
 									       type="checkbox">
 								</dd>
@@ -170,7 +170,7 @@
 									Getijdewater
 								</dt>
 								<dd class="mt-1 text-sm text-gray-900">
-									<input [checked]="fishingPoint?.titalWater ? 'checked' : null"
+									<input [checked]="fishingPoint?.tidalWater ? 'checked' : null"
 									       disabled="disabled"
 									       type="checkbox"/>
 								</dd>

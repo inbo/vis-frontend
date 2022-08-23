@@ -1,61 +1,79 @@
 <div>
-  <div class="grid grid-cols-6 gap-x-4 text-sm">
-    <div class="col-span-6 md:col-span-4">
-      <app-fishing-points-map [zoomLevel]="17" (loaded)="mapLoaded()" (townLayerSelected)="townSelected($event)"
-                              (vhaLayerSelected)="featureSelected($event)" [blueLayerVisible]="false"
-                              [fishingPointsLayerVisible]="false"></app-fishing-points-map>
-    </div>
+	<div class="grid grid-cols-6 gap-x-4 text-sm">
+		<div class="col-span-6 md:col-span-4">
+			<app-fishing-points-map [zoomLevel]="17"
+			                        (loaded)="mapLoaded()"
+			                        (townLayerSelected)="townSelected($event)"
+			                        (vhaLayerSelected)="featureSelected($event)"
+			                        [disableInteraction]="editMode"
+			                        [blueLayerVisible]="false"
+			                        [fishingPointsLayerVisible]="false">
+			</app-fishing-points-map>
+		</div>
 
-    <div class="mt-4 md:mt-0 col-span-6 md:col-span-2">
-      <form [formGroup]="formGroup">
-        <div class="grid grid-cols-1 gap-y-6">
-          <div>
-            <label for="incline" class="block text-sm font-medium text-gray-700">
-              <!--Promille-->
-              Helling (‰)
-            </label>
-            <div class="mt-1">
-              <input [imask]="numberMask(3, 0, 99999.999)" [unmask]="true" formControlName="incline" type="text"
-                     name="slope" id="incline">
-            </div>
-            <app-form-error-message [fieldName]="'Helling'"
-                                    [control]="incline"
-                                    [submitted]="false">
-            </app-form-error-message>
-          </div>
+		<div class="mt-4 md:mt-0 col-span-6 md:col-span-2">
+			<form [formGroup]="formGroup">
+				<div class="grid grid-cols-1 gap-y-6">
+					<div>
+						<label for="incline"
+						       class="block text-sm font-medium text-gray-700">
+							Helling (‰)
+						</label>
+						<div class="mt-1">
+							<input [imask]="numberMask(3, 0, 99999.999)"
+							       [unmask]="true"
+							       formControlName="incline"
+							       type="text"
+							       name="slope"
+							       id="incline">
+						</div>
+						<app-form-error-message [fieldName]="'Helling'"
+						                        [control]="incline"
+						                        [submitted]="false">
+						</app-form-error-message>
+					</div>
 
-          <div>
-            <label for="width" class="block text-sm font-medium text-gray-700">
-              Breedte (m)
-            </label>
-            <div class="mt-1">
-              <input [imask]="numberMask(2, 0.01, 99999.99)" [unmask]="true" formControlName="width" type="text"
-                     name="width" id="width">
-            </div>
-            <app-form-error-message [fieldName]="'Breedte'" [control]="width"
-                                    [submitted]="false"></app-form-error-message>
-          </div>
-        </div>
-      </form>
-    </div>
+					<div>
+						<label for="width"
+						       class="block text-sm font-medium text-gray-700">
+							Breedte (m)
+						</label>
+						<div class="mt-1">
+							<input [imask]="numberMask(2, 0.01, 99999.99)"
+							       [unmask]="true"
+							       formControlName="width"
+							       type="text"
+							       name="width"
+							       id="width">
+						</div>
+						<app-form-error-message [fieldName]="'Breedte'"
+						                        [control]="width"
+						                        [submitted]="false"></app-form-error-message>
+					</div>
+				</div>
+			</form>
+		</div>
 
-    <div class="col-span-6 bg-white overflow-hidden shadow rounded-lg mt-6">
-      <div class="px-4 py-5 sm:p-6 grid grid-cols-6 gap-x-4">
-        <div class="col-span-6 md:col-span-3">
-          <app-fishing-points-selected-feature *ngIf="townInfoValue" [properties]="townInfoValue"
-                                               [layerName]="'Gemeente van het geselecteerde punt'"
-                                               [layerNumber]="3"></app-fishing-points-selected-feature>
-        </div>
-        <div class="col-span-6 md:col-span-3">
-          <app-fishing-points-selected-feature *ngIf="vhaInfoValue" [properties]="vhaInfoValue"
-                                               [layerName]="'Geselecteerde waterloop'"
-                                               [layerNumber]="0"></app-fishing-points-selected-feature>
-        </div>
-      </div>
-    </div>
-    <div class="col-span-6 overflow-hidden text-right">
-      <p *ngIf="vhaInfoEmpty()" class="mt-2 text-sm text-red-600">Het is verplicht om een waterloop op de kaart
-        te kiezen</p>
-    </div>
-  </div>
+		<div class="col-span-6 bg-white overflow-hidden shadow rounded-lg mt-6" *ngIf="!editMode">
+			<div class="px-4 py-5 sm:p-6 grid grid-cols-6 gap-x-4">
+				<div class="col-span-6 md:col-span-3">
+					<app-fishing-points-selected-feature *ngIf="townInfoValue"
+					                                     [properties]="townInfoValue"
+					                                     [layerName]="'Gemeente van het geselecteerde punt'"
+					                                     [layerNumber]="3"></app-fishing-points-selected-feature>
+				</div>
+				<div class="col-span-6 md:col-span-3">
+					<app-fishing-points-selected-feature *ngIf="vhaInfoValue"
+					                                     [properties]="vhaInfoValue"
+					                                     [layerName]="'Geselecteerde waterloop'"
+					                                     [layerNumber]="0"></app-fishing-points-selected-feature>
+				</div>
+			</div>
+		</div>
+		<div class="col-span-6 overflow-hidden text-right">
+			<p *ngIf="!editMode && vhaInfoEmpty()"
+			   class="mt-2 text-sm text-red-600">Het is verplicht om een waterloop op de kaart
+			                                     te kiezen</p>
+		</div>
+	</div>
 </div>

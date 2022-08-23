@@ -4,8 +4,8 @@ export interface FishingPoint {
   description: string;
   width: number;
   incline: number;
-  titalWater: boolean;
-  brackfishWater: boolean;
+  tidalWater: boolean;
+  brackishWater: boolean;
   fishingIndexType: string;
 
   createUser: string;

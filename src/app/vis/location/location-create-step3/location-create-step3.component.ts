@@ -37,6 +37,7 @@ export class LocationCreateStep3Component implements OnInit {
   onLoaded() {
     const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
     this.map.updateTownLayerSelection(latlng);
+    this.map.updateBlueLayerSelection(latlng);
   }
 
   get townInfoValue() {

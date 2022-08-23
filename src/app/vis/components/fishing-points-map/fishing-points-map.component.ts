@@ -45,6 +45,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     @Input() filter: any;
     @Input() highlightPoint: FishingPoint;
     @Input() enableSidebar: boolean;
+    @Input() disableInteraction = false;
 
     @Output() pointAdded = new EventEmitter<LatLng>();
     @Output() nearbyWatercoursesFound = new EventEmitter<any>();
@@ -250,6 +251,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         return this.locationsService
             .getFishingPointsFeatures(this.projectCode, filter)
             .pipe(
+                take(1),
                 tap(fishingPointFeatures => {
                     fishingPointFeatures.forEach(fishingPointFeature => {
                         const latlng = latLng(fishingPointFeature.lat, fishingPointFeature.lng);
