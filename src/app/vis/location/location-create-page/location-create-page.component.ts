@@ -104,6 +104,8 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
                     vhaInfo: [null, [Validators.required]],
                     blueLayerInfo: [null, [Validators.required]],
                     townInfo: [null, [Validators.required]],
+                    snapX: [null],
+                    snapY: [null],
                     code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator(fishingPoint)]],
                 },
             );
@@ -139,7 +141,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
     }
 
     isWaterCourseValid(): boolean {
-        if(this.editMode) {
+        if (this.editMode) {
             return true;
         }
         return this.isGeneralStepValid()
@@ -154,7 +156,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
     }
 
     goToNextStep(): void {
-        if(this.editMode && this.fishingPointType === FishingPointType.STAGNANT) {
+        if (this.editMode && this.fishingPointType === FishingPointType.STAGNANT) {
             this.save();
             return;
         }

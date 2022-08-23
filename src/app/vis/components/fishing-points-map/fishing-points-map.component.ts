@@ -27,6 +27,7 @@ import {mapTo, switchMap, take, tap} from 'rxjs/operators';
 import {VhaUrl} from '../../../domain/location/vha-version';
 import {FishingPoint} from '../../../domain/location/fishing-point';
 import {LayerId} from './layer-id.enum';
+import {VhaBlueLayerSelectionEvent} from './vha-blue-layer-selection-event.model';
 
 @Component({
     selector: 'app-fishing-points-map',
@@ -50,8 +51,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     @Output() pointAdded = new EventEmitter<LatLng>();
     @Output() nearbyWatercoursesFound = new EventEmitter<any>();
     @Output() loaded = new EventEmitter<any>();
-    @Output() blueLayerSelected = new EventEmitter<any>();
-    @Output() vhaLayerSelected = new EventEmitter<any>();
+    @Output() blueLayerSelected = new EventEmitter<VhaBlueLayerSelectionEvent>();
+    @Output() vhaLayerSelected = new EventEmitter<VhaBlueLayerSelectionEvent>();
     @Output() townLayerSelected = new EventEmitter<any>();
 
     private subscription = new Subscription();
@@ -427,7 +428,12 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
                 this.selected.delete(LayerId.BLUE_LAYER);
                 this.selectFeature(featureCollection, LayerId.BLUE_LAYER);
-                this.blueLayerSelected.emit(this.selected.get(LayerId.BLUE_LAYER));
+                if (this.selected.get(LayerId.BLUE_LAYER)) {
+                    this.blueLayerSelected.emit({
+                        coordinates: {x: coordinate.lat, y: coordinate.lng},
+                        infoProperties: this.selected.get(LayerId.BLUE_LAYER),
+                    });
+                }
             });
         }
     }
@@ -446,7 +452,12 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
                     this.selected.delete(LayerId.VHA_WATERCOURSE_LAYER);
                     this.selectFeature(featureCollection, LayerId.VHA_WATERCOURSE_LAYER);
-                    this.vhaLayerSelected.emit(this.selected.get(LayerId.VHA_WATERCOURSE_LAYER));
+                    if (this.selected.get(LayerId.VHA_WATERCOURSE_LAYER)) {
+                        this.vhaLayerSelected.emit({
+                            coordinates: {x: coordinate.lat, y: coordinate.lng},
+                            infoProperties: this.selected.get(LayerId.VHA_WATERCOURSE_LAYER),
+                        });
+                    }
                 });
         }
     }
@@ -460,7 +471,12 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
                 this.selected.delete(LayerId.BRU_WATERCOURSE_LAYER);
                 this.selectFeature(featureCollection, LayerId.BRU_WATERCOURSE_LAYER);
-                this.vhaLayerSelected.emit(this.selected.get(LayerId.BRU_WATERCOURSE_LAYER));
+                if (this.selected.get(LayerId.BRU_WATERCOURSE_LAYER)) {
+                    this.vhaLayerSelected.emit({
+                        coordinates: {x: coordinate.lat, y: coordinate.lng},
+                        infoProperties: this.selected.get(LayerId.BRU_WATERCOURSE_LAYER),
+                    });
+                }
             });
         }
     }

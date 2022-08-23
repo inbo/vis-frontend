@@ -3,6 +3,7 @@ import {Title} from '@angular/platform-browser';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {latLng} from 'leaflet';
 import {FormGroup} from '@angular/forms';
+import {VhaBlueLayerSelectionEvent} from '../../components/fishing-points-map/vha-blue-layer-selection-event.model';
 
 @Component({
     selector: 'app-location-create-step2',
@@ -25,8 +26,10 @@ export class LocationCreateStep2Component implements OnInit {
         this.map.setCenter(latlng);
     }
 
-    featureSelected(properties: any) {
-        this.formGroup.get('vhaInfo').patchValue(properties);
+    featureSelected(event: VhaBlueLayerSelectionEvent) {
+        this.formGroup.get('vhaInfo').patchValue(event.infoProperties);
+        this.formGroup.get('snapX').patchValue(event.coordinates.x);
+        this.formGroup.get('snapY').patchValue(event.coordinates.y);
     }
 
     mapLoaded() {
