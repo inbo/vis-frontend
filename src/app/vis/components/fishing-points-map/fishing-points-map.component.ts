@@ -395,8 +395,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         }
         this.clickedLatlng = e.latlng;
         this.highlightSelectionLayer.clearLayers();
-        const coordinate = e.latlng;
-        this.updateSelections(coordinate);
+        this.updateSelections(e.latlng);
     }
 
     public updateSelections(coordinate: LatLng) {
@@ -430,7 +429,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 this.selectFeature(featureCollection, LayerId.BLUE_LAYER);
                 if (this.selected.get(LayerId.BLUE_LAYER)) {
                     this.blueLayerSelected.emit({
-                        coordinates: {x: coordinate.lat, y: coordinate.lng},
+                        coordinates: {lat: coordinate.lat, lng: coordinate.lng},
                         infoProperties: this.selected.get(LayerId.BLUE_LAYER),
                     });
                 }
@@ -454,7 +453,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                     this.selectFeature(featureCollection, LayerId.VHA_WATERCOURSE_LAYER);
                     if (this.selected.get(LayerId.VHA_WATERCOURSE_LAYER)) {
                         this.vhaLayerSelected.emit({
-                            coordinates: {x: coordinate.lat, y: coordinate.lng},
+                            coordinates: {lat: coordinate.lat, lng: coordinate.lng},
                             infoProperties: this.selected.get(LayerId.VHA_WATERCOURSE_LAYER),
                         });
                     }
@@ -473,7 +472,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 this.selectFeature(featureCollection, LayerId.BRU_WATERCOURSE_LAYER);
                 if (this.selected.get(LayerId.BRU_WATERCOURSE_LAYER)) {
                     this.vhaLayerSelected.emit({
-                        coordinates: {x: coordinate.lat, y: coordinate.lng},
+                        coordinates: {lat: coordinate.lat, lng: coordinate.lng},
                         infoProperties: this.selected.get(LayerId.BRU_WATERCOURSE_LAYER),
                     });
                 }

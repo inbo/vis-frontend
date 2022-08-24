@@ -104,8 +104,8 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
                     vhaInfo: [null, [Validators.required]],
                     blueLayerInfo: [null, [Validators.required]],
                     townInfo: [null, [Validators.required]],
-                    snapX: [null],
-                    snapY: [null],
+                    snappedLat: [null],
+                    snappedLng: [null],
                     code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator(fishingPoint)]],
                 },
             );

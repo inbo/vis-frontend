@@ -28,8 +28,8 @@ export class LocationCreateStep2Component implements OnInit {
 
     featureSelected(event: VhaBlueLayerSelectionEvent) {
         this.formGroup.get('vhaInfo').patchValue(event.infoProperties);
-        this.formGroup.get('snapX').patchValue(event.coordinates.x);
-        this.formGroup.get('snapY').patchValue(event.coordinates.y);
+        this.formGroup.get('snappedLat').patchValue(event.coordinates.lat);
+        this.formGroup.get('snappedLng').patchValue(event.coordinates.lng);
     }
 
     mapLoaded() {

@@ -1,6 +1,4 @@
-import {Coordinates} from '../../../domain/location/coordinates';
-
 export interface VhaBlueLayerSelectionEvent {
-    coordinates: Coordinates,
+    coordinates: {lat: number, lng: number},
     infoProperties: { [key: string]: string }
 }

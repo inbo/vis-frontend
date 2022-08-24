@@ -25,8 +25,9 @@ export class LocationCreateStep3Component implements OnInit {
 
     featureSelected(event: VhaBlueLayerSelectionEvent) {
         this.formGroup.get('blueLayerInfo').patchValue(event.infoProperties);
-        this.formGroup.get('snapX').patchValue(event.coordinates.x);
-        this.formGroup.get('snapY').patchValue(event.coordinates.y);
+        this.formGroup.get('snappedLat').patchValue(event.coordinates.lat);
+        this.formGroup.get('snappedLng').patchValue(event.coordinates.lng);
+        console.log(`snappedLat: ${event.coordinates.lat}, snappedLng: ${event.coordinates.lng}`);
     }
 
     townSelected(properties: any) {
