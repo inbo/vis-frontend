@@ -3,7 +3,7 @@ import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {LocationsService} from '../../../services/vis.locations.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FishingPoint} from '../../../domain/location/fishing-point';
 import {LatLng} from 'leaflet';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
@@ -13,152 +13,168 @@ import {map, take} from 'rxjs/operators';
 import {Role} from '../../../core/_models/role';
 import {IndexType} from '../../../domain/location/index-type';
 import {AuthService} from '../../../core/auth.service';
+import {LocationCreatePageComponent} from '../location-create-page/location-create-page.component';
 
 @Component({
-  selector: 'app-location-detail',
-  templateUrl: './location-detail.component.html',
+    selector: 'app-location-detail',
+    templateUrl: './location-detail.component.html',
 })
 export class LocationDetailComponent implements OnInit {
 
-  @ViewChild(FishingPointsMapComponent, {static: true}) fishingPointsMap: FishingPointsMapComponent;
+    readonly EDIT_FISHING_POINT_ID_QP = LocationCreatePageComponent.FISHING_POINT_ID_QP;
 
-  role = Role;
+    @ViewChild(FishingPointsMapComponent, {static: true}) fishingPointsMap: FishingPointsMapComponent;
 
-  links: NavigationLink[] = GlobalConstants.links;
-  breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Locaties', url: '/locaties'},
-  ];
+    role = Role;
 
-  fishingPoint: FishingPoint;
-  editMode = false;
-  formGroup: FormGroup;
-  submitted = false;
-  isDeleteModalOpen = false;
-  canDelete = false;
+    links: NavigationLink[] = GlobalConstants.links;
+    breadcrumbLinks: BreadcrumbLink[] = [
+        {title: 'Locaties', url: '/locaties'},
+    ];
 
-  indexTypes$: Observable<IndexType[]>;
+    fishingPoint: FishingPoint;
+    editMode = false;
+    formGroup: FormGroup;
+    submitted = false;
+    isDeleteModalOpen = false;
+    canDelete = false;
 
-  constructor(private locationsService: LocationsService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder,
-              private router: Router, public authService: AuthService) {
-  }
+    indexTypes$: Observable<IndexType[]>;
+    editQueryParams: Params;
 
-  ngOnInit(): void {
-    this.loadFishingPoint();
-  }
-
-  private loadFishingPoint() {
-    const code = this.activatedRoute.snapshot.params.code;
-    this.locationsService
-      .findByCode(code)
-      .subscribe(value => {
-        this.fishingPoint = value;
-        const latlng = new LatLng(this.fishingPoint.lat, this.fishingPoint.lng);
-        this.fishingPointsMap.setCenter(latlng);
-
-        this.formGroup = this.formBuilder.group(
-          {
-            code: [value.code, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator()]],
-            description: [value.description, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
-            slope: [value.incline ? value.incline.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
-            width: [value.width ? value.width.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
-            brackfishWater: [value.brackfishWater, [Validators.min(0), Validators.max(99999.999)]],
-            titalWater: [value.titalWater, [Validators.min(0), Validators.max(99999.999)]],
-            indexType: [value.fishingIndexType],
-          },
-        );
-      });
-
-    this.indexTypes$ = this.locationsService.listIndexTypes();
-  }
-
-  codeValidator(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.locationsService.checkIfFishingPointExists(control.value)
-        .pipe(map(result => {
-          if (this.fishingPoint.code === control.value) {
-            return null;
-          }
-          return result.valid ? {uniqueCode: true} : null;
-        }));
-    };
-  }
-
-  get code() {
-    return this.formGroup.get('code');
-  }
-
-  get description() {
-    return this.formGroup.get('description');
-  }
-
-  get slope() {
-    return this.formGroup.get('slope');
-  }
-
-  get width() {
-    return this.formGroup.get('width');
-  }
-
-  get brackfishWater() {
-    return this.formGroup.get('brackfishWater');
-  }
-
-  get titalWater() {
-    return this.formGroup.get('titalWater');
-  }
-
-  numberMask(scale: number, min: number, max: number) {
-    return {
-      mask: Number,
-      scale,
-      signed: true,
-      thousandsSeparator: '',
-      radix: ',',
-      min,
-      max,
-    };
-  }
-
-  cancel() {
-    this.editMode = false;
-  }
-
-  save() {
-    this.submitted = true;
-    if (this.formGroup.invalid) {
-      return;
+    constructor(private locationsService: LocationsService,
+                private activatedRoute: ActivatedRoute,
+                private formBuilder: FormBuilder,
+                private router: Router,
+                public authService: AuthService) {
     }
 
-    const rawValue = this.formGroup.getRawValue();
-    this.locationsService.updateLocation(this.fishingPoint.id, rawValue).pipe(take(1)).subscribe(() => {
-      this.loadFishingPoint();
-      this.submitted = false;
-      this.editMode = false;
-    });
-  }
-
-  remove() {
-    this.locationsService.canDeleteFishingPoint(this.fishingPoint.id).subscribe(value => {
-      this.canDelete = value;
-      this.isDeleteModalOpen = true;
-    });
-  }
-
-  cancelModal() {
-    this.isDeleteModalOpen = false;
-  }
-
-  confirmDeleteClicked() {
-    if (this.canDelete) {
-      this.locationsService.deleteFishingPoint(this.fishingPoint.id).subscribe(value => {
-        this.router.navigate(['/locaties']);
-      });
-    } else {
-      this.isDeleteModalOpen = false;
+    ngOnInit(): void {
+        this.loadFishingPoint();
     }
-  }
 
-  highlightFishingPoint() {
-    this.fishingPointsMap.zoomTo(new LatLng(this.fishingPoint.lat, this.fishingPoint.lng));
-  }
+    private loadFishingPoint() {
+        const code = this.activatedRoute.snapshot.params.code;
+        this.locationsService
+            .findByCode(code)
+            .subscribe(value => {
+                this.fishingPoint = value;
+                const latlng = new LatLng(this.fishingPoint.lat, this.fishingPoint.lng);
+                this.fishingPointsMap.setCenter(latlng);
+
+                this.formGroup = this.formBuilder.group(
+                    {
+                        code: [value.code, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator()]],
+                        description: [value.description, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
+                        slope: [value.incline ? value.incline.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
+                        width: [value.width ? value.width.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
+                        brackishWater: [value.brackishWater, [Validators.min(0), Validators.max(99999.999)]],
+                        tidalWater: [value.tidalWater, [Validators.min(0), Validators.max(99999.999)]],
+                        indexType: [value.fishingIndexType],
+                    },
+                );
+                this.editQueryParams = {[this.EDIT_FISHING_POINT_ID_QP]: value.id};
+            });
+
+        this.indexTypes$ = this.locationsService.listIndexTypes();
+    }
+
+    codeValidator(): AsyncValidatorFn {
+        return (control: AbstractControl): Observable<ValidationErrors | null> => {
+            return this.locationsService.checkIfFishingPointExists(control.value)
+                .pipe(map(result => {
+                    if (this.fishingPoint.code === control.value) {
+                        return null;
+                    }
+                    return result.valid ? {uniqueCode: true} : null;
+                }));
+        };
+    }
+
+    get code() {
+        return this.formGroup.get('code');
+    }
+
+    get description() {
+        return this.formGroup.get('description');
+    }
+
+    get slope() {
+        return this.formGroup.get('slope');
+    }
+
+    get width() {
+        return this.formGroup.get('width');
+    }
+
+    get brackishWater() {
+        return this.formGroup.get('brackishWater');
+    }
+
+    get tidalWater() {
+        return this.formGroup.get('tidalWater');
+    }
+
+    numberMask(scale: number, min: number, max: number) {
+        return {
+            mask: Number,
+            scale,
+            signed: true,
+            thousandsSeparator: '',
+            radix: ',',
+            min,
+            max,
+        };
+    }
+
+    cancel() {
+        this.editMode = false;
+    }
+
+    save() {
+        this.submitted = true;
+        if (this.formGroup.invalid) {
+            return;
+        }
+
+        const rawValue = this.formGroup.getRawValue();
+        this.locationsService.updateLocation(this.fishingPoint.id, rawValue).pipe(take(1)).subscribe(() => {
+            this.loadFishingPoint();
+            this.submitted = false;
+            this.editMode = false;
+        });
+    }
+
+    remove() {
+        this.locationsService.canDeleteFishingPoint(this.fishingPoint.id).subscribe(value => {
+            this.canDelete = value;
+            this.isDeleteModalOpen = true;
+        });
+    }
+
+    cancelModal() {
+        this.isDeleteModalOpen = false;
+    }
+
+    confirmDeleteClicked() {
+        if (this.canDelete) {
+            this.locationsService.deleteFishingPoint(this.fishingPoint.id).subscribe(() => {
+                this.router.navigate(['/locaties']);
+            });
+        } else {
+            this.isDeleteModalOpen = false;
+        }
+    }
+
+    highlightFishingPoint() {
+        this.fishingPointsMap.zoomTo(new LatLng(this.fishingPoint.lat, this.fishingPoint.lng));
+    }
+
+    editFishingPoint() {
+        this.router
+            .navigate(
+                ['/locaties/create'],
+                {queryParams: {[LocationCreatePageComponent.FISHING_POINT_ID_QP]: `${this.fishingPoint.id}`}},
+            );
+    }
 }

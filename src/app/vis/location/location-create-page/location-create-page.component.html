@@ -1,59 +1,86 @@
 <app-stacked-layout [navigationLinks]="links">
-  <div slot="content">
-    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
-    <main>
-      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="px-4 py-8 sm:px-0">
-          <nav aria-label="Progress">
-            <ol class="space-y-4 md:flex md:space-y-0 md:space-x-8">
-              <li class="md:flex-1">
-                <app-step [active]="currentStep >= 1" step="Stap 1" description="Vispunt selecteren"></app-step>
-              </li>
+	<div slot="content">
+		<app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
+		<main *ngIf="formGroup">
+			<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+				<div class="px-4 py-8 sm:px-0">
+					<nav aria-label="Progress">
+						<ol class="space-y-4 md:flex md:space-y-0 md:space-x-8">
+							<li class="md:flex-1">
+								<app-step [active]="true"
+								          step="Stap 1"
+								          description="Vispunt selecteren"></app-step>
+							</li>
 
-              <li class="md:flex-1">
-                <app-step [active]="currentStep >= 2" step="Stap 2"
-                          [description]="'Waterloop' + (isTypeStationary() ? ' (nvt)' : '')"></app-step>
-              </li>
+							<li class="md:flex-1"
+							    *ngIf="!(editMode && fishingPointType === FishingPointType.STAGNANT)">
+								<app-step [active]="LocationCreationStep.BLUE_LAYER === currentStep || LocationCreationStep.WATER_COURSE === currentStep"
+								          step="Stap 2"
+								          [description]="fishingPointType === FishingPointType.FLOWING ? 'Waterloop' : 'Blauwe laag'">
+								</app-step>
+							</li>
+						</ol>
+					</nav>
+				</div>
 
-              <li class="md:flex-1">
-                <app-step [active]="currentStep >= 3" step="Stap 3"
-                          [description]="'Blauwe laag' + (isTypeFlowing() ? ' (nvt)' : '')"></app-step>
-              </li>
-            </ol>
-          </nav>
-        </div>
+				<div *ngIf="currentStep === LocationCreationStep.GENERAL"
+				     class="px-4 py-8 sm:px-0">
 
-        <div *ngIf="currentStep === 1" class="px-4 py-8 sm:px-0">
+					<app-location-create-step1 [formGroup]="formGroup"
+					                           [editMode]="editMode"
+					                           [canEditIndexType]="canEditIndexType"
+					                           [(fishingPointType)]="fishingPointType"
+					                           [indexTypes]="indexTypes">
+					</app-location-create-step1>
 
-          <app-location-create-step1 [formGroup]="formGroup"></app-location-create-step1>
-
-          <div class="flex justify-end mt-5">
-            <app-button [disabled]="!isStep1Valid()" (click)="currentStep = isTypeFlowing() ? 2 : 3"
-                        [style]="'primary'">Volgende
-            </app-button>
-          </div>
-        </div>
-
-
-        <div *ngIf="currentStep === 2" class="px-4 py-8 sm:px-0">
-          <app-location-create-step2 [formGroup]="formGroup"></app-location-create-step2>
-          <div class="flex justify-end mt-5">
-            <app-button [disabled]="!isStep2Valid()" (click)="save()" [style]="'primary'">Bewaren</app-button>
-          </div>
-        </div>
-
-
-        <div *ngIf="currentStep === 3" class="px-4 py-8 sm:px-0">
-          <app-location-create-step3 [formGroup]="formGroup"></app-location-create-step3>
+					<div class="flex justify-end mt-5">
+						<app-button *ngIf="editMode"
+						            [disabled]="!isGeneralStepValid()"
+						            (click)="save()"
+						            [style]="'primary'">
+							Bewaren
+						</app-button>
+						<app-button *ngIf="!(editMode && fishingPointType === FishingPointType.STAGNANT)"
+						            class="ml-2"
+						            [disabled]="!isGeneralStepValid()"
+						            (click)="goToNextStep()"
+						            [style]="'primary'">
+							Volgende
+						</app-button>
+					</div>
+				</div>
 
 
-          <div class="flex justify-end mt-5">
-            <app-button [disabled]="!isStep3Valid()" (click)="save()" [style]="'primary'">Bewaren</app-button>
-          </div>
-        </div>
+				<div *ngIf="currentStep === LocationCreationStep.WATER_COURSE"
+				     class="px-4 py-8 sm:px-0">
+					<app-location-create-step2 [formGroup]="formGroup"
+					                           [editMode]="editMode">
+					</app-location-create-step2>
+					<div class="flex justify-end mt-5">
+						<app-button [disabled]="!isWaterCourseValid()"
+						            (click)="save()"
+						            [style]="'primary'">
+							Bewaren
+						</app-button>
+					</div>
+				</div>
 
-      </div>
-    </main>
-  </div>
+
+				<div *ngIf="currentStep === LocationCreationStep.BLUE_LAYER"
+				     class="px-4 py-8 sm:px-0">
+					<app-location-create-step3 [formGroup]="formGroup"></app-location-create-step3>
+
+
+					<div class="flex justify-end mt-5">
+						<app-button [disabled]="!isBlueLayerValid()"
+						            (click)="save()"
+						            [style]="'primary'">Bewaren
+						</app-button>
+					</div>
+				</div>
+
+			</div>
+		</main>
+	</div>
 
 </app-stacked-layout>
