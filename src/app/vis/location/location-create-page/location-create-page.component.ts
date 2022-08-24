@@ -70,6 +70,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
                 .findById(parseInt(fishingPointId, 10))
                 .pipe(
                     tap(() => this.editMode = true),
+                    tap(() => this.breadcrumbLinks[1].title = 'Bewerken'),
                     tap(() => {
                         controlsConfig = {
                             ...controlsConfig,
