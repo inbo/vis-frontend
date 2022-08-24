@@ -27,7 +27,6 @@ export class LocationCreateStep3Component implements OnInit {
         this.formGroup.get('blueLayerInfo').patchValue(event.infoProperties);
         this.formGroup.get('snappedLat').patchValue(event.coordinates.lat);
         this.formGroup.get('snappedLng').patchValue(event.coordinates.lng);
-        console.log(`snappedLat: ${event.coordinates.lat}, snappedLng: ${event.coordinates.lng}`);
     }
 
     townSelected(properties: any) {
