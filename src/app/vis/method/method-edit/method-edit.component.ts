@@ -10,208 +10,211 @@ import {Method} from '../../../domain/method/method';
 import {Role} from '../../../core/_models/role';
 
 @Component({
-  selector: 'app-method-edit',
-  templateUrl: './method-edit.component.html'
+    selector: 'app-method-edit',
+    templateUrl: './method-edit.component.html',
 })
 export class MethodEditComponent implements OnInit, OnDestroy {
-  role = Role;
+    role = Role;
 
-  isQuickSelectionOpen = false;
-  editForm: FormGroup;
-  cpueTestForm: FormGroup;
-  isOpen = false;
+    isQuickSelectionOpen = false;
+    editForm: FormGroup;
+    cpueTestForm: FormGroup;
+    isOpen = false;
 
-  submitted: boolean;
+    submitted: boolean;
 
-  private methodCode: string;
-  private subscription = new Subscription();
+    private methodCode: string;
+    private subscription = new Subscription();
 
-  method: Method;
-  allParameters: string[];
-  testResult = 0;
+    method: Method;
+    allParameters: string[];
+    testResult = 0;
 
-  constructor(private projectService: ProjectService, private formBuilder: FormBuilder, private router: Router,
-              private methodsService: MethodsService, private cpueService: CpueService) {
+    constructor(private projectService: ProjectService, private formBuilder: FormBuilder, private router: Router,
+                private methodsService: MethodsService, private cpueService: CpueService) {
 
-  }
+    }
 
-  ngOnInit(): void {
-    this.cpueService.listAllParameters().pipe(take(1)).subscribe(value => this.allParameters = value);
-    this.editForm = this.formBuilder.group({
-      description: ['', [Validators.maxLength(50)]],
-      unit: ['', [Validators.maxLength(255)]],
-      calculation: ['', [Validators.maxLength(255)], []],
-      parameters: this.formBuilder.array([])
-    });
+    ngOnInit(): void {
+        this.cpueService
+            .listAllParameters()
+            .pipe(take(1))
+            .subscribe(value => this.allParameters = value);
+        this.editForm = this.formBuilder.group({
+            description: ['', [Validators.maxLength(50)]],
+            unit: ['', [Validators.maxLength(255)]],
+            calculation: ['', [Validators.maxLength(255)], []],
+            parameters: this.formBuilder.array([]),
+        });
 
-    this.cpueTestForm = this.formBuilder.group({
-      CATCH: [100]
-    });
-  }
+        this.cpueTestForm = this.formBuilder.group({
+            CATCH: [100],
+        });
+    }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 
-  onCheckboxChange(e) {
-    const checkArray: FormArray = this.editForm.get('parameters') as FormArray;
+    onCheckboxChange(e) {
+        const checkArray: FormArray = this.editForm.get('parameters') as FormArray;
 
-    if (e.target.checked) {
-      checkArray.push(new FormControl(e.target.value));
-      this.cpueTestForm.addControl(e.target.value, new FormControl(1));
-    } else {
-      let i = 0;
-      checkArray.controls.forEach((item: FormControl) => {
-        if (item.value === e.target.value) {
-          checkArray.removeAt(i);
-          this.cpueTestForm.removeControl(e.target.value);
-          return;
+        if (e.target.checked) {
+            checkArray.push(new FormControl(e.target.value));
+            this.cpueTestForm.addControl(e.target.value, new FormControl(1));
+        } else {
+            let i = 0;
+            checkArray.controls.forEach((item: FormControl) => {
+                if (item.value === e.target.value) {
+                    checkArray.removeAt(i);
+                    this.cpueTestForm.removeControl(e.target.value);
+                    return;
+                }
+                i++;
+            });
         }
-        i++;
-      });
+
+        this.editForm.get('calculation').updateValueAndValidity();
     }
 
-    this.editForm.get('calculation').updateValueAndValidity();
-  }
+    public open(methodCode: string) {
+        this.methodCode = methodCode;
+        const method$ = this.methodsService.getMethod(methodCode);
+        const cpue$ = this.cpueService.cpueParametersByMethodCode(methodCode);
 
-  public open(methodCode: string) {
-    this.methodCode = methodCode;
-    const method$ = this.methodsService.getMethod(methodCode);
-    const cpue$ = this.cpueService.cpueParametersByMethodCode(methodCode);
+        this.isOpen = true;
 
-    this.isOpen = true;
+        this.cpueTestForm = this.formBuilder.group({
+            CATCH: [100],
+        });
 
-    this.cpueTestForm = this.formBuilder.group({
-      CATCH: [100]
-    });
+        forkJoin([method$, cpue$]).subscribe(([method, parameters]) => {
+            this.method = method;
 
-    forkJoin([method$, cpue$]).subscribe(([method, parameters]) => {
-      this.method = method;
+            const params = parameters.map(value => new FormControl(value));
+            this.editForm = this.formBuilder.group({
+                description: [this.method.description, [Validators.required, Validators.maxLength(50)]],
+                unit: [this.method.unit, [Validators.maxLength(255)]],
+                calculation: [this.method.calculation, [], [this.calculationValidator()]],
+                parameters: new FormArray(params),
+            });
 
-      const params = parameters.map(value => new FormControl(value));
-      this.editForm = this.formBuilder.group({
-        description: [this.method.description, [Validators.required, Validators.maxLength(50)]],
-        unit: [this.method.unit, [Validators.maxLength(255)]],
-        calculation: [this.method.calculation, [], [this.calculationValidator()]],
-        parameters: new FormArray(params)
-      });
+            for (const parameter of parameters) {
+                this.cpueTestForm.addControl(parameter, new FormControl(2));
+            }
 
-      for (const parameter of parameters) {
-        this.cpueTestForm.addControl(parameter, new FormControl(2));
-      }
-
-    });
-  }
-
-  saveMethod() {
-    this.submitted = true;
-
-    if (this.editForm.invalid) {
-      return;
+        });
     }
 
-    const formData = this.editForm.getRawValue();
+    saveMethod() {
+        this.submitted = true;
 
-    this.subscription.add(
-      this.methodsService.updateMethod(formData, this.methodCode).subscribe(
-        () => {
-          this.isOpen = false;
-          this.router.navigateByUrl('/methoden');
+        if (this.editForm.invalid) {
+            return;
         }
-      )
-    );
-  }
 
-  cancel() {
-    this.isOpen = false;
-    this.submitted = false;
-  }
+        const formData = this.editForm.getRawValue();
 
-  get code() {
-    return this.editForm.get('code');
-  }
-
-  get name() {
-    return this.editForm.get('name');
-  }
-
-  get description() {
-    return this.editForm.get('description');
-  }
-
-  get unit() {
-    return this.editForm.get('unit');
-  }
-
-  get calculation() {
-    return this.editForm.get('calculation');
-  }
-
-  get startDate() {
-    return this.editForm.get('startDate');
-  }
-
-  get lengthType() {
-    return this.editForm.get('lengthType');
-  }
-
-  get teams() {
-    return this.editForm.get('teams');
-  }
-
-  get instances() {
-    return this.editForm.get('instances');
-  }
-
-  isChecked(param: string): boolean {
-    const checkArray: FormArray = this.editForm.get('parameters') as FormArray;
-
-    for (const control of checkArray.controls) {
-      if (control.value === param) {
-        return true;
-      }
+        this.subscription.add(
+            this.methodsService.updateMethod(formData, this.methodCode).subscribe(
+                () => {
+                    this.isOpen = false;
+                    this.router.navigateByUrl('/methoden');
+                },
+            ),
+        );
     }
-    return false;
-  }
 
-  test() {
-    const calculation = this.calculation.value;
-    const parameters = this.cpueTestForm.getRawValue();
+    cancel() {
+        this.isOpen = false;
+        this.submitted = false;
+    }
 
-    // Filter parameters used in calculation
-    Object.keys(parameters)
-      .filter(key => !calculation.includes(key))
-      .forEach(key => delete parameters[key]);
+    get code() {
+        return this.editForm.get('code');
+    }
 
-    const formData = {
-      calculation,
-      parameters
-    };
+    get name() {
+        return this.editForm.get('name');
+    }
 
-    this.cpueService.testCalculation(formData).subscribe(value => this.testResult = value);
-  }
+    get description() {
+        return this.editForm.get('description');
+    }
 
-  controls() {
-    return Object.keys(this.cpueTestForm?.controls);
-  }
+    get unit() {
+        return this.editForm.get('unit');
+    }
 
-  appendKeyToCalculation(key: string) {
-    this.calculation.patchValue(this.calculation.value === null ? '' : this.calculation.value + key);
-  }
+    get calculation() {
+        return this.editForm.get('calculation');
+    }
 
-  calculationValidator(): AsyncValidatorFn {
-    return (): Observable<ValidationErrors | null> => {
-      const formData = {
-        calculation: this.calculation.value,
-        parameters: this.editForm.get('parameters').value
-      };
+    get startDate() {
+        return this.editForm.get('startDate');
+    }
 
-      return this.cpueService.validateCalculation(formData)
-        .pipe(map(result => !result ? {invalidCalculation: true} : null));
-    };
-  }
+    get lengthType() {
+        return this.editForm.get('lengthType');
+    }
 
-  isParameterUsedInCalculation(key: string) {
-    return this.calculation?.value?.includes(key);
-  }
+    get teams() {
+        return this.editForm.get('teams');
+    }
+
+    get instances() {
+        return this.editForm.get('instances');
+    }
+
+    isChecked(param: string): boolean {
+        const checkArray: FormArray = this.editForm.get('parameters') as FormArray;
+
+        for (const control of checkArray.controls) {
+            if (control.value === param) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    test() {
+        const calculation = this.calculation.value;
+        const parameters = this.cpueTestForm.getRawValue();
+
+        // Filter parameters used in calculation
+        Object.keys(parameters)
+            .filter(key => !calculation.includes(key))
+            .forEach(key => delete parameters[key]);
+
+        const formData = {
+            calculation,
+            parameters,
+        };
+
+        this.cpueService.testCalculation(formData).subscribe(value => this.testResult = value);
+    }
+
+    controls() {
+        return Object.keys(this.cpueTestForm?.controls);
+    }
+
+    appendKeyToCalculation(key: string) {
+        this.calculation.patchValue(this.calculation.value === null ? '' : this.calculation.value + key);
+    }
+
+    calculationValidator(): AsyncValidatorFn {
+        return (): Observable<ValidationErrors | null> => {
+            const formData = {
+                calculation: this.calculation.value,
+                parameters: this.editForm.get('parameters').value,
+            };
+
+            return this.cpueService.validateCalculation(formData)
+                .pipe(map(result => !result ? {invalidCalculation: true} : null));
+        };
+    }
+
+    isParameterUsedInCalculation(key: string) {
+        return this.calculation?.value?.includes(key);
+    }
 }
