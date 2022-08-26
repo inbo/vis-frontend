@@ -26,15 +26,16 @@ export class LocationCreateStep2Component implements OnInit {
         this.map.setCenter(latlng);
     }
 
-    featureSelected(event: VhaBlueLayerSelectionEvent) {
-        this.formGroup.get('vhaInfo').patchValue(event.infoProperties);
-        this.formGroup.get('snappedLat').patchValue(event.coordinates.lat);
-        this.formGroup.get('snappedLng').patchValue(event.coordinates.lng);
-    }
-
     mapLoaded() {
         const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
         this.map.updateTownLayerSelection(latlng);
+    }
+
+    featureSelected(event: VhaBlueLayerSelectionEvent) {
+        this.formGroup.get('vhaBlueLayerId').patchValue(event.layerId);
+        this.formGroup.get('vhaInfo').patchValue(event.infoProperties);
+        this.formGroup.get('snappedLat').patchValue(event.coordinates.lat);
+        this.formGroup.get('snappedLng').patchValue(event.coordinates.lng);
     }
 
     townSelected(properties: any) {
@@ -59,6 +60,11 @@ export class LocationCreateStep2Component implements OnInit {
 
     get width() {
         return this.formGroup.get('width');
+    }
+
+    // Can be either: VHA_Waterlopen (id: 0) or BRU_hydro (id: 4)
+    get vhaBlueLayerId() {
+        return this.formGroup.get('vhaBlueLayerId').value;
     }
 
     get townInfoValue() {

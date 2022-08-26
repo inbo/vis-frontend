@@ -24,6 +24,7 @@ export class LocationCreateStep3Component implements OnInit {
     }
 
     featureSelected(event: VhaBlueLayerSelectionEvent) {
+        this.formGroup.get('vhaBlueLayerId').patchValue(event.layerId);
         this.formGroup.get('blueLayerInfo').patchValue(event.infoProperties);
         this.formGroup.get('snappedLat').patchValue(event.coordinates.lat);
         this.formGroup.get('snappedLng').patchValue(event.coordinates.lng);
@@ -36,6 +37,11 @@ export class LocationCreateStep3Component implements OnInit {
     onLoaded() {
         const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
         this.map.updateTownLayerSelection(latlng);
+    }
+
+    // Should always be: Watervlakken (id: 1)
+    get vhaBlueLayerId() {
+        return this.formGroup.get('vhaBlueLayerId').value;
     }
 
     get townInfoValue() {

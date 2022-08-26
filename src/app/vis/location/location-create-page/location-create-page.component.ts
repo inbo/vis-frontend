@@ -27,8 +27,8 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
     readonly LocationCreationStep = FishingPointCreationStep;
 
     editMode = false;
-    links: NavigationLink[] = GlobalConstants.links;
-    breadcrumbLinks: BreadcrumbLink[] = [
+    links: Array<NavigationLink> = GlobalConstants.links;
+    breadcrumbLinks: Array<BreadcrumbLink> = [
         {title: 'Locaties', url: '/locaties'},
         {title: 'Aanmaken', url: '/locaties/create'},
     ];
@@ -102,12 +102,14 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
                 {
                     ...controlsConfig,
                     ...(fishingPoint.id ? {id: [fishingPoint.id]} : {}),
+                    vhaBlueLayerId: [null],
                     vhaInfo: [null, [Validators.required]],
                     blueLayerInfo: [null, [Validators.required]],
                     townInfo: [null, [Validators.required]],
                     snappedLat: [null],
                     snappedLng: [null],
-                    code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator(fishingPoint)]],
+                    code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(15)],
+                        [this.codeValidator(fishingPoint)]],
                 },
             );
             this.formGroup.patchValue(fishingPoint);

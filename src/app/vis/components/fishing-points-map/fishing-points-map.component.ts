@@ -441,6 +441,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 this.selectFeature(featureCollection, LayerId.BLUE_LAYER);
                 if (this.selected.get(LayerId.BLUE_LAYER)) {
                     this.blueLayerSelected.emit({
+                        layerId: LayerId.BLUE_LAYER,
                         coordinates: {lat: coordinate.lat, lng: coordinate.lng},
                         infoProperties: this.selected.get(LayerId.BLUE_LAYER),
                     });
@@ -465,6 +466,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                     this.selectFeature(featureCollection, LayerId.VHA_WATERCOURSE_LAYER);
                     if (this.selected.get(LayerId.VHA_WATERCOURSE_LAYER)) {
                         this.vhaLayerSelected.emit({
+                            layerId: LayerId.VHA_WATERCOURSE_LAYER,
                             coordinates: {lat: coordinate.lat, lng: coordinate.lng},
                             infoProperties: this.selected.get(LayerId.VHA_WATERCOURSE_LAYER),
                         });
@@ -484,6 +486,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 this.selectFeature(featureCollection, LayerId.BRU_WATERCOURSE_LAYER);
                 if (this.selected.get(LayerId.BRU_WATERCOURSE_LAYER)) {
                     this.vhaLayerSelected.emit({
+                        layerId: LayerId.BRU_WATERCOURSE_LAYER,
                         coordinates: {lat: coordinate.lat, lng: coordinate.lng},
                         infoProperties: this.selected.get(LayerId.BRU_WATERCOURSE_LAYER),
                     });
@@ -521,7 +524,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     private enhanceFeatureProperties(featureProperties: GeoJsonProperties, layerId: LayerId): GeoJsonProperties {
-        // #242, Add arrondissement to town layer feature properties for towns in Brussels
+        // Issue: #242, Add arrondissement to town layer feature properties for towns in Brussels
         if (layerId === LayerId.TOWN_LAYER) {
             if (featureProperties[TOWN_LAYER_FIELD.NISCODE].startsWith('21')) {
                 featureProperties[TOWN_LAYER_FIELD.NISCODE_PR] = '21000';
