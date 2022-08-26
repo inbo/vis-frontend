@@ -1,4 +1,8 @@
 {
+  "general-error": {
+    "title": "Oeps!",
+    "message": "Er is iets misgegaan in de backend."
+  },
   "project.status": {
     "ACTIVE": "Actief",
     "INACTIVE": "Inactief"

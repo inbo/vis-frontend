@@ -40,7 +40,8 @@
               "./node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css",
               "./node_modules/intro.js/introjs.css",
               "./node_modules/tippy.js/dist/tippy.css",
-              "./node_modules/tippy.js/themes/translucent.css"
+              "./node_modules/tippy.js/themes/translucent.css",
+              "./node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },

@@ -1,8 +1,10 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable, Injector} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {TranslateService} from '@ngx-translate/core';
 
 export const InterceptorSkip = 'X-Skip-Interceptor';
 export const InterceptorSkipHeader = new HttpHeaders({
@@ -12,7 +14,8 @@ export const InterceptorSkipHeader = new HttpHeaders({
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              @Inject(Injector) private injector: Injector) {
   }
 
   intercept(
@@ -34,6 +37,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           // The response body may contain clues as to what went wrong,
           console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
 
+
           if (error.status === 0) {
             this.router.navigateByUrl('/service-unavailable');
           }
@@ -43,8 +47,13 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           if (error.status === 403) {
             this.router.navigateByUrl('/forbidden');
           }
+          if (error.status === 404) {
+            this.router.navigateByUrl('/not-found', {replaceUrl: true});
+          }
           if (error.status === 500) {
-            this.router.navigateByUrl('/internal-server-error');
+            const translateService = this.injector.get(TranslateService);
+            const toastrService = this.injector.get(ToastrService);
+            toastrService.error(translateService.instant('general-error.message'), translateService.instant('general-error.title'));
           }
           if (error.status === 503) {
             this.router.navigateByUrl('/service-unavailable');

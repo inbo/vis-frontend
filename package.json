@@ -52,6 +52,7 @@
     "ng-transition": "10.0.0",
     "ngx-clipboard": "14.0.1",
     "ngx-tippy-wrapper": "3.0.1",
+    "ngx-toastr": "11.3.3",
     "ngx-window-token": "5.0.0",
     "rxjs": "6.6.7",
     "tippy.js": "6.3.7",

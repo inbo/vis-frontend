@@ -20,6 +20,8 @@ import {MultiTranslateHttpLoader} from './core/multi-http-loader';
 import {ErrorsModule} from './errors/errors.module';
 import {HttpErrorInterceptor} from './core/http.error.interceptor';
 import {NgxTippyModule} from 'ngx-tippy-wrapper';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
     declarations: [
@@ -35,6 +37,8 @@ import {NgxTippyModule} from 'ngx-tippy-wrapper';
         ReactiveFormsModule,
         AlertModule,
         HttpClientModule,
+        BrowserAnimationsModule,
+        ToastrModule.forRoot(),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
