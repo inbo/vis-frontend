@@ -4,6 +4,7 @@ import {EMPTY, Observable, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
+import {TranslateService} from '@ngx-translate/core';
 
 export const InterceptorSkip = 'X-Skip-Interceptor';
 export const InterceptorSkipHeader = new HttpHeaders({
@@ -50,7 +51,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             this.router.navigateByUrl('/not-found', {replaceUrl: true});
           }
           if (error.status === 500) {
-            this.injector.get(ToastrService).error('Er ging iets mis in de backend.', 'Oei!');
+            const translateService = this.injector.get(TranslateService);
+            const toastrService = this.injector.get(ToastrService);
+            toastrService.error(translateService.instant('general-error.message'), translateService.instant('general-error.title'));
           }
           if (error.status === 503) {
             this.router.navigateByUrl('/service-unavailable');
