@@ -8,45 +8,50 @@ import {ProjectService} from '../../../services/vis.project.service';
 import {take} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-project-detail-page',
-  templateUrl: './project-detail-page.component.html'
+    selector: 'app-project-detail-page',
+    templateUrl: './project-detail-page.component.html',
 })
 export class ProjectDetailPageComponent implements OnInit, OnDestroy {
-  public role = Role;
-  project: Project;
 
-  private subscription = new Subscription();
+    role = Role;
+    project: Project;
 
-  constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute) {
-    this.subscription.add(
-      this.projectService.getProject(this.activatedRoute.snapshot.params.projectCode).subscribe(value => {
-        this.titleService.setTitle(`${value.name} detail`);
-        this.project = value;
-      })
-    );
+    private subscription = new Subscription();
 
-  }
+    constructor(private titleService: Title,
+                private projectService: ProjectService,
+                private activatedRoute: ActivatedRoute) {
+    }
 
-  exportProject() {
-    this.projectService.exportProject(this.activatedRoute.snapshot.params.projectCode)
-      .pipe(take(1))
-      .subscribe(res => {
-        this.projectService.downloadFile(res);
-      });
-  }
+    ngOnInit(): void {
+        this.subscription.add(
+            this.projectService.getProject(this.activatedRoute.snapshot.params.projectCode)
+                .pipe(take(1))
+                .subscribe(value => {
+                    this.titleService.setTitle(`${value.name} detail`);
+                    this.project = value;
+                }),
+        );
+    }
 
-  reOpenProject() {
-    this.subscription.add(this.projectService.reOpenProject(this.activatedRoute.snapshot.params.projectCode)
-      .subscribe(value => {
-        this.projectService.next(value);
-        this.project = value;
-      }));
-  }
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 
-  ngOnInit(): void {
-  }
+    exportProject() {
+        this.projectService.exportProject(this.activatedRoute.snapshot.params.projectCode)
+            .pipe(take(1))
+            .subscribe(res => {
+                this.projectService.downloadFile(res);
+            });
+    }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+    reOpenProject() {
+        this.subscription.add(this.projectService.reOpenProject(this.activatedRoute.snapshot.params.projectCode)
+            .subscribe(value => {
+                this.projectService.next(value);
+                this.project = value;
+            }));
+    }
+
 }
