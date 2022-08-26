@@ -3,6 +3,7 @@ import {FishingPointsMapComponent} from '../../components/fishing-points-map/fis
 import {Title} from '@angular/platform-browser';
 import {latLng} from 'leaflet';
 import {VhaBlueLayerSelectionEvent} from '../../components/fishing-points-map/vha-blue-layer-selection-event.model';
+import {TownLayerSelectionEvent} from '../../components/fishing-points-map/town-layer-selection-event.model';
 
 @Component({
     selector: 'app-location-create-step3',
@@ -30,8 +31,9 @@ export class LocationCreateStep3Component implements OnInit {
         this.formGroup.get('snappedLng').patchValue(event.coordinates.lng);
     }
 
-    townSelected(properties: any) {
-        this.formGroup.get('townInfo').patchValue(properties);
+    townSelected(event: TownLayerSelectionEvent) {
+        this.formGroup.get('townLayerId').patchValue(event.layerId);
+        this.formGroup.get('townInfo').patchValue(event.infoProperties);
     }
 
     onLoaded() {
@@ -39,13 +41,17 @@ export class LocationCreateStep3Component implements OnInit {
         this.map.updateTownLayerSelection(latlng);
     }
 
-    // Should always be: Watervlakken (id: 1)
-    get vhaBlueLayerId() {
-        return this.formGroup.get('vhaBlueLayerId').value;
+    get townLayerId() {
+        return this.formGroup.get('townLayerId').value;
     }
 
     get townInfoValue() {
         return this.formGroup.get('townInfo').value;
+    }
+
+    // Should always be: Watervlakken (id: 1)
+    get vhaBlueLayerId() {
+        return this.formGroup.get('vhaBlueLayerId').value;
     }
 
     get blueLayerInfoValue() {

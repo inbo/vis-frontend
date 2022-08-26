@@ -105,6 +105,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
                     vhaBlueLayerId: [null],
                     vhaInfo: [null, [Validators.required]],
                     blueLayerInfo: [null, [Validators.required]],
+                    townLayerId: [null],
                     townInfo: [null, [Validators.required]],
                     snappedLat: [null],
                     snappedLng: [null],

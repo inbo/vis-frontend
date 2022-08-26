@@ -4,6 +4,7 @@ import {FishingPointsMapComponent} from '../../components/fishing-points-map/fis
 import {latLng} from 'leaflet';
 import {FormGroup} from '@angular/forms';
 import {VhaBlueLayerSelectionEvent} from '../../components/fishing-points-map/vha-blue-layer-selection-event.model';
+import {TownLayerSelectionEvent} from '../../components/fishing-points-map/town-layer-selection-event.model';
 
 @Component({
     selector: 'app-location-create-step2',
@@ -38,8 +39,9 @@ export class LocationCreateStep2Component implements OnInit {
         this.formGroup.get('snappedLng').patchValue(event.coordinates.lng);
     }
 
-    townSelected(properties: any) {
-        this.formGroup.get('townInfo').patchValue(properties);
+    townSelected(event: TownLayerSelectionEvent) {
+        this.formGroup.get('townLayerId').patchValue(event.layerId);
+        this.formGroup.get('townInfo').patchValue(event.infoProperties);
     }
 
     numberMask(scale: number, min: number, max: number) {
@@ -62,13 +64,17 @@ export class LocationCreateStep2Component implements OnInit {
         return this.formGroup.get('width');
     }
 
-    // Can be either: VHA_Waterlopen (id: 0) or BRU_hydro (id: 4)
-    get vhaBlueLayerId() {
-        return this.formGroup.get('vhaBlueLayerId').value;
+    get townLayerId() {
+        return this.formGroup.get('townLayerId').value;
     }
 
     get townInfoValue() {
         return this.formGroup.get('townInfo').value;
+    }
+
+    // Can be either: VHA_Waterlopen (id: 0) or BRU_hydro (id: 4)
+    get vhaBlueLayerId() {
+        return this.formGroup.get('vhaBlueLayerId').value;
     }
 
     get vhaInfoValue() {

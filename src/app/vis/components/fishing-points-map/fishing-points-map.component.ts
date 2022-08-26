@@ -35,6 +35,7 @@ import {
     TOWN_LAYER_FIELD,
     VHA_WATERCOURSE_FIELD,
 } from './layer-field.enum';
+import {TownLayerSelectionEvent} from './town-layer-selection-event.model';
 
 @Component({
     selector: 'app-fishing-points-map',
@@ -60,7 +61,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     @Output() loaded = new EventEmitter<any>();
     @Output() blueLayerSelected = new EventEmitter<VhaBlueLayerSelectionEvent>();
     @Output() vhaLayerSelected = new EventEmitter<VhaBlueLayerSelectionEvent>();
-    @Output() townLayerSelected = new EventEmitter<any>();
+    @Output() townLayerSelected = new EventEmitter<TownLayerSelectionEvent>();
 
     private subscription = new Subscription();
 
@@ -426,7 +427,10 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
             this.selected.delete(LayerId.TOWN_LAYER);
             this.selectFeature(featureCollection, LayerId.TOWN_LAYER);
-            this.townLayerSelected.emit(this.selected.get(LayerId.TOWN_LAYER));
+            this.townLayerSelected.emit({
+                layerId: LayerId.TOWN_LAYER,
+                infoProperties: this.selected.get(LayerId.TOWN_LAYER),
+            });
         });
     }
 
