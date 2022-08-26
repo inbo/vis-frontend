@@ -4,6 +4,7 @@
             <app-fishing-points-map (loaded)="onLoaded()"
                                     [zoomLevel]="17"
                                     (blueLayerSelected)="featureSelected($event)"
+                                    [enableSidebar]="false"
                                     [watercoursesLayerVisible]="false"
                                     [fishingPointsLayerVisible]="false"
                                     (townLayerSelected)="townSelected($event)">

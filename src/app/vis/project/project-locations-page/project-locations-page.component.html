@@ -1,5 +1,8 @@
 <div class="px-4 py-8 sm:px-0">
-	<app-fishing-points-map [projectCode]="projectCode"></app-fishing-points-map>
+	<app-fishing-points-map
+            [projectCode]="projectCode"
+            [enableSidebar]="true">
+    </app-fishing-points-map>
 </div>
 
 <app-slide-over-filter (resetClicked)="reset()"
