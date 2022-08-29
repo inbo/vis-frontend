@@ -1,0 +1,16 @@
+export enum VHA_WATERCOURSE_FIELD {
+    VHAS = 'VHAS',
+    VHAG = 'VHAG',
+    NAAM = 'NAAM',
+    CATC = 'CATC',
+    LBLCATC = 'LBLCATC',
+    BEKNR = 'BEKNR',
+    BEKNAAM = 'BEKNAAM',
+    STRMGEB = 'STRMGEB',
+    KWALDOEL = 'KWALDOEL',
+    LBLKWAL = 'LBLKWAL',
+    LBLGEO = 'LBLGEO',
+    VHAZONENR = 'VHAZONENR',
+    LENGTE = 'LENGTE',
+    WTRLICHC = 'WTRLICHC'
+}

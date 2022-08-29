@@ -29,12 +29,10 @@ import {FishingPoint} from '../../../domain/location/fishing-point';
 import {LayerId} from './layer-id.enum';
 import {VhaBlueLayerSelectionEvent} from './vha-blue-layer-selection-event.model';
 import {GeoJsonProperties} from 'geojson';
-import {
-    BLUE_LAYER_FIELD,
-    BRU_WATERCOURSE_FIELD,
-    TOWN_LAYER_FIELD,
-    VHA_WATERCOURSE_FIELD,
-} from './layer-field.enum';
+import {BLUE_LAYER_FIELD} from './blue-layer-field.enum';
+import {BRU_WATERCOURSE_FIELD} from './bru-watercourse-field.enum';
+import {TOWN_LAYER_FIELD} from './town-layer-field.enum';
+import {VHA_WATERCOURSE_FIELD} from './vha-watercourse-field.enum';
 import {TownLayerSelectionEvent} from './town-layer-selection-event.model';
 
 @Component({
