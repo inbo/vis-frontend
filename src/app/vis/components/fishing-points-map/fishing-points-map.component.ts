@@ -51,7 +51,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     @Input() townsLayerVisible = true;
     @Input() filter: any;
     @Input() highlightPoint: FishingPoint;
-    @Input() enableSidebar: boolean;
+    @Input() enableSidebar = true;
     @Input() disableInteraction = false;
 
     @Output() pointAdded = new EventEmitter<LatLng>();
