@@ -6,7 +6,8 @@
 			                        (townLayerSelected)="townSelected($event)"
 			                        (vhaLayerSelected)="featureSelected($event)"
 			                        [disableInteraction]="editMode"
-			                        [blueLayerVisible]="false"
+                                    [enableSidebar]="false"
+                                    [blueLayerVisible]="false"
 			                        [fishingPointsLayerVisible]="false">
 			</app-fishing-points-map>
 		</div>
@@ -60,13 +61,13 @@
 					<app-fishing-points-selected-feature *ngIf="townInfoValue"
 					                                     [properties]="townInfoValue"
 					                                     [layerName]="'Gemeente van het geselecteerde punt'"
-					                                     [layerNumber]="3"></app-fishing-points-selected-feature>
+					                                     [layerNumber]="townLayerId"></app-fishing-points-selected-feature>
 				</div>
 				<div class="col-span-6 md:col-span-3">
 					<app-fishing-points-selected-feature *ngIf="vhaInfoValue"
 					                                     [properties]="vhaInfoValue"
 					                                     [layerName]="'Geselecteerde waterloop'"
-					                                     [layerNumber]="0"></app-fishing-points-selected-feature>
+					                                     [layerNumber]="vhaBlueLayerId"></app-fishing-points-selected-feature>
 				</div>
 			</div>
 		</div>

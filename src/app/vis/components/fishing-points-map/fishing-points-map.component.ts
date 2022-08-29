@@ -6,6 +6,7 @@ import {
     circleMarker,
     CircleMarker,
     featureGroup,
+    GeoJSON,
     LatLng,
     latLng,
     Layer,
@@ -21,13 +22,18 @@ import * as esri_geo from 'esri-leaflet-geocoder';
 import 'leaflet.locatecontrol';
 import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
 import {dynamicMapLayer, DynamicMapLayer, featureLayer} from 'esri-leaflet';
-import * as geojson from 'geojson';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {mapTo, switchMap, take, tap} from 'rxjs/operators';
 import {VhaUrl} from '../../../domain/location/vha-version';
 import {FishingPoint} from '../../../domain/location/fishing-point';
 import {LayerId} from './layer-id.enum';
 import {VhaBlueLayerSelectionEvent} from './vha-blue-layer-selection-event.model';
+import {GeoJsonProperties} from 'geojson';
+import {BLUE_LAYER_FIELD} from './blue-layer-field.enum';
+import {BRU_WATERCOURSE_FIELD} from './bru-watercourse-field.enum';
+import {TOWN_LAYER_FIELD} from './town-layer-field.enum';
+import {VHA_WATERCOURSE_FIELD} from './vha-watercourse-field.enum';
+import {TownLayerSelectionEvent} from './town-layer-selection-event.model';
 
 @Component({
     selector: 'app-fishing-points-map',
@@ -45,7 +51,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     @Input() townsLayerVisible = true;
     @Input() filter: any;
     @Input() highlightPoint: FishingPoint;
-    @Input() enableSidebar: boolean;
+    @Input() enableSidebar = true;
     @Input() disableInteraction = false;
 
     @Output() pointAdded = new EventEmitter<LatLng>();
@@ -53,7 +59,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     @Output() loaded = new EventEmitter<any>();
     @Output() blueLayerSelected = new EventEmitter<VhaBlueLayerSelectionEvent>();
     @Output() vhaLayerSelected = new EventEmitter<VhaBlueLayerSelectionEvent>();
-    @Output() townLayerSelected = new EventEmitter<any>();
+    @Output() townLayerSelected = new EventEmitter<TownLayerSelectionEvent>();
 
     private subscription = new Subscription();
 
@@ -72,7 +78,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
     legend = new Map();
 
-    layers: Layer[];
+    layers: Array<Layer>;
     private orthoLayer: DynamicMapLayer;
     private watercourseLayer: DynamicMapLayer;
     private blueLayer: DynamicMapLayer;
@@ -81,7 +87,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
     highlightSelectionLayer = layerGroup();
 
-    features: geojson.Feature[] = [];
+    features: Array<GeoJSON.Feature> = [];
     locationsLayer: L.MarkerClusterGroup;
     searchLayer: L.LayerGroup;
     markerClusterData = [];
@@ -92,10 +98,15 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     showTooltips = true;
 
     private visibleFields = {
-        0: ['VHAS', 'VHAG', 'NAAM', 'CATC', 'LBLCATC', 'BEKNR', 'BEKNAAM', 'STRMGEB', 'KWALDOEL', 'LBLKWAL', 'LBLGEO', 'VHAZONENR', 'LENGTE', 'WTRLICHC'],
-        1: ['WVLC', 'Versie', 'NAAM', 'WTRLICHC'],
-        3: ['GEMEENTE', 'NISCODE', 'NISCODE_PR', 'PROVINCIE'],
-        4: ['type', 'naam', 'beschrijvi', 'codecat', 'categorie'],
+        0: [VHA_WATERCOURSE_FIELD.VHAS, VHA_WATERCOURSE_FIELD.VHAG, VHA_WATERCOURSE_FIELD.NAAM,
+            VHA_WATERCOURSE_FIELD.CATC, VHA_WATERCOURSE_FIELD.LBLCATC, VHA_WATERCOURSE_FIELD.BEKNR,
+            VHA_WATERCOURSE_FIELD.BEKNAAM, VHA_WATERCOURSE_FIELD.STRMGEB, VHA_WATERCOURSE_FIELD.KWALDOEL,
+            VHA_WATERCOURSE_FIELD.LBLKWAL, VHA_WATERCOURSE_FIELD.LBLGEO, VHA_WATERCOURSE_FIELD.VHAZONENR,
+            VHA_WATERCOURSE_FIELD.LENGTE, VHA_WATERCOURSE_FIELD.WTRLICHC],
+        1: [BLUE_LAYER_FIELD.WVLC, BLUE_LAYER_FIELD.VERSIE, BLUE_LAYER_FIELD.NAAM, BLUE_LAYER_FIELD.WTRLICHC],
+        3: [TOWN_LAYER_FIELD.GEMEENTE, TOWN_LAYER_FIELD.NISCODE, TOWN_LAYER_FIELD.NISCODE_PR, TOWN_LAYER_FIELD.PROVINCIE],
+        4: [BRU_WATERCOURSE_FIELD.TYPE, BRU_WATERCOURSE_FIELD.NAAM, BRU_WATERCOURSE_FIELD.BESCHRIJVING,
+            BRU_WATERCOURSE_FIELD.CODECAT, BRU_WATERCOURSE_FIELD.CATEGORIE],
     };
     selected = new Map();
 
@@ -414,7 +425,10 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
             this.selected.delete(LayerId.TOWN_LAYER);
             this.selectFeature(featureCollection, LayerId.TOWN_LAYER);
-            this.townLayerSelected.emit(this.selected.get(LayerId.TOWN_LAYER));
+            this.townLayerSelected.emit({
+                layerId: LayerId.TOWN_LAYER,
+                infoProperties: this.selected.get(LayerId.TOWN_LAYER),
+            });
         });
     }
 
@@ -429,6 +443,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 this.selectFeature(featureCollection, LayerId.BLUE_LAYER);
                 if (this.selected.get(LayerId.BLUE_LAYER)) {
                     this.blueLayerSelected.emit({
+                        layerId: LayerId.BLUE_LAYER,
                         coordinates: {lat: coordinate.lat, lng: coordinate.lng},
                         infoProperties: this.selected.get(LayerId.BLUE_LAYER),
                     });
@@ -453,6 +468,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                     this.selectFeature(featureCollection, LayerId.VHA_WATERCOURSE_LAYER);
                     if (this.selected.get(LayerId.VHA_WATERCOURSE_LAYER)) {
                         this.vhaLayerSelected.emit({
+                            layerId: LayerId.VHA_WATERCOURSE_LAYER,
                             coordinates: {lat: coordinate.lat, lng: coordinate.lng},
                             infoProperties: this.selected.get(LayerId.VHA_WATERCOURSE_LAYER),
                         });
@@ -472,6 +488,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 this.selectFeature(featureCollection, LayerId.BRU_WATERCOURSE_LAYER);
                 if (this.selected.get(LayerId.BRU_WATERCOURSE_LAYER)) {
                     this.vhaLayerSelected.emit({
+                        layerId: LayerId.BRU_WATERCOURSE_LAYER,
                         coordinates: {lat: coordinate.lat, lng: coordinate.lng},
                         infoProperties: this.selected.get(LayerId.BRU_WATERCOURSE_LAYER),
                     });
@@ -480,7 +497,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         }
     }
 
-    private selectFeature(featureCollection, layerId: number) {
+    private selectFeature(featureCollection: GeoJSON.FeatureCollection, layerId: LayerId) {
         featureCollection.features.forEach(feature => {
             if (this.selected.has(layerId)) {
                 return;
@@ -489,22 +506,34 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 this.highlightSelectionLayer.addLayer(L.geoJSON(feature, {style: {weight: 6}}));
             }
 
-            const filteredProperties = {};
+            const filteredProperties: GeoJsonProperties = {};
 
             for (const propertiesKey in feature.properties) {
                 if (feature.properties.hasOwnProperty(propertiesKey)) {
-                    const fields = this.visibleFields[layerId] as string[];
+                    const fields = this.visibleFields[layerId] as Array<string>;
 
                     if (fields.indexOf(propertiesKey) > -1) {
                         filteredProperties[propertiesKey] = feature.properties[propertiesKey];
                     }
                 }
             }
-            this.selected.set(layerId, filteredProperties);
+            const enhancedProperties = this.enhanceFeatureProperties(filteredProperties, layerId);
+            this.selected.set(layerId, enhancedProperties);
         });
         if (featureCollection.features.length > 0 && layerId !== LayerId.TOWN_LAYER) {
             this.openSelection();
         }
+    }
+
+    private enhanceFeatureProperties(featureProperties: GeoJsonProperties, layerId: LayerId): GeoJsonProperties {
+        // Issue: #242, Add arrondissement to town layer feature properties for towns in Brussels
+        if (layerId === LayerId.TOWN_LAYER) {
+            if (featureProperties[TOWN_LAYER_FIELD.NISCODE].startsWith('21')) {
+                featureProperties[TOWN_LAYER_FIELD.NISCODE_PR] = '21000';
+                featureProperties[TOWN_LAYER_FIELD.PROVINCIE] = 'Arrondissement Brussel Hoofdstad';
+            }
+        }
+        return featureProperties;
     }
 
     setCenter(latlng: LatLng) {

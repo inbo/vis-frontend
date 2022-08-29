@@ -328,6 +328,7 @@
 
 							<div class="sm:col-span-2">
 								<app-fishing-points-map [canAddPoints]="false"
+                                                        [enableSidebar]="false"
 								                        [zoomLevel]="15"
 								                        (loaded)="highlightFishingPoint()"></app-fishing-points-map>
 							</div>
@@ -401,7 +402,9 @@
 									Categorie
 								</dt>
 								<dd class="mt-1 text-sm text-gray-900">
-									{{fishingPoint?.categoryDescription + ': ' + fishingPoint?.categoryCode}}
+                                    <span *ngIf="fishingPoint?.categoryCode">
+									    {{fishingPoint?.categoryDescription + ': ' + fishingPoint?.categoryCode}}
+                                    </span>
 								</dd>
 							</div>
 
@@ -410,7 +413,9 @@
 									Bekken
 								</dt>
 								<dd class="mt-1 text-sm text-gray-900">
-									{{fishingPoint?.basinNumber + ': ' + fishingPoint?.basinName}}
+                                    <span *ngIf="fishingPoint?.basinNumber">
+                                        {{fishingPoint?.basinNumber + ': ' + fishingPoint?.basinName}}
+                                    </span>
 								</dd>
 							</div>
 							<div class="sm:col-span-1">
