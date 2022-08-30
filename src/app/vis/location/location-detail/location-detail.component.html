@@ -402,7 +402,7 @@
 									Categorie
 								</dt>
 								<dd class="mt-1 text-sm text-gray-900">
-                                    <span *ngIf="fishingPoint?.categoryCode">
+                                    <span *ngIf="fishingPoint?.categoryCode === null">
 									    {{fishingPoint?.categoryDescription + ': ' + fishingPoint?.categoryCode}}
                                     </span>
 								</dd>
@@ -413,7 +413,7 @@
 									Bekken
 								</dt>
 								<dd class="mt-1 text-sm text-gray-900">
-                                    <span *ngIf="fishingPoint?.basinNumber">
+                                    <span *ngIf="fishingPoint?.basinNumber === null">
                                         {{fishingPoint?.basinNumber + ': ' + fishingPoint?.basinName}}
                                     </span>
 								</dd>
