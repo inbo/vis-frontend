@@ -98,6 +98,9 @@
             "browserTarget": "application-ui:build"
           },
           "configurations": {
+            "uat": {
+              "browserTarget": "application-ui:build:uat"
+            },
             "production": {
               "browserTarget": "application-ui:build:production"
             }

@@ -43,7 +43,6 @@ import {NgTransitionModule} from 'ng-transition';
 import {SwitchRoleComponent} from './switch-role/switch-role.component';
 import {LeafletMarkerClusterModule} from '@asymmetrik/ngx-leaflet-markercluster';
 import {FishingPointsMapComponent} from './components/fishing-points-map/fishing-points-map.component';
-import {FishingPointsMapPropertiesComponent} from './components/fishing-points-map-properties/fishing-points-map-properties.component';
 import {FormErrorMessageComponent} from './components/form-error-message/form-error-message.component';
 import {SurveyEventsOverviewPageComponent} from './survey-events/survey-events-overview-page/survey-events-overview-page.component';
 import {TipsComponent} from './tips/tips/tips.component';
@@ -144,7 +143,6 @@ import {NgxTippyModule} from 'ngx-tippy-wrapper';
         SwitchRoleComponent,
         SurveyEventMeasurementsCreatePageComponent,
         FishingPointsMapComponent,
-        FishingPointsMapPropertiesComponent,
         FormErrorMessageComponent,
         SurveyEventsOverviewPageComponent,
         TipsComponent,

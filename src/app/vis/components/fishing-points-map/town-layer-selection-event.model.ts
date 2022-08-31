@@ -1,7 +1,6 @@
 import {LayerId} from './layer-id.enum';
 
-export interface VhaBlueLayerSelectionEvent {
+export interface TownLayerSelectionEvent {
     layerId: LayerId;
-    coordinates: {lat: number, lng: number};
     infoProperties: { [key: string]: string };
 }
