@@ -39,7 +39,7 @@
 										                       formControlName="fishingPointId"
 										                       (search)="getLocations($event)"
 										                       [options]="fishingPoints"
-										                       [configuration]="fishingPointSearchableSelectConfig">
+										                       [configuration]="searchableSelectConfig">
 										</app-searchable-select>
 									</div>
 									<app-form-error-message [fieldName]="'Locatie'"
@@ -58,6 +58,7 @@
 										                       placeholder="Selecteer een methode"
 										                       tabIndex="-1"
 										                       formControlName="method"
+										                       [configuration]="searchableSelectConfig"
 										                       (search)="getMethods($event)"
 										                       [options]="filteredMethods">
 										</app-searchable-select>

@@ -31,7 +31,10 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
 
     fishingPoints: SearchableSelectOption<number>[] = [];
     filteredMethods: SearchableSelectOption<string>[] = [];
-    fishingPointSearchableSelectConfig: SearchableSelectConfig;
+    searchableSelectConfig: SearchableSelectConfig = new SearchableSelectConfigBuilder()
+        .minQueryLength(2)
+        .searchPlaceholder('Minstens 2 karakters...')
+        .build();
     minDate: Date;
     maxDate: Date;
     existingSurveyEventsWithLocationMethodAndOccurrenceDate: Array<SurveyEvent>;
@@ -39,13 +42,14 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
     private allMethods: Array<Method>;
     private formSubscription: Subscription;
 
-    constructor(private surveyEventService: SurveyEventsService, private activatedRoute: ActivatedRoute,
-                private router: Router, private formBuilder: FormBuilder, private locationsService: LocationsService,
-                private methodsService: MethodsService, private _location: Location, private projectService: ProjectService) {
-        this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
-            .minQueryLength(2)
-            .searchPlaceholder('Minstens 2 karakters...')
-            .build();
+    constructor(private surveyEventService: SurveyEventsService,
+                private activatedRoute: ActivatedRoute,
+                private router: Router,
+                private formBuilder: FormBuilder,
+                private locationsService: LocationsService,
+                private methodsService: MethodsService,
+                private _location: Location,
+                private projectService: ProjectService) {
     }
 
     ngOnInit(): void {
