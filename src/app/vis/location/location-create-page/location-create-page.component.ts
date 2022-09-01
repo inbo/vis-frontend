@@ -15,6 +15,7 @@ import {Role} from '../../../core/_models/role';
 import {IndexType} from '../../../domain/location/index-type';
 import {FishingPointType} from './fishing-point-type.enum';
 import {FishingPointCreationStep} from './location-creation-step.enum';
+import {Location} from '@angular/common';
 
 @Component({
     selector: 'app-location-create-page',
@@ -48,7 +49,8 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
                 private locationsService: LocationsService,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
-                private authService: AuthService) {
+                private authService: AuthService,
+                private location: Location) {
         this.titleService.setTitle('Locatie toevoegen');
     }
 
@@ -189,5 +191,9 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
+    }
+
+    cancel() {
+        this.location.back();
     }
 }
