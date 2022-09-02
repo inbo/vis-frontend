@@ -239,10 +239,11 @@
                       tabindex="-1">Bewerken
                     </button>
                     <button
-                      *ngIf="surveyEvent.canEdit && authService.hasRole(role.CreateMeasurements) && (surveyEvent.status !== 'DELETED' || surveyEvent.status !== 'VALID')"
+                      *ngIf="surveyEvent.canEdit && authService.hasRole(role.CreateMeasurements) && surveyEvent.status !== 'DELETED' && surveyEvent.status !== 'VALID'"
                       [routerLink]="['/projecten', surveyEvent.projectCode, 'waarnemingen', surveyEvent.surveyEventId, 'metingen', 'toevoegen']"
                       class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-2" role="menuitem"
-                      tabindex="-1">Metingen toevoegen
+                      tabindex="-1">
+                      Metingen toevoegen
                     </button>
                   </app-dropdown-minimal>
                 </td>
