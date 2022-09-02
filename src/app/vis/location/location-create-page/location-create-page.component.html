@@ -34,10 +34,15 @@
 					</app-location-create-step1>
 
 					<div class="flex justify-end mt-5">
+						<app-button (click)="cancel()"
+						            [style]="'primary'">
+							Annuleren
+						</app-button>
 						<app-button *ngIf="editMode"
 						            [disabled]="!isGeneralStepValid()"
 						            (click)="save()"
-						            [style]="'primary'">
+						            [style]="'primary'"
+						            class="ml-2">
 							Bewaren
 						</app-button>
 						<app-button *ngIf="!(editMode && fishingPointType === FishingPointType.STAGNANT)"
@@ -57,7 +62,12 @@
 					                           [editMode]="editMode">
 					</app-location-create-step2>
 					<div class="flex justify-end mt-5">
-						<app-button [disabled]="!isWaterCourseValid()"
+						<app-button (click)="cancel()"
+						            [style]="'primary'">
+							Annuleren
+						</app-button>
+						<app-button class="ml-2"
+						            [disabled]="!isWaterCourseValid()"
 						            (click)="save()"
 						            [style]="'primary'">
 							Bewaren
@@ -69,12 +79,15 @@
 				<div *ngIf="currentStep === LocationCreationStep.BLUE_LAYER"
 				     class="px-4 py-8 sm:px-0">
 					<app-location-create-step3 [formGroup]="formGroup"></app-location-create-step3>
-
-
 					<div class="flex justify-end mt-5">
+						<app-button (click)="cancel()"
+						            [style]="'primary'">
+							Annuleren
+						</app-button>
 						<app-button [disabled]="!isBlueLayerValid()"
 						            (click)="save()"
-						            [style]="'primary'">Bewaren
+						            [style]="'primary'">
+							Bewaren
 						</app-button>
 					</div>
 				</div>

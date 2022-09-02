@@ -64,11 +64,17 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     tandemVaultCollectionsFiltered: SearchableSelectOption<string>[] = [];
     loadingCollections = true;
     isModalOpen = false;
-    maxDate: Date;
+    minDateClosingProject: Date;
+    maxProjectStartDate: Date;
 
-    constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute,
-                private router: Router, private formBuilder: FormBuilder, private accountService: AccountService,
-                private _location: Location, private pictureService: PicturesService) {
+    constructor(private titleService: Title,
+                private projectService: ProjectService,
+                private activatedRoute: ActivatedRoute,
+                private router: Router,
+                private formBuilder: FormBuilder,
+                private accountService: AccountService,
+                private _location: Location,
+                private pictureService: PicturesService) {
 
     }
 
@@ -104,7 +110,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
                 this.earliestSurveyEventDate = date;
                 if (date) {
                     this.startDate.setValidators([Validators.required, projectStartBeforeSurveyEvents(date)]);
-                    this.maxDate = new Date(date);
+                    this.maxProjectStartDate = new Date(date);
                 }
             });
 
@@ -114,6 +120,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
                 this.latestSurveyEventDate = date;
                 if (date) {
                     this.endDate.setValidators([Validators.required, projectEndAfterSurveyEvents(date)]);
+                    this.minDateClosingProject = new Date(date);
                 }
             });
         this.loadData();

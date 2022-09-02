@@ -114,7 +114,7 @@
 					            [isUserLinkedToProject]="surveyEvent?.canEdit">Kopieer waarneming
 					</app-button>
 					<app-button [style]="'primary'"
-					            [disabled]="surveyEvent?.status === 'DELETED'"
+					            [disabled]="surveyEvent?.status === 'DELETED' || surveyEvent?.status === 'VALID'"
 					            class="ml-3"
 					            [routerLink]="'metingen/toevoegen'"
 					            [role]="role.CreateMeasurements"
