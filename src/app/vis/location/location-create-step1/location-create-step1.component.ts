@@ -69,7 +69,7 @@ export class LocationCreateStep1Component implements OnInit {
                     return;
                 }
 
-                this.convertCoordinates(value, this.formGroup.get('y').value, 'lambert');
+                this.convertCoordinates(this.formGroup.get('y').value, value, 'lambert');
             });
 
         this.formGroup.get('y').valueChanges
@@ -79,7 +79,7 @@ export class LocationCreateStep1Component implements OnInit {
                     return;
                 }
 
-                this.convertCoordinates(this.formGroup.get('x').value, value, 'lambert');
+                this.convertCoordinates(value, this.formGroup.get('x').value, 'lambert');
             });
     }
 
@@ -91,6 +91,7 @@ export class LocationCreateStep1Component implements OnInit {
                     take(1),
                 )
                 .subscribe(coordinates => {
+                    console.log('converted the coordinates');
                     this.convertingCoordinates = true;
                     this.formGroup.get(source === 'latlng' ? 'x' : 'lat').setValue(coordinates.x, {emitEvent: false});
                     this.formGroup.get(source === 'latlng' ? 'y' : 'lng').setValue(coordinates.y, {emitEvent: false});
