@@ -38,28 +38,27 @@ export class LocationCreateStep1Component implements OnInit {
     }
 
     private setup() {
-        this.formGroup.get('lat').valueChanges.pipe(debounceTime(300))
+
+        this.formGroup.get('lat').valueChanges
+            .pipe(debounceTime(300))
             .subscribe(value => {
+                console.log('new lat');
                 if (this.formGroup.get('lat').invalid || this.formGroup.get('lng').invalid) {
                     this.map.clearNewLocationMarker();
                     return;
                 }
-
-                const latlng = latLng(value, this.formGroup.get('lng').value);
-                this.map.replaceNewLocationMarker(latlng);
 
                 this.convertCoordinates(value, this.formGroup.get('lng').value, 'latlng');
             });
 
-        this.formGroup.get('lng').valueChanges.pipe(debounceTime(300))
+        this.formGroup.get('lng').valueChanges
+            .pipe(debounceTime(300))
             .subscribe(value => {
+                console.log('new lng');
                 if (this.formGroup.get('lat').invalid || this.formGroup.get('lng').invalid) {
                     this.map.clearNewLocationMarker();
                     return;
                 }
-
-                const latlng = latLng(this.formGroup.get('lat').value, value);
-                this.map.replaceNewLocationMarker(latlng);
 
                 this.convertCoordinates(this.formGroup.get('lat').value, value, 'latlng');
             });
@@ -73,7 +72,8 @@ export class LocationCreateStep1Component implements OnInit {
                 this.convertCoordinates(value, this.formGroup.get('y').value, 'lambert');
             });
 
-        this.formGroup.get('y').valueChanges.pipe(debounceTime(300))
+        this.formGroup.get('y').valueChanges
+            .pipe(debounceTime(300))
             .subscribe(value => {
                 if (this.formGroup.get('x').invalid || this.formGroup.get('y').invalid) {
                     return;
@@ -85,17 +85,19 @@ export class LocationCreateStep1Component implements OnInit {
 
     private convertCoordinates(lat: number, lng: number, source: string) {
         if (!this.convertingCoordinates) {
+            this.convertingCoordinates = true;
             this.locationsService.convertCoordinates(lat, lng, source)
-                .pipe(take(1))
+                .pipe(
+                    take(1),
+                )
                 .subscribe(coordinates => {
                     this.convertingCoordinates = true;
-                    this.formGroup.get(source === 'latlng' ? 'x' : 'lat').patchValue(coordinates.x);
-                    this.formGroup.get(source === 'latlng' ? 'y' : 'lng').patchValue(coordinates.y);
+                    this.formGroup.get(source === 'latlng' ? 'x' : 'lat').setValue(coordinates.x, {emitEvent: false});
+                    this.formGroup.get(source === 'latlng' ? 'y' : 'lng').setValue(coordinates.y, {emitEvent: false});
 
-                    setTimeout(() => {
-                        // Wait for debounce
-                        this.convertingCoordinates = false;
-                    }, 500);
+                    const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
+                    this.map.replaceNewLocationMarker(latlng);
+                    this.convertingCoordinates = false;
                 });
         }
     }
