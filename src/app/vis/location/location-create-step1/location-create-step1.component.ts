@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {LatLng, latLng} from 'leaflet';
 import {Title} from '@angular/platform-browser';
 import {FormGroup} from '@angular/forms';
@@ -12,7 +12,7 @@ import {FishingPointType} from '../location-create-page/fishing-point-type.enum'
     selector: 'app-location-create-step1',
     templateUrl: './location-create-step1.component.html',
 })
-export class LocationCreateStep1Component implements OnInit {
+export class LocationCreateStep1Component implements OnInit, AfterViewInit {
 
     readonly FishingPointType = FishingPointType;
 
@@ -33,16 +33,53 @@ export class LocationCreateStep1Component implements OnInit {
         this.titleService.setTitle('Locatie toevoegen');
     }
 
+    get code() {
+        return this.formGroup.get('code');
+    }
+
+    get description() {
+        return this.formGroup.get('description');
+    }
+
+    get type() {
+        return this.formGroup.get('type');
+    }
+
     ngOnInit(): void {
         this.setup();
     }
 
-    private setup() {
+    ngAfterViewInit() {
+        if (this.editMode) {
+            this.map.replaceNewLocationMarker(this.getLatLngFromForm());
+            this.map.zoomTo(this.getLatLngFromForm());
+        }
+    }
 
+    pointAdded(e: LatLng) {
+        this.formGroup.get('lat').patchValue(e.lat, {emitEvent: false});
+        this.formGroup.get('lng').patchValue(e.lng, {emitEvent: false});
+        this.convertCoordinates(e.lat, e.lng, 'latlng');
+    }
+
+    coordinatesAreInvalid() {
+        return (this.formGroup.get('lat').touched && this.formGroup.get('lat').invalid)
+            || (this.formGroup.get('lng').touched && this.formGroup.get('lng').invalid);
+    }
+
+    coordinatesAreEmpty() {
+        return (this.formGroup.get('lat').invalid)
+            || (this.formGroup.get('lng').invalid);
+    }
+
+    private getLatLngFromForm() {
+        return latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
+    }
+
+    private setup() {
         this.formGroup.get('lat').valueChanges
             .pipe(debounceTime(300))
             .subscribe(value => {
-                console.log('new lat');
                 if (this.formGroup.get('lat').invalid || this.formGroup.get('lng').invalid) {
                     this.map.clearNewLocationMarker();
                     return;
@@ -54,7 +91,6 @@ export class LocationCreateStep1Component implements OnInit {
         this.formGroup.get('lng').valueChanges
             .pipe(debounceTime(300))
             .subscribe(value => {
-                console.log('new lng');
                 if (this.formGroup.get('lat').invalid || this.formGroup.get('lng').invalid) {
                     this.map.clearNewLocationMarker();
                     return;
@@ -96,38 +132,9 @@ export class LocationCreateStep1Component implements OnInit {
                     this.formGroup.get(source === 'latlng' ? 'x' : 'lat').setValue(coordinates.x, {emitEvent: false});
                     this.formGroup.get(source === 'latlng' ? 'y' : 'lng').setValue(coordinates.y, {emitEvent: false});
 
-                    const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
-                    this.map.replaceNewLocationMarker(latlng);
+                    this.map.replaceNewLocationMarker(this.getLatLngFromForm());
                     this.convertingCoordinates = false;
                 });
         }
-    }
-
-    pointAdded(e: LatLng) {
-        this.formGroup.get('lat').patchValue(e.lat, {emitEvent: false});
-        this.formGroup.get('lng').patchValue(e.lng, {emitEvent: false});
-        this.convertCoordinates(e.lat, e.lng, 'latlng');
-    }
-
-    coordinatesAreInvalid() {
-        return (this.formGroup.get('lat').touched && this.formGroup.get('lat').invalid)
-            || (this.formGroup.get('lng').touched && this.formGroup.get('lng').invalid);
-    }
-
-    coordinatesAreEmpty() {
-        return (this.formGroup.get('lat').invalid)
-            || (this.formGroup.get('lng').invalid);
-    }
-
-    get code() {
-        return this.formGroup.get('code');
-    }
-
-    get description() {
-        return this.formGroup.get('description');
-    }
-
-    get type() {
-        return this.formGroup.get('type');
     }
 }
