@@ -9,36 +9,39 @@ import {TaxonDetail} from '../domain/taxa/taxon-detail';
 import {VisService} from './vis.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class TaxaService extends VisService {
 
-  constructor(private http: HttpClient) {
-    super();
-  }
-
-  getTaxa(val: string, id?: number) {
-    let params = new HttpParams()
-      .set('nameDutch', val);
-
-    if (id !== undefined) {
-      params = params.set('id', id.toString());
+    constructor(private http: HttpClient) {
+        super();
     }
 
-    return this.http.get<Taxon[]>(`${environment.apiUrl}/api/taxon`, {params});
-  }
+    getTaxa(val: string, id?: number) {
+        let params = new HttpParams();
+        console.log(val);
+        if (val !== null && val !== undefined) {
+            params = params.set('nameDutch', val);
+        }
 
-  getFilteredTaxa(page: number, size: number, filter: any) {
-    const params = this.getPageParams(page, size, filter);
+        if (id !== undefined) {
+            params = params.set('id', id.toString());
+        }
 
-    return this.http.get<AsyncPage<Taxon>>(`${environment.apiUrl}/api/taxon/search`, {params});
-  }
+        return this.http.get<Taxon[]>(`${environment.apiUrl}/api/taxon`, {params});
+    }
 
-  getTaxon(id: number): Observable<TaxonDetail> {
-    return this.http.get<TaxonDetail>(`${environment.apiUrl}/api/taxon/${id}`);
-  }
+    getFilteredTaxa(page: number, size: number, filter: any) {
+        const params = this.getPageParams(page, size, filter);
 
-  getTaxonGroups() {
-    return this.http.get<TaxonGroup[]>(`${environment.apiUrl}/api/taxon/groups`);
-  }
+        return this.http.get<AsyncPage<Taxon>>(`${environment.apiUrl}/api/taxon/search`, {params});
+    }
+
+    getTaxon(id: number): Observable<TaxonDetail> {
+        return this.http.get<TaxonDetail>(`${environment.apiUrl}/api/taxon/${id}`);
+    }
+
+    getTaxonGroups() {
+        return this.http.get<TaxonGroup[]>(`${environment.apiUrl}/api/taxon/groups`);
+    }
 }
