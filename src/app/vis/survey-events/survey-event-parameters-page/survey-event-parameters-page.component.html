@@ -5,10 +5,11 @@
         </h3>
         <div *ngIf="surveyEvent$ | async as surveyEvent" class="flex justify-end">
             <app-button [style]="'primary'"
-                        [disabled]="surveyEvent.status === 'DELETED'"
+                        [disabled]="surveyEvent.status !== 'ENTERED'"
                         [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'waterkwaliteitsparameters', 'bewerk']"
                         [role]="role.EditSurveyEvent"
-                        [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
+                        [isUserLinkedToProject]="surveyEvent?.canEdit">
+                Bewerken
             </app-button>
         </div>
     </div>
@@ -136,7 +137,7 @@
     </div>
     <div *ngIf="surveyEvent$ | async as surveyEvent" class="px-4 py-4 sm:px-6 flex justify-end">
         <app-button [style]="'primary'"
-                    [disabled]="surveyEvent.status === 'DELETED'"
+                    [disabled]="surveyEvent.status !== 'ENTERED'"
                     [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'waterkwaliteitsparameters', 'bewerk']"
                     [role]="role.EditSurveyEvent"
                     [isUserLinkedToProject]="surveyEvent?.canEdit">

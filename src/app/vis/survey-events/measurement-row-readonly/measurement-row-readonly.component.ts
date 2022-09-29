@@ -12,6 +12,7 @@ import {AuthService} from '../../../core/auth.service';
   templateUrl: './measurement-row-readonly.component.html'
 })
 export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
+
   role = Role;
   faWeightHanging = faWeightHanging;
   faRulerHorizontal = faRulerHorizontal;
@@ -19,6 +20,7 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
   @Input() formGroupName: number;
   @Input() submitted = false;
   @Input() showSaveMessage = false;
+  @Input() editable = true;
 
   @Output() editClicked = new EventEmitter<any>();
   @Output() removeClicked = new EventEmitter<any>();

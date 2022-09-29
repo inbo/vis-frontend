@@ -1,53 +1,59 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
-import {SurveyEventParameters, TaxonCpue} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEvent, SurveyEventParameters, TaxonCpue} from '../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../core/_models/role';
 
 @Component({
-  selector: 'app-survey-event-cpue-page',
-  templateUrl: './survey-event-cpue-page.component.html'
+    selector: 'app-survey-event-cpue-page',
+    templateUrl: './survey-event-cpue-page.component.html',
 })
 export class SurveyEventCpuePageComponent implements OnInit {
-  role = Role;
 
-  parameters: SurveyEventParameters;
-  taxaCpue: TaxonCpue[];
+    role = Role;
 
-  constructor(private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute) {
-  }
+    parameters: SurveyEventParameters;
+    taxaCpue: TaxonCpue[];
+    surveyEvent: SurveyEvent;
 
-  projectCode = this.activatedRoute.snapshot.parent.params.projectCode;
-  surveyEventId = this.activatedRoute.snapshot.parent.params.surveyEventId;
+    constructor(private surveyEventsService: SurveyEventsService,
+                private activatedRoute: ActivatedRoute) {
+    }
 
-  private taxaCpue$ = this.surveyEventsService.findTaxaCpueForSurveyEvent(
-    this.projectCode,
-    this.surveyEventId
-  );
+    projectCode = this.activatedRoute.snapshot.parent.params.projectCode;
+    surveyEventId = this.activatedRoute.snapshot.parent.params.surveyEventId;
 
-  private parameters$ = this.surveyEventsService.surveyEventParameters(
-    this.projectCode,
-    this.surveyEventId
-  );
+    private taxaCpue$ = this.surveyEventsService.findTaxaCpueForSurveyEvent(
+        this.projectCode,
+        this.surveyEventId,
+    );
 
-  ngOnInit(): void {
-    this.taxaCpue$.subscribe(value => {
-      this.taxaCpue = value;
-    });
+    private parameters$ = this.surveyEventsService.surveyEventParameters(
+        this.projectCode,
+        this.surveyEventId,
+    );
 
-    this.parameters$.subscribe(value => {
-      this.parameters = value;
-    });
-  }
+    ngOnInit(): void {
+        this.surveyEventsService
+            .getSurveyEvent(this.projectCode, this.surveyEventId)
+            .subscribe(survey => this.surveyEvent = survey);
+        this.taxaCpue$.subscribe(value => {
+            this.taxaCpue = value;
+        });
 
-  recalculateCpue() {
-    this.surveyEventsService.recalculateCpue(
-      this.projectCode,
-      this.surveyEventId
-    ).subscribe(_ => {
-      this.taxaCpue$.subscribe(value => {
-        this.taxaCpue = value;
-      });
-    });
-  }
+        this.parameters$.subscribe(value => {
+            this.parameters = value;
+        });
+    }
+
+    recalculateCpue() {
+        this.surveyEventsService.recalculateCpue(
+            this.projectCode,
+            this.surveyEventId,
+        ).subscribe(_ => {
+            this.taxaCpue$.subscribe(value => {
+                this.taxaCpue = value;
+            });
+        });
+    }
 }
