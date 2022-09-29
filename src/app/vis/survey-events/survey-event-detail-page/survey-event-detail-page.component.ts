@@ -31,18 +31,18 @@ export class SurveyEventDetailPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  reOpenSurveyEvent() {
+  reopenSurveyEvent() {
     this.surveyEventService.reOpenSurveyEvent(this.activatedRoute.snapshot.params.projectCode,
       this.activatedRoute.parent.snapshot.params.surveyEventId)
       .pipe(take(1))
-      .subscribe(() => this.loadSurveyEvent());
+      .subscribe(() => location.reload());
   }
 
   validateSurveyEvent() {
     this.surveyEventService.validateSurveyEvent(this.activatedRoute.snapshot.params.projectCode,
       this.activatedRoute.parent.snapshot.params.surveyEventId)
       .pipe(take(1))
-      .subscribe(() => this.loadSurveyEvent());
+      .subscribe(() => location.reload());
   }
 
   deleteSurveyEvent() {
