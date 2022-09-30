@@ -60,43 +60,34 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     @Output() blueLayerSelected = new EventEmitter<VhaBlueLayerSelectionEvent>();
     @Output() vhaLayerSelected = new EventEmitter<VhaBlueLayerSelectionEvent>();
     @Output() townLayerSelected = new EventEmitter<TownLayerSelectionEvent>();
-
-    private subscription = new Subscription();
-
     options: MapOptions = {
         maxZoom: 19,
         doubleClickZoom: false,
     };
-
     fullscreenOptions: any = {
         position: 'topleft',
         title: 'View Fullscreen',
         titleCancel: 'Exit Fullscreen',
     };
-
     layersControl: LeafletControlLayersConfig;
-
     legend = new Map();
-
     layers: Array<Layer>;
-    private orthoLayer: DynamicMapLayer;
-    private watercourseLayer: DynamicMapLayer;
-    private blueLayer: DynamicMapLayer;
-    private townLayer: DynamicMapLayer;
     newLocationLayerGroup = featureGroup();
-
     highlightSelectionLayer = layerGroup();
-
     features: Array<GeoJSON.Feature> = [];
     locationsLayer: L.MarkerClusterGroup;
     searchLayer: L.LayerGroup;
     markerClusterData = [];
-
     map: LeafletMap;
     center: LatLng = latLng(51.2, 4.14);
     openSelectionPanel = false;
     showTooltips = true;
-
+    selected = new Map();
+    private subscription = new Subscription();
+    private orthoLayer: DynamicMapLayer;
+    private watercourseLayer: DynamicMapLayer;
+    private blueLayer: DynamicMapLayer;
+    private townLayer: DynamicMapLayer;
     private visibleFields = {
         0: [VHA_WATERCOURSE_FIELD.VHAS, VHA_WATERCOURSE_FIELD.VHAG, VHA_WATERCOURSE_FIELD.NAAM,
             VHA_WATERCOURSE_FIELD.CATC, VHA_WATERCOURSE_FIELD.LBLCATC, VHA_WATERCOURSE_FIELD.BEKNR,
@@ -108,8 +99,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         4: [BRU_WATERCOURSE_FIELD.TYPE, BRU_WATERCOURSE_FIELD.NAAM, BRU_WATERCOURSE_FIELD.BESCHRIJVING,
             BRU_WATERCOURSE_FIELD.CODECAT, BRU_WATERCOURSE_FIELD.CATEGORIE],
     };
-    selected = new Map();
-
     private layerMetadata = new Map();
     private clickedLatlng: LatLng;
 
@@ -122,6 +111,242 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
+    }
+
+    updateFishingPointsLayer(filter: any): Observable<void> {
+        this.locationsLayer.clearLayers();
+
+        return this.locationsService
+            .getFishingPointsFeatures(this.projectCode, filter)
+            .pipe(
+                take(1),
+                tap(fishingPointFeatures => {
+                    fishingPointFeatures.forEach(fishingPointFeature => {
+                        const latlng = latLng(fishingPointFeature.lat, fishingPointFeature.lng);
+                        const circleMark = circleMarker(latlng, {
+                            fill: true,
+                            fillColor: '#C04384',
+                            fillOpacity: 100,
+                            radius: 7,
+                            stroke: false,
+                        });
+                        const fishingPointLabel = document.createElement('div');
+                        fishingPointLabel.innerHTML = `<p>${fishingPointFeature.code}</p>
+                                              <p>${fishingPointFeature.watercourse}</p>`;
+                        fishingPointLabel.style.textAlign = 'center';
+                        circleMark
+                            .bindTooltip(
+                                tooltip({
+                                    direction: 'top',
+                                    permanent: true,
+                                    offset: [0, -7],
+                                }).setContent(fishingPointLabel));
+
+                        circleMark.on('click', async (event: LeafletMouseEvent) => {
+                            L.DomEvent.stopPropagation(event);
+                            this.clearAllHightLights();
+                            this.clickedLatlng = event.latlng;
+                            const layer = event.target;
+
+                            layer.setStyle({
+                                stroke: true,
+                            });
+
+                            const filteredProperties = {
+                                CODE: fishingPointFeature.code,
+                                DESCRIPTION: fishingPointFeature.description,
+                                X: fishingPointFeature.x,
+                                Y: fishingPointFeature.y,
+                                lat: fishingPointFeature.lat,
+                                lng: fishingPointFeature.lng,
+                            };
+                            const townInformation = await this.getTownNameForCoordinates(this.clickedLatlng);
+                            this.selected.set(LayerId.TOWN_LAYER, townInformation);
+                            this.selected.set(LayerId.FISHING_POINT_LAYER, filteredProperties);
+
+                            this.openSelection();
+                        });
+                        this.locationsLayer.addLayer(circleMark);
+
+                    });
+                    this.layerMetadata.set(LayerId.FISHING_POINT_LAYER, {name: 'Vispunt'});
+
+                }),
+                mapTo(undefined),
+            );
+    }
+
+    private clearAllHightLights(): void {
+        this.clearLocationsSelectedStyle();
+        this.highlightSelectionLayer.clearLayers();
+    }
+
+    mapReady(map: LeafletMap) {
+        this.map = map;
+        L.control.locate({icon: 'fa fa-map-marker-alt'}).addTo(this.map);
+    }
+
+    zoomTo(latlng: LatLng) {
+        this.map.setView(latlng, 15);
+        this.locationsLayer.getLayers().forEach((value: CircleMarker) => {
+            if (value.getLatLng().equals(latlng)) {
+                this.clearLocationsSelectedStyle();
+                value.setStyle({stroke: true});
+            }
+        });
+    }
+
+    clearNewLocationMarker() {
+        this.newLocationLayerGroup.clearLayers();
+    }
+
+    replaceNewLocationMarker(latlng: LatLng) {
+        const m = marker(latlng, {draggable: this.canAddPoints});
+
+        this.newLocationLayerGroup.clearLayers();
+        this.newLocationLayerGroup.addLayer(m);
+
+        this.center = latlng;
+    }
+
+    onDoubleClick(e: LeafletMouseEvent) {
+        if (!this.canAddPoints) {
+            return;
+        }
+
+        e.originalEvent.stopPropagation();
+        const m = marker(e.latlng, {draggable: true});
+
+        const that = this;
+
+        m.on('dragend', () => {
+            that.pointAdded.emit(m.getLatLng());
+        });
+        this.newLocationLayerGroup.clearLayers();
+        this.newLocationLayerGroup.addLayer(m);
+
+        this.pointAdded.emit(e.latlng);
+
+    }
+
+    clickMap(e: LeafletMouseEvent) {
+        this.clearAllHightLights();
+        this.clickedLatlng = e.latlng;
+        this.updateSelections(e.latlng);
+    }
+
+    public updateSelections(coordinate: LatLng) {
+        this.closeSelection();
+        this.updateTownLayerSelection(coordinate);
+        this.updateVHAWatercourseSelection(coordinate);
+        this.updateBRUWatercourseSelection(coordinate);
+        this.updateBlueLayerSelection(coordinate);
+    }
+
+    public updateTownLayerSelection(coordinate: LatLng) {
+        this.townLayer.identify().on(this.map).layers('all:3').at(coordinate).run((error, featureCollection) => {
+            if (error) {
+                return;
+            }
+
+            this.selected.delete(LayerId.TOWN_LAYER);
+            this.selectFeature(featureCollection, LayerId.TOWN_LAYER);
+            this.townLayerSelected.emit({
+                layerId: LayerId.TOWN_LAYER,
+                infoProperties: this.selected.get(LayerId.TOWN_LAYER),
+            });
+        });
+    }
+
+    public updateBlueLayerSelection(coordinate: LatLng) {
+        if (this.map.hasLayer(this.blueLayer)) {
+            this.blueLayer.identify().on(this.map).layers('visible:1').at(coordinate).run((error, featureCollection) => {
+                if (error) {
+                    return;
+                }
+
+                this.selected.delete(LayerId.BLUE_LAYER);
+                this.selectFeature(featureCollection, LayerId.BLUE_LAYER);
+                if (this.selected.get(LayerId.BLUE_LAYER)) {
+                    this.blueLayerSelected.emit({
+                        layerId: LayerId.BLUE_LAYER,
+                        coordinates: {lat: coordinate.lat, lng: coordinate.lng},
+                        infoProperties: this.selected.get(LayerId.BLUE_LAYER),
+                    });
+                }
+            });
+        }
+    }
+
+    public updateVHAWatercourseSelection(coordinate: LatLng) {
+        if (this.map.hasLayer(this.watercourseLayer)) {
+            this.watercourseLayer
+                .identify()
+                .on(this.map)
+                .layers('visible:0')
+                .at(coordinate)
+                .run((error, featureCollection) => {
+                    if (error) {
+                        return;
+                    }
+
+                    this.selected.delete(LayerId.VHA_WATERCOURSE_LAYER);
+                    this.selectFeature(featureCollection, LayerId.VHA_WATERCOURSE_LAYER);
+                    if (this.selected.get(LayerId.VHA_WATERCOURSE_LAYER)) {
+                        this.vhaLayerSelected.emit({
+                            layerId: LayerId.VHA_WATERCOURSE_LAYER,
+                            coordinates: {lat: coordinate.lat, lng: coordinate.lng},
+                            infoProperties: this.selected.get(LayerId.VHA_WATERCOURSE_LAYER),
+                        });
+                    }
+                });
+        }
+    }
+
+    public updateBRUWatercourseSelection(coordinate: LatLng) {
+        if (this.map.hasLayer(this.watercourseLayer)) {
+            this.watercourseLayer.identify().on(this.map).layers('visible:4').at(coordinate).run((error, featureCollection) => {
+                if (error) {
+                    return;
+                }
+
+                this.selected.delete(LayerId.BRU_WATERCOURSE_LAYER);
+                this.selectFeature(featureCollection, LayerId.BRU_WATERCOURSE_LAYER);
+                if (this.selected.get(LayerId.BRU_WATERCOURSE_LAYER)) {
+                    this.vhaLayerSelected.emit({
+                        layerId: LayerId.BRU_WATERCOURSE_LAYER,
+                        coordinates: {lat: coordinate.lat, lng: coordinate.lng},
+                        infoProperties: this.selected.get(LayerId.BRU_WATERCOURSE_LAYER),
+                    });
+                }
+            });
+        }
+    }
+
+    setCenter(latlng: LatLng) {
+        this.options.center = latlng;
+        this.center = latlng;
+    }
+
+    layerName(layer: number) {
+        return this.layerMetadata.get(layer)?.name;
+    }
+
+    closeSelection() {
+        this.openSelectionPanel = false;
+    }
+
+    openSelection() {
+        this.openSelectionPanel = this.enableSidebar;
+    }
+
+    toggleTooltips() {
+        this.showTooltips = !this.showTooltips;
+        if (this.showTooltips) {
+            document.getElementsByClassName('leaflet-tooltip-pane').item(0).classList.remove('invisible');
+        } else {
+            document.getElementsByClassName('leaflet-tooltip-pane').item(0).classList.add('invisible');
+        }
     }
 
     private setup() {
@@ -257,65 +482,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         });
     }
 
-    updateFishingPointsLayer(filter: any): Observable<void> {
-        this.locationsLayer.clearLayers();
-
-        return this.locationsService
-            .getFishingPointsFeatures(this.projectCode, filter)
-            .pipe(
-                take(1),
-                tap(fishingPointFeatures => {
-                    fishingPointFeatures.forEach(fishingPointFeature => {
-                        const latlng = latLng(fishingPointFeature.lat, fishingPointFeature.lng);
-                        const circleMark = circleMarker(latlng, {
-                            fill: true,
-                            fillColor: '#C04384',
-                            fillOpacity: 100,
-                            radius: 7,
-                            stroke: false,
-                        });
-                        const fishingPointLabel = document.createElement('div');
-                        fishingPointLabel.innerHTML = `<p>${fishingPointFeature.code}</p>
-                                              <p>${fishingPointFeature.watercourse}</p>`;
-                        fishingPointLabel.style.textAlign = 'center';
-                        circleMark
-                            .bindTooltip(
-                                tooltip({
-                                    direction: 'top',
-                                    permanent: true,
-                                    offset: [0, -7],
-                                }).setContent(fishingPointLabel));
-
-                        circleMark.on('click', (event: LeafletMouseEvent) => {
-                            L.DomEvent.stopPropagation(event);
-                            this.clickedLatlng = event.latlng;
-                            const layer = event.target;
-                            this.clearLocationsSelectedStyle();
-
-                            layer.setStyle({
-                                stroke: true,
-                            });
-
-                            const filteredProperties = {
-                                CODE: fishingPointFeature.code,
-                                DESCRIPTION: fishingPointFeature.description,
-                                X: fishingPointFeature.x,
-                                Y: fishingPointFeature.y,
-                                lat: fishingPointFeature.lat,
-                                lng: fishingPointFeature.lng,
-                            };
-                            this.selected.set(LayerId.FISHING_POINT_LAYER, filteredProperties);
-                            this.openSelection();
-                        });
-                        this.locationsLayer.addLayer(circleMark);
-
-                    });
-                    this.layerMetadata.set(LayerId.FISHING_POINT_LAYER, {name: 'Vispunt'});
-                }),
-                mapTo(undefined),
-            );
-    }
-
     private clearLocationsSelectedStyle() {
         this.locationsLayer.eachLayer((layer: CircleMarker) => {
             layer.setStyle({
@@ -323,21 +489,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
             });
         });
         this.selected.delete(LayerId.FISHING_POINT_LAYER);
-    }
-
-    mapReady(map: LeafletMap) {
-        this.map = map;
-        L.control.locate({icon: 'fa fa-map-marker-alt'}).addTo(this.map);
-    }
-
-    zoomTo(latlng: LatLng) {
-        this.map.setView(latlng, 15);
-        this.locationsLayer.getLayers().forEach((value: CircleMarker) => {
-            if (value.getLatLng().equals(latlng)) {
-                this.clearLocationsSelectedStyle();
-                value.setStyle({stroke: true});
-            }
-        });
     }
 
     private initLegend(version: VhaUrl) {
@@ -367,136 +518,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         });
     }
 
-    clearNewLocationMarker() {
-        this.newLocationLayerGroup.clearLayers();
-    }
-
-    replaceNewLocationMarker(latlng: LatLng) {
-        const m = marker(latlng, {draggable: this.canAddPoints});
-
-        this.newLocationLayerGroup.clearLayers();
-        this.newLocationLayerGroup.addLayer(m);
-
-        this.center = latlng;
-    }
-
-    onDoubleClick(e: LeafletMouseEvent) {
-        if (!this.canAddPoints) {
-            return;
-        }
-
-        e.originalEvent.stopPropagation();
-        const m = marker(e.latlng, {draggable: true});
-
-        const that = this;
-
-        m.on('dragend', () => {
-            that.pointAdded.emit(m.getLatLng());
-        });
-        this.newLocationLayerGroup.clearLayers();
-        this.newLocationLayerGroup.addLayer(m);
-
-        this.pointAdded.emit(e.latlng);
-
-    }
-
-    clickMap(e: LeafletMouseEvent) {
-        if (this.clickedLatlng !== e.latlng) {
-            this.clearLocationsSelectedStyle();
-        }
-        this.clickedLatlng = e.latlng;
-        this.highlightSelectionLayer.clearLayers();
-        this.updateSelections(e.latlng);
-    }
-
-    public updateSelections(coordinate: LatLng) {
-        this.closeSelection();
-        this.updateTownLayerSelection(coordinate);
-        this.updateVHAWatercourseSelection(coordinate);
-        this.updateBRUWatercourseSelection(coordinate);
-        this.updateBlueLayerSelection(coordinate);
-    }
-
-    public updateTownLayerSelection(coordinate: LatLng) {
-        this.townLayer.identify().on(this.map).layers('all:3').at(coordinate).run((error, featureCollection) => {
-            if (error) {
-                return;
-            }
-
-            this.selected.delete(LayerId.TOWN_LAYER);
-            this.selectFeature(featureCollection, LayerId.TOWN_LAYER);
-            this.townLayerSelected.emit({
-                layerId: LayerId.TOWN_LAYER,
-                infoProperties: this.selected.get(LayerId.TOWN_LAYER),
-            });
-        });
-    }
-
-    public updateBlueLayerSelection(coordinate: LatLng) {
-        if (this.map.hasLayer(this.blueLayer)) {
-            this.blueLayer.identify().on(this.map).layers('visible:1').at(coordinate).run((error, featureCollection) => {
-                if (error) {
-                    return;
-                }
-
-                this.selected.delete(LayerId.BLUE_LAYER);
-                this.selectFeature(featureCollection, LayerId.BLUE_LAYER);
-                if (this.selected.get(LayerId.BLUE_LAYER)) {
-                    this.blueLayerSelected.emit({
-                        layerId: LayerId.BLUE_LAYER,
-                        coordinates: {lat: coordinate.lat, lng: coordinate.lng},
-                        infoProperties: this.selected.get(LayerId.BLUE_LAYER),
-                    });
-                }
-            });
-        }
-    }
-
-    public updateVHAWatercourseSelection(coordinate: LatLng) {
-        if (this.map.hasLayer(this.watercourseLayer)) {
-            this.watercourseLayer
-                .identify()
-                .on(this.map)
-                .layers('visible:0')
-                .at(coordinate)
-                .run((error, featureCollection) => {
-                    if (error) {
-                        return;
-                    }
-
-                    this.selected.delete(LayerId.VHA_WATERCOURSE_LAYER);
-                    this.selectFeature(featureCollection, LayerId.VHA_WATERCOURSE_LAYER);
-                    if (this.selected.get(LayerId.VHA_WATERCOURSE_LAYER)) {
-                        this.vhaLayerSelected.emit({
-                            layerId: LayerId.VHA_WATERCOURSE_LAYER,
-                            coordinates: {lat: coordinate.lat, lng: coordinate.lng},
-                            infoProperties: this.selected.get(LayerId.VHA_WATERCOURSE_LAYER),
-                        });
-                    }
-                });
-        }
-    }
-
-    public updateBRUWatercourseSelection(coordinate: LatLng) {
-        if (this.map.hasLayer(this.watercourseLayer)) {
-            this.watercourseLayer.identify().on(this.map).layers('visible:4').at(coordinate).run((error, featureCollection) => {
-                if (error) {
-                    return;
-                }
-
-                this.selected.delete(LayerId.BRU_WATERCOURSE_LAYER);
-                this.selectFeature(featureCollection, LayerId.BRU_WATERCOURSE_LAYER);
-                if (this.selected.get(LayerId.BRU_WATERCOURSE_LAYER)) {
-                    this.vhaLayerSelected.emit({
-                        layerId: LayerId.BRU_WATERCOURSE_LAYER,
-                        coordinates: {lat: coordinate.lat, lng: coordinate.lng},
-                        infoProperties: this.selected.get(LayerId.BRU_WATERCOURSE_LAYER),
-                    });
-                }
-            });
-        }
-    }
-
     private selectFeature(featureCollection: GeoJSON.FeatureCollection, layerId: LayerId) {
         featureCollection.features.forEach(feature => {
             if (this.selected.has(layerId)) {
@@ -505,24 +526,27 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
             if (layerId !== LayerId.TOWN_LAYER) {
                 this.highlightSelectionLayer.addLayer(L.geoJSON(feature, {style: {weight: 6}}));
             }
-
-            const filteredProperties: GeoJsonProperties = {};
-
-            for (const propertiesKey in feature.properties) {
-                if (feature.properties.hasOwnProperty(propertiesKey)) {
-                    const fields = this.visibleFields[layerId] as Array<string>;
-
-                    if (fields.indexOf(propertiesKey) > -1) {
-                        filteredProperties[propertiesKey] = feature.properties[propertiesKey];
-                    }
-                }
-            }
-            const enhancedProperties = this.enhanceFeatureProperties(filteredProperties, layerId);
+            const enhancedProperties = this.getEnhancedPropertiesFromFeature(feature, layerId);
             this.selected.set(layerId, enhancedProperties);
         });
         if (featureCollection.features.length > 0 && layerId !== LayerId.TOWN_LAYER) {
             this.openSelection();
         }
+    }
+
+    private getEnhancedPropertiesFromFeature(feature, layerId: LayerId) {
+        const filteredProperties: GeoJsonProperties = {};
+
+        for (const propertiesKey in feature.properties) {
+            if (feature.properties.hasOwnProperty(propertiesKey)) {
+                const fields = this.visibleFields[layerId] as Array<string>;
+
+                if (fields.indexOf(propertiesKey) > -1) {
+                    filteredProperties[propertiesKey] = feature.properties[propertiesKey];
+                }
+            }
+        }
+        return this.enhanceFeatureProperties(filteredProperties, layerId);
     }
 
     private enhanceFeatureProperties(featureProperties: GeoJsonProperties, layerId: LayerId): GeoJsonProperties {
@@ -536,29 +560,23 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         return featureProperties;
     }
 
-    setCenter(latlng: LatLng) {
-        this.options.center = latlng;
-        this.center = latlng;
-    }
+    private getTownNameForCoordinates(coordinates: LatLng): Promise<{ [key: string]: string }> {
+        return new Promise(resolve => {
+            this.townLayer.identify()
+                .on(this.map).layers('all:3')
+                .at(coordinates)
+                .run((error, featureCollection: GeoJSON.FeatureCollection) => {
+                    if (error) {
+                        return;
+                    }
+                    let properties: GeoJsonProperties = {};
+                    if (featureCollection.features.length > 0) {
+                        properties = this.getEnhancedPropertiesFromFeature(featureCollection.features[0], LayerId.TOWN_LAYER);
+                    }
 
-    layerName(layer: number) {
-        return this.layerMetadata.get(layer)?.name;
-    }
+                    resolve(properties);
+                });
 
-    closeSelection() {
-        this.openSelectionPanel = false;
-    }
-
-    openSelection() {
-        this.openSelectionPanel = this.enableSidebar;
-    }
-
-    toggleTooltips() {
-        this.showTooltips = !this.showTooltips;
-        if (this.showTooltips) {
-            document.getElementsByClassName('leaflet-tooltip-pane').item(0).classList.remove('invisible');
-        } else {
-            document.getElementsByClassName('leaflet-tooltip-pane').item(0).classList.add('invisible');
-        }
+        });
     }
 }
