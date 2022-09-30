@@ -1,115 +1,176 @@
-<div *ngIf="parameters != null && !parameters?.hasParameters" class="mb-6">
-  <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-    <div class="flex">
-      <div class="flex-shrink-0">
-        <svg aria-hidden="true" class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
-             xmlns="http://www.w3.org/2000/svg">
-          <path clip-rule="evenodd"
-                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                fill-rule="evenodd"/>
-        </svg>
-      </div>
-      <div class="ml-3">
-        <p class="text-sm text-yellow-700">
-          Er zijn geen parameters gedefinieerd voor de methode.
-          <a [routerLink]="['/methoden']" class="font-medium underline text-yellow-700 hover:text-yellow-600">
-            Voeg hier parameters en een berekening toe aan een methode.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
+<div *ngIf="parameters != null && !parameters?.hasParameters"
+     class="mb-6">
+	<div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+		<div class="flex">
+			<div class="flex-shrink-0">
+				<svg aria-hidden="true"
+				     class="h-5 w-5 text-yellow-400"
+				     fill="currentColor"
+				     viewBox="0 0 20 20"
+				     xmlns="http://www.w3.org/2000/svg">
+					<path clip-rule="evenodd"
+					      d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+					      fill-rule="evenodd"/>
+				</svg>
+			</div>
+			<div class="ml-3">
+				<p class="text-sm text-yellow-700">
+					Er zijn geen parameters gedefinieerd voor de methode.
+					<a [routerLink]="['/methoden']"
+					   class="font-medium underline text-yellow-700 hover:text-yellow-600">
+						Voeg hier parameters en een berekening toe aan een methode.
+					</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-2">
+		<div class="flex">
+			<div class="flex-shrink-0">
+				<svg aria-hidden="true"
+				     class="h-5 w-5 text-yellow-400"
+				     fill="currentColor"
+				     viewBox="0 0 20 20"
+				     xmlns="http://www.w3.org/2000/svg">
+					<path clip-rule="evenodd"
+					      d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+					      fill-rule="evenodd"/>
+				</svg>
+			</div>
+			<div class="ml-3">
+				<p class="text-sm text-yellow-700">
+					Enkel de eerste afvisbeurt wordt meegenomen in de berekening.
+				</p>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200 mb-8">
-  <div class="px-4 py-5 sm:px-6">
-    <h3 class="text-lg leading-6 font-medium text-gray-900">
-      Waarneming CPUE parameters
-    </h3>
-  </div>
-  <div class="px-4 py-5 sm:p-6">
+	<div class="px-4 py-5 sm:px-6">
+		<h3 class="text-lg leading-6 font-medium text-gray-900">
+			Waarneming CPUE parameters
+		</h3>
+	</div>
+	<div class="px-4 py-5 sm:p-6">
 
-    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-      <div *ngFor="let parameter of parameters?.parameters" class="sm:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
-          {{"cpue.parameter." + parameter.key| translate}}
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
-          {{parameter.value}}
-        </dd>
-      </div>
-    </dl>
+		<dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+			<div *ngFor="let parameter of parameters?.parameters"
+			     class="sm:col-span-1">
+				<dt class="text-sm font-medium text-gray-500">
+					{{"cpue.parameter." + parameter.key| translate}}
+				</dt>
+				<dd class="mt-1 text-sm text-gray-900">
+					{{parameter.value}}
+				</dd>
+			</div>
+		</dl>
 
-  </div>
+	</div>
 
 
-  <div class="px-4 py-4 sm:px-6 flex justify-end">
+	<div class="px-4 py-4 sm:px-6 flex justify-end">
 
-    <app-button (click)="recalculateCpue()"
-                [role]="role.EditSurveyEvent"
-                [style]="'secondary'"
-                class="ml-3">CPUE herberekenen
-    </app-button>
-    <app-button [role]="role.EditCpueParameters"
-                [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'cpue', 'bewerk']"
-                [style]="'primary'"
-                class="ml-3">Bewerken
-    </app-button>
-  </div>
+		<app-button (click)="recalculateCpue()"
+		            [role]="role.EditSurveyEvent"
+		            [style]="'secondary'"
+		            class="ml-3">CPUE herberekenen
+		</app-button>
+		<app-button [disabled]="surveyEvent.status !== 'ENTERED'"
+		            [role]="role.EditCpueParameters"
+		            [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'cpue', 'bewerk']"
+		            [style]="'primary'"
+		            class="ml-3">Bewerken
+		</app-button>
+	</div>
 </div>
 
 
 <app-table class="mt-8">
-  <thead>
-  <tr>
-    <th class="table-header-cell" scope="col">Taxon</th>
-    <th class="table-header-cell" scope="col">Berekening</th>
-    <th class="table-header-cell" scope="col">Totaal gewicht (g)</th>
-    <th class="table-header-cell" scope="col">Totaal aantal</th>
-    <th class="table-header-cell" scope="col">CPUE GEWICHT
-      (g)
-    </th>
-    <th class="table-header-cell" scope="col">CPUE Aantal</th>
-    <th class="table-header-cell" scope="col"></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let value of taxaCpue; let index = index" [rownumber]="index" appRow>
-    <td appCell>
-      {{value.taxonName}}
-    </td>
-    <td appCell>
-      {{value.calculation}}
-    </td>
-    <td appCell>
-      {{value.weightSum}}
-    </td>
-    <td appCell>
-      {{value.taxaSum}}
-    </td>
-    <td class="font-bold" appCell>
-      <span *ngIf="value.weightCpue">{{value.weightCpue}} {{value.unit}}</span>
-      <span *ngIf="!value.weightCpue" class="text-red-500">Niet berekend</span>
-    </td>
-    <td class="font-bold" appCell>
-      <span *ngIf="value.taxaSumCpue">{{value.taxaSumCpue}} {{value.unit}}</span>
-      <span *ngIf="!value.taxaSumCpue" class="text-red-500">Niet berekend</span>
-    </td>
+	<thead>
+		<tr>
+			<th class="table-header-cell"
+			    scope="col">Taxon
+			</th>
+			<th class="table-header-cell"
+			    scope="col">Berekening
+			</th>
+			<th class="table-header-cell"
+			    scope="col">Totaal gewicht (g)
+			</th>
+			<th class="table-header-cell"
+			    scope="col">Totaal aantal
+			</th>
+			<th class="table-header-cell"
+			    scope="col">CPUE GEWICHT
+			                (g)
+			</th>
+			<th class="table-header-cell"
+			    scope="col">CPUE Aantal
+			</th>
+			<th class="table-header-cell"
+			    scope="col"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let value of taxaCpue; let index = index"
+		    [rownumber]="index"
+		    appRow>
+			<td appCell>
+				{{value.taxonName}}
+			</td>
+			<td appCell>
+				{{value.calculation}}
+			</td>
+			<td appCell>
+				{{value.weightSum}}
+			</td>
+			<td appCell>
+				{{value.taxaSum}}
+			</td>
+			<td class="font-bold"
+			    appCell>
+				<span *ngIf="value.weightCpue">{{value.weightCpue}} {{value.unit}}</span>
+				<span *ngIf="!value.weightCpue"
+				      class="text-red-500">Niet berekend</span>
+			</td>
+			<td class="font-bold"
+			    appCell>
+				<span *ngIf="value.taxaSumCpue">{{value.taxaSumCpue}} {{value.unit}}</span>
+				<span *ngIf="!value.taxaSumCpue"
+				      class="text-red-500">Niet berekend</span>
+			</td>
 
-    <td appCell [actions]="true">
-      <div *ngIf="!value.manualInput" title="Automatisch berekende waarden">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
-        </svg>
-      </div>
-      <div *ngIf="value.manualInput" title="Manueel ingevoerde waarden">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"></path>
-        </svg>
-      </div>
-    </td>
-  </tr>
-  </tbody>
+			<td appCell
+			    [actions]="true">
+				<div *ngIf="!value.manualInput"
+				     title="Automatisch berekende waarden">
+					<svg class="w-5 h-5"
+					     fill="none"
+					     stroke="currentColor"
+					     viewBox="0 0 24 24"
+					     xmlns="http://www.w3.org/2000/svg">
+						<path stroke-linecap="round"
+						      stroke-linejoin="round"
+						      stroke-width="2"
+						      d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+					</svg>
+				</div>
+				<div *ngIf="value.manualInput"
+				     title="Manueel ingevoerde waarden">
+					<svg class="w-5 h-5"
+					     fill="none"
+					     stroke="currentColor"
+					     viewBox="0 0 24 24"
+					     xmlns="http://www.w3.org/2000/svg">
+						<path stroke-linecap="round"
+						      stroke-linejoin="round"
+						      stroke-width="2"
+						      d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"></path>
+					</svg>
+				</div>
+			</td>
+		</tr>
+	</tbody>
 </app-table>

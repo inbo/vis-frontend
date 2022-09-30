@@ -6,7 +6,7 @@
 		<div *ngIf="surveyEvent$ | async as surveyEvent"
 		     class="flex justify-end">
 			<app-button [style]="'primary'"
-			            [disabled]="surveyEvent.status === 'DELETED'"
+			            [disabled]="surveyEvent.status !== 'ENTERED'"
 			            class="ml-3"
 			            [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'habitat', 'bewerk']"
 			            [role]="role.EditSurveyEvent"
@@ -212,7 +212,7 @@
 	<div *ngIf="surveyEvent$ | async as surveyEvent"
 	     class="px-4 py-4 sm:px-6 flex justify-end">
 		<app-button [style]="'primary'"
-		            [disabled]="surveyEvent.status === 'DELETED'"
+		            [disabled]="surveyEvent.status !== 'ENTERED'"
 		            class="ml-3"
 		            [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'habitat', 'bewerk']"
 		            [role]="role.EditSurveyEvent"
