@@ -13,9 +13,10 @@ import {ProjectService} from '../../../services/vis.project.service';
 import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
 import {uniqueNewValidator} from '../survey-event-validators';
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
-import {of, Subscription} from 'rxjs';
+import {forkJoin, of, Subscription} from 'rxjs';
 import {startOfDay} from 'date-fns';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
+import {Project} from '../../../domain/project/project';
 
 @Component({
     selector: 'app-survey-event-add-page',
@@ -37,7 +38,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
         .build();
     minDate: Date;
     maxDate: Date;
-    existingSurveyEventsWithLocationMethodAndOccurrenceDate: Array<SurveyEvent>;
+    existingSurveyEventsWithLocationMethodAndOccurrenceDate: Array<{ surveyEvent: SurveyEvent, project: Project }>;
 
     private allMethods: Array<Method>;
     private formSubscription: Subscription;
@@ -85,8 +86,24 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
                         this.createSurveyEventForm.get('method').value,
                         startOfDay(new Date(this.createSurveyEventForm.get('occurrenceDate').value))),
                 ),
-                tap(foundSurveyEvents => this.existingSurveyEventsWithLocationMethodAndOccurrenceDate = foundSurveyEvents),
-            ).subscribe();
+                switchMap(foundSurveyEvents => {
+                    return forkJoin([
+                        of(foundSurveyEvents),
+                        ...foundSurveyEvents.map(event => this.projectService.getProject(event.projectCode)),
+                    ]);
+                }),
+            ).subscribe(
+                results => {
+                    const foundSurveyEvents: Array<SurveyEvent> = results[0] as Array<SurveyEvent>;
+                    const projects: Array<Project> = results.slice(1) as Array<Project>;
+                    this.existingSurveyEventsWithLocationMethodAndOccurrenceDate = foundSurveyEvents.map(surveyEvent => {
+                        return {
+                            surveyEvent,
+                            project: projects.find(project => project.code.value === surveyEvent.projectCode)
+                        }
+                    })
+                }
+            );
     }
 
     ngOnDestroy() {
