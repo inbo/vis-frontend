@@ -85,10 +85,10 @@ export class SurveyEventCopyModalComponent implements OnInit {
 
         this.surveyEventsService.copySurveyEvent(this.project.code.value, this.surveyEventId, this.copySurveyEventForm.getRawValue())
             .pipe(take(1))
-            .subscribe(() => {
+            .subscribe(newSurveyEvent => {
                 this.isOpen = false;
-                // this.router.navigate(['projecten', this.projectCode,
-                //     'waarnemingen', surveyEvent.surveyEventId]);
+                this.router.navigate(['projecten', newSurveyEvent.projectCode,
+                    'waarnemingen', newSurveyEvent.surveyEventId]);
             });
     }
 
