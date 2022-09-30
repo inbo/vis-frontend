@@ -99,9 +99,9 @@
 						<p>Bestaande waarnemingen met deze methode, datum en vispunt zijn gevonden:</p>
 						<div *ngFor="let foundSurveyEvent of existingSurveyEventsWithLocationMethodAndOccurrenceDate">
 							<a class="underline text-pink-600 cursor-pointer"
-							   [routerLink]="['/projecten', foundSurveyEvent.projectId, 'waarnemingen', foundSurveyEvent.surveyEventId]"
+							   [routerLink]="['/projecten', foundSurveyEvent.surveyEvent.projectCode, 'waarnemingen', foundSurveyEvent.surveyEvent.surveyEventId]"
 							   target="_blank">
-								{{foundSurveyEvent.surveyEventId}}
+								{{foundSurveyEvent.surveyEvent.surveyEventId}} (Project {{foundSurveyEvent.project.name}})
 							</a>
 						</div>
 					</div>
