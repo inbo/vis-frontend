@@ -1,5 +1,5 @@
 /// <reference types='@runette/leaflet-fullscreen' />
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
 import * as L from 'leaflet';
 import {
@@ -102,7 +102,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     private layerMetadata = new Map();
     private clickedLatlng: LatLng;
 
-    constructor(private locationsService: LocationsService) {
+    constructor(private locationsService: LocationsService,
+                private changeDetectorRef: ChangeDetectorRef) {
     }
 
     ngOnInit(): void {
@@ -164,7 +165,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                             this.selected.set(LayerId.TOWN_LAYER, townInformation);
                             this.selected.set(LayerId.FISHING_POINT_LAYER, filteredProperties);
 
-                            this.openSelection();
+                            setTimeout(() => this.openSelection(), 0);
                         });
                         this.locationsLayer.addLayer(circleMark);
 
@@ -174,11 +175,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 }),
                 mapTo(undefined),
             );
-    }
-
-    private clearAllHightLights(): void {
-        this.clearLocationsSelectedStyle();
-        this.highlightSelectionLayer.clearLayers();
     }
 
     mapReady(map: LeafletMap) {
@@ -338,6 +334,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
     openSelection() {
         this.openSelectionPanel = this.enableSidebar;
+        this.changeDetectorRef.detectChanges();
+
     }
 
     toggleTooltips() {
@@ -347,6 +345,11 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         } else {
             document.getElementsByClassName('leaflet-tooltip-pane').item(0).classList.add('invisible');
         }
+    }
+
+    private clearAllHightLights(): void {
+        this.clearLocationsSelectedStyle();
+        this.highlightSelectionLayer.clearLayers();
     }
 
     private setup() {
