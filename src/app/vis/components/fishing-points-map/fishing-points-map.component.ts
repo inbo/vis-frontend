@@ -161,11 +161,11 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                                 lat: fishingPointFeature.lat,
                                 lng: fishingPointFeature.lng,
                             };
-                            const townInformation = await this.getTownNameForCoordinates(this.clickedLatlng);
-                            this.selected.set(LayerId.TOWN_LAYER, townInformation);
+                            // const townInformation = await this.getTownNameForCoordinates(this.clickedLatlng);
+                            this.updateSelections(this.clickedLatlng, false);
                             this.selected.set(LayerId.FISHING_POINT_LAYER, filteredProperties);
 
-                            setTimeout(() => this.openSelection(), 0);
+                            this.openSelection()
                         });
                         this.locationsLayer.addLayer(circleMark);
 
@@ -231,22 +231,22 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         this.updateSelections(e.latlng);
     }
 
-    public updateSelections(coordinate: LatLng) {
+    public updateSelections(coordinate: LatLng, highlight = true) {
         this.closeSelection();
-        this.updateTownLayerSelection(coordinate);
-        this.updateVHAWatercourseSelection(coordinate);
-        this.updateBRUWatercourseSelection(coordinate);
-        this.updateBlueLayerSelection(coordinate);
+        this.updateTownLayerSelection(coordinate, highlight);
+        this.updateVHAWatercourseSelection(coordinate, highlight);
+        this.updateBRUWatercourseSelection(coordinate, highlight);
+        this.updateBlueLayerSelection(coordinate, highlight);
     }
 
-    public updateTownLayerSelection(coordinate: LatLng) {
+    public updateTownLayerSelection(coordinate: LatLng, highlight : boolean) {
         this.townLayer.identify().on(this.map).layers('all:3').at(coordinate).run((error, featureCollection) => {
             if (error) {
                 return;
             }
 
             this.selected.delete(LayerId.TOWN_LAYER);
-            this.selectFeature(featureCollection, LayerId.TOWN_LAYER);
+            this.selectFeature(featureCollection, LayerId.TOWN_LAYER, highlight);
             this.townLayerSelected.emit({
                 layerId: LayerId.TOWN_LAYER,
                 infoProperties: this.selected.get(LayerId.TOWN_LAYER),
@@ -254,7 +254,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         });
     }
 
-    public updateBlueLayerSelection(coordinate: LatLng) {
+    public updateBlueLayerSelection(coordinate: LatLng, highlight : boolean) {
         if (this.map.hasLayer(this.blueLayer)) {
             this.blueLayer.identify().on(this.map).layers('visible:1').at(coordinate).run((error, featureCollection) => {
                 if (error) {
@@ -262,7 +262,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 }
 
                 this.selected.delete(LayerId.BLUE_LAYER);
-                this.selectFeature(featureCollection, LayerId.BLUE_LAYER);
+                this.selectFeature(featureCollection, LayerId.BLUE_LAYER, highlight);
                 if (this.selected.get(LayerId.BLUE_LAYER)) {
                     this.blueLayerSelected.emit({
                         layerId: LayerId.BLUE_LAYER,
@@ -274,7 +274,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         }
     }
 
-    public updateVHAWatercourseSelection(coordinate: LatLng) {
+    public updateVHAWatercourseSelection(coordinate: LatLng, highlight : boolean) {
         if (this.map.hasLayer(this.watercourseLayer)) {
             this.watercourseLayer
                 .identify()
@@ -287,7 +287,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                     }
 
                     this.selected.delete(LayerId.VHA_WATERCOURSE_LAYER);
-                    this.selectFeature(featureCollection, LayerId.VHA_WATERCOURSE_LAYER);
+                    this.selectFeature(featureCollection, LayerId.VHA_WATERCOURSE_LAYER, highlight);
                     if (this.selected.get(LayerId.VHA_WATERCOURSE_LAYER)) {
                         this.vhaLayerSelected.emit({
                             layerId: LayerId.VHA_WATERCOURSE_LAYER,
@@ -299,7 +299,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         }
     }
 
-    public updateBRUWatercourseSelection(coordinate: LatLng) {
+    public updateBRUWatercourseSelection(coordinate: LatLng, highlight : boolean) {
         if (this.map.hasLayer(this.watercourseLayer)) {
             this.watercourseLayer.identify().on(this.map).layers('visible:4').at(coordinate).run((error, featureCollection) => {
                 if (error) {
@@ -307,7 +307,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 }
 
                 this.selected.delete(LayerId.BRU_WATERCOURSE_LAYER);
-                this.selectFeature(featureCollection, LayerId.BRU_WATERCOURSE_LAYER);
+                this.selectFeature(featureCollection, LayerId.BRU_WATERCOURSE_LAYER, highlight);
                 if (this.selected.get(LayerId.BRU_WATERCOURSE_LAYER)) {
                     this.vhaLayerSelected.emit({
                         layerId: LayerId.BRU_WATERCOURSE_LAYER,
@@ -521,12 +521,12 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         });
     }
 
-    private selectFeature(featureCollection: GeoJSON.FeatureCollection, layerId: LayerId) {
+    private selectFeature(featureCollection: GeoJSON.FeatureCollection, layerId: LayerId, highlight: boolean) {
         featureCollection.features.forEach(feature => {
             if (this.selected.has(layerId)) {
                 return;
             }
-            if (layerId !== LayerId.TOWN_LAYER) {
+            if (highlight && layerId !== LayerId.TOWN_LAYER) {
                 this.highlightSelectionLayer.addLayer(L.geoJSON(feature, {style: {weight: 6}}));
             }
             const enhancedProperties = this.getEnhancedPropertiesFromFeature(feature, layerId);

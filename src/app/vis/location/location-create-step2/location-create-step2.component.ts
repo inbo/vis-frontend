@@ -29,7 +29,7 @@ export class LocationCreateStep2Component implements OnInit {
 
     mapLoaded() {
         const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
-        this.map.updateTownLayerSelection(latlng);
+        this.map.updateTownLayerSelection(latlng, false);
     }
 
     featureSelected(event: VhaBlueLayerSelectionEvent) {
