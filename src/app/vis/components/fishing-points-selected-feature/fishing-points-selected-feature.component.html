@@ -1,33 +1,34 @@
 <div class="flex flex-col mb-8">
-  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-      <div class="overflow-hidden border-b border-gray-200 sm:rounded-lg">
-        <div class=" p-1">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
-            {{'layer.' + layerName | translate}}
-          </h3>
-        </div>
-        <div class="mt-5 border-t border-gray-200">
-          <dl class="divide-y divide-gray-200">
-            <div class="py-4 sm:py-1 sm:grid sm:grid-cols-3 sm:gap-4 p-1 bg-gray-50">
-              <dt class="text-sm text-gray-900">
-                Kenmerk
-              </dt>
-              <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 p-1">
-                <span class="flex-grow">Waarde</span>
-              </dd>
-            </div>
-            <div class="py-4 sm:py-1 sm:grid sm:grid-cols-3 sm:gap-4" *ngFor="let x of properties | keyvalue">
-              <dt class="text-sm font-medium text-gray-500 p-1 uppercase">
-                {{('map.' + layerNumber + '.' + x.key) | translate}}
-              </dt>
-              <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 p-1">
-                <span class="flex-grow">{{x.value}}</span>
-              </dd>
-            </div>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+		<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+			<div class="overflow-hidden border-b border-gray-200 sm:rounded-lg">
+				<div class=" p-1">
+					<h3 class="text-lg leading-6 font-medium text-gray-900">
+						{{'layer.' + layerName | translate}}
+					</h3>
+				</div>
+				<div class="mt-5 border-t border-gray-200">
+					<dl class="divide-y divide-gray-200">
+						<div class="py-4 sm:py-1 sm:grid sm:grid-cols-3 sm:gap-4 p-1 bg-gray-50">
+							<dt class="text-sm text-gray-900">
+								Kenmerk
+							</dt>
+							<dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 p-1">
+								<span class="flex-grow">Waarde</span>
+							</dd>
+						</div>
+						<div class="py-4 sm:py-1 sm:grid sm:grid-cols-3 sm:gap-4"
+						     *ngFor="let x of properties | keyvalue:originalOrderCompare">
+							<dt class="text-sm font-medium text-gray-500 p-1 uppercase">
+								{{('map.' + layerNumber + '.' + x.key) | translate}}
+							</dt>
+							<dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 p-1">
+								<span class="flex-grow">{{x.value}}</span>
+							</dd>
+						</div>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
