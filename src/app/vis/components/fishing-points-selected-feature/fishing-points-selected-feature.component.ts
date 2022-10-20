@@ -20,4 +20,5 @@ export class FishingPointsSelectedFeatureComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  readonly originalOrderCompare = (a: any, b: any) => 0;
 }
