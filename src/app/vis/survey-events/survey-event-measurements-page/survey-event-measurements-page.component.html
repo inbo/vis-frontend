@@ -38,7 +38,7 @@
 								<app-measurement-row-readonly *ngIf="rowEditNumber !== i"
 								                              [showSaveMessage]="savedIndex === i"
 								                              [formGroupName]="i"
-								                              [editable]="surveyEvent.status === 'ENTERED'"
+								                              [editable]="surveyEvent?.status === 'ENTERED'"
 								                              (editClicked)="rowEditNumber = i; savedIndex = null;"
 								                              (removeClicked)="deleteClicked(i)">
 								</app-measurement-row-readonly>

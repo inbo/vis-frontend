@@ -6,3 +6,4 @@ export const environment = {
   keycloakIssuer: "https://keycloak-uat.inbo.be/auth/realms/Inbo-Extranet",
   showDebugInformation: false
 };
+

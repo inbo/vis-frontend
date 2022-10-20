@@ -212,8 +212,11 @@
       </div>
       <div class="space-y-0.5">
         <div #lines *ngFor="let item of items().controls; let i = index;" formArrayName="items">
-          <app-measurement-row (newline)="addNewLine()" (removeClicked)="remove($event)" [formGroupName]="i"
-                               [submitted]="submitted"></app-measurement-row>
+          <app-measurement-row (newline)="addNewLine()"
+                               (removeClicked)="remove($event)"
+                               [formGroupName]="i"
+                               [submitted]="submitted">
+          </app-measurement-row>
         </div>
       </div>
     </form>

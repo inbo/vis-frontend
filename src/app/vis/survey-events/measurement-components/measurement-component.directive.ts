@@ -2,9 +2,9 @@ import {Directive, EventEmitter, Output} from '@angular/core';
 
 @Directive()
 export class MeasurementComponentDirective {
-  @Output() enterPressed = new EventEmitter<string>();
+  @Output() enterPressed = new EventEmitter<{ fieldName: string, event: KeyboardEvent }>();
   @Output() tabPressed = new EventEmitter<string>();
-  @Output() arrowPressed = new EventEmitter<string>();
+  @Output() arrowPressed = new EventEmitter<KeyboardEvent>();
 
   fieldName(): string {
     return '';
@@ -13,7 +13,7 @@ export class MeasurementComponentDirective {
   keydown($event: KeyboardEvent) {
     if ($event.key === 'Enter') {
       $event.preventDefault();
-      this.enterPressed.emit(this.fieldName());
+      this.enterPressed.emit({fieldName: this.fieldName(), event: $event});
     }
     if ($event.key === 'Tab') {
       this.tabPressed.emit(this.fieldName());
@@ -26,7 +26,7 @@ export class MeasurementComponentDirective {
 
     if ($event.ctrlKey && isArrowKey) {
       $event.preventDefault();
-      this.arrowPressed.emit($event.key);
+      this.arrowPressed.emit($event);
     }
   }
 

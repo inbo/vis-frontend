@@ -8,8 +8,10 @@ import {
     OnChanges,
     OnDestroy,
     Output,
+    QueryList,
     SimpleChanges,
     ViewChild,
+    ViewChildren,
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {fromEvent, Subscription} from 'rxjs';
@@ -39,6 +41,7 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
     @ViewChild('searchBox') searchBox: ElementRef<HTMLInputElement>;
     @ViewChild('valuesList') valuesList: ElementRef;
     @ViewChild('selectButton') selectButton: ElementRef;
+    @ViewChildren('searchResultItem', {read: ElementRef}) searchResultItems: QueryList<ElementRef<HTMLElement>>;
 
     @Input()
     set options(value: SearchableSelectOption<T>[]) {
@@ -128,7 +131,8 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
         this.close();
     }
 
-    toggle() {
+    toggle(event: Event) {
+        event.stopPropagation();
         this.open = !this.open;
 
         if (!this.subscription || this.subscription.closed) {
@@ -196,8 +200,8 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
 
     selectOnEnter(event: KeyboardEvent, option: SearchableSelectOption<T>) {
         if (event.key === 'Enter') {
-            this.enterPressed.emit({event, open: this.open});
             this.select(option);
+            this.enterPressed.emit({event, open: this.open});
         }
     }
 
@@ -249,8 +253,11 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
     }
 
     enter(event: KeyboardEvent) {
-        if (event.key === 'Enter') {
-            this.enterPressed.emit({event, open: this.open});
-        }
+        this.enterPressed.emit({event, open: this.open});
+    }
+
+    focusFirstResultItem(keyEvent: KeyboardEvent): void {
+        keyEvent.preventDefault();
+        this.searchResultItems.first?.nativeElement.focus();
     }
 }

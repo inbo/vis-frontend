@@ -1,13 +1,14 @@
 <button [id]="passedId + '-button'"
         [disabled]="isDisabled"
         #selectButton
-        (click)="toggle()"
+        (focus)="toggle($event)"
         type="button"
-        (keydown)="enter($event)"
+        (keyup.enter)="enter($event)"
         class="input-element">
 
   <span class="input-value-container">
-      <div *ngIf="selectedValueOption; else noValue" class="flex">
+      <div *ngIf="selectedValueOption; else noValue"
+           class="flex">
             <span class="flex-grow">
                 {{selectedValueOption?.displayValue}}
             </span>
@@ -20,7 +21,10 @@
       </div>
 
       <ng-template #noValue>
-          <span *ngIf="!selectedValue">{{placeholder}}</span>
+	      <div class="flex">
+            <span *ngIf="!selectedValue"
+                  class="flex-grow">{{placeholder}}</span>
+	      </div>
       </ng-template>
   </span>
 </button>
@@ -39,7 +43,9 @@
 	    class="search-box-container">
 		<div class="mt-1 relative rounded-md shadow-sm w-full">
 			<input #searchBox
+			       autocomplete="off"
 			       placeholder="{{configuration.searchPlaceholder}}"
+			       (keydown.arrowDown)="focusFirstResultItem($event)"
 			       name="search"
 			       type="text"
 			       class="search-box">
@@ -55,6 +61,8 @@
 
 	<ng-template #resultList>
 		<li *ngFor="let option of options; let i = index;"
+		    #searchResultItem
+		    [tabindex]="i"
 		    class="search-result-item"
 		    (mousedown)="select(option)"
 		    (keydown)="focusSibbling($event); selectOnEnter($event, option)">

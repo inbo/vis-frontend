@@ -95,7 +95,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
         const taxaId = this.species().value.id;
 
-        if(!taxaId) {
+        if (!taxaId) {
             return;
         }
 
@@ -130,19 +130,24 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         this.form.updateValueAndValidity();
     }
 
-    navigateOnArrow(key: string) {
-        const splittedId = (event.currentTarget as HTMLElement).id.split('-');
+    navigateOnArrow({key, currentTarget}: KeyboardEvent) {
+        let fieldName: string;
+        if (!currentTarget) {
+            fieldName = 'species';
+        } else {
+            fieldName = (currentTarget as HTMLElement).id.split('-')[0];
+        }
 
         if (key === 'ArrowUp') {
-            this.focusElement(splittedId[0], this.formGroupName - 1);
+            this.focusElement(fieldName, this.formGroupName - 1);
         } else if (key === 'ArrowDown') {
-            this.focusElement(splittedId[0], this.formGroupName + 1);
+            this.focusElement(fieldName, this.formGroupName + 1);
         } else if (key === 'ArrowLeft') {
-            const previousField = this.getEnabledPreviousFieldName(splittedId[0]);
+            const previousField = this.getEnabledPreviousFieldName(fieldName);
 
             this.focusElement(previousField, this.formGroupName);
         } else if (key === 'ArrowRight') {
-            const nextField = this.getEnabledNextFieldName(splittedId[0]);
+            const nextField = this.getEnabledNextFieldName(fieldName);
 
             this.focusElement(nextField, this.formGroupName);
         }
@@ -302,27 +307,9 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         this.setTaxonValidators(this.taxon);
     }
 
-    enterPressed(fieldName: string) {
+    enterPressed({fieldName, event}: { fieldName: string; event: KeyboardEvent }) {
         if (!this.editMode) {
-            if (this.isLastIndex(this.formGroupName)) {
-                this.newline.emit(true);
-                setTimeout(() => {
-                    let elementId = `${fieldName}-${this.formGroupName + 1}`;
-                    if (fieldName === 'species') {
-                        elementId += '-button';
-                    }
-                    document.getElementById(elementId).focus();
-                }, 0);
-            } else {
-                let elementId = `${fieldName}-${this.formGroupName + 1}`;
-                if (fieldName === 'species') {
-                    elementId += '-button';
-                }
-                const nextElement = document.getElementById(elementId);
-                if (nextElement !== null) {
-                    nextElement.focus();
-                }
-            }
+            this.navigateOnArrow({...event, key: 'ArrowRight'});
         } else {
             this.enterClicked.emit(fieldName);
         }
