@@ -20,5 +20,6 @@ export class FishingPointsSelectedFeatureComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Needed because the keyValue pipe automatically orders the properties by key alphabetically
   readonly originalOrderCompare = (a: any, b: any) => 0;
 }

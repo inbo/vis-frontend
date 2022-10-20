@@ -569,16 +569,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
             .forEach(visibleField => {
                 filteredProperties.set(visibleField, feature.properties[visibleField]);
             });
-
-        // for (const propertiesKey in feature.properties) {
-        //     if (feature.properties.hasOwnProperty(propertiesKey)) {
-        //         const fields = this.visibleFields[layerId] as Array<string>;
-        //
-        //         if (fields.indexOf(propertiesKey) > -1) {
-        //             filteredProperties[propertiesKey] = feature.properties[propertiesKey];
-        //         }
-        //     }
-        // }
         return this.enhanceFeatureProperties(filteredProperties, layerId);
     }
 
