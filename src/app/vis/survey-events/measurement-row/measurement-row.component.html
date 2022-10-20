@@ -25,7 +25,8 @@
                             showAfterSubmitted="true"></app-form-error-message>
   </div>
   <div class="col-span-4 md:col-span-2 lg:col-span-1">
-    <app-measurement-amount (arrowPressed)="navigateOnArrow($event)" (enterPressed)="enterPressed($event)"
+    <app-measurement-amount (arrowPressed)="navigateOnArrow($event)"
+                            (enterPressed)="enterPressed($event)"
                             [index]="formGroupName"
                             data-step="3"
                             data-intro="Pas hier het aantal aan. Indien het aantal groter is dan 1, wordt dit een groepsmeting."></app-measurement-amount>
