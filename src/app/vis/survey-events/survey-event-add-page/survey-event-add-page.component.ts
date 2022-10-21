@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
@@ -22,7 +22,7 @@ import {Project} from '../../../domain/project/project';
     selector: 'app-survey-event-add-page',
     templateUrl: './survey-event-add-page.component.html',
 })
-export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDestroy, AfterViewInit {
+export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDestroy {
 
     @ViewChild(DatepickerComponent) datepicker: DatepickerComponent;
 
@@ -104,10 +104,6 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
                     })
                 }
             );
-    }
-
-    ngAfterViewInit(): void {
-
     }
 
     ngOnDestroy() {
