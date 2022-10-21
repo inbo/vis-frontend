@@ -1,8 +1,8 @@
 <button [id]="passedId + '-button'"
         [disabled]="isDisabled"
         #selectButton
-        (focus)="toggle($event)"
-        (click)="$event.target.focus()"
+        (focus)="toggle()"
+        (click)="setFocus()"
         type="button"
         (keyup.enter)="enter($event)"
         class="input-element">
@@ -15,6 +15,7 @@
             </span>
           <a *ngIf="selectedValueOption.externalLink"
              [routerLink]="selectedValueOption.externalLink"
+             tabindex="-1"
              class="text-gray-400 self-center"
              target="_blank">
             <ng-container [ngTemplateOutlet]="linkIcon"></ng-container>

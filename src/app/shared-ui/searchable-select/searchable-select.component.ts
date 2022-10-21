@@ -131,8 +131,7 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
         this.close();
     }
 
-    toggle(event: Event) {
-        event.stopPropagation();
+    toggle() {
         this.open = !this.open;
 
         if (!this.subscription || this.subscription.closed) {
@@ -259,5 +258,12 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
     focusFirstResultItem(keyEvent: KeyboardEvent): void {
         keyEvent.preventDefault();
         this.searchResultItems.first?.nativeElement.focus();
+    }
+
+    setFocus(): void {
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        if (isSafari) {
+            this.toggle();
+        }
     }
 }

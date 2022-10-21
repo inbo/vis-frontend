@@ -11,6 +11,7 @@ import {
 } from '../survey-event-measurements-create-page/survey-event-measurements-validators';
 import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
 import {Taxon} from '../../../domain/taxa/taxon';
+import {MeasurementRowEnterEvent} from './measurement-row-enter-event.model';
 
 @Component({
     selector: 'app-measurement-row',
@@ -30,7 +31,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     @Output() removeClicked = new EventEmitter<number>();
     @Output() saveClicked = new EventEmitter<any>();
     @Output() cancelClicked = new EventEmitter<any>();
-    @Output() enterClicked = new EventEmitter<string>();
+    @Output() enterClicked = new EventEmitter<MeasurementRowEnterEvent>();
 
     form: FormGroup;
     taxons: SearchableSelectOption<number>[] = [];
@@ -217,15 +218,15 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         this.setTaxonValidators(this.taxon);
     }
 
-    enterPressed({fieldName, event}: { fieldName: string; event: KeyboardEvent }) {
+    enterPressed(event: MeasurementRowEnterEvent) {
         if (!this.editMode) {
-            if (fieldName === 'species') {
-                this.navigateOnArrow({...event, key: 'ArrowRight'});
+            if (event.fieldName === 'species') {
+                this.navigateOnArrow({...event.event, key: 'ArrowRight'});
             } else {
-                this.enterClicked.emit(fieldName);
+                this.enterClicked.emit(event);
             }
         } else {
-            this.enterClicked.emit(fieldName);
+            this.enterClicked.emit(event);
         }
     }
 

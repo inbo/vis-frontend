@@ -3,6 +3,7 @@ import {
     AfterViewInit,
     ChangeDetectorRef,
     Component,
+    ElementRef,
     HostListener,
     OnDestroy,
     OnInit,
@@ -25,6 +26,7 @@ import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-ic
 import * as IntroJs from 'intro.js/intro.js';
 import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
 import {lengthOrWeightRequiredForIndividualMeasurement} from './survey-event-measurements-validators';
+import {MeasurementRowEnterEvent} from '../measurement-row/measurement-row-enter-event.model';
 
 @Component({
     selector: 'app-survey-event-measurements-create-page',
@@ -34,6 +36,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
     @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
     @ViewChildren(MeasurementRowComponent) measurementRows: QueryList<MeasurementRowComponent>;
+    @ViewChildren(MeasurementRowComponent, {read: ElementRef}) measurementRowDOMElements: QueryList<ElementRef<HTMLElement>>;
 
     faRulerHorizontal = faRulerHorizontal;
     faWeightHanging = faWeightHanging;
@@ -121,7 +124,10 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     }
 
     addNewLine() {
-        this.items().push(this.createMeasurementFormGroup(this.getPreviousSpecies(), this.getPreviousGender(), this.getPreviousAfvisbeurt(),
+        this.items().push(this.createMeasurementFormGroup(
+            this.getPreviousSpecies(),
+            this.getPreviousGender(),
+            this.getPreviousAfvisbeurt(),
             this.getPreviousComment()));
         this.scrollIntoView = true;
     }
@@ -318,11 +324,17 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         this.introModalOpen = false;
     }
 
-    measurementRowEnterClicked(fieldName: string) {
-        if (fieldName !== 'species') {
-            this.addNewLine();
-            this.changeDetectorRef.detectChanges();
-            this.measurementRows.last.focusWeight();
+    measurementRowEnterClicked(event: MeasurementRowEnterEvent) {
+        if (event.fieldName !== 'species') {
+            if (this.measurementRowDOMElements.last.nativeElement.contains(event.event.target as any)) {
+                this.addNewLine();
+                this.changeDetectorRef.detectChanges();
+                this.measurementRows.last.focusElement(event.fieldName, this.measurementRows.last.formGroupName);
+            } else {
+                const nextRowIndex = this.measurementRowDOMElements.toArray().findIndex(element => element.nativeElement.contains(event.event.target as any));
+                const nextRow = this.measurementRows.get(nextRowIndex + 1);
+                nextRow.focusElement(event.fieldName, nextRow.formGroupName);
+            }
         }
     }
 }

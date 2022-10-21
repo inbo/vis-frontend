@@ -127,7 +127,6 @@ export class LocationCreateStep1Component implements OnInit, AfterViewInit {
                     take(1),
                 )
                 .subscribe(coordinates => {
-                    console.log('converted the coordinates');
                     this.convertingCoordinates = true;
                     this.formGroup.get(source === 'latlng' ? 'x' : 'lat').setValue(coordinates.x, {emitEvent: false});
                     this.formGroup.get(source === 'latlng' ? 'y' : 'lng').setValue(coordinates.y, {emitEvent: false});
