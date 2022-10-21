@@ -19,7 +19,7 @@ export class TaxaService extends VisService {
 
     getTaxa(val: string, id?: number) {
         let params = new HttpParams();
-        console.log(val);
+
         if (val !== null && val !== undefined) {
             params = params.set('nameDutch', val);
         }

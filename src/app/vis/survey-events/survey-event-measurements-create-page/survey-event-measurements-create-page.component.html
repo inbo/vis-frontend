@@ -215,6 +215,7 @@
           <app-measurement-row (newline)="addNewLine()"
                                (removeClicked)="remove($event)"
                                [formGroupName]="i"
+                               (enterClicked)="measurementRowEnterClicked($event)"
                                [submitted]="submitted">
           </app-measurement-row>
         </div>

@@ -34,11 +34,10 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
     form: FormGroup;
     taxons: SearchableSelectOption<number>[] = [];
+    showIndividualLengthItems = true;
     private taxon: TaxonDetail;
-
     private formArray: FormArray;
     private subscription = new Subscription();
-
     private fieldsOrder = [
         'species',
         'amount',
@@ -48,7 +47,13 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         'afvisBeurtNumber',
         'comment',
     ];
-    showIndividualLengthItems = true;
+
+    constructor(private taxaService: TaxaService,
+                private rootFormGroup: FormGroupDirective,
+                private formBuilder: FormBuilder,
+                private cdr: ChangeDetectorRef) {
+
+    }
 
     numberMask(scale: number, min: number, max: number) {
         return {
@@ -60,13 +65,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
             min,
             max,
         };
-    }
-
-    constructor(private taxaService: TaxaService,
-                private rootFormGroup: FormGroupDirective,
-                private formBuilder: FormBuilder,
-                private cdr: ChangeDetectorRef) {
-
     }
 
     ngOnInit(): void {
@@ -86,48 +84,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
     onSpeciesChange() {
         this.addTaxaValidationsForRowIndex();
-    }
-
-    private addTaxaValidationsForRowIndex() {
-        if (!this.species().value) {
-            return;
-        }
-
-        const taxaId = this.species().value.id;
-
-        if (!taxaId) {
-            return;
-        }
-
-        this.subscription.add(
-            this.taxaService.getTaxon(taxaId)
-                .subscribe(taxon => {
-                    this.taxon = taxon;
-
-                    this.setTaxonValidators(taxon);
-                }),
-        );
-    }
-
-    private setTaxonValidators(taxon: TaxonDetail) {
-        this.weight().setValidators([Validators.min(0)]);
-        this.weight().updateValueAndValidity();
-
-        this.length().setValidators([Validators.min(0)]);
-        this.length().updateValueAndValidity();
-
-        const formValidators = [lengthOrWeightRequiredForIndividualMeasurement()];
-        if (taxon) {
-            formValidators.push(valueBetweenWarning('weight', taxon.weightMin, taxon.weightMax, this.cdr),
-                valueBetweenWarning('length', taxon.lengthMin, taxon.lengthMax, this.cdr));
-
-            for (let index = 0; index < this.individualLengths().length; index++) {
-                formValidators.push(valueBetweenWarning('individualLengths', taxon.weightMin, taxon.weightMax, this.cdr, index, 'length'));
-            }
-        }
-
-        this.form.setValidators(formValidators);
-        this.form.updateValueAndValidity();
+        this.enterPressed({fieldName: 'species', event: undefined});
     }
 
     navigateOnArrow({key, currentTarget}: KeyboardEvent) {
@@ -153,30 +110,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         }
     }
 
-    private getEnabledPreviousFieldName(currentFieldName: string) {
-        const previousField = this.previousFieldName(currentFieldName);
-
-        const element = document.getElementById(previousField + '-' + this.formGroupName + (previousField === 'species' ? '-button' : ''));
-        // @ts-ignore
-        if (element.disabled || element.readOnly) {
-            return this.getEnabledPreviousFieldName(previousField);
-        }
-
-        return previousField;
-    }
-
-    private getEnabledNextFieldName(currentFieldName: string) {
-        const nextField = this.nextFieldName(currentFieldName);
-
-        const element = document.getElementById(nextField + '-' + this.formGroupName + (nextField === 'species' ? '-button' : ''));
-        // @ts-ignore
-        if (element.disabled || element.readOnly) {
-            return this.getEnabledNextFieldName(nextField);
-        }
-
-        return nextField;
-    }
-
     getSpecies(val: string, taxon?: Taxon) {
         this.taxaService
             .getTaxa(val, taxon?.id?.value)
@@ -191,7 +124,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
             this.cdr.detectChanges();
         });
     }
-
 
     remove() {
         this.removeClicked.emit(this.formGroupName);
@@ -243,37 +175,15 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         return this.form.get('type');
     }
 
-    private isKeyTab(key: string) {
-        return key === 'Tab';
-    }
-
-    private isLastIndex(i: number) {
-        return this.items() === undefined || (i + 1) === this.items().length;
-    }
-
     public focusElement(field: string, index: number) {
         const element = document.getElementById(field + '-' + index + (field === 'species' ? '-button' : ''));
         if (element !== null) {
-            element.focus();
+            setTimeout(() => element.focus(), 0);
         }
     }
 
-    private previousFieldName(currentFieldName: string) {
-        let nextId = this.fieldsOrder.indexOf(currentFieldName) - 1;
-        if (nextId < 0) {
-            nextId = 0;
-        }
-
-        return this.fieldsOrder[nextId];
-    }
-
-    private nextFieldName(currentFieldName: string) {
-        let nextId = this.fieldsOrder.indexOf(currentFieldName) + 1;
-        if (nextId > this.fieldsOrder.length - 1) {
-            nextId = this.fieldsOrder.length - 1;
-        }
-
-        return this.fieldsOrder[nextId];
+    focusAmount() {
+        this.focusElement('amount', this.formGroupName);
     }
 
     individualLengths(): FormArray {
@@ -309,7 +219,11 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
     enterPressed({fieldName, event}: { fieldName: string; event: KeyboardEvent }) {
         if (!this.editMode) {
-            this.navigateOnArrow({...event, key: 'ArrowRight'});
+            if (fieldName === 'species') {
+                this.navigateOnArrow({...event, key: 'ArrowRight'});
+            } else {
+                this.enterClicked.emit(fieldName);
+            }
         } else {
             this.enterClicked.emit(fieldName);
         }
@@ -324,7 +238,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         }
     }
 
-
     save() {
         this.saveClicked.emit();
     }
@@ -335,5 +248,97 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
     detectChanges() {
         this.cdr.detectChanges();
+    }
+
+    private addTaxaValidationsForRowIndex() {
+        if (!this.species().value) {
+            return;
+        }
+
+        const taxaId = this.species().value.id;
+
+        if (!taxaId) {
+            return;
+        }
+
+        this.subscription.add(
+            this.taxaService.getTaxon(taxaId)
+                .subscribe(taxon => {
+                    this.taxon = taxon;
+
+                    this.setTaxonValidators(taxon);
+                }),
+        );
+    }
+
+    private setTaxonValidators(taxon: TaxonDetail) {
+        this.weight().setValidators([Validators.min(0)]);
+        this.weight().updateValueAndValidity();
+
+        this.length().setValidators([Validators.min(0)]);
+        this.length().updateValueAndValidity();
+
+        const formValidators = [lengthOrWeightRequiredForIndividualMeasurement()];
+        if (taxon) {
+            formValidators.push(valueBetweenWarning('weight', taxon.weightMin, taxon.weightMax, this.cdr),
+                valueBetweenWarning('length', taxon.lengthMin, taxon.lengthMax, this.cdr));
+
+            for (let index = 0; index < this.individualLengths().length; index++) {
+                formValidators.push(valueBetweenWarning('individualLengths', taxon.weightMin, taxon.weightMax, this.cdr, index, 'length'));
+            }
+        }
+
+        this.form.setValidators(formValidators);
+        this.form.updateValueAndValidity();
+    }
+
+    private getEnabledPreviousFieldName(currentFieldName: string) {
+        const previousField = this.previousFieldName(currentFieldName);
+
+        const element = document.getElementById(previousField + '-' + this.formGroupName + (previousField === 'species' ? '-button' : ''));
+        // @ts-ignore
+        if (element.disabled || element.readOnly) {
+            return this.getEnabledPreviousFieldName(previousField);
+        }
+
+        return previousField;
+    }
+
+    private getEnabledNextFieldName(currentFieldName: string) {
+        const nextField = this.nextFieldName(currentFieldName);
+
+        const element = document.getElementById(nextField + '-' + this.formGroupName + (nextField === 'species' ? '-button' : ''));
+        // @ts-ignore
+        if (element.disabled || element.readOnly) {
+            return this.getEnabledNextFieldName(nextField);
+        }
+
+        return nextField;
+    }
+
+    private isKeyTab(key: string) {
+        return key === 'Tab';
+    }
+
+    private isLastIndex(i: number) {
+        return this.items() === undefined || (i + 1) === this.items().length;
+    }
+
+    private previousFieldName(currentFieldName: string) {
+        let nextId = this.fieldsOrder.indexOf(currentFieldName) - 1;
+        if (nextId < 0) {
+            nextId = 0;
+        }
+
+        return this.fieldsOrder[nextId];
+    }
+
+    private nextFieldName(currentFieldName: string) {
+        let nextId = this.fieldsOrder.indexOf(currentFieldName) + 1;
+        if (nextId > this.fieldsOrder.length - 1) {
+            nextId = this.fieldsOrder.length - 1;
+        }
+
+        return this.fieldsOrder[nextId];
     }
 }
