@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormGroup, FormGroupDirective} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 import {SearchableSelectOption} from '../../../../shared-ui/searchable-select/SearchableSelectOption';
+import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
   selector: 'app-species-search',
@@ -16,6 +17,10 @@ export class SpeciesSearchComponent extends MeasurementComponentDirective implem
   @Output() changed: EventEmitter<void> = new EventEmitter();
 
   form: FormGroup;
+  selectConfiguration: SearchableSelectConfig = new SearchableSelectConfigBuilder()
+      .minQueryLength(0)
+      .searchPlaceholder('Begin met typen om te zoeken')
+      .build();
 
   constructor(private rootFormGroup: FormGroupDirective) {
     super();
