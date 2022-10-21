@@ -2,6 +2,7 @@
         [disabled]="isDisabled"
         #selectButton
         (focus)="toggle($event)"
+        (click)="$event.target.focus()"
         type="button"
         (keyup.enter)="enter($event)"
         class="input-element">
