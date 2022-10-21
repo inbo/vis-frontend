@@ -6,8 +6,10 @@ import {isValid} from 'date-fns';
 
 export function uniqueNewValidator(
     projectId: number,
-    surveyEventService: SurveyEventsService): AsyncValidatorFn {
+    surveyEventService: SurveyEventsService,
+    surveyEventId?: number): AsyncValidatorFn {
     return (form: FormGroup): Observable<ValidationErrors | null> => {
+        console.log(surveyEventId);
         const method = form.get('method').value;
         const occurrenceDate = new Date(form.get('occurrenceDate').value);
         const fishingPoint = form.get('fishingPointId').value;
@@ -22,6 +24,7 @@ export function uniqueNewValidator(
                 occurrenceDate,
                 projectId)
             .pipe(
+                map(result => surveyEventId ? result.filter(event => event.surveyEventId !== surveyEventId) : result),
                 map(result => result.length === 0 ? null : {uniqueSurveyEvent: false}),
             );
     };
