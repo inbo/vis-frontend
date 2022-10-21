@@ -62,30 +62,39 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
                 comment: ['', Validators.maxLength(800)],
             });
 
-        this.projectService.getProject(this.activatedRoute.parent.snapshot.params.projectCode)
-            .pipe(take(1))
-            .subscribe(value => {
-                this.projectId = value.projectId;
-                this.minDate = new Date(value.start);
-                // Set max date to today's date or to survey end date
-                this.maxDate = value.end ? new Date(value.end) > new Date() ? new Date() : new Date(value.end) : new Date();
-                this.form.setAsyncValidators([uniqueNewValidator(this.projectId, this.surveyEventService)]);
-            });
+        this.activatedRoute
+            .parent
+            .paramMap
+            .subscribe(
+                paramMap => {
+                    const projectCode = paramMap.get('projectCode');
+                    const surveyEventId = paramMap.has('surveyEventId') ? parseInt(paramMap.get('surveyEventId')) : undefined;
 
-        this.surveyEventService.getSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
-            this.activatedRoute.parent.snapshot.params.surveyEventId)
-            .pipe(take(1))
-            .subscribe(surveyEvent => {
-                this.surveyEvent = surveyEvent;
+                    this.projectService.getProject(projectCode)
+                        .pipe(take(1))
+                        .subscribe(value => {
+                            this.projectId = value.projectId;
+                            this.minDate = new Date(value.start);
+                            // Set max date to today's date or to survey end date
+                            this.maxDate = value.end ? new Date(value.end) > new Date() ? new Date() : new Date(value.end) : new Date();
+                            this.form.setAsyncValidators([uniqueNewValidator(this.projectId, this.surveyEventService, surveyEventId)]);
+                        });
 
-                this.occurrenceDate.patchValue(new Date(surveyEvent.occurrence));
-                this.location.patchValue(surveyEvent.fishingPoint?.id);
-                this.comment.patchValue(surveyEvent.comment);
-                this.method.patchValue(surveyEvent.method);
+                    this.surveyEventService.getSurveyEvent(projectCode, surveyEventId)
+                        .pipe(take(1))
+                        .subscribe(surveyEvent => {
+                            this.surveyEvent = surveyEvent;
 
-                this.getLocations(null);
-                this.getMethods(null);
-            });
+                            this.occurrenceDate.patchValue(new Date(surveyEvent.occurrence));
+                            this.location.patchValue(surveyEvent.fishingPoint?.id);
+                            this.comment.patchValue(surveyEvent.comment);
+                            this.method.patchValue(surveyEvent.method);
+
+                            this.getLocations(null);
+                            this.getMethods(null);
+                        })
+                },
+            );
 
         this.formSubscription = this.surveyEventForm
             .valueChanges
