@@ -322,7 +322,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         if (fieldName !== 'species') {
             this.addNewLine();
             this.changeDetectorRef.detectChanges();
-            this.measurementRows.last.focusAmount();
+            this.measurementRows.last.focusWeight();
         }
     }
 }

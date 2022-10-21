@@ -182,8 +182,8 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         }
     }
 
-    focusAmount() {
-        this.focusElement('amount', this.formGroupName);
+    focusWeight() {
+        this.focusElement('length', this.formGroupName);
     }
 
     individualLengths(): FormArray {
