@@ -1,12 +1,12 @@
 import {
     AfterViewChecked,
     AfterViewInit,
+    ChangeDetectorRef,
     Component,
     HostListener,
     OnDestroy,
     OnInit,
     QueryList,
-    ViewChild,
     ViewChildren,
 } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -27,287 +27,302 @@ import {MeasurementRowComponent} from '../measurement-row/measurement-row.compon
 import {lengthOrWeightRequiredForIndividualMeasurement} from './survey-event-measurements-validators';
 
 @Component({
-  selector: 'app-survey-event-measurements-create-page',
-  templateUrl: './survey-event-measurements-create-page.component.html'
+    selector: 'app-survey-event-measurements-create-page',
+    templateUrl: './survey-event-measurements-create-page.component.html',
 })
 export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked, HasUnsavedData {
 
-  @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
-  @ViewChild(MeasurementRowComponent) measurementRow: MeasurementRowComponent;
+    @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
+    @ViewChildren(MeasurementRowComponent) measurementRows: QueryList<MeasurementRowComponent>;
 
-  faRulerHorizontal = faRulerHorizontal;
-  faWeightHanging = faWeightHanging;
+    faRulerHorizontal = faRulerHorizontal;
+    faWeightHanging = faWeightHanging;
 
-  introModalOpen = false;
-  introJs: IntroJs;
+    introModalOpen = false;
+    introJs: IntroJs;
 
-  tip$: Observable<Tip>;
+    tip$: Observable<Tip>;
 
-  existingMeasurements: Measurement[];
-  measurementsForm: FormGroup;
-  submitted = false;
-  showExistingMeasurements = false;
-  loading = false;
+    existingMeasurements: Measurement[];
+    measurementsForm: FormGroup;
+    submitted = false;
+    showExistingMeasurements = false;
+    loading = false;
 
-  private scrollIntoView = false;
-  private subscription = new Subscription();
+    private scrollIntoView = false;
+    private subscription = new Subscription();
 
-  constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private surveyEventsService: SurveyEventsService,
-              private alertService: AlertService, private taxaService: TaxaService, private router: Router,
-              private tipsService: TipsService, private _location: Location) {
-  }
-
-  ngOnInit(): void {
-    this.tip$ = this.tipsService.randomTipForPage('METING');
-
-    this.initForm();
-
-    this.subscription.add(
-      fromEvent(window, 'keydown').pipe(
-        filter((event: KeyboardEvent) => {
-          return event.ctrlKey && this.isKeyLowerM(event.key);
-        }))
-        .subscribe(() => {
-          this.addNewLine();
-          setTimeout(() => {
-            document.getElementById(`species-${this.items().length - 1}-button`).focus();
-          }, 0);
-        })
-    );
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
-  ngAfterViewInit() {
-    if (localStorage.getItem('measurements-demo') !== 'completed') {
-      setTimeout(() => this.introModalOpen = true);
-    }
-  }
-
-  ngAfterViewChecked() {
-    if (this.scrollIntoView) {
-      document.getElementById('species-' + (this.items().length - 1))?.scrollIntoView();
-      this.scrollIntoView = false;
-    }
-  }
-
-  initForm() {
-    this.measurementsForm = this.formBuilder.group({
-      items: this.formBuilder.array([this.createMeasurementFormGroup()])
-    });
-  }
-
-  createMeasurementFormGroup(species?: any, gender?: any, afvisbeurt?: any, comment?: any): FormGroup {
-    return this.formBuilder.group({
-      type: new FormControl('NORMAL'),
-      species: new FormControl(species ?? '', [Validators.required]),
-      amount: new FormControl(1, Validators.min(0)),
-      length: new FormControl(null, [Validators.min(0)]),
-      weight: new FormControl(null, [Validators.min(0)]),
-      gender: new FormControl(gender ?? 'UNKNOWN'),
-      afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, [Validators.min(1), Validators.max(10)]),
-      comment: new FormControl(comment ?? '', Validators.max(2000)),
-      individualLengths: this.formBuilder.array([])
-    }, {validators: [lengthOrWeightRequiredForIndividualMeasurement()]});
-  }
-
-  addNewLine() {
-    this.items().push(this.createMeasurementFormGroup(this.getPreviousSpecies(), this.getPreviousGender(), this.getPreviousAfvisbeurt(),
-      this.getPreviousComment()));
-    this.scrollIntoView = true;
-  }
-
-  items(): FormArray {
-    return this.measurementsForm.get('items') as FormArray;
-  }
-
-  getPreviousSpecies() {
-    return this.species(this.items().length - 1).value;
-  }
-
-  getPreviousGender() {
-    return this.gender(this.items().length - 1).value;
-  }
-
-  getPreviousAfvisbeurt() {
-    return this.afvisBeurtNumber(this.items().length - 1).value;
-  }
-
-  getPreviousComment() {
-    return this.comment(this.items().length - 1).value;
-  }
-
-  onKeyPress(event: KeyboardEvent, index: number) {
-    if (this.isKeyTab(event.key) && this.isLastIndex(index)) {
-      this.addNewLine();
-    }
-  }
-
-  createMeasurements() {
-    if (this.measurementsForm.invalid) {
-      this.submitted = true;
-      return;
+    constructor(private activatedRoute: ActivatedRoute,
+                private formBuilder: FormBuilder,
+                private surveyEventsService: SurveyEventsService,
+                private alertService: AlertService,
+                private taxaService: TaxaService,
+                private router: Router,
+                private tipsService: TipsService,
+                private _location: Location,
+                private changeDetectorRef: ChangeDetectorRef) {
     }
 
-    const measurements = this.measurementsForm.getRawValue();
+    ngOnInit(): void {
+        this.tip$ = this.tipsService.randomTipForPage('METING');
 
-    this.subscription.add(this.surveyEventsService.createMeasurements(measurements, this.activatedRoute.parent.snapshot.params.projectCode,
-      this.activatedRoute.parent.snapshot.params.surveyEventId)
-      .subscribe(value => {
-        // TODO exception is caught in http.error.interceptor and then mapped to a custom result that is not typesafe
-        // @ts-ignore
-        if (value?.code === 400) {
-          this.alertService.error('Validatie fouten', 'Het bewaren is niet gelukt, controleer alle gegevens of contacteer een verantwoordelijke.');
-        } else {
-          this.submitted = true;
-          this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
-            this.activatedRoute.parent.snapshot.params.surveyEventId, 'metingen']);
+        this.initForm();
+
+        this.subscription.add(
+            fromEvent(window, 'keydown').pipe(
+                filter((event: KeyboardEvent) => {
+                    return event.ctrlKey && this.isKeyLowerM(event.key);
+                }))
+                .subscribe(() => {
+                    this.addNewLine();
+                    setTimeout(() => {
+                        document.getElementById(`species-${this.items().length - 1}-button`).focus();
+                    }, 0);
+                }),
+        );
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
+    ngAfterViewInit() {
+        if (localStorage.getItem('measurements-demo') !== 'completed') {
+            setTimeout(() => this.introModalOpen = true);
         }
-      }));
-  }
-
-  remove(i: number) {
-    if (this.items().length === 1) {
-      this.alertService.warn('Opgelet', 'De laatste meting kan niet verwijdert worden.');
-      return;
+        this.measurementRows.first.focusElement('species', 0);
     }
-    this.items().removeAt(i);
-  }
 
-  private isKeyTab(key: string) {
-    return key === 'Tab';
-  }
-
-  private isKeyLowerM(key: string) {
-    return key === 'm';
-  }
-
-  private isLastIndex(i: number) {
-    return this.items() === undefined || (i + 1) === this.items().length;
-  }
-
-  species(index: number) {
-    return this.items().at(index).get('species');
-  }
-
-  afvisBeurtNumber(index: number) {
-    return this.items().at(index).get('afvisBeurtNumber');
-  }
-
-  weight(index: number) {
-    return this.items().at(index).get('weight');
-  }
-
-  length(index: number) {
-    return this.items().at(index).get('length');
-  }
-
-  amount(index: number) {
-    return this.items().at(index).get('amount');
-  }
-
-  gender(index: number) {
-    return this.items().at(index).get('gender');
-  }
-
-  comment(index: number) {
-    return this.items().at(index).get('comment');
-  }
-
-  isNormalType(index: number) {
-    return this.items().at(index).get('type').value === 'NORMAL';
-  }
-
-  isGroupType(index: number) {
-    return this.items().at(index).get('type').value === 'GROUP';
-  }
-
-  showExistingMeasurementsClick() {
-    if (this.showExistingMeasurements) {
-      this.showExistingMeasurements = false;
-      this.loading = false;
-      this.existingMeasurements = [];
-    } else {
-      this.showExistingMeasurements = true;
-      this.loading = true;
-      this.surveyEventsService.getAllMeasurementsForSurveyEvent(
-        this.activatedRoute.parent.snapshot.params.projectCode, this.activatedRoute.parent.snapshot.params.surveyEventId);
-
-      this.subscription.add(this.surveyEventsService.getAllMeasurementsForSurveyEvent(
-        this.activatedRoute.parent.snapshot.params.projectCode, this.activatedRoute.parent.snapshot.params.surveyEventId)
-        .subscribe(value => {
-          this.existingMeasurements = value;
-          this.loading = false;
-        }));
+    ngAfterViewChecked() {
+        if (this.scrollIntoView) {
+            document.getElementById('species-' + (this.items().length - 1))?.scrollIntoView();
+            this.scrollIntoView = false;
+        }
     }
-  }
 
-  hasUnsavedData(): boolean {
-    return this.measurementsForm.dirty && !this.submitted;
-  }
+    initForm() {
+        this.measurementsForm = this.formBuilder.group({
+            items: this.formBuilder.array([this.createMeasurementFormGroup()]),
+        });
+    }
 
-  @HostListener('window:beforeunload')
-  hasUnsavedDataBeforeUnload(): any {
-    // Return false when there is unsaved data to show a dialog
-    return !this.hasUnsavedData();
-  }
+    createMeasurementFormGroup(species?: any, gender?: any, afvisbeurt?: any, comment?: any): FormGroup {
+        return this.formBuilder.group({
+            type: new FormControl('NORMAL'),
+            species: new FormControl(species ?? '', [Validators.required]),
+            amount: new FormControl(1, Validators.min(0)),
+            length: new FormControl(null, [Validators.min(0)]),
+            weight: new FormControl(null, [Validators.min(0)]),
+            gender: new FormControl(gender ?? 'UNKNOWN'),
+            afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, [Validators.min(1), Validators.max(10)]),
+            comment: new FormControl(comment ?? '', Validators.max(2000)),
+            individualLengths: this.formBuilder.array([]),
+        }, {validators: [lengthOrWeightRequiredForIndividualMeasurement()]});
+    }
 
-  cancel() {
-    this._location.back();
-  }
+    addNewLine() {
+        this.items().push(this.createMeasurementFormGroup(this.getPreviousSpecies(), this.getPreviousGender(), this.getPreviousAfvisbeurt(),
+            this.getPreviousComment()));
+        this.scrollIntoView = true;
+    }
 
-  cancelModal() {
-    this.introModalOpen = false;
-  }
+    items(): FormArray {
+        return this.measurementsForm.get('items') as FormArray;
+    }
 
-  confirmModal() {
-    this.initForm();
+    getPreviousSpecies() {
+        return this.species(this.items().length - 1).value;
+    }
 
-    this.introModalOpen = false;
+    getPreviousGender() {
+        return this.gender(this.items().length - 1).value;
+    }
 
-    this.introJs = IntroJs();
-    this.introJs.setOptions({
-      showBullets: false,
-      hidePrev: true,
-      nextLabel: 'Volgende',
-      doneLabel: 'Klaar',
-    });
-    this.introJs.oncomplete(() => {
-      this.initForm();
-      localStorage.setItem('measurements-demo', 'completed');
-    });
-    this.introJs.onexit(() => {
-      this.initForm();
-      localStorage.setItem('measurements-demo', 'completed');
-    });
+    getPreviousAfvisbeurt() {
+        return this.afvisBeurtNumber(this.items().length - 1).value;
+    }
 
-    this.introJs.onbeforechange(function() {
-      switch (this._currentStep) {
-        case 3:
-          _this.amount(0).patchValue(2);
-          _this.items().at(0).get('type').patchValue('GROUP');
-          _this.measurementRow.detectChanges();
-          break;
-        case 5:
-          _this.measurementRow.toGroupMeasurement();
-          _this.measurementRow.detectChanges();
-          break;
-      }
-    });
+    getPreviousComment() {
+        return this.comment(this.items().length - 1).value;
+    }
 
-    const _this = this;
+    onKeyPress(event: KeyboardEvent, index: number) {
+        if (this.isKeyTab(event.key) && this.isLastIndex(index)) {
+            this.addNewLine();
+        }
+    }
 
-    setTimeout(() => this.introJs.start());
-  }
+    createMeasurements() {
+        if (this.measurementsForm.invalid) {
+            this.submitted = true;
+            return;
+        }
 
-  playIntro() {
-    this.introModalOpen = true;
-  }
+        const measurements = this.measurementsForm.getRawValue();
 
-  doNotShowAgain() {
-    localStorage.setItem('measurements-demo', 'completed');
-    this.introModalOpen = false;
-  }
+        this.subscription.add(this.surveyEventsService.createMeasurements(measurements, this.activatedRoute.parent.snapshot.params.projectCode,
+            this.activatedRoute.parent.snapshot.params.surveyEventId)
+            .subscribe(value => {
+                // TODO exception is caught in http.error.interceptor and then mapped to a custom result that is not typesafe
+                // @ts-ignore
+                if (value?.code === 400) {
+                    this.alertService.error('Validatie fouten', 'Het bewaren is niet gelukt, controleer alle gegevens of contacteer een verantwoordelijke.');
+                } else {
+                    this.submitted = true;
+                    this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
+                        this.activatedRoute.parent.snapshot.params.surveyEventId, 'metingen']);
+                }
+            }));
+    }
+
+    remove(i: number) {
+        if (this.items().length === 1) {
+            this.alertService.warn('Opgelet', 'De laatste meting kan niet verwijdert worden.');
+            return;
+        }
+        this.items().removeAt(i);
+    }
+
+    private isKeyTab(key: string) {
+        return key === 'Tab';
+    }
+
+    private isKeyLowerM(key: string) {
+        return key === 'm';
+    }
+
+    private isLastIndex(i: number) {
+        return this.items() === undefined || (i + 1) === this.items().length;
+    }
+
+    species(index: number) {
+        return this.items().at(index).get('species');
+    }
+
+    afvisBeurtNumber(index: number) {
+        return this.items().at(index).get('afvisBeurtNumber');
+    }
+
+    weight(index: number) {
+        return this.items().at(index).get('weight');
+    }
+
+    length(index: number) {
+        return this.items().at(index).get('length');
+    }
+
+    amount(index: number) {
+        return this.items().at(index).get('amount');
+    }
+
+    gender(index: number) {
+        return this.items().at(index).get('gender');
+    }
+
+    comment(index: number) {
+        return this.items().at(index).get('comment');
+    }
+
+    isNormalType(index: number) {
+        return this.items().at(index).get('type').value === 'NORMAL';
+    }
+
+    isGroupType(index: number) {
+        return this.items().at(index).get('type').value === 'GROUP';
+    }
+
+    showExistingMeasurementsClick() {
+        if (this.showExistingMeasurements) {
+            this.showExistingMeasurements = false;
+            this.loading = false;
+            this.existingMeasurements = [];
+        } else {
+            this.showExistingMeasurements = true;
+            this.loading = true;
+            this.surveyEventsService.getAllMeasurementsForSurveyEvent(
+                this.activatedRoute.parent.snapshot.params.projectCode, this.activatedRoute.parent.snapshot.params.surveyEventId);
+
+            this.subscription.add(this.surveyEventsService.getAllMeasurementsForSurveyEvent(
+                this.activatedRoute.parent.snapshot.params.projectCode, this.activatedRoute.parent.snapshot.params.surveyEventId)
+                .subscribe(value => {
+                    this.existingMeasurements = value;
+                    this.loading = false;
+                }));
+        }
+    }
+
+    hasUnsavedData(): boolean {
+        return this.measurementsForm.dirty && !this.submitted;
+    }
+
+    @HostListener('window:beforeunload')
+    hasUnsavedDataBeforeUnload(): any {
+        // Return false when there is unsaved data to show a dialog
+        return !this.hasUnsavedData();
+    }
+
+    cancel() {
+        this._location.back();
+    }
+
+    cancelModal() {
+        this.introModalOpen = false;
+    }
+
+    confirmModal() {
+        this.initForm();
+
+        this.introModalOpen = false;
+
+        this.introJs = IntroJs();
+        this.introJs.setOptions({
+            showBullets: false,
+            hidePrev: true,
+            nextLabel: 'Volgende',
+            doneLabel: 'Klaar',
+        });
+        this.introJs.oncomplete(() => {
+            this.initForm();
+            localStorage.setItem('measurements-demo', 'completed');
+        });
+        this.introJs.onexit(() => {
+            this.initForm();
+            localStorage.setItem('measurements-demo', 'completed');
+        });
+
+        this.introJs.onbeforechange(function() {
+            switch (this._currentStep) {
+                case 3:
+                    _this.amount(0).patchValue(2);
+                    _this.items().at(0).get('type').patchValue('GROUP');
+                    _this.measurementRows.get(0).detectChanges();
+                    break;
+                case 5:
+                    _this.measurementRows.get(0).toGroupMeasurement();
+                    _this.measurementRows.get(0).detectChanges();
+                    break;
+            }
+        });
+
+        const _this = this;
+
+        setTimeout(() => this.introJs.start());
+    }
+
+    playIntro() {
+        this.introModalOpen = true;
+    }
+
+    doNotShowAgain() {
+        localStorage.setItem('measurements-demo', 'completed');
+        this.introModalOpen = false;
+    }
+
+    measurementRowEnterClicked(fieldName: string) {
+        if (fieldName !== 'species') {
+            this.addNewLine();
+            this.changeDetectorRef.detectChanges();
+            this.measurementRows.last.focusAmount();
+        }
+    }
 }

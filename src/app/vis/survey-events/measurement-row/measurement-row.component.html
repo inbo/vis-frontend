@@ -8,7 +8,6 @@
          data-position="bottom-right-aligned">
       <app-species-search (arrowPressed)="navigateOnArrow($event)"
                           (changed)="onSpeciesChange()"
-                          (enterPressed)="enterPressed($event)"
                           (onSearch)="getSpecies($event)"
                           [index]="formGroupName"
                           [taxons]="taxons"
