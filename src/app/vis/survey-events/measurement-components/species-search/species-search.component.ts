@@ -10,8 +10,18 @@ import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../..
 })
 export class SpeciesSearchComponent extends MeasurementComponentDirective implements OnInit {
 
+  get taxons(): SearchableSelectOption<number>[] {
+    return this._taxons;
+  }
+
+  @Input()
+  set taxons(value: SearchableSelectOption<number>[]) {
+    this._taxons = value;
+
+  }
+
   @Input() index: number;
-  @Input() taxons: SearchableSelectOption<number>[];
+  private _taxons: SearchableSelectOption<number>[];
 
   @Output() onSearch: EventEmitter<string> = new EventEmitter();
   @Output() changed: EventEmitter<void> = new EventEmitter();

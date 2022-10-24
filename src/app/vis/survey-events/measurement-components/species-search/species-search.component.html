@@ -1,11 +1,12 @@
 <ng-container *ngIf="form" [formGroup]="form">
-  <app-searchable-select (keydown)="keydown($event)"
-                         (search)="getSpecies($event)"
+  <app-searchable-select [id]="'species-' + index"
                          [configuration]="selectConfiguration"
-                         [id]="'species-' + index"
-                         (enterPressed)="enterPressedEvent($event)"
-                         [options]="taxons"
                          [passedId]="'species-' + index"
+                         [options]="taxons"
+                         formControlValueProperty="id"
+                         (keydown)="keydown($event)"
+                         (search)="getSpecies($event)"
+                         (enterPressed)="enterPressedEvent($event)"
                          (ngModelChange)="onSpeciesChange()"
                          class="flex-grow"
                          formControlName="species">
