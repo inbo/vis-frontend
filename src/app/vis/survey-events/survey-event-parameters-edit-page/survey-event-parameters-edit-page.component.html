@@ -44,7 +44,7 @@
                         </div>
                         <div class="sm:col-span-4">
                             <label for="conductivity" class="block text-sm font-medium text-gray-700">
-                                Conductiviteit (uS/cm)
+                                Conductiviteit (µS/cm)
                             </label>
                             <div class="mt-1">
                                 <input [imask]="numberMask(1, -99999.9, 99999.9)" [unmask]="true"
@@ -54,7 +54,7 @@
                         </div>
                         <div class="sm:col-span-4">
                             <label for="salinity" class="block text-sm font-medium text-gray-700">
-                                Zoutgehalte (°/oo)
+                                Zoutgehalte (‰)
                             </label>
                             <div class="mt-1">
                                 <input [imask]="numberMask(2, -99.99, 99.99)" [unmask]="true" formControlName="salinity"

@@ -3,7 +3,6 @@ import {
     Component,
     ElementRef,
     EventEmitter,
-    forwardRef,
     Input,
     OnChanges,
     OnDestroy,
@@ -13,7 +12,7 @@ import {
     ViewChild,
     ViewChildren,
 } from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {ControlValueAccessor, NgControl} from '@angular/forms';
 import {fromEvent, Subscription} from 'rxjs';
 import {debounceTime, filter, map} from 'rxjs/operators';
 import {SearchableSelectOption} from './SearchableSelectOption';
@@ -24,13 +23,6 @@ import _ from 'lodash';
     selector: 'app-searchable-select',
     templateUrl: './searchable-select.component.html',
     styleUrls: ['/searchable-select.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => SearchableSelectComponent),
-            multi: true,
-        },
-    ],
 })
 export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAccessor, OnChanges {
 
@@ -49,12 +41,17 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
         if (!this.selectedValueOption && this.selectedValue) {
             this.selectedValueOption = this._options.find(option => option.value === this.selectedValue);
         }
+        if(!this.selectedValueOption && this.ngControl.value && this.formControlValueProperty) {
+            const selectedValue: T = this.ngControl.value;
+            this.selectedValueOption = this._options.find(option => option.value === selectedValue[this.formControlValueProperty]);
+        }
     }
 
     @Input() passedId: string;
     @Input() formControlName: string;
     @Input() placeholder: string;
     @Input() configuration?: SearchableSelectConfig = new SearchableSelectConfigBuilder().build();
+    @Input() formControlValueProperty: string;
 
     @Output() search: EventEmitter<string> = new EventEmitter();
     @Output() enterPressed: EventEmitter<any> = new EventEmitter();
@@ -74,7 +71,9 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
     private subscription: Subscription;
 
     constructor(private eRef: ElementRef,
-                private cdr: ChangeDetectorRef) {
+                private cdr: ChangeDetectorRef,
+                public ngControl: NgControl) {
+        ngControl.valueAccessor = this;
     }
 
     ngOnChanges(changes: SimpleChanges) {

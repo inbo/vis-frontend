@@ -36,6 +36,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     form: FormGroup;
     taxons: SearchableSelectOption<number>[] = [];
     showIndividualLengthItems = true;
+
     private taxon: TaxonDetail;
     private formArray: FormArray;
     private subscription = new Subscription();
@@ -53,7 +54,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
                 private rootFormGroup: FormGroupDirective,
                 private formBuilder: FormBuilder,
                 private cdr: ChangeDetectorRef) {
-
     }
 
     numberMask(scale: number, min: number, max: number) {
