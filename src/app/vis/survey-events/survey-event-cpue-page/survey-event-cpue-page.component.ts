@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
-import {SurveyEvent, SurveyEventParameters, TaxonCpue} from '../../../domain/survey-event/surveyEvent';
+import {SurveyEvent, SurveyEventCpueParameter, SurveyEventParameters, TaxonCpue} from '../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../core/_models/role';
 
 @Component({
@@ -13,6 +13,7 @@ export class SurveyEventCpuePageComponent implements OnInit {
     role = Role;
 
     parameters: SurveyEventParameters;
+    processedParameters: Array<SurveyEventCpueParameter> = [];
     taxaCpue: TaxonCpue[];
     surveyEvent: SurveyEvent;
 
@@ -43,6 +44,13 @@ export class SurveyEventCpuePageComponent implements OnInit {
 
         this.parameters$.subscribe(value => {
             this.parameters = value;
+            value.parameters
+                .filter(param => param.parentId == null)
+                .forEach(parentParam => {
+                    const subparams = value.parameters.filter(param => param.parentId === parentParam.id);
+                    const calculatedParentParam = this.surveyEventsService.calculateCPUESubparameter(parentParam, subparams);
+                    this.processedParameters.push(calculatedParentParam, ...subparams);
+                });
         });
     }
 

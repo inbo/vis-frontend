@@ -33,11 +33,23 @@ import {MeasurementRowEnterEvent} from '../measurement-row/measurement-row-enter
     templateUrl: './survey-event-measurements-create-page.component.html',
 })
 export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked, HasUnsavedData {
+    get measurementRows(): QueryList<MeasurementRowComponent> {
+        return this._measurementRows;
+    }
+
+    @ViewChildren(MeasurementRowComponent)
+    set measurementRows(value: QueryList<MeasurementRowComponent>) {
+        if (value?.length > 0 && !this.firstOneHasBeenFocused) {
+            value.first.focusElement('species', 0);
+            this.firstOneHasBeenFocused = true;
+        }
+        this._measurementRows = value;
+    }
 
     @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
-    @ViewChildren(MeasurementRowComponent) measurementRows: QueryList<MeasurementRowComponent>;
     @ViewChildren(MeasurementRowComponent, {read: ElementRef}) measurementRowDOMElements: QueryList<ElementRef<HTMLElement>>;
 
+    private _measurementRows: QueryList<MeasurementRowComponent>;
     faRulerHorizontal = faRulerHorizontal;
     faWeightHanging = faWeightHanging;
 
@@ -51,7 +63,9 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     submitted = false;
     showExistingMeasurements = false;
     loading = false;
+    isAnkerkuilSurvey = false;
 
+    private firstOneHasBeenFocused = false;
     private scrollIntoView = false;
     private subscription = new Subscription();
 
@@ -69,7 +83,14 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     ngOnInit(): void {
         this.tip$ = this.tipsService.randomTipForPage('METING');
 
-        this.initForm();
+        this.surveyEventsService
+            .getSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode, this.activatedRoute.parent.snapshot.params.surveyEventId)
+            .subscribe(
+                surveyEvent => {
+                    this.isAnkerkuilSurvey = ['AK', 'AKV', 'AKE'].includes(surveyEvent.method);
+                    this.initForm();
+                },
+            );
 
         this.subscription.add(
             fromEvent(window, 'keydown').pipe(
@@ -93,7 +114,6 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         if (localStorage.getItem('measurements-demo') !== 'completed') {
             setTimeout(() => this.introModalOpen = true);
         }
-        this.measurementRows.first.focusElement('species', 0);
     }
 
     ngAfterViewChecked() {
@@ -109,7 +129,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         });
     }
 
-    createMeasurementFormGroup(species?: any, gender?: any, afvisbeurt?: any, comment?: any): FormGroup {
+    createMeasurementFormGroup(species?: any, gender?: string, afvisbeurt?: number, comment?: string, isPortside?: boolean, dilutionFactor?: number): FormGroup {
         return this.formBuilder.group({
             type: new FormControl('NORMAL'),
             species: new FormControl(species ?? '', [Validators.required]),
@@ -117,7 +137,9 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
             length: new FormControl(null, [Validators.min(0)]),
             weight: new FormControl(null, [Validators.min(0)]),
             gender: new FormControl(gender ?? 'UNKNOWN'),
-            afvisBeurtNumber: new FormControl(afvisbeurt ?? 1, [Validators.min(1), Validators.max(10)]),
+            isPortside: new FormControl(isPortside == null ? true : isPortside),
+            afvisBeurtNumber: new FormControl(1),
+            dilutionFactor: new FormControl(dilutionFactor == null ? 1 : dilutionFactor, [Validators.min(0)]),
             comment: new FormControl(comment ?? '', Validators.max(2000)),
             individualLengths: this.formBuilder.array([]),
         }, {validators: [lengthOrWeightRequiredForIndividualMeasurement()]});
@@ -128,7 +150,9 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
             this.getPreviousSpecies(),
             this.getPreviousGender(),
             this.getPreviousAfvisbeurt(),
-            this.getPreviousComment()));
+            this.getPreviousComment(),
+            this.getPreviousPortside(),
+            this.getPreviousDilutionFactor()));
         this.scrollIntoView = true;
     }
 
@@ -301,11 +325,11 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
                 case 3:
                     _this.amount(0).patchValue(2);
                     _this.items().at(0).get('type').patchValue('GROUP');
-                    _this.measurementRows.get(0).detectChanges();
+                    _this._measurementRows.get(0).detectChanges();
                     break;
                 case 5:
-                    _this.measurementRows.get(0).toGroupMeasurement();
-                    _this.measurementRows.get(0).detectChanges();
+                    _this._measurementRows.get(0).toGroupMeasurement();
+                    _this._measurementRows.get(0).detectChanges();
                     break;
             }
         });
@@ -329,12 +353,28 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
             if (this.measurementRowDOMElements.last.nativeElement.contains(event.event.target as any)) {
                 this.addNewLine();
                 this.changeDetectorRef.detectChanges();
-                this.measurementRows.last.focusElement(event.fieldName, this.measurementRows.last.formGroupName);
+                this._measurementRows.last.focusElement(event.fieldName, this._measurementRows.last.formGroupName);
             } else {
                 const nextRowIndex = this.measurementRowDOMElements.toArray().findIndex(element => element.nativeElement.contains(event.event.target as any));
-                const nextRow = this.measurementRows.get(nextRowIndex + 1);
+                const nextRow = this._measurementRows.get(nextRowIndex + 1);
                 nextRow.focusElement(event.fieldName, nextRow.formGroupName);
             }
         }
+    }
+
+    private getPreviousPortside() {
+        return this.isPortside(this.items().length - 1).value;
+    }
+
+    private getPreviousDilutionFactor() {
+        return this.dilutionFactor(this.items().length - 1).value;
+    }
+
+    private isPortside(index: number) {
+        return this.items().at(index).get('isPortside');
+    }
+
+    private dilutionFactor(index: number) {
+        return this.items().at(index).get('dilutionFactor');
     }
 }

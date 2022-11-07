@@ -4,11 +4,16 @@ import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable} from 'rxjs';
 import {Measurement} from '../domain/survey-event/measurement';
-import {SurveyEvent, SurveyEventOverview, SurveyEventParameters, TaxonCpue} from '../domain/survey-event/surveyEvent';
+import {
+    SurveyEvent,
+    SurveyEventCpueParameter,
+    SurveyEventOverview,
+    SurveyEventParameters,
+    TaxonCpue,
+} from '../domain/survey-event/surveyEvent';
 import {Parameters} from '../domain/survey-event/parameters';
 import {Habitat} from '../domain/survey-event/habitat';
 import {VisService} from './vis.service';
-import {AsyncValidationResult} from './validation';
 import {format} from 'date-fns';
 import {map} from 'rxjs/operators';
 
@@ -142,9 +147,16 @@ export class SurveyEventsService extends VisService {
         return this.http.put<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue/recalculate`, {});
     }
 
-    checkIfSurveyEventExists(projectCode: string, location: any, occurrenceDate: any, method: any): Observable<AsyncValidationResult> {
-        const params = this.getParams({location, occurrenceDate, method});
+    calculateCPUESubparameter(parentParam: SurveyEventCpueParameter, subparams: Array<SurveyEventCpueParameter>): SurveyEventCpueParameter {
+        if (subparams.some(param => param.value == null)) {
+            return {...parentParam};
+        }
+        let calculation = parentParam.calculation;
+        subparams.forEach(subparam => {
+            const regex = new RegExp(subparam.key, 'g');
+            calculation = calculation.replace(regex, `${subparam.value}`);
+        });
 
-        return this.http.get<AsyncValidationResult>(environment.apiUrl + '/api/validation/projects/' + projectCode + '/surveyevents', {params});
+        return {...parentParam, value: eval(calculation)};
     }
 }

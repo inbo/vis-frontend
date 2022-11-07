@@ -1,8 +1,10 @@
 import {Directive, EventEmitter, Output} from '@angular/core';
+import {MeasurementRowEnterEvent} from '../measurement-row/measurement-row-enter-event.model';
 
 @Directive()
 export class MeasurementComponentDirective {
-  @Output() enterPressed = new EventEmitter<{ fieldName: string, event: KeyboardEvent }>();
+
+  @Output() enterPressed = new EventEmitter<MeasurementRowEnterEvent>();
   @Output() tabPressed = new EventEmitter<string>();
   @Output() arrowPressed = new EventEmitter<KeyboardEvent>();
 

@@ -58,10 +58,10 @@
 	<div class="px-4 py-5 sm:p-6">
 
 		<dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-			<div *ngFor="let parameter of parameters?.parameters"
+			<div *ngFor="let parameter of processedParameters"
 			     class="sm:col-span-1">
 				<dt class="text-sm font-medium text-gray-500">
-					{{"cpue.parameter." + parameter.key| translate}}
+					{{"cpue.parameter." + parameter.key | translate}}
 				</dt>
 				<dd class="mt-1 text-sm text-gray-900">
 					{{parameter.value}}
@@ -79,7 +79,7 @@
 		            [style]="'secondary'"
 		            class="ml-3">CPUE herberekenen
 		</app-button>
-		<app-button [disabled]="surveyEvent.status !== 'ENTERED'"
+		<app-button [disabled]="surveyEvent?.status !== 'ENTERED'"
 		            [role]="role.EditCpueParameters"
 		            [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'cpue', 'bewerk']"
 		            [style]="'primary'"

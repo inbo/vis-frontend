@@ -1,0 +1,8 @@
+<ng-container [formGroup]="form">
+	<select [id]="'isPortside-' + index"
+	        formControlName="isPortside"
+	        name="isPortside">
+		<option [value]="false">Stuurboord</option>
+		<option [value]="true">Bakboord</option>
+	</select>
+</ng-container>
