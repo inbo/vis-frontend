@@ -1,8 +1,9 @@
-<ng-container [formGroup]="form">
-	<select [id]="'isPortside-' + index"
+<div [formGroup]="form">
+	<select [id]="fieldName() + '-' + index"
+	        (keydown)="keydown($event)"
 	        formControlName="isPortside"
-	        name="isPortside">
+	        [name]="fieldName()">
 		<option [value]="false">Stuurboord</option>
 		<option [value]="true">Bakboord</option>
 	</select>
-</ng-container>
+</div>

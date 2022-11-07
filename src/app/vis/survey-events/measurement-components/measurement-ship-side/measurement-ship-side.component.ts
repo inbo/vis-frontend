@@ -19,6 +19,10 @@ export class MeasurementShipSideComponent extends MeasurementComponentDirective 
     this.form = this.rootFormGroup.form;
   }
 
+  navigateOnArrow($event: KeyboardEvent) {
+
+  }
+
   fieldName(): string {
     return 'isPortside';
   }

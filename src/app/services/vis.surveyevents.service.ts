@@ -148,7 +148,7 @@ export class SurveyEventsService extends VisService {
     }
 
     calculateCPUESubparameter(parentParam: SurveyEventCpueParameter, subparams: Array<SurveyEventCpueParameter>): SurveyEventCpueParameter {
-        if (subparams.some(param => param.value == null)) {
+        if (subparams.length === 0 || subparams.some(param => param.value == null)) {
             return {...parentParam};
         }
         let calculation = parentParam.calculation;

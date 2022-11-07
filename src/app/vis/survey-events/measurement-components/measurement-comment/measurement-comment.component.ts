@@ -38,6 +38,7 @@ export class MeasurementCommentComponent extends MeasurementComponentDirective i
   onKeyPress($event: KeyboardEvent) {
 
   }
+
   fieldName(): string {
     return 'comment';
   }

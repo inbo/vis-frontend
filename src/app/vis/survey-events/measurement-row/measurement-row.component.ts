@@ -102,6 +102,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     }
 
     navigateOnArrow({key, currentTarget}: KeyboardEvent) {
+        console.log(key, currentTarget);
         let fieldName: string;
         if (!currentTarget) {
             fieldName = 'species';
@@ -320,6 +321,8 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
     private getEnabledNextFieldName(currentFieldName: string) {
         const nextField = this.nextFieldName(currentFieldName);
+
+        console.log(nextField, nextField + '-' + this.formGroupName + (nextField === 'species' ? '-button' : ''));
 
         const element = document.getElementById(nextField + '-' + this.formGroupName + (nextField === 'species' ? '-button' : ''));
         // @ts-ignore

@@ -22,7 +22,7 @@ import {HttpErrorInterceptor} from './core/http.error.interceptor';
 import {NgxTippyModule} from 'ngx-tippy-wrapper';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
-import {cashewConfig, HTTP_CACHE_CONFIG, HttpCacheInterceptorModule} from '@ngneat/cashew';
+import {HttpCacheInterceptorModule} from '@ngneat/cashew';
 
 @NgModule({
     declarations: [
@@ -73,10 +73,6 @@ import {cashewConfig, HTTP_CACHE_CONFIG, HttpCacheInterceptorModule} from '@ngne
             useFactory: initializeTranslations,
             deps: [TranslateService, Injector],
             multi: true,
-        },
-        {
-            provide: HTTP_CACHE_CONFIG,
-            useValue: cashewConfig({strategy: 'implicit'}),
         },
     ],
     bootstrap: [AppComponent],
