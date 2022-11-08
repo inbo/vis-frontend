@@ -189,6 +189,11 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         }
 
         const measurements = this.measurementsForm.getRawValue();
+        measurements.items.forEach(measurement => {
+            if (measurement.amount > 1) {
+                measurement.length = null;
+            }
+        });
 
         this.subscription.add(this.surveyEventsService.createMeasurements(measurements, this.activatedRoute.parent.snapshot.params.projectCode,
             this.activatedRoute.parent.snapshot.params.surveyEventId)

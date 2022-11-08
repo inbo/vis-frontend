@@ -31,18 +31,6 @@ export class MeasurementLengthComponent extends MeasurementComponentDirective im
     this.form = this.rootFormGroup.form;
   }
 
-  newLineOnEnter($event: KeyboardEvent) {
-
-  }
-
-  focusNextLineOnEnter($event: KeyboardEvent) {
-
-  }
-
-  navigateOnArrow($event: KeyboardEvent) {
-
-  }
-
   length(): AbstractControlWarn {
     return this.form.get('length') as AbstractControlWarn;
   }

@@ -57,7 +57,6 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData,
                     const parentParams = parameters.parameters.filter(param => param.parentId == null);
                     delete parametersGroupedByParentId.null;
                     parentParams.forEach(parentParam => {
-                        console.log(parametersGroupedByParentId);
                         this.parameters.push(parentParam, ...(parametersGroupedByParentId[parentParam.id] || []));
                     });
 

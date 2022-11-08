@@ -21,7 +21,6 @@ export class TipsTabsComponent implements OnInit {
   }
 
   navigate(location: string) {
-    console.log('navigate');
     this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
       this.router.navigate([location]);
     });
