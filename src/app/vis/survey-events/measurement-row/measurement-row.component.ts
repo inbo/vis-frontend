@@ -26,6 +26,8 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     @Input() formGroupName: number;
     @Input() submitted = false;
     @Input() editMode = false;
+    @Input() isAnkerkuil = false;
+
 
     @Output() newline = new EventEmitter<any>();
     @Output() removeClicked = new EventEmitter<number>();
@@ -40,15 +42,26 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     private taxon: TaxonDetail;
     private formArray: FormArray;
     private subscription = new Subscription();
-    private fieldsOrder = [
-        'species',
-        'amount',
-        'length',
-        'weight',
-        'gender',
-        'afvisBeurtNumber',
-        'comment',
-    ];
+
+    get fieldsOrder() {
+        return this.isAnkerkuil ? [
+            'species',
+            'amount',
+            'length',
+            'weight',
+            'gender',
+            'isPortside',
+            'dilutionFactor',
+        ] : [
+            'species',
+            'amount',
+            'length',
+            'weight',
+            'gender',
+            'afvisBeurtNumber',
+            'comment',
+        ];
+    }
 
     constructor(private taxaService: TaxaService,
                 private rootFormGroup: FormGroupDirective,
@@ -89,6 +102,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     }
 
     navigateOnArrow({key, currentTarget}: KeyboardEvent) {
+        console.log(key, currentTarget);
         let fieldName: string;
         if (!currentTarget) {
             fieldName = 'species';
@@ -219,12 +233,8 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     }
 
     enterPressed(event: MeasurementRowEnterEvent) {
-        if (!this.editMode) {
-            if (event.fieldName === 'species') {
-                this.navigateOnArrow({...event.event, key: 'ArrowRight'});
-            } else {
-                this.enterClicked.emit(event);
-            }
+        if (!this.editMode && event.fieldName === 'species') {
+            this.navigateOnArrow({...event.event, key: 'ArrowRight'});
         } else {
             this.enterClicked.emit(event);
         }
@@ -249,6 +259,10 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
     detectChanges() {
         this.cdr.detectChanges();
+    }
+
+    dilutionFactor() {
+        return this.form.get('verdunningsFactor');
     }
 
     private addTaxaValidationsForRowIndex() {
@@ -307,6 +321,8 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
     private getEnabledNextFieldName(currentFieldName: string) {
         const nextField = this.nextFieldName(currentFieldName);
+
+        console.log(nextField, nextField + '-' + this.formGroupName + (nextField === 'species' ? '-button' : ''));
 
         const element = document.getElementById(nextField + '-' + this.formGroupName + (nextField === 'species' ? '-button' : ''));
         // @ts-ignore

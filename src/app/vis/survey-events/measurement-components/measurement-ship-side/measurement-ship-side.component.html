@@ -1,0 +1,9 @@
+<div [formGroup]="form">
+	<select [id]="fieldName() + '-' + index"
+	        (keydown)="keydown($event)"
+	        formControlName="isPortside"
+	        [name]="fieldName()">
+		<option [value]="false">Stuurboord</option>
+		<option [value]="true">Bakboord</option>
+	</select>
+</div>

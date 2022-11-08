@@ -20,6 +20,8 @@ export interface Measurement {
   gender: string;
   lengthType: string;
   afvisBeurtNumber: number;
+  dilutionFactor: number;
+  isPortside: boolean;
   individualLengths: IndividualLength[];
 }
 

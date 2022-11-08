@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormGroup, FormGroupDirective} from '@angular/forms';
+import {AbstractControl, FormArray, FormGroup, FormGroupDirective} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
@@ -21,6 +21,7 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
   @Input() submitted = false;
   @Input() showSaveMessage = false;
   @Input() editable = true;
+  @Input() isAnkerkuil = false;
 
   @Output() editClicked = new EventEmitter<any>();
   @Output() removeClicked = new EventEmitter<any>();
@@ -45,7 +46,8 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
     };
   }
 
-  constructor(private taxaService: TaxaService, private rootFormGroup: FormGroupDirective, private formBuilder: FormBuilder,
+  constructor(private taxaService: TaxaService,
+              private rootFormGroup: FormGroupDirective,
               public authService: AuthService) {
 
   }
@@ -69,6 +71,14 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
 
   afvisBeurtNumber(): AbstractControl {
     return this.form.get('afvisBeurtNumber');
+  }
+
+  dilutionFactor(): AbstractControl {
+    return this.form.get('dilutionFactor');
+  }
+
+  isPortside(): AbstractControl {
+    return this.form.get('isPortside');
   }
 
   weight(): AbstractControlWarn {

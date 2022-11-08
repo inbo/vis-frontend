@@ -22,6 +22,7 @@ import {HttpErrorInterceptor} from './core/http.error.interceptor';
 import {NgxTippyModule} from 'ngx-tippy-wrapper';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
+import {HttpCacheInterceptorModule} from '@ngneat/cashew';
 
 @NgModule({
     declarations: [
@@ -48,6 +49,7 @@ import {ToastrModule} from 'ngx-toastr';
             defaultLanguage: 'nl',
             useDefaultLang: true,
         }),
+        HttpCacheInterceptorModule.forRoot(),
         SharedUiModule,
         VisModule,
         ReleaseNotesModule,
@@ -85,7 +87,7 @@ function HttpLoaderFactory(http: HttpClient) {
     ]);
 }
 
-function initializeTranslations(translate: TranslateService, injector: Injector) {
+function initializeTranslations(translate: TranslateService) {
     return () => new Promise<any>((resolve: any) => {
         translate.use('nl').subscribe(() => {
             console.log(`Successfully initialized 'nl' language.'`);

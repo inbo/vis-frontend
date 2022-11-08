@@ -3,13 +3,12 @@ import {FormGroup, FormGroupDirective} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 
 @Component({
-  selector: 'app-measurement-fishing-trip-number',
-  templateUrl: './measurement-fishing-trip-number.component.html'
+  selector: 'app-measurement-dilution-factor',
+  templateUrl: './measurement-dilution-factor.component.html'
 })
-export class MeasurementFishingTripNumberComponent extends MeasurementComponentDirective implements OnInit {
+export class MeasurementDilutionFactorComponent extends MeasurementComponentDirective implements OnInit {
 
   form: FormGroup;
-
   @Input() index: number;
 
   constructor(private rootFormGroup: FormGroupDirective) {
@@ -21,7 +20,7 @@ export class MeasurementFishingTripNumberComponent extends MeasurementComponentD
   }
 
   fieldName(): string {
-    return 'afvisBeurtNumber';
+    return 'dilutionFactor';
   }
 
 }

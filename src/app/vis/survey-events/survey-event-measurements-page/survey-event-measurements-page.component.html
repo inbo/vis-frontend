@@ -24,11 +24,20 @@
 							<div class="upercase col-span-4 md:col-span-2 lg:col-span-1">GESLACHT
 								<app-table-sort sortField="gender"></app-table-sort>
 							</div>
-							<div class="upercase col-span-4 md:col-span-2 lg:col-span-1"><span class="hidden md:block">AFVISBEURT <app-table-sort sortField="afvisBeurtNumber"></app-table-sort></span><span
-									class="md:hidden">Afvisb.</span></div>
-							<div class="col-span-12 md:col-span-5 lg:col-span-2">COMMENTAAR
-								<app-table-sort sortField="comment"></app-table-sort>
-							</div>
+							<ng-container *ngIf="!isAnkerkuil; else ankerkuil">
+								<div class="uppercase col-span-4 md:col-span-2 lg:col-span-1">
+									<span class="hidden md:block">Afvisbeurt</span>
+									<span class="md:hidden">Afvisb.</span>
+								</div>
+								<div class="col-span-12 md:col-span-5 lg:col-span-2">Commentaar</div>
+							</ng-container>
+							<ng-template #ankerkuil>
+								<div class="uppercase col-span-4 md:col-span-2 lg:col-span-2">Zijde</div>
+								<div class="uppercase col-span-4 md:col-span-5 lg:col-span-1">
+									<span class="hidden md:block">Verdunningsfactor</span>
+									<span class="md:hidden">Verdunn.</span>
+								</div>
+							</ng-template>
 							<div></div>
 						</div>
 						<div class="space-y-0.5">
@@ -40,11 +49,13 @@
 								                              [formGroupName]="i"
 								                              [editable]="surveyEvent?.status === 'ENTERED'"
 								                              (editClicked)="rowEditNumber = i; savedIndex = null;"
+								                              [isAnkerkuil]="isAnkerkuil"
 								                              (removeClicked)="deleteClicked(i)">
 								</app-measurement-row-readonly>
 								<app-measurement-row *ngIf="rowEditNumber === i"
 								                     [submitted]="true"
 								                     [editMode]="true"
+								                     [isAnkerkuil]="isAnkerkuil"
 								                     [formGroupName]="i"
 								                     (saveClicked)="save(i)"
 								                     (cancelClicked)="cancel(i)"
