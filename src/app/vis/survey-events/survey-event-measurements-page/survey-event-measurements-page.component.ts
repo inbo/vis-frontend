@@ -152,11 +152,16 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
     save(i: number) {
         const data = this.items().at(i) as FormGroup;
 
-        this.surveyEventsService.saveMeasurement(this.projectCode, this.surveyEventId, data.get('id').value, data.getRawValue())
+        const measurement = data.getRawValue();
+        if (measurement.amount > 1) {
+            measurement.length = null;
+        }
+        this.surveyEventsService.saveMeasurement(this.projectCode, this.surveyEventId, data.get('id').value, measurement)
             .pipe(take(1))
             .subscribe(() => {
                 this.savedIndex = this.rowEditNumber;
                 this.rowEditNumber = null;
+                this.init();
             });
     }
 

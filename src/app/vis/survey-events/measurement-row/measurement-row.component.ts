@@ -102,7 +102,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     }
 
     navigateOnArrow({key, currentTarget}: KeyboardEvent) {
-        console.log(key, currentTarget);
         let fieldName: string;
         if (!currentTarget) {
             fieldName = 'species';
@@ -148,12 +147,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         return this.formArray;
     }
 
-    onKeyPress(event: KeyboardEvent) {
-        if (this.isKeyTab(event.key) && this.isLastIndex(this.formGroupName)) {
-            this.newline.emit(true);
-        }
-    }
-
     species(): AbstractControl {
         return this.form.get('species');
     }
@@ -195,10 +188,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         if (element !== null) {
             setTimeout(() => element.focus(), 0);
         }
-    }
-
-    focusWeight() {
-        this.focusElement('length', this.formGroupName);
     }
 
     individualLengths(): FormArray {
@@ -322,8 +311,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     private getEnabledNextFieldName(currentFieldName: string) {
         const nextField = this.nextFieldName(currentFieldName);
 
-        console.log(nextField, nextField + '-' + this.formGroupName + (nextField === 'species' ? '-button' : ''));
-
         const element = document.getElementById(nextField + '-' + this.formGroupName + (nextField === 'species' ? '-button' : ''));
         // @ts-ignore
         if (element.disabled || element.readOnly) {
@@ -331,10 +318,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         }
 
         return nextField;
-    }
-
-    private isKeyTab(key: string) {
-        return key === 'Tab';
     }
 
     private isLastIndex(i: number) {
