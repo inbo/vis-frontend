@@ -16,11 +16,38 @@ import {Habitat} from '../domain/survey-event/habitat';
 import {VisService} from './vis.service';
 import {format} from 'date-fns';
 import {map} from 'rxjs/operators';
+import {method, uniqBy} from 'lodash-es';
 
 @Injectable({
     providedIn: 'root',
 })
 export class SurveyEventsService extends VisService {
+
+    private readonly ankerkuilCPUEParams = [
+        'AantalUrenBakboord',
+        'AantalUrenStuurboord',
+        'Begindiepte',
+        'Dieptemetercorrectie',
+        'EindDiepteBakboord',
+        'EindDiepteStuurboord',
+        'NetHoogteBakboord',
+        'NetHoogteStuurboord',
+        'NetBreedte',
+        'Factor',
+        'Beginstand',
+        'Turnoverwaarde',
+        'EindStandBakboord',
+        'EindStandStuurboord',
+        'AfgevisteAantalMeterBakboord',
+        'AfgevisteAantalMeterStuurboord',
+        'AfgevistVolumeBakboord',
+        'AfgevistVolumeStuurboord',
+    ];
+
+    readonly CPUEMethodParamsOrder = {
+        AKE: this.ankerkuilCPUEParams,
+        AKV: this.ankerkuilCPUEParams,
+    };
 
     constructor(private http: HttpClient) {
         super();
@@ -147,16 +174,17 @@ export class SurveyEventsService extends VisService {
         return this.http.put<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}/cpue/recalculate`, {});
     }
 
-    calculateCPUESubparameter(parentParam: SurveyEventCpueParameter, subparams: Array<SurveyEventCpueParameter>): SurveyEventCpueParameter {
-        if (subparams.length === 0 || subparams.some(param => param.value == null)) {
-            return {...parentParam};
-        }
-        let calculation = parentParam.calculation;
-        subparams.forEach(subparam => {
-            const regex = new RegExp(subparam.key, 'g');
-            calculation = calculation.replace(regex, `${subparam.value}`);
+    flattenParams(params: Array<SurveyEventCpueParameter>): Array<SurveyEventCpueParameter> {
+        const result: Array<SurveyEventCpueParameter> = [];
+        params.forEach(param => {
+            result.push(param);
+            result.push(...this.flattenParams(param.childParams));
         });
 
-        return {...parentParam, value: eval(calculation)};
+        return uniqBy(result, 'key');
+    }
+
+    getCpueParamOrderForMethod(methodCode: string): Array<string> {
+        return this.CPUEMethodParamsOrder[methodCode];
     }
 }
