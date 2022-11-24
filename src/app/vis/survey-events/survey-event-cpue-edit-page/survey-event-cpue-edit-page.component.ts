@@ -12,7 +12,7 @@ import {Location} from '@angular/common';
 import {take, tap} from 'rxjs/operators';
 import {Method} from '../../../domain/method/method';
 import {Subject} from 'rxjs';
-import {groupBy} from 'lodash-es';
+import {groupBy, isNil, uniqBy} from 'lodash-es';
 
 @Component({
     selector: 'app-survey-event-cpue-edit-page',
@@ -52,14 +52,11 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData,
             .pipe(
                 take(1),
                 tap(parameters => {
-                    this.parameters = [];
-                    const parametersGroupedByParentId = groupBy(parameters.parameters, 'parentId');
-                    const parentParams = parameters.parameters.filter(param => param.parentId == null);
-                    delete parametersGroupedByParentId.null;
-                    parentParams.forEach(parentParam => {
-                        this.parameters.push(parentParam, ...(parametersGroupedByParentId[parentParam.id] || []));
-                    });
-
+                    this.parameters = this.surveyEventsService.flattenParams(parameters.parameters);
+                    const paramsOrder = this.surveyEventsService.getCpueParamOrderForMethod(this.surveyEvent.method);
+                    if (paramsOrder) {
+                        this.parameters = this.parameters.sort((a, b) => paramsOrder.indexOf(a.key) - paramsOrder.indexOf(b.key));
+                    }
                 }),
             )
             .subscribe();
@@ -74,11 +71,10 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData,
     saveSurveyEvent() {
         this.submitted = true;
 
-        const formData = {};
-        this.parameters.forEach(parameter => formData[parameter.key] = parameter.value);
-
+        const requestDTO = {};
+        this.parameters.forEach(param => requestDTO[param.key] = param.value);
         this.surveyEventService
-            .updateCpueParameters(this.projectCode, this.surveyEventId, formData)
+            .updateCpueParameters(this.projectCode, this.surveyEventId, requestDTO)
             .pipe(take(1))
             .subscribe(() => {
                 this.router.navigate(['projecten', this.projectCode, 'waarnemingen', this.surveyEventId, 'cpue']);
@@ -100,12 +96,25 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData,
     }
 
     parameterUpdated(changedParameter: SurveyEventCpueParameter): void {
-        if (!changedParameter.parentId) {
+        const parentparamsForChangedParameter = this.parameters.filter(param => param.calculation?.includes(changedParameter.key));
+        if (parentparamsForChangedParameter.length === 0) {
             return;
         }
-        const parentParameter = this.parameters.find(param => param.id === changedParameter.parentId);
-        const subparameters = this.parameters.filter(param => param.parentId === parentParameter.id);
-        parentParameter.value = this.surveyEventsService.calculateCPUESubparameter(parentParameter, subparameters).value;
+        parentparamsForChangedParameter.forEach(parentParam => {
+            const allChildParamsForParentParam = this.parameters.filter(param => parentParam.calculation.includes(param.key));
+            if (allChildParamsForParentParam.some(childParam => isNil(childParam.value))) {
+                return;
+            }
+
+            let calculation = parentParam.calculation;
+            allChildParamsForParentParam.forEach(subparam => {
+                const regex = new RegExp(subparam.key, 'g');
+                calculation = calculation.replace(regex, `${subparam.value}`);
+            });
+
+            parentParam.value = Math.round(eval(calculation) * 1000) / 1000;
+            this.parameterUpdated(parentParam);
+        });
     }
 }
 

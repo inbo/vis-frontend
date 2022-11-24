@@ -55,9 +55,9 @@ export interface SurveyEventCpueParameter {
   key: string;
   value: number;
   id: number;
-  parentId: number;
   calculation: string;
   automatic: boolean;
+  childParams: Array<SurveyEventCpueParameter>;
 }
 
 export interface TaxonCpue {

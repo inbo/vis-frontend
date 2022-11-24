@@ -44,13 +44,11 @@ export class SurveyEventCpuePageComponent implements OnInit {
 
         this.parameters$.subscribe(value => {
             this.parameters = value;
-            value.parameters
-                .filter(param => param.parentId == null)
-                .forEach(parentParam => {
-                    const subparams = value.parameters.filter(param => param.parentId === parentParam.id);
-                    const calculatedParentParam = this.surveyEventsService.calculateCPUESubparameter(parentParam, subparams);
-                    this.processedParameters.push(calculatedParentParam, ...subparams);
-                });
+            this.processedParameters = this.surveyEventsService.flattenParams(value.parameters);
+            const paramsOrder = this.surveyEventsService.getCpueParamOrderForMethod(this.surveyEvent.method);
+            if (paramsOrder) {
+                this.processedParameters.sort((a, b) => paramsOrder.indexOf(a.key) - paramsOrder.indexOf(b.key));
+            }
         });
     }
 
