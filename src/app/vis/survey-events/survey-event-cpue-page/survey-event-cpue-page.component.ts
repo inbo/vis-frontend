@@ -47,9 +47,7 @@ export class SurveyEventCpuePageComponent implements OnInit {
             this.processedParameters = this.surveyEventsService.flattenParams(value.parameters);
             const paramsOrder = this.surveyEventsService.getCpueParamOrderForMethod(this.surveyEvent.method);
             if (paramsOrder) {
-                console.log(paramsOrder);
                 this.processedParameters.sort((a, b) => paramsOrder.indexOf(a.key) - paramsOrder.indexOf(b.key));
-                console.log(this.processedParameters);
             }
         });
     }
