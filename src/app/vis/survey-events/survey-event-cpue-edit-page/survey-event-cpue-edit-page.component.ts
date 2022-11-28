@@ -2,17 +2,15 @@ import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/co
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Role} from '../../../core/_models/role';
 import {FormBuilder, NgForm} from '@angular/forms';
-import {SurveyEventCpueParameter, SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
-import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
+import {SurveyEventCpueParameter} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {Location} from '@angular/common';
 import {take, tap} from 'rxjs/operators';
-import {Method} from '../../../domain/method/method';
-import {Subject} from 'rxjs';
-import {groupBy, isNil, uniqBy} from 'lodash-es';
+import {forkJoin, Subject} from 'rxjs';
+import {isNil} from 'lodash-es';
 
 @Component({
     selector: 'app-survey-event-cpue-edit-page',
@@ -26,8 +24,6 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData,
     private readonly destroy = new Subject<void>();
 
     submitted = false;
-    surveyEvent: SurveyEventOverview;
-    methods: SearchableSelectOption<Method>[] = [];
     parameters: Array<SurveyEventCpueParameter> = [];
 
     constructor(private surveyEventService: SurveyEventsService,
@@ -44,18 +40,21 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData,
     private surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
 
     ngOnInit(): void {
-        this.surveyEventsService
-            .surveyEventParameters(
-                this.projectCode,
-                this.surveyEventId,
-            )
+        forkJoin([
+            this.surveyEventsService
+                .surveyEventParameters(
+                    this.projectCode,
+                    this.surveyEventId,
+                ),
+            this.surveyEventsService
+                .getSurveyEvent(this.projectCode, this.surveyEventId)])
             .pipe(
                 take(1),
-                tap(parameters => {
+                tap(([parameters, surveyEvent]) => {
                     this.parameters = this.surveyEventsService.flattenParams(parameters.parameters);
-                    const paramsOrder = this.surveyEventsService.getCpueParamOrderForMethod(this.surveyEvent.method);
+                    const paramsOrder = this.surveyEventsService.getCpueParamOrderForMethod(surveyEvent.method);
                     if (paramsOrder) {
-                        this.parameters = this.parameters.sort((a, b) => paramsOrder.indexOf(a.key) - paramsOrder.indexOf(b.key));
+                        this.parameters.sort((a, b) => paramsOrder.indexOf(a.key) - paramsOrder.indexOf(b.key));
                     }
                 }),
             )
