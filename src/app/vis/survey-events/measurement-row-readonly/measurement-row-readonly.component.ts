@@ -7,7 +7,6 @@ import {AbstractControlWarn} from '../survey-event-measurements-create-page/surv
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
-import {Taxon} from '../../../domain/survey-event/measurement';
 
 @Component({
     selector: 'app-measurement-row-readonly',
@@ -18,7 +17,6 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
     role = Role;
     faWeightHanging = faWeightHanging;
     faRulerHorizontal = faRulerHorizontal;
-    speciesOption: SearchableSelectOption<Taxon>;
 
     @Input() formGroupName: number;
     @Input() submitted = false;

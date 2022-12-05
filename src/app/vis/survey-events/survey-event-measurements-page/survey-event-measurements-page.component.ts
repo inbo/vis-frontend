@@ -84,7 +84,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
             comment: new FormControl(measurement.comment ? measurement.comment : '', Validators.max(2000)),
             individualLengths: this.formBuilder.array(il),
             dilutionFactor: new FormControl(measurement.dilutionFactor || 1, [Validators.min(0)]),
-            isPortside: new FormControl(measurement.isPortside || true),
+            isPortside: new FormControl(measurement.portside ?? true),
         }, {validators: [lengthOrWeightRequiredForIndividualMeasurement()]});
     }
 

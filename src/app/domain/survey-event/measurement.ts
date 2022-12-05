@@ -21,7 +21,7 @@ export interface Measurement {
   lengthType: string;
   afvisBeurtNumber: number;
   dilutionFactor: number;
-  isPortside: boolean;
+  portside: boolean;
   individualLengths: IndividualLength[];
 }
 

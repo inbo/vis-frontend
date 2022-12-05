@@ -137,7 +137,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
             length: new FormControl(null, [Validators.min(0)]),
             weight: new FormControl(null, [Validators.min(0)]),
             gender: new FormControl(gender ?? 'UNKNOWN'),
-            isPortside: new FormControl(isPortside == null ? true : isPortside),
+            isPortside: new FormControl(isPortside ?? false),
             afvisBeurtNumber: new FormControl(1),
             dilutionFactor: new FormControl(dilutionFactor == null ? 1 : dilutionFactor, [Validators.min(0)]),
             comment: new FormControl(comment ?? '', Validators.max(2000)),
