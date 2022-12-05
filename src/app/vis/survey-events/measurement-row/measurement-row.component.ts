@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
-import {take} from 'rxjs/operators';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
@@ -10,8 +9,8 @@ import {
     valueBetweenWarning,
 } from '../survey-event-measurements-create-page/survey-event-measurements-validators';
 import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
-import {Taxon} from '../../../domain/taxa/taxon';
 import {MeasurementRowEnterEvent} from './measurement-row-enter-event.model';
+import {isNil} from 'lodash-es';
 
 @Component({
     selector: 'app-measurement-row',
@@ -36,7 +35,8 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     @Output() enterClicked = new EventEmitter<MeasurementRowEnterEvent>();
 
     form: FormGroup;
-    taxons: SearchableSelectOption<number>[] = [];
+    filteredTaxonOptions: SearchableSelectOption<number>[] = [];
+    private allTaxonOptions: Array<SearchableSelectOption<number>> = [];
     showIndividualLengthItems = true;
 
     private taxon: TaxonDetail;
@@ -87,9 +87,15 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
         this.addTaxaValidationsForRowIndex();
 
-        this.getSpecies(null, this.species().value);
+        this.taxaService
+            .getAllSpeciesOptions()
+            .subscribe(taxonOptions => {
+                this.allTaxonOptions = taxonOptions;
+                this.filteredTaxonOptions = [...this.allTaxonOptions];
+            });
 
         this.focusElement('species', this.formGroupName);
+        this.cdr.detectChanges();
     }
 
     ngOnDestroy() {
@@ -124,19 +130,12 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         }
     }
 
-    getSpecies(val: string, taxon?: Taxon) {
-        this.taxaService
-            .getTaxa(val, taxon?.id?.value)
-            .pipe(
-                take(1),
-            ).subscribe(taxa => {
-            this.taxons = taxa.map(taxon => ({
-                displayValue: taxon.nameDutch,
-                externalLink: `/vissoorten/${taxon.id.value}`,
-                value: taxon.id.value,
-            }));
-            this.cdr.detectChanges();
-        });
+    filterSpecies(search: string) {
+        if(isNil(search) || search.length === 0) {
+            this.filteredTaxonOptions = [...this.allTaxonOptions];
+        }
+        this.filteredTaxonOptions = this.allTaxonOptions.filter(taxon => taxon.displayValue.toLowerCase().includes(search.toLowerCase()));
+        this.cdr.detectChanges();
     }
 
     remove() {
@@ -222,7 +221,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     }
 
     enterPressed(event: MeasurementRowEnterEvent) {
-        if (!this.editMode && event.fieldName === 'species') {
+        if (event.fieldName === 'species') {
             this.navigateOnArrow({...event.event, key: 'ArrowRight'});
         } else {
             this.enterClicked.emit(event);
@@ -255,7 +254,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     }
 
     private addTaxaValidationsForRowIndex() {
-        if (!this.species().value) {
+        if (isNil(this.species().value)) {
             return;
         }
 

@@ -41,9 +41,9 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
         if (!this.selectedValueOption && this.selectedValue) {
             this.selectedValueOption = this._options.find(option => option.value === this.selectedValue);
         }
-        if(!this.selectedValueOption && this.ngControl.value && this.formControlValueProperty) {
+        if(!this.selectedValueOption && this.ngControl.value) {
             const selectedValue: T = this.ngControl.value;
-            this.selectedValueOption = this._options.find(option => option.value === selectedValue[this.formControlValueProperty]);
+            this.selectedValueOption = this._options.find(option => option.value  === selectedValue[this.formControlValueProperty]);
         }
     }
 
@@ -122,6 +122,7 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
     }
 
     select(option: SearchableSelectOption<T>) {
+        console.log(option);
         this.selectedValue = option.value;
         this.selectedValueOption = option;
         this.onChange && this.onChange(this.selectedValue);

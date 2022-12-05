@@ -22,7 +22,6 @@ import {HttpErrorInterceptor} from './core/http.error.interceptor';
 import {NgxTippyModule} from 'ngx-tippy-wrapper';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
-import {HttpCacheInterceptorModule} from '@ngneat/cashew';
 
 @NgModule({
     declarations: [
@@ -49,7 +48,6 @@ import {HttpCacheInterceptorModule} from '@ngneat/cashew';
             defaultLanguage: 'nl',
             useDefaultLang: true,
         }),
-        HttpCacheInterceptorModule.forRoot(),
         SharedUiModule,
         VisModule,
         ReleaseNotesModule,
