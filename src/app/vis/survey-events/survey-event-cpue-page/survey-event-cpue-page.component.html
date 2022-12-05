@@ -134,14 +134,18 @@
 			<td class="font-bold"
 			    appCell>
 				<span *ngIf="value.weightCpue">{{value.weightCpue}} {{value.unit}}</span>
-				<span *ngIf="!value.weightCpue"
+				<span *ngIf="isNil(value.weightCpue)"
 				      class="text-red-500">Niet berekend</span>
+				<span *ngIf="value.taxaSumCpue === 0"
+				      class="text-red-500">< 0,000001></span>
 			</td>
 			<td class="font-bold"
 			    appCell>
 				<span *ngIf="value.taxaSumCpue">{{value.taxaSumCpue}} {{value.unit}}</span>
-				<span *ngIf="!value.taxaSumCpue"
+				<span *ngIf="isNil(value.taxaSumCpue)"
 				      class="text-red-500">Niet berekend</span>
+				<span *ngIf="value.taxaSumCpue === 0"
+				      class="text-red-500">< 0,000001></span>
 			</td>
 
 			<td appCell

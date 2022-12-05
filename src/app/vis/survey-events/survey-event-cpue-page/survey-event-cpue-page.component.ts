@@ -4,12 +4,15 @@ import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {SurveyEvent, SurveyEventCpueParameter, SurveyEventParameters, TaxonCpue} from '../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../core/_models/role';
 import {forkJoin} from 'rxjs';
+import {isNil} from 'lodash-es';
 
 @Component({
     selector: 'app-survey-event-cpue-page',
     templateUrl: './survey-event-cpue-page.component.html',
 })
 export class SurveyEventCpuePageComponent implements OnInit {
+
+    readonly isNil = isNil;
 
     role = Role;
 
@@ -65,4 +68,5 @@ export class SurveyEventCpuePageComponent implements OnInit {
             });
         });
     }
+
 }
