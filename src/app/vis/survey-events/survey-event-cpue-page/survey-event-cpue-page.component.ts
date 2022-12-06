@@ -3,12 +3,16 @@ import {ActivatedRoute} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {SurveyEvent, SurveyEventCpueParameter, SurveyEventParameters, TaxonCpue} from '../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../core/_models/role';
+import {forkJoin} from 'rxjs';
+import {isNil} from 'lodash-es';
 
 @Component({
     selector: 'app-survey-event-cpue-page',
     templateUrl: './survey-event-cpue-page.component.html',
 })
 export class SurveyEventCpuePageComponent implements OnInit {
+
+    readonly isNil = isNil;
 
     role = Role;
 
@@ -35,21 +39,23 @@ export class SurveyEventCpuePageComponent implements OnInit {
     );
 
     ngOnInit(): void {
-        this.surveyEventsService
-            .getSurveyEvent(this.projectCode, this.surveyEventId)
-            .subscribe(survey => this.surveyEvent = survey);
         this.taxaCpue$.subscribe(value => {
             this.taxaCpue = value;
         });
 
-        this.parameters$.subscribe(value => {
-            this.parameters = value;
-            this.processedParameters = this.surveyEventsService.flattenParams(value.parameters);
-            const paramsOrder = this.surveyEventsService.getCpueParamOrderForMethod(this.surveyEvent.method);
-            if (paramsOrder) {
-                this.processedParameters.sort((a, b) => paramsOrder.indexOf(a.key) - paramsOrder.indexOf(b.key));
-            }
-        });
+        forkJoin([
+            this.parameters$,
+            this.surveyEventsService.getSurveyEvent(this.projectCode, this.surveyEventId),
+        ])
+            .subscribe(([parameters, surveyEvent]) => {
+                this.surveyEvent = surveyEvent;
+                this.parameters = parameters;
+                this.processedParameters = this.surveyEventsService.flattenParams(parameters.parameters);
+                const paramsOrder = this.surveyEventsService.getCpueParamOrderForMethod(this.surveyEvent.method);
+                if (paramsOrder) {
+                    this.processedParameters.sort((a, b) => paramsOrder.indexOf(a.key) - paramsOrder.indexOf(b.key));
+                }
+            });
     }
 
     recalculateCpue() {
@@ -62,4 +68,5 @@ export class SurveyEventCpuePageComponent implements OnInit {
             });
         });
     }
+
 }

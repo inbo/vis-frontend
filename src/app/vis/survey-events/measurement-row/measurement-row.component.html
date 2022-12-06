@@ -9,9 +9,9 @@
 		     data-position="bottom-right-aligned">
 			<app-species-search (arrowPressed)="navigateOnArrow($event)"
 			                    (changed)="onSpeciesChange()"
-			                    (onSearch)="getSpecies($event)"
+			                    (onSearch)="filterSpecies($event)"
 			                    [index]="formGroupName"
-			                    [taxons]="taxons"
+			                    [taxons]="filteredTaxonOptions"
 			                    class="flex-grow"
 			                    data-step="2"
 			                    data-intro="Klik hier om een soort te zoeken en te selecteren.">
@@ -198,6 +198,6 @@
 
 	<div [class.hidden]="!showIndividualLengthItems"
 	     class="col-span-12">
-		<app-measurement-length-measurements [submitted]="submitted"></app-measurement-length-measurements>
+		<app-measurement-length-measurements [index]="formGroupName" [submitted]="submitted"></app-measurement-length-measurements>
 	</div>
 </div>

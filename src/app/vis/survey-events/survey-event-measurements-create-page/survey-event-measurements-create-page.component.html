@@ -94,7 +94,7 @@
 						</td>
 						<td [condense]="true"
 						    appCell>
-							{{isAnkerkuilSurvey ? (measurement.isPortside ? 'Bakboord' : 'Stuurboord') : measurement.comment}}
+							{{isAnkerkuilSurvey ? (measurement.portside ? 'Bakboord' : 'Stuurboord') : measurement.comment}}
 						</td>
 					</tr>
 				</tbody>
@@ -197,7 +197,7 @@
 										{{measurement.comment}}
 									</ng-container>
 									<ng-template #shipside>
-										{{measurement.isPortside ? 'Bakb.' : 'Stuurb.'}}
+										{{measurement.portside ? 'Bakb.' : 'Stuurb.'}}
 									</ng-template>
 								</p>
 							</div>

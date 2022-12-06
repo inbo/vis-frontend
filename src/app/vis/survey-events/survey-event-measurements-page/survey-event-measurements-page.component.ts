@@ -75,7 +75,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
             id: new FormControl(measurement.id),
             order: new FormControl(measurement.order),
             type: new FormControl(measurement.type),
-            species: new FormControl(measurement.taxon, [Validators.required]),
+            species: new FormControl(measurement.taxon.id, [Validators.required]),
             amount: new FormControl(measurement.amount, Validators.min(0)),
             length: new FormControl(measurement.length ? measurement.length.toString() : '', [Validators.min(0)]),
             weight: new FormControl(measurement.weight ? measurement.weight.toString() : '', [Validators.min(0)]),
@@ -84,7 +84,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
             comment: new FormControl(measurement.comment ? measurement.comment : '', Validators.max(2000)),
             individualLengths: this.formBuilder.array(il),
             dilutionFactor: new FormControl(measurement.dilutionFactor || 1, [Validators.min(0)]),
-            isPortside: new FormControl(measurement.isPortside || true),
+            isPortside: new FormControl(measurement.portside ?? true),
         }, {validators: [lengthOrWeightRequiredForIndividualMeasurement()]});
     }
 

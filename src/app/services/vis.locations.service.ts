@@ -77,10 +77,12 @@ export class LocationsService extends VisService {
     }
 
     searchFishingPoints(searchTerm: string, id: number): Observable<FishingPointSearch[]> {
-        let params = new HttpParams()
-            .set('code', searchTerm)
-            .set('description', searchTerm);
-
+        let params = new HttpParams();
+        if (searchTerm) {
+            params = params
+                .set('code', searchTerm)
+                .set('description', searchTerm);
+        }
         if (id) {
             params = params.set('id', id?.toString());
         }

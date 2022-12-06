@@ -26,7 +26,7 @@
 	</div>
 </div>
 
-<div class="mb-6" *ngIf="surveyEvent.method !== 'AKE' && surveyEvent.method !== 'AKV'">
+<div class="mb-6" *ngIf="surveyEvent?.method !== 'AKE' && surveyEvent?.method !== 'AKV'">
 	<div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-2">
 		<div class="flex">
 			<div class="flex-shrink-0">
@@ -134,14 +134,18 @@
 			<td class="font-bold"
 			    appCell>
 				<span *ngIf="value.weightCpue">{{value.weightCpue}} {{value.unit}}</span>
-				<span *ngIf="!value.weightCpue"
+				<span *ngIf="isNil(value.weightCpue)"
 				      class="text-red-500">Niet berekend</span>
+				<span *ngIf="value.taxaSumCpue === 0"
+				      class="text-red-500">< 0,000001></span>
 			</td>
 			<td class="font-bold"
 			    appCell>
 				<span *ngIf="value.taxaSumCpue">{{value.taxaSumCpue}} {{value.unit}}</span>
-				<span *ngIf="!value.taxaSumCpue"
+				<span *ngIf="isNil(value.taxaSumCpue)"
 				      class="text-red-500">Niet berekend</span>
+				<span *ngIf="value.taxaSumCpue === 0"
+				      class="text-red-500">< 0,000001></span>
 			</td>
 
 			<td appCell
