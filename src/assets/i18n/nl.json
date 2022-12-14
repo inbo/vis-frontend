@@ -190,12 +190,12 @@
   },
   "lengthType": {
     "short": {
-      "FORK": "VL",
-      "TOTAL": "TL"
+      "FORK_LENGTH": "VL",
+      "TOTAL_LENGTH": "TL"
     },
     "long": {
-      "FORK": "Vorklengte",
-      "TOTAL": "Totale lengte"
+      "FORK_LENGTH": "Vorklengte",
+      "TOTAL_LENGTH": "Totale lengte"
     }
   },
   "cpue": {
