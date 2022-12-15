@@ -82,7 +82,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     center: LatLng = latLng(51.2, 4.14);
     openSelectionPanel = false;
     showTooltips = true;
-    selected = new Map<LayerId, Map<string, string>>();
+    selected = new Map<LayerId, { [key: string]: string }>();
     private subscription = new Subscription();
     private orthoLayer: DynamicMapLayer;
     private watercourseLayer: DynamicMapLayer;
@@ -179,13 +179,13 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                                 stroke: true,
                             });
 
-                            const filteredProperties = new Map();
-                            filteredProperties.set('CODE', fishingPointFeature.code);
-                            filteredProperties.set('DESCRIPTION', fishingPointFeature.description);
-                            filteredProperties.set('X', fishingPointFeature.x);
-                            filteredProperties.set('Y', fishingPointFeature.y);
-                            filteredProperties.set('lat', fishingPointFeature.lat);
-                            filteredProperties.set('lng', fishingPointFeature.lng);
+                            const filteredProperties = {};
+                            filteredProperties['CODE'] = fishingPointFeature.code;
+                            filteredProperties['DESCRIPTION'] = fishingPointFeature.description;
+                            filteredProperties['X'] = fishingPointFeature.x;
+                            filteredProperties['Y'] = fishingPointFeature.y;
+                            filteredProperties['lat'] = fishingPointFeature.lat;
+                            filteredProperties['lng'] = fishingPointFeature.lng;
 
                             // const townInformation = await this.getTownNameForCoordinates(this.clickedLatlng);
                             this.updateSelections(this.clickedLatlng, false);
@@ -266,23 +266,24 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     public updateTownLayerSelection(coordinate: LatLng, highlight: boolean) {
-        this.townLayer.identify().on(this.map).layers('all:3').at(coordinate).run((error, featureCollection) => {
-            if (error) {
-                return;
-            }
+        this.townLayer.identify().on(this.map).layers(`all:${LayerId.TOWN_LAYER}`).at(coordinate)
+            .run((error, featureCollection) => {
+                if (error) {
+                    return;
+                }
 
-            this.selected.delete(LayerId.TOWN_LAYER);
-            this.selectFeature(featureCollection, LayerId.TOWN_LAYER, highlight);
-            this.townLayerSelected.emit({
-                layerId: LayerId.TOWN_LAYER,
-                infoProperties: this.selected.get(LayerId.TOWN_LAYER),
+                this.selected.delete(LayerId.TOWN_LAYER);
+                this.selectFeature(featureCollection, LayerId.TOWN_LAYER, highlight);
+                this.townLayerSelected.emit({
+                    layerId: LayerId.TOWN_LAYER,
+                    infoProperties: this.selected.get(LayerId.TOWN_LAYER),
+                });
             });
-        });
     }
 
     public updateBlueLayerSelection(coordinate: LatLng, highlight: boolean) {
         if (this.map.hasLayer(this.blueLayer)) {
-            this.blueLayer.identify().on(this.map).layers('visible:1').at(coordinate).run((error, featureCollection) => {
+            this.blueLayer.identify().on(this.map).layers(`visible:${LayerId.BLUE_LAYER}`).at(coordinate).run((error, featureCollection) => {
                 if (error) {
                     return;
                 }
@@ -305,7 +306,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
             this.watercourseLayer
                 .identify()
                 .on(this.map)
-                .layers('visible:0')
+                .layers(`visible:${LayerId.VHA_WATERCOURSE_LAYER}`)
                 .at(coordinate)
                 .run((error, featureCollection) => {
                     if (error) {
@@ -563,21 +564,21 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         }
     }
 
-    private getEnhancedPropertiesFromFeature(feature, layerId: LayerId): Map<string, string> {
-        const filteredProperties = new Map<string, string>();
+    private getEnhancedPropertiesFromFeature(feature, layerId: LayerId): { [key: string]: string } {
+        const filteredProperties: { [key: string]: string } = {};
         this.visibleFields[layerId]
             .forEach(visibleField => {
-                filteredProperties.set(visibleField, feature.properties[visibleField]);
+                filteredProperties[visibleField] = feature.properties[visibleField];
             });
         return this.enhanceFeatureProperties(filteredProperties, layerId);
     }
 
-    private enhanceFeatureProperties(featureProperties: Map<string, string>, layerId: LayerId): Map<string, string> {
+    private enhanceFeatureProperties(featureProperties: { [key: string]: string }, layerId: LayerId): { [key: string]: string } {
         // Issue: #242, Add arrondissement to town layer feature properties for towns in Brussels
         if (layerId === LayerId.TOWN_LAYER) {
-            if (featureProperties.get(TOWN_LAYER_FIELD.NISCODE)?.startsWith('21')) {
-                featureProperties.set(TOWN_LAYER_FIELD.NISCODE_PR, '21000');
-                featureProperties.set(TOWN_LAYER_FIELD.PROVINCIE, 'Arrondissement Brussel Hoofdstad');
+            if (featureProperties[TOWN_LAYER_FIELD.NISCODE]?.startsWith('21')) {
+                featureProperties[TOWN_LAYER_FIELD.NISCODE_PR] = '21000';
+                featureProperties[TOWN_LAYER_FIELD.PROVINCIE] = 'Arrondissement Brussel Hoofdstad';
             }
         }
         return featureProperties;
