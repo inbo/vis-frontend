@@ -4,10 +4,7 @@ import {TaxaService} from '../../../services/vis.taxa.service';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
-import {
-    lengthOrWeightRequiredForIndividualMeasurement,
-    valueBetweenWarning,
-} from '../survey-event-measurements-create-page/survey-event-measurements-validators';
+import {valueBetweenWarning} from '../survey-event-measurements-create-page/survey-event-measurements-validators';
 import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
 import {MeasurementRowEnterEvent} from './measurement-row-enter-event.model';
 import {isNil} from 'lodash-es';
@@ -281,7 +278,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         this.length().setValidators([Validators.min(0)]);
         this.length().updateValueAndValidity();
 
-        const formValidators = [lengthOrWeightRequiredForIndividualMeasurement()];
+        const formValidators = [];
         if (taxon) {
             formValidators.push(valueBetweenWarning('weight', taxon.weightMin, taxon.weightMax, this.cdr),
                 valueBetweenWarning('length', taxon.lengthMin, taxon.lengthMax, this.cdr));

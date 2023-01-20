@@ -25,7 +25,6 @@ import {Location} from '@angular/common';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 import * as IntroJs from 'intro.js/intro.js';
 import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
-import {lengthOrWeightRequiredForIndividualMeasurement} from './survey-event-measurements-validators';
 import {MeasurementRowEnterEvent} from '../measurement-row/measurement-row-enter-event.model';
 
 @Component({
@@ -142,7 +141,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
             dilutionFactor: new FormControl(dilutionFactor == null ? 1 : dilutionFactor, [Validators.min(0)]),
             comment: new FormControl(comment ?? '', Validators.max(2000)),
             individualLengths: this.formBuilder.array([]),
-        }, {validators: [lengthOrWeightRequiredForIndividualMeasurement()]});
+        });
     }
 
     addNewLine() {

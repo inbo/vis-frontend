@@ -13,9 +13,6 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
 import {PagingAsyncComponent} from '../../../shared-ui/paging-async/paging-async.component';
 import {MeasurementRowReadonlyComponent} from '../measurement-row-readonly/measurement-row-readonly.component';
-import {
-    lengthOrWeightRequiredForIndividualMeasurement,
-} from '../survey-event-measurements-create-page/survey-event-measurements-validators';
 import {Subscription} from 'rxjs';
 import {MeasurementRowEnterEvent} from '../measurement-row/measurement-row-enter-event.model';
 
@@ -85,7 +82,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
             individualLengths: this.formBuilder.array(il),
             dilutionFactor: new FormControl(measurement.dilutionFactor || 1, [Validators.min(0)]),
             isPortside: new FormControl(measurement.portside ?? true),
-        }, {validators: [lengthOrWeightRequiredForIndividualMeasurement()]});
+        });
     }
 
     createIndividualLength(individualLength: IndividualLength): FormGroup {
