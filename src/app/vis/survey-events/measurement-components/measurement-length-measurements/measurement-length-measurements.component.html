@@ -31,7 +31,7 @@
                                        (keydown.control.arrowUp)="onUpArrowKey($event)"
                                        (keydown.control.arrowLeft)="onLeftArrowKey($event)"
                                        (keydown.control.arrowRight)="onRightArrowKey($event)"/>
-                                <div *ngIf="(individualLength(i).dirty || individualLength(i).touched) && individualLength(i).warnings"
+                                <div *ngIf="individualLength(i).warnings"
                                      [title]="'Waarde moet tussen ' + individualLength(i).warnings.between?.min + ' en ' + individualLength(i).warnings.between?.max + ' liggen.'"
                                      class="absolute inset-y-0 right-0 pr-8 flex items-center">
                                     <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"

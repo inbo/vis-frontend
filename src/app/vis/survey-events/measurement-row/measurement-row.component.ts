@@ -11,6 +11,7 @@ import {
 import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
 import {MeasurementRowEnterEvent} from './measurement-row-enter-event.model';
 import {isNil} from 'lodash-es';
+import {take} from 'rxjs/operators';
 
 @Component({
     selector: 'app-measurement-row',
@@ -131,7 +132,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     }
 
     filterSpecies(search: string) {
-        if(isNil(search) || search.length === 0) {
+        if (isNil(search) || search.length === 0) {
             this.filteredTaxonOptions = [...this.allTaxonOptions];
         }
         this.filteredTaxonOptions = this.allTaxonOptions.filter(taxon => taxon.displayValue.toLowerCase().includes(search.toLowerCase()));
@@ -258,20 +259,19 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
             return;
         }
 
-        const taxaId = this.species().value.id;
+        const taxaId = this.species().value;
 
         if (!taxaId) {
             return;
         }
 
-        this.subscription.add(
-            this.taxaService.getTaxon(taxaId)
-                .subscribe(taxon => {
-                    this.taxon = taxon;
-
-                    this.setTaxonValidators(taxon);
-                }),
-        );
+        this.taxaService
+            .getTaxon(taxaId)
+            .pipe(take(1))
+            .subscribe(taxon => {
+                this.taxon = taxon;
+                this.setTaxonValidators(taxon);
+            });
     }
 
     private setTaxonValidators(taxon: TaxonDetail) {
