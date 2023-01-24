@@ -99,20 +99,20 @@
   },
   "overrides": {
     "@runette/ngx-leaflet-fullscreen": {
-      "@angular/common": "11.2.7",
-      "@angular/core": "11.2.7"
+      "@angular/common": "$@angular/core",
+      "@angular/core": "$@angular/core"
     },
     "ng-refs": {
-      "@angular/common": "11.2.7",
-      "@angular/core": "11.2.7"
+      "@angular/common": "$@angular/core",
+      "@angular/core": "$@angular/core"
     },
     "ng-transition": {
-      "@angular/common": "11.2.7",
-      "@angular/core": "11.2.7"
+      "@angular/common": "$@angular/core",
+      "@angular/core": "$@angular/core"
     },
     "ngx-pipes": {
-      "@angular/common": "11.2.7",
-      "@angular/core": "11.2.7"
+      "@angular/common": "$@angular/core",
+      "@angular/core": "$@angular/core"
     }
   }
 }
