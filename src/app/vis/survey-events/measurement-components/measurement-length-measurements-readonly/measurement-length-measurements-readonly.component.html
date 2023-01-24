@@ -24,8 +24,8 @@
                   {{i + 1}}
                 </span>
                 <span class="text-gray-500 text-sm">{{item.get('length').value}}</span>
-                <div *ngIf="(individualLength(i).dirty || individualLength(i).touched) && individualLength(i).warnings"
-                     [title]="'Waarde moet tussen ' + individualLength(i).warnings.between?.min + ' en ' + individualLength(i).warnings.between?.max + ' liggen.'"
+                <div *ngIf="(individualLength(i).dirty || individualLength(i).touched) && individualLength(i).warningMessage"
+                     [title]="'Waarde moet tussen ' + individualLength(i).warningMessage.between?.min + ' en ' + individualLength(i).warningMessage.between?.max + ' liggen.'"
                      class="absolute inset-y-0 right-0 pr-8 flex items-center">
                   <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
                        xmlns="http://www.w3.org/2000/svg">

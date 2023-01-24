@@ -3,6 +3,8 @@ import {SearchableSelectOption} from '../../../shared-ui/searchable-select/Searc
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {
     AbstractControl,
+    FormArray,
+    FormGroup,
     FormGroupDirective,
     UntypedFormArray,
     UntypedFormBuilder,
@@ -43,7 +45,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     @Output() cancelClicked = new EventEmitter<any>();
     @Output() enterClicked = new EventEmitter<MeasurementRowEnterEvent>();
 
-    form: UntypedFormGroup;
+    form: FormGroup;
     filteredTaxonOptions: SearchableSelectOption<number>[] = [];
     private allTaxonOptions: Array<SearchableSelectOption<number>> = [];
     showIndividualLengthItems = true;
@@ -91,8 +93,8 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.formArray = this.rootFormGroup.control.get('items') as UntypedFormArray;
-        this.form = this.formArray.at(this.formGroupName) as UntypedFormGroup;
+        this.formArray = this.rootFormGroup.control.get('items') as FormArray;
+        this.form = this.formArray.at(this.formGroupName) as FormGroup;
 
         this.addTaxaValidationsForRowIndex();
 

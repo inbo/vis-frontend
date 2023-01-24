@@ -2,15 +2,15 @@
   <input (keydown)="keydown($event)" [class.bg-gray-100]="amount().value > 1"
          [class.focus:border-gray-500]="amount().value > 1"
          [class.focus:ring-gray-500]="amount().value > 1"
-         [class.pr-8]="(length().dirty || length().touched) && length().warnings" [id]="'length-' + index"
+         [class.pr-8]="(length().dirty || length().touched) && length().warningMessage" [id]="'length-' + index"
          [imask]="numberMask(3, 0, 99999.999)"
          [unmask]="'typed'"
          [readOnly]="amount().value > 1"
          formControlName="length"
          name="length"
          type="text">
-  <div *ngIf="length().warnings"
-       [title]="'Waarde moet tussen ' + length().warnings.between?.min + ' en ' + length().warnings.between?.max + ' liggen.'"
+  <div *ngIf="length().warningMessage"
+       [title]="'Waarde moet tussen ' + length().warningMessage.between?.min + ' en ' + length().warningMessage.between?.max + ' liggen.'"
        class="absolute inset-y-0 right-0 pr-3 flex items-center">
     <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
          xmlns="http://www.w3.org/2000/svg">

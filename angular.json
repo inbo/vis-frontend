@@ -21,7 +21,17 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "esri-leaflet-renderers"
+              "esri-leaflet-renderers",
+              "@asymmetrik/ngx-leaflet",
+              "@asymmetrik/ngx-leaflet-markercluster",
+              "deepmerge",
+              "lodash",
+              "esri-leaflet-geocoder",
+              "leaflet-defaulticon-compatibility",
+              "leaflet",
+              "intro.js",
+              "leaflet.markercluster",
+              "flatpickr"
             ],
             "outputPath": "dist/application-ui",
             "index": "src/index.html",

@@ -1,13 +1,13 @@
 <div [formGroup]="form" class="relative rounded-md shadow-sm">
-  <input (keydown)="keydown($event)" [class.pr-8]="(weight().dirty || weight().touched) && weight().warnings"
+  <input (keydown)="keydown($event)" [class.pr-8]="(weight().dirty || weight().touched) && weight().warningMessage"
          [id]="'weight-' + index"
          [imask]="numberMask(3, 0, 99999.999)"
          [unmask]="'typed'"
          formControlName="weight" name="weight"
-         [title]="weight()?.warnings"
+         [title]="weight()?.warningMessage"
          type="text">
-  <div *ngIf="weight().warnings"
-       [title]="'Waarde moet tussen ' + weight().warnings.between?.min + ' en ' + weight().warnings.between?.max + ' liggen.'"
+  <div *ngIf="weight().warningMessage"
+       [title]="'Waarde moet tussen ' + weight().warningMessage.between?.min + ' en ' + weight().warningMessage.between?.max + ' liggen.'"
        class="absolute inset-y-0 right-0 pr-3 flex items-center">
     <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
          xmlns="http://www.w3.org/2000/svg">

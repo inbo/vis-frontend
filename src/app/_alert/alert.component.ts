@@ -12,7 +12,7 @@ export class AlertComponent implements OnInit, OnDestroy {
   showAlert = false;
   alert: Alert;
 
-  private timer: number;
+  private timer: any;
   private subscription = new Subscription();
 
 

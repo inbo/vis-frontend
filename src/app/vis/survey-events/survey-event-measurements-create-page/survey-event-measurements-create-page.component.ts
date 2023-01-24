@@ -11,7 +11,7 @@ import {
     ViewChildren,
 } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {FormArray, FormControl, FormGroup, UntypedFormBuilder, Validators} from '@angular/forms';
 import {fromEvent, Observable, Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {AlertService} from '../../../_alert';
@@ -59,7 +59,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     tip$: Observable<Tip>;
 
     existingMeasurements: Measurement[];
-    measurementsForm: UntypedFormGroup;
+    measurementsForm: FormGroup;
     submitted = false;
     showExistingMeasurements = false;
     loading = false;
@@ -129,18 +129,17 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         });
     }
 
-    createMeasurementFormGroup(species?: any, gender?: string, afvisbeurt?: number, comment?: string, isPortside?: boolean, dilutionFactor?: number): UntypedFormGroup {
+    createMeasurementFormGroup(speciesId?: number, gender?: string, afvisbeurt?: number, comment?: string, isPortside?: boolean, dilutionFactor?: number): FormGroup {
         return this.formBuilder.group({
-            type: new UntypedFormControl('NORMAL'),
-            species: new UntypedFormControl(species ?? '', [Validators.required]),
-            amount: new UntypedFormControl(1, Validators.min(0)),
-            length: new UntypedFormControl(null, [Validators.min(0)]),
-            weight: new UntypedFormControl(null, [Validators.min(0)]),
-            gender: new UntypedFormControl(gender ?? 'UNKNOWN'),
-            isPortside: new UntypedFormControl(isPortside ?? false),
-            afvisBeurtNumber: new UntypedFormControl(1),
-            dilutionFactor: new UntypedFormControl(dilutionFactor == null ? 1 : dilutionFactor, [Validators.min(0)]),
-            comment: new UntypedFormControl(comment ?? '', Validators.max(2000)),
+            species: new FormControl<number>(speciesId, [Validators.required]),
+            amount: new FormControl<number>(1, Validators.min(0)),
+            length: new FormControl<number>(null, [Validators.min(0)]),
+            weight: new FormControl<number>(null, [Validators.min(0)]),
+            gender: new FormControl<string>(gender ?? 'UNKNOWN'),
+            isPortside: new FormControl<boolean>(isPortside ?? false),
+            afvisBeurtNumber: new FormControl<number>(1),
+            dilutionFactor: new FormControl<number>(dilutionFactor == null ? 1 : dilutionFactor, [Validators.min(0)]),
+            comment: new FormControl<string>(comment ?? '', Validators.max(2000)),
             individualLengths: this.formBuilder.array([]),
         }, {validators: [lengthOrWeightRequiredForIndividualMeasurement()]});
     }
@@ -156,8 +155,8 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         this.scrollIntoView = true;
     }
 
-    items(): UntypedFormArray {
-        return this.measurementsForm.get('items') as UntypedFormArray;
+    items(): FormArray {
+        return this.measurementsForm.get('items') as FormArray;
     }
 
     getPreviousSpecies() {
