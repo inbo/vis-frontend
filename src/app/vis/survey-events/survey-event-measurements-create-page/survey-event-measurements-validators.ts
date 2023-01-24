@@ -1,5 +1,5 @@
 import {ChangeDetectorRef} from '@angular/core';
-import {AbstractControl, FormArray, FormGroup, ValidatorFn} from '@angular/forms';
+import {AbstractControl, UntypedFormArray, UntypedFormGroup, ValidatorFn} from '@angular/forms';
 
 export interface AbstractControlWarn extends AbstractControl {
   warnings: any;
@@ -7,11 +7,11 @@ export interface AbstractControlWarn extends AbstractControl {
 
 export function valueBetweenWarning(fieldName: string, minVal: number, maxVal: number,
                                     cdr: ChangeDetectorRef, index?: number, affix?: string): ValidatorFn {
-  return (c: FormGroup) => {
+  return (c: UntypedFormGroup) => {
     let field = c.get(fieldName) as AbstractControlWarn;
     const isArrayElement = !isNaN(index) && affix;
     if (isArrayElement) {
-      const array = (c.get(fieldName) as FormArray);
+      const array = (c.get(fieldName) as UntypedFormArray);
       if (array.length === 0 || array.length === index) {
         return null;
       }

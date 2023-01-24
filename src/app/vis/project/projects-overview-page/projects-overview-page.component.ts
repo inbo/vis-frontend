@@ -8,7 +8,7 @@ import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Observable, of, Subscription} from 'rxjs';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ProjectAddComponent} from '../project-add/project-add.component';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {Role} from '../../../core/_models/role';
 import {debounceTime, distinctUntilChanged, skip, take} from 'rxjs/operators';
 import {ProjectService} from '../../../services/vis.project.service';
@@ -34,7 +34,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
   pager: AsyncPage<Project>;
   projects: Observable<Project[]>;
 
-  filterForm: FormGroup;
+  filterForm: UntypedFormGroup;
   advancedFilterIsVisible = false;
 
   teams$: Observable<Team[]>;
@@ -43,7 +43,7 @@ export class ProjectsOverviewPageComponent implements OnInit {
   private projectSubscription = new Subscription();
 
   constructor(private titleService: Title, private projectService: ProjectService, private activatedRoute: ActivatedRoute,
-              private router: Router, private formBuilder: FormBuilder, public authService: AuthService,
+              private router: Router, private formBuilder: UntypedFormBuilder, public authService: AuthService,
               private accountService: AccountService) {
   }
 

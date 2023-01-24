@@ -9,7 +9,7 @@ import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
 import {PagingAsyncComponent} from '../../../shared-ui/paging-async/paging-async.component';
 import {MeasurementRowReadonlyComponent} from '../measurement-row-readonly/measurement-row-readonly.component';
@@ -45,14 +45,14 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
     isAnkerkuil = false;
 
     surveyEvent: SurveyEvent;
-    form: FormGroup;
+    form: UntypedFormGroup;
     rowEditNumber: number;
     savedIndex: number;
 
     subscription = new Subscription();
 
     constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
-                public authService: AuthService, private formBuilder: FormBuilder) {
+                public authService: AuthService, private formBuilder: UntypedFormBuilder) {
         this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
         this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
         this.titleService.setTitle('Waarneming metingen ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
@@ -72,32 +72,32 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
     createMeasurementFormGroup(measurement: Measurement) {
         const il = measurement.individualLengths ? measurement.individualLengths.map(value => this.createIndividualLength(value)) : [];
         return this.formBuilder.group({
-            id: new FormControl(measurement.id),
-            order: new FormControl(measurement.order),
-            type: new FormControl(measurement.type),
-            species: new FormControl(measurement.taxon.id, [Validators.required]),
-            amount: new FormControl(measurement.amount, Validators.min(0)),
-            length: new FormControl(measurement.length ? measurement.length.toString() : '', [Validators.min(0)]),
-            weight: new FormControl(measurement.weight ? measurement.weight.toString() : '', [Validators.min(0)]),
-            gender: new FormControl(measurement.gender ? measurement.gender : 'UNKNOWN'),
-            afvisBeurtNumber: new FormControl(measurement.afvisBeurtNumber, [Validators.min(1), Validators.max(10)]),
-            comment: new FormControl(measurement.comment ? measurement.comment : '', Validators.max(2000)),
+            id: new UntypedFormControl(measurement.id),
+            order: new UntypedFormControl(measurement.order),
+            type: new UntypedFormControl(measurement.type),
+            species: new UntypedFormControl(measurement.taxon.id, [Validators.required]),
+            amount: new UntypedFormControl(measurement.amount, Validators.min(0)),
+            length: new UntypedFormControl(measurement.length ? measurement.length.toString() : '', [Validators.min(0)]),
+            weight: new UntypedFormControl(measurement.weight ? measurement.weight.toString() : '', [Validators.min(0)]),
+            gender: new UntypedFormControl(measurement.gender ? measurement.gender : 'UNKNOWN'),
+            afvisBeurtNumber: new UntypedFormControl(measurement.afvisBeurtNumber, [Validators.min(1), Validators.max(10)]),
+            comment: new UntypedFormControl(measurement.comment ? measurement.comment : '', Validators.max(2000)),
             individualLengths: this.formBuilder.array(il),
-            dilutionFactor: new FormControl(measurement.dilutionFactor || 1, [Validators.min(0)]),
-            isPortside: new FormControl(measurement.portside ?? true),
+            dilutionFactor: new UntypedFormControl(measurement.dilutionFactor || 1, [Validators.min(0)]),
+            isPortside: new UntypedFormControl(measurement.portside ?? true),
         }, {validators: [lengthOrWeightRequiredForIndividualMeasurement()]});
     }
 
-    createIndividualLength(individualLength: IndividualLength): FormGroup {
+    createIndividualLength(individualLength: IndividualLength): UntypedFormGroup {
         return this.formBuilder.group({
-            id: new FormControl(individualLength.id),
-            length: new FormControl(individualLength.length, [Validators.min(0)]),
-            comment: new FormControl(individualLength.comment, Validators.max(2000)),
+            id: new UntypedFormControl(individualLength.id),
+            length: new UntypedFormControl(individualLength.length, [Validators.min(0)]),
+            comment: new UntypedFormControl(individualLength.comment, Validators.max(2000)),
         });
     }
 
-    items(): FormArray {
-        return this.form.get('items') as FormArray;
+    items(): UntypedFormArray {
+        return this.form.get('items') as UntypedFormArray;
     }
 
     private init() {
@@ -122,10 +122,10 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
             this.measurements = value.content;
             this.loading = false;
 
-            (this.form.get('items') as FormArray).clear();
+            (this.form.get('items') as UntypedFormArray).clear();
 
             value.content.forEach(measurement => {
-                (this.form.get('items') as FormArray).push(this.createMeasurementFormGroup(measurement));
+                (this.form.get('items') as UntypedFormArray).push(this.createMeasurementFormGroup(measurement));
             });
         });
     }
@@ -150,7 +150,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
     }
 
     save(i: number) {
-        const data = this.items().at(i) as FormGroup;
+        const data = this.items().at(i) as UntypedFormGroup;
 
         const measurement = data.getRawValue();
         if (measurement.amount > 1) {
@@ -175,7 +175,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
             this.pagingComponent.next();
         }
 
-        const data = this.items().at(i) as FormGroup;
+        const data = this.items().at(i) as UntypedFormGroup;
 
         if (data.invalid) {
             return;

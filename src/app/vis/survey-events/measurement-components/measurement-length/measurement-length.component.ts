@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AbstractControl, FormGroup, FormGroupDirective} from '@angular/forms';
+import {AbstractControl, FormGroupDirective, UntypedFormGroup} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 import {AbstractControlWarn} from '../../survey-event-measurements-create-page/survey-event-measurements-validators';
 
@@ -8,7 +8,7 @@ import {AbstractControlWarn} from '../../survey-event-measurements-create-page/s
   templateUrl: './measurement-length.component.html'
 })
 export class MeasurementLengthComponent extends MeasurementComponentDirective implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
   @Input() index: number;
 
   numberMask(scale: number, min: number, max: number) {

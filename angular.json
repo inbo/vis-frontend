@@ -151,7 +151,6 @@
       }
     }
   },
-  "defaultProject": "application-ui",
   "cli": {
     "analytics": "ede3f9df-4b13-41fa-8b04-a2d24d880fcb"
   }

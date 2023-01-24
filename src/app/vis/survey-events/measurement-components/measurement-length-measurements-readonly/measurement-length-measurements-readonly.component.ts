@@ -1,5 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroupDirective,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {AbstractControlWarn} from '../../survey-event-measurements-create-page/survey-event-measurements-validators';
 
 @Component({
@@ -8,7 +16,7 @@ import {AbstractControlWarn} from '../../survey-event-measurements-create-page/s
 })
 export class MeasurementLengthMeasurementsReadonlyComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   @Input() index: number;
   @Input() submitted = false;
 
@@ -29,7 +37,7 @@ export class MeasurementLengthMeasurementsReadonlyComponent implements OnInit {
     };
   }
 
-  constructor(private rootFormGroup: FormGroupDirective, private formBuilder: FormBuilder) {
+  constructor(private rootFormGroup: FormGroupDirective, private formBuilder: UntypedFormBuilder) {
   }
 
   ngOnInit(): void {
@@ -44,8 +52,8 @@ export class MeasurementLengthMeasurementsReadonlyComponent implements OnInit {
     return this.form.get('amount');
   }
 
-  individualLengths(): FormArray {
-    return this.form.get('individualLengths') as FormArray;
+  individualLengths(): UntypedFormArray {
+    return this.form.get('individualLengths') as UntypedFormArray;
   }
 
   individualLength(i: number): AbstractControlWarn {
@@ -80,10 +88,10 @@ export class MeasurementLengthMeasurementsReadonlyComponent implements OnInit {
     return this.individualLengths() === undefined || (i + 1) === this.individualLengths().length;
   }
 
-  createIndividualLength(comment?: any): FormGroup {
+  createIndividualLength(comment?: any): UntypedFormGroup {
     return this.formBuilder.group({
-      length: new FormControl('', [Validators.min(0), Validators.required]),
-      comment: new FormControl(comment ?? '', Validators.max(2000))
+      length: new UntypedFormControl('', [Validators.min(0), Validators.required]),
+      comment: new UntypedFormControl(comment ?? '', Validators.max(2000))
     });
   }
 

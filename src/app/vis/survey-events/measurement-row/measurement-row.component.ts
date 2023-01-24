@@ -1,7 +1,15 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {TaxaService} from '../../../services/vis.taxa.service';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
+import {
+    AbstractControl,
+    FormGroupDirective,
+    UntypedFormArray,
+    UntypedFormBuilder,
+    UntypedFormControl,
+    UntypedFormGroup,
+    Validators,
+} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 import {
@@ -35,13 +43,13 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     @Output() cancelClicked = new EventEmitter<any>();
     @Output() enterClicked = new EventEmitter<MeasurementRowEnterEvent>();
 
-    form: FormGroup;
+    form: UntypedFormGroup;
     filteredTaxonOptions: SearchableSelectOption<number>[] = [];
     private allTaxonOptions: Array<SearchableSelectOption<number>> = [];
     showIndividualLengthItems = true;
 
     private taxon: TaxonDetail;
-    private formArray: FormArray;
+    private formArray: UntypedFormArray;
     private subscription = new Subscription();
 
     get fieldsOrder() {
@@ -66,7 +74,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
     constructor(private taxaService: TaxaService,
                 private rootFormGroup: FormGroupDirective,
-                private formBuilder: FormBuilder,
+                private formBuilder: UntypedFormBuilder,
                 private cdr: ChangeDetectorRef) {
     }
 
@@ -83,8 +91,8 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.formArray = this.rootFormGroup.control.get('items') as FormArray;
-        this.form = this.formArray.at(this.formGroupName) as FormGroup;
+        this.formArray = this.rootFormGroup.control.get('items') as UntypedFormArray;
+        this.form = this.formArray.at(this.formGroupName) as UntypedFormGroup;
 
         this.addTaxaValidationsForRowIndex();
 
@@ -190,8 +198,8 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         }
     }
 
-    individualLengths(): FormArray {
-        return this.form.get('individualLengths') as FormArray;
+    individualLengths(): UntypedFormArray {
+        return this.form.get('individualLengths') as UntypedFormArray;
     }
 
     toGroupMeasurement() {
@@ -208,10 +216,10 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         this.setTaxonValidators(this.taxon);
     }
 
-    createIndividualLength(comment?: any): FormGroup {
+    createIndividualLength(comment?: any): UntypedFormGroup {
         return this.formBuilder.group({
-            length: new FormControl('', [Validators.min(0), Validators.required]),
-            comment: new FormControl(comment ?? '', Validators.max(2000)),
+            length: new UntypedFormControl('', [Validators.min(0), Validators.required]),
+            comment: new UntypedFormControl(comment ?? '', Validators.max(2000)),
         });
     }
 

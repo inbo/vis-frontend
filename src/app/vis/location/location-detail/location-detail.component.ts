@@ -7,7 +7,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FishingPoint} from '../../../domain/location/fishing-point';
 import {LatLng} from 'leaflet';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
-import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 import {Role} from '../../../core/_models/role';
@@ -34,7 +34,7 @@ export class LocationDetailComponent implements OnInit {
 
     fishingPoint: FishingPoint;
     editMode = false;
-    formGroup: FormGroup;
+    formGroup: UntypedFormGroup;
     submitted = false;
     isDeleteModalOpen = false;
     canDelete = false;
@@ -44,7 +44,7 @@ export class LocationDetailComponent implements OnInit {
 
     constructor(private locationsService: LocationsService,
                 private activatedRoute: ActivatedRoute,
-                private formBuilder: FormBuilder,
+                private formBuilder: UntypedFormBuilder,
                 private router: Router,
                 public authService: AuthService) {
     }

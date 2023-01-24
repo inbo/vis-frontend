@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup, FormGroupDirective} from '@angular/forms';
+import {FormGroupDirective, UntypedFormGroup} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 import {AbstractControlWarn} from '../../survey-event-measurements-create-page/survey-event-measurements-validators';
 
@@ -9,7 +9,7 @@ import {AbstractControlWarn} from '../../survey-event-measurements-create-page/s
 })
 export class MeasurementWeightComponent extends MeasurementComponentDirective implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   @Input() index: number;
 
   numberMask(scale: number, min: number, max: number) {

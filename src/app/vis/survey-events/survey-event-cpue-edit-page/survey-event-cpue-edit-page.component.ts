@@ -1,7 +1,7 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Role} from '../../../core/_models/role';
-import {FormBuilder, NgForm} from '@angular/forms';
+import {NgForm, UntypedFormBuilder} from '@angular/forms';
 import {SurveyEventCpueParameter} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -29,7 +29,7 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData,
     constructor(private surveyEventService: SurveyEventsService,
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
-                private formBuilder: FormBuilder,
+                private formBuilder: UntypedFormBuilder,
                 private locationsService: LocationsService,
                 private methodsService: MethodsService,
                 private _location: Location,

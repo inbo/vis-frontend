@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {AccountService} from '../../../../services/vis.account.service';
 import {Observable, Subject} from 'rxjs';
 import {map, take} from 'rxjs/operators';
@@ -15,12 +15,12 @@ export class TeamAddComponent implements OnInit {
   isOpen = false;
   submitted = false;
 
-  addTeamForm: FormGroup;
+  addTeamForm: UntypedFormGroup;
 
   instances$: Observable<Instance[]>;
   accounts$ = new Subject<Account[]>();
 
-  constructor(private accountService: AccountService, private formBuilder: FormBuilder) {
+  constructor(private accountService: AccountService, private formBuilder: UntypedFormBuilder) {
   }
 
   ngOnInit(): void {

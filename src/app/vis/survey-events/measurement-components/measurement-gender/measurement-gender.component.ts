@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AbstractControl, FormGroup, FormGroupDirective} from '@angular/forms';
+import {AbstractControl, FormGroupDirective, UntypedFormGroup} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 import {AbstractControlWarn} from '../../survey-event-measurements-create-page/survey-event-measurements-validators';
 
@@ -9,7 +9,7 @@ import {AbstractControlWarn} from '../../survey-event-measurements-create-page/s
 })
 export class MeasurementGenderComponent extends MeasurementComponentDirective implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   @Input() index: number;
 
   constructor(private rootFormGroup: FormGroupDirective) {

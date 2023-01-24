@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {LatLng, latLng} from 'leaflet';
 import {Title} from '@angular/platform-browser';
-import {FormGroup} from '@angular/forms';
+import {UntypedFormGroup} from '@angular/forms';
 import {debounceTime, take} from 'rxjs/operators';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {LocationsService} from '../../../services/vis.locations.service';
@@ -18,7 +18,7 @@ export class LocationCreateStep1Component implements OnInit, AfterViewInit {
 
     @ViewChild(FishingPointsMapComponent) map: FishingPointsMapComponent;
 
-    @Input() formGroup: FormGroup;
+    @Input() formGroup: UntypedFormGroup;
     @Input() editMode: boolean;
     @Input() canEditIndexType: boolean;
     @Input() indexTypes: Array<IndexType>;

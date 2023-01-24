@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormGroup, FormGroupDirective} from '@angular/forms';
+import {FormGroupDirective, UntypedFormGroup} from '@angular/forms';
 import {CheckOption} from './checkOption';
 
 @Component({
@@ -7,7 +7,7 @@ import {CheckOption} from './checkOption';
   templateUrl: './check-group.component.html'
 })
 export class CheckGroupComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @Input() options: CheckOption[];
   @Input() name: string;
