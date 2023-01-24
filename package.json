@@ -7,21 +7,21 @@
     "build": "ng build --outputPath=dist/local",
     "builddev": "ng build --configuration=dev --outputPath=dist/dev",
     "builduat": "ng build --configuration=uat --outputPath=dist/uat",
-    "buildprod": "ng build --prod --outputPath=dist/prod",
+    "buildprod": "ng build --configuration production --outputPath=dist/prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "11.2.7",
-    "@angular/common": "11.2.7",
-    "@angular/compiler": "11.2.7",
-    "@angular/core": "11.2.7",
-    "@angular/forms": "11.2.7",
-    "@angular/platform-browser": "11.2.7",
-    "@angular/platform-browser-dynamic": "11.2.7",
-    "@angular/router": "11.2.7",
+    "@angular/animations": "12.2.17",
+    "@angular/common": "12.2.17",
+    "@angular/compiler": "12.2.17",
+    "@angular/core": "12.2.17",
+    "@angular/forms": "12.2.17",
+    "@angular/platform-browser": "12.2.17",
+    "@angular/platform-browser-dynamic": "12.2.17",
+    "@angular/router": "12.2.17",
     "@asymmetrik/ngx-leaflet": "8.1.0",
     "@asymmetrik/ngx-leaflet-markercluster": "5.0.1",
     "@fortawesome/angular-fontawesome": "0.8.2",
@@ -61,12 +61,12 @@
     "tippy.js": "6.3.7",
     "ts-deepmerge": "1.0.7",
     "tslib": "2.0.0",
-    "zone.js": "0.10.3"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "0.1102.6",
-    "@angular/cli": "11.2.6",
-    "@angular/compiler-cli": "11.2.7",
+    "@angular-devkit/build-angular": "12.2.18",
+    "@angular/cli": "12.2.18",
+    "@angular/compiler-cli": "12.2.17",
     "@runette/ngx-leaflet-fullscreen": "1.0.5",
     "@tailwindcss/aspect-ratio": "0.2.1",
     "@tailwindcss/forms": "0.3.2",
@@ -95,7 +95,7 @@
     "tailwindcss": "2.1.4",
     "ts-node": "8.3.0",
     "tslint": "6.1.0",
-    "typescript": "4.1.5"
+    "typescript": "4.3.5"
   },
   "overrides": {
     "@runette/ngx-leaflet-fullscreen": {
