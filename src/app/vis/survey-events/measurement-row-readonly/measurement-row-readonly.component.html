@@ -18,11 +18,17 @@
 	<div class="col-span-4 md:col-span-2 lg:col-span-1 text-sm text-gray-900">
 		{{amount().value}}
 	</div>
-	<div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900">
+	<div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900 flex flex-row items-center">
 		{{length().value}}
+		<app-warning-icon class="pl-0.5"
+		                  *ngIf="length()?.hasWarningMessages()"
+		                  [messages]="length().getAllWarningMessages()"></app-warning-icon>
 	</div>
-	<div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900">
-		{{weight().value}}
+	<div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900 flex flex-row items-center">
+		<span>{{weight().value}}</span>
+		<app-warning-icon class="pl-0.5"
+		                  *ngIf="weight()?.hasWarningMessages()"
+		                  [messages]="weight().getAllWarningMessages()"></app-warning-icon>
 	</div>
 	<div class="col-span-4 md:col-span-2 lg:col-span-1 text-sm text-gray-900">
 		{{'gender.full.' + gender().value | translate}}

@@ -20,7 +20,6 @@ import {
 import 'leaflet-defaulticon-compatibility';
 import * as esri_geo from 'esri-leaflet-geocoder';
 import 'leaflet.locatecontrol';
-import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/src/leaflet/layers/control/leaflet-control-layers-config.model';
 import {dynamicMapLayer, DynamicMapLayer, featureLayer} from 'esri-leaflet';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {mapTo, switchMap, take, tap} from 'rxjs/operators';
@@ -34,6 +33,7 @@ import {BRU_WATERCOURSE_FIELD} from './bru-watercourse-field.enum';
 import {TOWN_LAYER_FIELD} from './town-layer-field.enum';
 import {VHA_WATERCOURSE_FIELD} from './vha-watercourse-field.enum';
 import {TownLayerSelectionEvent} from './town-layer-selection-event.model';
+import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet';
 
 @Component({
     selector: 'app-fishing-points-map',

@@ -21,14 +21,23 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "esri-leaflet-renderers"
+              "esri-leaflet-renderers",
+              "@asymmetrik/ngx-leaflet",
+              "@asymmetrik/ngx-leaflet-markercluster",
+              "deepmerge",
+              "lodash",
+              "esri-leaflet-geocoder",
+              "leaflet-defaulticon-compatibility",
+              "leaflet",
+              "intro.js",
+              "leaflet.markercluster",
+              "flatpickr"
             ],
             "outputPath": "dist/application-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets",
@@ -43,7 +52,13 @@
               "./node_modules/tippy.js/themes/translucent.css",
               "./node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -56,11 +71,9 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -90,7 +103,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -132,19 +146,6 @@
             ]
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
@@ -160,7 +161,6 @@
       }
     }
   },
-  "defaultProject": "application-ui",
   "cli": {
     "analytics": "ede3f9df-4b13-41fa-8b04-a2d24d880fcb"
   }

@@ -1,87 +1,93 @@
 <div [class.hidden]="!isOpen"
      class="z-[1000] fixed inset-0 overflow-visible hidden">
-    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center">
+	<div *ngIf="isOpen"
+	     class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center">
 
-        <div class="fixed inset-0 transition-opacity">
-            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-        </div>
+		<div class="fixed inset-0 transition-opacity">
+			<div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+		</div>
 
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>&#8203;
-        <div
-                class="max-w-none inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left shadow-xl
+		<span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>&#8203;
+		<div
+				class="max-w-none inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left shadow-xl
          transform transition-all sm:my-8 sm:align-middle sm:max-w-xs sm:p-6"
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="modal-headline">
-            <form [formGroup]="copySurveyEventForm" class="space-y-4" *ngIf="copySurveyEventForm">
-                <div class="sm:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                        Datum *
-                    </label>
-                    <div class="mt-1">
-                        <app-datepicker formControlName="occurrenceDate"
-                                        [minDate]="minDate"
-                                        [maxDate]="maxDate">
-                        </app-datepicker>
-                        <app-form-error-message [fieldName]="'Datum'"
-                                                [control]="occurrenceDate"
-                                                [submitted]="submitted">
-                        </app-form-error-message>
-                    </div>
-                </div>
+				role="dialog"
+				aria-modal="true"
+				aria-labelledby="modal-headline">
+			<form [formGroup]="copySurveyEventForm"
+			      class="space-y-4"
+			      *ngIf="copySurveyEventForm">
+				<div class="sm:col-span-2">
+					<label class="block text-sm font-medium text-gray-700">
+						Datum *
+					</label>
+					<div class="mt-1">
+						<app-datepicker formControlName="occurrenceDate"
+						                [minDate]="minDate"
+						                [maxDate]="maxDate">
+						</app-datepicker>
+						<app-form-error-message [fieldName]="'Datum'"
+						                        [control]="occurrenceDate"
+						                        [submitted]="submitted">
+						</app-form-error-message>
+					</div>
+				</div>
 
-                <div class="relative sm:col-span-4">
-                    <label for="method" class="block text-sm font-medium text-gray-700">
-                        Methode
-                    </label>
-                    <div class="mt-1">
-                        <app-searchable-select id="method"
-                                               passedId="method"
-                                               placeholder="Selecteer een methode"
-                                               formControlName="method"
-                                               [configuration]="methodSearchConfiguration"
-                                               (search)="filterMethods($event)"
-                                               [options]="filteredMethods">
-                        </app-searchable-select>
-                    </div>
-                </div>
+				<div class="relative sm:col-span-4">
+					<label for="method"
+					       class="block text-sm font-medium text-gray-700">
+						Methode
+					</label>
+					<div class="mt-1">
+						<app-searchable-select id="method"
+						                       passedId="method"
+						                       placeholder="Selecteer een methode"
+						                       formControlName="method"
+						                       [configuration]="methodSearchConfiguration"
+						                       (search)="filterMethods($event)"
+						                       [options]="filteredMethods">
+						</app-searchable-select>
+					</div>
+				</div>
 
-                <div class="relative sm:col-span-4">
-                    <label for="fishingPointCode" class="block text-sm font-medium text-gray-700">
-                        Meetplaatscode
-                    </label>
-                    <div class="mt-1">
-                        <app-searchable-select id="fishingPointCode"
-                                               passedId="fishingPointCode"
-                                               placeholder="Selecteer een meetplaatscode"
-                                               formControlName="fishingPointId"
-                                               (search)="getFishingPointCodes($event)"
-                                               (reset)="fishingPointCodes = []"
-                                               [options]="fishingPointCodes"
-                                               [configuration]="fishingPointSearchableSelectConfig">
-                        </app-searchable-select>
-                    </div>
-                </div>
+				<div class="relative sm:col-span-4">
+					<label for="fishingPointCode"
+					       class="block text-sm font-medium text-gray-700">
+						Meetplaatscode
+					</label>
+					<div class="mt-1">
+						<app-searchable-select id="fishingPointCode"
+						                       passedId="fishingPointCode"
+						                       placeholder="Selecteer een meetplaatscode"
+						                       formControlName="fishingPointId"
+						                       (search)="getFishingPointCodes($event)"
+						                       (reset)="fishingPointCodes = []"
+						                       [options]="fishingPointCodes"
+						                       [configuration]="fishingPointSearchableSelectConfig">
+						</app-searchable-select>
+					</div>
+				</div>
 
-                <div class="relative sm:col-span-4 text-sm">
-                    <app-form-error-message [fieldName]="'Waarneming'"
-                                            [control]="copySurveyEventForm"
-                                            [submitted]="true">
-                    </app-form-error-message>
-                </div>
-            </form>
+				<div class="relative sm:col-span-4 text-sm">
+					<app-form-error-message [fieldName]="'Waarneming'"
+					                        [control]="copySurveyEventForm"
+					                        [submitted]="true">
+					</app-form-error-message>
+				</div>
+			</form>
 
-            <div class="py-2 mt-6 flex justify-end">
-                <app-button [style]="'secondary'" (click)="isOpen = false">
-                    Annuleren
-                </app-button>
-                <app-button [disabled]="copySurveyEventForm?.invalid"
-                            [style]="'primary'"
-                            class="ml-3"
-                            (click)="copySurveyEvent()">
-                    Bewaren
-                </app-button>
-            </div>
-        </div>
-    </div>
+			<div class="py-2 mt-6 flex justify-end">
+				<app-button [style]="'secondary'"
+				            (click)="isOpen = false">
+					Annuleren
+				</app-button>
+				<app-button [disabled]="copySurveyEventForm?.invalid"
+				            [style]="'primary'"
+				            class="ml-3"
+				            (click)="copySurveyEvent()">
+					Bewaren
+				</app-button>
+			</div>
+		</div>
+	</div>
 </div>

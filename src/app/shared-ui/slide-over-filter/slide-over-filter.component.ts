@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {Observable, Subject} from 'rxjs';
+import {UntypedFormGroup} from '@angular/forms';
 import {Tag} from './tag';
 
 @Component({
@@ -11,7 +10,7 @@ export class SlideOverFilterComponent implements OnInit {
   filterIsVisible = false;
 
   @Input() tags: Tag[];
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: UntypedFormGroup;
   @Input() closeFilterOnReset = false;
   @Output() searchClicked = new EventEmitter<boolean>();
   @Output() resetClicked = new EventEmitter<boolean>();

@@ -8,7 +8,7 @@ import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {LatLng} from 'leaflet';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {getTag, Tag} from '../../../shared-ui/slide-over-filter/tag';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {take} from 'rxjs/operators';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
@@ -30,7 +30,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     projectCode: string;
 
     tags: Tag[] = [];
-    filterForm: FormGroup;
+    filterForm: UntypedFormGroup;
 
     highlightedLocation: number;
 
@@ -43,7 +43,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     fishingPointSearchableSelectConfig: SearchableSelectConfig;
 
     constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private locationsService: LocationsService,
-                private router: Router, private formBuilder: FormBuilder) {
+                private router: Router, private formBuilder: UntypedFormBuilder) {
         this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
         this.titleService.setTitle('Project ' + this.projectCode + ' locaties');
 

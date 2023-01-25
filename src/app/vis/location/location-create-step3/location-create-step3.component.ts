@@ -4,7 +4,7 @@ import {Title} from '@angular/platform-browser';
 import {latLng} from 'leaflet';
 import {VhaBlueLayerSelectionEvent} from '../../components/fishing-points-map/vha-blue-layer-selection-event.model';
 import {TownLayerSelectionEvent} from '../../components/fishing-points-map/town-layer-selection-event.model';
-import {FormGroup} from '@angular/forms';
+import {UntypedFormGroup} from '@angular/forms';
 
 @Component({
     selector: 'app-location-create-step3',
@@ -13,7 +13,7 @@ import {FormGroup} from '@angular/forms';
 export class LocationCreateStep3Component implements OnInit {
     @ViewChild(FishingPointsMapComponent, {static: true}) map: FishingPointsMapComponent;
 
-    @Input() formGroup: FormGroup;
+    @Input() formGroup: UntypedFormGroup;
 
     constructor(private titleService: Title) {
         this.titleService.setTitle('Locatie toevoegen');

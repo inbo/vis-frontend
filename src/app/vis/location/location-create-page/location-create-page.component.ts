@@ -4,7 +4,7 @@ import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {Title} from '@angular/platform-browser';
 import 'esri-leaflet-renderers';
-import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Observable, of, Subscription} from 'rxjs';
 import {LocationsService} from '../../../services/vis.locations.service';
 import {map, take, tap} from 'rxjs/operators';
@@ -36,7 +36,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
 
     currentStep = FishingPointCreationStep.GENERAL;
 
-    formGroup: FormGroup;
+    formGroup: UntypedFormGroup;
     originalFishingPoint: FishingPoint;
     fishingPointType = FishingPointType.STAGNANT;
     canEditIndexType = false;
@@ -45,7 +45,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
     private subscription = new Subscription();
 
     constructor(private titleService: Title,
-                private formBuilder: FormBuilder,
+                private formBuilder: UntypedFormBuilder,
                 private locationsService: LocationsService,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,

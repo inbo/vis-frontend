@@ -17,6 +17,7 @@ import {Municipality} from '../domain/location/municipality';
 import {FishingPointCode} from '../domain/location/fishing-point-code';
 import {Province} from '../domain/location/province';
 import {map} from 'rxjs/operators';
+import {withCache} from '@ngneat/cashew';
 
 
 @Injectable({
@@ -42,7 +43,7 @@ export class LocationsService extends VisService {
     getFishingPoints(page: number, size: number, filter: any): Observable<AsyncPage<FishingPoint>> {
         const params = this.getPageParams(page, size, filter);
 
-        return this.http.get<AsyncPage<FishingPoint>>(`${environment.apiUrl}/api/fishingpoints`, {params});
+        return this.http.get<AsyncPage<FishingPoint>>(`${environment.apiUrl}/api/fishingpoints`, {params, context: withCache()});
     }
 
     create(formData: any): Observable<void> {
@@ -53,16 +54,16 @@ export class LocationsService extends VisService {
         const params = this.getParams(filter);
 
         if (projectCode) {
-            return this.http.get<FishingPointFeature[]>(`${environment.apiUrl}/api/fishingpoints/project/${projectCode}/features`, {});
+            return this.http.get<FishingPointFeature[]>(`${environment.apiUrl}/api/fishingpoints/project/${projectCode}/features`);
         }
-        return this.http.get<FishingPointFeature[]>(`${environment.apiUrl}/api/fishingpoints/features`, {params});
+        return this.http.get<FishingPointFeature[]>(`${environment.apiUrl}/api/fishingpoints/features`, {params, context: withCache()});
     }
 
     getFishingPointCodes(filter: any): Observable<Array<string>> {
         const params = this.getParams(filter);
 
         return this.http
-            .get<{ fishingPointCodes: Array<string> }>(`${environment.apiUrl}/api/fishingpointcodes`, {params})
+            .get<{ fishingPointCodes: Array<string> }>(`${environment.apiUrl}/api/fishingpointcodes`, {params, context: withCache()})
             .pipe(
                 map(responseBody => responseBody.fishingPointCodes),
             );
@@ -87,15 +88,15 @@ export class LocationsService extends VisService {
             params = params.set('id', id?.toString());
         }
 
-        return this.http.get<FishingPointSearch[]>(`${environment.apiUrl}/api/fishingpoints/search`, {params});
+        return this.http.get<FishingPointSearch[]>(`${environment.apiUrl}/api/fishingpoints/search`, {params, context: withCache()});
     }
 
     findById(id: number): Observable<FishingPoint> {
-        return this.http.get<FishingPoint>(`${environment.apiUrl}/api/fishingpoints/${id}`, {});
+        return this.http.get<FishingPoint>(`${environment.apiUrl}/api/fishingpoints/${id}`, {context: withCache()});
     }
 
     findByCode(code: string): Observable<FishingPoint> {
-        return this.http.get<FishingPoint>(`${environment.apiUrl}/api/fishingpoints/code/${code}`, {});
+        return this.http.get<FishingPoint>(`${environment.apiUrl}/api/fishingpoints/code/${code}`, {context: withCache()});
     }
 
     findByProjectCode(code: string, page: number, size: number, filter: any): Observable<AsyncPage<ProjectFishingPoint>> {
@@ -110,7 +111,7 @@ export class LocationsService extends VisService {
             params = params.set('watercourse', watercourse);
         }
 
-        return this.http.get<Watercourse[]>(`${environment.apiUrl}/api/watercourses/search`, {params});
+        return this.http.get<Watercourse[]>(`${environment.apiUrl}/api/watercourses/search`, {params, context: withCache()});
     }
 
     searchBasins(basin?: string): Observable<Basin[]> {
@@ -119,7 +120,7 @@ export class LocationsService extends VisService {
             params = params.set('basin', basin);
         }
 
-        return this.http.get<Basin[]>(`${environment.apiUrl}/api/basins/search`, {params});
+        return this.http.get<Basin[]>(`${environment.apiUrl}/api/basins/search`, {params, context: withCache()});
     }
 
     searchProvinces(q?: string): Observable<Province[]> {
@@ -128,7 +129,7 @@ export class LocationsService extends VisService {
             params = params.set('q', q);
         }
 
-        return this.http.get<Province[]>(`${environment.apiUrl}/api/provinces/search`, {params});
+        return this.http.get<Province[]>(`${environment.apiUrl}/api/provinces/search`, {params, context: withCache()});
     }
 
     searchMunicipalities(q?: string): Observable<Municipality[]> {
@@ -137,7 +138,7 @@ export class LocationsService extends VisService {
             params = params.set('q', q);
         }
 
-        return this.http.get<Municipality[]>(`${environment.apiUrl}/api/municipalities/search`, {params});
+        return this.http.get<Municipality[]>(`${environment.apiUrl}/api/municipalities/search`, {params, context: withCache()});
     }
 
     searchLenticWaterbodyNames(name?: string): Observable<LenticWaterbody[]> {
@@ -146,7 +147,7 @@ export class LocationsService extends VisService {
             params = params.set('name', name);
         }
 
-        return this.http.get<LenticWaterbody[]>(`${environment.apiUrl}/api/lenticwaterbody/search`, {params});
+        return this.http.get<LenticWaterbody[]>(`${environment.apiUrl}/api/lenticwaterbody/search`, {params, context: withCache()});
     }
 
     searchFishingPointCodes(name?: string): Observable<FishingPointCode[]> {
@@ -155,7 +156,7 @@ export class LocationsService extends VisService {
             params = params.set('name', name);
         }
 
-        return this.http.get<FishingPointCode[]>(`${environment.apiUrl}/api/fishingpointcode/search`, {params});
+        return this.http.get<FishingPointCode[]>(`${environment.apiUrl}/api/fishingpointcode/search`, {params, context: withCache()});
     }
 
     convertCoordinates(x: number, y: number, source: string): Observable<Coordinates> {
@@ -163,7 +164,7 @@ export class LocationsService extends VisService {
             .set('x', x.toString())
             .set('y', y.toString())
             .set('source', source);
-        return this.http.get<Coordinates>(`${environment.apiUrl}/api/coordinates/convert`, {params});
+        return this.http.get<Coordinates>(`${environment.apiUrl}/api/coordinates/convert`, {params, context: withCache()});
     }
 
     updateLocation(locationId: number, formData: any) {
@@ -179,7 +180,7 @@ export class LocationsService extends VisService {
     }
 
     listIndexTypes() {
-        return this.http.get<IndexType[]>(`${environment.apiUrl}/api/indextypes/all`);
+        return this.http.get<IndexType[]>(`${environment.apiUrl}/api/indextypes/all`, {context: withCache()});
     }
 
     exportLocations(locationCodesToExport: string[], filename: string) {

@@ -12,7 +12,7 @@ import {FishingPointsMapComponent} from '../../components/fishing-points-map/fis
 import {LatLng} from 'leaflet';
 import {Role} from '../../../core/_models/role';
 import {getTag, Tag} from '../../../shared-ui/slide-over-filter/tag';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {take} from 'rxjs/operators';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
@@ -41,7 +41,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     role = Role;
 
     tags: Tag[] = [];
-    filterForm: FormGroup;
+    filterForm: UntypedFormGroup;
 
     highlightedLocation: number;
     locationCodesToExport: string[] = [];
@@ -62,7 +62,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
                 private locationsService: LocationsService,
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
-                private formBuilder: FormBuilder) {
+                private formBuilder: UntypedFormBuilder) {
         this.titleService.setTitle('Locaties');
 
         this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()

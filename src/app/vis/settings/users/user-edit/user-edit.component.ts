@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Account} from '../../../../domain/account/account';
 import {Observable} from 'rxjs';
 import {AccountService} from '../../../../services/vis.account.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {map, take} from 'rxjs/operators';
 import {MultiSelectOption} from '../../../../shared-ui/multi-select/multi-select';
 
@@ -19,11 +19,11 @@ export class UserEditComponent implements OnInit {
   teams$: Observable<MultiSelectOption[]>;
   instances$: Observable<MultiSelectOption[]>;
 
-  editAccountTeamForm: FormGroup;
+  editAccountTeamForm: UntypedFormGroup;
 
   @Output() onSaved: EventEmitter<any> = new EventEmitter();
 
-  constructor(private accountService: AccountService, private formBuilder: FormBuilder) {
+  constructor(private accountService: AccountService, private formBuilder: UntypedFormBuilder) {
   }
 
   ngOnInit(): void {

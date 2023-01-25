@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AbstractControl, FormGroup, FormGroupDirective} from '@angular/forms';
+import {AbstractControl, FormGroupDirective, UntypedFormGroup} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 
 @Component({
@@ -8,7 +8,7 @@ import {MeasurementComponentDirective} from '../measurement-component.directive'
 })
 export class MeasurementAmountComponent extends MeasurementComponentDirective implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   @Input() index: number;
 
   constructor(private rootFormGroup: FormGroupDirective) {

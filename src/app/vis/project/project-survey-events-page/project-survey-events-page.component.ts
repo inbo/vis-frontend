@@ -5,7 +5,7 @@ import {Observable, of, Subscription} from 'rxjs';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {map, take} from 'rxjs/operators';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {MethodsService} from '../../../services/vis.methods.service';
@@ -55,12 +55,12 @@ export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {
 
     fishingPointSearchableSelectConfig: SearchableSelectConfig;
 
-    filterForm: FormGroup;
+    filterForm: UntypedFormGroup;
 
     private subscription = new Subscription();
 
     constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private methodsService: MethodsService,
-                private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder,
+                private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: UntypedFormBuilder,
                 private taxaService: TaxaService, private datePipe: DatePipe, private translateService: TranslateService,
                 public authService: AuthService, private locationsService: LocationsService) {
         this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()

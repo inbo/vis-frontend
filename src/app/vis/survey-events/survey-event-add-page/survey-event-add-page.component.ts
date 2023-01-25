@@ -1,5 +1,5 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -26,7 +26,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
 
     @ViewChild(DatepickerComponent) datepicker: DatepickerComponent;
 
-    createSurveyEventForm: FormGroup;
+    createSurveyEventForm: UntypedFormGroup;
     isOpen = false;
     submitted = false;
 
@@ -46,7 +46,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
     constructor(private surveyEventService: SurveyEventsService,
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
-                private formBuilder: FormBuilder,
+                private formBuilder: UntypedFormBuilder,
                 private locationsService: LocationsService,
                 private methodsService: MethodsService,
                 private _location: Location,

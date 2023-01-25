@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import {UntypedFormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-expandable-filter',
@@ -9,7 +9,7 @@ export class ExpandableFilterComponent implements OnInit, OnChanges {
   advancedFilterIsVisible = false;
 
   @Input() hideSearchButton: boolean = false;
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: UntypedFormGroup;
   @Input() showAdvancedFilterAtStartup: boolean;
   @Input() showAdvancedFilter = true;
   @Output() searchClicked = new EventEmitter<boolean>();

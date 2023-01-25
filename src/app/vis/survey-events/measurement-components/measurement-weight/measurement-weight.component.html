@@ -1,19 +1,16 @@
-<div [formGroup]="form" class="relative rounded-md shadow-sm">
-  <input (keydown)="keydown($event)" [class.pr-8]="(weight().dirty || weight().touched) && weight().warnings"
-         [id]="'weight-' + index"
-         [imask]="numberMask(3, 0, 99999.999)"
-         [unmask]="'typed'"
-         formControlName="weight" name="weight"
-         [title]="weight()?.warnings"
-         type="text">
-  <div *ngIf="weight().warnings"
-       [title]="'Waarde moet tussen ' + weight().warnings.between?.min + ' en ' + weight().warnings.between?.max + ' liggen.'"
-       class="absolute inset-y-0 right-0 pr-3 flex items-center">
-    <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
-         xmlns="http://www.w3.org/2000/svg">
-      <path clip-rule="evenodd"
-            d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-            fill-rule="evenodd"></path>
-    </svg>
-  </div>
+<div [formGroup]="form"
+     class="relative rounded-md shadow-sm">
+	<input (keydown)="keydown($event)"
+	       [class.pr-8]="(weight().dirty || weight().touched) && weight().warningMessages"
+	       [id]="'weight-' + index"
+	       [imask]="nullableNumbermask(3, 0, 99999.999)"
+	       [unmask]="'typed'"
+	       formControlName="weight"
+	       name="weight"
+	       [title]="weight()?.warningMessages"
+	       type="text">
+	<app-warning-icon class="input-field-warning-icon"
+	                  *ngIf="weight().hasWarningMessages()"
+	                  [messages]="weight().getAllWarningMessages()">
+	</app-warning-icon>
 </div>

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {Observable, Subject} from 'rxjs';
 import {Instance} from '../../../../domain/account/instance';
 import {Account} from '../../../../domain/account/account';
@@ -17,12 +17,12 @@ export class TeamEditComponent implements OnInit {
   submitted = false;
   team: Team;
 
-  editTeamForm: FormGroup;
+  editTeamForm: UntypedFormGroup;
 
   instances$: Observable<Instance[]>;
   accounts$ = new Subject<Account[]>();
 
-  constructor(private accountService: AccountService, private formBuilder: FormBuilder) {
+  constructor(private accountService: AccountService, private formBuilder: UntypedFormBuilder) {
   }
 
   ngOnInit(): void {

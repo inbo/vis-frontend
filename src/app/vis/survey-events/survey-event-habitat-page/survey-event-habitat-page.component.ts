@@ -3,7 +3,7 @@ import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {Habitat} from '../../../domain/survey-event/habitat';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../core/_models/role';
@@ -19,14 +19,14 @@ export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {
   projectCode: string;
   surveyEventId: any;
   habitat: Habitat;
-  habitatForm: FormGroup;
+  habitatForm: UntypedFormGroup;
 
   surveyEvent$: Observable<SurveyEvent>;
 
   private subscription = new Subscription();
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
-              private formBuilder: FormBuilder, private surveyEventService: SurveyEventsService) {
+              private formBuilder: UntypedFormBuilder, private surveyEventService: SurveyEventsService) {
     this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
 
     this.surveyEvent$ = this.surveyEventService.getSurveyEvent(this.activatedRoute.parent.snapshot.params.projectCode,
