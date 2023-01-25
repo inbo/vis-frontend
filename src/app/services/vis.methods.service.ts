@@ -6,6 +6,7 @@ import {VisService} from './vis.service';
 import {MethodGroup} from '../domain/method/method-group';
 import {Method} from '../domain/method/method';
 import {Observable} from 'rxjs';
+import {withCache} from '@ngneat/cashew';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +20,12 @@ export class MethodsService extends VisService {
   getMethods(page: number, size: number, filter: any) {
     const params = this.getPageParams(page, size, filter);
 
-    return this.http.get<AsyncPage<Method>>(environment.apiUrl + '/api/methods', {params});
+    return this.http.get<AsyncPage<Method>>(environment.apiUrl + '/api/methods', {params, context: withCache()});
 
   }
 
   getAllMethods(): Observable<Method[]> {
-    return this.http.get<Method[]>(environment.apiUrl + '/api/methods/all');
+    return this.http.get<Method[]>(environment.apiUrl + '/api/methods/all', {context: withCache()});
   }
 
   getAllMethodsForProject(projectCode): Observable<Method[]> {
@@ -36,13 +37,13 @@ export class MethodsService extends VisService {
   }
 
   getAllMethodGroups() {
-    return this.http.get<MethodGroup[]>(environment.apiUrl + '/api/method-groups/all');
+    return this.http.get<MethodGroup[]>(environment.apiUrl + '/api/method-groups/all', {context: withCache()});
   }
 
   getMethodsForGroup(group: string) {
     const params = new HttpParams()
       .set('methodGroup', group);
-    return this.http.get<Method[]>(`${environment.apiUrl}/api/method-groups/methods`, {params});
+    return this.http.get<Method[]>(`${environment.apiUrl}/api/method-groups/methods`, {params, context: withCache()});
   }
 
   getMethod(methodCode: string): Observable<Method> {

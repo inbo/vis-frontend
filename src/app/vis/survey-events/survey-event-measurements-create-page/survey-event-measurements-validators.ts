@@ -3,9 +3,8 @@ import {AbstractControl, FormGroup, UntypedFormArray, UntypedFormGroup, Validato
 import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
 import {isNil} from 'lodash-es';
 
-export interface AbstractControlWarn extends AbstractControl {
-    warningMessage: string;
-
+export abstract class AbstractControlWarn extends AbstractControl {
+    warningMessages: { [key: string]: string };
 }
 
 export function valueBetweenWarning(fieldName: string, minVal: number, maxVal: number,
@@ -26,8 +25,6 @@ export function valueBetweenWarning(fieldName: string, minVal: number, maxVal: n
             field = array.at(index).get(affix) as AbstractControlWarn;
         }
 
-        field.warningMessage = null;
-
         if (!field.value) {
             return null;
         }
@@ -37,7 +34,10 @@ export function valueBetweenWarning(fieldName: string, minVal: number, maxVal: n
 
         if (minVal !== null && maxVal !== null) {
             const isinValid = field.value > max || field.value < min;
-            field.warningMessage = isinValid ? `Waarde moet tussen ${min} en ${max} liggen.` : undefined;
+            field.warningMessages = {
+                ...(field.warningMessages || {}),
+                between: isinValid ? `Waarde moet tussen ${min} en ${max} liggen.` : undefined,
+            };
             cdr.detectChanges();
         }
 
@@ -45,7 +45,7 @@ export function valueBetweenWarning(fieldName: string, minVal: number, maxVal: n
     };
 }
 
-export function weightValidator(taxon: TaxonDetail, cdr: ChangeDetectorRef): ValidatorFn {
+export function weightLengthRatioValidator(taxon: TaxonDetail, cdr: ChangeDetectorRef): ValidatorFn {
     return (formGroup: FormGroup) => {
         const weight = formGroup.get('weight').value;
         const length = formGroup.get('length').value;
@@ -65,13 +65,14 @@ export function weightValidator(taxon: TaxonDetail, cdr: ChangeDetectorRef): Val
         const minWeight = taxon.minGewichtLengteFactor * Math.pow(length, taxon.minGewichtLengteExponent) + (taxon.minGewichtLengteConstante ?? 0);
         const maxWeight = taxon.maxGewichtLengteFactor * Math.pow(length, taxon.maxGewichtLengteExponent) + (taxon.maxGewichtLengteConstante ?? 0);
 
-        if (weight < taxon.weightMin || weight > taxon.weightMax) {
-            (formGroup.get('weight') as AbstractControlWarn).warningMessage = `Het gewicht moet tussen ${taxon.weightMin} en ${taxon.weightMax} liggen.`;
-        } else if (weight < minWeight || weight > maxWeight) {
-            (formGroup.get('weight') as AbstractControlWarn).warningMessage = 'Het gewicht is niet in verhouding met de ingevoerde lengte.';
-        }
-
+        const isNotWithinRatio = weight < minWeight || weight > maxWeight;
+        const field = formGroup.get('weight') as AbstractControlWarn;
+        field.warningMessages = {
+            ...(field.warningMessages || {}),
+            ratio: isNotWithinRatio ? `Het gewicht is niet in verhouding met de ingevoerde lengte.` : undefined,
+        };
         cdr.detectChanges();
+
         return null;
     };
 }

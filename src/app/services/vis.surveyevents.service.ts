@@ -16,7 +16,8 @@ import {Habitat} from '../domain/survey-event/habitat';
 import {VisService} from './vis.service';
 import {format} from 'date-fns';
 import {map} from 'rxjs/operators';
-import {method, uniqBy} from 'lodash-es';
+import {uniqBy} from 'lodash-es';
+import {withCache} from '@ngneat/cashew';
 
 @Injectable({
     providedIn: 'root',
@@ -126,7 +127,7 @@ export class SurveyEventsService extends VisService {
     }
 
     listStatusCodes(): Observable<string[]> {
-        return this.http.get<string[]>(`${environment.apiUrl}/api/surveyevents/code/status`);
+        return this.http.get<string[]>(`${environment.apiUrl}/api/surveyevents/code/status`, {context: withCache()});
     }
 
     getHabitat(projectCode: string, surveyEventId: number): Observable<Habitat> {

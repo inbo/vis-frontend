@@ -17,6 +17,7 @@ import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-ic
 import {
     lengthOrWeightRequiredForIndividualMeasurement,
     valueBetweenWarning,
+    weightLengthRatioValidator,
 } from '../survey-event-measurements-create-page/survey-event-measurements-validators';
 import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
 import {MeasurementRowEnterEvent} from './measurement-row-enter-event.model';
@@ -291,13 +292,14 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         this.length().setValidators([Validators.min(0)]);
         this.length().updateValueAndValidity();
 
-        const formValidators = [lengthOrWeightRequiredForIndividualMeasurement()];
+        const formValidators = [lengthOrWeightRequiredForIndividualMeasurement(), weightLengthRatioValidator(taxon, this.cdr)];
         if (taxon) {
-            formValidators.push(valueBetweenWarning('weight', taxon.weightMin, taxon.weightMax, this.cdr),
+            formValidators.push(
+                valueBetweenWarning('weight', taxon.weightMin, taxon.weightMax, this.cdr),
                 valueBetweenWarning('length', taxon.lengthMin, taxon.lengthMax, this.cdr));
 
             for (let index = 0; index < this.individualLengths().length; index++) {
-                formValidators.push(valueBetweenWarning('individualLengths', taxon.weightMin, taxon.weightMax, this.cdr, index, 'length'));
+                formValidators.push(valueBetweenWarning('individualLengths', taxon.lengthMin, taxon.lengthMax, this.cdr, index, 'length'));
             }
         }
 

@@ -16,11 +16,11 @@
 			                    data-step="2"
 			                    data-intro="Klik hier om een soort te zoeken en te selecteren.">
 			</app-species-search>
-			<fa-icon [class.hidden]="type().value !== 'GROUP'"
+			<fa-icon [class.hidden]="type()?.value !== 'GROUP'"
 			         [icon]="faWeightHanging"
 			         class="self-center text-gray-500 pl-2"
 			         title="Groepsmeting"></fa-icon>
-			<fa-icon [class.hidden]="type().value !== 'GROUP_LENGTHS'"
+			<fa-icon [class.hidden]="type()?.value !== 'GROUP_LENGTHS'"
 			         [icon]="faRulerHorizontal"
 			         class="self-center text-gray-500 pl-2"
 			         title="Groepsmeting met lengtemetingen"></fa-icon>
@@ -112,7 +112,7 @@
 	     data-intro="Deze iconen verschijnen wanneer je de meting omvormt naar een groepsmeting met individuele metingen."
 	     data-position="bottom-right-aligned">
      <span (click)="showIndividualLengthItems = !showIndividualLengthItems"
-           [class.hidden]="type().value !== 'GROUP_LENGTHS'"
+           [class.hidden]="type()?.value !== 'GROUP_LENGTHS'"
            [title]="showIndividualLengthItems ? 'Verbergen' : 'Openklappen'"
            class="inline-block cursor-pointer"
            data-step="7"
@@ -127,7 +127,7 @@
     </span>
 
 		<span (click)="toGroupMeasurement()"
-		      [class.hidden]="type().value !== 'GROUP'"
+		      [class.hidden]="type()?.value !== 'GROUP'"
 		      class="inline-block cursor-pointer"
 		      title="Omvormen naar een groepsmeting met individuele lengtemetingen"
 		      data-step="5"
@@ -140,7 +140,7 @@
     </span>
 
 		<span (click)="toIndividualMeasurement()"
-		      [class.hidden]="type().value !== 'GROUP_LENGTHS'"
+		      [class.hidden]="type()?.value !== 'GROUP_LENGTHS'"
 		      class="inline-block cursor-pointer"
 		      title="Omvormen naar een individuele meting"
 		      data-step="8"

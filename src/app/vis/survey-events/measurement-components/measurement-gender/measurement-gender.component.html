@@ -1,6 +1,5 @@
 <ng-container [formGroup]="form">
   <select (keydown)="keydown($event)"
-          [class.pr-8]="(length().dirty || length().touched) && length().warningMessage"
           [id]="'gender-' + index"
           formControlName="gender"
           name="gender">
