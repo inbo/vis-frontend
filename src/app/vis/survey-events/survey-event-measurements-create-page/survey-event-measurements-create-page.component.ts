@@ -25,8 +25,9 @@ import {Location} from '@angular/common';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 import * as IntroJs from 'intro.js/intro.js';
 import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
-import {lengthOrWeightRequiredForIndividualMeasurement} from './survey-event-measurements-validators';
 import {MeasurementRowEnterEvent} from '../measurement-row/measurement-row-enter-event.model';
+import {lengthOrWeightRequiredForIndividualMeasurement} from './validators/length-or-weight-required-for-individual.measurement';
+import {WarningFormControl} from '../../../shared-ui/warning-form-control/warning.form-control';
 
 @Component({
     selector: 'app-survey-event-measurements-create-page',
@@ -131,17 +132,21 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
     createMeasurementFormGroup(speciesId?: number, gender?: string, afvisbeurt?: number, comment?: string, isPortside?: boolean, dilutionFactor?: number): FormGroup {
         return this.formBuilder.group({
+            type: new FormControl('NORMAL'),
             species: new FormControl<number>(speciesId, [Validators.required]),
             amount: new FormControl<number>(1, Validators.min(0)),
-            length: new FormControl<number>(null, [Validators.min(0)]),
-            weight: new FormControl<number>(null, [Validators.min(0)]),
+            length: new WarningFormControl(null, [Validators.min(0)]),
+            weight: new WarningFormControl(null, [Validators.min(0)]),
             gender: new FormControl<string>(gender ?? 'UNKNOWN'),
             isPortside: new FormControl<boolean>(isPortside ?? false),
             afvisBeurtNumber: new FormControl<number>(1),
             dilutionFactor: new FormControl<number>(dilutionFactor == null ? 1 : dilutionFactor, [Validators.min(0)]),
             comment: new FormControl<string>(comment ?? '', Validators.max(2000)),
             individualLengths: this.formBuilder.array([]),
-        }, {validators: [lengthOrWeightRequiredForIndividualMeasurement()]});
+        }, {
+            validators: [lengthOrWeightRequiredForIndividualMeasurement(),
+            ],
+        });
     }
 
     addNewLine() {
@@ -324,21 +329,19 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
             localStorage.setItem('measurements-demo', 'completed');
         });
 
-        this.introJs.onbeforechange(function() {
-            switch (this._currentStep) {
+        this.introJs.onbeforechange(() => {
+            switch (this.introJs.currentStep()) {
                 case 3:
-                    _this.amount(0).patchValue(2);
-                    _this.items().at(0).get('type').patchValue('GROUP');
-                    _this._measurementRows.get(0).detectChanges();
+                    this.amount(0).patchValue(2);
+                    this.items().at(0).get('type').patchValue('GROUP');
+                    this.changeDetectorRef.detectChanges();
                     break;
                 case 5:
-                    _this._measurementRows.get(0).toGroupMeasurement();
-                    _this._measurementRows.get(0).detectChanges();
+                    this._measurementRows.get(0).toGroupMeasurement();
+                    this.changeDetectorRef.detectChanges();
                     break;
             }
         });
-
-        const _this = this;
 
         setTimeout(() => this.introJs.start());
     }

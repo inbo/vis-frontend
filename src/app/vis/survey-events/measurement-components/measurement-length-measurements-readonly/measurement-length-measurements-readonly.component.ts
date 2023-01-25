@@ -1,14 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {
-  AbstractControl,
-  FormGroupDirective,
-  UntypedFormArray,
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
+    AbstractControl,
+    FormGroupDirective,
+    UntypedFormArray,
+    UntypedFormBuilder,
+    UntypedFormControl,
+    UntypedFormGroup,
+    Validators,
 } from '@angular/forms';
-import {AbstractControlWarn} from '../../survey-event-measurements-create-page/survey-event-measurements-validators';
+import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
 
 @Component({
   selector: 'app-measurement-length-measurements-readonly',
@@ -56,8 +56,8 @@ export class MeasurementLengthMeasurementsReadonlyComponent implements OnInit {
     return this.form.get('individualLengths') as UntypedFormArray;
   }
 
-  individualLength(i: number): AbstractControlWarn {
-    return this.individualLengths().at(i).get('length') as AbstractControlWarn;
+  individualLength(i: number): WarningFormControl {
+    return this.individualLengths().at(i).get('length') as WarningFormControl;
   }
 
   individualComment(i: number): AbstractControl {

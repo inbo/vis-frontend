@@ -14,15 +14,16 @@ import {
 } from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
-import {
-    lengthOrWeightRequiredForIndividualMeasurement,
-    valueBetweenWarning,
-    weightLengthRatioValidator,
-} from '../survey-event-measurements-create-page/survey-event-measurements-validators';
+import {weightLengthRatioValidator} from '../survey-event-measurements-create-page/validators/weight-length-ratio.warning-validator';
 import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
 import {MeasurementRowEnterEvent} from './measurement-row-enter-event.model';
 import {isNil} from 'lodash-es';
 import {take} from 'rxjs/operators';
+import {valueBetweenWarning} from '../survey-event-measurements-create-page/validators/value-between.warning-validator';
+import {
+    lengthOrWeightRequiredForIndividualMeasurement,
+} from '../survey-event-measurements-create-page/validators/length-or-weight-required-for-individual.measurement';
+import {WarningFormControl} from '../../../shared-ui/warning-form-control/warning.form-control';
 
 @Component({
     selector: 'app-measurement-row',
@@ -46,14 +47,19 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     @Output() cancelClicked = new EventEmitter<any>();
     @Output() enterClicked = new EventEmitter<MeasurementRowEnterEvent>();
 
-    form: FormGroup;
+    measurementsForm: FormGroup;
     filteredTaxonOptions: SearchableSelectOption<number>[] = [];
-    private allTaxonOptions: Array<SearchableSelectOption<number>> = [];
     showIndividualLengthItems = true;
-
-    private taxon: TaxonDetail;
-    private formArray: UntypedFormArray;
+    taxon: TaxonDetail;
+    private allTaxonOptions: Array<SearchableSelectOption<number>> = [];
+    measurementsFormArray: UntypedFormArray;
     private subscription = new Subscription();
+
+    constructor(private taxaService: TaxaService,
+                private rootFormGroup: FormGroupDirective,
+                private formBuilder: UntypedFormBuilder,
+                private changeDetectorRef: ChangeDetectorRef) {
+    }
 
     get fieldsOrder() {
         return this.isAnkerkuil ? [
@@ -75,12 +81,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         ];
     }
 
-    constructor(private taxaService: TaxaService,
-                private rootFormGroup: FormGroupDirective,
-                private formBuilder: UntypedFormBuilder,
-                private cdr: ChangeDetectorRef) {
-    }
-
     numberMask(scale: number, min: number, max: number) {
         return {
             mask: Number,
@@ -94,8 +94,8 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.formArray = this.rootFormGroup.control.get('items') as FormArray;
-        this.form = this.formArray.at(this.formGroupName) as FormGroup;
+        this.measurementsFormArray = this.rootFormGroup.control.get('items') as FormArray;
+        this.measurementsForm = this.measurementsFormArray.at(this.formGroupName) as FormGroup;
 
         this.addTaxaValidationsForRowIndex();
 
@@ -104,10 +104,10 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
             .subscribe(taxonOptions => {
                 this.allTaxonOptions = taxonOptions;
                 this.filteredTaxonOptions = [...this.allTaxonOptions];
+                this.changeDetectorRef.detectChanges();
             });
 
         this.focusElement('species', this.formGroupName);
-        this.cdr.detectChanges();
     }
 
     ngOnDestroy() {
@@ -117,6 +117,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     onSpeciesChange() {
         this.addTaxaValidationsForRowIndex();
         this.enterPressed({fieldName: 'species', event: undefined});
+        this.changeDetectorRef.detectChanges();
     }
 
     navigateOnArrow({key, currentTarget}: KeyboardEvent) {
@@ -147,89 +148,76 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
             this.filteredTaxonOptions = [...this.allTaxonOptions];
         }
         this.filteredTaxonOptions = this.allTaxonOptions.filter(taxon => taxon.displayValue.toLowerCase().includes(search.toLowerCase()));
-        this.cdr.detectChanges();
+        this.changeDetectorRef.detectChanges();
     }
 
     remove() {
         this.removeClicked.emit(this.formGroupName);
     }
 
-    items() {
-        return this.formArray;
+    getSpecies(): AbstractControl {
+        return this.measurementsForm.get('species');
     }
 
-    species(): AbstractControl {
-        return this.form.get('species');
+    getAfvisBeurtNumber(): AbstractControl {
+        return this.measurementsForm.get('afvisBeurtNumber');
     }
 
-    afvisBeurtNumber(): AbstractControl {
-        return this.form.get('afvisBeurtNumber');
+    getWeight() {
+        return this.measurementsForm.get('weight');
     }
 
-    weight() {
-        return this.form.get('weight');
+    getLength() {
+        return this.measurementsForm.get('length');
     }
 
-    length() {
-        return this.form.get('length');
+    getAmount(): AbstractControl {
+        return this.measurementsForm.get('amount');
     }
 
-    formControl() {
-        return this.form;
+    getGender(): AbstractControl {
+        return this.measurementsForm.get('gender');
     }
 
-    amount(): AbstractControl {
-        return this.form.get('amount');
+    getComment(): AbstractControl {
+        return this.measurementsForm.get('comment');
     }
 
-    gender(): AbstractControl {
-        return this.form.get('gender');
+    getType(): AbstractControl {
+        return this.measurementsForm.get('type');
     }
 
-    comment(): AbstractControl {
-        return this.form.get('comment');
-    }
-
-    type(): AbstractControl {
-        return this.form.get('type');
-    }
-
-    public focusElement(field: string, index: number) {
+    focusElement(field: string, index: number) {
         const element = document.getElementById(field + '-' + index + (field === 'species' ? '-button' : ''));
         if (element !== null) {
             setTimeout(() => element.focus(), 0);
         }
     }
 
-    individualLengths(): UntypedFormArray {
-        return this.form.get('individualLengths') as UntypedFormArray;
+    getIndividualLengths(): UntypedFormArray {
+        return this.measurementsForm.get('individualLengths') as UntypedFormArray;
     }
 
     toGroupMeasurement() {
-        this.form.get('length').patchValue(null);
-        this.form.get('gender').patchValue(null);
-        this.form.get('type').patchValue('GROUP_LENGTHS');
+        this.measurementsForm.get('length').patchValue(null);
+        this.measurementsForm.get('gender').patchValue(null);
+        this.measurementsForm.get('type').patchValue('GROUP_LENGTHS');
 
-        this.individualLengths().clear();
-        const amount = this.amount().value;
+        this.getIndividualLengths().clear();
+        const amount = this.getAmount().value;
         const individualLengthsSize = amount >= 10 ? 10 : amount;
-        this.individualLengths().push(this.createIndividualLength());
+        this.getIndividualLengths().push(this.createIndividualLength());
 
-        this.amount().setValidators(Validators.min(individualLengthsSize));
+        this.getAmount().setValidators(Validators.min(individualLengthsSize));
         this.setTaxonValidators(this.taxon);
-    }
-
-    createIndividualLength(comment?: any): UntypedFormGroup {
-        return this.formBuilder.group({
-            length: new UntypedFormControl('', [Validators.min(0), Validators.required]),
-            comment: new UntypedFormControl(comment ?? '', Validators.max(2000)),
-        });
+        this.changeDetectorRef.detectChanges();
     }
 
     toIndividualMeasurement() {
-        this.individualLengths().patchValue([]);
-        this.form.get('type').patchValue(this.amount().value > 1 ? 'GROUP' : 'NORMAL');
+        this.getIndividualLengths().patchValue([]);
+        this.measurementsForm.get('type').patchValue(this.getAmount().value > 1 ? 'GROUP' : 'NORMAL');
         this.setTaxonValidators(this.taxon);
+        this.changeDetectorRef.detectChanges();
     }
 
     enterPressed(event: MeasurementRowEnterEvent) {
@@ -257,20 +245,23 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         this.cancelClicked.emit();
     }
 
-    detectChanges() {
-        this.cdr.detectChanges();
+    getDilutionFactor() {
+        return this.measurementsForm.get('verdunningsFactor');
     }
 
-    dilutionFactor() {
-        return this.form.get('verdunningsFactor');
+    private createIndividualLength(comment?: string): UntypedFormGroup {
+        return this.formBuilder.group({
+            length: new WarningFormControl(null, [Validators.min(0), Validators.required, ...(this.taxon ? [valueBetweenWarning(this.taxon?.lengthMin, this.taxon?.lengthMax, this.changeDetectorRef)] : [])]),
+            comment: new UntypedFormControl(comment ?? '', Validators.max(2000)),
+        });
     }
 
     private addTaxaValidationsForRowIndex() {
-        if (isNil(this.species().value)) {
+        if (isNil(this.getSpecies().value)) {
             return;
         }
 
-        const taxaId = this.species().value;
+        const taxaId = this.getSpecies().value;
 
         if (!taxaId) {
             return;
@@ -282,29 +273,27 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
             .subscribe(taxon => {
                 this.taxon = taxon;
                 this.setTaxonValidators(taxon);
+                this.changeDetectorRef.detectChanges();
             });
     }
 
     private setTaxonValidators(taxon: TaxonDetail) {
-        this.weight().setValidators([Validators.min(0)]);
-        this.weight().updateValueAndValidity();
+        this.getWeight().setValidators([Validators.min(0)]);
 
-        this.length().setValidators([Validators.min(0)]);
-        this.length().updateValueAndValidity();
+        this.getLength().setValidators([Validators.min(0)]);
 
-        const formValidators = [lengthOrWeightRequiredForIndividualMeasurement(), weightLengthRatioValidator(taxon, this.cdr)];
         if (taxon) {
-            formValidators.push(
-                valueBetweenWarning('weight', taxon.weightMin, taxon.weightMax, this.cdr),
-                valueBetweenWarning('length', taxon.lengthMin, taxon.lengthMax, this.cdr));
-
-            for (let index = 0; index < this.individualLengths().length; index++) {
-                formValidators.push(valueBetweenWarning('individualLengths', taxon.lengthMin, taxon.lengthMax, this.cdr, index, 'length'));
-            }
+            this.getWeight().addValidators(valueBetweenWarning(taxon.weightMin, taxon.weightMax, this.changeDetectorRef));
+            this.getLength().addValidators(valueBetweenWarning(taxon.lengthMin, taxon.lengthMax, this.changeDetectorRef));
+            this.getIndividualLengths().controls.forEach(control => {
+                control.get('length').addValidators(valueBetweenWarning(taxon.lengthMin, taxon.lengthMax, this.changeDetectorRef));
+            });
         }
 
-        this.form.setValidators(formValidators);
-        this.form.updateValueAndValidity();
+        this.measurementsForm.setValidators([lengthOrWeightRequiredForIndividualMeasurement(), weightLengthRatioValidator(taxon, this.changeDetectorRef)]);
+        this.getWeight().updateValueAndValidity();
+        this.getLength().updateValueAndValidity();
+        this.measurementsForm.updateValueAndValidity();
     }
 
     private getEnabledPreviousFieldName(currentFieldName: string) {
@@ -332,7 +321,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     }
 
     private isLastIndex(i: number) {
-        return this.items() === undefined || (i + 1) === this.items().length;
+        return this.measurementsFormArray === undefined || (i + 1) === this.measurementsFormArray.length;
     }
 
     private previousFieldName(currentFieldName: string) {

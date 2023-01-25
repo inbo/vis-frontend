@@ -1,5 +1,5 @@
 <div [class.bg-gray-100]="formGroupName % 2 === 0"
-     [formGroup]="form"
+     [formGroup]="measurementsForm"
      class="grid grid-flow-row grid-cols-12 gap-x-2 px-2 py-1.5">
 	<div class="col-span-12 md:col-span-4 lg:col-span-3">
 		<div class="relative flex"
@@ -16,16 +16,16 @@
 			                    data-step="2"
 			                    data-intro="Klik hier om een soort te zoeken en te selecteren.">
 			</app-species-search>
-			<fa-icon [class.hidden]="type()?.value !== 'GROUP'"
+			<fa-icon [class.hidden]="getType()?.value !== 'GROUP'"
 			         [icon]="faWeightHanging"
 			         class="self-center text-gray-500 pl-2"
 			         title="Groepsmeting"></fa-icon>
-			<fa-icon [class.hidden]="type()?.value !== 'GROUP_LENGTHS'"
+			<fa-icon [class.hidden]="getType()?.value !== 'GROUP_LENGTHS'"
 			         [icon]="faRulerHorizontal"
 			         class="self-center text-gray-500 pl-2"
 			         title="Groepsmeting met lengtemetingen"></fa-icon>
 		</div>
-		<app-form-error-message [control]="species()"
+		<app-form-error-message [control]="getSpecies()"
 		                        [submitted]="submitted"
 		                        showAfterSubmitted="true"></app-form-error-message>
 	</div>
@@ -35,7 +35,7 @@
 		                        [index]="formGroupName"
 		                        data-step="3"
 		                        data-intro="Pas hier het aantal aan. Indien het aantal groter is dan 1, wordt dit een groepsmeting."></app-measurement-amount>
-		<app-form-error-message [control]="amount()"
+		<app-form-error-message [control]="getAmount()"
 		                        [submitted]="submitted"
 		                        showAfterSubmitted="true"></app-form-error-message>
 	</div>
@@ -43,10 +43,10 @@
 		<app-measurement-length (arrowPressed)="navigateOnArrow($event)"
 		                        (enterPressed)="enterPressed($event)"
 		                        [index]="formGroupName"></app-measurement-length>
-		<app-form-error-message [control]="length()"
+		<app-form-error-message [control]="getLength()"
 		                        [submitted]="submitted"
 		                        showAfterSubmitted="true"></app-form-error-message>
-		<app-form-error-message [control]="formControl()"
+		<app-form-error-message [control]="measurementsForm"
 		                        [submitted]="submitted"
 		                        [showAfterSubmitted]="true"></app-form-error-message>
 	</div>
@@ -54,10 +54,10 @@
 		<app-measurement-weight (arrowPressed)="navigateOnArrow($event)"
 		                        (enterPressed)="enterPressed($event)"
 		                        [index]="formGroupName"></app-measurement-weight>
-		<app-form-error-message [control]="weight()"
+		<app-form-error-message [control]="getWeight()"
 		                        [submitted]="submitted"
 		                        showAfterSubmitted="true"></app-form-error-message>
-		<app-form-error-message [control]="formControl()"
+		<app-form-error-message [control]="measurementsForm"
 		                        [submitted]="submitted"
 		                        [showAfterSubmitted]="true"></app-form-error-message>
 	</div>
@@ -65,7 +65,7 @@
 		<app-measurement-gender (arrowPressed)="navigateOnArrow($event)"
 		                        (enterPressed)="enterPressed($event)"
 		                        [index]="formGroupName"></app-measurement-gender>
-		<app-form-error-message [control]="gender()"
+		<app-form-error-message [control]="getGender()"
 		                        [submitted]="submitted"
 		                        showAfterSubmitted="true"></app-form-error-message>
 	</div>
@@ -75,7 +75,7 @@
 			                                     (enterPressed)="enterPressed($event)"
 			                                     [index]="formGroupName">
 			</app-measurement-fishing-trip-number>
-			<app-form-error-message [control]="afvisBeurtNumber()"
+			<app-form-error-message [control]="getAfvisBeurtNumber()"
 			                        [submitted]="submitted"
 			                        showAfterSubmitted="true"></app-form-error-message>
 		</div>
@@ -84,7 +84,7 @@
 			                         (enterPressed)="enterPressed($event)"
 			                         (tabPressed)="tabPressed()"
 			                         [index]="formGroupName"></app-measurement-comment>
-			<app-form-error-message [control]="comment()"
+			<app-form-error-message [control]="getComment()"
 			                        [submitted]="submitted"
 			                        showAfterSubmitted="true"></app-form-error-message>
 		</div>
@@ -102,7 +102,7 @@
 			                                 (tabPressed)="tabPressed()"
 			                                 [index]="formGroupName">
 			</app-measurement-dilution-factor>
-			<app-form-error-message [control]="dilutionFactor()"
+			<app-form-error-message [control]="getDilutionFactor()"
 			                        [submitted]="submitted"
 			                        showAfterSubmitted="true"></app-form-error-message>
 		</div>
@@ -112,7 +112,7 @@
 	     data-intro="Deze iconen verschijnen wanneer je de meting omvormt naar een groepsmeting met individuele metingen."
 	     data-position="bottom-right-aligned">
      <span (click)="showIndividualLengthItems = !showIndividualLengthItems"
-           [class.hidden]="type()?.value !== 'GROUP_LENGTHS'"
+           [class.hidden]="getType()?.value !== 'GROUP_LENGTHS'"
            [title]="showIndividualLengthItems ? 'Verbergen' : 'Openklappen'"
            class="inline-block cursor-pointer"
            data-step="7"
@@ -127,7 +127,7 @@
     </span>
 
 		<span (click)="toGroupMeasurement()"
-		      [class.hidden]="type()?.value !== 'GROUP'"
+		      [class.hidden]="getType()?.value !== 'GROUP'"
 		      class="inline-block cursor-pointer"
 		      title="Omvormen naar een groepsmeting met individuele lengtemetingen"
 		      data-step="5"
@@ -140,7 +140,7 @@
     </span>
 
 		<span (click)="toIndividualMeasurement()"
-		      [class.hidden]="type()?.value !== 'GROUP_LENGTHS'"
+		      [class.hidden]="getType()?.value !== 'GROUP_LENGTHS'"
 		      class="inline-block cursor-pointer"
 		      title="Omvormen naar een individuele meting"
 		      data-step="8"
@@ -153,7 +153,7 @@
     </span>
 
 		<span (click)="remove()"
-		      [class.hidden]="editMode && items().length === 1"
+		      [class.hidden]="editMode && measurementsFormArray.length === 1"
 		      class="inline-block cursor-pointer"
 		      title="Verwijder lijn">
       <svg class="w-5 h-5"
@@ -198,6 +198,9 @@
 
 	<div [class.hidden]="!showIndividualLengthItems"
 	     class="col-span-12">
-		<app-measurement-length-measurements [index]="formGroupName" [submitted]="submitted"></app-measurement-length-measurements>
+		<app-measurement-length-measurements [index]="formGroupName"
+		                                     [taxon]="taxon"
+		                                     [submitted]="submitted">
+		</app-measurement-length-measurements>
 	</div>
 </div>

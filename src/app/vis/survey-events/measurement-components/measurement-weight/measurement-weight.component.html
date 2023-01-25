@@ -3,13 +3,14 @@
 	<input (keydown)="keydown($event)"
 	       [class.pr-8]="(weight().dirty || weight().touched) && weight().warningMessages"
 	       [id]="'weight-' + index"
-	       [imask]="numberMask(3, 0, 99999.999)"
+	       [imask]="nullableNumbermask(3, 0, 99999.999)"
 	       [unmask]="'typed'"
 	       formControlName="weight"
 	       name="weight"
 	       [title]="weight()?.warningMessages"
 	       type="text">
-	<app-warning-icon *ngIf="weight()?.warningMessages?.ratio || weight()?.warningMessages?.between"
-	                            [messages]="[weight().warningMessages.ratio, weight().warningMessages.between]">
+	<app-warning-icon class="input-field-warning-icon"
+	                  *ngIf="weight().hasWarningMessages()"
+	                  [messages]="weight().getAllWarningMessages()">
 	</app-warning-icon>
 </div>

@@ -1,4 +1,4 @@
-<div class="absolute inset-y-0 right-0 pr-3 flex items-center"
+<div class="flex items-center"
      [ngxTippy]="tooltipTemplate"
      [tippyProps]="tippyProps">
 	<svg class="w-5 h-5 text-yellow-400"
@@ -10,7 +10,6 @@
 		      fill-rule="evenodd"></path>
 	</svg>
 </div>
-
 <template #tooltipTemplate>
 	<ul class="message-list">
 		<li *ngFor="let message of messages | truthify"

@@ -6,13 +6,14 @@
 	       [class.focus:ring-gray-500]="amount().value > 1"
 	       [class.pr-8]="(length().dirty || length().touched) && length().warningMessages"
 	       [id]="'length-' + index"
-	       [imask]="numberMask(3, 0, 99999.999)"
-	       [unmask]="'typed'"
+	       [imask]="nullableNumberMask(3, 0, 99999.999)"
+	       unmask="typed"
 	       [readOnly]="amount().value > 1"
 	       formControlName="length"
 	       name="length"
 	       type="text">
-	<app-warning-icon *ngIf="length()?.warningMessages?.between"
-	                            [messages]="[length().warningMessages.between]">
+	<app-warning-icon class="input-field-warning-icon"
+	                  *ngIf="length()?.hasWarningMessages()"
+	                  [messages]="length().getAllWarningMessages()">
 	</app-warning-icon>
 </div>

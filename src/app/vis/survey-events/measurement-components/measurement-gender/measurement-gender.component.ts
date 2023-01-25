@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AbstractControl, FormGroupDirective, UntypedFormGroup} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
-import {AbstractControlWarn} from '../../survey-event-measurements-create-page/survey-event-measurements-validators';
+import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
 
 @Component({
   selector: 'app-measurement-gender',
@@ -28,8 +28,8 @@ export class MeasurementGenderComponent extends MeasurementComponentDirective im
     return this.form.get('amount');
   }
 
-  length(): AbstractControlWarn {
-    return this.form.get('length') as AbstractControlWarn;
+  length(): WarningFormControl {
+    return this.form.get('length') as WarningFormControl;
   }
 
   fieldName(): string {

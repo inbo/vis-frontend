@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
@@ -13,11 +13,15 @@ import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGro
 import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
 import {PagingAsyncComponent} from '../../../shared-ui/paging-async/paging-async.component';
 import {MeasurementRowReadonlyComponent} from '../measurement-row-readonly/measurement-row-readonly.component';
-import {
-    lengthOrWeightRequiredForIndividualMeasurement,
-} from '../survey-event-measurements-create-page/survey-event-measurements-validators';
+import {weightLengthRatioValidator} from '../survey-event-measurements-create-page/validators/weight-length-ratio.warning-validator';
 import {Subscription} from 'rxjs';
 import {MeasurementRowEnterEvent} from '../measurement-row/measurement-row-enter-event.model';
+import {
+    lengthOrWeightRequiredForIndividualMeasurement,
+} from '../survey-event-measurements-create-page/validators/length-or-weight-required-for-individual.measurement';
+import {valueBetweenWarning} from '../survey-event-measurements-create-page/validators/value-between.warning-validator';
+import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
+import {WarningFormControl} from '../../../shared-ui/warning-form-control/warning.form-control';
 
 @Component({
     selector: 'app-survey-event-measurements-page',
@@ -51,8 +55,12 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
 
     subscription = new Subscription();
 
-    constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
-                public authService: AuthService, private formBuilder: UntypedFormBuilder) {
+    constructor(private titleService: Title,
+                private surveyEventsService: SurveyEventsService,
+                private activatedRoute: ActivatedRoute,
+                public authService: AuthService,
+                private formBuilder: UntypedFormBuilder,
+                private changeDetectorRef: ChangeDetectorRef) {
         this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
         this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
         this.titleService.setTitle('Waarneming metingen ' + this.activatedRoute.parent.snapshot.params.surveyEventId);
@@ -70,28 +78,33 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
     }
 
     createMeasurementFormGroup(measurement: Measurement) {
-        const il = measurement.individualLengths ? measurement.individualLengths.map(value => this.createIndividualLength(value)) : [];
+        const individualLengths = measurement.individualLengths ? measurement.individualLengths.map(value => this.createIndividualLength(value, measurement.taxon)) : [];
         return this.formBuilder.group({
             id: new UntypedFormControl(measurement.id),
             order: new UntypedFormControl(measurement.order),
             type: new UntypedFormControl(measurement.type),
-            species: new UntypedFormControl(measurement.taxon.id, [Validators.required]),
+            species: new UntypedFormControl(measurement.taxon.id.value, [Validators.required]),
             amount: new UntypedFormControl(measurement.amount, Validators.min(0)),
-            length: new UntypedFormControl(measurement.length ? measurement.length.toString() : '', [Validators.min(0)]),
-            weight: new UntypedFormControl(measurement.weight ? measurement.weight.toString() : '', [Validators.min(0)]),
+            length: new WarningFormControl(measurement.length ? measurement.length.toString() : '', [Validators.min(0), (measurement.taxon ? valueBetweenWarning(measurement.taxon?.lengthMin, measurement.taxon?.lengthMax, this.changeDetectorRef) : () => null)]),
+            weight: new WarningFormControl(measurement.weight ? measurement.weight.toString() : '', [Validators.min(0), (measurement.taxon ? valueBetweenWarning(measurement.taxon?.weightMin, measurement.taxon?.weightMax, this.changeDetectorRef) : () => null)]),
             gender: new UntypedFormControl(measurement.gender ? measurement.gender : 'UNKNOWN'),
             afvisBeurtNumber: new UntypedFormControl(measurement.afvisBeurtNumber, [Validators.min(1), Validators.max(10)]),
             comment: new UntypedFormControl(measurement.comment ? measurement.comment : '', Validators.max(2000)),
-            individualLengths: this.formBuilder.array(il),
+            individualLengths: this.formBuilder.array(individualLengths),
             dilutionFactor: new UntypedFormControl(measurement.dilutionFactor || 1, [Validators.min(0)]),
             isPortside: new UntypedFormControl(measurement.portside ?? true),
-        }, {validators: [lengthOrWeightRequiredForIndividualMeasurement()]});
+        }, {
+            validators: [
+                lengthOrWeightRequiredForIndividualMeasurement(),
+                weightLengthRatioValidator(measurement.taxon, this.changeDetectorRef),
+            ],
+        });
     }
 
-    createIndividualLength(individualLength: IndividualLength): UntypedFormGroup {
+    createIndividualLength(individualLength: IndividualLength, taxon: TaxonDetail): UntypedFormGroup {
         return this.formBuilder.group({
             id: new UntypedFormControl(individualLength.id),
-            length: new UntypedFormControl(individualLength.length, [Validators.min(0)]),
+            length: new WarningFormControl(individualLength.length, [Validators.min(0), valueBetweenWarning(taxon.lengthMin, taxon.lengthMax, this.changeDetectorRef)]),
             comment: new UntypedFormControl(individualLength.comment, Validators.max(2000)),
         });
     }

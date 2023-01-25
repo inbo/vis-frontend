@@ -3,10 +3,10 @@ import {AbstractControl, FormGroupDirective, UntypedFormArray, UntypedFormGroup}
 import {Subscription} from 'rxjs';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
-import {AbstractControlWarn} from '../survey-event-measurements-create-page/survey-event-measurements-validators';
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
+import {WarningFormControl} from '../../../shared-ui/warning-form-control/warning.form-control';
 
 @Component({
     selector: 'app-measurement-row-readonly',
@@ -88,12 +88,12 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
         return this.form.get('isPortside');
     }
 
-    weight(): AbstractControlWarn {
-        return this.form.get('weight') as AbstractControlWarn;
+    weight(): WarningFormControl {
+        return this.form.get('weight') as WarningFormControl;
     }
 
-    length(): AbstractControlWarn {
-        return this.form.get('length') as AbstractControlWarn;
+    length(): WarningFormControl {
+        return this.form.get('length') as WarningFormControl;
     }
 
     amount(): AbstractControl {
