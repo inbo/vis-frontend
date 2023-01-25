@@ -7,7 +7,6 @@ plugins {
 
 node {
   version = "18.13.0"
-  npmVersion = "8.19.3"
   download = true
 }
 
