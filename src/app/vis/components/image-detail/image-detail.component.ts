@@ -3,7 +3,7 @@ import {take} from 'rxjs/operators';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {TandemvaultPictureDetail} from '../../../domain/tandemvault/picture';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {Taxon} from '../../../domain/taxa/taxon';
 
 @Component({
@@ -30,9 +30,9 @@ export class ImageDetailComponent implements OnInit {
 
     customTag = '';
     species: SearchableSelectOption<Taxon>[] = [];
-    addSpeciesTagForm: FormGroup;
+    addSpeciesTagForm: UntypedFormGroup;
 
-    constructor(private taxaService: TaxaService, private formBuilder: FormBuilder) {
+    constructor(private taxaService: TaxaService, private formBuilder: UntypedFormBuilder) {
     }
 
     ngOnInit(): void {

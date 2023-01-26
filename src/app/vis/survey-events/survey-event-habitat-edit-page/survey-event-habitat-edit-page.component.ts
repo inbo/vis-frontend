@@ -3,7 +3,7 @@ import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {Habitat} from '../../../domain/survey-event/habitat';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {HabitatOptionsService} from '../habitat-options.service';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {AlertService} from '../../../_alert';
@@ -17,7 +17,7 @@ import {Location} from '@angular/common';
 export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {
   surveyEventId: number;
   habitat: Habitat;
-  habitatForm: FormGroup;
+  habitatForm: UntypedFormGroup;
   submitted: boolean;
 
   private subscription = new Subscription();
@@ -31,7 +31,7 @@ export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, H
   };
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
-              private formBuilder: FormBuilder, public habitatOptions: HabitatOptionsService, private alertService: AlertService,
+              private formBuilder: UntypedFormBuilder, public habitatOptions: HabitatOptionsService, private alertService: AlertService,
               private router: Router, private _location: Location) {
     this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
     this.titleService.setTitle('Waarneming habitat ' + this.activatedRoute.parent.snapshot.params.surveyEventId);

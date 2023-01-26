@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -16,14 +16,14 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
   teams$: Observable<MultiSelectOption[]>;
   instances$: Observable<MultiSelectOption[]>;
 
-  createProjectForm: FormGroup;
+  createProjectForm: UntypedFormGroup;
   isOpen = false;
 
   submitted: boolean;
 
   private subscription = new Subscription();
 
-  constructor(private projectService: ProjectService, private formBuilder: FormBuilder, private router: Router,
+  constructor(private projectService: ProjectService, private formBuilder: UntypedFormBuilder, private router: Router,
               private accountService: AccountService) {
 
   }

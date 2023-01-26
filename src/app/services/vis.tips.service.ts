@@ -4,6 +4,7 @@ import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {Tip} from '../domain/tip/tip';
 import {VisService} from './vis.service';
+import {withCache} from '@ngneat/cashew';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class TipsService extends VisService {
   }
 
   getTip(code: string): Observable<Tip> {
-    return this.http.get<Tip>(`${environment.apiUrl}/api/tips/${code}`);
+    return this.http.get<Tip>(`${environment.apiUrl}/api/tips/${code}`, {context: withCache()});
   }
 
   randomTipForPage(page: string): Observable<Tip> {
@@ -27,7 +28,7 @@ export class TipsService extends VisService {
   }
 
   getPages() {
-    return this.http.get<string[]>(`${environment.apiUrl}/api/tips/pages`);
+    return this.http.get<string[]>(`${environment.apiUrl}/api/tips/pages`, {context: withCache()});
   }
 
   getPage(tipPage: any) {

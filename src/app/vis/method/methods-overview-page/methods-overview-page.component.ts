@@ -5,7 +5,7 @@ import {Title} from '@angular/platform-browser';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Observable, of, Subscription} from 'rxjs';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {Method} from '../../../domain/method/method';
@@ -31,12 +31,12 @@ export class MethodsOverviewPageComponent implements OnInit, OnDestroy {
   pager: AsyncPage<Method>;
   methods: Observable<Method[]>;
 
-  filterForm: FormGroup;
+  filterForm: UntypedFormGroup;
 
   private subscription = new Subscription();
 
   constructor(private titleService: Title, private methodsService: MethodsService, private activatedRoute: ActivatedRoute,
-              private router: Router, private formBuilder: FormBuilder) {
+              private router: Router, private formBuilder: UntypedFormBuilder) {
     this.titleService.setTitle('Methodes');
 
     const queryParams = activatedRoute.snapshot.queryParams;

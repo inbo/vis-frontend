@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {take, tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
@@ -25,7 +25,7 @@ export class SurveyEventCopyModalComponent implements OnInit {
     @Input() method: string;
 
     isOpen = false;
-    copySurveyEventForm: FormGroup;
+    copySurveyEventForm: UntypedFormGroup;
     submitted = false;
 
     allMethods: Array<Method> = [];
@@ -42,7 +42,7 @@ export class SurveyEventCopyModalComponent implements OnInit {
     minDate: Date;
     maxDate: Date;
 
-    constructor(private formBuilder: FormBuilder,
+    constructor(private formBuilder: UntypedFormBuilder,
                 private surveyEventsService: SurveyEventsService,
                 private router: Router,
                 private methodsService: MethodsService,

@@ -5,7 +5,7 @@ import {Title} from '@angular/platform-browser';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Observable, of, Subscription} from 'rxjs';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Taxon} from '../../../domain/taxa/taxon';
 import {TaxonGroup} from '../../../domain/taxa/taxon-group';
@@ -29,13 +29,13 @@ export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {
   taxon: Observable<Taxon[]>;
   taxonGroups: TaxonGroup[] = [];
 
-  filterForm: FormGroup;
+  filterForm: UntypedFormGroup;
   advancedFilterIsVisible = false;
 
   private subscription = new Subscription();
 
   constructor(private titleService: Title, private taxaService: TaxaService, private activatedRoute: ActivatedRoute, private router: Router,
-              formBuilder: FormBuilder) {
+              formBuilder: UntypedFormBuilder) {
     this.titleService.setTitle('Vissoorten');
 
     const queryParams = activatedRoute.snapshot.queryParams;

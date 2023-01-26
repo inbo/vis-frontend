@@ -1,42 +1,33 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup, FormGroupDirective} from '@angular/forms';
+import {FormGroupDirective, UntypedFormGroup} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
-import {AbstractControlWarn} from '../../survey-event-measurements-create-page/survey-event-measurements-validators';
+import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
+import {nullableNumberMask} from '../../length.mask';
 
 @Component({
-  selector: 'app-measurement-weight',
-  templateUrl: './measurement-weight.component.html'
+    selector: 'app-measurement-weight',
+    templateUrl: './measurement-weight.component.html',
 })
 export class MeasurementWeightComponent extends MeasurementComponentDirective implements OnInit {
 
-  form: FormGroup;
-  @Input() index: number;
+    readonly nullableNumbermask = nullableNumberMask;
 
-  numberMask(scale: number, min: number, max: number) {
-    return {
-      mask: Number,
-      scale,
-      signed: true,
-      thousandsSeparator: '',
-      radix: '.',
-      min,
-      max
-    };
-  }
+    form: UntypedFormGroup;
+    @Input() index: number;
 
-  constructor(private rootFormGroup: FormGroupDirective) {
-    super();
-  }
+    constructor(private rootFormGroup: FormGroupDirective) {
+        super();
+    }
 
-  ngOnInit(): void {
-    this.form = this.rootFormGroup.form;
-  }
+    ngOnInit(): void {
+        this.form = this.rootFormGroup.form;
+    }
 
-  weight(): AbstractControlWarn {
-    return this.form.get('weight') as AbstractControlWarn;
-  }
+    weight(): WarningFormControl {
+        return this.form.get('weight') as WarningFormControl;
+    }
 
-  fieldName(): string {
-    return 'weight';
-  }
+    fieldName(): string {
+        return 'weight';
+    }
 }

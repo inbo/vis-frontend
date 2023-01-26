@@ -122,7 +122,6 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
     }
 
     select(option: SearchableSelectOption<T>) {
-        console.log(option);
         this.selectedValue = option.value;
         this.selectedValueOption = option;
         this.onChange && this.onChange(this.selectedValue);

@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Observable, of, Subscription} from 'rxjs';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {UserEditComponent} from '../user-edit/user-edit.component';
@@ -22,12 +22,12 @@ export class UsersPageComponent implements OnInit {
   pager: AsyncPage<Account>;
   accounts: Observable<Account[]>;
 
-  filterForm: FormGroup;
+  filterForm: UntypedFormGroup;
 
   private subscription = new Subscription();
 
   constructor(private titleService: Title, private accountService: AccountService, private activatedRoute: ActivatedRoute,
-              private router: Router, private formBuilder: FormBuilder, public authService: AuthService) {
+              private router: Router, private formBuilder: UntypedFormBuilder, public authService: AuthService) {
   }
 
   ngOnInit(): void {

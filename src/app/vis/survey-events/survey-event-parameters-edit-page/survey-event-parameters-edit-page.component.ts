@@ -3,7 +3,7 @@ import {Parameters} from '../../../domain/survey-event/parameters';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Location} from '@angular/common';
@@ -22,7 +22,7 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
   surveyEventId: any;
 
   parameters: Parameters;
-  parametersForm: FormGroup;
+  parametersForm: UntypedFormGroup;
 
   submitted: boolean;
   private subscription = new Subscription();
@@ -31,7 +31,7 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
   isModalOpen = false;
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
-              private formBuilder: FormBuilder, private router: Router, private _location: Location) {
+              private formBuilder: UntypedFormBuilder, private router: Router, private _location: Location) {
     this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
     this.surveyEventId = this.activatedRoute.parent.snapshot.params.surveyEventId;
     this.titleService.setTitle('Bewerken waarneming waterkwaliteitsparameters ' + this.activatedRoute.parent.snapshot.params.surveyEventId);

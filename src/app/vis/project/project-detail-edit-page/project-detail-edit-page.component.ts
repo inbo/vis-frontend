@@ -2,7 +2,15 @@ import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/co
 import {Project} from '../../../domain/project/project';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import {
+    AbstractControl,
+    AsyncValidatorFn,
+    UntypedFormBuilder,
+    UntypedFormGroup,
+    ValidationErrors,
+    ValidatorFn,
+    Validators,
+} from '@angular/forms';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {EMPTY, Observable, Subscription} from 'rxjs';
 import {ProjectService} from '../../../services/vis.project.service';
@@ -46,8 +54,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
     public role = Role;
 
-    closeProjectForm: FormGroup;
-    projectForm: FormGroup;
+    closeProjectForm: UntypedFormGroup;
+    projectForm: UntypedFormGroup;
     project: Project;
     submitted: boolean;
     closeProjectFormSubmitted: boolean;
@@ -71,7 +79,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
                 private projectService: ProjectService,
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
-                private formBuilder: FormBuilder,
+                private formBuilder: UntypedFormBuilder,
                 private accountService: AccountService,
                 private _location: Location,
                 private pictureService: PicturesService) {

@@ -1,27 +1,18 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AbstractControl, FormGroup, FormGroupDirective} from '@angular/forms';
+import {AbstractControl, FormGroupDirective, UntypedFormGroup} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
-import {AbstractControlWarn} from '../../survey-event-measurements-create-page/survey-event-measurements-validators';
+import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
+import {nullableNumberMask} from '../../length.mask';
 
 @Component({
   selector: 'app-measurement-length',
   templateUrl: './measurement-length.component.html'
 })
 export class MeasurementLengthComponent extends MeasurementComponentDirective implements OnInit {
-  form: FormGroup;
-  @Input() index: number;
 
-  numberMask(scale: number, min: number, max: number) {
-    return {
-      mask: Number,
-      scale,
-      signed: true,
-      thousandsSeparator: '',
-      radix: '.',
-      min,
-      max
-    };
-  }
+  readonly nullableNumberMask = nullableNumberMask;
+  form: UntypedFormGroup;
+  @Input() index: number;
 
   constructor(private rootFormGroup: FormGroupDirective) {
     super();
@@ -31,8 +22,8 @@ export class MeasurementLengthComponent extends MeasurementComponentDirective im
     this.form = this.rootFormGroup.form;
   }
 
-  length(): AbstractControlWarn {
-    return this.form.get('length') as AbstractControlWarn;
+  length(): WarningFormControl {
+    return this.form.get('length') as WarningFormControl;
   }
 
   amount(): AbstractControl {

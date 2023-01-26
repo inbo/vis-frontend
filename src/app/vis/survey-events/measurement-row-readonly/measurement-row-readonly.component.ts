@@ -1,12 +1,12 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormArray, FormGroup, FormGroupDirective} from '@angular/forms';
+import {AbstractControl, FormGroupDirective, UntypedFormArray, UntypedFormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {TaxaService} from '../../../services/vis.taxa.service';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
-import {AbstractControlWarn} from '../survey-event-measurements-create-page/survey-event-measurements-validators';
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
+import {WarningFormControl} from '../../../shared-ui/warning-form-control/warning.form-control';
 
 @Component({
     selector: 'app-measurement-row-readonly',
@@ -27,9 +27,9 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
     @Output() editClicked = new EventEmitter<any>();
     @Output() removeClicked = new EventEmitter<any>();
 
-    form: FormGroup;
+    form: UntypedFormGroup;
 
-    private formArray: FormArray;
+    private formArray: UntypedFormArray;
     private subscription = new Subscription();
 
     showIndividualLengthItems = false;
@@ -55,8 +55,8 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.formArray = this.rootFormGroup.control.get('items') as FormArray;
-        this.form = this.formArray.at(this.formGroupName) as FormGroup;
+        this.formArray = this.rootFormGroup.control.get('items') as UntypedFormArray;
+        this.form = this.formArray.at(this.formGroupName) as UntypedFormGroup;
         this.taxaService
             .getAllSpeciesOptions()
             .subscribe(
@@ -88,12 +88,12 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
         return this.form.get('isPortside');
     }
 
-    weight(): AbstractControlWarn {
-        return this.form.get('weight') as AbstractControlWarn;
+    weight(): WarningFormControl {
+        return this.form.get('weight') as WarningFormControl;
     }
 
-    length(): AbstractControlWarn {
-        return this.form.get('length') as AbstractControlWarn;
+    length(): WarningFormControl {
+        return this.form.get('length') as WarningFormControl;
     }
 
     amount(): AbstractControl {
@@ -116,8 +116,8 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
         return this.form.get('order');
     }
 
-    individualLengths(): FormArray {
-        return this.form.get('individualLengths') as FormArray;
+    individualLengths(): UntypedFormArray {
+        return this.form.get('individualLengths') as UntypedFormArray;
     }
 
     edit() {

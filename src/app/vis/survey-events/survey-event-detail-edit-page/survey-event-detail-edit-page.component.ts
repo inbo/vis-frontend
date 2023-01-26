@@ -1,5 +1,5 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
@@ -25,7 +25,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
 
     public role = Role;
 
-    surveyEventForm: FormGroup;
+    surveyEventForm: UntypedFormGroup;
     submitted = false;
     surveyEvent: SurveyEvent;
 
@@ -46,7 +46,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
     constructor(private surveyEventService: SurveyEventsService,
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
-                private formBuilder: FormBuilder,
+                private formBuilder: UntypedFormBuilder,
                 private locationsService: LocationsService,
                 private methodsService: MethodsService,
                 private _location: Location,

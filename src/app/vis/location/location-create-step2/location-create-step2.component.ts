@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {latLng} from 'leaflet';
-import {FormGroup} from '@angular/forms';
+import {UntypedFormGroup} from '@angular/forms';
 import {VhaBlueLayerSelectionEvent} from '../../components/fishing-points-map/vha-blue-layer-selection-event.model';
 import {TownLayerSelectionEvent} from '../../components/fishing-points-map/town-layer-selection-event.model';
 
@@ -14,7 +14,7 @@ export class LocationCreateStep2Component implements OnInit {
 
     @ViewChild(FishingPointsMapComponent, {static: true}) map: FishingPointsMapComponent;
 
-    @Input() formGroup: FormGroup;
+    @Input() formGroup: UntypedFormGroup;
     @Input() editMode = false;
 
     constructor(private titleService: Title) {

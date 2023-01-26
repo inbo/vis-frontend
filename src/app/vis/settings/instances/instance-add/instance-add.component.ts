@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Observable, Subject} from 'rxjs';
 import {Account} from '../../../../domain/account/account';
 import {AccountService} from '../../../../services/vis.account.service';
@@ -14,11 +14,11 @@ export class InstanceAddComponent implements OnInit {
   isOpen = false;
   submitted = false;
 
-  addInstanceForm: FormGroup;
+  addInstanceForm: UntypedFormGroup;
 
   accounts$ = new Subject<Account[]>();
 
-  constructor(private accountService: AccountService, private formBuilder: FormBuilder) {
+  constructor(private accountService: AccountService, private formBuilder: UntypedFormBuilder) {
   }
 
   ngOnInit(): void {

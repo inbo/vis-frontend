@@ -22,6 +22,8 @@ import {HttpErrorInterceptor} from './core/http.error.interceptor';
 import {NgxTippyModule} from 'ngx-tippy-wrapper';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
+import {HttpCacheInterceptorModule} from '@ngneat/cashew';
+import {NgPipesModule} from 'ngx-pipes';
 
 @NgModule({
     declarations: [
@@ -49,10 +51,12 @@ import {ToastrModule} from 'ngx-toastr';
             useDefaultLang: true,
         }),
         SharedUiModule,
+        HttpCacheInterceptorModule.forRoot(),
         VisModule,
         ReleaseNotesModule,
         ErrorsModule,
         NgxTippyModule,
+        NgPipesModule,
         // should always be last so that unknown routes are routed to the 404 page
         AppRoutingModule,
     ],

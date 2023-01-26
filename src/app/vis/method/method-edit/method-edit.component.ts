@@ -1,6 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {forkJoin, Observable, Subscription} from 'rxjs';
-import {AsyncValidatorFn, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {
+    AsyncValidatorFn,
+    UntypedFormArray,
+    UntypedFormBuilder,
+    UntypedFormControl,
+    UntypedFormGroup,
+    ValidationErrors,
+    Validators,
+} from '@angular/forms';
 import {ProjectService} from '../../../services/vis.project.service';
 import {Router} from '@angular/router';
 import {map, take} from 'rxjs/operators';
@@ -17,8 +25,8 @@ export class MethodEditComponent implements OnInit, OnDestroy {
     role = Role;
 
     isQuickSelectionOpen = false;
-    editForm: FormGroup;
-    cpueTestForm: FormGroup;
+    editForm: UntypedFormGroup;
+    cpueTestForm: UntypedFormGroup;
     isOpen = false;
 
     submitted: boolean;
@@ -30,7 +38,7 @@ export class MethodEditComponent implements OnInit, OnDestroy {
     allParameters: string[];
     testResult = 0;
 
-    constructor(private projectService: ProjectService, private formBuilder: FormBuilder, private router: Router,
+    constructor(private projectService: ProjectService, private formBuilder: UntypedFormBuilder, private router: Router,
                 private methodsService: MethodsService, private cpueService: CpueService) {
 
     }
@@ -57,14 +65,14 @@ export class MethodEditComponent implements OnInit, OnDestroy {
     }
 
     onCheckboxChange(e) {
-        const checkArray: FormArray = this.editForm.get('parameters') as FormArray;
+        const checkArray: UntypedFormArray = this.editForm.get('parameters') as UntypedFormArray;
 
         if (e.target.checked) {
-            checkArray.push(new FormControl(e.target.value));
-            this.cpueTestForm.addControl(e.target.value, new FormControl(1));
+            checkArray.push(new UntypedFormControl(e.target.value));
+            this.cpueTestForm.addControl(e.target.value, new UntypedFormControl(1));
         } else {
             let i = 0;
-            checkArray.controls.forEach((item: FormControl) => {
+            checkArray.controls.forEach((item: UntypedFormControl) => {
                 if (item.value === e.target.value) {
                     checkArray.removeAt(i);
                     this.cpueTestForm.removeControl(e.target.value);
@@ -91,16 +99,16 @@ export class MethodEditComponent implements OnInit, OnDestroy {
         forkJoin([method$, cpue$]).subscribe(([method, parameters]) => {
             this.method = method;
 
-            const params = parameters.map(value => new FormControl(value));
+            const params = parameters.map(value => new UntypedFormControl(value));
             this.editForm = this.formBuilder.group({
                 description: [this.method.description, [Validators.required, Validators.maxLength(50)]],
                 unit: [this.method.unit, [Validators.maxLength(255)]],
                 calculation: [this.method.calculation, [], [this.calculationValidator()]],
-                parameters: new FormArray(params),
+                parameters: new UntypedFormArray(params),
             });
 
             for (const parameter of parameters) {
-                this.cpueTestForm.addControl(parameter, new FormControl(2));
+                this.cpueTestForm.addControl(parameter, new UntypedFormControl(2));
             }
 
         });
@@ -167,7 +175,7 @@ export class MethodEditComponent implements OnInit, OnDestroy {
     }
 
     isChecked(param: string): boolean {
-        const checkArray: FormArray = this.editForm.get('parameters') as FormArray;
+        const checkArray: UntypedFormArray = this.editForm.get('parameters') as UntypedFormArray;
 
         for (const control of checkArray.controls) {
             if (control.value === param) {
