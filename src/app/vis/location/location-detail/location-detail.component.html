@@ -11,115 +11,7 @@
 			</div>
 			<div class="mt-5 md:mt-0 md:col-span-2">
 				<div class="shadow sm:rounded-md sm:overflow-hidden">
-					<div *ngIf="editMode"
-					     class="px-4 py-5 bg-white space-y-6 sm:p-6">
-						<form [formGroup]="formGroup">
-							<dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-								<div class="sm:col-span-1">
-									<dt class="text-sm font-medium text-gray-500">
-										Meetplaatscode
-									</dt>
-									<div class="mt-1 text-sm text-gray-900">
-										<input formControlName="code"
-										       id="code"
-										       name="code"
-										       type="text">
-									</div>
-									<app-form-error-message [control]="code"
-									                        [fieldName]="'Code'"
-									                        [submitted]="submitted"></app-form-error-message>
-								</div>
-								<div class="sm:col-span-1">
-									<dt class="text-sm font-medium text-gray-500">
-										Omschrijving
-									</dt>
-									<dd class="mt-1 text-sm text-gray-900">
-										<input formControlName="description"
-										       id="description"
-										       name="description"
-										       type="text">
-									</dd>
-									<app-form-error-message [control]="description"
-									                        [fieldName]="'Omschrijving'"
-									                        [submitted]="submitted"></app-form-error-message>
-								</div>
-								<div class="sm:col-span-1">
-									<dt class="text-sm font-medium text-gray-500">
-										Helling (‰)
-									</dt>
-									<dd class="mt-1 text-sm text-gray-900">
-										<input [imask]="numberMask(3, 0, 99999.999)"
-										       [unmask]="true"
-										       formControlName="slope"
-										       id="slope"
-										       name="slope"
-										       type="text">
-									</dd>
-									<app-form-error-message [control]="slope"
-									                        [fieldName]="'Helling'"
-									                        [submitted]="submitted"></app-form-error-message>
-								</div>
-								<div class="sm:col-span-1">
-									<dt class="text-sm font-medium text-gray-500">
-										Breedte (m)
-									</dt>
-									<dd class="mt-1 text-sm text-gray-900">
-										<input [imask]="numberMask(2, 0, 99999.99)"
-										       [unmask]="true"
-										       formControlName="width"
-										       id="width"
-										       name="width"
-										       type="text">
-									</dd>
-									<app-form-error-message [control]="width"
-									                        [fieldName]="'Breedte'"
-									                        [submitted]="submitted"></app-form-error-message>
-								</div>
-								<div class="sm:col-span-1">
-									<dt class="text-sm font-medium text-gray-500">
-										Brak water
-									</dt>
-									<dd class="mt-1 text-sm text-gray-900">
-										<input formControlName="brackishWater"
-										       type="checkbox">
-									</dd>
-									<app-form-error-message [control]="brackishWater"
-									                        [fieldName]="'Brak water'"
-									                        [submitted]="submitted"></app-form-error-message>
-								</div>
-								<div class="sm:col-span-1">
-									<dt class="text-sm font-medium text-gray-500">
-										Getijdewater
-									</dt>
-									<dd class="mt-1 text-sm text-gray-900">
-										<input formControlName="tidalWater"
-										       type="checkbox"/>
-									</dd>
-									<app-form-error-message [control]="tidalWater"
-									                        [fieldName]="'Getijdewater'"
-									                        [submitted]="submitted"></app-form-error-message>
-								</div>
-								<div *ngIf="authService.hasRole(role.EditIndexType)"
-								     class="sm:col-span-1">
-									<dt class="text-sm font-medium text-gray-500">
-										Indextype
-									</dt>
-									<dd class="mt-1 text-sm text-gray-900">
-										<select class="mt-1"
-										        formControlName="indexType"
-										        id="indexType">
-											<option [ngValue]="null">Indextype selecteren...</option>
-											<option *ngFor="let indexType of indexTypes$ | async"
-											        [value]="indexType.code">{{indexType.name}}</option>
-										</select>
-										<span class="mt-2 text-sm text-gray-500">Voor de berekening van de visindex dient u expliciet het visindex type te selecteren. Dit kan enkel door een persoon die hiervoor de nodige rechten heeft.</span>
-									</dd>
-								</div>
-							</dl>
-						</form>
-					</div>
-					<div *ngIf="!editMode"
-					     class="px-4 py-5 bg-white space-y-6 sm:p-6">
+					<div class="px-4 py-5 bg-white space-y-6 sm:p-6">
 						<dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
 							<div class="sm:col-span-1">
 								<dt class="text-sm font-medium text-gray-500">
@@ -205,28 +97,15 @@
 					</div>
 					<div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
 						<app-button (click)="remove()"
-						            *ngIf="!editMode"
 						            [role]="role.CreateFishingPoint"
 						            [style]="'secondary'">
 							Verwijderen
 						</app-button>
-						<app-button *ngIf="!editMode"
-						            [role]="role.CreateFishingPoint"
+						<app-button [role]="role.CreateFishingPoint"
 						            [style]="'primary'"
 						            (click)="editFishingPoint()"
 						            class="ml-2">
 							Bewerken
-						</app-button>
-						<app-button (click)="cancel()"
-						            *ngIf="editMode"
-						            [style]="'white'">
-							Annuleren
-						</app-button>
-						<app-button (click)="save()"
-						            *ngIf="editMode"
-						            [style]="'primary'"
-						            class="ml-2">
-							Bewaren
 						</app-button>
 					</div>
 				</div>
@@ -328,7 +207,7 @@
 
 							<div class="sm:col-span-2">
 								<app-fishing-points-map [canAddPoints]="false"
-                                                        [enableSidebar]="false"
+								                        [enableSidebar]="false"
 								                        [zoomLevel]="15"
 								                        (loaded)="highlightFishingPoint()"></app-fishing-points-map>
 							</div>

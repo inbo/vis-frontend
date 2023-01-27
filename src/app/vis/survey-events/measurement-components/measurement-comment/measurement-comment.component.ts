@@ -3,43 +3,28 @@ import {FormGroupDirective, UntypedFormGroup} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 
 @Component({
-  selector: 'app-measurement-comment',
-  templateUrl: './measurement-comment.component.html'
+    selector: 'app-measurement-comment',
+    templateUrl: './measurement-comment.component.html',
 })
 export class MeasurementCommentComponent extends MeasurementComponentDirective implements OnInit {
 
-  form: UntypedFormGroup;
-  @Input() index: number;
+    form: UntypedFormGroup;
+    @Input() index: number;
+    @Input() submitted: boolean;
 
-  constructor(private rootFormGroup: FormGroupDirective) {
-    super();
-  }
+    constructor(private rootFormGroup: FormGroupDirective) {
+        super();
+    }
 
-  ngOnInit(): void {
-    this.form = this.rootFormGroup.form;
-  }
+    ngOnInit(): void {
+        this.form = this.rootFormGroup.form;
+    }
 
-  amountChanged($event: Event) {
+    fieldName(): string {
+        return 'comment';
+    }
 
-  }
-
-  newLineOnEnter($event: KeyboardEvent) {
-
-  }
-
-  focusNextLineOnEnter($event: KeyboardEvent) {
-
-  }
-
-  navigateOnArrow($event: KeyboardEvent) {
-
-  }
-
-  onKeyPress($event: KeyboardEvent) {
-
-  }
-
-  fieldName(): string {
-    return 'comment';
-  }
+    comment() {
+        return this.form.get(this.fieldName());
+    }
 }

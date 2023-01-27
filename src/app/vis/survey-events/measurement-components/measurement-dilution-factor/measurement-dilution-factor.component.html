@@ -1,7 +1,14 @@
-<ng-container [formGroup]="form">
-  <input (keydown)="keydown($event)"
-         [id]="'dilutionFactor-' + index"
-         formControlName="dilutionFactor"
-         name="dilutionFactor"
-         type="number"/>
-</ng-container>
+<div [formGroup]="form"
+     class="relative">
+	<input (keydown)="keydown($event)"
+	       [id]="'dilutionFactor-' + index"
+	       formControlName="dilutionFactor"
+	       name="dilutionFactor"
+	       type="number"/>
+	<app-error-icon class="input-field-icon"
+	                fieldName="Verdunningsfactor"
+	                [control]="dilutionFactor()"
+	                [submitted]="submitted"
+	                onlyShowAfterSubmitted="true">
+	</app-error-icon>
+</div>

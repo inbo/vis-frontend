@@ -1,5 +1,5 @@
 <div *ngIf="displayErrorMessage()" class="mt-2 text-sm text-red-600">
   <p *ngFor="let error of errorKeys()">
-    {{'errorMessage.' + error + (fieldName === undefined ? '.short' : '.long') | translate:errorParams(error)}}
+    {{'errorMessage.' + error | translate:errorParams(error)}}
   </p>
 </div>

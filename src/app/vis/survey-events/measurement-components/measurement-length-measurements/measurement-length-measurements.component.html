@@ -38,17 +38,18 @@
 								       (keydown.control.arrowUp)="onUpArrowKey($event)"
 								       (keydown.control.arrowLeft)="onLeftArrowKey($event)"
 								       (keydown.control.arrowRight)="onRightArrowKey($event)"/>
-								<app-warning-icon class="input-field-warning-icon"
-								                  *ngIf="getIndividualLength(i)?.hasWarningMessages()"
+								<app-error-icon class="input-field-icon"
+								                [control]="getIndividualLength(i)"
+								                [onlyShowAfterSubmitted]="true"
+								                [submitted]="submitted">
+								</app-error-icon>
+								<app-warning-icon class="input-field-icon"
+								                  *ngIf="getIndividualLength(i)?.hasWarningMessages() && !(getIndividualLength(i).errors | keys)?.length"
 								                  [messages]="getIndividualLength(i).getAllWarningMessages()">
 								</app-warning-icon>
 							</div>
-							<app-form-error-message [control]="getIndividualLength(i)"
-							                        showAfterSubmitted="true"
-							                        [submitted]="submitted">
-							</app-form-error-message>
 						</div>
-						<div class="col-span-8">
+						<div class="col-span-8 relative">
 							<input [id]="'individualcomment-' + i"
                                    #commentInput
 							       formControlName="comment"
@@ -61,8 +62,11 @@
 							       (keydown.control.arrowLeft)="onLeftArrowKey($event)"
 							       (keydown.control.arrowRight)="onRightArrowKey($event)"
 							/>
-							<app-form-error-message [control]="getIndividualComment(i)"
-							                        showAfterSubmitted="true"></app-form-error-message>
+							<app-error-icon class="input-field-icon"
+							                [control]="getIndividualComment(i)"
+							                [submitted]="submitted"
+							                onlyShowAfterSubmitted="true">
+							</app-error-icon>
 						</div>
 						<div class="col-span-1 text-right self-center text-gray-500 space-x-2">
                 <span (click)="removeIndividualLength(i)"

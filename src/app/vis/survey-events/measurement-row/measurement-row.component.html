@@ -1,5 +1,5 @@
 <div [class.bg-gray-100]="formGroupName % 2 === 0"
-     [formGroup]="measurementsForm"
+     [formGroup]="measurementForm"
      class="grid grid-flow-row grid-cols-12 gap-x-2 px-2 py-1.5">
 	<div class="col-span-12 md:col-span-4 lg:col-span-3">
 		<div class="relative flex"
@@ -12,10 +12,16 @@
 			                    (onSearch)="filterSpecies($event)"
 			                    [index]="formGroupName"
 			                    [taxons]="filteredTaxonOptions"
-			                    class="flex-grow"
+			                    class="flex-grow relative"
 			                    data-step="2"
 			                    data-intro="Klik hier om een soort te zoeken en te selecteren.">
 			</app-species-search>
+			<app-error-icon class="input-field-icon"
+			                fieldName="Soort"
+			                [control]="getSpecies()"
+			                [submitted]="submitted"
+			                onlyShowAfterSubmitted="true">
+			</app-error-icon>
 			<fa-icon [class.hidden]="getType()?.value !== 'GROUP'"
 			         [icon]="faWeightHanging"
 			         class="self-center text-gray-500 pl-2"
@@ -25,68 +31,51 @@
 			         class="self-center text-gray-500 pl-2"
 			         title="Groepsmeting met lengtemetingen"></fa-icon>
 		</div>
-		<app-form-error-message [control]="getSpecies()"
-		                        [submitted]="submitted"
-		                        showAfterSubmitted="true"></app-form-error-message>
 	</div>
 	<div class="col-span-4 md:col-span-2 lg:col-span-1">
 		<app-measurement-amount (arrowPressed)="navigateOnArrow($event)"
 		                        (enterPressed)="enterPressed($event)"
 		                        [index]="formGroupName"
-		                        data-step="3"
-		                        data-intro="Pas hier het aantal aan. Indien het aantal groter is dan 1, wordt dit een groepsmeting."></app-measurement-amount>
-		<app-form-error-message [control]="getAmount()"
 		                        [submitted]="submitted"
-		                        showAfterSubmitted="true"></app-form-error-message>
+		                        data-step="3"
+		                        data-intro="Pas hier het aantal aan. Indien het aantal groter is dan 1, wordt dit een groepsmeting.">
+		</app-measurement-amount>
 	</div>
 	<div class="col-span-4 md:col-span-3 lg:col-span-1">
 		<app-measurement-length (arrowPressed)="navigateOnArrow($event)"
 		                        (enterPressed)="enterPressed($event)"
-		                        [index]="formGroupName"></app-measurement-length>
-		<app-form-error-message [control]="getLength()"
 		                        [submitted]="submitted"
-		                        showAfterSubmitted="true"></app-form-error-message>
-		<app-form-error-message [control]="measurementsForm"
-		                        [submitted]="submitted"
-		                        [showAfterSubmitted]="true"></app-form-error-message>
+		                        [index]="formGroupName">
+		</app-measurement-length>
 	</div>
 	<div class="col-span-4 md:col-span-3 lg:col-span-1">
 		<app-measurement-weight (arrowPressed)="navigateOnArrow($event)"
 		                        (enterPressed)="enterPressed($event)"
-		                        [index]="formGroupName"></app-measurement-weight>
-		<app-form-error-message [control]="getWeight()"
 		                        [submitted]="submitted"
-		                        showAfterSubmitted="true"></app-form-error-message>
-		<app-form-error-message [control]="measurementsForm"
-		                        [submitted]="submitted"
-		                        [showAfterSubmitted]="true"></app-form-error-message>
+		                        [index]="formGroupName">
+		</app-measurement-weight>
 	</div>
 	<div class="col-span-4 md:col-span-2 lg:col-span-1">
 		<app-measurement-gender (arrowPressed)="navigateOnArrow($event)"
 		                        (enterPressed)="enterPressed($event)"
-		                        [index]="formGroupName"></app-measurement-gender>
-		<app-form-error-message [control]="getGender()"
-		                        [submitted]="submitted"
-		                        showAfterSubmitted="true"></app-form-error-message>
+		                        [index]="formGroupName">
+		</app-measurement-gender>
 	</div>
 	<ng-container *ngIf="!isAnkerkuil; else ankerkuil">
 		<div class="col-span-4 md:col-span-2 lg:col-span-1">
 			<app-measurement-fishing-trip-number (arrowPressed)="navigateOnArrow($event)"
 			                                     (enterPressed)="enterPressed($event)"
+			                                     [submitted]="submitted"
 			                                     [index]="formGroupName">
 			</app-measurement-fishing-trip-number>
-			<app-form-error-message [control]="getAfvisBeurtNumber()"
-			                        [submitted]="submitted"
-			                        showAfterSubmitted="true"></app-form-error-message>
 		</div>
 		<div class="col-span-11 md:col-span-5 lg:col-span-2">
 			<app-measurement-comment (arrowPressed)="navigateOnArrow($event)"
 			                         (enterPressed)="enterPressed($event)"
 			                         (tabPressed)="tabPressed()"
-			                         [index]="formGroupName"></app-measurement-comment>
-			<app-form-error-message [control]="getComment()"
-			                        [submitted]="submitted"
-			                        showAfterSubmitted="true"></app-form-error-message>
+			                         [submitted]="submitted"
+			                         [index]="formGroupName">
+			</app-measurement-comment>
 		</div>
 	</ng-container>
 	<ng-template #ankerkuil>
@@ -100,11 +89,9 @@
 			<app-measurement-dilution-factor (arrowPressed)="navigateOnArrow($event)"
 			                                 (enterPressed)="enterPressed($event)"
 			                                 (tabPressed)="tabPressed()"
+			                                 [submitted]="submitted"
 			                                 [index]="formGroupName">
 			</app-measurement-dilution-factor>
-			<app-form-error-message [control]="getDilutionFactor()"
-			                        [submitted]="submitted"
-			                        showAfterSubmitted="true"></app-form-error-message>
 		</div>
 	</ng-template>
 	<div class="col-span-1 md:col-span-3 lg:col-span-2 text-right self-center text-gray-500 space-x-2"

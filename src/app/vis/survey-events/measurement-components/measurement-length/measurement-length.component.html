@@ -12,8 +12,13 @@
 	       formControlName="length"
 	       name="length"
 	       type="text">
-	<app-warning-icon class="input-field-warning-icon"
-	                  *ngIf="length()?.hasWarningMessages()"
+	<app-error-icon class="input-field-icon"
+	                [control]="length()"
+	                [onlyShowAfterSubmitted]="true"
+	                [submitted]="submitted">
+	</app-error-icon>
+	<app-warning-icon class="input-field-icon"
+	                  *ngIf="length()?.hasWarningMessages() && !(length().errors | keys)?.length"
 	                  [messages]="length().getAllWarningMessages()">
 	</app-warning-icon>
 </div>

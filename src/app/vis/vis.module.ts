@@ -119,8 +119,7 @@ import {MeasurementShipSideComponent} from './survey-events/measurement-componen
 import {
     MeasurementDilutionFactorComponent,
 } from './survey-events/measurement-components/measurement-dilution-factor/measurement-dilution-factor.component';
-import {WarningIconComponent} from './survey-events/measurement-components/warning-icon/warning-icon.component';
-import {NgArrayPipesModule} from 'ngx-pipes';
+import {NgArrayPipesModule, NgObjectPipesModule} from 'ngx-pipes';
 
 @NgModule({
     exports: [
@@ -217,7 +216,6 @@ import {NgArrayPipesModule} from 'ngx-pipes';
         LocationTabsComponent,
         LocationPicturesPageComponent,
         MeasurementLengthMeasurementsReadonlyComponent,
-        WarningIconComponent,
     ],
     imports: [
         CommonModule,
@@ -235,6 +233,7 @@ import {NgArrayPipesModule} from 'ngx-pipes';
         NgxLeafletFullscreenModule,
         NgxTippyModule,
         NgArrayPipesModule,
+        NgObjectPipesModule,
     ],
     providers: [DatePipe, HasUnsavedDataGuard],
 })

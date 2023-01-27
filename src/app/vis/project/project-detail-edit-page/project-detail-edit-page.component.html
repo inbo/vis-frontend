@@ -1,6 +1,4 @@
 <div>
-
-
 	<div class="max-w-none mx-auto">
 		<form [formGroup]="projectForm"
 		      class="space-y-8 divide-y divide-gray-200">
@@ -20,32 +18,35 @@
 									       class="block text-sm font-medium text-gray-700">
 										Code *
 									</label>
-									<div class="mt-1">
+									<div class="mt-1 relative">
 										<input formControlName="code"
 										       type="text"
 										       name="code"
-										       id="code"
-										       autocomplete="code">
+										       id="code">
+										<app-error-icon class="input-field-icon"
+										                fieldName="Code"
+										                [control]="code"
+										                [ndbg]="false"
+										                [submitted]="submitted">
+										</app-error-icon>
 									</div>
-									<app-form-error-message [fieldName]="'Code'"
-									                        [control]="code"
-									                        [submitted]="submitted"></app-form-error-message>
 								</div>
 								<div class="sm:col-span-4">
 									<label for="name"
 									       class="block text-sm font-medium text-gray-700">
 										Naam *
 									</label>
-									<div class="mt-1">
+									<div class="mt-1 relative">
 										<input formControlName="name"
 										       type="text"
 										       name="name"
 										       id="name"
 										       autocomplete="name">
+										<app-error-icon [fieldName]="'Naam'"
+										                class="input-field-icon"
+										                [control]="name"
+										                [submitted]="submitted"></app-error-icon>
 									</div>
-									<app-form-error-message [fieldName]="'Naam'"
-									                        [control]="name"
-									                        [submitted]="submitted"></app-form-error-message>
 								</div>
 
 								<div class="sm:col-span-6">

@@ -16,12 +16,11 @@ import {MeasurementRowReadonlyComponent} from '../measurement-row-readonly/measu
 import {weightLengthRatioValidator} from '../survey-event-measurements-create-page/validators/weight-length-ratio.warning-validator';
 import {Subscription} from 'rxjs';
 import {MeasurementRowEnterEvent} from '../measurement-row/measurement-row-enter-event.model';
-import {
-    lengthOrWeightRequiredForIndividualMeasurement,
-} from '../survey-event-measurements-create-page/validators/length-or-weight-required-for-individual.measurement';
 import {valueBetweenWarning} from '../survey-event-measurements-create-page/validators/value-between.warning-validator';
 import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
 import {WarningFormControl} from '../../../shared-ui/warning-form-control/warning.form-control';
+import {measurementWeightValidator} from '../survey-event-measurements-create-page/validators/measurement-weight.validator';
+import {measurementAmountValidator} from '../survey-event-measurements-create-page/validators/measurement-amount.validator';
 
 @Component({
     selector: 'app-survey-event-measurements-page',
@@ -84,19 +83,28 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
             order: new UntypedFormControl(measurement.order),
             type: new UntypedFormControl(measurement.type),
             species: new UntypedFormControl(measurement.taxon.id.value, [Validators.required]),
-            amount: new UntypedFormControl(measurement.amount, Validators.min(0)),
-            length: new WarningFormControl(measurement.length ? measurement.length.toString() : '', [Validators.min(0), (measurement.taxon ? valueBetweenWarning(measurement.taxon?.lengthMin, measurement.taxon?.lengthMax, this.changeDetectorRef) : () => null)]),
-            weight: new WarningFormControl(measurement.weight ? measurement.weight.toString() : '', [Validators.min(0), (measurement.taxon ? valueBetweenWarning(measurement.taxon?.weightMin, measurement.taxon?.weightMax, this.changeDetectorRef) : () => null)]),
+            amount: new UntypedFormControl(measurement.amount, [
+                Validators.min(0),
+            ]),
+            length: new WarningFormControl(measurement.length ? measurement.length.toString() : '', [
+                Validators.min(0),
+                (measurement.taxon ? valueBetweenWarning(measurement.taxon?.lengthMin, measurement.taxon?.lengthMax, this.changeDetectorRef) : () => null),
+            ]),
+            weight: new WarningFormControl(measurement.weight, [
+                Validators.min(0),
+                (measurement.taxon ? valueBetweenWarning(measurement.taxon?.weightMin, measurement.taxon?.weightMax, this.changeDetectorRef) : () => null),
+            ]),
             gender: new UntypedFormControl(measurement.gender ? measurement.gender : 'UNKNOWN'),
             afvisBeurtNumber: new UntypedFormControl(measurement.afvisBeurtNumber, [Validators.min(1), Validators.max(10)]),
-            comment: new UntypedFormControl(measurement.comment ? measurement.comment : '', Validators.max(2000)),
+            comment: new UntypedFormControl(measurement.comment ? measurement.comment : '', Validators.maxLength(2000)),
             individualLengths: this.formBuilder.array(individualLengths),
             dilutionFactor: new UntypedFormControl(measurement.dilutionFactor || 1, [Validators.min(0)]),
             isPortside: new UntypedFormControl(measurement.portside ?? true),
         }, {
             validators: [
-                lengthOrWeightRequiredForIndividualMeasurement(),
                 weightLengthRatioValidator(measurement.taxon, this.changeDetectorRef),
+                measurementAmountValidator(this.changeDetectorRef),
+                measurementWeightValidator(this.changeDetectorRef),
             ],
         });
     }
@@ -105,7 +113,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
         return this.formBuilder.group({
             id: new UntypedFormControl(individualLength.id),
             length: new WarningFormControl(individualLength.length, [Validators.min(0), valueBetweenWarning(taxon.lengthMin, taxon.lengthMax, this.changeDetectorRef)]),
-            comment: new UntypedFormControl(individualLength.comment, Validators.max(2000)),
+            comment: new UntypedFormControl(individualLength.comment, Validators.maxLength(2000)),
         });
     }
 

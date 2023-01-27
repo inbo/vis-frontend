@@ -14,6 +14,7 @@ export class MeasurementWeightComponent extends MeasurementComponentDirective im
 
     form: UntypedFormGroup;
     @Input() index: number;
+    @Input() submitted: boolean;
 
     constructor(private rootFormGroup: FormGroupDirective) {
         super();

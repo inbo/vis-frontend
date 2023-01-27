@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {
     AbstractControl,
     FormGroupDirective,
@@ -11,14 +11,11 @@ import {
 import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
 import {valueBetweenWarning} from '../../survey-event-measurements-create-page/validators/value-between.warning-validator';
 import {TaxonDetail} from '../../../../domain/taxa/taxon-detail';
-import {distinctUntilChanged} from 'rxjs/operators';
 import {nullableNumberMask} from '../../length.mask';
-import {isEqual} from 'lodash-es';
 
 @Component({
     selector: 'app-measurement-length-measurements',
     templateUrl: './measurement-length-measurements.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MeasurementLengthMeasurementsComponent implements OnInit {
 
@@ -38,9 +35,6 @@ export class MeasurementLengthMeasurementsComponent implements OnInit {
 
     ngOnInit(): void {
         this.form = this.rootFormGroup.form;
-        this.form.valueChanges
-            .pipe(distinctUntilChanged(isEqual))
-            .subscribe(() => this.changeDetectorRef.detectChanges());
     }
 
     getType(): AbstractControl {
@@ -67,13 +61,13 @@ export class MeasurementLengthMeasurementsComponent implements OnInit {
         this.getAllIndividualLengths().removeAt(i);
 
         this.getAmount().setValidators(Validators.min(this.getAllIndividualLengths().length));
-        this.changeDetectorRef.detectChanges();
+        // this.changeDetectorRef.detectChanges();
     }
 
     newLengthOnTab(event: KeyboardEvent, i: number) {
         if (!event.shiftKey && this.isLastIndex(i)) {
             this.addIndividualLength();
-            this.changeDetectorRef.detectChanges();
+            // this.changeDetectorRef.detectChanges();
         }
     }
 
@@ -152,7 +146,7 @@ export class MeasurementLengthMeasurementsComponent implements OnInit {
     private createIndividualLength(comment?: string): UntypedFormGroup {
         return this.formBuilder.group({
             length: new WarningFormControl(null, [Validators.min(0), Validators.required, this.taxon ? valueBetweenWarning(this.taxon.lengthMin, this.taxon.lengthMax, this.changeDetectorRef) : () => null]),
-            comment: new UntypedFormControl(comment ?? '', Validators.max(2000)),
+            comment: new UntypedFormControl(comment ?? '', Validators.maxLength(2000)),
         });
     }
 
@@ -161,7 +155,7 @@ export class MeasurementLengthMeasurementsComponent implements OnInit {
         if (individualLengthsSize < this.getAmount().value) {
             this.getAllIndividualLengths().push(this.createIndividualLength());
             this.getAmount().setValidators(Validators.min(individualLengthsSize + 1));
-            this.changeDetectorRef.detectChanges();
+            // this.changeDetectorRef.detectChanges();
         }
     }
 

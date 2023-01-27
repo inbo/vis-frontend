@@ -9,7 +9,7 @@ import {LatLng} from 'leaflet';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {map, take} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {Role} from '../../../core/_models/role';
 import {IndexType} from '../../../domain/location/index-type';
 import {AuthService} from '../../../core/auth.service';
@@ -33,7 +33,6 @@ export class LocationDetailComponent implements OnInit {
     ];
 
     fishingPoint: FishingPoint;
-    editMode = false;
     formGroup: UntypedFormGroup;
     submitted = false;
     isDeleteModalOpen = false;
@@ -125,24 +124,6 @@ export class LocationDetailComponent implements OnInit {
             min,
             max,
         };
-    }
-
-    cancel() {
-        this.editMode = false;
-    }
-
-    save() {
-        this.submitted = true;
-        if (this.formGroup.invalid) {
-            return;
-        }
-
-        const rawValue = this.formGroup.getRawValue();
-        this.locationsService.updateLocation(this.fishingPoint.id, rawValue).pipe(take(1)).subscribe(() => {
-            this.loadFishingPoint();
-            this.submitted = false;
-            this.editMode = false;
-        });
     }
 
     remove() {

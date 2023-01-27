@@ -91,7 +91,7 @@ export class MeasurementLengthMeasurementsReadonlyComponent implements OnInit {
   createIndividualLength(comment?: any): UntypedFormGroup {
     return this.formBuilder.group({
       length: new UntypedFormControl('', [Validators.min(0), Validators.required]),
-      comment: new UntypedFormControl(comment ?? '', Validators.max(2000))
+      comment: new UntypedFormControl(comment ?? '', Validators.maxLength(2000))
     });
   }
 

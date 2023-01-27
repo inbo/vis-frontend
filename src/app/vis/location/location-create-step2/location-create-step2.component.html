@@ -6,8 +6,8 @@
 			                        (townLayerSelected)="townSelected($event)"
 			                        (vhaLayerSelected)="featureSelected($event)"
 			                        [disableInteraction]="editMode"
-                                    [enableSidebar]="false"
-                                    [blueLayerVisible]="false"
+			                        [enableSidebar]="false"
+			                        [blueLayerVisible]="false"
 			                        [fishingPointsLayerVisible]="false">
 			</app-fishing-points-map>
 		</div>
@@ -20,18 +20,19 @@
 						       class="block text-sm font-medium text-gray-700">
 							Helling (‰)
 						</label>
-						<div class="mt-1">
+						<div class="mt-1 relative">
 							<input [imask]="numberMask(3, 0, 99999.999)"
 							       [unmask]="true"
 							       formControlName="incline"
 							       type="text"
 							       name="slope"
 							       id="incline">
+							<app-error-icon class="input-field-icon"
+							                [fieldName]="'Helling'"
+							                [control]="incline"
+							                [onlyShowAfterSubmitted]="false">
+							</app-error-icon>
 						</div>
-						<app-form-error-message [fieldName]="'Helling'"
-						                        [control]="incline"
-						                        [submitted]="false">
-						</app-form-error-message>
 					</div>
 
 					<div>
@@ -39,23 +40,26 @@
 						       class="block text-sm font-medium text-gray-700">
 							Breedte (m)
 						</label>
-						<div class="mt-1">
+						<div class="mt-1 relative">
 							<input [imask]="numberMask(2, 0.01, 99999.99)"
 							       [unmask]="true"
 							       formControlName="width"
 							       type="text"
 							       name="width"
 							       id="width">
+							<app-error-icon class="input-field-icon"
+							                [fieldName]="'Breedte'"
+							                [control]="width"
+							                [onlyShowAfterSubmitted]="false">
+							</app-error-icon>
 						</div>
-						<app-form-error-message [fieldName]="'Breedte'"
-						                        [control]="width"
-						                        [submitted]="false"></app-form-error-message>
 					</div>
 				</div>
 			</form>
 		</div>
 
-		<div class="col-span-6 bg-white overflow-hidden shadow rounded-lg mt-6" *ngIf="!editMode">
+		<div class="col-span-6 bg-white overflow-hidden shadow rounded-lg mt-6"
+		     *ngIf="!editMode">
 			<div class="px-4 py-5 sm:p-6 grid grid-cols-6 gap-x-4">
 				<div class="col-span-6 md:col-span-3">
 					<app-fishing-points-selected-feature *ngIf="townInfoValue"
