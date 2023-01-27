@@ -1,4 +1,4 @@
-<ng-container [formGroup]="form">
+<div [formGroup]="form" class="relative">
 	<input (keydown)="keydown($event)"
 	       [id]="'comment-' + index"
 	       formControlName="comment"
@@ -7,5 +7,6 @@
 	<app-error-icon class="input-field-icon"
 	                [control]="comment()"
 	                [submitted]="submitted"
-	                onlyShowAfterSubmitted="true"></app-error-icon>
-</ng-container>
+	                [onlyShowAfterSubmitted]="true">
+	</app-error-icon>
+</div>

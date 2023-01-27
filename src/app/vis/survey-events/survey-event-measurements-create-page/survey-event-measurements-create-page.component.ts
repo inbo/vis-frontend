@@ -142,7 +142,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
             isPortside: new FormControl<boolean>(isPortside ?? false),
             afvisBeurtNumber: new FormControl<number>(1),
             dilutionFactor: new FormControl<number>(dilutionFactor == null ? 1 : dilutionFactor, [Validators.min(0)]),
-            comment: new FormControl<string>(comment ?? '', Validators.max(2000)),
+            comment: new FormControl<string>(comment ?? '', [Validators.maxLength(2000)]),
             individualLengths: this.formBuilder.array([]),
         }, {
             validators: [
@@ -189,7 +189,8 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         }
     }
 
-    createMeasurements() {0
+    createMeasurements() {
+        0;
         if (this.measurementsForm.invalid) {
             this.submitted = true;
             return;

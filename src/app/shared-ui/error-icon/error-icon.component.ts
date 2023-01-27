@@ -1,8 +1,18 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {NgxTippyProps} from 'ngx-tippy-wrapper';
-import {AbstractControl, ValidationErrors} from '@angular/forms';
-import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnChanges,
+    OnDestroy,
+    SimpleChange,
+    SimpleChanges,
+} from '@angular/core';
+import {NgxTippyProps, NgxTippyService} from 'ngx-tippy-wrapper';
+import {AbstractControl} from '@angular/forms';
+import {merge, Subscription} from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
+import {mapTo} from 'rxjs/operators';
 
 @Component({
     selector: 'app-error-icon',
@@ -10,68 +20,84 @@ import {Subject} from 'rxjs';
     styleUrls: ['error-icon.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ErrorIconComponent implements OnInit, OnDestroy {
+export class ErrorIconComponent implements OnDestroy, OnChanges {
 
+    readonly tippyName = (Math.random() + 1).toString(36);
     readonly tippyProps: NgxTippyProps = {
         maxWidth: Infinity,
+        allowHTML: true,
     };
 
-    @Input() control: AbstractControl<any, any>;
     @Input() onlyShowAfterSubmitted = true;
-    @Input() submitted = false;
+    @Input() fieldName: string;
+    @Input() ndbg: boolean = true;
+    @Input() submitted: boolean;
+    @Input() control: AbstractControl<any, any>;
 
-    @Input()
-    fieldName: string;
-    private destroyed = new Subject();
+    showErrorIcon: boolean = false;
 
-    constructor(private changeDetectorRef: ChangeDetectorRef) {
+    private formSubscription: Subscription;
+
+    constructor(private changeDetectorRef: ChangeDetectorRef,
+                private tippy: NgxTippyService,
+                private translateService: TranslateService) {
     }
 
-    ngOnInit() {
-        this.control
-            .root
-            .valueChanges
-            .pipe(
-                takeUntil(this.destroyed),
-            )
-            .subscribe(() => {
-                this.changeDetectorRef.detectChanges();
+    ngOnChanges(changes: SimpleChanges) {
+        const controlChange = changes.control as SimpleChange;
+        const submittedChange = changes.submitted as SimpleChange;
+        if (controlChange) {
+            this.formSubscription?.unsubscribe();
+            this.formSubscription = merge(
+                this.control.root.statusChanges.pipe(mapTo('root status changed')),
+                this.control.root.valueChanges.pipe(mapTo('root value changed')),
+            ).subscribe(status => {
+                this.updateErrors();
             });
+        }
+        if (submittedChange) {
+            this.updateErrors();
+        }
     }
 
     ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
+        this.formSubscription?.unsubscribe();
     }
 
     displayErrorMessage() {
-        if (this.getErrorKeys().length > 0) {
-            return (this.onlyShowAfterSubmitted && this.submitted) || (!this.onlyShowAfterSubmitted && (this.submitted ||
-                (this.control.dirty || this.control.touched))) && this.control.invalid;
-        }
-
-        return false;
+        return this.getErrorKeys().length > 0
+            && (this.onlyShowAfterSubmitted && this.submitted)
+            || (!this.onlyShowAfterSubmitted && (this.submitted || (this.control.dirty || this.control.touched)))
+            && this.control.invalid;
     }
 
-    getErrorKeys(): Array<string> {
-        if (!this.control?.errors) {
-            return [];
-        }
-        return Object.keys(this.control.errors);
-    }
-
-    errorParams(error: string) {
-        const params: ValidationErrors = this.control.errors[error];
-
-        const result = {
+    getParamsForErrorKey(errorKey: string) {
+        return {
             fieldName: this.fieldName,
+            ...(this.control.errors[errorKey]),
         };
+    }
 
-        for (const [key, value] of Object.entries(params)) {
-            result[key] = value;
+    private updateErrors() {
+        this.showErrorIcon = this.displayErrorMessage();
+        this.changeDetectorRef.detectChanges();
+        if (this.showErrorIcon) {
+            this.tippy.getInstance(this.tippyName)?.setContent(this.createTooltipContentHTML());
+            this.changeDetectorRef.detectChanges();
         }
+    }
 
+    private createTooltipContentHTML(): string {
+        const errorKeys = this.getErrorKeys();
+        let result = '<ul class="message-list">';
+        errorKeys.forEach(errorKey => {
+            result = result.concat(`<li class="message">${this.translateService.instant(`errorMessage.${errorKey}`, this.getParamsForErrorKey(errorKey))}</li>`);
+        });
+        result = result.concat(`</ul>`);
         return result;
     }
 
+    private getErrorKeys() {
+        return Object.keys(this.control?.errors || {});
+    }
 }

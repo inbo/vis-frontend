@@ -29,7 +29,7 @@
 							       for="description">
 								Beschrijving
 							</label>
-							<div class="mt-1">
+							<div class="mt-1 relative">
 								<input formControlName="description"
 								       id="description"
 								       name="description"
@@ -139,14 +139,16 @@
 							       for="unit">
 								CPUE Eenheid
 							</label>
-							<div class="mt-1">
-								<input formControlName="unit"
+							<div class="mt-1 relative">
+								<input [ngClass]="{'pr-[35px]': errorIcon.displayErrorMessage()}"
+								       formControlName="unit"
 								       id="unit"
 								       name="unit"
 								       type="text">
-								<app-error-icon class="input-field-icon"
+								<app-error-icon #errorIcon
+								                class="input-field-icon"
 								                [control]="unit"
-								                [fieldName]="'Beschrijving'"
+								                fieldName="Eenheid"
 								                [submitted]="submitted">
 								</app-error-icon>
 							</div>

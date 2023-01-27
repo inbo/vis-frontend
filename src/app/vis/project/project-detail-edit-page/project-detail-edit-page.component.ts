@@ -87,11 +87,11 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     }
 
     ngOnInit(): void {
-        this.instances$ = this.accountService.listInstances().pipe(map(values => values.map(value => {
+        this.instances$ = this.accountService.listInstances().pipe(take(1), map(values => values.map(value => {
             return {value: value.code, displayValue: value.code};
         })));
 
-        this.teams$ = this.accountService.listTeams().pipe(map(values => values.map(value => {
+        this.teams$ = this.accountService.listTeams().pipe(take(1), map(values => values.map(value => {
             return {value: value.name, displayValue: value.name};
         })));
 
@@ -101,7 +101,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
         this.projectForm = this.formBuilder.group(
             {
-                code: [null, [Validators.required, Validators.maxLength(15)], [this.codeValidator()]],
+                code: [null, [Validators.required /*Validators.maxLength(15)*/], [/*this.codeValidator()*/]],
                 name: [null, [Validators.required, Validators.maxLength(200)]],
                 description: [null, [Validators.maxLength(2000)]],
                 lengthType: ['', [Validators.required]],
@@ -154,6 +154,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
                 this.projectForm.get('tandemvaultcollectionslug').patchValue(value.tandemvaultcollectionslug);
 
                 this.pictureService.allCollections().pipe(
+                    take(1),
                     map(tandemvaultCollection => {
                         return tandemvaultCollection.map(collection => ({
                             displayValue: collection.slug,
@@ -175,11 +176,15 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
     codeValidator(): AsyncValidatorFn {
         return (control: AbstractControl): Observable<ValidationErrors | null> => {
+            console.log('validating code');
             if (control.pristine) {
                 return EMPTY;
             }
-            return this.projectService.checkIfProjectExists(control.value)
-                .pipe(map(result => result.valid ? {uniqueCode: true} : null));
+            return this.projectService
+                .checkIfProjectExists(control.value)
+                .pipe(
+                    map(result => result.valid ? {uniqueCode: true} : null),
+                );
         };
     }
 

@@ -49,7 +49,7 @@
 								</app-warning-icon>
 							</div>
 						</div>
-						<div class="col-span-8">
+						<div class="col-span-8 relative">
 							<input [id]="'individualcomment-' + i"
                                    #commentInput
 							       formControlName="comment"
@@ -64,7 +64,9 @@
 							/>
 							<app-error-icon class="input-field-icon"
 							                [control]="getIndividualComment(i)"
-							                onlyShowAfterSubmitted="true"></app-error-icon>
+							                [submitted]="submitted"
+							                onlyShowAfterSubmitted="true">
+							</app-error-icon>
 						</div>
 						<div class="col-span-1 text-right self-center text-gray-500 space-x-2">
                 <span (click)="removeIndividualLength(i)"

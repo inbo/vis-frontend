@@ -1,6 +1,7 @@
-<div *ngIf="displayErrorMessage() "
+<div *ngIf="showErrorIcon"
      class="flex items-center"
-     [ngxTippy]="tooltipTemplate"
+     ngxTippy
+     [tippyName]="tippyName"
      [tippyProps]="tippyProps">
 	<svg class="w-5 h-5 text-red-600"
 	     fill="currentColor"
@@ -11,10 +12,3 @@
 		      fill-rule="evenodd"></path>
 	</svg>
 </div>
-<template #tooltipTemplate>
-	<ul class="message-list">
-		<li *ngFor="let error of getErrorKeys()">
-			{{'errorMessage.' + error | translate:errorParams(error)}}
-		</li>
-	</ul>
-</template>

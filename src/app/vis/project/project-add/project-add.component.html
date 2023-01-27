@@ -11,7 +11,7 @@
 							       class="block text-sm font-medium text-gray-700">
 								Code *
 							</label>
-							<div class="mt-1">
+							<div class="mt-1 relative">
 								<input formControlName="code"
 								       type="text"
 								       name="code"
@@ -22,10 +22,12 @@
 								                [submitted]="submitted"
 								                [fieldName]="'Code'"></app-error-icon>
 							</div>
-							<p class="mt-2 text-sm text-gray-500"
-							   id="code-description">Unieke korte code gebruikt om een project aan
-							                         te duiden. Deze code zal ook in de breadcrumbs en urls gebruikt
-							                         worden.</p>
+							<p class="mt-2 text-sm text-gray-500">
+								Unieke korte code gebruikt om een project aan
+								te duiden. Deze code zal ook in de breadcrumbs en urls
+								gebruikt
+								worden.
+							</p>
 
 						</div>
 
@@ -34,7 +36,7 @@
 							       class="block text-sm font-medium text-gray-700">
 								Naam *
 							</label>
-							<div class="mt-1">
+							<div class="mt-1 relative">
 								<input formControlName="name"
 								       type="text"
 								       name="name"
@@ -94,13 +96,13 @@
 									<option value="FORK">Vork</option>
 									<option value="TOTAL">Totaal</option>
 								</select>
-								<p class="mt-2 text-sm text-gray-500"
-								   id="code-description">Bij vorklengte wordt de vis gemeten vanaf de
-								                         punt van de snuit tot het einde van de middelste
-								                         staartvinstralen. Bij totale lengte wordt de vis
-								                         gemeten vanaf de punt van de snuit tot het verste uiteinde van
-								                         de staart.</p>
-
+								<p class="mt-2 text-sm text-gray-500">
+									Bij vorklengte wordt de vis gemeten vanaf de
+									punt van de snuit tot het einde van de middelste
+									staartvinstralen. Bij totale lengte wordt de vis
+									gemeten vanaf de punt van de snuit tot het verste uiteinde van
+									de staart.
+								</p>
 								<p *ngIf="submitted && lengthType.errors"
 								   class="mt-2 text-sm text-red-600">Lengtemaat is verplicht</p>
 							</div>
@@ -125,11 +127,13 @@
 							</label>
 							<div class="mt-1">
 								<app-multi-select formControlName="instances"
-								                  [options]="instances$ | async"></app-multi-select>
-								<app-error-icon [control]="instances"
-								                [fieldName]="'Instanties'"
-								                [submitted]="submitted"></app-error-icon>
+								                  [options]="instances$ | async">
+								</app-multi-select>
 							</div>
+							<app-form-error-message [control]="instances"
+							                        [fieldName]="'Instanties'"
+							                        [submitted]="submitted">
+							</app-form-error-message>
 						</div>
 						<div>
 							<label class="block text-sm font-medium text-gray-700">

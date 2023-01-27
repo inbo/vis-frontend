@@ -96,7 +96,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
             ]),
             gender: new UntypedFormControl(measurement.gender ? measurement.gender : 'UNKNOWN'),
             afvisBeurtNumber: new UntypedFormControl(measurement.afvisBeurtNumber, [Validators.min(1), Validators.max(10)]),
-            comment: new UntypedFormControl(measurement.comment ? measurement.comment : '', Validators.max(2000)),
+            comment: new UntypedFormControl(measurement.comment ? measurement.comment : '', Validators.maxLength(2000)),
             individualLengths: this.formBuilder.array(individualLengths),
             dilutionFactor: new UntypedFormControl(measurement.dilutionFactor || 1, [Validators.min(0)]),
             isPortside: new UntypedFormControl(measurement.portside ?? true),
@@ -113,7 +113,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
         return this.formBuilder.group({
             id: new UntypedFormControl(individualLength.id),
             length: new WarningFormControl(individualLength.length, [Validators.min(0), valueBetweenWarning(taxon.lengthMin, taxon.lengthMax, this.changeDetectorRef)]),
-            comment: new UntypedFormControl(individualLength.comment, Validators.max(2000)),
+            comment: new UntypedFormControl(individualLength.comment, Validators.maxLength(2000)),
         });
     }
 

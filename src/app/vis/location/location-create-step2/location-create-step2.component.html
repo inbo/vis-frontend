@@ -20,7 +20,7 @@
 						       class="block text-sm font-medium text-gray-700">
 							Helling (‰)
 						</label>
-						<div class="mt-1">
+						<div class="mt-1 relative">
 							<input [imask]="numberMask(3, 0, 99999.999)"
 							       [unmask]="true"
 							       formControlName="incline"
@@ -30,7 +30,7 @@
 							<app-error-icon class="input-field-icon"
 							                [fieldName]="'Helling'"
 							                [control]="incline"
-							                [submitted]="false">
+							                [onlyShowAfterSubmitted]="false">
 							</app-error-icon>
 						</div>
 					</div>
@@ -40,7 +40,7 @@
 						       class="block text-sm font-medium text-gray-700">
 							Breedte (m)
 						</label>
-						<div class="mt-1">
+						<div class="mt-1 relative">
 							<input [imask]="numberMask(2, 0.01, 99999.99)"
 							       [unmask]="true"
 							       formControlName="width"
@@ -50,7 +50,7 @@
 							<app-error-icon class="input-field-icon"
 							                [fieldName]="'Breedte'"
 							                [control]="width"
-							                [submitted]="false">
+							                [onlyShowAfterSubmitted]="false">
 							</app-error-icon>
 						</div>
 					</div>

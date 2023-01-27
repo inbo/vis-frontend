@@ -10,7 +10,7 @@
               <label class="block text-sm font-medium text-gray-900">
                 Team
               </label>
-              <div class="mt-1 space-y-1">
+              <div class="mt-1 space-y-1 relative">
                 <input formControlName="teamCode" type="text">
                 <app-error-icon class="input-field-icon" [control]="teamCode" [fieldName]="'Team'" [submitted]="submitted"></app-error-icon>
               </div>
@@ -20,7 +20,7 @@
               <label class="block text-sm font-medium text-gray-900">
                 Beschrijving
               </label>
-              <div class="mt-1 space-y-1">
+              <div class="mt-1 space-y-1 relative">
                 <input formControlName="description" type="text">
                 <app-error-icon class="input-field-icon" [control]="description" [fieldName]="'Beschrijving'" [submitted]="submitted"></app-error-icon>
               </div>
