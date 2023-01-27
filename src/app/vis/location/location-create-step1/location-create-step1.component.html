@@ -19,10 +19,11 @@
 							       type="text"
 							       name="code"
 							       id="code">
+							<app-error-icon class="input-field-icon"
+							                [fieldName]="'Code'"
+							                [control]="code">
+							</app-error-icon>
 						</div>
-						<app-form-error-message [fieldName]="'Code'"
-						                        [control]="code"
-						                        [submitted]="false"></app-form-error-message>
 					</div>
 
 					<div>
@@ -35,10 +36,11 @@
 							       type="text"
 							       name="description"
 							       id="description">
+							<app-error-icon class="input-field-icon"
+							                [fieldName]="'Omschrijving'"
+							                [control]="description">
+							</app-error-icon>
 						</div>
-						<app-form-error-message [fieldName]="'Omschrijving'"
-						                        [control]="description"
-						                        [submitted]="false"></app-form-error-message>
 					</div>
 
 
@@ -58,11 +60,11 @@
 									<label class="ml-3 block text-sm font-medium text-gray-700">
 										Getijdewater
 									</label>
+									<app-form-error-message [fieldName]="'Type'"
+									                        [control]="type">
+									</app-form-error-message>
 								</div>
 							</div>
-							<app-form-error-message [fieldName]="'Type'"
-							                        [control]="type"
-							                        [submitted]="false"></app-form-error-message>
 						</div>
 
 						<div *ngIf="canEditIndexType"
@@ -122,8 +124,8 @@
 									</div>
 								</div>
 								<app-form-error-message [fieldName]="'Type'"
-								                        [control]="type"
-								                        [submitted]="false"></app-form-error-message>
+								                        [control]="type">
+								</app-form-error-message>
 							</div>
 						</div>
 					</ng-template>

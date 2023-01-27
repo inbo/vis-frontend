@@ -26,8 +26,9 @@ import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-ic
 import * as IntroJs from 'intro.js/intro.js';
 import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
 import {MeasurementRowEnterEvent} from '../measurement-row/measurement-row-enter-event.model';
-import {lengthOrWeightRequiredForIndividualMeasurement} from './validators/length-or-weight-required-for-individual.measurement';
 import {WarningFormControl} from '../../../shared-ui/warning-form-control/warning.form-control';
+import {measurementAmountValidator} from './validators/measurement-amount.validator';
+import {measurementWeightValidator} from './validators/measurement-weight.validator';
 
 @Component({
     selector: 'app-survey-event-measurements-create-page',
@@ -134,7 +135,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         return this.formBuilder.group({
             type: new FormControl('NORMAL'),
             species: new FormControl<number>(speciesId, [Validators.required]),
-            amount: new FormControl<number>(1, Validators.min(0)),
+            amount: new FormControl<number>(1, [Validators.min(0)]),
             length: new WarningFormControl(null, [Validators.min(0)]),
             weight: new WarningFormControl(null, [Validators.min(0)]),
             gender: new FormControl<string>(gender ?? 'UNKNOWN'),
@@ -144,7 +145,9 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
             comment: new FormControl<string>(comment ?? '', Validators.max(2000)),
             individualLengths: this.formBuilder.array([]),
         }, {
-            validators: [lengthOrWeightRequiredForIndividualMeasurement(),
+            validators: [
+                measurementAmountValidator(this.changeDetectorRef),
+                measurementWeightValidator(this.changeDetectorRef),
             ],
         });
     }
@@ -186,7 +189,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         }
     }
 
-    createMeasurements() {
+    createMeasurements() {0
         if (this.measurementsForm.invalid) {
             this.submitted = true;
             return;

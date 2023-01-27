@@ -24,10 +24,12 @@
 										       id="code"
 										       name="code"
 										       type="text">
+										<app-error-icon class="input-field-icon"
+										                [control]="code"
+										                [fieldName]="'Code'"
+										                [submitted]="submitted">
+										</app-error-icon>
 									</div>
-									<app-form-error-message [control]="code"
-									                        [fieldName]="'Code'"
-									                        [submitted]="submitted"></app-form-error-message>
 								</div>
 								<div class="sm:col-span-1">
 									<dt class="text-sm font-medium text-gray-500">
@@ -38,10 +40,12 @@
 										       id="description"
 										       name="description"
 										       type="text">
+										<app-error-icon class="input-field-icon"
+										                [control]="description"
+										                [fieldName]="'Omschrijving'"
+										                [submitted]="submitted">
+										</app-error-icon>
 									</dd>
-									<app-form-error-message [control]="description"
-									                        [fieldName]="'Omschrijving'"
-									                        [submitted]="submitted"></app-form-error-message>
 								</div>
 								<div class="sm:col-span-1">
 									<dt class="text-sm font-medium text-gray-500">
@@ -54,10 +58,12 @@
 										       id="slope"
 										       name="slope"
 										       type="text">
+										<app-error-icon class="input-field-icon"
+										                [control]="slope"
+										                [fieldName]="'Helling'"
+										                [submitted]="submitted">
+										</app-error-icon>
 									</dd>
-									<app-form-error-message [control]="slope"
-									                        [fieldName]="'Helling'"
-									                        [submitted]="submitted"></app-form-error-message>
 								</div>
 								<div class="sm:col-span-1">
 									<dt class="text-sm font-medium text-gray-500">
@@ -70,10 +76,12 @@
 										       id="width"
 										       name="width"
 										       type="text">
+										<app-error-icon class="input-field-icon"
+										                [control]="width"
+										                [fieldName]="'Breedte'"
+										                [submitted]="submitted">
+										</app-error-icon>
 									</dd>
-									<app-form-error-message [control]="width"
-									                        [fieldName]="'Breedte'"
-									                        [submitted]="submitted"></app-form-error-message>
 								</div>
 								<div class="sm:col-span-1">
 									<dt class="text-sm font-medium text-gray-500">
@@ -85,7 +93,8 @@
 									</dd>
 									<app-form-error-message [control]="brackishWater"
 									                        [fieldName]="'Brak water'"
-									                        [submitted]="submitted"></app-form-error-message>
+									                        [submitted]="submitted">
+									</app-form-error-message>
 								</div>
 								<div class="sm:col-span-1">
 									<dt class="text-sm font-medium text-gray-500">
@@ -97,7 +106,8 @@
 									</dd>
 									<app-form-error-message [control]="tidalWater"
 									                        [fieldName]="'Getijdewater'"
-									                        [submitted]="submitted"></app-form-error-message>
+									                        [submitted]="submitted">
+									</app-form-error-message>
 								</div>
 								<div *ngIf="authService.hasRole(role.EditIndexType)"
 								     class="sm:col-span-1">
@@ -328,7 +338,7 @@
 
 							<div class="sm:col-span-2">
 								<app-fishing-points-map [canAddPoints]="false"
-                                                        [enableSidebar]="false"
+								                        [enableSidebar]="false"
 								                        [zoomLevel]="15"
 								                        (loaded)="highlightFishingPoint()"></app-fishing-points-map>
 							</div>

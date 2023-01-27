@@ -215,12 +215,12 @@
       "INDEXCALC_FYKE_WIDTH": "Fuikbreedte (m) (index berekening)",
       "INDEXCALC_FYKE_LENGTH": "Fuiklengte (m) (index berekening)",
       "INDEXCALC_FYKE_INTAKE_NBR": "Aantal fuikmonden (index berekening)",
-      "AantalUrenBakboord":  "Aantal uren bakboord",
-      "AantalUrenStuurboord":  "Aantal uren stuurboord",
-      "AfgevisteAantalMeterBakboord":  "Afgevist aantal meters bakboord",
-      "AfgevisteAantalMeterStuurboord":  "Afgevist aantal meters stuurboord",
-      "NetHoogteBakboord":  "Nethoogte bakboord (m)",
-      "NetHoogteStuurboord":  "Nethoogte stuurboord (m)",
+      "AantalUrenBakboord": "Aantal uren bakboord",
+      "AantalUrenStuurboord": "Aantal uren stuurboord",
+      "AfgevisteAantalMeterBakboord": "Afgevist aantal meters bakboord",
+      "AfgevisteAantalMeterStuurboord": "Afgevist aantal meters stuurboord",
+      "NetHoogteBakboord": "Nethoogte bakboord (m)",
+      "NetHoogteStuurboord": "Nethoogte stuurboord (m)",
       "NetBreedte": "Netbreedte (m)",
       "Beginstand": "Beginstand stroomsnelheidsmeter",
       "EindStandBakboord": "Eindstand stroomsnelheidsmeter bakboord",
@@ -241,46 +241,17 @@
     "not-found": "Sorry, de pagina die u zoekt is niet gevonden."
   },
   "errorMessage": {
-    "required": {
-      "short": "verplicht",
-      "long": "{{fieldName}} is verplicht"
-    },
-    "maxlength": {
-      "short": "max {{requiredLength}}",
-      "long": "Maximum {{requiredLength}} tekens zijn toegelaten"
-    },
-    "uniqueCode": {
-      "short": "niet uniek",
-      "long": "Code moet uniek zijn"
-    },
-    "min": {
-      "short": ">= {{min}}",
-      "long": "{{fieldName}} moet groter of gelijk zijn aan {{min}}"
-    },
-    "max": {
-      "short": "<= {{max}}",
-      "long": "{{fieldName}} moet kleiner of gelijk zijn aan {{max}"
-    },
-    "lengthOrWeightRequiredForIndividualMeasurement": {
-      "short": "L of G verplicht",
-      "long": "Lengte of gewicht is verplicht voor een individuele meting"
-    },
-    "projectStartAfterSurveyEvents": {
-      "short": "Prj start > srv event occ",
-      "long": "Bestaande waarneming data mogen niet voor de project start datum vallen"
-    },
-    "projectEndBeforeSurveyEvents": {
-      "short": "Prj einde < srv event occ",
-      "long": "Bestaande waarneming data mogen niet na de project eind datum vallen"
-    },
-    "invalidCalculation": {
-      "short": "Ongeldige berekening",
-      "long": "Ongeldige berekening"
-    },
-    "uniqueSurveyEvent": {
-      "short": "Datum, loc & methode uniek",
-      "long": "Datum, locatie en methode moeten uniek zijn"
-    }
+    "required": "{{fieldName}} is verplicht.",
+    "maxlength": "Maximum {{requiredLength}} tekens zijn toegelaten",
+    "uniqueCode": "Code moet uniek zijn",
+    "min": "{{fieldName}} moet groter of gelijk zijn aan {{min}}",
+    "max": "{{fieldName}} moet kleiner of gelijk zijn aan {{max}",
+    "measurementWeight": "Gewicht is verplicht als aantal > 1.",
+    "measurementAmount": "Aantal > 0 is verplicht als lengte is ingevuld.",
+    "projectStartAfterSurveyEvents": "Bestaande waarneming data mogen niet voor de project start datum vallen.",
+    "projectEndBeforeSurveyEvents": "Bestaande waarneming data mogen niet na de project eind datum vallen.",
+    "invalidCalculation": "De berekening is ongeldige.",
+    "uniqueSurveyEvent": "Datum, locatie en methode moeten uniek zijn."
   },
   "COMMON": "Algemeen",
   "METING": "Metingen",

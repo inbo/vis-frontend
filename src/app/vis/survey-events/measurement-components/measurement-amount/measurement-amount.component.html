@@ -1,5 +1,15 @@
-<ng-container [formGroup]="form">
-  <input (change)="amountChanged($event)" (keydown)="keydown($event)" [id]="'amount-' + index" formControlName="amount"
-         min="0" name="amount"
-         type="number"/>
-</ng-container>
+<div class="relative"
+     [formGroup]="form">
+	<input (change)="amountChanged($event)"
+	       (keydown)="keydown($event)"
+	       [id]="'amount-' + index"
+	       formControlName="amount"
+	       min="0"
+	       name="amount"
+	       type="number"/>
+	<app-error-icon class="input-field-icon"
+	                [control]="amount()"
+	                [submitted]="submitted"
+	                onlyShowAfterSubmitted="true">
+	</app-error-icon>
+</div>

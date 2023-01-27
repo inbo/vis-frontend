@@ -1,129 +1,171 @@
 <form [formGroup]="createProjectForm">
-  <app-slide-over (isOpenChange)="cancel()" [(isOpen)]="isOpen">
-    <span slot="title">Nieuw project</span>
-    <div slot="content">
-      <div class="flex-1 flex flex-col justify-between">
-        <div class="px-4 divide-y divide-gray-200 sm:px-6">
-          <div class="space-y-6 pt-6 pb-5">
-            <div>
-              <label for="code" class="block text-sm font-medium text-gray-700">
-                Code *
-              </label>
-              <div class="mt-1">
-                <input formControlName="code" type="text" name="code" id="code" autocomplete="name">
-              </div>
-              <p class="mt-2 text-sm text-gray-500" id="code-description">Unieke korte code gebruikt om een project aan
-                te duiden. Deze code zal ook in de breadcrumbs en urls gebruikt worden.</p>
+	<app-slide-over (isOpenChange)="cancel()"
+	                [(isOpen)]="isOpen">
+		<span slot="title">Nieuw project</span>
+		<div slot="content">
+			<div class="flex-1 flex flex-col justify-between">
+				<div class="px-4 divide-y divide-gray-200 sm:px-6">
+					<div class="space-y-6 pt-6 pb-5">
+						<div>
+							<label for="code"
+							       class="block text-sm font-medium text-gray-700">
+								Code *
+							</label>
+							<div class="mt-1">
+								<input formControlName="code"
+								       type="text"
+								       name="code"
+								       id="code"
+								       autocomplete="name">
+								<app-error-icon class="input-field-icon"
+								                [control]="code"
+								                [submitted]="submitted"
+								                [fieldName]="'Code'"></app-error-icon>
+							</div>
+							<p class="mt-2 text-sm text-gray-500"
+							   id="code-description">Unieke korte code gebruikt om een project aan
+							                         te duiden. Deze code zal ook in de breadcrumbs en urls gebruikt
+							                         worden.</p>
 
-              <app-form-error-message [control]="code" [submitted]="submitted"
-                                      [fieldName]="'Code'"></app-form-error-message>
-            </div>
+						</div>
 
-            <div>
-              <label for="name" class="block text-sm font-medium text-gray-700">
-                Naam *
-              </label>
-              <div class="mt-1">
-                <input formControlName="name" type="text" name="name" id="name" autocomplete="name">
-              </div>
-              <app-form-error-message [fieldName]="'Naam'" [control]="name"
-                                      [submitted]="submitted"></app-form-error-message>
+						<div>
+							<label for="name"
+							       class="block text-sm font-medium text-gray-700">
+								Naam *
+							</label>
+							<div class="mt-1">
+								<input formControlName="name"
+								       type="text"
+								       name="name"
+								       id="name"
+								       autocomplete="name">
+								<app-error-icon class="input-field-icon"
+								                [fieldName]="'Naam'"
+								                [control]="name"
+								                [submitted]="submitted">
+								</app-error-icon>
+							</div>
 
-            </div>
+						</div>
 
-            <div>
-              <label for="description" class="block text-sm font-medium text-gray-700">
-                Beschrijving
-              </label>
-              <div class="mt-1">
-                <textarea formControlName="description" id="description" name="description" rows="3"></textarea>
-              </div>
-              <div class="flex justify-between">
-                <p class="mt-2 text-sm text-gray-500">Beschrijf het project in een aantal zinnen</p>
-                <app-text-counter [max]="2000" [text]="description.value"></app-text-counter>
-              </div>
-              <app-form-error-message [fieldName]="'Beschrijving'" [control]="description"
-                                      [submitted]="submitted"></app-form-error-message>
-            </div>
+						<div>
+							<label for="description"
+							       class="block text-sm font-medium text-gray-700">
+								Beschrijving
+							</label>
+							<div class="mt-1">
+								<textarea formControlName="description"
+								          id="description"
+								          name="description"
+								          rows="3"></textarea>
+							</div>
+							<div class="flex justify-between">
+								<p class="mt-2 text-sm text-gray-500">Beschrijf het project in een aantal zinnen</p>
+								<app-text-counter [max]="2000"
+								                  [text]="description.value"></app-text-counter>
+							</div>
+							<app-form-error-message [fieldName]="'Beschrijving'"
+							                        [control]="description"
+							                        [submitted]="submitted"></app-form-error-message>
+						</div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-700">
-                Startdatum *
-              </label>
-              <div class="mt-1">
-                <app-datepicker formControlName="startDate" [hideResetButton]="true"></app-datepicker>
-                <app-form-error-message [fieldName]="'Startdatum'" [control]="startDate"
-                                        [submitted]="submitted"></app-form-error-message>
+						<div>
+							<label class="block text-sm font-medium text-gray-700">
+								Startdatum *
+							</label>
+							<div class="mt-1">
+								<app-datepicker formControlName="startDate"
+								                [hideResetButton]="true"></app-datepicker>
+								<app-form-error-message [fieldName]="'Startdatum'"
+								                        [control]="startDate"
+								                        [submitted]="submitted"></app-form-error-message>
 
-              </div>
-            </div>
+							</div>
+						</div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-700">
-                Lengtemaat *
-              </label>
-              <div class="mt-1">
-                <select name="lengthType" formControlName="lengthType">
-                  <option value="FORK">Vork</option>
-                  <option value="TOTAL">Totaal</option>
-                </select>
-                <p class="mt-2 text-sm text-gray-500" id="code-description">Bij vorklengte wordt de vis gemeten vanaf de
-                  punt van de snuit tot het einde van de middelste staartvinstralen. Bij totale lengte wordt de vis
-                  gemeten vanaf de punt van de snuit tot het verste uiteinde van de staart.</p>
+						<div>
+							<label class="block text-sm font-medium text-gray-700">
+								Lengtemaat *
+							</label>
+							<div class="mt-1">
+								<select name="lengthType"
+								        formControlName="lengthType">
+									<option value="FORK">Vork</option>
+									<option value="TOTAL">Totaal</option>
+								</select>
+								<p class="mt-2 text-sm text-gray-500"
+								   id="code-description">Bij vorklengte wordt de vis gemeten vanaf de
+								                         punt van de snuit tot het einde van de middelste
+								                         staartvinstralen. Bij totale lengte wordt de vis
+								                         gemeten vanaf de punt van de snuit tot het verste uiteinde van
+								                         de staart.</p>
 
-                <p *ngIf="submitted && lengthType.errors" class="mt-2 text-sm text-red-600">Lengtemaat is verplicht</p>
-              </div>
-            </div>
+								<p *ngIf="submitted && lengthType.errors"
+								   class="mt-2 text-sm text-red-600">Lengtemaat is verplicht</p>
+							</div>
+						</div>
 
-            <div>
-              <label for="contact" class="block text-sm font-medium text-gray-700">
-                Contactpersoon
-              </label>
-              <div class="mt-1">
-                <input formControlName="contact" type="text" name="contact" id="contact">
-              </div>
-            </div>
+						<div>
+							<label for="contact"
+							       class="block text-sm font-medium text-gray-700">
+								Contactpersoon
+							</label>
+							<div class="mt-1">
+								<input formControlName="contact"
+								       type="text"
+								       name="contact"
+								       id="contact">
+							</div>
+						</div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-700">
-                Instanties
-              </label>
-              <div class="mt-1">
-                <app-multi-select formControlName="instances" [options]="instances$ | async"></app-multi-select>
-                <app-form-error-message [control]="instances" [fieldName]="'Instanties'"
-                                        [submitted]="submitted"></app-form-error-message>
-              </div>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">
-                Team
-              </label>
-              <div class="mt-1">
-                <app-multi-select formControlName="teams" [options]="teams$ | async"></app-multi-select>
-                <app-form-error-message [control]="teams" [fieldName]="'Teams'"
-                                        [submitted]="submitted"></app-form-error-message>
-              </div>
-            </div>
+						<div>
+							<label class="block text-sm font-medium text-gray-700">
+								Instanties
+							</label>
+							<div class="mt-1">
+								<app-multi-select formControlName="instances"
+								                  [options]="instances$ | async"></app-multi-select>
+								<app-error-icon [control]="instances"
+								                [fieldName]="'Instanties'"
+								                [submitted]="submitted"></app-error-icon>
+							</div>
+						</div>
+						<div>
+							<label class="block text-sm font-medium text-gray-700">
+								Team
+							</label>
+							<div class="mt-1">
+								<app-multi-select formControlName="teams"
+								                  [options]="teams$ | async"></app-multi-select>
+								<app-form-error-message [control]="teams"
+								                        [fieldName]="'Teams'"
+								                        [submitted]="submitted"></app-form-error-message>
+							</div>
+						</div>
 
-          </div>
-        </div>
-      </div>
-    </div>
-    <div slot="buttons" class="flex-shrink-0 px-4 border-t border-gray-200 py-5 sm:px-6">
-      <div class="space-x-3 flex justify-end">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div slot="buttons"
+		     class="flex-shrink-0 px-4 border-t border-gray-200 py-5 sm:px-6">
+			<div class="space-x-3 flex justify-end">
         <span class="inline-flex rounded-md shadow-sm">
-          <button (click)="cancel()" type="button"
+          <button (click)="cancel()"
+                  type="button"
                   class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
             Annuleren
           </button>
         </span>
-        <span class="inline-flex rounded-md shadow-sm">
-          <button (click)="createProject()" type="submit"
+				<span class="inline-flex rounded-md shadow-sm">
+          <button (click)="createProject()"
+                  type="submit"
                   class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-pink-600 hover:bg-pink-500 focus:outline-none focus:border-pink-700 focus:shadow-outline-pink active:bg-pink-700 transition duration-150 ease-in-out">
             Bewaren
           </button>
         </span>
-      </div>
-    </div>
-  </app-slide-over>
+			</div>
+		</div>
+	</app-slide-over>
 </form>

@@ -26,10 +26,11 @@
 										       name="code"
 										       id="code"
 										       autocomplete="code">
+										<app-error-icon class="input-field-icon"
+										                [fieldName]="'Code'"
+										                [control]="code"
+										                [submitted]="submitted"></app-error-icon>
 									</div>
-									<app-form-error-message [fieldName]="'Code'"
-									                        [control]="code"
-									                        [submitted]="submitted"></app-form-error-message>
 								</div>
 								<div class="sm:col-span-4">
 									<label for="name"
@@ -42,10 +43,11 @@
 										       name="name"
 										       id="name"
 										       autocomplete="name">
+										<app-error-icon [fieldName]="'Naam'"
+										                class="input-field-icon"
+										                [control]="name"
+										                [submitted]="submitted"></app-error-icon>
 									</div>
-									<app-form-error-message [fieldName]="'Naam'"
-									                        [control]="name"
-									                        [submitted]="submitted"></app-form-error-message>
 								</div>
 
 								<div class="sm:col-span-6">

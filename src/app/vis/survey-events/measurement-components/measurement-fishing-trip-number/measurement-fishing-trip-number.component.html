@@ -1,5 +1,11 @@
 <ng-container [formGroup]="form">
-  <input (keydown)="keydown($event)"
-         [id]="'afvisBeurtNumber-' + index" formControlName="afvisBeurtNumber" name="afvisBeurtNumber"
-         type="number"/>
+	<input (keydown)="keydown($event)"
+	       [id]="'afvisBeurtNumber-' + index"
+	       formControlName="afvisBeurtNumber"
+	       name="afvisBeurtNumber"
+	       type="number"/>
+	<app-error-icon class="input-field-icon"
+	                [control]="afvisbeurtNumber()"
+	                [submitted]="submitted"
+	                onlyShowAfterSubmitted="true"></app-error-icon>
 </ng-container>

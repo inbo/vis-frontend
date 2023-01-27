@@ -3,47 +3,48 @@ import {AbstractControl, FormGroupDirective, UntypedFormGroup} from '@angular/fo
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 
 @Component({
-  selector: 'app-measurement-amount',
-  templateUrl: './measurement-amount.component.html'
+    selector: 'app-measurement-amount',
+    templateUrl: './measurement-amount.component.html',
 })
 export class MeasurementAmountComponent extends MeasurementComponentDirective implements OnInit {
 
-  form: UntypedFormGroup;
-  @Input() index: number;
+    form: UntypedFormGroup;
+    @Input() index: number;
+    @Input() submitted: boolean;
 
-  constructor(private rootFormGroup: FormGroupDirective) {
-    super();
-  }
-
-  ngOnInit(): void {
-    this.form = this.rootFormGroup.form;
-  }
-
-  amountChanged($event: Event) {
-    const val = this.amount().value;
-    if (val && val > 1) {
-      if (this.type().value === 'NORMAL') {
-        this.type().patchValue('GROUP');
-        this.length().reset();
-      }
-    } else {
-      this.type().patchValue('NORMAL');
+    constructor(private rootFormGroup: FormGroupDirective) {
+        super();
     }
-  }
 
-  private amount(): AbstractControl {
-    return this.form.get('amount');
-  }
+    ngOnInit(): void {
+        this.form = this.rootFormGroup.form;
+    }
 
-  private length(): AbstractControl {
-    return this.form.get('length');
-  }
+    amountChanged($event: Event) {
+        const val = this.amount().value;
+        if (val && val > 1) {
+            if (this.type().value === 'NORMAL') {
+                this.type().patchValue('GROUP');
+                this.length().reset();
+            }
+        } else {
+            this.type().patchValue('NORMAL');
+        }
+    }
 
-  type(): AbstractControl {
-    return this.form.get('type');
-  }
+    amount(): AbstractControl {
+        return this.form.get('amount');
+    }
 
-  fieldName(): string {
-    return 'amount';
-  }
+    private length(): AbstractControl {
+        return this.form.get('length');
+    }
+
+    type(): AbstractControl {
+        return this.form.get('type');
+    }
+
+    fieldName(): string {
+        return 'amount';
+    }
 }

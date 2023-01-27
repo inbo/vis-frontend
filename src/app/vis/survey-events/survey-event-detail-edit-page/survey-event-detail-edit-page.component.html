@@ -18,9 +18,9 @@
 										                [minDate]="minDate"
 										                [maxDate]="maxDate"></app-datepicker>
 									</div>
-									<app-form-error-message [fieldName]="'Datum'"
+									<app-error-icon [fieldName]="'Datum'"
 									                        [control]="occurrenceDate"
-									                        [submitted]="submitted"></app-form-error-message>
+									                        [submitted]="submitted"></app-error-icon>
 								</div>
 
 								<div class="relative sm:col-span-4">
@@ -36,9 +36,9 @@
 										                       [configuration]="fishingPointSearchableSelectConfig">
 										</app-searchable-select>
 									</div>
-									<app-form-error-message [fieldName]="'Locatie'"
+									<app-error-icon [fieldName]="'Locatie'"
 									                        [control]="location"
-									                        [submitted]="submitted"></app-form-error-message>
+									                        [submitted]="submitted"></app-error-icon>
 								</div>
 
 								<div class="relative sm:col-span-4">
@@ -53,9 +53,9 @@
 										                       [options]="filteredMethods">
 										</app-searchable-select>
 									</div>
-									<app-form-error-message [fieldName]="'Methode'"
+									<app-error-icon [fieldName]="'Methode'"
 									                        [control]="method"
-									                        [submitted]="submitted"></app-form-error-message>
+									                        [submitted]="submitted"></app-error-icon>
 								</div>
 
 								<div class="sm:col-span-6">
@@ -71,14 +71,14 @@
 										<app-text-counter [max]="800"
 										                  [text]="comment.value"></app-text-counter>
 									</div>
-									<app-form-error-message [fieldName]="'Commentaar'"
+									<app-error-icon [fieldName]="'Commentaar'"
 									                        [control]="comment"
-									                        [submitted]="submitted"></app-form-error-message>
+									                        [submitted]="submitted"></app-error-icon>
 								</div>
 							</div>
-							<app-form-error-message [fieldName]="'Waarneming'"
+							<app-error-icon [fieldName]="'Waarneming'"
 							                        [control]="form"
-							                        [submitted]="submitted"></app-form-error-message>
+							                        [submitted]="submitted"></app-error-icon>
 						</div>
 					</div>
 

@@ -12,7 +12,7 @@
               </label>
               <div class="mt-1 space-y-1">
                 <input formControlName="teamCode" type="text">
-                <app-form-error-message [control]="teamCode" [fieldName]="'Team'" [submitted]="submitted"></app-form-error-message>
+                <app-error-icon class="input-field-icon" [control]="teamCode" [fieldName]="'Team'" [submitted]="submitted"></app-error-icon>
               </div>
             </div>
 
@@ -22,7 +22,7 @@
               </label>
               <div class="mt-1 space-y-1">
                 <input formControlName="description" type="text">
-                <app-form-error-message [control]="description" [fieldName]="'Beschrijving'" [submitted]="submitted"></app-form-error-message>
+                <app-error-icon class="input-field-icon" [control]="description" [fieldName]="'Beschrijving'" [submitted]="submitted"></app-error-icon>
               </div>
             </div>
 

@@ -20,10 +20,9 @@ import {MeasurementRowEnterEvent} from './measurement-row-enter-event.model';
 import {isNil} from 'lodash-es';
 import {take} from 'rxjs/operators';
 import {valueBetweenWarning} from '../survey-event-measurements-create-page/validators/value-between.warning-validator';
-import {
-    lengthOrWeightRequiredForIndividualMeasurement,
-} from '../survey-event-measurements-create-page/validators/length-or-weight-required-for-individual.measurement';
 import {WarningFormControl} from '../../../shared-ui/warning-form-control/warning.form-control';
+import {measurementWeightValidator} from '../survey-event-measurements-create-page/validators/measurement-weight.validator';
+import {measurementAmountValidator} from '../survey-event-measurements-create-page/validators/measurement-amount.validator';
 
 @Component({
     selector: 'app-measurement-row',
@@ -47,7 +46,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     @Output() cancelClicked = new EventEmitter<any>();
     @Output() enterClicked = new EventEmitter<MeasurementRowEnterEvent>();
 
-    measurementsForm: FormGroup;
+    measurementForm: FormGroup;
     filteredTaxonOptions: SearchableSelectOption<number>[] = [];
     showIndividualLengthItems = true;
     taxon: TaxonDetail;
@@ -81,21 +80,9 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         ];
     }
 
-    numberMask(scale: number, min: number, max: number) {
-        return {
-            mask: Number,
-            scale,
-            signed: true,
-            thousandsSeparator: '',
-            radix: '.',
-            min,
-            max,
-        };
-    }
-
     ngOnInit(): void {
         this.measurementsFormArray = this.rootFormGroup.control.get('items') as FormArray;
-        this.measurementsForm = this.measurementsFormArray.at(this.formGroupName) as FormGroup;
+        this.measurementForm = this.measurementsFormArray.at(this.formGroupName) as FormGroup;
 
         this.addTaxaValidationsForRowIndex();
 
@@ -156,35 +143,35 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     }
 
     getSpecies(): AbstractControl {
-        return this.measurementsForm.get('species');
+        return this.measurementForm.get('species');
     }
 
     getAfvisBeurtNumber(): AbstractControl {
-        return this.measurementsForm.get('afvisBeurtNumber');
+        return this.measurementForm.get('afvisBeurtNumber');
     }
 
     getWeight() {
-        return this.measurementsForm.get('weight');
+        return this.measurementForm.get('weight');
     }
 
     getLength() {
-        return this.measurementsForm.get('length');
+        return this.measurementForm.get('length');
     }
 
     getAmount(): AbstractControl {
-        return this.measurementsForm.get('amount');
+        return this.measurementForm.get('amount');
     }
 
     getGender(): AbstractControl {
-        return this.measurementsForm.get('gender');
+        return this.measurementForm.get('gender');
     }
 
     getComment(): AbstractControl {
-        return this.measurementsForm.get('comment');
+        return this.measurementForm.get('comment');
     }
 
     getType(): AbstractControl {
-        return this.measurementsForm.get('type');
+        return this.measurementForm.get('type');
     }
 
     focusElement(field: string, index: number) {
@@ -195,13 +182,13 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     }
 
     getIndividualLengths(): UntypedFormArray {
-        return this.measurementsForm.get('individualLengths') as UntypedFormArray;
+        return this.measurementForm.get('individualLengths') as UntypedFormArray;
     }
 
     toGroupMeasurement() {
-        this.measurementsForm.get('length').patchValue(null);
-        this.measurementsForm.get('gender').patchValue(null);
-        this.measurementsForm.get('type').patchValue('GROUP_LENGTHS');
+        this.measurementForm.get('length').patchValue(null);
+        this.measurementForm.get('gender').patchValue(null);
+        this.measurementForm.get('type').patchValue('GROUP_LENGTHS');
 
         this.getIndividualLengths().clear();
         const amount = this.getAmount().value;
@@ -215,7 +202,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
     toIndividualMeasurement() {
         this.getIndividualLengths().patchValue([]);
-        this.measurementsForm.get('type').patchValue(this.getAmount().value > 1 ? 'GROUP' : 'NORMAL');
+        this.measurementForm.get('type').patchValue(this.getAmount().value > 1 ? 'GROUP' : 'NORMAL');
         this.setTaxonValidators(this.taxon);
         this.changeDetectorRef.detectChanges();
     }
@@ -243,10 +230,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
     cancel() {
         this.cancelClicked.emit();
-    }
-
-    getDilutionFactor() {
-        return this.measurementsForm.get('verdunningsFactor');
     }
 
     private createIndividualLength(comment?: string): UntypedFormGroup {
@@ -290,10 +273,10 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
             });
         }
 
-        this.measurementsForm.setValidators([lengthOrWeightRequiredForIndividualMeasurement(), weightLengthRatioValidator(taxon, this.changeDetectorRef)]);
+        this.measurementForm.setValidators([weightLengthRatioValidator(taxon, this.changeDetectorRef), measurementWeightValidator(this.changeDetectorRef), measurementAmountValidator(this.changeDetectorRef)]);
         this.getWeight().updateValueAndValidity();
         this.getLength().updateValueAndValidity();
-        this.measurementsForm.updateValueAndValidity();
+        this.measurementForm.updateValueAndValidity();
     }
 
     private getEnabledPreviousFieldName(currentFieldName: string) {

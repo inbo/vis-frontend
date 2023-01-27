@@ -5,32 +5,33 @@ import {WarningFormControl} from '../../../../shared-ui/warning-form-control/war
 import {nullableNumberMask} from '../../length.mask';
 
 @Component({
-  selector: 'app-measurement-length',
-  templateUrl: './measurement-length.component.html'
+    selector: 'app-measurement-length',
+    templateUrl: './measurement-length.component.html',
 })
 export class MeasurementLengthComponent extends MeasurementComponentDirective implements OnInit {
 
-  readonly nullableNumberMask = nullableNumberMask;
-  form: UntypedFormGroup;
-  @Input() index: number;
+    readonly nullableNumberMask = nullableNumberMask;
+    form: UntypedFormGroup;
+    @Input() index: number;
+    @Input() submitted = false;
 
-  constructor(private rootFormGroup: FormGroupDirective) {
-    super();
-  }
+    constructor(private rootFormGroup: FormGroupDirective) {
+        super();
+    }
 
-  ngOnInit(): void {
-    this.form = this.rootFormGroup.form;
-  }
+    ngOnInit(): void {
+        this.form = this.rootFormGroup.form;
+    }
 
-  length(): WarningFormControl {
-    return this.form.get('length') as WarningFormControl;
-  }
+    length(): WarningFormControl {
+        return this.form.get('length') as WarningFormControl;
+    }
 
-  amount(): AbstractControl {
-    return this.form.get('amount');
-  }
+    amount(): AbstractControl {
+        return this.form.get('amount');
+    }
 
-  fieldName(): string {
-    return 'length';
-  }
+    fieldName(): string {
+        return 'length';
+    }
 }
