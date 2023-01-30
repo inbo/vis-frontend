@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
+import {NullableMaskedNumber} from '../../../../shared-ui/nullable-numbermask.mask';
 
 @Component({
     selector: 'app-measurement-dilution-factor',

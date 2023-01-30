@@ -183,12 +183,6 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         return this.comment(this.items().length - 1).value;
     }
 
-    onKeyPress(event: KeyboardEvent, index: number) {
-        if (this.isKeyTab(event.key) && this.isLastIndex(index)) {
-            this.addNewLine();
-        }
-    }
-
     createMeasurements() {
         0;
         if (this.measurementsForm.invalid) {
