@@ -139,7 +139,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
             length: new WarningFormControl(null, [Validators.min(0)]),
             weight: new WarningFormControl(null, [Validators.min(0)]),
             gender: new FormControl<string>(gender ?? 'UNKNOWN'),
-            isPortside: new FormControl<boolean>(isPortside ?? false),
+            isPortside: new FormControl<boolean>(isPortside ?? true),
             afvisBeurtNumber: new FormControl<number>(1),
             dilutionFactor: new FormControl<number>(dilutionFactor == null ? 1 : dilutionFactor, [Validators.min(0)]),
             comment: new FormControl<string>(comment ?? '', [Validators.maxLength(2000)]),
@@ -374,7 +374,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     }
 
     private getPreviousPortside() {
-        return this.isPortside(this.items().length - 1).value;
+        return this.isPortside(this.items().length - 1).value ?? true;
     }
 
     private getPreviousDilutionFactor() {
