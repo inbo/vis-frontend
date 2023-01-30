@@ -1,26 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormGroupDirective, UntypedFormGroup} from '@angular/forms';
+import {Component} from '@angular/core';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 
 @Component({
-  selector: 'app-measurement-ship-side',
-  templateUrl: './measurement-ship-side.component.html'
+    selector: 'app-measurement-ship-side',
+    templateUrl: './measurement-ship-side.component.html',
 })
-export class MeasurementShipSideComponent extends MeasurementComponentDirective implements OnInit {
+export class MeasurementShipSideComponent extends MeasurementComponentDirective {
 
-  form: UntypedFormGroup;
-  @Input() index: number;
-
-  constructor(private rootFormGroup: FormGroupDirective) {
-    super();
-  }
-
-  ngOnInit(): void {
-    this.form = this.rootFormGroup.form;
-  }
-
-  fieldName(): string {
-    return 'isPortside';
-  }
+    fieldName = 'isPortside';
 
 }

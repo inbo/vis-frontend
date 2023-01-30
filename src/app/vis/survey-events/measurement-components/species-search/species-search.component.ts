@@ -1,5 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormGroupDirective, UntypedFormGroup} from '@angular/forms';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 import {SearchableSelectOption} from '../../../../shared-ui/searchable-select/SearchableSelectOption';
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../../shared-ui/searchable-select/SearchableSelectConfig';
@@ -8,26 +7,17 @@ import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../..
     selector: 'app-species-search',
     templateUrl: './species-search.component.html',
 })
-export class SpeciesSearchComponent extends MeasurementComponentDirective implements OnInit {
+export class SpeciesSearchComponent extends MeasurementComponentDirective {
 
     @Input() taxons: Array<SearchableSelectOption<number>>;
-    @Input() index: number;
     @Output() onSearch: EventEmitter<string> = new EventEmitter();
     @Output() changed: EventEmitter<void> = new EventEmitter();
 
-    form: UntypedFormGroup;
     selectConfiguration: SearchableSelectConfig = new SearchableSelectConfigBuilder()
         .minQueryLength(0)
         .searchPlaceholder('Begin met typen om te zoeken')
         .build();
-
-    constructor(private rootFormGroup: FormGroupDirective) {
-        super();
-    }
-
-    ngOnInit(): void {
-        this.form = this.rootFormGroup.form;
-    }
+    fieldName = 'species';
 
     keydown($event: KeyboardEvent) {
         if ($event.key === 'Enter') {
@@ -49,9 +39,5 @@ export class SpeciesSearchComponent extends MeasurementComponentDirective implem
             // @ts-ignore
             super.keydown($event.event);
         }
-    }
-
-    fieldName(): string {
-        return 'species';
     }
 }

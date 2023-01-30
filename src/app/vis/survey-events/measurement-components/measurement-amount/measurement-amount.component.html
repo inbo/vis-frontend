@@ -1,6 +1,6 @@
 <div class="relative"
      [formGroup]="form">
-	<input (change)="amountChanged($event)"
+	<input (change)="amountChanged()"
 	       (keydown)="keydown($event)"
 	       [id]="'amount-' + index"
 	       formControlName="amount"

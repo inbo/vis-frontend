@@ -1,51 +1,60 @@
-import {Directive, EventEmitter, Output} from '@angular/core';
+import {Directive, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MeasurementRowEnterEvent} from '../measurement-row/measurement-row-enter-event.model';
+import {FormGroup, FormGroupDirective} from '@angular/forms';
 
 @Directive()
-export class MeasurementComponentDirective {
+export abstract class MeasurementComponentDirective implements OnInit {
 
-  @Output() enterPressed = new EventEmitter<MeasurementRowEnterEvent>();
-  @Output() tabPressed = new EventEmitter<string>();
-  @Output() arrowPressed = new EventEmitter<KeyboardEvent>();
+    @Input() index: number;
 
-  fieldName(): string {
-    return '';
-  }
+    @Output() enterPressed = new EventEmitter<MeasurementRowEnterEvent>();
+    @Output() tabPressed = new EventEmitter<string>();
+    @Output() arrowPressed = new EventEmitter<KeyboardEvent>();
 
-  keydown($event: KeyboardEvent) {
-    if ($event.key === 'Enter') {
-      $event.preventDefault();
-      this.enterPressed.emit({fieldName: this.fieldName(), event: $event});
-    }
-    if ($event.key === 'Tab') {
-      this.tabPressed.emit(this.fieldName());
+    abstract readonly fieldName: string;
+    protected form: FormGroup;
+
+    constructor(private rootFormGroup: FormGroupDirective) {
     }
 
-    const isArrowKey = this.isKeyArrowUp($event.key)
-      || this.isKeyArrowDown($event.key)
-      || this.isKeyArrowLeft($event.key)
-      || this.isKeyArrowRight($event.key);
-
-    if ($event.ctrlKey && isArrowKey) {
-      $event.preventDefault();
-      this.arrowPressed.emit($event);
+    ngOnInit(): void {
+        this.form = this.rootFormGroup.form;
     }
-  }
 
-  private isKeyArrowUp(key: string) {
-    return key === 'ArrowUp';
-  }
+    keydown($event: KeyboardEvent) {
+        if ($event.key === 'Enter') {
+            $event.preventDefault();
+            this.enterPressed.emit({fieldName: this.fieldName, event: $event});
+        }
+        if ($event.key === 'Tab') {
+            this.tabPressed.emit(this.fieldName);
+        }
 
-  private isKeyArrowDown(key: string) {
-    return key === 'ArrowDown';
-  }
+        const isArrowKey = this.isKeyArrowUp($event.key)
+            || this.isKeyArrowDown($event.key)
+            || this.isKeyArrowLeft($event.key)
+            || this.isKeyArrowRight($event.key);
 
-  private isKeyArrowLeft(key: string) {
-    return key === 'ArrowLeft';
-  }
+        if ($event.ctrlKey && isArrowKey) {
+            $event.preventDefault();
+            this.arrowPressed.emit($event);
+        }
+    }
 
-  private isKeyArrowRight(key: string) {
-    return key === 'ArrowRight';
-  }
+    private isKeyArrowUp(key: string) {
+        return key === 'ArrowUp';
+    }
+
+    private isKeyArrowDown(key: string) {
+        return key === 'ArrowDown';
+    }
+
+    private isKeyArrowLeft(key: string) {
+        return key === 'ArrowLeft';
+    }
+
+    private isKeyArrowRight(key: string) {
+        return key === 'ArrowRight';
+    }
 
 }

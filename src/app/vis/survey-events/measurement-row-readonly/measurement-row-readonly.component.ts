@@ -14,9 +14,9 @@ import {WarningFormControl} from '../../../shared-ui/warning-form-control/warnin
 })
 export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
 
-    role = Role;
-    faWeightHanging = faWeightHanging;
-    faRulerHorizontal = faRulerHorizontal;
+    readonly role = Role;
+    readonly faWeightHanging = faWeightHanging;
+    readonly faRulerHorizontal = faRulerHorizontal;
 
     @Input() formGroupName: number;
     @Input() submitted = false;
@@ -35,18 +35,6 @@ export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
     showIndividualLengthItems = false;
     savedMessage = false;
     selectedSpecies: SearchableSelectOption<number>;
-
-    numberMask(scale: number, min: number, max: number) {
-        return {
-            mask: Number,
-            scale,
-            signed: true,
-            thousandsSeparator: '',
-            radix: '.',
-            min,
-            max,
-        };
-    }
 
     constructor(private taxaService: TaxaService,
                 private rootFormGroup: FormGroupDirective,
