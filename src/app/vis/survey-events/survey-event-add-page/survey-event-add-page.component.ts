@@ -33,8 +33,8 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
     fishingPoints: SearchableSelectOption<number>[] = [];
     filteredMethods: SearchableSelectOption<string>[] = [];
     searchableSelectConfig: SearchableSelectConfig = new SearchableSelectConfigBuilder()
-        .minQueryLength(2)
-        .searchPlaceholder('Minstens 2 karakters...')
+        .minQueryLength(1)
+        .searchPlaceholder('Typ minstens 1 karakter')
         .build();
     minDate: Date;
     maxDate: Date;
@@ -99,10 +99,10 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
                     this.existingSurveyEventsWithLocationMethodAndOccurrenceDate = foundSurveyEvents.map(surveyEvent => {
                         return {
                             surveyEvent,
-                            project: projects.find(project => project.code.value === surveyEvent.projectCode)
-                        }
-                    })
-                }
+                            project: projects.find(project => project.code.value === surveyEvent.projectCode),
+                        };
+                    });
+                },
             );
     }
 
@@ -113,13 +113,20 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
     getLocations(searchTerm: string) {
         this.locationsService
             .searchFishingPoints(searchTerm, undefined)
-            .pipe(take(1))
-            .subscribe(fishingPoints =>
-                this.fishingPoints = fishingPoints
+            .pipe(
+                take(1),
+                map(fishingPoints => fishingPoints
                     .map(fishingPoint => ({
                         displayValue: fishingPoint.code,
                         value: fishingPoint.id,
-                    })));
+                    })),
+                ),
+                map(fishingPoints => {
+                    const collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
+                    return fishingPoints.sort((a, b) => collator.compare(a.displayValue, b.displayValue));
+                }),
+            )
+            .subscribe(result => this.fishingPoints = result);
     }
 
     getMethods(searchQuery: string) {
