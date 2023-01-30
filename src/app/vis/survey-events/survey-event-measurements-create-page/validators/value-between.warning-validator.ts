@@ -8,7 +8,7 @@ export function valueBetweenWarning(minVal: number, maxVal: number, cdr: ChangeD
         delete formControl?.warningMessages?.between;
 
         const actualValue = formControl.value;
-        if (isNil(actualValue) || isNil(minVal) || isNil(maxVal)) {
+        if (isNil(actualValue) || actualValue === "" || isNil(minVal) || isNil(maxVal)) {
             return null;
         }
 

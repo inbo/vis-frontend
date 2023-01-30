@@ -9,7 +9,7 @@ import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
-import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {FormControl, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
 import {PagingAsyncComponent} from '../../../shared-ui/paging-async/paging-async.component';
 import {MeasurementRowReadonlyComponent} from '../measurement-row-readonly/measurement-row-readonly.component';
@@ -79,11 +79,11 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
     createMeasurementFormGroup(measurement: Measurement) {
         const individualLengths = measurement.individualLengths ? measurement.individualLengths.map(value => this.createIndividualLength(value, measurement.taxon)) : [];
         return this.formBuilder.group({
-            id: new UntypedFormControl(measurement.id),
-            order: new UntypedFormControl(measurement.order),
-            type: new UntypedFormControl(measurement.type),
-            species: new UntypedFormControl(measurement.taxon.id.value, [Validators.required]),
-            amount: new UntypedFormControl(measurement.amount, [
+            id: new FormControl<number>(measurement.id),
+            order: new FormControl<number>(measurement.order),
+            type: new FormControl<string>(measurement.type),
+            species: new FormControl<number>(measurement.taxon.id.value, [Validators.required]),
+            amount: new FormControl<number>(measurement.amount, [
                 Validators.min(0),
             ]),
             length: new WarningFormControl(measurement.length ? measurement.length.toString() : '', [
@@ -94,12 +94,12 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
                 Validators.min(0),
                 (measurement.taxon ? valueBetweenWarning(measurement.taxon?.weightMin, measurement.taxon?.weightMax, this.changeDetectorRef) : () => null),
             ]),
-            gender: new UntypedFormControl(measurement.gender ? measurement.gender : 'UNKNOWN'),
-            afvisBeurtNumber: new UntypedFormControl(measurement.afvisBeurtNumber, [Validators.min(1), Validators.max(10)]),
-            comment: new UntypedFormControl(measurement.comment ? measurement.comment : '', Validators.maxLength(2000)),
+            gender: new FormControl<string>(measurement.gender ? measurement.gender : 'UNKNOWN'),
+            afvisBeurtNumber: new FormControl<number>(measurement.afvisBeurtNumber, [Validators.min(1), Validators.max(10)]),
+            comment: new FormControl<string>(measurement.comment ? measurement.comment : '', Validators.maxLength(2000)),
             individualLengths: this.formBuilder.array(individualLengths),
-            dilutionFactor: new UntypedFormControl(measurement.dilutionFactor || 1, [Validators.min(0)]),
-            isPortside: new UntypedFormControl(measurement.portside ?? true),
+            dilutionFactor: new FormControl<number>(measurement.dilutionFactor || 1, [Validators.min(0)]),
+            isPortside: new FormControl<boolean>(measurement.portside),
         }, {
             validators: [
                 weightLengthRatioValidator(measurement.taxon, this.changeDetectorRef),
@@ -208,13 +208,14 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.surveyEventsService.saveMeasurement(this.projectCode, this.surveyEventId, data.get('id').value, data.getRawValue())
+        this.surveyEventsService
+            .saveMeasurement(this.projectCode, this.surveyEventId, data.get('id').value, data.getRawValue())
             .pipe(take(1))
             .subscribe(() => {
                 this.savedIndex = this.rowEditNumber;
                 this.rowEditNumber = i + 1;
                 this.focusFieldname(event.fieldName);
-
+                this.changeDetectorRef.detectChanges();
             });
     }
 

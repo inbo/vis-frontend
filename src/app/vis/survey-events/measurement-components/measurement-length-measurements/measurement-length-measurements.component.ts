@@ -61,13 +61,11 @@ export class MeasurementLengthMeasurementsComponent implements OnInit {
         this.getAllIndividualLengths().removeAt(i);
 
         this.getAmount().setValidators(Validators.min(this.getAllIndividualLengths().length));
-        // this.changeDetectorRef.detectChanges();
     }
 
     newLengthOnTab(event: KeyboardEvent, i: number) {
         if (!event.shiftKey && this.isLastIndex(i)) {
             this.addIndividualLength();
-            // this.changeDetectorRef.detectChanges();
         }
     }
 
@@ -155,7 +153,6 @@ export class MeasurementLengthMeasurementsComponent implements OnInit {
         if (individualLengthsSize < this.getAmount().value) {
             this.getAllIndividualLengths().push(this.createIndividualLength());
             this.getAmount().setValidators(Validators.min(individualLengthsSize + 1));
-            // this.changeDetectorRef.detectChanges();
         }
     }
 

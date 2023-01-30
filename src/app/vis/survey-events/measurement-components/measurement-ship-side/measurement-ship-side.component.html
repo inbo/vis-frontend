@@ -1,9 +1,9 @@
 <div [formGroup]="form">
-	<select [id]="fieldName() + '-' + index"
-	        (keydown)="keydown($event)"
+	<select (keydown)="keydown($event)"
+	        [id]="'isPortside' + '-' + index"
 	        formControlName="isPortside"
-	        [name]="fieldName()">
-		<option [value]="false">Stuurboord</option>
-		<option [value]="true">Bakboord</option>
+	        name="isPortside">
+		<option [ngValue]="false">Stuurboord</option>
+		<option [ngValue]="true">Bakboord</option>
 	</select>
 </div>

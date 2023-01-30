@@ -43,7 +43,7 @@
 	</ng-container>
 	<ng-template #ankerkuil>
 		<div class="col-span-4 md:col-span-2 lg:col-span-2 text-sm text-gray-900">
-			{{isPortside().value ? 'Bakboord' : 'Stuurboord'}}
+			{{(isPortside().value) ? 'Bakboord' : 'Stuurboord'}}
 		</div>
 		<div class="col-span-11 md:col-span-5 lg:col-span-1 text-sm text-gray-900">
 			{{dilutionFactor().value}}

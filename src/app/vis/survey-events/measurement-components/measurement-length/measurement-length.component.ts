@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AbstractControl, FormGroupDirective, UntypedFormGroup} from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
 import {nullableNumberMask} from '../../length.mask';
@@ -11,17 +11,9 @@ import {nullableNumberMask} from '../../length.mask';
 export class MeasurementLengthComponent extends MeasurementComponentDirective implements OnInit {
 
     readonly nullableNumberMask = nullableNumberMask;
-    form: UntypedFormGroup;
-    @Input() index: number;
     @Input() submitted = false;
 
-    constructor(private rootFormGroup: FormGroupDirective) {
-        super();
-    }
-
-    ngOnInit(): void {
-        this.form = this.rootFormGroup.form;
-    }
+    fieldName = 'length';
 
     length(): WarningFormControl {
         return this.form.get('length') as WarningFormControl;
@@ -31,7 +23,4 @@ export class MeasurementLengthComponent extends MeasurementComponentDirective im
         return this.form.get('amount');
     }
 
-    fieldName(): string {
-        return 'length';
-    }
 }
