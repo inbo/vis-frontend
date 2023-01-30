@@ -38,13 +38,24 @@
 						    scope="col">
 							Geslacht
 						</th>
-						<th class="table-header-cell"
+						<th *ngIf="!isAnkerkuilSurvey"
+						    class="table-header-cell"
 						    scope="col">
-							{{isAnkerkuilSurvey ? 'Verdunningsfactor' : 'Afvisbeurt'}}
+							Afvisbeurt
+						</th>
+						<th *ngIf="isAnkerkuilSurvey"
+						    class="table-header-cell"
+						    scope="col">
+							Verdunningsfactor
+						</th>
+						<th *ngIf="isAnkerkuilSurvey"
+						    class="table-header-cell"
+						    scope="col">
+							Schipzijde
 						</th>
 						<th class="table-header-cell"
 						    scope="col">
-							{{isAnkerkuilSurvey ? 'Schipzijde' : 'Commentaar'}}
+							Commentaar
 						</th>
 					</tr>
 				</thead>
@@ -88,13 +99,24 @@
 						    appCell>
 							{{'gender.' + measurement.gender | translate}}
 						</td>
-						<td [condense]="true"
+						<td *ngIf="!isAnkerkuilSurvey"
+						    [condense]="true"
 						    appCell>
-							{{isAnkerkuilSurvey ? measurement.dilutionFactor : measurement.afvisBeurtNumber}}
+							{{measurement.afvisBeurtNumber}}
+						</td>
+						<td *ngIf="isAnkerkuilSurvey"
+						    [condense]="true"
+						    appCell>
+							{{measurement.dilutionFactor}}
+						</td>
+						<td *ngIf="isAnkerkuilSurvey"
+						    [condense]="true"
+						    appCell>
+							{{measurement.portside ? 'Bakboord' : 'Stuurboord'}}
 						</td>
 						<td [condense]="true"
 						    appCell>
-							{{isAnkerkuilSurvey ? (measurement.portside ? 'Bakboord' : 'Stuurboord') : measurement.comment}}
+							{{measurement.comment}}
 						</td>
 					</tr>
 				</tbody>

@@ -37,19 +37,19 @@
 		<div class="col-span-4 md:col-span-2 lg:col-span-1 text-sm text-gray-900">
 			{{afvisBeurtNumber().value}}
 		</div>
-		<div class="col-span-11 md:col-span-5 lg:col-span-2 text-sm text-gray-900">
-			{{comment().value}}
-		</div>
 	</ng-container>
 	<ng-template #ankerkuil>
-		<div class="col-span-4 md:col-span-2 lg:col-span-2 text-sm text-gray-900">
+		<div class="col-span-4 md:col-span-2 lg:col-span-1 text-sm text-gray-900">
 			{{(isPortside().value) ? 'Bakboord' : 'Stuurboord'}}
 		</div>
-		<div class="col-span-11 md:col-span-5 lg:col-span-1 text-sm text-gray-900">
+		<div class="col-span-4 md:col-span-2 lg:col-span-1 text-sm text-gray-900">
 			{{dilutionFactor().value}}
 		</div>
 	</ng-template>
-	<div class="col-span-1 md:col-span-3 lg:col-span-2 text-right self-center text-gray-500 space-x-2">
+	<div class="col-span-11 md:col-span-5 lg:col-span-2 text-sm text-gray-900">
+		{{comment().value}}
+	</div>
+	<div class="col-span-1 md:col-span-3 lg:col-span-1 text-right self-center text-gray-500 space-x-2">
 
     <span *ngIf="savedMessage"
           class="inline-block items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 animate-pulse">

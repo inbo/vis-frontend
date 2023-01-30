@@ -69,6 +69,7 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
             'gender',
             'isPortside',
             'dilutionFactor',
+            'comment',
         ] : [
             'species',
             'amount',

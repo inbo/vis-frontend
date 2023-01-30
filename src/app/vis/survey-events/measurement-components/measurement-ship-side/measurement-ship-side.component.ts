@@ -9,4 +9,8 @@ export class MeasurementShipSideComponent extends MeasurementComponentDirective 
 
     fieldName = 'isPortside';
 
+    get selectedValue(): boolean {
+        return this.form.get(this.fieldName).value;
+    }
+
 }
