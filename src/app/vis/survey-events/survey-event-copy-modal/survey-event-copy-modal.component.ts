@@ -87,8 +87,14 @@ export class SurveyEventCopyModalComponent implements OnInit {
             .pipe(take(1))
             .subscribe(newSurveyEvent => {
                 this.isOpen = false;
-                this.router.navigate(['projecten', newSurveyEvent.projectCode,
-                    'waarnemingen', newSurveyEvent.surveyEventId]);
+                // When you are already on that route with a different ID, it will not trigger the ngOnInit, by first navigating somewhere else and then to the desired page,
+                // you can force the component to be destroyed and recreated.
+                this.router
+                    .navigateByUrl('/', {skipLocationChange: true})
+                    .then(() => {
+                        this.router.navigate(['projecten', newSurveyEvent.projectCode,
+                            'waarnemingen', newSurveyEvent.surveyEventId]);
+                    });
             });
     }
 
