@@ -94,31 +94,33 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
             },
         );
 
-        this.subscription.add(this.activatedRoute.queryParams.subscribe((params) => {
-            this.filterForm.get('fishingPointCodeFree').patchValue(params.fishingPointCodeFree ? params.fishingPointCodeFree : null);
-            this.filterForm.get('fishingPointCode').patchValue(params.fishingPointCode ? params.fishingPointCode : null);
-            this.filterForm.get('description').patchValue(params.description ? params.description : null);
-            this.filterForm.get('watercourse').patchValue(params.watercourse ? params.watercourse : null);
-            this.filterForm.get('lenticWaterbody').patchValue(params.lenticWaterbody ? params.lenticWaterbody : null);
-            this.filterForm.get('basin').patchValue(params.basin ? params.basin : null);
-            this.filterForm.get('province').patchValue(params.province ? params.province : null);
-            this.filterForm.get('municipality').patchValue(params.municipality ? params.municipality : null);
-            this.filterForm.get('page').patchValue(params.page ? params.page : null);
-            this.filterForm.get('size').patchValue(params.size ? params.size : null);
-            this.filterForm.get('sort').patchValue(params.sort ? params.sort : null);
+        this.subscription.add(
+            this.activatedRoute.queryParams
+                .subscribe((params) => {
+                    this.filterForm.get('fishingPointCodeFree').patchValue(params.fishingPointCodeFree ? params.fishingPointCodeFree : null);
+                    this.filterForm.get('fishingPointCode').patchValue(params.fishingPointCode ? params.fishingPointCode : null);
+                    this.filterForm.get('description').patchValue(params.description ? params.description : null);
+                    this.filterForm.get('watercourse').patchValue(params.watercourse ? params.watercourse : null);
+                    this.filterForm.get('lenticWaterbody').patchValue(params.lenticWaterbody ? params.lenticWaterbody : null);
+                    this.filterForm.get('basin').patchValue(params.basin ? params.basin : null);
+                    this.filterForm.get('province').patchValue(params.province ? params.province : null);
+                    this.filterForm.get('municipality').patchValue(params.municipality ? params.municipality : null);
+                    this.filterForm.get('page').patchValue(params.page ? params.page : null);
+                    this.filterForm.get('size').patchValue(params.size ? params.size : null);
+                    this.filterForm.get('sort').patchValue(params.sort ? params.sort : null);
 
-            this.getWatercourses(queryParams.watercourse ? queryParams.watercourse : null);
-            this.getLenticWaterbodies(queryParams.lenticWaterbody ? queryParams.lenticWaterbody : null);
-            this.getProvinces(queryParams.province ? queryParams.province : null);
-            this.getMunicipalities(queryParams.municipality ? queryParams.municipality : null);
-            this.getBasins(queryParams.basin ? queryParams.basin : null);
-            this.getFishingPointCodes(queryParams.fishingPointCode ? queryParams.fishingPointCode : null);
+                    this.getWatercourses(queryParams.watercourse ? queryParams.watercourse : null);
+                    this.getLenticWaterbodies(queryParams.lenticWaterbody ? queryParams.lenticWaterbody : null);
+                    this.getProvinces(queryParams.province ? queryParams.province : null);
+                    this.getMunicipalities(queryParams.municipality ? queryParams.municipality : null);
+                    this.getBasins(queryParams.basin ? queryParams.basin : null);
+                    this.getFishingPointCodes(queryParams.fishingPointCode ? queryParams.fishingPointCode : null);
 
-            if (this.map) {
-                this.map.updateFishingPointsLayer(this.filterForm.getRawValue());
-            }
-            this.getFishingPoints();
-        }));
+                    if (this.map) {
+                        this.map.updateFishingPointsLayer(this.filterForm.getRawValue()).subscribe();
+                    }
+                    this.getFishingPoints();
+                }));
     }
 
     ngOnDestroy(): void {
