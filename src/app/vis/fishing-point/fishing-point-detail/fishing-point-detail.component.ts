@@ -90,10 +90,13 @@ export class FishingPointDetailComponent implements OnInit {
     }
 
     remove() {
-        this.fishingPointsService.canDeleteFishingPoint(this.fishingPoint.id).subscribe(value => {
-            this.canDelete = value;
-            this.isDeleteModalOpen = true;
-        });
+        this.fishingPointsService
+            .canDeleteFishingPoint(this.fishingPoint.id)
+            .pipe(take(1))
+            .subscribe(value => {
+                this.canDelete = value;
+                this.isDeleteModalOpen = true;
+            });
     }
 
     cancelModal() {
