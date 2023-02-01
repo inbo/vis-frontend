@@ -3,7 +3,6 @@ import {ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Ou
 import {Observable, Subscription} from 'rxjs';
 import * as L from 'leaflet';
 import {
-    CircleMarker,
     featureGroup,
     GeoJSON,
     LatLng,
@@ -103,7 +102,6 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 </div>`,
         iconSize: [55, 55],
     });
-    private readonly highlightedMarkerClass = 'pulse';
     private subscription = new Subscription();
     private orthoLayer: DynamicMapLayer;
     private watercourseLayer: DynamicMapLayer;
@@ -539,8 +537,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     private clearLocationsSelectedStyle() {
-        this.locationsLayer.eachLayer((layer: CircleMarker) => {
-            layer.getElement() && L.DomUtil.removeClass(layer.getElement() as HTMLElement, this.highlightedMarkerClass);
+        this.locationsLayer.eachLayer((marker: L.Marker) => {
+            marker.setIcon(this.defaultMarkerIcon);
         });
         this.selected.delete(LayerId.FISHING_POINT_LAYER);
     }
