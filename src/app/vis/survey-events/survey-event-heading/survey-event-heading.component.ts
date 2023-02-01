@@ -30,7 +30,7 @@ export class SurveyEventHeadingComponent implements OnInit, OnDestroy {
     private subscription = new Subscription();
 
     constructor(private projectService: ProjectService, private surveyEventsService: SurveyEventsService,
-                private activatedRoute: ActivatedRoute, private locationsService: FishingPointsService) {
+                private activatedRoute: ActivatedRoute, private fishingPointsService: FishingPointsService) {
     }
 
     ngOnInit(): void {
@@ -47,7 +47,7 @@ export class SurveyEventHeadingComponent implements OnInit, OnDestroy {
         this.surveyEventsService.getSurveyEvent(this.activatedRoute.snapshot.params.projectCode,
             this.activatedRoute.snapshot.params.surveyEventId).subscribe(value => {
             this.surveyEvent = value;
-            this.locationsService.findById(this.surveyEvent.fishingPoint?.id).subscribe(value1 => {
+            this.fishingPointsService.findById(this.surveyEvent.fishingPoint?.id).subscribe(value1 => {
                 this.fishingPoint = value1;
             });
         });

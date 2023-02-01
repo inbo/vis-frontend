@@ -13,15 +13,15 @@ import {map, take} from 'rxjs/operators';
 import {Role} from '../../../core/_models/role';
 import {IndexType} from '../../../domain/fishing-point/index-type';
 import {AuthService} from '../../../core/auth.service';
-import {LocationCreatePageComponent} from '../location-create-page/location-create-page.component';
+import {FishingPointCreatePageComponent} from '../fishing-point-create-page/fishing-point-create-page.component';
 
 @Component({
-    selector: 'app-location-detail',
-    templateUrl: './location-detail.component.html',
+    selector: 'app-fishing-point-detail',
+    templateUrl: './fishing-point-detail.component.html',
 })
-export class LocationDetailComponent implements OnInit {
+export class FishingPointDetailComponent implements OnInit {
 
-    readonly EDIT_FISHING_POINT_ID_QP = LocationCreatePageComponent.FISHING_POINT_ID_QP;
+    readonly EDIT_FISHING_POINT_ID_QP = FishingPointCreatePageComponent.FISHING_POINT_ID_QP;
 
     @ViewChild(FishingPointsMapComponent, {static: true}) fishingPointsMap: FishingPointsMapComponent;
 
@@ -29,7 +29,7 @@ export class LocationDetailComponent implements OnInit {
 
     links: NavigationLink[] = GlobalConstants.links;
     breadcrumbLinks: BreadcrumbLink[] = [
-        {title: 'Locaties', url: '/locaties'},
+        {title: 'Vispunten', url: '/vispunten'},
     ];
 
     fishingPoint: FishingPoint;
@@ -103,7 +103,7 @@ export class LocationDetailComponent implements OnInit {
     confirmDeleteClicked() {
         if (this.canDelete) {
             this.fishingPointsService.deleteFishingPoint(this.fishingPoint.id).subscribe(() => {
-                this.router.navigate(['/locaties']);
+                this.router.navigate(['/vispunten']);
             });
         } else {
             this.isDeleteModalOpen = false;
@@ -117,8 +117,8 @@ export class LocationDetailComponent implements OnInit {
     editFishingPoint() {
         this.router
             .navigate(
-                ['/locaties/create'],
-                {queryParams: {[LocationCreatePageComponent.FISHING_POINT_ID_QP]: `${this.fishingPoint.id}`}},
+                ['/vispunten/create'],
+                {queryParams: {[FishingPointCreatePageComponent.FISHING_POINT_ID_QP]: `${this.fishingPoint.id}`}},
             );
     }
 

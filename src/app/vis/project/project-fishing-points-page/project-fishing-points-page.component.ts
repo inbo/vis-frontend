@@ -14,11 +14,11 @@ import {SearchableSelectOption} from '../../../shared-ui/searchable-select/Searc
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
-    selector: 'app-project-locations-page',
-    templateUrl: './project-locations-page.component.html',
-    styleUrls: ['./project-locations-page.component.scss'],
+    selector: 'app-project-fishing-point-page',
+    templateUrl: './project-fishing-points-page.component.html',
+    styleUrls: ['./project-fishing-points-page.component.scss'],
 })
-export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
+export class ProjectFishingPointsPageComponent implements OnInit, OnDestroy {
     @ViewChild(FishingPointsMapComponent) map: FishingPointsMapComponent;
     @ViewChild(FishingPointsMapComponent, {read: ElementRef}) mapElement: ElementRef;
 
@@ -45,7 +45,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private fishingPointsService: FishingPointsService,
                 private router: Router, private formBuilder: UntypedFormBuilder) {
         this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
-        this.titleService.setTitle('Project ' + this.projectCode + ' locaties');
+        this.titleService.setTitle('Project ' + this.projectCode + ' vispunten');
 
         this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
             .minQueryLength(2)

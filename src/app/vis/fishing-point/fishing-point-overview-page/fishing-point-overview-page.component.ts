@@ -18,15 +18,15 @@ import {SearchableSelectOption} from '../../../shared-ui/searchable-select/Searc
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
-    selector: 'app-location-overview-page',
-    templateUrl: './location-overview-page.component.html',
-    styleUrls: ['./location-overview-page.component.scss'],
+    selector: 'app-fishing-point-overview-page',
+    templateUrl: './fishing-point-overview-page.component.html',
+    styleUrls: ['./fishing-point-overview-page.component.scss'],
 })
-export class LocationOverviewPageComponent implements OnInit, OnDestroy {
+export class FishingPointOverviewPageComponent implements OnInit, OnDestroy {
 
     links: NavigationLink[] = GlobalConstants.links;
     breadcrumbLinks: BreadcrumbLink[] = [
-        {title: 'Locaties', url: '/locaties'},
+        {title: 'Vispunten', url: '/vispunten'},
     ];
 
     @ViewChild(FishingPointsMapComponent) map: FishingPointsMapComponent;
@@ -44,7 +44,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     filterForm: UntypedFormGroup;
 
     highlightedLocation: number;
-    locationCodesToExport: string[] = [];
+    fishingPointCodesToExport: string[] = [];
     exportMode = false;
 
     watercourses: SearchableSelectOption<string>[] = [];
@@ -253,7 +253,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
 
     export() {
         this.fishingPointsService
-            .exportFishingPoints(this.locationCodesToExport, this.filenameInput.nativeElement.value)
+            .exportFishingPoints(this.fishingPointCodesToExport, this.filenameInput.nativeElement.value)
             .pipe(take(1))
             .subscribe(res => {
                 this.fishingPointsService.downloadFile(res);
@@ -261,27 +261,27 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     isMarkedForExport(fishingPoint: FishingPoint) {
-        return this.locationCodesToExport.indexOf(fishingPoint.code) >= 0;
+        return this.fishingPointCodesToExport.indexOf(fishingPoint.code) >= 0;
     }
 
     toggleToExport(fishingPoint: FishingPoint) {
-        const index = this.locationCodesToExport.indexOf(fishingPoint.code);
+        const index = this.fishingPointCodesToExport.indexOf(fishingPoint.code);
         if (index >= 0) {
-            this.locationCodesToExport.splice(index, 1);
+            this.fishingPointCodesToExport.splice(index, 1);
         } else {
-            this.locationCodesToExport.push(fishingPoint.code);
+            this.fishingPointCodesToExport.push(fishingPoint.code);
         }
     }
 
-    removeLocationCodeToExport(locationCode: string) {
-        const index = this.locationCodesToExport.indexOf(locationCode);
-        this.locationCodesToExport.splice(index, 1);
+    removeLocationCodeToExport(fishingPointCode: string) {
+        const index = this.fishingPointCodesToExport.indexOf(fishingPointCode);
+        this.fishingPointCodesToExport.splice(index, 1);
     }
 
     toggleExportMode() {
         this.exportMode = !this.exportMode;
         if (!this.exportMode) {
-            this.locationCodesToExport = [];
+            this.fishingPointCodesToExport = [];
         }
     }
 
@@ -305,7 +305,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     resetExport() {
-        this.locationCodesToExport = [];
+        this.fishingPointCodesToExport = [];
     }
 
     selectAllFilteredLocations() {
@@ -313,7 +313,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
             .getFishingPointCodes(this.filterForm.getRawValue())
             .pipe(take(1))
             .subscribe(
-                codes => this.locationCodesToExport = codes || [],
+                codes => this.fishingPointCodesToExport = codes || [],
             );
     }
 

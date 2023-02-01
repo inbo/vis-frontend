@@ -26,12 +26,12 @@
 				<div *ngIf="currentStep === LocationCreationStep.GENERAL"
 				     class="px-4 py-8 sm:px-0">
 
-					<app-location-create-step1 [formGroup]="formGroup"
+					<app-fishing-point-create-step1 [formGroup]="formGroup"
 					                           [editMode]="editMode"
 					                           [canEditIndexType]="canEditIndexType"
 					                           [(fishingPointType)]="fishingPointType"
 					                           [indexTypes]="indexTypes">
-					</app-location-create-step1>
+					</app-fishing-point-create-step1>
 
 					<div class="flex justify-end mt-5">
 						<app-button (click)="cancel()"
@@ -58,9 +58,9 @@
 
 				<div *ngIf="currentStep === LocationCreationStep.WATER_COURSE"
 				     class="px-4 py-8 sm:px-0">
-					<app-location-create-step2 [formGroup]="formGroup"
+					<app-fishing-point-create-step2 [formGroup]="formGroup"
 					                           [editMode]="editMode">
-					</app-location-create-step2>
+					</app-fishing-point-create-step2>
 					<div class="flex justify-end mt-5">
 						<app-button (click)="cancel()"
 						            [style]="'primary'">
@@ -78,7 +78,7 @@
 
 				<div *ngIf="currentStep === LocationCreationStep.BLUE_LAYER"
 				     class="px-4 py-8 sm:px-0">
-					<app-location-create-step3 [formGroup]="formGroup"></app-location-create-step3>
+					<app-fishing-point-create-step3 [formGroup]="formGroup"></app-fishing-point-create-step3>
 					<div class="flex justify-end mt-5">
 						<app-button (click)="cancel()"
 						            [style]="'primary'">

@@ -22,7 +22,7 @@
 							</app-button>
 
 							<app-button [role]="role.CreateFishingPoint"
-							            [routerLink]="['/locaties/create']"
+							            [routerLink]="['/vispunten/create']"
 							            [style]="'primary'">
 								Nieuwe locatie
 							</app-button>
@@ -56,7 +56,7 @@
 									gescheiden door een
 									komma.
 									<br>Bv: ABC% gaat alle meetplaatscodes beginnend met ABC zoeken.
-									<br>Bv: GEMF1,GEMF2,GEMF3 gaat specifiek deze locaties teruggeven.
+									<br>Bv: GEMF1,GEMF2,GEMF3 gaat specifiek deze vispunten teruggeven.
 								</p>
 							</div>
 
@@ -184,14 +184,14 @@
 				<div *ngIf="exportMode"
 				     class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200 mt-8">
 					<div class="px-4 py-5 sm:px-6">
-						Te exporteren locaties
+						Te exporteren vispunten
 					</div>
 					<div class="px-4 py-5 sm:p-6">
-						<p *ngIf="locationCodesToExport.length === 0"
+						<p *ngIf="fishingPointCodesToExport.length === 0"
 						   class="mt-2 text-sm text-gray-500">
-							Selecteer in onderstaande tabel locaties om te exporteren.
+							Selecteer in onderstaande tabel vispunten om te exporteren.
 						</p>
-						<div *ngIf="locationCodesToExport.length > 0"
+						<div *ngIf="fishingPointCodesToExport.length > 0"
 						     class="mt-2 text-sm text-gray-500">
 							<label for="filename"
 							       class="block text-sm font-medium text-gray-700">
@@ -205,17 +205,17 @@
 								       id="filename">
 							</div>
 						</div>
-						<div *ngIf="locationCodesToExport.length > 0"
+						<div *ngIf="fishingPointCodesToExport.length > 0"
 						     class="mt-2">
 							<label for="filename"
 							       class="block text-sm font-medium text-gray-700">
 								Meetplaatscodes
 							</label>
 							<div class="mt-1 space-x-2 space-y-2 mt-2 max-h-[150px] overflow-y-auto">
-                                <span *ngFor="let locationCode of locationCodesToExport"
+                                <span *ngFor="let fishingPointCode of fishingPointCodesToExport"
                                       class="inline-flex rounded-full items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-pink-100 text-pink-700">
-                                    {{locationCode}}
-	                                <button (click)="removeLocationCodeToExport(locationCode)"
+                                    {{fishingPointCode}}
+	                                <button (click)="removeLocationCodeToExport(fishingPointCode)"
 	                                        class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center
                             justify-center text-pink-400 hover:bg-pink-200 hover:text-pink-500
                             focus:outline-none focus:bg-pink-500 focus:text-white"
@@ -239,7 +239,7 @@
 						<app-button (click)="selectAllFilteredLocations()"
 						            [style]="'white'"
 						            class="ml-2">
-							Select all filtered locations
+							Selecteer alle gefilterde vispunten
 						</app-button>
 						<div>
 							<app-button (click)="resetExport()"
@@ -333,7 +333,7 @@
 									       type="checkbox"/>
 								</td>
 								<td appCell>
-									<a [routerLink]="['/locaties', fishingPoint.code]"
+									<a [routerLink]="['/vispunten', fishingPoint.code]"
 									   class="text-pink-600 hover:text-pink-900">{{fishingPoint.code}}</a>
 								</td>
 								<td appCell>

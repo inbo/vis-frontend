@@ -14,14 +14,14 @@ import {AuthService} from '../../../core/auth.service';
 import {Role} from '../../../core/_models/role';
 import {IndexType} from '../../../domain/fishing-point/index-type';
 import {FishingPointType} from './fishing-point-type.enum';
-import {FishingPointCreationStep} from './location-creation-step.enum';
+import {FishingPointCreationStep} from './fishing-point-creation-step.enum';
 import {Location} from '@angular/common';
 
 @Component({
-    selector: 'app-location-create-page',
-    templateUrl: './location-create-page.component.html',
+    selector: 'app-fishing-point-create-page',
+    templateUrl: './fishing-point-create-page.component.html',
 })
-export class LocationCreatePageComponent implements OnInit, OnDestroy {
+export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
 
     static readonly FISHING_POINT_ID_QP = 'fishingPointId';
     readonly FishingPointType = FishingPointType;
@@ -30,8 +30,8 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
     editMode = false;
     links: Array<NavigationLink> = GlobalConstants.links;
     breadcrumbLinks: Array<BreadcrumbLink> = [
-        {title: 'Locaties', url: '/locaties'},
-        {title: 'Aanmaken', url: '/locaties/create'},
+        {title: 'Vispunten', url: '/vispunten'},
+        {title: 'Aanmaken', url: '/vispunten/create'},
     ];
 
     currentStep = FishingPointCreationStep.GENERAL;
@@ -66,8 +66,8 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
             incline: [null, [Validators.min(0), Validators.max(99999.999)]],
             width: [null, [Validators.min(0), Validators.max(99999.999)]],
         };
-        if (this.activatedRoute.snapshot.queryParamMap.has(LocationCreatePageComponent.FISHING_POINT_ID_QP)) {
-            const fishingPointId = this.activatedRoute.snapshot.queryParamMap.get(LocationCreatePageComponent.FISHING_POINT_ID_QP);
+        if (this.activatedRoute.snapshot.queryParamMap.has(FishingPointCreatePageComponent.FISHING_POINT_ID_QP)) {
+            const fishingPointId = this.activatedRoute.snapshot.queryParamMap.get(FishingPointCreatePageComponent.FISHING_POINT_ID_QP);
             initialization = this.fishingPointsService
                 .findById(parseInt(fishingPointId, 10))
                 .pipe(
@@ -178,12 +178,12 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
             this.fishingPointsService
                 .updateFishingPoint(this.formGroup.get('id').value, this.formGroup.getRawValue())
                 .subscribe(
-                    () => this.router.navigate(['/locaties', this.formGroup.get('code').value]),
+                    () => this.router.navigate(['/vispunten', this.formGroup.get('code').value]),
                 );
         } else {
             this.subscription.add(
                 this.fishingPointsService.create(this.formGroup.getRawValue()).subscribe(() => {
-                    this.router.navigate(['/locaties', this.formGroup.get('code').value]);
+                    this.router.navigate(['/vispunten', this.formGroup.get('code').value]);
                 }),
             );
         }

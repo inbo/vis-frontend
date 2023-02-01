@@ -124,7 +124,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
                     .map(fishingPoint => ({
                         displayValue: `${fishingPoint.code} - ${fishingPoint.description}`,
                         value: fishingPoint.id,
-                        externalLink: `/locations/${fishingPoint.code}`,
+                        externalLink: `/vispunten/${fishingPoint.code}`,
                     })));
     }
 

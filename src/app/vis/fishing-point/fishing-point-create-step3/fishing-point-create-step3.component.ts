@@ -7,10 +7,10 @@ import {TownLayerSelectionEvent} from '../../components/fishing-points-map/town-
 import {UntypedFormGroup} from '@angular/forms';
 
 @Component({
-    selector: 'app-location-create-step3',
-    templateUrl: './location-create-step3.component.html',
+    selector: 'app-fishing-point-create-step3',
+    templateUrl: './fishing-point-create-step3.component.html',
 })
-export class LocationCreateStep3Component implements OnInit {
+export class FishingPointCreateStep3Component implements OnInit {
     @ViewChild(FishingPointsMapComponent, {static: true}) map: FishingPointsMapComponent;
 
     @Input() formGroup: UntypedFormGroup;

@@ -76,7 +76,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     newLocationLayerGroup = featureGroup();
     highlightSelectionLayer = layerGroup();
     features: Array<GeoJSON.Feature> = [];
-    locationsLayer: L.MarkerClusterGroup;
+    fishingPointsLayer: L.MarkerClusterGroup;
     searchLayer: L.LayerGroup;
     markerClusterData = [];
     map: LeafletMap;
@@ -160,7 +160,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     updateFishingPointsLayer(filter: any): Observable<void> {
-        this.locationsLayer.clearLayers();
+        this.fishingPointsLayer.clearLayers();
 
         return this.fishingPointsService
             .getFishingPointsFeatures(this.projectCode, filter)
@@ -206,7 +206,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                             this.openSelection();
                         });
 
-                        marker.addTo(this.locationsLayer);
+                        marker.addTo(this.fishingPointsLayer);
 
                     });
                     this.layerMetadata.set(LayerId.FISHING_POINT_LAYER, {name: 'Vispunt'});
@@ -222,12 +222,12 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     zoomTo(latlng: LatLng) {
-        this.locationsLayer.getLayers()
+        this.fishingPointsLayer.getLayers()
             .forEach((value: L.Marker) => {
                 if (value.getLatLng().equals(latlng)) {
                     this.clearLocationsSelectedStyle();
                     this.highlightCirclemarker(value);
-                    this.locationsLayer.zoomToShowLayer(value);
+                    this.fishingPointsLayer.zoomToShowLayer(value);
                 }
             });
     }
@@ -398,7 +398,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     private setup() {
-        this.locationsLayer = L.markerClusterGroup({
+        this.fishingPointsLayer = L.markerClusterGroup({
             removeOutsideVisibleBounds: true,
             spiderfyOnMaxZoom: false,
             disableClusteringAtZoom: this.disableClustering ? undefined : 16,
@@ -464,7 +464,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         this.layers.push(this.searchLayer);
 
         if (this.fishingPointsLayerVisible) {
-            this.layers.push(this.locationsLayer);
+            this.layers.push(this.fishingPointsLayer);
         }
         if (this.watercoursesLayerVisible) {
             this.layers.push(this.watercourseLayer);
@@ -479,7 +479,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 Orthofoto: this.orthoLayer,
             },
             overlays: {
-                Vispunten: this.locationsLayer,
+                Vispunten: this.fishingPointsLayer,
                 Waterlopen: this.watercourseLayer,
                 'Stilstaande wateren': this.blueLayer,
                 Gemeente: this.townLayer,
@@ -537,7 +537,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     private clearLocationsSelectedStyle() {
-        this.locationsLayer.eachLayer((marker: L.Marker) => {
+        this.fishingPointsLayer.eachLayer((marker: L.Marker) => {
             marker.setIcon(this.defaultMarkerIcon);
         });
         this.selected.delete(LayerId.FISHING_POINT_LAYER);
