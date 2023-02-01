@@ -9,7 +9,7 @@ import {LatLng} from 'leaflet';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 import {Role} from '../../../core/_models/role';
 import {IndexType} from '../../../domain/location/index-type';
 import {AuthService} from '../../../core/auth.service';
@@ -40,54 +40,13 @@ export class LocationDetailComponent implements OnInit {
 
     indexTypes$: Observable<IndexType[]>;
     editQueryParams: Params;
+    mapLoaded = false;
 
     constructor(private locationsService: LocationsService,
                 private activatedRoute: ActivatedRoute,
                 private formBuilder: UntypedFormBuilder,
                 private router: Router,
                 public authService: AuthService) {
-    }
-
-    ngOnInit(): void {
-        this.loadFishingPoint();
-    }
-
-    private loadFishingPoint() {
-        const code = this.activatedRoute.snapshot.params.code;
-        this.locationsService
-            .findByCode(code)
-            .subscribe(value => {
-                this.fishingPoint = value;
-                const latlng = new LatLng(this.fishingPoint.lat, this.fishingPoint.lng);
-                this.fishingPointsMap.setCenter(latlng);
-
-                this.formGroup = this.formBuilder.group(
-                    {
-                        code: [value.code, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator()]],
-                        description: [value.description, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
-                        slope: [value.incline ? value.incline.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
-                        width: [value.width ? value.width.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
-                        brackishWater: [value.brackishWater, [Validators.min(0), Validators.max(99999.999)]],
-                        tidalWater: [value.tidalWater, [Validators.min(0), Validators.max(99999.999)]],
-                        indexType: [value.fishingIndexType],
-                    },
-                );
-                this.editQueryParams = {[this.EDIT_FISHING_POINT_ID_QP]: value.id};
-            });
-
-        this.indexTypes$ = this.locationsService.listIndexTypes();
-    }
-
-    codeValidator(): AsyncValidatorFn {
-        return (control: AbstractControl): Observable<ValidationErrors | null> => {
-            return this.locationsService.checkIfFishingPointExists(control.value)
-                .pipe(map(result => {
-                    if (this.fishingPoint.code === control.value) {
-                        return null;
-                    }
-                    return result.valid ? {uniqueCode: true} : null;
-                }));
-        };
     }
 
     get code() {
@@ -114,15 +73,19 @@ export class LocationDetailComponent implements OnInit {
         return this.formGroup.get('tidalWater');
     }
 
-    numberMask(scale: number, min: number, max: number) {
-        return {
-            mask: Number,
-            scale,
-            signed: true,
-            thousandsSeparator: '',
-            radix: ',',
-            min,
-            max,
+    ngOnInit(): void {
+        this.loadFishingPoint();
+    }
+
+    codeValidator(): AsyncValidatorFn {
+        return (control: AbstractControl): Observable<ValidationErrors | null> => {
+            return this.locationsService.checkIfFishingPointExists(control.value)
+                .pipe(map(result => {
+                    if (this.fishingPoint.code === control.value) {
+                        return null;
+                    }
+                    return result.valid ? {uniqueCode: true} : null;
+                }));
         };
     }
 
@@ -157,5 +120,40 @@ export class LocationDetailComponent implements OnInit {
                 ['/locaties/create'],
                 {queryParams: {[LocationCreatePageComponent.FISHING_POINT_ID_QP]: `${this.fishingPoint.id}`}},
             );
+    }
+
+    setMapLoaded() {
+        this.mapLoaded = true;
+    }
+
+    private loadFishingPoint() {
+        const code = this.activatedRoute.snapshot.params.code;
+        this.locationsService
+            .findByCode(code)
+            .subscribe(value => {
+                this.fishingPoint = value;
+                const latlng = new LatLng(this.fishingPoint.lat, this.fishingPoint.lng);
+                this.fishingPointsMap.setCenter(latlng);
+
+                this.formGroup = this.formBuilder.group(
+                    {
+                        code: [value.code, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator()]],
+                        description: [value.description, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
+                        slope: [value.incline ? value.incline.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
+                        width: [value.width ? value.width.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
+                        brackishWater: [value.brackishWater, [Validators.min(0), Validators.max(99999.999)]],
+                        tidalWater: [value.tidalWater, [Validators.min(0), Validators.max(99999.999)]],
+                        indexType: [value.fishingIndexType],
+                    },
+                );
+                this.editQueryParams = {[this.EDIT_FISHING_POINT_ID_QP]: value.id};
+                if (this.mapLoaded) {
+                    this.highlightFishingPoint();
+                } else {
+                    this.fishingPointsMap.loaded.pipe(take(1)).subscribe(() => this.highlightFishingPoint());
+                }
+            });
+
+        this.indexTypes$ = this.locationsService.listIndexTypes();
     }
 }
