@@ -4,7 +4,7 @@ import {Title} from '@angular/platform-browser';
 import {UntypedFormGroup} from '@angular/forms';
 import {debounceTime, take} from 'rxjs/operators';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.locations.service';
 import {IndexType} from '../../../domain/location/index-type';
 import {FishingPointType} from '../location-create-page/fishing-point-type.enum';
 
@@ -29,7 +29,7 @@ export class LocationCreateStep1Component implements OnInit, AfterViewInit {
     convertingCoordinates = false;
 
     constructor(private titleService: Title,
-                private locationsService: LocationsService) {
+                private fishingPointsService: FishingPointsService) {
         this.titleService.setTitle('Locatie toevoegen');
     }
 
@@ -122,7 +122,7 @@ export class LocationCreateStep1Component implements OnInit, AfterViewInit {
     private convertCoordinates(lat: number, lng: number, source: string) {
         if (!this.convertingCoordinates) {
             this.convertingCoordinates = true;
-            this.locationsService.convertCoordinates(lat, lng, source)
+            this.fishingPointsService.convertCoordinates(lat, lng, source)
                 .pipe(
                     take(1),
                 )

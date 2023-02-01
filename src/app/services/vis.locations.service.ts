@@ -23,7 +23,7 @@ import {withCache} from '@ngneat/cashew';
 @Injectable({
     providedIn: 'root',
 })
-export class LocationsService extends VisService {
+export class FishingPointsService extends VisService {
 
     constructor(private http: HttpClient) {
         super();

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.locations.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FishingPoint} from '../../../domain/location/fishing-point';
 import {LatLng} from 'leaflet';
@@ -42,7 +42,7 @@ export class LocationDetailComponent implements OnInit {
     editQueryParams: Params;
     mapLoaded = false;
 
-    constructor(private locationsService: LocationsService,
+    constructor(private fishingPointsService: FishingPointsService,
                 private activatedRoute: ActivatedRoute,
                 private formBuilder: UntypedFormBuilder,
                 private router: Router,
@@ -79,7 +79,7 @@ export class LocationDetailComponent implements OnInit {
 
     codeValidator(): AsyncValidatorFn {
         return (control: AbstractControl): Observable<ValidationErrors | null> => {
-            return this.locationsService.checkIfFishingPointExists(control.value)
+            return this.fishingPointsService.checkIfFishingPointExists(control.value)
                 .pipe(map(result => {
                     if (this.fishingPoint.code === control.value) {
                         return null;
@@ -90,7 +90,7 @@ export class LocationDetailComponent implements OnInit {
     }
 
     remove() {
-        this.locationsService.canDeleteFishingPoint(this.fishingPoint.id).subscribe(value => {
+        this.fishingPointsService.canDeleteFishingPoint(this.fishingPoint.id).subscribe(value => {
             this.canDelete = value;
             this.isDeleteModalOpen = true;
         });
@@ -102,7 +102,7 @@ export class LocationDetailComponent implements OnInit {
 
     confirmDeleteClicked() {
         if (this.canDelete) {
-            this.locationsService.deleteFishingPoint(this.fishingPoint.id).subscribe(() => {
+            this.fishingPointsService.deleteFishingPoint(this.fishingPoint.id).subscribe(() => {
                 this.router.navigate(['/locaties']);
             });
         } else {
@@ -128,7 +128,7 @@ export class LocationDetailComponent implements OnInit {
 
     private loadFishingPoint() {
         const code = this.activatedRoute.snapshot.params.code;
-        this.locationsService
+        this.fishingPointsService
             .findByCode(code)
             .subscribe(value => {
                 this.fishingPoint = value;
@@ -154,6 +154,6 @@ export class LocationDetailComponent implements OnInit {
                 }
             });
 
-        this.indexTypes$ = this.locationsService.listIndexTypes();
+        this.indexTypes$ = this.fishingPointsService.listIndexTypes();
     }
 }

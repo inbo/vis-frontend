@@ -2,7 +2,7 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Observable, of, Subscription} from 'rxjs';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.locations.service';
 import {ProjectFishingPoint} from '../../../domain/location/project-fishing-point';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {LatLng} from 'leaflet';
@@ -42,7 +42,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     fishingPointCodes: SearchableSelectOption<string>[] = [];
     fishingPointSearchableSelectConfig: SearchableSelectConfig;
 
-    constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private locationsService: LocationsService,
+    constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private fishingPointsService: FishingPointsService,
                 private router: Router, private formBuilder: UntypedFormBuilder) {
         this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
         this.titleService.setTitle('Project ' + this.projectCode + ' locaties');
@@ -114,7 +114,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
         const size = this.filterForm.get('size').value ?? 20;
 
         this.subscription.add(
-            this.locationsService.findByProjectCode(this.projectCode, page, size, filter).subscribe((value) => {
+            this.fishingPointsService.findByProjectCode(this.projectCode, page, size, filter).subscribe((value) => {
                 this.pager = value;
                 this.fishingPoints$ = of(value.content);
                 this.loading = false;
@@ -177,7 +177,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     }
 
     getWatercourses(val: any) {
-        this.locationsService
+        this.fishingPointsService
             .searchWatercourses(val)
             .pipe(take(1))
             .subscribe(watercourses =>
@@ -188,7 +188,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     }
 
     getLenticWaterbodies(val: any) {
-        this.locationsService
+        this.fishingPointsService
             .searchLenticWaterbodyNames(val)
             .pipe(take(1))
             .subscribe(lenticWaterBodies => this.lenticWaterbodies = lenticWaterBodies
@@ -199,7 +199,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     }
 
     getProvinces(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchProvinces(searchQuery)
             .pipe(take(1))
             .subscribe(provinces => this.provinces = provinces
@@ -210,7 +210,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     }
 
     getMunicipalities(val: any) {
-        this.locationsService
+        this.fishingPointsService
             .searchMunicipalities(val)
             .pipe(take(1))
             .subscribe(municipalities => this.municipalities = municipalities
@@ -221,7 +221,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     }
 
     getBasins(val: any) {
-        this.locationsService
+        this.fishingPointsService
             .searchBasins(val)
             .pipe(take(1))
             .subscribe(basins => this.basins = basins.map(basin => ({
@@ -231,7 +231,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     }
 
     getFishingPointCodes(val: any) {
-        this.locationsService
+        this.fishingPointsService
             .searchFishingPointCodes(val)
             .pipe(take(1))
             .subscribe(fishingPointCodes =>

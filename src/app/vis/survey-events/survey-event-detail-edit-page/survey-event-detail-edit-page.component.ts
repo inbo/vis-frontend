@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {debounceTime, filter, map, switchMap, take, tap} from 'rxjs/operators';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.locations.service';
 import {Method} from '../../../domain/method/method';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {Role} from '../../../core/_models/role';
@@ -47,7 +47,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
                 private formBuilder: UntypedFormBuilder,
-                private locationsService: LocationsService,
+                private locationsService: FishingPointsService,
                 private methodsService: MethodsService,
                 private _location: Location,
                 private projectService: ProjectService) {

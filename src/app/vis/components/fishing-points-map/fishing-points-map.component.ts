@@ -19,7 +19,7 @@ import 'leaflet-defaulticon-compatibility';
 import * as esri_geo from 'esri-leaflet-geocoder';
 import 'leaflet.locatecontrol';
 import {dynamicMapLayer, DynamicMapLayer, featureLayer} from 'esri-leaflet';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.locations.service';
 import {mapTo, switchMap, take, tap} from 'rxjs/operators';
 import {VhaUrl} from '../../../domain/location/vha-version';
 import {FishingPoint} from '../../../domain/location/fishing-point';
@@ -147,7 +147,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     private layerMetadata = new Map();
     private clickedLatlng: LatLng;
 
-    constructor(private locationsService: LocationsService,
+    constructor(private fishingPointsService: FishingPointsService,
                 private changeDetectorRef: ChangeDetectorRef) {
     }
 
@@ -162,7 +162,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     updateFishingPointsLayer(filter: any): Observable<void> {
         this.locationsLayer.clearLayers();
 
-        return this.locationsService
+        return this.fishingPointsService
             .getFishingPointsFeatures(this.projectCode, filter)
             .pipe(
                 take(1),
@@ -406,7 +406,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
         this.searchLayer = L.layerGroup();
 
-        this.locationsService.latestVhaVersion()
+        this.fishingPointsService.latestVhaVersion()
             .pipe(
                 take(1),
                 tap(version => this.initLegend(version)),

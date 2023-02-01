@@ -7,7 +7,7 @@ import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Subscription} from 'rxjs';
 import {FishingPoint} from '../../../domain/location/fishing-point';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.locations.service';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {LatLng} from 'leaflet';
 import {Role} from '../../../core/_models/role';
@@ -59,7 +59,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     private subscription = new Subscription();
 
     constructor(private titleService: Title,
-                private locationsService: LocationsService,
+                private fishingPointsService: FishingPointsService,
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
                 private formBuilder: UntypedFormBuilder) {
@@ -145,7 +145,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
         const page = this.filterForm.get('page').value ?? 0;
         const size = this.filterForm.get('size').value ?? 20;
 
-        this.locationsService
+        this.fishingPointsService
             .getFishingPoints(page, size, filter)
             .pipe(
                 take(1),
@@ -183,7 +183,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getWatercourses(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchWatercourses(searchQuery)
             .pipe(take(1))
             .subscribe(watercourses =>
@@ -195,7 +195,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getLenticWaterbodies(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchLenticWaterbodyNames(searchQuery)
             .pipe(take(1))
             .subscribe(lenticWaterBodies =>
@@ -207,7 +207,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getMunicipalities(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchMunicipalities(searchQuery)
             .pipe(take(1))
             .subscribe(municipalities =>
@@ -218,7 +218,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getBasins(val: any) {
-        this.locationsService
+        this.fishingPointsService
             .searchBasins(val)
             .pipe(take(1))
             .subscribe(basins =>
@@ -229,7 +229,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getFishingPointCodes(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchFishingPointCodes(searchQuery)
             .pipe(take(1))
             .subscribe(fishingPointCodes =>
@@ -241,7 +241,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getProvinces(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchProvinces(searchQuery)
             .pipe(take(1))
             .subscribe(provinces => this.provinces = provinces
@@ -252,11 +252,11 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     export() {
-        this.locationsService
+        this.fishingPointsService
             .exportLocations(this.locationCodesToExport, this.filenameInput.nativeElement.value)
             .pipe(take(1))
             .subscribe(res => {
-                this.locationsService.downloadFile(res);
+                this.fishingPointsService.downloadFile(res);
             });
     }
 
@@ -309,7 +309,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     selectAllFilteredLocations() {
-        this.locationsService
+        this.fishingPointsService
             .getFishingPointCodes(this.filterForm.getRawValue())
             .pipe(take(1))
             .subscribe(

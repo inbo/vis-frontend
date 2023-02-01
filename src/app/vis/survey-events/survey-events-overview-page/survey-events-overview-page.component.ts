@@ -21,7 +21,7 @@ import {Method} from '../../../domain/method/method';
 import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.locations.service';
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
@@ -60,7 +60,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private methodsService: MethodsService,
                 private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: UntypedFormBuilder,
                 private taxaService: TaxaService, private datePipe: DatePipe, private translateService: TranslateService,
-                public authService: AuthService, private locationsService: LocationsService) {
+                public authService: AuthService, private locationsService: FishingPointsService) {
         this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
             .minQueryLength(2)
             .searchPlaceholder('Minstens 2 karakters...')

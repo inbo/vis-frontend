@@ -6,7 +6,7 @@ import {Title} from '@angular/platform-browser';
 import 'esri-leaflet-renderers';
 import {AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Observable, of, Subscription} from 'rxjs';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.locations.service';
 import {map, take, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FishingPoint} from '../../../domain/location/fishing-point';
@@ -46,7 +46,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
 
     constructor(private titleService: Title,
                 private formBuilder: UntypedFormBuilder,
-                private locationsService: LocationsService,
+                private fishingPointsService: FishingPointsService,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
                 private authService: AuthService,
@@ -68,7 +68,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
         };
         if (this.activatedRoute.snapshot.queryParamMap.has(LocationCreatePageComponent.FISHING_POINT_ID_QP)) {
             const fishingPointId = this.activatedRoute.snapshot.queryParamMap.get(LocationCreatePageComponent.FISHING_POINT_ID_QP);
-            initialization = this.locationsService
+            initialization = this.fishingPointsService
                 .findById(parseInt(fishingPointId, 10))
                 .pipe(
                     tap(() => this.editMode = true),
@@ -93,7 +93,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
                         this.originalFishingPoint = {...fishingPoint};
                     }),
                     tap(() => {
-                        this.locationsService
+                        this.fishingPointsService
                             .listIndexTypes()
                             .pipe(take(1))
                             .subscribe(indexTypes => this.indexTypes = indexTypes);
@@ -125,7 +125,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
             if (fishingPoint.code === control.value) {
                 return of(null);
             }
-            return this.locationsService.checkIfFishingPointExists(control.value)
+            return this.fishingPointsService.checkIfFishingPointExists(control.value)
                 .pipe(map(result => result.valid ? {uniqueCode: true} : null));
         };
     }
@@ -175,14 +175,14 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
 
     save() {
         if (this.editMode) {
-            this.locationsService
+            this.fishingPointsService
                 .updateLocation(this.formGroup.get('id').value, this.formGroup.getRawValue())
                 .subscribe(
                     () => this.router.navigate(['/locaties', this.formGroup.get('code').value]),
                 );
         } else {
             this.subscription.add(
-                this.locationsService.create(this.formGroup.getRawValue()).subscribe(() => {
+                this.fishingPointsService.create(this.formGroup.getRawValue()).subscribe(() => {
                     this.router.navigate(['/locaties', this.formGroup.get('code').value]);
                 }),
             );
