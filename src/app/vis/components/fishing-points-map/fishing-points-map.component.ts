@@ -77,7 +77,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     newLocationLayerGroup = featureGroup();
     highlightSelectionLayer = layerGroup();
     features: Array<GeoJSON.Feature> = [];
-    locationsLayer: L.FeatureGroup;
+    locationsLayer: L.MarkerClusterGroup;
     searchLayer: L.LayerGroup;
     markerClusterData = [];
     map: LeafletMap;
@@ -224,12 +224,12 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     zoomTo(latlng: LatLng) {
-        this.map.setView(latlng, 15);
         this.locationsLayer.getLayers()
             .forEach((value: L.Marker) => {
                 if (value.getLatLng().equals(latlng)) {
                     this.clearLocationsSelectedStyle();
                     this.highlightCirclemarker(value);
+                    this.locationsLayer.zoomToShowLayer(value);
                 }
             });
     }
@@ -402,8 +402,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     private setup() {
         this.locationsLayer = L.markerClusterGroup({
             removeOutsideVisibleBounds: true,
-            spiderfyOnMaxZoom: true,
-            disableClusteringAtZoom: this.disableClustering ? undefined : 19,
+            spiderfyOnMaxZoom: false,
+            disableClusteringAtZoom: this.disableClustering ? undefined : 16,
         });
 
         this.searchLayer = L.layerGroup();
