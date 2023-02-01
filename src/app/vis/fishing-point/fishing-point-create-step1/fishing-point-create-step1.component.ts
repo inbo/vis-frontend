@@ -51,7 +51,7 @@ export class FishingPointCreateStep1Component implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
         if (this.editMode) {
-            this.map.replaceNewLocationMarker(this.getLatLngFromForm());
+            this.map.replaceNewFishingPointMarker(this.getLatLngFromForm());
             this.map.zoomTo(this.getLatLngFromForm());
         }
     }
@@ -81,7 +81,7 @@ export class FishingPointCreateStep1Component implements OnInit, AfterViewInit {
             .pipe(debounceTime(300))
             .subscribe(value => {
                 if (this.formGroup.get('lat').invalid || this.formGroup.get('lng').invalid) {
-                    this.map.clearNewLocationMarker();
+                    this.map.clearNewFishingPointMarker();
                     return;
                 }
 
@@ -92,7 +92,7 @@ export class FishingPointCreateStep1Component implements OnInit, AfterViewInit {
             .pipe(debounceTime(300))
             .subscribe(value => {
                 if (this.formGroup.get('lat').invalid || this.formGroup.get('lng').invalid) {
-                    this.map.clearNewLocationMarker();
+                    this.map.clearNewFishingPointMarker();
                     return;
                 }
 
@@ -131,7 +131,7 @@ export class FishingPointCreateStep1Component implements OnInit, AfterViewInit {
                     this.formGroup.get(source === 'latlng' ? 'x' : 'lat').setValue(coordinates.x, {emitEvent: false});
                     this.formGroup.get(source === 'latlng' ? 'y' : 'lng').setValue(coordinates.y, {emitEvent: false});
 
-                    this.map.replaceNewLocationMarker(this.getLatLngFromForm());
+                    this.map.replaceNewFishingPointMarker(this.getLatLngFromForm());
                     this.convertingCoordinates = false;
                 });
         }

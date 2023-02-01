@@ -26,7 +26,7 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
 
   submitted: boolean;
   private subscription = new Subscription();
-  showLocationWidthWarning = false;
+  showFishingPointWidthWarning = false;
   fishingPointCode: string;
   isModalOpen = false;
 
@@ -200,15 +200,15 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
     }
   }
 
-  copyLocationFromLocation() {
+  copyWidthFromFishingPoint() {
     this.subscription.add(
       this.surveyEventsService.getSurveyEvent(this.projectCode, this.surveyEventId)
         .subscribe(value => {
           if (value.fishingPoint?.width) {
-            this.showLocationWidthWarning = false;
+            this.showFishingPointWidthWarning = false;
             this.width.patchValue(value.fishingPoint.width.toString());
           } else {
-            this.showLocationWidthWarning = true;
+            this.showFishingPointWidthWarning = true;
             this.fishingPointCode = value.fishingPoint?.code;
           }
         })

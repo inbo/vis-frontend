@@ -43,7 +43,7 @@ export class FishingPointOverviewPageComponent implements OnInit, OnDestroy {
     tags: Tag[] = [];
     filterForm: UntypedFormGroup;
 
-    highlightedLocation: number;
+    highlightedFishingPoint: number;
     fishingPointCodesToExport: string[] = [];
     exportMode = false;
 
@@ -127,8 +127,8 @@ export class FishingPointOverviewPageComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    zoomToLocation(fishingPoint: FishingPoint) {
-        this.highlightedLocation = fishingPoint.id;
+    zoomToFishingPoint(fishingPoint: FishingPoint) {
+        this.highlightedFishingPoint = fishingPoint.id;
 
         const latlng = new LatLng(fishingPoint.lat, fishingPoint.lng);
         this.map.zoomTo(latlng);
@@ -273,7 +273,7 @@ export class FishingPointOverviewPageComponent implements OnInit, OnDestroy {
         }
     }
 
-    removeLocationCodeToExport(fishingPointCode: string) {
+    removeFishingPointCodeToExport(fishingPointCode: string) {
         const index = this.fishingPointCodesToExport.indexOf(fishingPointCode);
         this.fishingPointCodesToExport.splice(index, 1);
     }
@@ -308,7 +308,7 @@ export class FishingPointOverviewPageComponent implements OnInit, OnDestroy {
         this.fishingPointCodesToExport = [];
     }
 
-    selectAllFilteredLocations() {
+    selectAllFilteredFishingPoints() {
         this.fishingPointsService
             .getFishingPointCodes(this.filterForm.getRawValue())
             .pipe(take(1))
@@ -326,28 +326,28 @@ export class FishingPointOverviewPageComponent implements OnInit, OnDestroy {
         const tags: Tag[] = [];
 
         if (rawValue.fishingPointCodeFree) {
-            tags.push(getTag('location.fishingPointCodeFree', rawValue.fishingPointCodeFree, this.removeTagCallback('fishingPointCodeFree')));
+            tags.push(getTag('fishingPoint.fishingPointCodeFree', rawValue.fishingPointCodeFree, this.removeTagCallback('fishingPointCodeFree')));
         }
         if (rawValue.fishingPointCode) {
-            tags.push(getTag('location.fishingPointCode', rawValue.fishingPointCode, this.removeTagCallback('fishingPointCode')));
+            tags.push(getTag('fishingPoint.fishingPointCode', rawValue.fishingPointCode, this.removeTagCallback('fishingPointCode')));
         }
         if (rawValue.description) {
-            tags.push(getTag('location.description', rawValue.description, this.removeTagCallback('description')));
+            tags.push(getTag('fishingPoint.description', rawValue.description, this.removeTagCallback('description')));
         }
         if (rawValue.watercourse) {
-            tags.push(getTag('location.watercourse', rawValue.watercourse, this.removeTagCallback('watercourse')));
+            tags.push(getTag('fishingPoint.watercourse', rawValue.watercourse, this.removeTagCallback('watercourse')));
         }
         if (rawValue.lenticWaterbody) {
-            tags.push(getTag('location.lenticWaterbody', rawValue.lenticWaterbody, this.removeTagCallback('lenticWaterbody')));
+            tags.push(getTag('fishingPoint.lenticWaterbody', rawValue.lenticWaterbody, this.removeTagCallback('lenticWaterbody')));
         }
         if (rawValue.basin) {
-            tags.push(getTag('location.basin', rawValue.basin, this.removeTagCallback('basin')));
+            tags.push(getTag('fishingPoint.basin', rawValue.basin, this.removeTagCallback('basin')));
         }
         if (rawValue.province) {
-            tags.push(getTag('location.province', rawValue.province, this.removeTagCallback('province')));
+            tags.push(getTag('fishingPoint.province', rawValue.province, this.removeTagCallback('province')));
         }
         if (rawValue.municipality) {
-            tags.push(getTag('location.municipality', rawValue.municipality, this.removeTagCallback('municipality')));
+            tags.push(getTag('fishingPoint.municipality', rawValue.municipality, this.removeTagCallback('municipality')));
         }
 
         this.tags = tags;

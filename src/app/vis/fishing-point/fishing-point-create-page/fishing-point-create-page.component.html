@@ -14,7 +14,7 @@
 
 							<li class="md:flex-1"
 							    *ngIf="!(editMode && fishingPointType === FishingPointType.STAGNANT)">
-								<app-step [active]="LocationCreationStep.BLUE_LAYER === currentStep || LocationCreationStep.WATER_COURSE === currentStep"
+								<app-step [active]="FishingPointCreationStep.BLUE_LAYER === currentStep || FishingPointCreationStep.WATER_COURSE === currentStep"
 								          step="Stap 2"
 								          [description]="fishingPointType === FishingPointType.FLOWING ? 'Waterloop' : 'Blauwe laag'">
 								</app-step>
@@ -23,7 +23,7 @@
 					</nav>
 				</div>
 
-				<div *ngIf="currentStep === LocationCreationStep.GENERAL"
+				<div *ngIf="currentStep === FishingPointCreationStep.GENERAL"
 				     class="px-4 py-8 sm:px-0">
 
 					<app-fishing-point-create-step1 [formGroup]="formGroup"
@@ -56,7 +56,7 @@
 				</div>
 
 
-				<div *ngIf="currentStep === LocationCreationStep.WATER_COURSE"
+				<div *ngIf="currentStep === FishingPointCreationStep.WATER_COURSE"
 				     class="px-4 py-8 sm:px-0">
 					<app-fishing-point-create-step2 [formGroup]="formGroup"
 					                           [editMode]="editMode">
@@ -76,7 +76,7 @@
 				</div>
 
 
-				<div *ngIf="currentStep === LocationCreationStep.BLUE_LAYER"
+				<div *ngIf="currentStep === FishingPointCreationStep.BLUE_LAYER"
 				     class="px-4 py-8 sm:px-0">
 					<app-fishing-point-create-step3 [formGroup]="formGroup"></app-fishing-point-create-step3>
 					<div class="flex justify-end mt-5">

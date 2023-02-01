@@ -25,7 +25,7 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
 
     static readonly FISHING_POINT_ID_QP = 'fishingPointId';
     readonly FishingPointType = FishingPointType;
-    readonly LocationCreationStep = FishingPointCreationStep;
+    readonly FishingPointCreationStep = FishingPointCreationStep;
 
     editMode = false;
     links: Array<NavigationLink> = GlobalConstants.links;

@@ -38,7 +38,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
         .build();
     minDate: Date;
     maxDate: Date;
-    existingSurveyEventsWithLocationMethodAndOccurrenceDate: Array<{ surveyEvent: SurveyEvent, project: Project }>;
+    existingSurveyEventsWithFishingPointMethodAndOccurrenceDate: Array<{ surveyEvent: SurveyEvent, project: Project }>;
 
     private allMethods: Array<Method>;
     private formSubscription: Subscription;
@@ -96,7 +96,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
                 results => {
                     const foundSurveyEvents: Array<SurveyEvent> = results[0] as Array<SurveyEvent>;
                     const projects: Array<Project> = results.slice(1) as Array<Project>;
-                    this.existingSurveyEventsWithLocationMethodAndOccurrenceDate = foundSurveyEvents.map(surveyEvent => {
+                    this.existingSurveyEventsWithFishingPointMethodAndOccurrenceDate = foundSurveyEvents.map(surveyEvent => {
                         return {
                             surveyEvent,
                             project: projects.find(project => project.code.value === surveyEvent.projectCode),
@@ -110,7 +110,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
         this.formSubscription.unsubscribe();
     }
 
-    getLocations(searchTerm: string) {
+    getFishingPoints(searchTerm: string) {
         this.fishingPointsService
             .searchFishingPoints(searchTerm, undefined)
             .pipe(
@@ -152,7 +152,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
     }
 
     createSurveyEvent() {
-        this.existingSurveyEventsWithLocationMethodAndOccurrenceDate = [];
+        this.existingSurveyEventsWithFishingPointMethodAndOccurrenceDate = [];
         this.submitted = true;
 
         if (this.createSurveyEventForm.invalid) {

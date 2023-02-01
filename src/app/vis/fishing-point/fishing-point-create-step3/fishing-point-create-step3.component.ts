@@ -21,7 +21,7 @@ export class FishingPointCreateStep3Component implements OnInit {
 
     ngOnInit(): void {
         const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
-        this.map.replaceNewLocationMarker(latlng);
+        this.map.replaceNewFishingPointMarker(latlng);
         this.map.setCenter(latlng);
     }
 

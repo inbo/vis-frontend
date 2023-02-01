@@ -73,7 +73,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     layersControl: LeafletControlLayersConfig;
     legend = new Map();
     layers: Array<Layer>;
-    newLocationLayerGroup = featureGroup();
+    newFishingPointLayerGroup = featureGroup();
     highlightSelectionLayer = layerGroup();
     features: Array<GeoJSON.Feature> = [];
     fishingPointsLayer: L.MarkerClusterGroup;
@@ -225,22 +225,22 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         this.fishingPointsLayer.getLayers()
             .forEach((value: L.Marker) => {
                 if (value.getLatLng().equals(latlng)) {
-                    this.clearLocationsSelectedStyle();
+                    this.clearFishingPointsSelectedStyle();
                     this.highlightCirclemarker(value);
                     this.fishingPointsLayer.zoomToShowLayer(value);
                 }
             });
     }
 
-    clearNewLocationMarker() {
-        this.newLocationLayerGroup.clearLayers();
+    clearNewFishingPointMarker() {
+        this.newFishingPointLayerGroup.clearLayers();
     }
 
-    replaceNewLocationMarker(latlng: LatLng) {
+    replaceNewFishingPointMarker(latlng: LatLng) {
         const m = marker(latlng, {draggable: this.canAddPoints});
 
-        this.newLocationLayerGroup.clearLayers();
-        this.newLocationLayerGroup.addLayer(m);
+        this.newFishingPointLayerGroup.clearLayers();
+        this.newFishingPointLayerGroup.addLayer(m);
 
         this.center = latlng;
     }
@@ -258,8 +258,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         m.on('dragend', () => {
             that.pointAdded.emit(m.getLatLng());
         });
-        this.newLocationLayerGroup.clearLayers();
-        this.newLocationLayerGroup.addLayer(m);
+        this.newFishingPointLayerGroup.clearLayers();
+        this.newFishingPointLayerGroup.addLayer(m);
 
         this.pointAdded.emit(e.latlng);
 
@@ -393,7 +393,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     private clearAllHightLights(): void {
-        this.clearLocationsSelectedStyle();
+        this.clearFishingPointsSelectedStyle();
         this.highlightSelectionLayer.clearLayers();
     }
 
@@ -457,7 +457,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
         this.layers = [
             osmTileLayer,
-            this.newLocationLayerGroup,
+            this.newFishingPointLayerGroup,
             this.highlightSelectionLayer,
         ];
 
@@ -536,7 +536,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         });
     }
 
-    private clearLocationsSelectedStyle() {
+    private clearFishingPointsSelectedStyle() {
         this.fishingPointsLayer.eachLayer((marker: L.Marker) => {
             marker.setIcon(this.defaultMarkerIcon);
         });
