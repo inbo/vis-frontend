@@ -1,9 +1,8 @@
 /// <reference types='@runette/leaflet-fullscreen' />
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
 import * as L from 'leaflet';
 import {
-    circleMarker,
     CircleMarker,
     featureGroup,
     GeoJSON,
@@ -37,7 +36,9 @@ import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet';
 
 @Component({
     selector: 'app-fishing-points-map',
-    templateUrl: './fishing-points-map.component.html',
+    templateUrl: 'fishing-points-map.component.html',
+    styleUrls: ['fishing-points-map.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
@@ -49,11 +50,12 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     @Input() blueLayerVisible = true;
     @Input() watercoursesLayerVisible = true;
     @Input() townsLayerVisible = true;
+    @Input() tooltipsVisible = true;
     @Input() filter: any;
     @Input() highlightPoint: FishingPoint;
     @Input() enableSidebar = true;
     @Input() disableInteraction = false;
-
+    @Input() disableClustering = false;
     @Output() pointAdded = new EventEmitter<LatLng>();
     @Output() nearbyWatercoursesFound = new EventEmitter<any>();
     @Output() loaded = new EventEmitter<any>();
@@ -75,7 +77,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     newLocationLayerGroup = featureGroup();
     highlightSelectionLayer = layerGroup();
     features: Array<GeoJSON.Feature> = [];
-    locationsLayer: L.MarkerClusterGroup;
+    locationsLayer: L.FeatureGroup;
     searchLayer: L.LayerGroup;
     markerClusterData = [];
     map: LeafletMap;
@@ -83,6 +85,25 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     openSelectionPanel = false;
     showTooltips = true;
     selected = new Map<LayerId, { [key: string]: string }>();
+    private readonly defaultMarkerIcon = L.divIcon({
+        className: 'fishing-point-marker-container',
+        html: '<div class="fishing-point-marker"></div>',
+        iconSize: [55, 55],
+    });
+    private readonly selectedMarkerIcon = L.divIcon({
+        className: 'fishing-point-marker-container',
+        html: `<div class="fishing-point-marker">
+                <div class="hotspot main-wrapper">
+                  <div class="hotspot dots-container">
+                    <div class="hotspot dot1"></div>
+                    <div class="hotspot dot2"></div>
+                    <div class="hotspot dot3"></div>
+                  </div>
+                </div>
+                </div>`,
+        iconSize: [55, 55],
+    });
+    private readonly highlightedMarkerClass = 'pulse';
     private subscription = new Subscription();
     private orthoLayer: DynamicMapLayer;
     private watercourseLayer: DynamicMapLayer;
@@ -150,18 +171,13 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 tap(fishingPointFeatures => {
                     fishingPointFeatures.forEach(fishingPointFeature => {
                         const latlng = latLng(fishingPointFeature.lat, fishingPointFeature.lng);
-                        const circleMark = circleMarker(latlng, {
-                            fill: true,
-                            fillColor: '#C04384',
-                            fillOpacity: 100,
-                            radius: 7,
-                            stroke: false,
-                        });
+                        const marker = L.marker(latlng, {icon: this.defaultMarkerIcon});
+
                         const fishingPointLabel = document.createElement('div');
                         fishingPointLabel.innerHTML = `<p>${fishingPointFeature.code}</p>
-                                              <p>${fishingPointFeature.watercourse}</p>`;
+                                              <p>${fishingPointFeature.watercourse || ''}</p>`;
                         fishingPointLabel.style.textAlign = 'center';
-                        circleMark
+                        marker
                             .bindTooltip(
                                 tooltip({
                                     direction: 'top',
@@ -169,15 +185,13 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                                     offset: [0, -7],
                                 }).setContent(fishingPointLabel));
 
-                        circleMark.on('click', async (event: LeafletMouseEvent) => {
+                        marker.on('click', async (event: LeafletMouseEvent) => {
                             L.DomEvent.stopPropagation(event);
                             this.clearAllHightLights();
                             this.clickedLatlng = event.latlng;
                             const layer = event.target;
 
-                            layer.setStyle({
-                                stroke: true,
-                            });
+                            this.highlightCirclemarker(layer);
 
                             const filteredProperties = {};
                             filteredProperties['CODE'] = fishingPointFeature.code;
@@ -193,7 +207,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
                             this.openSelection();
                         });
-                        this.locationsLayer.addLayer(circleMark);
+
+                        marker.addTo(this.locationsLayer);
 
                     });
                     this.layerMetadata.set(LayerId.FISHING_POINT_LAYER, {name: 'Vispunt'});
@@ -210,12 +225,13 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
     zoomTo(latlng: LatLng) {
         this.map.setView(latlng, 15);
-        this.locationsLayer.getLayers().forEach((value: CircleMarker) => {
-            if (value.getLatLng().equals(latlng)) {
-                this.clearLocationsSelectedStyle();
-                value.setStyle({stroke: true});
-            }
-        });
+        this.locationsLayer.getLayers()
+            .forEach((value: L.Marker) => {
+                if (value.getLatLng().equals(latlng)) {
+                    this.clearLocationsSelectedStyle();
+                    this.highlightCirclemarker(value);
+                }
+            });
     }
 
     clearNewLocationMarker() {
@@ -374,6 +390,10 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         }
     }
 
+    private highlightCirclemarker(marker: L.Marker) {
+        marker.setIcon(this.selectedMarkerIcon);
+    }
+
     private clearAllHightLights(): void {
         this.clearLocationsSelectedStyle();
         this.highlightSelectionLayer.clearLayers();
@@ -382,9 +402,10 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     private setup() {
         this.locationsLayer = L.markerClusterGroup({
             removeOutsideVisibleBounds: true,
-            spiderfyOnMaxZoom: false,
-            disableClusteringAtZoom: 19,
+            spiderfyOnMaxZoom: true,
+            disableClusteringAtZoom: this.disableClustering ? undefined : 19,
         });
+
         this.searchLayer = L.layerGroup();
 
         this.locationsService.latestVhaVersion()
@@ -393,6 +414,11 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 tap(version => this.initLegend(version)),
                 tap(version => this.initializeLayers(version)),
                 switchMap(() => this.updateFishingPointsLayer(this.filter)),
+                tap(() => {
+                    if (this.tooltipsVisible !== this.showTooltips) {
+                        this.toggleTooltips();
+                    }
+                }),
             )
             .subscribe(() => this.loaded.emit());
     }
@@ -514,9 +540,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
     private clearLocationsSelectedStyle() {
         this.locationsLayer.eachLayer((layer: CircleMarker) => {
-            layer.setStyle({
-                stroke: false,
-            });
+            layer.getElement() && L.DomUtil.removeClass(layer.getElement() as HTMLElement, this.highlightedMarkerClass);
         });
         this.selected.delete(LayerId.FISHING_POINT_LAYER);
     }
