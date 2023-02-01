@@ -1,5 +1,6 @@
 <div [formGroup]="form">
 	<select (keydown)="keydown($event)"
+	        [title]="selectedValue ? 'Bakboord' : 'Stuurboord'"
 	        [id]="'isPortside' + '-' + index"
 	        formControlName="isPortside"
 	        name="isPortside">

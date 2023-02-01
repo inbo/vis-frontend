@@ -69,23 +69,15 @@
 			                                     [index]="formGroupName">
 			</app-measurement-fishing-trip-number>
 		</div>
-		<div class="col-span-11 md:col-span-5 lg:col-span-2">
-			<app-measurement-comment (arrowPressed)="navigateOnArrow($event)"
-			                         (enterPressed)="enterPressed($event)"
-			                         (tabPressed)="tabPressed()"
-			                         [submitted]="submitted"
-			                         [index]="formGroupName">
-			</app-measurement-comment>
-		</div>
 	</ng-container>
 	<ng-template #ankerkuil>
-		<div class="col-span-4 md:col-span-2 lg:col-span-2">
+		<div class="col-span-4 md:col-span-2 lg:col-span-1">
 			<app-measurement-ship-side (arrowPressed)="navigateOnArrow($event)"
 			                           (enterPressed)="enterPressed($event)"
 			                           [index]="formGroupName">
 			</app-measurement-ship-side>
 		</div>
-		<div class="col-span-11 md:col-span-5 lg:col-span-1">
+		<div class="col-span-4 md:col-span-2 lg:col-span-1">
 			<app-measurement-dilution-factor (arrowPressed)="navigateOnArrow($event)"
 			                                 (enterPressed)="enterPressed($event)"
 			                                 (tabPressed)="tabPressed()"
@@ -94,7 +86,15 @@
 			</app-measurement-dilution-factor>
 		</div>
 	</ng-template>
-	<div class="col-span-1 md:col-span-3 lg:col-span-2 text-right self-center text-gray-500 space-x-2"
+	<div class="col-span-11 md:col-span-5 lg:col-span-2">
+		<app-measurement-comment (arrowPressed)="navigateOnArrow($event)"
+		                         (enterPressed)="enterPressed($event)"
+		                         (tabPressed)="tabPressed()"
+		                         [submitted]="submitted"
+		                         [index]="formGroupName">
+		</app-measurement-comment>
+	</div>
+	<div class="col-span-1 md:col-span-3 lg:col-span-1 text-right self-center text-gray-500 space-x-2"
 	     data-step="6"
 	     data-intro="Deze iconen verschijnen wanneer je de meting omvormt naar een groepsmeting met individuele metingen."
 	     data-position="bottom-right-aligned">

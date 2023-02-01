@@ -206,10 +206,14 @@
 
 
 							<div class="sm:col-span-2">
-								<app-fishing-points-map [canAddPoints]="false"
-								                        [enableSidebar]="false"
-								                        [zoomLevel]="15"
-								                        (loaded)="highlightFishingPoint()"></app-fishing-points-map>
+								<app-fishing-points-map
+										[canAddPoints]="false"
+										[enableSidebar]="false"
+										[disableClustering]="true"
+										[tooltipsVisible]="false"
+										[zoomLevel]="15"
+										(loaded)="setMapLoaded()">
+								</app-fishing-points-map>
 							</div>
 						</dl>
 					</div>
