@@ -6,13 +6,13 @@ import {Title} from '@angular/platform-browser';
 import 'esri-leaflet-renderers';
 import {AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Observable, of, Subscription} from 'rxjs';
-import {FishingPointsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
 import {map, take, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FishingPoint} from '../../../domain/location/fishing-point';
+import {FishingPoint} from '../../../domain/fishing-point/fishing-point';
 import {AuthService} from '../../../core/auth.service';
 import {Role} from '../../../core/_models/role';
-import {IndexType} from '../../../domain/location/index-type';
+import {IndexType} from '../../../domain/fishing-point/index-type';
 import {FishingPointType} from './fishing-point-type.enum';
 import {FishingPointCreationStep} from './location-creation-step.enum';
 import {Location} from '@angular/common';
@@ -176,7 +176,7 @@ export class LocationCreatePageComponent implements OnInit, OnDestroy {
     save() {
         if (this.editMode) {
             this.fishingPointsService
-                .updateLocation(this.formGroup.get('id').value, this.formGroup.getRawValue())
+                .updateFishingPoint(this.formGroup.get('id').value, this.formGroup.getRawValue())
                 .subscribe(
                     () => this.router.navigate(['/locaties', this.formGroup.get('code').value]),
                 );

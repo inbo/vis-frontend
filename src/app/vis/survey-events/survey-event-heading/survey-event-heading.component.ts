@@ -5,8 +5,8 @@ import {ActivatedRoute} from '@angular/router';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ProjectService} from '../../../services/vis.project.service';
-import {FishingPoint} from '../../../domain/location/fishing-point';
-import {FishingPointsService} from '../../../services/vis.locations.service';
+import {FishingPoint} from '../../../domain/fishing-point/fishing-point';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
 import {SurveyEventCopyModalComponent} from '../survey-event-copy-modal/survey-event-copy-modal.component';
 import {Role} from '../../../core/_models/role';
 

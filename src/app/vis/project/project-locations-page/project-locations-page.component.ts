@@ -2,8 +2,8 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Observable, of, Subscription} from 'rxjs';
-import {FishingPointsService} from '../../../services/vis.locations.service';
-import {ProjectFishingPoint} from '../../../domain/location/project-fishing-point';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
+import {ProjectFishingPoint} from '../../../domain/fishing-point/project-fishing-point';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {LatLng} from 'leaflet';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';

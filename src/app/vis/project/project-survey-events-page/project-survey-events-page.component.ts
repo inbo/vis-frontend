@@ -18,10 +18,10 @@ import {MethodGroup} from '../../../domain/method/method-group';
 import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
-import {FishingPointsService} from '../../../services/vis.locations.service';
-import {Watercourse} from '../../../domain/location/watercourse';
-import {Basin} from '../../../domain/location/basin';
-import {Municipality} from '../../../domain/location/municipality';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
+import {Watercourse} from '../../../domain/fishing-point/watercourse';
+import {Basin} from '../../../domain/fishing-point/basin';
+import {Municipality} from '../../../domain/fishing-point/municipality';
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({

@@ -5,9 +5,9 @@ import {Title} from '@angular/platform-browser';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Subscription} from 'rxjs';
-import {FishingPoint} from '../../../domain/location/fishing-point';
+import {FishingPoint} from '../../../domain/fishing-point/fishing-point';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {FishingPointsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {LatLng} from 'leaflet';
 import {Role} from '../../../core/_models/role';
@@ -253,7 +253,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
 
     export() {
         this.fishingPointsService
-            .exportLocations(this.locationCodesToExport, this.filenameInput.nativeElement.value)
+            .exportFishingPoints(this.locationCodesToExport, this.filenameInput.nativeElement.value)
             .pipe(take(1))
             .subscribe(res => {
                 this.fishingPointsService.downloadFile(res);

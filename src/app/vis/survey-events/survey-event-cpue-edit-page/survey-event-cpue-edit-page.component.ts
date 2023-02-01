@@ -5,7 +5,7 @@ import {NgForm, UntypedFormBuilder} from '@angular/forms';
 import {SurveyEventCpueParameter} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FishingPointsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {Location} from '@angular/common';
 import {take, tap} from 'rxjs/operators';

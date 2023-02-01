@@ -8,7 +8,7 @@ import {SearchableSelectOption} from '../../../shared-ui/searchable-select/Searc
 import {Method} from '../../../domain/method/method';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
-import {FishingPointsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
 import {Project} from '../../../domain/project/project';
 
 @Component({

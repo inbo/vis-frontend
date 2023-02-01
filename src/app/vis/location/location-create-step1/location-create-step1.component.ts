@@ -4,8 +4,8 @@ import {Title} from '@angular/platform-browser';
 import {UntypedFormGroup} from '@angular/forms';
 import {debounceTime, take} from 'rxjs/operators';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
-import {FishingPointsService} from '../../../services/vis.locations.service';
-import {IndexType} from '../../../domain/location/index-type';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
+import {IndexType} from '../../../domain/fishing-point/index-type';
 import {FishingPointType} from '../location-create-page/fishing-point-type.enum';
 
 @Component({
