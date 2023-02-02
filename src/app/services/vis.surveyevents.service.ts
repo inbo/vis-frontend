@@ -15,9 +15,10 @@ import {Parameters} from '../domain/survey-event/parameters';
 import {Habitat} from '../domain/survey-event/habitat';
 import {VisService} from './vis.service';
 import {format} from 'date-fns';
-import {map} from 'rxjs/operators';
-import {uniqBy} from 'lodash-es';
+import {map, take} from 'rxjs/operators';
+import {isNil, uniqBy} from 'lodash-es';
 import {withCache} from '@ngneat/cashew';
+import {AsyncValidationResult} from './validation';
 
 @Injectable({
     providedIn: 'root',
@@ -86,6 +87,19 @@ export class SurveyEventsService extends VisService {
     updateSurveyEvent(projectCode: string, surveyEventId: any, formData: any): Observable<SurveyEvent> {
         return this.http.put<SurveyEvent>(`${environment.apiUrl}/api/projects/${projectCode}/surveyevents/${surveyEventId}`,
             formData);
+    }
+
+    isSurveyEventUnique(projectId: number, date: Date, method: string, fishingPointId: number, surveyEventId?: number): Observable<AsyncValidationResult> {
+        return this.http.get<AsyncValidationResult>(`${environment.apiUrl}/api/validation/surveyevents/unique`, {
+            params: {
+                projectId,
+                date: format(date, 'yyyy-MM-dd'),
+                method,
+                fishingPointId,
+                ...(isNil(surveyEventId) ? {} : {surveyEventId}),
+            },
+        })
+            .pipe(take(1));
     }
 
     createSurveyEvent(projectCode: string, formData: any): Observable<SurveyEvent> {

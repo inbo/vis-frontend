@@ -17,14 +17,15 @@ export function uniqueNewValidator(
             return of({uniqueSurveyEvent: false});
         }
         return surveyEventService
-            .searchSurveyEvents(
-                fishingPoint,
-                method,
+            .isSurveyEventUnique(
+                projectId,
                 occurrenceDate,
-                projectId)
+                method,
+                fishingPoint,
+                surveyEventId,
+            )
             .pipe(
-                map(result => surveyEventId ? result.filter(event => event.surveyEventId !== surveyEventId) : result),
-                map(result => result.length === 0 ? null : {uniqueSurveyEvent: false}),
+                map(result => result.valid ? null : {uniqueSurveyEvent: false}),
             );
     };
 }

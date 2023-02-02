@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
@@ -53,6 +53,12 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
     savedIndex: number;
 
     subscription = new Subscription();
+
+    @HostListener('document:keydown.enter') onEnterHandler() {
+        if (this.isModalOpen) {
+            this.confirmClicked();
+        }
+    }
 
     constructor(private titleService: Title,
                 private surveyEventsService: SurveyEventsService,
