@@ -1,19 +1,21 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {Title} from '@angular/platform-browser';
+import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {latLng} from 'leaflet';
+import {UntypedFormGroup} from '@angular/forms';
 import {VhaBlueLayerSelectionEvent} from '../../components/fishing-points-map/vha-blue-layer-selection-event.model';
 import {TownLayerSelectionEvent} from '../../components/fishing-points-map/town-layer-selection-event.model';
-import {UntypedFormGroup} from '@angular/forms';
 
 @Component({
-    selector: 'app-location-create-step3',
-    templateUrl: './location-create-step3.component.html',
+    selector: 'app-fishing-point-create-step2',
+    templateUrl: './fishing-point-create-step2.component.html',
 })
-export class LocationCreateStep3Component implements OnInit {
+export class FishingPointCreateStep2Component implements OnInit {
+
     @ViewChild(FishingPointsMapComponent, {static: true}) map: FishingPointsMapComponent;
 
     @Input() formGroup: UntypedFormGroup;
+    @Input() editMode = false;
 
     constructor(private titleService: Title) {
         this.titleService.setTitle('Locatie toevoegen');
@@ -21,13 +23,18 @@ export class LocationCreateStep3Component implements OnInit {
 
     ngOnInit(): void {
         const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
-        this.map.replaceNewLocationMarker(latlng);
+        this.map.replaceNewFishingPointMarker(latlng);
         this.map.setCenter(latlng);
+    }
+
+    mapLoaded() {
+        const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
+        this.map.updateTownLayerSelection(latlng, false);
     }
 
     featureSelected(event: VhaBlueLayerSelectionEvent) {
         this.formGroup.get('vhaBlueLayerId').patchValue(event.layerId);
-        this.formGroup.get('blueLayerInfo').patchValue(event.infoProperties);
+        this.formGroup.get('vhaInfo').patchValue(event.infoProperties);
         this.formGroup.get('snappedLat').patchValue(event.coordinates.lat);
         this.formGroup.get('snappedLng').patchValue(event.coordinates.lng);
     }
@@ -37,9 +44,24 @@ export class LocationCreateStep3Component implements OnInit {
         this.formGroup.get('townInfo').patchValue(event.infoProperties);
     }
 
-    onLoaded() {
-        const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
-        this.map.updateTownLayerSelection(latlng, false);
+    numberMask(scale: number, min: number, max: number) {
+        return {
+            mask: Number,
+            scale,
+            signed: true,
+            thousandsSeparator: '',
+            radix: ',',
+            min,
+            max,
+        };
+    }
+
+    get incline() {
+        return this.formGroup.get('incline');
+    }
+
+    get width() {
+        return this.formGroup.get('width');
     }
 
     get townLayerId() {
@@ -50,16 +72,16 @@ export class LocationCreateStep3Component implements OnInit {
         return this.formGroup.get('townInfo').value;
     }
 
-    // Should always be: Watervlakken (id: 1)
+    // Can be either: VHA_Waterlopen (id: 0) or BRU_hydro (id: 4)
     get vhaBlueLayerId() {
         return this.formGroup.get('vhaBlueLayerId').value;
     }
 
-    get blueLayerInfoValue() {
-        return this.formGroup.get('blueLayerInfo').value;
+    get vhaInfoValue() {
+        return this.formGroup.get('vhaInfo').value;
     }
 
-    blueLayerInfoEmpty() {
-        return this.formGroup.get('blueLayerInfo').invalid;
+    vhaInfoEmpty() {
+        return this.formGroup.get('vhaInfo').invalid;
     }
 }

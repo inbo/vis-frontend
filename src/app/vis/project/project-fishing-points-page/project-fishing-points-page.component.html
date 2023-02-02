@@ -174,10 +174,10 @@
 
 				<tr *ngFor="let fishingPoint of fishingPoints$ | async; let index = index"
 				    [rownumber]="index"
-				    [class.bg-pink-100]="highlightedLocation === fishingPoint.id"
+				    [class.bg-pink-100]="highlightedFishingPoint === fishingPoint.id"
 				    appRow>
 					<td appCell>
-						<a [routerLink]="['/locaties', fishingPoint.code]"
+						<a [routerLink]="['/vispunten', fishingPoint.code]"
 						   class="text-pink-600 hover:text-pink-900">{{fishingPoint.code}}</a>
 					</td>
 					<td appCell>
@@ -197,7 +197,7 @@
 					</td>
 					<td [actions]="true"
 					    appCell>
-          <span (click)="zoomToLocation(fishingPoint)"
+          <span (click)="zoomToFishingPoint(fishingPoint)"
                 class="cursor-pointer text-pink-600 hover:text-pink-900">Zoom</span>
 					</td>
 				</tr>

@@ -3,7 +3,7 @@ import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {debounceTime, filter, map, switchMap, take, tap} from 'rxjs/operators';
 import {Method} from '../../../domain/method/method';
@@ -38,7 +38,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
         .build();
     minDate: Date;
     maxDate: Date;
-    existingSurveyEventsWithLocationMethodAndOccurrenceDate: Array<{ surveyEvent: SurveyEvent, project: Project }>;
+    existingSurveyEventsWithFishingPointMethodAndOccurrenceDate: Array<{ surveyEvent: SurveyEvent, project: Project }>;
 
     private allMethods: Array<Method>;
     private formSubscription: Subscription;
@@ -47,7 +47,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
                 private formBuilder: UntypedFormBuilder,
-                private locationsService: LocationsService,
+                private fishingPointsService: FishingPointsService,
                 private methodsService: MethodsService,
                 private _location: Location,
                 private projectService: ProjectService) {
@@ -96,7 +96,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
                 results => {
                     const foundSurveyEvents: Array<SurveyEvent> = results[0] as Array<SurveyEvent>;
                     const projects: Array<Project> = results.slice(1) as Array<Project>;
-                    this.existingSurveyEventsWithLocationMethodAndOccurrenceDate = foundSurveyEvents.map(surveyEvent => {
+                    this.existingSurveyEventsWithFishingPointMethodAndOccurrenceDate = foundSurveyEvents.map(surveyEvent => {
                         return {
                             surveyEvent,
                             project: projects.find(project => project.code.value === surveyEvent.projectCode),
@@ -110,8 +110,8 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
         this.formSubscription.unsubscribe();
     }
 
-    getLocations(searchTerm: string) {
-        this.locationsService
+    getFishingPoints(searchTerm: string) {
+        this.fishingPointsService
             .searchFishingPoints(searchTerm, undefined)
             .pipe(
                 take(1),
@@ -152,7 +152,7 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
     }
 
     createSurveyEvent() {
-        this.existingSurveyEventsWithLocationMethodAndOccurrenceDate = [];
+        this.existingSurveyEventsWithFishingPointMethodAndOccurrenceDate = [];
         this.submitted = true;
 
         if (this.createSurveyEventForm.invalid) {

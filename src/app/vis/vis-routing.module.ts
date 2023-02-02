@@ -7,28 +7,34 @@ import {ProjectDetailPageComponent} from './project/project-detail-page/project-
 import {ProjectDetailEditPageComponent} from './project/project-detail-edit-page/project-detail-edit-page.component';
 import {HasUnsavedDataGuard} from '../core/unsaved-changes-guard.service';
 import {ProjectSurveyEventsPageComponent} from './project/project-survey-events-page/project-survey-events-page.component';
-import {ProjectLocationsPageComponent} from './project/project-locations-page/project-locations-page.component';
+import {ProjectFishingPointsPageComponent} from './project/project-fishing-points-page/project-fishing-points-page.component';
 import {ProjectMethodsPageComponent} from './project/project-methods-page/project-methods-page.component';
 import {ProjectFishSpeciesPageComponent} from './project/project-fish-species-page/project-fish-species-page.component';
 import {ProjectPicturesPageComponent} from './project/project-pictures-page/project-pictures-page.component';
 import {SurveyEventDetailPageComponent} from './survey-events/survey-event-detail-page/survey-event-detail-page.component';
 import {SurveyEventParametersPageComponent} from './survey-events/survey-event-parameters-page/survey-event-parameters-page.component';
-import {SurveyEventParametersEditPageComponent} from './survey-events/survey-event-parameters-edit-page/survey-event-parameters-edit-page.component';
+import {
+    SurveyEventParametersEditPageComponent,
+} from './survey-events/survey-event-parameters-edit-page/survey-event-parameters-edit-page.component';
 import {SurveyEventHabitatPageComponent} from './survey-events/survey-event-habitat-page/survey-event-habitat-page.component';
 import {SurveyEventHabitatEditPageComponent} from './survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component';
 // tslint:disable-next-line:max-line-length
-import {SurveyEventMeasurementsPageComponent} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
-import {LocationOverviewPageComponent} from './location/location-overview-page/location-overview-page.component';
+import {
+    SurveyEventMeasurementsPageComponent,
+} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
+import {FishingPointOverviewPageComponent} from './fishing-point/fishing-point-overview-page/fishing-point-overview-page.component';
 import {FishSpeciesOverviewPageComponent} from './fish-specie/fish-species-overview-page/fish-species-overview-page.component';
 import {FishSpeciesDetailPageComponent} from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
 import {MethodsOverviewPageComponent} from './method/methods-overview-page/methods-overview-page.component';
 import {ProfilePageComponent} from './profile-page/profile-page.component';
 import {RoleGuard} from '../core/role-guard.service';
 import {Role} from '../core/_models/role';
-import {LocationCreatePageComponent} from './location/location-create-page/location-create-page.component';
+import {FishingPointCreatePageComponent} from './fishing-point/fishing-point-create-page/fishing-point-create-page.component';
 import {SurveyEventComponent} from './survey-events/survey-event/survey-event.component';
 import {ProjectComponent} from './project/project/project.component';
-import {SurveyEventMeasurementsCreatePageComponent} from './survey-events/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
+import {
+    SurveyEventMeasurementsCreatePageComponent,
+} from './survey-events/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {SurveyEventsOverviewPageComponent} from './survey-events/survey-events-overview-page/survey-events-overview-page.component';
 import {TipsComponent} from './tips/tips/tips.component';
 import {TipsPageComponent} from './tips/tips-page/tips-page.component';
@@ -41,7 +47,7 @@ import {ChildRoleGuard} from '../core/child-role-guard.service';
 import {ProjectEditGuard} from '../core/project-edit-guard.service';
 import {SurveyEventDetailEditPageComponent} from './survey-events/survey-event-detail-edit-page/survey-event-detail-edit-page.component';
 import {SurveyEventAddPageComponent} from './survey-events/survey-event-add-page/survey-event-add-page.component';
-import {LocationDetailComponent} from './location/location-detail/location-detail.component';
+import {FishingPointDetailComponent} from './fishing-point/fishing-point-detail/fishing-point-detail.component';
 import {ImportsOverviewComponent} from './imports/imports-overview/imports-overview.component';
 import {ImportsDetailComponent} from './imports/imports-detail/imports-detail.component';
 import {ImportsOverviewProcessedComponent} from './imports/imports-overview-processed/imports-overview-processed.component';
@@ -52,8 +58,8 @@ import {GalleryPageComponent} from './survey-events/survey-event-pictures-page/g
 import {UploadPageComponent} from './survey-events/survey-event-pictures-page/upload-page/upload-page.component';
 import {FishSpeciesComponent} from './fish-specie/fish-species/fish-species.component';
 import {FishSpeciesPicturesPageComponent} from './fish-specie/fish-species-pictures-page/fish-species-pictures-page.component';
-import {LocationComponent} from './location/location/location.component';
-import {LocationPicturesPageComponent} from './location/location-pictures-page/location-pictures-page.component';
+import {FishingPointComponent} from './fishing-point/fishing-point/fishing-point.component';
+import {FishingPointPicturesPageComponent} from './fishing-point/fishing-point-pictures-page/fishing-point-pictures-page.component';
 import {UploadInformationComponent} from './survey-events/survey-event-pictures-page/upload-information/upload-information.component';
 
 const routes: Routes = [
@@ -88,7 +94,7 @@ const routes: Routes = [
         canDeactivate: [HasUnsavedDataGuard],
         data: {roles: [Role.CreateSurveyEvent]}
       },
-      {path: 'locaties', component: ProjectLocationsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
+      {path: 'vispunten', component: ProjectFishingPointsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
       {path: 'methoden', component: ProjectMethodsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
       {path: 'vissoorten', component: ProjectFishSpeciesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
       {path: 'afbeeldingen', component: ProjectPicturesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -197,32 +203,32 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'locaties',
-    component: LocationOverviewPageComponent,
+    path: 'vispunten',
+    component: FishingPointOverviewPageComponent,
     canActivate: [AuthGuardWithForcedLogin]
   },
   {
-    path: 'locaties/create',
-    component: LocationCreatePageComponent,
+    path: 'vispunten/create',
+    component: FishingPointCreatePageComponent,
     canActivate: [AuthGuardWithForcedLogin, AuthGuardRole],
     data: {
       role: Role.CreateFishingPoint
     }
   },
   {
-    path: 'locaties/:code',
-    component: LocationComponent,
+    path: 'vispunten/:code',
+    component: FishingPointComponent,
     children: [
       {
         path: '',
-        component: LocationDetailComponent,
+        component: FishingPointDetailComponent,
         canActivate: [AuthGuardWithForcedLogin],
         pathMatch: 'full',
         data: {name: 'Details', url: ''}
       },
       {
         path: 'afbeeldingen',
-        component: LocationPicturesPageComponent,
+        component: FishingPointPicturesPageComponent,
         canActivate: [AuthGuardWithForcedLogin],
         pathMatch: 'full',
         data: {name: 'Afbeeldingen', url: 'afbeeldingen'}

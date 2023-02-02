@@ -2,26 +2,26 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {FishingPoint} from '../../../domain/location/fishing-point';
+import {FishingPoint} from '../../../domain/fishing-point/fishing-point';
 import {LatLng} from 'leaflet';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 import {Role} from '../../../core/_models/role';
-import {IndexType} from '../../../domain/location/index-type';
+import {IndexType} from '../../../domain/fishing-point/index-type';
 import {AuthService} from '../../../core/auth.service';
-import {LocationCreatePageComponent} from '../location-create-page/location-create-page.component';
+import {FishingPointCreatePageComponent} from '../fishing-point-create-page/fishing-point-create-page.component';
 
 @Component({
-    selector: 'app-location-detail',
-    templateUrl: './location-detail.component.html',
+    selector: 'app-fishing-point-detail',
+    templateUrl: './fishing-point-detail.component.html',
 })
-export class LocationDetailComponent implements OnInit {
+export class FishingPointDetailComponent implements OnInit {
 
-    readonly EDIT_FISHING_POINT_ID_QP = LocationCreatePageComponent.FISHING_POINT_ID_QP;
+    readonly EDIT_FISHING_POINT_ID_QP = FishingPointCreatePageComponent.FISHING_POINT_ID_QP;
 
     @ViewChild(FishingPointsMapComponent, {static: true}) fishingPointsMap: FishingPointsMapComponent;
 
@@ -29,7 +29,7 @@ export class LocationDetailComponent implements OnInit {
 
     links: NavigationLink[] = GlobalConstants.links;
     breadcrumbLinks: BreadcrumbLink[] = [
-        {title: 'Locaties', url: '/locaties'},
+        {title: 'Vispunten', url: '/vispunten'},
     ];
 
     fishingPoint: FishingPoint;
@@ -42,7 +42,7 @@ export class LocationDetailComponent implements OnInit {
     editQueryParams: Params;
     mapLoaded = false;
 
-    constructor(private locationsService: LocationsService,
+    constructor(private fishingPointsService: FishingPointsService,
                 private activatedRoute: ActivatedRoute,
                 private formBuilder: UntypedFormBuilder,
                 private router: Router,
@@ -79,7 +79,7 @@ export class LocationDetailComponent implements OnInit {
 
     codeValidator(): AsyncValidatorFn {
         return (control: AbstractControl): Observable<ValidationErrors | null> => {
-            return this.locationsService.checkIfFishingPointExists(control.value)
+            return this.fishingPointsService.checkIfFishingPointExists(control.value)
                 .pipe(map(result => {
                     if (this.fishingPoint.code === control.value) {
                         return null;
@@ -90,7 +90,7 @@ export class LocationDetailComponent implements OnInit {
     }
 
     remove() {
-        this.locationsService.canDeleteFishingPoint(this.fishingPoint.id).subscribe(value => {
+        this.fishingPointsService.canDeleteFishingPoint(this.fishingPoint.id).subscribe(value => {
             this.canDelete = value;
             this.isDeleteModalOpen = true;
         });
@@ -102,8 +102,8 @@ export class LocationDetailComponent implements OnInit {
 
     confirmDeleteClicked() {
         if (this.canDelete) {
-            this.locationsService.deleteFishingPoint(this.fishingPoint.id).subscribe(() => {
-                this.router.navigate(['/locaties']);
+            this.fishingPointsService.deleteFishingPoint(this.fishingPoint.id).subscribe(() => {
+                this.router.navigate(['/vispunten']);
             });
         } else {
             this.isDeleteModalOpen = false;
@@ -117,8 +117,8 @@ export class LocationDetailComponent implements OnInit {
     editFishingPoint() {
         this.router
             .navigate(
-                ['/locaties/create'],
-                {queryParams: {[LocationCreatePageComponent.FISHING_POINT_ID_QP]: `${this.fishingPoint.id}`}},
+                ['/vispunten/create'],
+                {queryParams: {[FishingPointCreatePageComponent.FISHING_POINT_ID_QP]: `${this.fishingPoint.id}`}},
             );
     }
 
@@ -128,7 +128,7 @@ export class LocationDetailComponent implements OnInit {
 
     private loadFishingPoint() {
         const code = this.activatedRoute.snapshot.params.code;
-        this.locationsService
+        this.fishingPointsService
             .findByCode(code)
             .subscribe(value => {
                 this.fishingPoint = value;
@@ -154,6 +154,6 @@ export class LocationDetailComponent implements OnInit {
                 }
             });
 
-        this.indexTypes$ = this.locationsService.listIndexTypes();
+        this.indexTypes$ = this.fishingPointsService.listIndexTypes();
     }
 }

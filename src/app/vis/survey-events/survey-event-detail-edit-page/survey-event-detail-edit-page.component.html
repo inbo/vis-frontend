@@ -24,14 +24,14 @@
 								</div>
 
 								<div class="relative sm:col-span-4">
-									<label for="location"
+									<label for="fishingPoint"
 									       class="block text-sm font-medium text-gray-700"> Locatie * </label>
 									<div class="mt-1">
-										<app-searchable-select id="location"
-										                       passedId="location"
+										<app-searchable-select id="fishingPoint"
+										                       passedId="fishingPoint"
 										                       placeholder="Selecteer een locatie"
 										                       formControlName="fishingPointId"
-										                       (search)="getLocations($event)"
+										                       (search)="getFishingPoints($event)"
 										                       [options]="fishingPoints"
 										                       [configuration]="fishingPointSearchableSelectConfig">
 										</app-searchable-select>
@@ -83,9 +83,9 @@
 					</div>
 
 					<div class="py-3"
-					     *ngIf="existingSurveyEventsWithLocationMethodAndOccurrenceDate?.length > 0">
+					     *ngIf="existingSurveyEventsWithFishingPointMethodAndOccurrenceDate?.length > 0">
 						<p>Bestaande waarnemingen met deze methode, datum en vispunt zijn gevonden:</p>
-						<div *ngFor="let foundSurveyEvent of existingSurveyEventsWithLocationMethodAndOccurrenceDate">
+						<div *ngFor="let foundSurveyEvent of existingSurveyEventsWithFishingPointMethodAndOccurrenceDate">
 							<a class="underline text-pink-600 cursor-pointer"
 							   [routerLink]="['/projecten', foundSurveyEvent.projectId, 'waarnemingen', foundSurveyEvent.surveyEventId]"
 							   target="_blank">

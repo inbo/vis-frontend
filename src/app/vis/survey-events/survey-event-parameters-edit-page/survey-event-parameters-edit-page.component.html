@@ -115,14 +115,14 @@
                                            [unmask]="true"
                                            formControlName="width" type="text" name="width" id="width">
                                 </div>
-                                <button (click)="copyLocationFromLocation()"
+                                <button (click)="copyWidthFromFishingPoint()"
                                         class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500">
-                                    Kopieer uit locatie
+                                    Kopieer uit vispunt
                                 </button>
                             </div>
-                            <div class="mt-2 text-sm text-red-600" *ngIf="showLocationWidthWarning">
+                            <div class="mt-2 text-sm text-red-600" *ngIf="showFishingPointWidthWarning">
                                 Er is geen breedte ingevuld op de locatie. Pas dit <a
-                                    [routerLink]="['/locaties', locationCode]" class="underline">hier</a> aan om de
+                                    [routerLink]="['/vispunten', fishingPointCode]" class="underline">hier</a> aan om de
                                 waarde te kunnen kopiëren.
                             </div>
                         </div>

@@ -26,8 +26,8 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
 
   submitted: boolean;
   private subscription = new Subscription();
-  showLocationWidthWarning = false;
-  locationCode: string;
+  showFishingPointWidthWarning = false;
+  fishingPointCode: string;
   isModalOpen = false;
 
   constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private activatedRoute: ActivatedRoute,
@@ -200,16 +200,16 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
     }
   }
 
-  copyLocationFromLocation() {
+  copyWidthFromFishingPoint() {
     this.subscription.add(
       this.surveyEventsService.getSurveyEvent(this.projectCode, this.surveyEventId)
         .subscribe(value => {
           if (value.fishingPoint?.width) {
-            this.showLocationWidthWarning = false;
+            this.showFishingPointWidthWarning = false;
             this.width.patchValue(value.fishingPoint.width.toString());
           } else {
-            this.showLocationWidthWarning = true;
-            this.locationCode = value.fishingPoint?.code;
+            this.showFishingPointWidthWarning = true;
+            this.fishingPointCode = value.fishingPoint?.code;
           }
         })
     );

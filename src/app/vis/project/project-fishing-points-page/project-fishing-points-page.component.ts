@@ -2,8 +2,8 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Observable, of, Subscription} from 'rxjs';
-import {LocationsService} from '../../../services/vis.locations.service';
-import {ProjectFishingPoint} from '../../../domain/location/project-fishing-point';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
+import {ProjectFishingPoint} from '../../../domain/fishing-point/project-fishing-point';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {LatLng} from 'leaflet';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
@@ -14,11 +14,11 @@ import {SearchableSelectOption} from '../../../shared-ui/searchable-select/Searc
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
-    selector: 'app-project-locations-page',
-    templateUrl: './project-locations-page.component.html',
-    styleUrls: ['./project-locations-page.component.scss'],
+    selector: 'app-project-fishing-point-page',
+    templateUrl: './project-fishing-points-page.component.html',
+    styleUrls: ['./project-fishing-points-page.component.scss'],
 })
-export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
+export class ProjectFishingPointsPageComponent implements OnInit, OnDestroy {
     @ViewChild(FishingPointsMapComponent) map: FishingPointsMapComponent;
     @ViewChild(FishingPointsMapComponent, {read: ElementRef}) mapElement: ElementRef;
 
@@ -32,7 +32,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     tags: Tag[] = [];
     filterForm: UntypedFormGroup;
 
-    highlightedLocation: number;
+    highlightedFishingPoint: number;
 
     watercourses: SearchableSelectOption<string>[] = [];
     lenticWaterbodies: SearchableSelectOption<string>[] = [];
@@ -42,10 +42,10 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     fishingPointCodes: SearchableSelectOption<string>[] = [];
     fishingPointSearchableSelectConfig: SearchableSelectConfig;
 
-    constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private locationsService: LocationsService,
+    constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private fishingPointsService: FishingPointsService,
                 private router: Router, private formBuilder: UntypedFormBuilder) {
         this.projectCode = this.activatedRoute.parent.snapshot.params.projectCode;
-        this.titleService.setTitle('Project ' + this.projectCode + ' locaties');
+        this.titleService.setTitle('Project ' + this.projectCode + ' vispunten');
 
         this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
             .minQueryLength(2)
@@ -95,8 +95,8 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    zoomToLocation(fishingPoint: ProjectFishingPoint) {
-        this.highlightedLocation = fishingPoint.id;
+    zoomToFishingPoint(fishingPoint: ProjectFishingPoint) {
+        this.highlightedFishingPoint = fishingPoint.id;
 
         const latlng = new LatLng(fishingPoint.lat, fishingPoint.lng);
         this.map.zoomTo(latlng);
@@ -114,7 +114,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
         const size = this.filterForm.get('size').value ?? 20;
 
         this.subscription.add(
-            this.locationsService.findByProjectCode(this.projectCode, page, size, filter).subscribe((value) => {
+            this.fishingPointsService.findByProjectCode(this.projectCode, page, size, filter).subscribe((value) => {
                 this.pager = value;
                 this.fishingPoints$ = of(value.content);
                 this.loading = false;
@@ -145,25 +145,25 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
         const tags: Tag[] = [];
 
         if (rawValue.fishingPointCode) {
-            tags.push(getTag('location.fishingPointCode', rawValue.fishingPointCode, this.removeTagCallback('fishingPointCode')));
+            tags.push(getTag('fishingPoint.fishingPointCode', rawValue.fishingPointCode, this.removeTagCallback('fishingPointCode')));
         }
         if (rawValue.description) {
-            tags.push(getTag('location.description', rawValue.description, this.removeTagCallback('description')));
+            tags.push(getTag('fishingPoint.description', rawValue.description, this.removeTagCallback('description')));
         }
         if (rawValue.watercourse) {
-            tags.push(getTag('location.watercourse', rawValue.watercourse, this.removeTagCallback('watercourse')));
+            tags.push(getTag('fishingPoint.watercourse', rawValue.watercourse, this.removeTagCallback('watercourse')));
         }
         if (rawValue.lenticWaterbody) {
-            tags.push(getTag('location.lenticWaterbody', rawValue.lenticWaterbody, this.removeTagCallback('lenticWaterbody')));
+            tags.push(getTag('fishingPoint.lenticWaterbody', rawValue.lenticWaterbody, this.removeTagCallback('lenticWaterbody')));
         }
         if (rawValue.basin) {
-            tags.push(getTag('location.basin', rawValue.basin, this.removeTagCallback('basin')));
+            tags.push(getTag('fishingPoint.basin', rawValue.basin, this.removeTagCallback('basin')));
         }
         if (rawValue.province) {
-            tags.push(getTag('location.province', rawValue.province, this.removeTagCallback('province')));
+            tags.push(getTag('fishingPoint.province', rawValue.province, this.removeTagCallback('province')));
         }
         if (rawValue.municipality) {
-            tags.push(getTag('location.municipality', rawValue.municipality, this.removeTagCallback('municipality')));
+            tags.push(getTag('fishingPoint.municipality', rawValue.municipality, this.removeTagCallback('municipality')));
         }
 
         this.tags = tags;
@@ -177,7 +177,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     }
 
     getWatercourses(val: any) {
-        this.locationsService
+        this.fishingPointsService
             .searchWatercourses(val)
             .pipe(take(1))
             .subscribe(watercourses =>
@@ -188,7 +188,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     }
 
     getLenticWaterbodies(val: any) {
-        this.locationsService
+        this.fishingPointsService
             .searchLenticWaterbodyNames(val)
             .pipe(take(1))
             .subscribe(lenticWaterBodies => this.lenticWaterbodies = lenticWaterBodies
@@ -199,7 +199,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     }
 
     getProvinces(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchProvinces(searchQuery)
             .pipe(take(1))
             .subscribe(provinces => this.provinces = provinces
@@ -210,7 +210,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     }
 
     getMunicipalities(val: any) {
-        this.locationsService
+        this.fishingPointsService
             .searchMunicipalities(val)
             .pipe(take(1))
             .subscribe(municipalities => this.municipalities = municipalities
@@ -221,7 +221,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     }
 
     getBasins(val: any) {
-        this.locationsService
+        this.fishingPointsService
             .searchBasins(val)
             .pipe(take(1))
             .subscribe(basins => this.basins = basins.map(basin => ({
@@ -231,7 +231,7 @@ export class ProjectLocationsPageComponent implements OnInit, OnDestroy {
     }
 
     getFishingPointCodes(val: any) {
-        this.locationsService
+        this.fishingPointsService
             .searchFishingPointCodes(val)
             .pipe(take(1))
             .subscribe(fishingPointCodes =>

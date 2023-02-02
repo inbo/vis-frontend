@@ -5,9 +5,9 @@ import {Title} from '@angular/platform-browser';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Subscription} from 'rxjs';
-import {FishingPoint} from '../../../domain/location/fishing-point';
+import {FishingPoint} from '../../../domain/fishing-point/fishing-point';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {LatLng} from 'leaflet';
 import {Role} from '../../../core/_models/role';
@@ -18,15 +18,15 @@ import {SearchableSelectOption} from '../../../shared-ui/searchable-select/Searc
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
-    selector: 'app-location-overview-page',
-    templateUrl: './location-overview-page.component.html',
-    styleUrls: ['./location-overview-page.component.scss'],
+    selector: 'app-fishing-point-overview-page',
+    templateUrl: './fishing-point-overview-page.component.html',
+    styleUrls: ['./fishing-point-overview-page.component.scss'],
 })
-export class LocationOverviewPageComponent implements OnInit, OnDestroy {
+export class FishingPointOverviewPageComponent implements OnInit, OnDestroy {
 
     links: NavigationLink[] = GlobalConstants.links;
     breadcrumbLinks: BreadcrumbLink[] = [
-        {title: 'Locaties', url: '/locaties'},
+        {title: 'Vispunten', url: '/vispunten'},
     ];
 
     @ViewChild(FishingPointsMapComponent) map: FishingPointsMapComponent;
@@ -43,8 +43,8 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     tags: Tag[] = [];
     filterForm: UntypedFormGroup;
 
-    highlightedLocation: number;
-    locationCodesToExport: string[] = [];
+    highlightedFishingPoint: number;
+    fishingPointCodesToExport: string[] = [];
     exportMode = false;
 
     watercourses: SearchableSelectOption<string>[] = [];
@@ -59,7 +59,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     private subscription = new Subscription();
 
     constructor(private titleService: Title,
-                private locationsService: LocationsService,
+                private fishingPointsService: FishingPointsService,
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
                 private formBuilder: UntypedFormBuilder) {
@@ -127,8 +127,8 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    zoomToLocation(fishingPoint: FishingPoint) {
-        this.highlightedLocation = fishingPoint.id;
+    zoomToFishingPoint(fishingPoint: FishingPoint) {
+        this.highlightedFishingPoint = fishingPoint.id;
 
         const latlng = new LatLng(fishingPoint.lat, fishingPoint.lng);
         this.map.zoomTo(latlng);
@@ -145,7 +145,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
         const page = this.filterForm.get('page').value ?? 0;
         const size = this.filterForm.get('size').value ?? 20;
 
-        this.locationsService
+        this.fishingPointsService
             .getFishingPoints(page, size, filter)
             .pipe(
                 take(1),
@@ -183,7 +183,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getWatercourses(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchWatercourses(searchQuery)
             .pipe(take(1))
             .subscribe(watercourses =>
@@ -195,7 +195,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getLenticWaterbodies(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchLenticWaterbodyNames(searchQuery)
             .pipe(take(1))
             .subscribe(lenticWaterBodies =>
@@ -207,7 +207,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getMunicipalities(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchMunicipalities(searchQuery)
             .pipe(take(1))
             .subscribe(municipalities =>
@@ -218,7 +218,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getBasins(val: any) {
-        this.locationsService
+        this.fishingPointsService
             .searchBasins(val)
             .pipe(take(1))
             .subscribe(basins =>
@@ -229,7 +229,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getFishingPointCodes(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchFishingPointCodes(searchQuery)
             .pipe(take(1))
             .subscribe(fishingPointCodes =>
@@ -241,7 +241,7 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getProvinces(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchProvinces(searchQuery)
             .pipe(take(1))
             .subscribe(provinces => this.provinces = provinces
@@ -252,36 +252,36 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     export() {
-        this.locationsService
-            .exportLocations(this.locationCodesToExport, this.filenameInput.nativeElement.value)
+        this.fishingPointsService
+            .exportFishingPoints(this.fishingPointCodesToExport, this.filenameInput.nativeElement.value)
             .pipe(take(1))
             .subscribe(res => {
-                this.locationsService.downloadFile(res);
+                this.fishingPointsService.downloadFile(res);
             });
     }
 
     isMarkedForExport(fishingPoint: FishingPoint) {
-        return this.locationCodesToExport.indexOf(fishingPoint.code) >= 0;
+        return this.fishingPointCodesToExport.indexOf(fishingPoint.code) >= 0;
     }
 
     toggleToExport(fishingPoint: FishingPoint) {
-        const index = this.locationCodesToExport.indexOf(fishingPoint.code);
+        const index = this.fishingPointCodesToExport.indexOf(fishingPoint.code);
         if (index >= 0) {
-            this.locationCodesToExport.splice(index, 1);
+            this.fishingPointCodesToExport.splice(index, 1);
         } else {
-            this.locationCodesToExport.push(fishingPoint.code);
+            this.fishingPointCodesToExport.push(fishingPoint.code);
         }
     }
 
-    removeLocationCodeToExport(locationCode: string) {
-        const index = this.locationCodesToExport.indexOf(locationCode);
-        this.locationCodesToExport.splice(index, 1);
+    removeFishingPointCodeToExport(fishingPointCode: string) {
+        const index = this.fishingPointCodesToExport.indexOf(fishingPointCode);
+        this.fishingPointCodesToExport.splice(index, 1);
     }
 
     toggleExportMode() {
         this.exportMode = !this.exportMode;
         if (!this.exportMode) {
-            this.locationCodesToExport = [];
+            this.fishingPointCodesToExport = [];
         }
     }
 
@@ -305,15 +305,15 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     resetExport() {
-        this.locationCodesToExport = [];
+        this.fishingPointCodesToExport = [];
     }
 
-    selectAllFilteredLocations() {
-        this.locationsService
+    selectAllFilteredFishingPoints() {
+        this.fishingPointsService
             .getFishingPointCodes(this.filterForm.getRawValue())
             .pipe(take(1))
             .subscribe(
-                codes => this.locationCodesToExport = codes || [],
+                codes => this.fishingPointCodesToExport = codes || [],
             );
     }
 
@@ -326,28 +326,28 @@ export class LocationOverviewPageComponent implements OnInit, OnDestroy {
         const tags: Tag[] = [];
 
         if (rawValue.fishingPointCodeFree) {
-            tags.push(getTag('location.fishingPointCodeFree', rawValue.fishingPointCodeFree, this.removeTagCallback('fishingPointCodeFree')));
+            tags.push(getTag('fishingPoint.fishingPointCodeFree', rawValue.fishingPointCodeFree, this.removeTagCallback('fishingPointCodeFree')));
         }
         if (rawValue.fishingPointCode) {
-            tags.push(getTag('location.fishingPointCode', rawValue.fishingPointCode, this.removeTagCallback('fishingPointCode')));
+            tags.push(getTag('fishingPoint.fishingPointCode', rawValue.fishingPointCode, this.removeTagCallback('fishingPointCode')));
         }
         if (rawValue.description) {
-            tags.push(getTag('location.description', rawValue.description, this.removeTagCallback('description')));
+            tags.push(getTag('fishingPoint.description', rawValue.description, this.removeTagCallback('description')));
         }
         if (rawValue.watercourse) {
-            tags.push(getTag('location.watercourse', rawValue.watercourse, this.removeTagCallback('watercourse')));
+            tags.push(getTag('fishingPoint.watercourse', rawValue.watercourse, this.removeTagCallback('watercourse')));
         }
         if (rawValue.lenticWaterbody) {
-            tags.push(getTag('location.lenticWaterbody', rawValue.lenticWaterbody, this.removeTagCallback('lenticWaterbody')));
+            tags.push(getTag('fishingPoint.lenticWaterbody', rawValue.lenticWaterbody, this.removeTagCallback('lenticWaterbody')));
         }
         if (rawValue.basin) {
-            tags.push(getTag('location.basin', rawValue.basin, this.removeTagCallback('basin')));
+            tags.push(getTag('fishingPoint.basin', rawValue.basin, this.removeTagCallback('basin')));
         }
         if (rawValue.province) {
-            tags.push(getTag('location.province', rawValue.province, this.removeTagCallback('province')));
+            tags.push(getTag('fishingPoint.province', rawValue.province, this.removeTagCallback('province')));
         }
         if (rawValue.municipality) {
-            tags.push(getTag('location.municipality', rawValue.municipality, this.removeTagCallback('municipality')));
+            tags.push(getTag('fishingPoint.municipality', rawValue.municipality, this.removeTagCallback('municipality')));
         }
 
         this.tags = tags;

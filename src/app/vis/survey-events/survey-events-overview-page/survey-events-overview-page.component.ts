@@ -21,7 +21,7 @@ import {Method} from '../../../domain/method/method';
 import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 import {Role} from '../../../core/_models/role';
 import {AuthService} from '../../../core/auth.service';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
@@ -60,7 +60,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     constructor(private titleService: Title, private surveyEventsService: SurveyEventsService, private methodsService: MethodsService,
                 private activatedRoute: ActivatedRoute, private router: Router, private formBuilder: UntypedFormBuilder,
                 private taxaService: TaxaService, private datePipe: DatePipe, private translateService: TranslateService,
-                public authService: AuthService, private locationsService: LocationsService) {
+                public authService: AuthService, private fishingPointsService: FishingPointsService) {
         this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
             .minQueryLength(2)
             .searchPlaceholder('Minstens 2 karakters...')
@@ -268,7 +268,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getWatercourses(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchWatercourses(searchQuery)
             .pipe(take(1))
             .subscribe(watercourses =>
@@ -280,7 +280,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getLenticWaterbodies(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchLenticWaterbodyNames(searchQuery)
             .pipe(take(1))
             .subscribe(lenticWaterBodies =>
@@ -292,7 +292,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getMunicipalities(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchMunicipalities(searchQuery)
             .pipe(take(1))
             .subscribe(municipalities =>
@@ -304,7 +304,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getBasins(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchBasins(searchQuery)
             .pipe(take(1))
             .subscribe(basins =>
@@ -315,7 +315,7 @@ export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {
     }
 
     getFishingPointCodes(searchQuery: string) {
-        this.locationsService
+        this.fishingPointsService
             .searchFishingPointCodes(searchQuery)
             .pipe(take(1))
             .subscribe(fishingPointCodes =>

@@ -19,10 +19,10 @@ import 'leaflet-defaulticon-compatibility';
 import * as esri_geo from 'esri-leaflet-geocoder';
 import 'leaflet.locatecontrol';
 import {dynamicMapLayer, DynamicMapLayer, featureLayer} from 'esri-leaflet';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
 import {mapTo, switchMap, take, tap} from 'rxjs/operators';
-import {VhaUrl} from '../../../domain/location/vha-version';
-import {FishingPoint} from '../../../domain/location/fishing-point';
+import {VhaUrl} from '../../../domain/fishing-point/vha-version';
+import {FishingPoint} from '../../../domain/fishing-point/fishing-point';
 import {LayerId} from './layer-id.enum';
 import {VhaBlueLayerSelectionEvent} from './vha-blue-layer-selection-event.model';
 import {GeoJsonProperties} from 'geojson';
@@ -73,10 +73,10 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     layersControl: LeafletControlLayersConfig;
     legend = new Map();
     layers: Array<Layer>;
-    newLocationLayerGroup = featureGroup();
+    newFishingPointLayerGroup = featureGroup();
     highlightSelectionLayer = layerGroup();
     features: Array<GeoJSON.Feature> = [];
-    locationsLayer: L.MarkerClusterGroup;
+    fishingPointsLayer: L.MarkerClusterGroup;
     searchLayer: L.LayerGroup;
     markerClusterData = [];
     map: LeafletMap;
@@ -147,7 +147,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     private layerMetadata = new Map();
     private clickedLatlng: LatLng;
 
-    constructor(private locationsService: LocationsService,
+    constructor(private fishingPointsService: FishingPointsService,
                 private changeDetectorRef: ChangeDetectorRef) {
     }
 
@@ -160,9 +160,9 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     updateFishingPointsLayer(filter: any): Observable<void> {
-        this.locationsLayer.clearLayers();
+        this.fishingPointsLayer.clearLayers();
 
-        return this.locationsService
+        return this.fishingPointsService
             .getFishingPointsFeatures(this.projectCode, filter)
             .pipe(
                 take(1),
@@ -206,7 +206,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                             this.openSelection();
                         });
 
-                        marker.addTo(this.locationsLayer);
+                        marker.addTo(this.fishingPointsLayer);
 
                     });
                     this.layerMetadata.set(LayerId.FISHING_POINT_LAYER, {name: 'Vispunt'});
@@ -222,25 +222,25 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     zoomTo(latlng: LatLng) {
-        this.locationsLayer.getLayers()
+        this.fishingPointsLayer.getLayers()
             .forEach((value: L.Marker) => {
                 if (value.getLatLng().equals(latlng)) {
-                    this.clearLocationsSelectedStyle();
+                    this.clearFishingPointsSelectedStyle();
                     this.highlightCirclemarker(value);
-                    this.locationsLayer.zoomToShowLayer(value);
+                    this.fishingPointsLayer.zoomToShowLayer(value);
                 }
             });
     }
 
-    clearNewLocationMarker() {
-        this.newLocationLayerGroup.clearLayers();
+    clearNewFishingPointMarker() {
+        this.newFishingPointLayerGroup.clearLayers();
     }
 
-    replaceNewLocationMarker(latlng: LatLng) {
+    replaceNewFishingPointMarker(latlng: LatLng) {
         const m = marker(latlng, {draggable: this.canAddPoints});
 
-        this.newLocationLayerGroup.clearLayers();
-        this.newLocationLayerGroup.addLayer(m);
+        this.newFishingPointLayerGroup.clearLayers();
+        this.newFishingPointLayerGroup.addLayer(m);
 
         this.center = latlng;
     }
@@ -258,8 +258,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         m.on('dragend', () => {
             that.pointAdded.emit(m.getLatLng());
         });
-        this.newLocationLayerGroup.clearLayers();
-        this.newLocationLayerGroup.addLayer(m);
+        this.newFishingPointLayerGroup.clearLayers();
+        this.newFishingPointLayerGroup.addLayer(m);
 
         this.pointAdded.emit(e.latlng);
 
@@ -393,12 +393,12 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     private clearAllHightLights(): void {
-        this.clearLocationsSelectedStyle();
+        this.clearFishingPointsSelectedStyle();
         this.highlightSelectionLayer.clearLayers();
     }
 
     private setup() {
-        this.locationsLayer = L.markerClusterGroup({
+        this.fishingPointsLayer = L.markerClusterGroup({
             removeOutsideVisibleBounds: true,
             spiderfyOnMaxZoom: false,
             disableClusteringAtZoom: this.disableClustering ? undefined : 16,
@@ -406,7 +406,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
         this.searchLayer = L.layerGroup();
 
-        this.locationsService.latestVhaVersion()
+        this.fishingPointsService.latestVhaVersion()
             .pipe(
                 take(1),
                 tap(version => this.initLegend(version)),
@@ -457,14 +457,14 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
         this.layers = [
             osmTileLayer,
-            this.newLocationLayerGroup,
+            this.newFishingPointLayerGroup,
             this.highlightSelectionLayer,
         ];
 
         this.layers.push(this.searchLayer);
 
         if (this.fishingPointsLayerVisible) {
-            this.layers.push(this.locationsLayer);
+            this.layers.push(this.fishingPointsLayer);
         }
         if (this.watercoursesLayerVisible) {
             this.layers.push(this.watercourseLayer);
@@ -479,7 +479,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 Orthofoto: this.orthoLayer,
             },
             overlays: {
-                Vispunten: this.locationsLayer,
+                Vispunten: this.fishingPointsLayer,
                 Waterlopen: this.watercourseLayer,
                 'Stilstaande wateren': this.blueLayer,
                 Gemeente: this.townLayer,
@@ -536,8 +536,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         });
     }
 
-    private clearLocationsSelectedStyle() {
-        this.locationsLayer.eachLayer((marker: L.Marker) => {
+    private clearFishingPointsSelectedStyle() {
+        this.fishingPointsLayer.eachLayer((marker: L.Marker) => {
             marker.setIcon(this.defaultMarkerIcon);
         });
         this.selected.delete(LayerId.FISHING_POINT_LAYER);

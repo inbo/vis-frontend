@@ -4,13 +4,13 @@ import {CommonModule, DatePipe} from '@angular/common';
 import {VisRoutingModule} from './vis-routing.module';
 import {DashboardPageComponent} from './dashboard-page/dashboard-page.component';
 import {ProjectsOverviewPageComponent} from './project/projects-overview-page/projects-overview-page.component';
-import {LocationOverviewPageComponent} from './location/location-overview-page/location-overview-page.component';
+import {FishingPointOverviewPageComponent} from './fishing-point/fishing-point-overview-page/fishing-point-overview-page.component';
 import {FishSpeciesOverviewPageComponent} from './fish-specie/fish-species-overview-page/fish-species-overview-page.component';
 import {MethodsOverviewPageComponent} from './method/methods-overview-page/methods-overview-page.component';
 import {ProfilePageComponent} from './profile-page/profile-page.component';
 import {ProjectDetailPageComponent} from './project/project-detail-page/project-detail-page.component';
 import {ProjectSurveyEventsPageComponent} from './project/project-survey-events-page/project-survey-events-page.component';
-import {ProjectLocationsPageComponent} from './project/project-locations-page/project-locations-page.component';
+import {ProjectFishingPointsPageComponent} from './project/project-fishing-points-page/project-fishing-points-page.component';
 import {ProjectMethodsPageComponent} from './project/project-methods-page/project-methods-page.component';
 import {ProjectFishSpeciesPageComponent} from './project/project-fish-species-page/project-fish-species-page.component';
 import {ProjectPicturesPageComponent} from './project/project-pictures-page/project-pictures-page.component';
@@ -35,10 +35,10 @@ import {IMaskModule} from 'angular-imask';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
-import {LocationCreatePageComponent} from './location/location-create-page/location-create-page.component';
-import {LocationCreateStep1Component} from './location/location-create-step1/location-create-step1.component';
-import {LocationCreateStep2Component} from './location/location-create-step2/location-create-step2.component';
-import {LocationCreateStep3Component} from './location/location-create-step3/location-create-step3.component';
+import {FishingPointCreatePageComponent} from './fishing-point/fishing-point-create-page/fishing-point-create-page.component';
+import {FishingPointCreateStep1Component} from './fishing-point/fishing-point-create-step1/fishing-point-create-step1.component';
+import {FishingPointCreateStep2Component} from './fishing-point/fishing-point-create-step2/fishing-point-create-step2.component';
+import {FishingPointCreateStep3Component} from './fishing-point/fishing-point-create-step3/fishing-point-create-step3.component';
 import {ProjectHeadingComponent} from './project/project-heading/project-heading.component';
 import {SurveyEventHeadingComponent} from './survey-events/survey-event-heading/survey-event-heading.component';
 import {SurveyEventComponent} from './survey-events/survey-event/survey-event.component';
@@ -65,7 +65,7 @@ import {InstanceAddComponent} from './settings/instances/instance-add/instance-a
 import {SurveyEventDetailEditPageComponent} from './survey-events/survey-event-detail-edit-page/survey-event-detail-edit-page.component';
 import {SurveyEventAddPageComponent} from './survey-events/survey-event-add-page/survey-event-add-page.component';
 import {SurveyEventCopyModalComponent} from './survey-events/survey-event-copy-modal/survey-event-copy-modal.component';
-import {LocationDetailComponent} from './location/location-detail/location-detail.component';
+import {FishingPointDetailComponent} from './fishing-point/fishing-point-detail/fishing-point-detail.component';
 import {MeasurementRowComponent} from './survey-events/measurement-row/measurement-row.component';
 import {
     SurveyEventMeasurementsPageComponent,
@@ -106,9 +106,9 @@ import {ImageDetailComponent} from './components/image-detail/image-detail.compo
 import {FishSpeciesTabsComponent} from './fish-specie/fish-species-tabs/fish-species-tabs.component';
 import {FishSpeciesComponent} from './fish-specie/fish-species/fish-species.component';
 import {FishSpeciesPicturesPageComponent} from './fish-specie/fish-species-pictures-page/fish-species-pictures-page.component';
-import {LocationComponent} from './location/location/location.component';
-import {LocationTabsComponent} from './location/location-tabs/location-tabs.component';
-import {LocationPicturesPageComponent} from './location/location-pictures-page/location-pictures-page.component';
+import {FishingPointComponent} from './fishing-point/fishing-point/fishing-point.component';
+import {FishingPointTabsComponent} from './fishing-point/fishing-point-tabs/fishing-point-tabs.component';
+import {FishingPointPicturesPageComponent} from './fishing-point/fishing-point-pictures-page/fishing-point-pictures-page.component';
 import {
     MeasurementLengthMeasurementsReadonlyComponent,
 } from './survey-events/measurement-components/measurement-length-measurements-readonly/measurement-length-measurements-readonly.component';
@@ -129,13 +129,13 @@ import {NgArrayPipesModule, NgObjectPipesModule} from 'ngx-pipes';
     declarations: [
         DashboardPageComponent,
         ProjectsOverviewPageComponent,
-        LocationOverviewPageComponent,
+        FishingPointOverviewPageComponent,
         FishSpeciesOverviewPageComponent,
         MethodsOverviewPageComponent,
         ProfilePageComponent,
         ProjectDetailPageComponent,
         ProjectSurveyEventsPageComponent,
-        ProjectLocationsPageComponent,
+        ProjectFishingPointsPageComponent,
         ProjectMethodsPageComponent,
         ProjectFishSpeciesPageComponent,
         ProjectPicturesPageComponent,
@@ -151,10 +151,10 @@ import {NgArrayPipesModule, NgObjectPipesModule} from 'ngx-pipes';
         SurveyEventHabitatEditPageComponent,
         FishSpeciesDetailPageComponent,
         SurveyEventParametersEditPageComponent,
-        LocationCreatePageComponent,
-        LocationCreateStep1Component,
-        LocationCreateStep2Component,
-        LocationCreateStep3Component,
+        FishingPointCreatePageComponent,
+        FishingPointCreateStep1Component,
+        FishingPointCreateStep2Component,
+        FishingPointCreateStep3Component,
         ProjectHeadingComponent,
         SurveyEventHeadingComponent,
         SurveyEventComponent,
@@ -179,7 +179,7 @@ import {NgArrayPipesModule, NgObjectPipesModule} from 'ngx-pipes';
         SurveyEventDetailEditPageComponent,
         SurveyEventAddPageComponent,
         SurveyEventCopyModalComponent,
-        LocationDetailComponent,
+        FishingPointDetailComponent,
         MeasurementRowComponent,
         SpeciesSearchComponent,
         MeasurementLengthComponent,
@@ -212,9 +212,9 @@ import {NgArrayPipesModule, NgObjectPipesModule} from 'ngx-pipes';
         FishSpeciesTabsComponent,
         FishSpeciesComponent,
         FishSpeciesPicturesPageComponent,
-        LocationComponent,
-        LocationTabsComponent,
-        LocationPicturesPageComponent,
+        FishingPointComponent,
+        FishingPointTabsComponent,
+        FishingPointPicturesPageComponent,
         MeasurementLengthMeasurementsReadonlyComponent,
     ],
     imports: [

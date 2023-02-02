@@ -38,7 +38,6 @@ export class AlertComponent implements OnInit, OnDestroy {
         }
       }));
 
-    // clear alerts on location change
     this.subscription.add(this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.showAlert = false;

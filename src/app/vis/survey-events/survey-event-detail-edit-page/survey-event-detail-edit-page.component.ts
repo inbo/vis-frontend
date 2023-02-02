@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {debounceTime, filter, map, switchMap, take, tap} from 'rxjs/operators';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
 import {Method} from '../../../domain/method/method';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {Role} from '../../../core/_models/role';
@@ -37,7 +37,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
         .build();
     minDate: Date;
     maxDate: Date;
-    existingSurveyEventsWithLocationMethodAndOccurrenceDate: Array<SurveyEvent>;
+    existingSurveyEventsWithFishingPointMethodAndOccurrenceDate: Array<SurveyEvent>;
 
     private allMethods: Array<Method>;
     private projectId: number;
@@ -47,7 +47,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
                 private formBuilder: UntypedFormBuilder,
-                private locationsService: LocationsService,
+                private fishingPointsService: FishingPointsService,
                 private methodsService: MethodsService,
                 private _location: Location,
                 private projectService: ProjectService) {
@@ -90,7 +90,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
                             this.comment.patchValue(surveyEvent.comment);
                             this.method.patchValue(surveyEvent.method);
 
-                            this.getLocations(null);
+                            this.getFishingPoints(null);
                             this.getMethods(null);
                         })
                 },
@@ -110,13 +110,13 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
                         startOfDay(new Date(this.surveyEventForm.get('occurrenceDate').value))),
                 ),
                 tap(foundSurveyEvents =>
-                    this.existingSurveyEventsWithLocationMethodAndOccurrenceDate = foundSurveyEvents
+                    this.existingSurveyEventsWithFishingPointMethodAndOccurrenceDate = foundSurveyEvents
                         .filter(surveyEvent => surveyEvent.surveyEventId !== this.surveyEvent.surveyEventId)),
             ).subscribe();
     }
 
-    getLocations(searchQuery: string) {
-        this.locationsService
+    getFishingPoints(searchQuery: string) {
+        this.fishingPointsService
             .searchFishingPoints(searchQuery, this.surveyEvent?.fishingPoint?.id)
             .pipe(take(1))
             .subscribe(fishingPoints =>
@@ -124,7 +124,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
                     .map(fishingPoint => ({
                         displayValue: `${fishingPoint.code} - ${fishingPoint.description}`,
                         value: fishingPoint.id,
-                        externalLink: `/locations/${fishingPoint.code}`,
+                        externalLink: `/vispunten/${fishingPoint.code}`,
                     })));
     }
 

@@ -8,7 +8,7 @@ export interface Project {
   name: string;
   description: string;
   status: string;
-  location: string;
+  fishingPointId: string;
   province: string;
   area: string;
   tandemvaultcollectionslug: string;

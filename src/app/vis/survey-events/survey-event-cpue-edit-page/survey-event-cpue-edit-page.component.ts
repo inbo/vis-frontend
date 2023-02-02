@@ -5,7 +5,7 @@ import {NgForm, UntypedFormBuilder} from '@angular/forms';
 import {SurveyEventCpueParameter} from '../../../domain/survey-event/surveyEvent';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {Location} from '@angular/common';
 import {take, tap} from 'rxjs/operators';
@@ -30,7 +30,7 @@ export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData,
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
                 private formBuilder: UntypedFormBuilder,
-                private locationsService: LocationsService,
+                private fishingPointsService: FishingPointsService,
                 private methodsService: MethodsService,
                 private _location: Location,
                 private surveyEventsService: SurveyEventsService) {

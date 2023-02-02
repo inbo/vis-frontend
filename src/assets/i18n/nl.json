@@ -255,7 +255,7 @@
   },
   "COMMON": "Algemeen",
   "METING": "Metingen",
-  "location": {
+  "fishingPoint": {
     "fishingPointCodeFree": "Meetplaatscode vrije filter",
     "fishingPointCode": "Meetplaatscode",
     "lenticWaterbody": "Watervlak",

@@ -8,10 +8,10 @@ import {ActivatedRoute} from '@angular/router';
 import {PicturesService} from '../../../services/vis.pictures.service';
 
 @Component({
-  selector: 'app-location-pictures-page',
-  templateUrl: './location-pictures-page.component.html'
+  selector: 'app-fishing-point-pictures-page',
+  templateUrl: './fishing-point-pictures-page.component.html'
 })
-export class LocationPicturesPageComponent implements OnInit, OnDestroy {
+export class FishingPointPicturesPageComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   loading = false;

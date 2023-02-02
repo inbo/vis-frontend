@@ -3,19 +3,19 @@ import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {Observable} from 'rxjs';
-import {FishingPoint, FishingPointFeature, FishingPointSearch} from '../domain/location/fishing-point';
+import {FishingPoint, FishingPointFeature, FishingPointSearch} from '../domain/fishing-point/fishing-point';
 import {VisService} from './vis.service';
-import {VhaUrl} from '../domain/location/vha-version';
-import {ProjectFishingPoint} from '../domain/location/project-fishing-point';
-import {Watercourse} from '../domain/location/watercourse';
-import {Basin} from '../domain/location/basin';
-import {Coordinates} from '../domain/location/coordinates';
-import {LenticWaterbody} from '../domain/location/lentic-waterbody';
+import {VhaUrl} from '../domain/fishing-point/vha-version';
+import {ProjectFishingPoint} from '../domain/fishing-point/project-fishing-point';
+import {Watercourse} from '../domain/fishing-point/watercourse';
+import {Basin} from '../domain/fishing-point/basin';
+import {Coordinates} from '../domain/fishing-point/coordinates';
+import {LenticWaterbody} from '../domain/fishing-point/lentic-waterbody';
 import {AsyncValidationResult} from './validation';
-import {IndexType} from '../domain/location/index-type';
-import {Municipality} from '../domain/location/municipality';
-import {FishingPointCode} from '../domain/location/fishing-point-code';
-import {Province} from '../domain/location/province';
+import {IndexType} from '../domain/fishing-point/index-type';
+import {Municipality} from '../domain/fishing-point/municipality';
+import {FishingPointCode} from '../domain/fishing-point/fishing-point-code';
+import {Province} from '../domain/fishing-point/province';
 import {map} from 'rxjs/operators';
 import {withCache} from '@ngneat/cashew';
 
@@ -23,7 +23,7 @@ import {withCache} from '@ngneat/cashew';
 @Injectable({
     providedIn: 'root',
 })
-export class LocationsService extends VisService {
+export class FishingPointsService extends VisService {
 
     constructor(private http: HttpClient) {
         super();
@@ -167,8 +167,8 @@ export class LocationsService extends VisService {
         return this.http.get<Coordinates>(`${environment.apiUrl}/api/coordinates/convert`, {params, context: withCache()});
     }
 
-    updateLocation(locationId: number, formData: any) {
-        return this.http.put(`${environment.apiUrl}/api/fishingpoints/${locationId}`, formData);
+    updateFishingPoint(fishingPointId: number, formData: any) {
+        return this.http.put(`${environment.apiUrl}/api/fishingpoints/${fishingPointId}`, formData);
     }
 
     canDeleteFishingPoint(id: number): Observable<boolean> {
@@ -183,10 +183,10 @@ export class LocationsService extends VisService {
         return this.http.get<IndexType[]>(`${environment.apiUrl}/api/indextypes/all`, {context: withCache()});
     }
 
-    exportLocations(locationCodesToExport: string[], filename: string) {
+    exportFishingPoints(fishingPointCodesToExport: string[], filename: string) {
         const params = new HttpParams();
 
         return this.http.post(`${environment.apiUrl}/api/fishingpoints/export`,
-            {codes: locationCodesToExport, filename}, {params, observe: 'response', responseType: 'blob'});
+            {codes: fishingPointCodesToExport, filename}, {params, observe: 'response', responseType: 'blob'});
     }
 }

@@ -5,19 +5,19 @@ import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'app-location',
-  templateUrl: './location.component.html'
+  selector: 'app-fishing-point',
+  templateUrl: './fishing-point.component.html'
 })
-export class LocationComponent implements OnInit {
+export class FishingPointComponent implements OnInit {
 
   links: NavigationLink[] = GlobalConstants.links;
   breadcrumbLinks: BreadcrumbLink[] = [
-    {title: 'Locaties', url: '/locaties'},
+    {title: 'Vispunten', url: '/vispunten'},
     {
       title: this.activatedRoute.snapshot.params.code,
-      url: '/locaties/' + this.activatedRoute.snapshot.params.code
+      url: '/vispunten/' + this.activatedRoute.snapshot.params.code
     },
-    {title: 'Details', url: '/locaties/' + this.activatedRoute.snapshot.params.code}
+    {title: 'Details', url: '/vispunten/' + this.activatedRoute.snapshot.params.code}
   ];
 
   constructor(private activatedRoute: ActivatedRoute) {
@@ -29,7 +29,7 @@ export class LocationComponent implements OnInit {
       const url = this.activatedRoute.snapshot.firstChild.data.url;
       this.breadcrumbLinks[this.breadcrumbLinks.length - 1] = {
         title: name,
-        url: `/locaties/${this.activatedRoute.snapshot.params.code}/${url}`
+        url: `/vispunten/${this.activatedRoute.snapshot.params.code}/${url}`
       };
     });
   }

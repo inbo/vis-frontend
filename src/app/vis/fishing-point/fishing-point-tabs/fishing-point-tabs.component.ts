@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
-  selector: 'app-location-tabs',
-  templateUrl: './location-tabs.component.html'
+  selector: 'app-fishing-point-tabs',
+  templateUrl: './fishing-point-tabs.component.html'
 })
-export class LocationTabsComponent implements OnInit {
+export class FishingPointTabsComponent implements OnInit {
   code: string;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {

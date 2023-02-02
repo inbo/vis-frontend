@@ -8,7 +8,7 @@ import {SearchableSelectOption} from '../../../shared-ui/searchable-select/Searc
 import {Method} from '../../../domain/method/method';
 import {MethodsService} from '../../../services/vis.methods.service';
 import {SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
-import {LocationsService} from '../../../services/vis.locations.service';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
 import {Project} from '../../../domain/project/project';
 
 @Component({
@@ -46,7 +46,7 @@ export class SurveyEventCopyModalComponent implements OnInit {
                 private surveyEventsService: SurveyEventsService,
                 private router: Router,
                 private methodsService: MethodsService,
-                private locationsService: LocationsService) {
+                private fishingPointsService: FishingPointsService) {
     }
 
     ngOnInit(): void {
@@ -120,7 +120,7 @@ export class SurveyEventCopyModalComponent implements OnInit {
     }
 
     getFishingPointCodes(searchTerm: string, id?: number) {
-        this.locationsService
+        this.fishingPointsService
             .searchFishingPoints(searchTerm, id)
             .pipe(take(1))
             .subscribe(fishingPointSearchResults =>

@@ -4,15 +4,15 @@ import {Title} from '@angular/platform-browser';
 import {UntypedFormGroup} from '@angular/forms';
 import {debounceTime, take} from 'rxjs/operators';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
-import {LocationsService} from '../../../services/vis.locations.service';
-import {IndexType} from '../../../domain/location/index-type';
-import {FishingPointType} from '../location-create-page/fishing-point-type.enum';
+import {FishingPointsService} from '../../../services/vis.fishing-points.service';
+import {IndexType} from '../../../domain/fishing-point/index-type';
+import {FishingPointType} from '../fishing-point-create-page/fishing-point-type.enum';
 
 @Component({
-    selector: 'app-location-create-step1',
-    templateUrl: './location-create-step1.component.html',
+    selector: 'app-fishing-point-create-step1',
+    templateUrl: './fishing-point-create-step1.component.html',
 })
-export class LocationCreateStep1Component implements OnInit, AfterViewInit {
+export class FishingPointCreateStep1Component implements OnInit, AfterViewInit {
 
     readonly FishingPointType = FishingPointType;
 
@@ -29,7 +29,7 @@ export class LocationCreateStep1Component implements OnInit, AfterViewInit {
     convertingCoordinates = false;
 
     constructor(private titleService: Title,
-                private locationsService: LocationsService) {
+                private fishingPointsService: FishingPointsService) {
         this.titleService.setTitle('Locatie toevoegen');
     }
 
@@ -51,7 +51,7 @@ export class LocationCreateStep1Component implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
         if (this.editMode) {
-            this.map.replaceNewLocationMarker(this.getLatLngFromForm());
+            this.map.replaceNewFishingPointMarker(this.getLatLngFromForm());
             this.map.zoomTo(this.getLatLngFromForm());
         }
     }
@@ -81,7 +81,7 @@ export class LocationCreateStep1Component implements OnInit, AfterViewInit {
             .pipe(debounceTime(300))
             .subscribe(value => {
                 if (this.formGroup.get('lat').invalid || this.formGroup.get('lng').invalid) {
-                    this.map.clearNewLocationMarker();
+                    this.map.clearNewFishingPointMarker();
                     return;
                 }
 
@@ -92,7 +92,7 @@ export class LocationCreateStep1Component implements OnInit, AfterViewInit {
             .pipe(debounceTime(300))
             .subscribe(value => {
                 if (this.formGroup.get('lat').invalid || this.formGroup.get('lng').invalid) {
-                    this.map.clearNewLocationMarker();
+                    this.map.clearNewFishingPointMarker();
                     return;
                 }
 
@@ -122,7 +122,7 @@ export class LocationCreateStep1Component implements OnInit, AfterViewInit {
     private convertCoordinates(lat: number, lng: number, source: string) {
         if (!this.convertingCoordinates) {
             this.convertingCoordinates = true;
-            this.locationsService.convertCoordinates(lat, lng, source)
+            this.fishingPointsService.convertCoordinates(lat, lng, source)
                 .pipe(
                     take(1),
                 )
@@ -131,7 +131,7 @@ export class LocationCreateStep1Component implements OnInit, AfterViewInit {
                     this.formGroup.get(source === 'latlng' ? 'x' : 'lat').setValue(coordinates.x, {emitEvent: false});
                     this.formGroup.get(source === 'latlng' ? 'y' : 'lng').setValue(coordinates.y, {emitEvent: false});
 
-                    this.map.replaceNewLocationMarker(this.getLatLngFromForm());
+                    this.map.replaceNewFishingPointMarker(this.getLatLngFromForm());
                     this.convertingCoordinates = false;
                 });
         }
