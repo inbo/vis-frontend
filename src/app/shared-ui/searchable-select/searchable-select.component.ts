@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectorRef,
     Component,
     ElementRef,
@@ -13,27 +14,51 @@ import {
     ViewChildren,
 } from '@angular/core';
 import {ControlValueAccessor, NgControl} from '@angular/forms';
-import {fromEvent, Subscription} from 'rxjs';
-import {debounceTime, filter, map} from 'rxjs/operators';
+import {asyncScheduler, fromEvent, merge, Subject} from 'rxjs';
+import {debounceTime, filter, map, mapTo, takeUntil, takeWhile, throttleTime} from 'rxjs/operators';
 import {SearchableSelectOption} from './SearchableSelectOption';
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from './SearchableSelectConfig';
-import _ from 'lodash';
+import {inRange, isEqual} from 'lodash-es';
 
 @Component({
     selector: 'app-searchable-select',
     templateUrl: './searchable-select.component.html',
     styleUrls: ['/searchable-select.component.scss'],
 })
-export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAccessor, OnChanges {
-
-    get options(): SearchableSelectOption<T>[] {
-        return this._options;
-    }
-
+export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAccessor, OnChanges, AfterViewInit {
     @ViewChild('searchBox') searchBox: ElementRef<HTMLInputElement>;
     @ViewChild('valuesList') valuesList: ElementRef;
     @ViewChild('selectButton') selectButton: ElementRef;
     @ViewChildren('searchResultItem', {read: ElementRef}) searchResultItems: QueryList<ElementRef<HTMLElement>>;
+    @Input() passedId: string;
+    @Input() formControlName: string;
+    @Input() placeholder: string;
+    @Input() configuration?: SearchableSelectConfig = new SearchableSelectConfigBuilder().build();
+    @Input() formControlValueProperty: string;
+    @Output() search: EventEmitter<string> = new EventEmitter();
+    @Output() enterPressed: EventEmitter<any> = new EventEmitter();
+    @Output() reset = new EventEmitter<void>();
+    isDisabled = false;
+    selectedValue: any;
+    selectedValueOption: SearchableSelectOption<T>;
+    private destroy = new Subject<void>();
+    private touched = false;
+    private onChange: (value) => void;
+    private onTouched: () => void;
+
+    constructor(private elementRef: ElementRef,
+                private cdr: ChangeDetectorRef,
+                public ngControl: NgControl) {
+        ngControl.valueAccessor = this;
+    }
+
+    open = false;
+
+    private _options: SearchableSelectOption<T>[];
+
+    get options(): SearchableSelectOption<T>[] {
+        return this._options;
+    }
 
     @Input()
     set options(value: SearchableSelectOption<T>[]) {
@@ -41,44 +66,69 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
         if (!this.selectedValueOption && this.selectedValue) {
             this.selectedValueOption = this._options.find(option => option.value === this.selectedValue);
         }
-        if(!this.selectedValueOption && this.ngControl.value) {
+        if (!this.selectedValueOption && this.ngControl.value) {
             const selectedValue: T = this.ngControl.value;
-            this.selectedValueOption = this._options.find(option => option.value  === selectedValue[this.formControlValueProperty]);
+            this.selectedValueOption = this._options.find(option => option.value === selectedValue[this.formControlValueProperty]);
         }
     }
 
-    @Input() passedId: string;
-    @Input() formControlName: string;
-    @Input() placeholder: string;
-    @Input() configuration?: SearchableSelectConfig = new SearchableSelectConfigBuilder().build();
-    @Input() formControlValueProperty: string;
+    ngAfterViewInit(): void {
+        merge(
+            fromEvent(this.selectButton.nativeElement, 'click').pipe(mapTo('click')),
+            fromEvent(this.selectButton.nativeElement, 'focus').pipe(mapTo('focus')),
+        ).pipe(
+            takeUntil(this.destroy),
+            throttleTime(1000, asyncScheduler, {leading: true, trailing: false}),
+        ).subscribe(
+            () => {
+                this.toggle();
+                setTimeout(() => {
+                    this.valuesList?.nativeElement?.scrollIntoView({behavior: 'smooth', block: 'start'});
+                    this.searchBox?.nativeElement?.focus();
+                });
+            },
+        );
 
-    @Output() search: EventEmitter<string> = new EventEmitter();
-    @Output() enterPressed: EventEmitter<any> = new EventEmitter();
-    @Output() reset = new EventEmitter<void>();
+        fromEvent(document, 'click')
+            .pipe(
+                takeUntil(this.destroy),
+                filter(() => this.open),
+            )
+            .subscribe((event: MouseEvent) => {
+                    const clickX = event.x;
+                    const clickY = event.y;
+                    const listRect = this.valuesList.nativeElement.getBoundingClientRect();
+                    const buttonRect = this.selectButton.nativeElement.getBoundingClientRect();
 
-    open = false;
-    isDisabled = false;
-    selectedValue: any;
-    selectedValueOption: SearchableSelectOption<T>;
+                    if (!this.areXAndYWithinBoundingRect(clickX, clickY, listRect) && !this.areXAndYWithinBoundingRect(clickX, clickY, buttonRect)) {
+                        this.close();
+                        this.markAsTouched();
+                        this.cdr.detectChanges();
+                    }
+                },
+            );
 
-    private touched = false;
-    private _options: SearchableSelectOption<T>[];
-
-    private onChange: (value) => void;
-    private onTouched: () => void;
-
-    private subscription: Subscription;
-
-    constructor(private eRef: ElementRef,
-                private cdr: ChangeDetectorRef,
-                public ngControl: NgControl) {
-        ngControl.valueAccessor = this;
+        fromEvent(document, 'keydown')
+            .pipe(
+                takeUntil(this.destroy),
+                filter(() => this.open),
+                filter((event: KeyboardEvent) => ['Tab', 'Escape'].includes(event.key)),
+            )
+            .subscribe((event: KeyboardEvent) => {
+                    if ((this.selectButton.nativeElement.contains(event.target)
+                        || this.searchBox.nativeElement.contains(event.target as Node)
+                        || this.valuesList.nativeElement.contains(event.target))) {
+                        this.close();
+                        this.markAsTouched();
+                        this.cdr.detectChanges();
+                    }
+                },
+            );
     }
 
     ngOnChanges(changes: SimpleChanges) {
         if (this.selectedValueOption === undefined) {
-            const filtered = this._options?.filter(value => _.isEqual(value.displayValue, this.selectedValue));
+            const filtered = this._options?.filter(value => isEqual(value.displayValue, this.selectedValue));
             if (filtered?.length > 0) {
                 this.selectedValue = filtered[0].displayValue;
                 this.selectedValueOption = filtered[0];
@@ -87,7 +137,8 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
     }
 
     ngOnDestroy() {
-        this.subscription?.unsubscribe();
+        this.destroy.next();
+        this.destroy.complete();
     }
 
     writeValue(obj: any): void {
@@ -133,13 +184,11 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
     toggle() {
         this.open = !this.open;
 
-        if (!this.subscription || this.subscription.closed) {
-            this.subscription = new Subscription();
-        }
-
         if (this.open) {
-            const keyUp = fromEvent(this.searchBox.nativeElement, 'keyup')
+            fromEvent(this.searchBox.nativeElement, 'keyup')
                 .pipe(
+                    takeUntil(this.destroy),
+                    takeWhile(() => this.open),
                     debounceTime(300),
                     filter((event: KeyboardEvent) => event.key !== 'Tab' && event.key !== 'Enter'),
                     map((event: KeyboardEvent) => (event.target as HTMLInputElement).value),
@@ -153,31 +202,23 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
                     this.search.emit(value);
                 });
 
-            const keyDown = fromEvent(this.searchBox.nativeElement, 'keydown')
+            fromEvent(this.searchBox.nativeElement, 'keydown')
                 .pipe(
+                    takeUntil(this.destroy),
+                    takeWhile(() => this.open),
                     filter((event: KeyboardEvent) => event.key === 'Enter'),
                 ).subscribe((event) => {
-                    this.enterPressed.emit({event, open: this.open});
+                this.enterPressed.emit({event, open: this.open});
 
-                    const option = document.getElementById(`option-0-${this.passedId}`);
-                    const option1 = document.getElementById(`option-1-${this.passedId}`);
+                const option = document.getElementById(`option-0-${this.passedId}`);
+                const option1 = document.getElementById(`option-1-${this.passedId}`);
 
-                    if (option && !option1) {
-                        option.click();
-                    }
-                });
-
-            this.subscription.add(keyUp);
-            this.subscription.add(keyDown);
-
-            this.addCloseListeners();
-
-            setTimeout(() => {
-                this.searchBox.nativeElement.focus();
-            }, 0);
+                if (option && !option1) {
+                    option.click();
+                }
+            });
 
         } else {
-            this.subscription.unsubscribe();
             this.markAsTouched();
         }
     }
@@ -203,53 +244,6 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
         }
     }
 
-    private addCloseListeners() {
-        const documentClick = fromEvent(document, 'click')
-            .subscribe((event) => {
-                    if (!this.selectButton.nativeElement.contains(event.target) && !this.valuesList.nativeElement.contains(event.target)
-                        && this.open) {
-                        this.close();
-                        this.markAsTouched();
-                        this.cdr.detectChanges();
-                    }
-                },
-            );
-
-        const keyDown = fromEvent(document, 'keydown')
-            .subscribe((event: KeyboardEvent) => {
-                    if (event.key === 'Tab' || event.key === 'Escape') {
-                        if ((this.selectButton.nativeElement.contains(event.target) || this.searchBox.nativeElement.contains(event.target as Node)
-                            || this.valuesList.nativeElement.contains(event.target)) && this.open) {
-                            this.close();
-                            this.markAsTouched();
-                            this.cdr.detectChanges();
-                        }
-                    }
-                },
-            );
-
-        const focusOut = fromEvent(this.eRef.nativeElement, 'focusout')
-            .subscribe((event: FocusEvent) => {
-                    if (!this.selectButton.nativeElement.contains(event.relatedTarget) &&
-                        !this.valuesList.nativeElement.contains(event.relatedTarget)
-                        && !this.searchBox.nativeElement.contains(event.relatedTarget as Node) && this.open) {
-                        this.close();
-                        this.markAsTouched();
-                        this.cdr.detectChanges();
-                    }
-                },
-            );
-
-        this.subscription.add(documentClick);
-        this.subscription.add(keyDown);
-        this.subscription.add(focusOut);
-    }
-
-    private close() {
-        this.open = false;
-        this.subscription.unsubscribe();
-    }
-
     enter(event: KeyboardEvent) {
         this.enterPressed.emit({event, open: this.open});
     }
@@ -259,10 +253,11 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
         this.searchResultItems.first?.nativeElement.focus();
     }
 
-    setFocus(): void {
-        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-        if (isSafari) {
-            this.toggle();
-        }
+    private areXAndYWithinBoundingRect(x: number, y: number, elementRect: DOMRect): boolean {
+        return inRange(x, elementRect.x, elementRect.x + elementRect.width) && inRange(y, elementRect.y, elementRect.y + elementRect.height);
+    }
+
+    private close() {
+        this.open = false;
     }
 }

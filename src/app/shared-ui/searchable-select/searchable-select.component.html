@@ -1,8 +1,6 @@
 <button [id]="passedId + '-button'"
         [disabled]="isDisabled"
         #selectButton
-        (focus)="toggle()"
-        (click)="setFocus()"
         type="button"
         (keyup.enter)="enter($event)"
         class="input-element">
