@@ -91,7 +91,6 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
             () => {
                 this.toggle();
                 setTimeout(() => {
-                    console.log('scrolling and focusing');
                     this.valuesList?.nativeElement?.scrollIntoView({behavior: 'smooth', block: 'start'});
                     this.searchBox?.nativeElement?.focus();
                 });
