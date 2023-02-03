@@ -120,6 +120,9 @@ import {
     MeasurementDilutionFactorComponent,
 } from './survey-events/measurement-components/measurement-dilution-factor/measurement-dilution-factor.component';
 import {NgArrayPipesModule, NgObjectPipesModule} from 'ngx-pipes';
+import {
+    ExistingSurveyEventsFoundWarningComponent,
+} from './survey-events/existing-survey-events-found-warning/existing-survey-events-found-warning.component';
 
 @NgModule({
     exports: [
@@ -216,6 +219,7 @@ import {NgArrayPipesModule, NgObjectPipesModule} from 'ngx-pipes';
         FishingPointTabsComponent,
         FishingPointPicturesPageComponent,
         MeasurementLengthMeasurementsReadonlyComponent,
+        ExistingSurveyEventsFoundWarningComponent,
     ],
     imports: [
         CommonModule,

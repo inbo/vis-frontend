@@ -68,7 +68,7 @@ export class SurveyEventsService extends VisService {
             .append('method', method);
         params = projectId ? params.append('projectId', `${projectId}`) : params;
 
-        return this.http.get<Array<SurveyEvent>>(`${environment.apiUrl}/api/surveyevents/search`, {params})
+        return this.http.get<Array<SurveyEvent>>(`${environment.apiUrl}/api/surveyevents/search`, {params, context: withCache()})
             .pipe(
                 map(partialSurveyEvents => partialSurveyEvents
                     .map(surveyEvent => ({

@@ -8,7 +8,7 @@ import {takeUntil} from 'rxjs/operators';
   selector: '[visHasRole]'
 })
 export class HasRoleDirective implements OnInit, OnDestroy {
-  @Input() appHasRole: Role;
+  @Input() visHasRole: Role;
 
   stop$ = new Subject();
 
@@ -31,7 +31,7 @@ export class HasRoleDirective implements OnInit, OnDestroy {
         takeUntil(this.stop$)
       )
       .subscribe((roles: Role[]) => {
-        const hasRole = roles.indexOf(this.appHasRole) >= 0;
+        const hasRole = roles.indexOf(this.visHasRole) >= 0;
         if (hasRole) {
           if (!this.isVisible) {
             this.isVisible = true;

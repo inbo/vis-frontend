@@ -1,0 +1,11 @@
+<div *ngIf="existingSurveyEventsWithFishingPointMethodAndOccurrenceDate?.length > 0">
+	<p>Bestaande waarnemingen met deze methode, datum en vispunt zijn gevonden:</p>
+	<div *ngFor="let foundSurveyEvent of existingSurveyEventsWithFishingPointMethodAndOccurrenceDate">
+		<a class="underline text-pink-600 cursor-pointer"
+		   [routerLink]="['/projecten', foundSurveyEvent.surveyEvent.projectCode, 'waarnemingen', foundSurveyEvent.surveyEvent.surveyEventId]"
+		   target="_blank">
+			{{foundSurveyEvent.surveyEvent.surveyEventId}}
+			(Project {{foundSurveyEvent.project.name}})
+		</a>
+	</div>
+</div>

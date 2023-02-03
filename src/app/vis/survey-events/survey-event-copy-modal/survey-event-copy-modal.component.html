@@ -27,7 +27,7 @@
 						                [maxDate]="maxDate">
 						</vis-datepicker>
 						<vis-form-error-message [fieldName]="'Datum'"
-						                        [control]="occurrenceDate"
+						                        [control]="occurrenceDateControl"
 						                        [submitted]="submitted">
 						</vis-form-error-message>
 					</div>
@@ -73,6 +73,13 @@
 					                        [control]="copySurveyEventForm"
 					                        [submitted]="true">
 					</vis-form-error-message>
+				</div>
+
+				<div class="relative sm:col-span-4 text-sm">
+					<vis-existing-survey-events-found-warning [method]="methodControl.value"
+					                                          [fishingPointId]="fishingPointControl.value"
+					                                          [date]="occurrenceDateControl.value">
+					</vis-existing-survey-events-found-warning>
 				</div>
 			</form>
 

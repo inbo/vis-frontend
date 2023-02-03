@@ -37,7 +37,7 @@
 										</vis-searchable-select>
 									</div>
 									<vis-form-error-message [fieldName]="'Locatie'"
-									                        [control]="location"
+									                        [control]="fishingPoint"
 									                        [submitted]="submitted"></vis-form-error-message>
 								</div>
 
@@ -82,16 +82,11 @@
 						</div>
 					</div>
 
-					<div class="py-3"
-					     *ngIf="existingSurveyEventsWithFishingPointMethodAndOccurrenceDate?.length > 0">
-						<p>Bestaande waarnemingen met deze methode, datum en vispunt zijn gevonden:</p>
-						<div *ngFor="let foundSurveyEvent of existingSurveyEventsWithFishingPointMethodAndOccurrenceDate">
-							<a class="underline text-pink-600 cursor-pointer"
-							   [routerLink]="['/projecten', foundSurveyEvent.projectId, 'waarnemingen', foundSurveyEvent.surveyEventId]"
-							   target="_blank">
-								{{foundSurveyEvent.surveyEventId}}
-							</a>
-						</div>
+					<div class="py-3">
+						<vis-existing-survey-events-found-warning [date]="occurrenceDate.value"
+						                                          [fishingPointId]="fishingPoint.value"
+						                                          [method]="method.value">
+						</vis-existing-survey-events-found-warning>
 					</div>
 				</div>
 

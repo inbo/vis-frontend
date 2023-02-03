@@ -72,8 +72,14 @@ export class SurveyEventCopyModalComponent implements OnInit {
         this.isOpen = true;
     }
 
-    get occurrenceDate() {
+    get occurrenceDateControl() {
         return this.copySurveyEventForm.get('occurrenceDate');
+    }
+    get methodControl() {
+        return this.copySurveyEventForm.get('method');
+    }
+    get fishingPointControl() {
+        return this.copySurveyEventForm.get('fishingPointId');
     }
 
     copySurveyEvent() {

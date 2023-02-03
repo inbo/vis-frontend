@@ -7,6 +7,7 @@ import {Observable, Subject} from 'rxjs';
 import {VisService} from './vis.service';
 import {Taxon} from '../domain/taxa/taxon';
 import {ProjectFavorites} from '../domain/settings/project-favorite';
+import {withCache} from '@ngneat/cashew';
 
 
 @Injectable({
@@ -46,6 +47,10 @@ export class ProjectService extends VisService {
     return this.http.get<Project>(`${environment.apiUrl}/api/projects/${projectCode}`);
   }
 
+  getProjectCached(projectCode: string): Observable<Project> {
+    return this.http.get<Project>(`${environment.apiUrl}/api/projects/${projectCode}`, {context: withCache()});
+  }
+
   canEdit(projectCode: string): Observable<boolean> {
     return this.http.get<boolean>(`${environment.apiUrl}/api/projects/${projectCode}/canedit`);
   }
@@ -76,10 +81,6 @@ export class ProjectService extends VisService {
 
   exportProject(code: string) {
     return this.http.get(`${environment.apiUrl}/api/projects/${code}/export`, {observe: 'response', responseType: 'blob'});
-  }
-
-  updateProjectMethods(projectCode: string, methods: string[]) {
-    return this.http.post<string[]>(`${environment.apiUrl}/api/projects/${projectCode}/methods`, methods);
   }
 
   getProjectTaxa(projectCode: string) {
