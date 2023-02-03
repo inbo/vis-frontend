@@ -3,6 +3,10 @@
 		<div class="-my-2 sm:-mx-6 lg:-mx-8">
 			<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 				<div class="shadow border-b border-gray-200 sm:rounded-lg">
+					<vis-paging-async *ngIf="pager?.totalPages > 1"
+					                  [pager]="pager"
+					                  [showSizeSelector]="true">
+					</vis-paging-async>
 					<form [formGroup]="form">
 						<div
 								class="grid grid-flow-row grid-cols-12 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 gap-2 text-left text-xs font-medium text-gray-500 tracking-wider px-2 py-4">
@@ -64,8 +68,10 @@
 							</div>
 						</div>
 					</form>
-					<vis-paging-async [pager]="pager"
-					                  [showSizeSelector]="true"></vis-paging-async>
+					<vis-paging-async *ngIf="pager?.totalPages > 1"
+					                  [pager]="pager"
+					                  [showSizeSelector]="true">
+					</vis-paging-async>
 				</div>
 			</div>
 		</div>

@@ -101,8 +101,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
                 this.filteredTaxonOptions = [...this.allTaxonOptions];
                 this.changeDetectorRef.detectChanges();
             });
-
-        this.focusElement('species', this.formGroupName);
     }
 
     ngOnDestroy() {

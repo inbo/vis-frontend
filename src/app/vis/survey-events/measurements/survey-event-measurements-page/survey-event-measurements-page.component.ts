@@ -8,7 +8,6 @@ import {take} from 'rxjs/operators';
 import {SurveyEvent} from '../../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../../core/_models/role';
 import {AuthService} from '../../../../core/auth.service';
-import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 import {FormControl, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
 import {PagingAsyncComponent} from '../../../../shared-ui/paging-async/paging-async.component';
@@ -32,9 +31,6 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
     @ViewChildren(MeasurementRowReadonlyComponent) measurementRowReadonlyComponents!: QueryList<MeasurementRowReadonlyComponent>;
 
     @ViewChild(PagingAsyncComponent) pagingComponent: PagingAsyncComponent;
-
-    faRulerHorizontal = faRulerHorizontal;
-    faWeightHanging = faWeightHanging;
 
     public role = Role;
 
