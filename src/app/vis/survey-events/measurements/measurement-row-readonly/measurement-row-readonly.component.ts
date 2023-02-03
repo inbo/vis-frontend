@@ -1,16 +1,17 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormGroupDirective, UntypedFormArray, UntypedFormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {TaxaService} from '../../../services/vis.taxa.service';
+import {TaxaService} from '../../../../services/vis.taxa.service';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
-import {Role} from '../../../core/_models/role';
-import {AuthService} from '../../../core/auth.service';
-import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
-import {WarningFormControl} from '../../../shared-ui/warning-form-control/warning.form-control';
+import {Role} from '../../../../core/_models/role';
+import {AuthService} from '../../../../core/auth.service';
+import {SearchableSelectOption} from '../../../../shared-ui/searchable-select/SearchableSelectOption';
+import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
 
 @Component({
     selector: 'vis-measurement-row-readonly',
     templateUrl: './measurement-row-readonly.component.html',
+    styleUrls: ['../measurements-shared.scss'],
 })
 export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {
 

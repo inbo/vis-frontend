@@ -2,7 +2,7 @@
      [class.bg-white]="formGroupName % 2 !== 0"
      [formGroup]="form"
      class="grid grid-flow-row grid-cols-12 gap-x-2 px-2 py-1.5">
-	<div class="col-span-12 md:col-span-4 lg:col-span-3">
+	<div class="measurement-column-species">
 		<div class="relative flex  text-sm text-gray-900">
 			{{(order().value | number:'3.0').replace(',', '').replace('.', '')}} - {{selectedSpecies?.displayValue}}
 			<fa-icon *ngIf="type().value === 'GROUP'"
@@ -15,34 +15,34 @@
 			         title="Groepsmeting met lengtemetingen"></fa-icon>
 		</div>
 	</div>
-	<div class="col-span-4 md:col-span-2 lg:col-span-1 text-sm text-gray-900">
+	<div class="measurement-column-amount text-sm text-gray-900">
 		{{amount().value}}
 	</div>
-	<div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900 flex flex-row items-center">
+	<div class="measurement-column-length text-sm text-gray-900 flex flex-row items-center">
 		{{length().value}}
 		<vis-warning-icon class="pl-0.5"
 		                  *ngIf="length()?.hasWarningMessages()"
 		                  [messages]="length().getAllWarningMessages()"></vis-warning-icon>
 	</div>
-	<div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900 flex flex-row items-center">
+	<div class="measurement-column-weight text-sm text-gray-900 flex flex-row items-center">
 		<span>{{weight().value}}</span>
 		<vis-warning-icon class="pl-0.5"
 		                  *ngIf="weight()?.hasWarningMessages()"
 		                  [messages]="weight().getAllWarningMessages()"></vis-warning-icon>
 	</div>
-	<div class="col-span-4 md:col-span-2 lg:col-span-1 text-sm text-gray-900">
+	<div class="measurement-column-gender text-sm text-gray-900">
 		{{'gender.full.' + gender().value | translate}}
 	</div>
 	<ng-container *ngIf="!isAnkerkuil; else ankerkuil">
-		<div class="col-span-4 md:col-span-2 lg:col-span-1 text-sm text-gray-900">
+		<div class="measurement-column-trip-number text-sm text-gray-900">
 			{{afvisBeurtNumber().value}}
 		</div>
 	</ng-container>
 	<ng-template #ankerkuil>
-		<div class="col-span-4 md:col-span-2 lg:col-span-1 text-sm text-gray-900">
+		<div class="measurement-column-ship-side text-sm text-gray-900">
 			{{(isPortside().value) ? 'Bakboord' : 'Stuurboord'}}
 		</div>
-		<div class="col-span-4 md:col-span-2 lg:col-span-1 text-sm text-gray-900">
+		<div class="measurement-column-dilution text-sm text-gray-900">
 			{{dilutionFactor().value}}
 		</div>
 	</ng-template>

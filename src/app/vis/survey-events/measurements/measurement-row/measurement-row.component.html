@@ -1,7 +1,7 @@
 <div [class.bg-gray-100]="formGroupName % 2 === 0"
      [formGroup]="measurementForm"
      class="grid grid-flow-row grid-cols-12 gap-x-2 px-2 py-1.5">
-	<div class="col-span-12 md:col-span-4 lg:col-span-3">
+	<div class="measurement-column-species">
 		<div class="relative flex"
 		     title="Groepsmeting"
 		     data-step="4"
@@ -32,7 +32,7 @@
 			         title="Groepsmeting met lengtemetingen"></fa-icon>
 		</div>
 	</div>
-	<div class="col-span-4 md:col-span-2 lg:col-span-1">
+	<div class="measurement-column-amount">
 		<vis-measurement-amount (arrowPressed)="navigateOnArrow($event)"
 		                        (enterPressed)="enterPressed($event)"
 		                        [index]="formGroupName"
@@ -41,28 +41,28 @@
 		                        data-intro="Pas hier het aantal aan. Indien het aantal groter is dan 1, wordt dit een groepsmeting.">
 		</vis-measurement-amount>
 	</div>
-	<div class="col-span-4 md:col-span-3 lg:col-span-1">
+	<div class="measurement-column-length">
 		<vis-measurement-length (arrowPressed)="navigateOnArrow($event)"
 		                        (enterPressed)="enterPressed($event)"
 		                        [submitted]="submitted"
 		                        [index]="formGroupName">
 		</vis-measurement-length>
 	</div>
-	<div class="col-span-4 md:col-span-3 lg:col-span-1">
+	<div class="measurement-column-weight">
 		<vis-measurement-weight (arrowPressed)="navigateOnArrow($event)"
 		                        (enterPressed)="enterPressed($event)"
 		                        [submitted]="submitted"
 		                        [index]="formGroupName">
 		</vis-measurement-weight>
 	</div>
-	<div class="col-span-4 md:col-span-2 lg:col-span-1">
+	<div class="measurement-column-gender">
 		<vis-measurement-gender (arrowPressed)="navigateOnArrow($event)"
 		                        (enterPressed)="enterPressed($event)"
 		                        [index]="formGroupName">
 		</vis-measurement-gender>
 	</div>
 	<ng-container *ngIf="!isAnkerkuil; else ankerkuil">
-		<div class="col-span-4 md:col-span-2 lg:col-span-1">
+		<div class="measurement-column-trip-number">
 			<vis-measurement-fishing-trip-number (arrowPressed)="navigateOnArrow($event)"
 			                                     (enterPressed)="enterPressed($event)"
 			                                     [submitted]="submitted"
@@ -71,13 +71,13 @@
 		</div>
 	</ng-container>
 	<ng-template #ankerkuil>
-		<div class="col-span-4 md:col-span-2 lg:col-span-1">
+		<div class="measurement-column-ship-side">
 			<vis-measurement-ship-side (arrowPressed)="navigateOnArrow($event)"
 			                           (enterPressed)="enterPressed($event)"
 			                           [index]="formGroupName">
 			</vis-measurement-ship-side>
 		</div>
-		<div class="col-span-4 md:col-span-2 lg:col-span-1">
+		<div class="measurement-column-dilution">
 			<vis-measurement-dilution-factor (arrowPressed)="navigateOnArrow($event)"
 			                                 (enterPressed)="enterPressed($event)"
 			                                 (tabPressed)="tabPressed()"
@@ -86,7 +86,7 @@
 			</vis-measurement-dilution-factor>
 		</div>
 	</ng-template>
-	<div class="col-span-11 md:col-span-5 lg:col-span-2">
+	<div class="measurement-column-comment">
 		<vis-measurement-comment (arrowPressed)="navigateOnArrow($event)"
 		                         (enterPressed)="enterPressed($event)"
 		                         (tabPressed)="tabPressed()"

@@ -8,10 +8,10 @@ import {
     UntypedFormGroup,
     Validators,
 } from '@angular/forms';
-import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
+import {WarningFormControl} from '../../../../../shared-ui/warning-form-control/warning.form-control';
 import {valueBetweenWarning} from '../../survey-event-measurements-create-page/validators/value-between.warning-validator';
-import {TaxonDetail} from '../../../../domain/taxa/taxon-detail';
-import {nullableNumberMask} from '../../length.mask';
+import {TaxonDetail} from '../../../../../domain/taxa/taxon-detail';
+import {nullableNumberMask} from '../../../length.mask';
 
 @Component({
     selector: 'vis-measurement-length-measurements',

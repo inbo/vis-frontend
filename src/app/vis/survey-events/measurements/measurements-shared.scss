@@ -1,0 +1,35 @@
+.measurement-column-species {
+  @apply col-span-12 md:col-span-4 lg:col-span-3;
+}
+
+.measurement-column-amount {
+  @apply col-span-4 md:col-span-2 lg:col-span-1;
+}
+
+.measurement-column-length {
+  @apply col-span-4 md:col-span-3 lg:col-span-1;
+}
+
+.measurement-column-weight {
+  @apply col-span-4 md:col-span-3 lg:col-span-1;
+}
+
+.measurement-column-gender {
+  @apply col-span-4 md:col-span-2 lg:col-span-1;
+}
+
+.measurement-column-trip-number {
+  @apply col-span-4 md:col-span-2 lg:col-span-1;
+}
+
+.measurement-column-ship-side {
+  @apply col-span-4 md:col-span-2 lg:col-span-1;
+}
+
+.measurement-column-dilution {
+  @apply col-span-4 md:col-span-2 lg:col-span-1;
+}
+
+.measurement-column-comment {
+  @apply col-span-11 md:col-span-5 lg:col-span-2;
+}

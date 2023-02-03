@@ -24,7 +24,7 @@ import {SurveyEventParametersPageComponent} from './survey-events/survey-event-p
 import {SurveyEventHabitatPageComponent} from './survey-events/survey-event-habitat-page/survey-event-habitat-page.component';
 import {
     SurveyEventMeasurementsCreatePageComponent,
-} from './survey-events/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
+} from './survey-events/measurements/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {SurveyEventHabitatEditPageComponent} from './survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component';
 import {FishSpeciesDetailPageComponent} from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
 import {
@@ -66,24 +66,34 @@ import {SurveyEventDetailEditPageComponent} from './survey-events/survey-event-d
 import {SurveyEventAddPageComponent} from './survey-events/survey-event-add-page/survey-event-add-page.component';
 import {SurveyEventCopyModalComponent} from './survey-events/survey-event-copy-modal/survey-event-copy-modal.component';
 import {FishingPointDetailComponent} from './fishing-point/fishing-point-detail/fishing-point-detail.component';
-import {MeasurementRowComponent} from './survey-events/measurement-row/measurement-row.component';
+import {MeasurementRowComponent} from './survey-events/measurements/measurement-row/measurement-row.component';
 import {
     SurveyEventMeasurementsPageComponent,
-} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
+} from './survey-events/measurements/survey-event-measurements-page/survey-event-measurements-page.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {SpeciesSearchComponent} from './survey-events/measurement-components/species-search/species-search.component';
-import {MeasurementLengthComponent} from './survey-events/measurement-components/measurement-length/measurement-length.component';
-import {MeasurementWeightComponent} from './survey-events/measurement-components/measurement-weight/measurement-weight.component';
-import {MeasurementGenderComponent} from './survey-events/measurement-components/measurement-gender/measurement-gender.component';
-import {MeasurementAmountComponent} from './survey-events/measurement-components/measurement-amount/measurement-amount.component';
+import {SpeciesSearchComponent} from './survey-events/measurements/measurement-components/species-search/species-search.component';
+import {
+    MeasurementLengthComponent,
+} from './survey-events/measurements/measurement-components/measurement-length/measurement-length.component';
+import {
+    MeasurementWeightComponent,
+} from './survey-events/measurements/measurement-components/measurement-weight/measurement-weight.component';
+import {
+    MeasurementGenderComponent,
+} from './survey-events/measurements/measurement-components/measurement-gender/measurement-gender.component';
+import {
+    MeasurementAmountComponent,
+} from './survey-events/measurements/measurement-components/measurement-amount/measurement-amount.component';
 import {
     MeasurementFishingTripNumberComponent,
-} from './survey-events/measurement-components/measurement-fishing-trip-number/measurement-fishing-trip-number.component';
-import {MeasurementCommentComponent} from './survey-events/measurement-components/measurement-comment/measurement-comment.component';
+} from './survey-events/measurements/measurement-components/measurement-fishing-trip-number/measurement-fishing-trip-number.component';
+import {
+    MeasurementCommentComponent,
+} from './survey-events/measurements/measurement-components/measurement-comment/measurement-comment.component';
 import {
     MeasurementLengthMeasurementsComponent,
-} from './survey-events/measurement-components/measurement-length-measurements/measurement-length-measurements.component';
-import {MeasurementRowReadonlyComponent} from './survey-events/measurement-row-readonly/measurement-row-readonly.component';
+} from './survey-events/measurements/measurement-components/measurement-length-measurements/measurement-length-measurements.component';
+import {MeasurementRowReadonlyComponent} from './survey-events/measurements/measurement-row-readonly/measurement-row-readonly.component';
 import {ImportsOverviewComponent} from './imports/imports-overview/imports-overview.component';
 import {ImportsDetailComponent} from './imports/imports-detail/imports-detail.component';
 import {ImportsOverviewProcessedComponent} from './imports/imports-overview-processed/imports-overview-processed.component';
@@ -111,14 +121,16 @@ import {FishingPointTabsComponent} from './fishing-point/fishing-point-tabs/fish
 import {FishingPointPicturesPageComponent} from './fishing-point/fishing-point-pictures-page/fishing-point-pictures-page.component';
 import {
     MeasurementLengthMeasurementsReadonlyComponent,
-} from './survey-events/measurement-components/measurement-length-measurements-readonly/measurement-length-measurements-readonly.component';
+} from './survey-events/measurements/measurement-components/measurement-length-measurements-readonly/measurement-length-measurements-readonly.component';
 import {NgxLeafletFullscreenModule} from '@runette/ngx-leaflet-fullscreen';
 import {UploadInformationComponent} from './survey-events/survey-event-pictures-page/upload-information/upload-information.component';
 import {NgxTippyModule} from 'ngx-tippy-wrapper';
-import {MeasurementShipSideComponent} from './survey-events/measurement-components/measurement-ship-side/measurement-ship-side.component';
+import {
+    MeasurementShipSideComponent,
+} from './survey-events/measurements/measurement-components/measurement-ship-side/measurement-ship-side.component';
 import {
     MeasurementDilutionFactorComponent,
-} from './survey-events/measurement-components/measurement-dilution-factor/measurement-dilution-factor.component';
+} from './survey-events/measurements/measurement-components/measurement-dilution-factor/measurement-dilution-factor.component';
 import {NgArrayPipesModule, NgObjectPipesModule} from 'ngx-pipes';
 import {
     ExistingSurveyEventsFoundWarningComponent,

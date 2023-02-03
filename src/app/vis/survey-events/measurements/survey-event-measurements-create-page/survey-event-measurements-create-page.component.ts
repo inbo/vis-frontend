@@ -14,25 +14,26 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormControl, FormGroup, UntypedFormBuilder, Validators} from '@angular/forms';
 import {fromEvent, Observable, Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators';
-import {AlertService} from '../../../_alert';
-import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
-import {TaxaService} from '../../../services/vis.taxa.service';
-import {TipsService} from '../../../services/vis.tips.service';
-import {Tip} from '../../../domain/tip/tip';
-import {Measurement} from '../../../domain/survey-event/measurement';
-import {HasUnsavedData} from '../../../core/core.interface';
+import {AlertService} from '../../../../_alert';
+import {SurveyEventsService} from '../../../../services/vis.surveyevents.service';
+import {TaxaService} from '../../../../services/vis.taxa.service';
+import {TipsService} from '../../../../services/vis.tips.service';
+import {Tip} from '../../../../domain/tip/tip';
+import {Measurement} from '../../../../domain/survey-event/measurement';
+import {HasUnsavedData} from '../../../../core/core.interface';
 import {Location} from '@angular/common';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 import * as IntroJs from 'intro.js/intro.js';
 import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
 import {MeasurementRowEnterEvent} from '../measurement-row/measurement-row-enter-event.model';
-import {WarningFormControl} from '../../../shared-ui/warning-form-control/warning.form-control';
+import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
 import {measurementAmountValidator} from './validators/measurement-amount.validator';
 import {measurementWeightValidator} from './validators/measurement-weight.validator';
 
 @Component({
     selector: 'vis-survey-event-measurements-create-page',
     templateUrl: './survey-event-measurements-create-page.component.html',
+    styleUrls: ['../measurements-shared.scss'],
 })
 export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked, HasUnsavedData {
     get measurementRows(): QueryList<MeasurementRowComponent> {

@@ -8,7 +8,7 @@ import {
     UntypedFormGroup,
     Validators,
 } from '@angular/forms';
-import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
+import {WarningFormControl} from '../../../../../shared-ui/warning-form-control/warning.form-control';
 
 @Component({
   selector: 'vis-measurement-length-measurements-readonly',

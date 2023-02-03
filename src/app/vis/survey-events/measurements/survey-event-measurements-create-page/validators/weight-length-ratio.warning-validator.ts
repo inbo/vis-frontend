@@ -1,8 +1,8 @@
 import {ChangeDetectorRef} from '@angular/core';
 import {FormGroup, ValidatorFn} from '@angular/forms';
-import {TaxonDetail} from '../../../../domain/taxa/taxon-detail';
+import {TaxonDetail} from '../../../../../domain/taxa/taxon-detail';
 import {isNil} from 'lodash-es';
-import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
+import {WarningFormControl} from '../../../../../shared-ui/warning-form-control/warning.form-control';
 
 export function weightLengthRatioValidator(taxon: TaxonDetail, cdr: ChangeDetectorRef): ValidatorFn {
     return (formGroup: FormGroup) => {

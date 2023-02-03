@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
-import {TaxaService} from '../../../services/vis.taxa.service';
+import {SearchableSelectOption} from '../../../../shared-ui/searchable-select/SearchableSelectOption';
+import {TaxaService} from '../../../../services/vis.taxa.service';
 import {
     AbstractControl,
     FormArray,
@@ -15,19 +15,20 @@ import {
 import {Subscription} from 'rxjs';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 import {weightLengthRatioValidator} from '../survey-event-measurements-create-page/validators/weight-length-ratio.warning-validator';
-import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
+import {TaxonDetail} from '../../../../domain/taxa/taxon-detail';
 import {MeasurementRowEnterEvent} from './measurement-row-enter-event.model';
 import {isNil} from 'lodash-es';
 import {take} from 'rxjs/operators';
 import {valueBetweenWarning} from '../survey-event-measurements-create-page/validators/value-between.warning-validator';
-import {WarningFormControl} from '../../../shared-ui/warning-form-control/warning.form-control';
+import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
 import {measurementWeightValidator} from '../survey-event-measurements-create-page/validators/measurement-weight.validator';
 import {measurementAmountValidator} from '../survey-event-measurements-create-page/validators/measurement-amount.validator';
-import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
+import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
     selector: 'vis-measurement-row',
     templateUrl: './measurement-row.component.html',
+    styleUrls: ['../measurements-shared.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MeasurementRowComponent implements OnInit, OnDestroy {

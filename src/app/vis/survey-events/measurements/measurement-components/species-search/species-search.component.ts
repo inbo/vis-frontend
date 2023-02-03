@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
-import {SearchableSelectOption} from '../../../../shared-ui/searchable-select/SearchableSelectOption';
-import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../../shared-ui/searchable-select/SearchableSelectConfig';
+import {SearchableSelectOption} from '../../../../../shared-ui/searchable-select/SearchableSelectOption';
+import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
     selector: 'vis-species-search',

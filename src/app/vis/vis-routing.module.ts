@@ -21,7 +21,7 @@ import {SurveyEventHabitatEditPageComponent} from './survey-events/survey-event-
 // tslint:disable-next-line:max-line-length
 import {
     SurveyEventMeasurementsPageComponent,
-} from './survey-events/survey-event-measurements-page/survey-event-measurements-page.component';
+} from './survey-events/measurements/survey-event-measurements-page/survey-event-measurements-page.component';
 import {FishingPointOverviewPageComponent} from './fishing-point/fishing-point-overview-page/fishing-point-overview-page.component';
 import {FishSpeciesOverviewPageComponent} from './fish-specie/fish-species-overview-page/fish-species-overview-page.component';
 import {FishSpeciesDetailPageComponent} from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
@@ -34,7 +34,7 @@ import {SurveyEventComponent} from './survey-events/survey-event/survey-event.co
 import {ProjectComponent} from './project/project/project.component';
 import {
     SurveyEventMeasurementsCreatePageComponent,
-} from './survey-events/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
+} from './survey-events/measurements/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {SurveyEventsOverviewPageComponent} from './survey-events/survey-events-overview-page/survey-events-overview-page.component';
 import {TipsComponent} from './tips/tips/tips.component';
 import {TipsPageComponent} from './tips/tips-page/tips-page.component';

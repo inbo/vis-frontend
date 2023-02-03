@@ -201,26 +201,31 @@
 									{{'gender.full.' + measurement.gender | translate}}
 								</p>
 								<p class="flex items-center text-sm text-gray-500"
-								   [title]="isAnkerkuilSurvey ? 'Schipzijde' : 'Commentaar'">
+								   *ngIf="isAnkerkuilSurvey"
+								   title="Verdunn.">
+									{{measurement.dilutionFactor}}
+								</p>
+								<p class="flex items-center text-sm text-gray-500"
+								   *ngIf="isAnkerkuilSurvey"
+								   title="Schipzijde">
+									{{measurement.portside ? 'Bakb.' : 'Stuurb.'}}
+								</p>
+								<p class="flex items-center text-sm text-gray-500"
+								   title="Commentaar">
 									<!-- Heroicon name: annotation -->
-									<ng-container *ngIf="!isAnkerkuilSurvey; else shipside">
-										<svg aria-hidden="true"
-										     class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-										     fill="none"
-										     stroke="currentColor"
-										     viewBox="0 0 24 24"
-										     xmlns="http://www.w3.org/2000/svg">
-											<path
-													d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-													stroke-width="2"/>
-										</svg>
-										{{measurement.comment}}
-									</ng-container>
-									<ng-template #shipside>
-										{{measurement.portside ? 'Bakb.' : 'Stuurb.'}}
-									</ng-template>
+									<svg aria-hidden="true"
+									     class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+									     fill="none"
+									     stroke="currentColor"
+									     viewBox="0 0 24 24"
+									     xmlns="http://www.w3.org/2000/svg">
+										<path
+												d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"/>
+									</svg>
+									{{measurement.comment}}
 								</p>
 							</div>
 						</div>
@@ -288,24 +293,19 @@
 		      class="space-y-4">
 			<div
 					class="grid grid-flow-row grid-cols-12 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 gap-2 text-left text-xs font-medium text-gray-500 tracking-wider px-2">
-				<div class="uppercase col-span-12 md:col-span-4 lg:col-span-3">Soort</div>
-				<div class="uppercase col-span-4 md:col-span-2 lg:col-span-1">Aantal</div>
-				<div class="col-span-4 md:col-span-3 lg:col-span-1">LENGTE (cm)</div>
-				<div class="col-span-4 md:col-span-3 lg:col-span-1">GEWICHT (g)</div>
-				<div class="uppercase col-span-4 md:col-span-2 lg:col-span-1">Geslacht</div>
+				<div class="uppercase measurement-column-species">Soort</div>
+				<div class="uppercase measurement-column-amount">Aantal</div>
+				<div class="measurement-column-length">LENGTE (cm)</div>
+				<div class="measurement-column-weight">GEWICHT (g)</div>
+				<div class="uppercase measurement-column-gender">Geslacht</div>
 				<ng-container *ngIf="!isAnkerkuilSurvey; else ankerkuil">
-					<div class="uppercase col-span-4 md:col-span-2 lg:col-span-1">
-						<span class="hidden md:block">Afvisbeurt</span>
-						<span class="md:hidden">Afvisb.</span></div>
-					<div class="col-span-12 md:col-span-5 lg:col-span-2">Commentaar</div>
+					<div class="uppercase measurement-column-trip-number">Afvisb.</div>
 				</ng-container>
 				<ng-template #ankerkuil>
-					<div class="uppercase col-span-4 md:col-span-2 lg:col-span-2">Zijde</div>
-					<div class="uppercase col-span-4 md:col-span-5 lg:col-span-1">
-						<span class="hidden md:block">Verdunningsfactor</span>
-						<span class="md:hidden">Verdunn.</span>
-					</div>
+					<div class="uppercase measurement-column-ship-side">Zijde</div>
+					<div class="uppercase measurement-column-dilution">Verdunn.</div>
 				</ng-template>
+				<div class="uppercase measurement-column-comment">Commentaar</div>
 				<div></div>
 			</div>
 			<div class="space-y-0.5">

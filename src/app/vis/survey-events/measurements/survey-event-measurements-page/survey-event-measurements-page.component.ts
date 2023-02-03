@@ -1,30 +1,31 @@
 import {ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
-import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
-import {IndividualLength, Measurement} from '../../../domain/survey-event/measurement';
-import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
+import {AsyncPage} from '../../../../shared-ui/paging-async/asyncPage';
+import {IndividualLength, Measurement} from '../../../../domain/survey-event/measurement';
+import {SurveyEventsService} from '../../../../services/vis.surveyevents.service';
 import {take} from 'rxjs/operators';
-import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
-import {Role} from '../../../core/_models/role';
-import {AuthService} from '../../../core/auth.service';
+import {SurveyEvent} from '../../../../domain/survey-event/surveyEvent';
+import {Role} from '../../../../core/_models/role';
+import {AuthService} from '../../../../core/auth.service';
 import {faRulerHorizontal, faWeightHanging} from '@fortawesome/free-solid-svg-icons';
 import {FormControl, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {MeasurementRowComponent} from '../measurement-row/measurement-row.component';
-import {PagingAsyncComponent} from '../../../shared-ui/paging-async/paging-async.component';
+import {PagingAsyncComponent} from '../../../../shared-ui/paging-async/paging-async.component';
 import {MeasurementRowReadonlyComponent} from '../measurement-row-readonly/measurement-row-readonly.component';
 import {weightLengthRatioValidator} from '../survey-event-measurements-create-page/validators/weight-length-ratio.warning-validator';
 import {Subscription} from 'rxjs';
 import {MeasurementRowEnterEvent} from '../measurement-row/measurement-row-enter-event.model';
 import {valueBetweenWarning} from '../survey-event-measurements-create-page/validators/value-between.warning-validator';
-import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
-import {WarningFormControl} from '../../../shared-ui/warning-form-control/warning.form-control';
+import {TaxonDetail} from '../../../../domain/taxa/taxon-detail';
+import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
 import {measurementWeightValidator} from '../survey-event-measurements-create-page/validators/measurement-weight.validator';
 import {measurementAmountValidator} from '../survey-event-measurements-create-page/validators/measurement-amount.validator';
 
 @Component({
     selector: 'vis-survey-event-measurements-page',
     templateUrl: './survey-event-measurements-page.component.html',
+    styleUrls: ['../measurements-shared.scss'],
 })
 export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
     @ViewChildren(MeasurementRowComponent) measurementRowComponents!: QueryList<MeasurementRowComponent>;
