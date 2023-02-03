@@ -1,6 +1,6 @@
-<app-stacked-layout [navigationLinks]="links">
+<vis-stacked-layout [navigationLinks]="links">
   <div slot="content">
-    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
+    <vis-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></vis-breadcrumb>
     <main>
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
@@ -16,7 +16,7 @@
 
         </div>
 
-        <app-expandable-filter (resetClicked)="filter()" (searchClicked)="filter()" [formGroup]="filterForm"
+        <vis-expandable-filter (resetClicked)="filter()" (searchClicked)="filter()" [formGroup]="filterForm"
                                [hideSearchButton]="true" [showAdvancedFilterAtStartup]="advancedFilterIsVisible">
           <ng-container slot="simple">
             <div class="self-center">
@@ -48,12 +48,12 @@
             </div>
 
           </ng-container>
-        </app-expandable-filter>
+        </vis-expandable-filter>
 
 
         <div class="px-4 py-8 sm:px-0">
           <div class="hidden lg:block">
-            <app-table [pager]="pager">
+            <vis-table [pager]="pager">
               <thead>
               <tr>
                 <th class="table-header-cell w-1/12" scope="col">
@@ -74,33 +74,33 @@
               </tr>
               </thead>
               <tbody>
-              <tr appRow>
-                <td *ngIf="loading" appCell colspan="8">
-                  <app-loading-spinner></app-loading-spinner>
+              <tr visRow>
+                <td *ngIf="loading" visCell colspan="8">
+                  <vis-loading-spinner></vis-loading-spinner>
                 </td>
               </tr>
 
-              <tr *ngFor="let item of taxon | async; let index = index" [rownumber]="index" appRow>
-                <td appCell>
+              <tr *ngFor="let item of taxon | async; let index = index" [rownumber]="index" visRow>
+                <td visCell>
                   {{item.code.value}}
                 </td>
-                <td appCell>
+                <td visCell>
                   <a [routerLink]="['/vissoorten', item.id.value]">{{item.nameDutch}}</a>
                 </td>
-                <td appCell>
+                <td visCell>
                   {{item.nameScientific}}
                 </td>
-                <td appCell>
+                <td visCell>
                   {{item.taxonGroupText}}
                 </td>
 
-                <td [actions]="true" appCell>
+                <td [actions]="true" visCell>
                   <a [routerLink]="['/vissoorten', item.id.value]" class="text-pink-600 hover:text-pink-900">Detail</a>
                 </td>
               </tr>
 
               </tbody>
-            </app-table>
+            </vis-table>
           </div>
 
           <div class="lg:hidden bg-white shadow overflow-hidden sm:rounded-md">
@@ -133,7 +133,7 @@
                 </a>
               </li>
             </ul>
-            <app-paging-async [pager]="pager"></app-paging-async>
+            <vis-paging-async [pager]="pager"></vis-paging-async>
           </div>
 
         </div>
@@ -143,4 +143,4 @@
     <!--    <taxon-add></taxon-add>-->
   </div>
 
-</app-stacked-layout>
+</vis-stacked-layout>

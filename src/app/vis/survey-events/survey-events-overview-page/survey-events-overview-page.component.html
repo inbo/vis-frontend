@@ -1,6 +1,6 @@
-<app-stacked-layout [navigationLinks]="links">
+<vis-stacked-layout [navigationLinks]="links">
   <div slot="content">
-    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
+    <vis-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></vis-breadcrumb>
     <main>
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
@@ -13,7 +13,7 @@
 
         </div>
 
-        <app-slide-over-filter (resetClicked)="reset()" (searchClicked)="filter()"
+        <vis-slide-over-filter (resetClicked)="reset()" (searchClicked)="filter()"
                                [formGroup]="filterForm" [tags]="tags">
           <ng-container slot="content">
             <div class="space-y-4">
@@ -22,11 +22,11 @@
                   Waterloop
                 </label>
                 <div class="mt-1">
-                  <app-searchable-select id="watercourse" passedId="watercourse" placeholder="Selecteer een waterloop"
+                  <vis-searchable-select id="watercourse" passedId="watercourse" placeholder="Selecteer een waterloop"
                                          tabIndex="-1" formControlName="watercourse"
                                          (search)="getWatercourses($event)"
                                          [options]="watercourses">
-                  </app-searchable-select>
+                  </vis-searchable-select>
                 </div>
               </div>
 
@@ -35,12 +35,12 @@
                   Watervlak
                 </label>
                 <div class="mt-1">
-                  <app-searchable-select id="lenticWaterbody" passedId="lenticWaterbody"
+                  <vis-searchable-select id="lenticWaterbody" passedId="lenticWaterbody"
                                          placeholder="Selecteer een watervlak"
                                          tabIndex="-1" formControlName="lenticWaterbody"
                                          (search)="getLenticWaterbodies($event)"
                                          [options]="lenticWaterbodies">
-                  </app-searchable-select>
+                  </vis-searchable-select>
                 </div>
               </div>
 
@@ -49,11 +49,11 @@
                   Gemeente
                 </label>
                 <div class="mt-1">
-                  <app-searchable-select id="municipality" passedId="municipality" placeholder="Selecteer een gemeente"
+                  <vis-searchable-select id="municipality" passedId="municipality" placeholder="Selecteer een gemeente"
                                          tabIndex="-1" formControlName="municipality"
                                          (search)="getMunicipalities($event)"
                                          [options]="municipalities">
-                  </app-searchable-select>
+                  </vis-searchable-select>
                 </div>
               </div>
 
@@ -62,11 +62,11 @@
                   Bekken
                 </label>
                 <div class="mt-1">
-                  <app-searchable-select id="basin" passedId="basin" placeholder="Selecteer een bekken"
+                  <vis-searchable-select id="basin" passedId="basin" placeholder="Selecteer een bekken"
                                          tabIndex="-1" formControlName="basin"
                                          (search)="getBasins($event)"
                                          [options]="basins">
-                  </app-searchable-select>
+                  </vis-searchable-select>
                 </div>
               </div>
 
@@ -75,7 +75,7 @@
                   Periode
                 </label>
                 <div class="mt-1">
-                  <app-daterange formControlName="period" id="period"></app-daterange>
+                  <vis-daterange formControlName="period" id="period"></vis-daterange>
                 </div>
               </div>
 
@@ -84,13 +84,13 @@
                   Meetplaatscode
                 </label>
                 <div class="mt-1">
-                  <app-searchable-select id="measuringPointNumber" passedId="measuringPointNumber"
+                  <vis-searchable-select id="measuringPointNumber" passedId="measuringPointNumber"
                                          placeholder="Selecteer een meetplaatscode"
                                          tabIndex="-1" formControlName="measuringPointNumber"
                                          (search)="getFishingPointCodes($event)"
                                          [options]="fishingPointCodes"
                                          [configuration]="fishingPointSearchableSelectConfig">
-                  </app-searchable-select>
+                  </vis-searchable-select>
                 </div>
               </div>
 
@@ -125,10 +125,10 @@
                   Soort
                 </label>
                 <div class="mt-1">
-                  <app-species-search (onSearch)="getSpecies($event)"
+                  <vis-species-search (onSearch)="getSpecies($event)"
                                       [index]="species.length"
                                       [taxons]="species"
-                                      class="flex-grow" id="species"></app-species-search>
+                                      class="flex-grow" id="species"></vis-species-search>
                 </div>
               </div>
 
@@ -146,42 +146,42 @@
                   Status
                 </label>
                 <div class="mt-1">
-                  <app-multi-select [options]="statuses$ | async" formControlName="status"
-                                    id="status"></app-multi-select>
+                  <vis-multi-select [options]="statuses$ | async" formControlName="status"
+                                    id="status"></vis-multi-select>
                 </div>
               </div>
             </div>
           </ng-container>
-        </app-slide-over-filter>
+        </vis-slide-over-filter>
 
         <div class="px-4 py-4 sm:px-0">
           <div class="hidden lg:block">
-            <app-table [pager]="pager">
+            <vis-table [pager]="pager">
               <thead>
               <tr>
                 <th scope="col" class="table-header-cell w-2/12">
                   Datum
-                  <app-table-sort sortField="occurrence"></app-table-sort>
+                  <vis-table-sort sortField="occurrence"></vis-table-sort>
                 </th>
                 <th class="table-header-cell" scope="col">
-                  Locatie
-                  <app-table-sort sortField="fishingPoint.code" title="Sorteren op meetplaatscode"></app-table-sort>
-                  <app-table-sort sortField="fishingPoint.vha.watercourse" class="ml-0.5"
-                                  title="Sorteren op waterloop"></app-table-sort>
-                  <app-table-sort sortField="fishingPoint.vha.basinName" class="ml-0.5"
-                                  title="Sorteren op watervlak"></app-table-sort>
+                  Vispunt
+                  <vis-table-sort sortField="fishingPoint.code" title="Sorteren op meetplaatscode"></vis-table-sort>
+                  <vis-table-sort sortField="fishingPoint.vha.watercourse" class="ml-0.5"
+                                  title="Sorteren op waterloop"></vis-table-sort>
+                  <vis-table-sort sortField="fishingPoint.vha.basinName" class="ml-0.5"
+                                  title="Sorteren op watervlak"></vis-table-sort>
                 </th>
                 <th scope="col" class="table-header-cell w-2/12">
                   Methode
-                  <app-table-sort sortField="method"></app-table-sort>
+                  <vis-table-sort sortField="method"></vis-table-sort>
                 </th>
                 <th scope="col" class="table-header-cell w-2/12">
                   Gemeente
-                  <app-table-sort sortField="fishingPoint.vha.municipality"></app-table-sort>
+                  <vis-table-sort sortField="fishingPoint.vha.municipality"></vis-table-sort>
                 </th>
                 <th scope="col" class="table-header-cell w-2/12">
                   Project
-                  <app-table-sort sortField="project.code"></app-table-sort>
+                  <vis-table-sort sortField="project.code"></vis-table-sort>
                 </th>
                 <th scope="col" class="table-header-cell w-1/12">
                   <span class="sr-only">Status</span>
@@ -192,41 +192,41 @@
               </tr>
               </thead>
               <tbody>
-              <tr appRow>
-                <td *ngIf="loading" appCell colspan="8">
-                  <app-loading-spinner></app-loading-spinner>
+              <tr visRow>
+                <td *ngIf="loading" visCell colspan="8">
+                  <vis-loading-spinner></vis-loading-spinner>
                 </td>
               </tr>
 
-              <tr *ngFor="let surveyEvent of surveyEvents$ | async; let index = index" [rownumber]="index" appRow>
-                <td appCell>
+              <tr *ngFor="let surveyEvent of surveyEvents$ | async; let index = index" [rownumber]="index" visRow>
+                <td visCell>
                   <a [routerLink]="['/projecten', surveyEvent.projectCode, 'waarnemingen', surveyEvent.surveyEventId]"
                      class="text-pink-600 hover:text-pink-900">
                     {{ surveyEvent.occurrence | date:'dd/MM/yyyy'}}
                   </a>
                 </td>
-                <td appCell>
+                <td visCell>
                   <div class="text-sm"><a [routerLink]="['/vispunten', surveyEvent.fishingPointCode]"
                                           class="text-pink-600 hover:text-pink-900">{{surveyEvent.fishingPointCode}}</a>
                   </div>
                   <div
                     class="text-sm">{{surveyEvent.isLentic ? surveyEvent.lenticName : surveyEvent.watercourse}} {{surveyEvent.basin ? ' - ' + surveyEvent.basin : ''}}</div>
                 </td>
-                <td appCell>
+                <td visCell>
                   {{ 'method.' + surveyEvent.method | translate }}
                 </td>
-                <td appCell>
+                <td visCell>
                   {{surveyEvent.municipality}}
                 </td>
-                <td appCell>
+                <td visCell>
                   <a [routerLink]="['/projecten', surveyEvent.projectCode]"
                      class="text-pink-600 hover:text-pink-900">{{surveyEvent.projectCode}}</a>
                 </td>
-                <td appCell>
-                  <app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>
+                <td visCell>
+                  <vis-survey-event-status-pill [surveyEvent]="surveyEvent"></vis-survey-event-status-pill>
                 </td>
-                <td appCell [actions]="true">
-                  <app-dropdown-minimal>
+                <td visCell [actions]="true">
+                  <vis-dropdown-minimal>
                     <button
                       [routerLink]="['/projecten', surveyEvent.projectCode, 'waarnemingen', surveyEvent.surveyEventId]"
                       class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-0" role="menuitem"
@@ -245,11 +245,11 @@
                       tabindex="-1">
                       Metingen toevoegen
                     </button>
-                  </app-dropdown-minimal>
+                  </vis-dropdown-minimal>
                 </td>
               </tr>
               </tbody>
-            </app-table>
+            </vis-table>
           </div>
         </div>
 
@@ -310,12 +310,12 @@
                 </div>
               </a>
             </li>
-            <app-paging-async [pager]="pager"></app-paging-async>
+            <vis-paging-async [pager]="pager"></vis-paging-async>
           </ul>
         </div>
       </div>
     </main>
-    <app-project-add></app-project-add>
+    <vis-project-add></vis-project-add>
   </div>
-</app-stacked-layout>
+</vis-stacked-layout>
 

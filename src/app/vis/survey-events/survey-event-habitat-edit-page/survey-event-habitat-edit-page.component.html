@@ -10,130 +10,130 @@
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Bodem</label>
           <div class="mt-1" formGroupName="soil">
-            <app-check-group [options]="habitatOptions.soil" name="soil"
-                             (checked)="soilChecked($event)"></app-check-group>
+            <vis-check-group [options]="habitatOptions.soil" name="soil"
+                             (checked)="soilChecked($event)"></vis-check-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Waterpeil</label>
           <div class="mt-1">
-            <app-radio-group [options]="habitatOptions.waterLevels" formControlName="waterLevel"
+            <vis-radio-group [options]="habitatOptions.waterLevels" formControlName="waterLevel"
                              name="waterLevel">
-            </app-radio-group>
+            </vis-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Natuurlijke schuilplaatsen</label>
           <div class="mt-1">
-            <app-radio-group [options]="habitatOptions.shelters" formControlName="shelters"
-                             name="shelters"></app-radio-group>
+            <vis-radio-group [options]="habitatOptions.shelters" formControlName="shelters"
+                             name="shelters"></vis-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Poelen</label>
           <div class="mt-1">
-            <app-radio-group [options]="habitatOptions.pool" formControlName="pool" name="pool"></app-radio-group>
+            <vis-radio-group [options]="habitatOptions.pool" formControlName="pool" name="pool"></vis-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Stroomversnellingen</label>
           <div class="mt-1">
-            <app-radio-group [options]="habitatOptions.rapids" formControlName="rapids" name="rapids"></app-radio-group>
+            <vis-radio-group [options]="habitatOptions.rapids" formControlName="rapids" name="rapids"></vis-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Bochten</label>
           <div class="mt-1">
-            <app-radio-group [options]="habitatOptions.creeks" formControlName="creeks" name="creeks"></app-radio-group>
+            <vis-radio-group [options]="habitatOptions.creeks" formControlName="creeks" name="creeks"></vis-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Oever</label>
           <div class="mt-1">
-            <app-radio-group [options]="habitatOptions.shore" formControlName="shore" name="shore"></app-radio-group>
+            <vis-radio-group [options]="habitatOptions.shore" formControlName="shore" name="shore"></vis-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Taludhelling</label>
           <div class="mt-1">
-            <app-radio-group [options]="habitatOptions.slope" formControlName="slope" name="slope"></app-radio-group>
+            <vis-radio-group [options]="habitatOptions.slope" formControlName="slope" name="slope"></vis-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Landbouw</label>
           <div class="mt-1">
-            <app-radio-group [options]="habitatOptions.agriculture" formControlName="agriculture"
-                             name="agriculture"></app-radio-group>
+            <vis-radio-group [options]="habitatOptions.agriculture" formControlName="agriculture"
+                             name="agriculture"></vis-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Weide</label>
           <div class="mt-1">
-            <app-radio-group [options]="habitatOptions.meadow" formControlName="meadow" name="meadow"></app-radio-group>
+            <vis-radio-group [options]="habitatOptions.meadow" formControlName="meadow" name="meadow"></vis-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Bomen</label>
           <div class="mt-1">
-            <app-radio-group [options]="habitatOptions.trees" formControlName="trees" name="trees"></app-radio-group>
+            <vis-radio-group [options]="habitatOptions.trees" formControlName="trees" name="trees"></vis-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Bebouwing</label>
           <div class="mt-1">
-            <app-radio-group [options]="habitatOptions.buildings" formControlName="buildings"
-                             name="buildings"></app-radio-group>
+            <vis-radio-group [options]="habitatOptions.buildings" formControlName="buildings"
+                             name="buildings"></vis-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Industrie</label>
           <div class="mt-1">
-            <app-radio-group [options]="habitatOptions.industry" formControlName="industry"
-                             name="industry"></app-radio-group>
+            <vis-radio-group [options]="habitatOptions.industry" formControlName="industry"
+                             name="industry"></vis-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Loop</label>
           <div class="mt-1">
-            <app-radio-group [options]="habitatOptions.current" formControlName="current"
-                             name="current"></app-radio-group>
+            <vis-radio-group [options]="habitatOptions.current" formControlName="current"
+                             name="current"></vis-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Knelpunt in omgeving van het traject</label>
           <div class="mt-1">
-            <app-check-group [options]="habitatOptions.bottlenecks" name="bottleneck"
-                             (checked)="bottleneckChecked($event)"></app-check-group>
+            <vis-check-group [options]="habitatOptions.bottlenecks" name="bottleneck"
+                             (checked)="bottleneckChecked($event)"></vis-check-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Vispassage</label>
           <div class="mt-1">
-            <app-radio-group [options]="habitatOptions.fishPassage" formControlName="fishPassage"
-                             name="fishPassage"></app-radio-group>
+            <vis-radio-group [options]="habitatOptions.fishPassage" formControlName="fishPassage"
+                             name="fishPassage"></vis-radio-group>
           </div>
         </div>
 
         <div class="sm:col-span-6">
           <label class="block text-sm font-medium text-gray-700">Vegetatie</label>
           <div class="mt-1">
-            <app-check-group [options]="habitatOptions.vegetations" name="vegetation"
-                             (checked)="vegetationChecked($event)"></app-check-group>
+            <vis-check-group [options]="habitatOptions.vegetations" name="vegetation"
+                             (checked)="vegetationChecked($event)"></vis-check-group>
           </div>
         </div>
 
@@ -141,7 +141,7 @@
     </form>
   </div>
   <div class="px-4 py-4 sm:px-6 flex justify-end">
-    <app-button (click)="cancel()">Annuleren</app-button>
-    <app-button (click)="saveHabitat()" [style]="'primary'" class="ml-3">Bewaren</app-button>
+    <vis-button (click)="cancel()">Annuleren</vis-button>
+    <vis-button (click)="saveHabitat()" [style]="'primary'" class="ml-3">Bewaren</vis-button>
   </div>
 </div>

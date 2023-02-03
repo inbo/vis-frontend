@@ -34,7 +34,7 @@ import {TownLayerSelectionEvent} from './town-layer-selection-event.model';
 import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet';
 
 @Component({
-    selector: 'app-fishing-points-map',
+    selector: 'vis-fishing-points-map',
     templateUrl: 'fishing-points-map.component.html',
     styleUrls: ['fishing-points-map.component.scss'],
     encapsulation: ViewEncapsulation.None,

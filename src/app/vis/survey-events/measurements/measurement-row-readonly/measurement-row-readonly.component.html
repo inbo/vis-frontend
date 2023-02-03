@@ -1,0 +1,106 @@
+<div [class.bg-gray-100]="formGroupName % 2 === 0"
+     [class.bg-white]="formGroupName % 2 !== 0"
+     [formGroup]="form"
+     class="grid grid-flow-row grid-cols-12 gap-x-2 px-2 py-1.5">
+	<div class="measurement-column-species">
+		<div class="relative flex  text-sm text-gray-900">
+			{{(order().value | number:'3.0').replace(',', '').replace('.', '')}} - {{selectedSpecies?.displayValue}}
+			<fa-icon *ngIf="type().value === 'GROUP'"
+			         [icon]="faWeightHanging"
+			         class="self-center text-gray-500 pl-2"
+			         title="Groepsmeting"></fa-icon>
+			<fa-icon *ngIf="type().value === 'GROUP_LENGTHS'"
+			         [icon]="faRulerHorizontal"
+			         class="self-center text-gray-500 pl-2"
+			         title="Groepsmeting met lengtemetingen"></fa-icon>
+		</div>
+	</div>
+	<div class="measurement-column-amount text-sm text-gray-900">
+		{{amount().value}}
+	</div>
+	<div class="measurement-column-length text-sm text-gray-900 flex flex-row items-center">
+		{{length().value}}
+		<vis-warning-icon class="pl-0.5"
+		                  *ngIf="length()?.hasWarningMessages()"
+		                  [messages]="length().getAllWarningMessages()"></vis-warning-icon>
+	</div>
+	<div class="measurement-column-weight text-sm text-gray-900 flex flex-row items-center">
+		<span>{{weight().value}}</span>
+		<vis-warning-icon class="pl-0.5"
+		                  *ngIf="weight()?.hasWarningMessages()"
+		                  [messages]="weight().getAllWarningMessages()"></vis-warning-icon>
+	</div>
+	<div class="measurement-column-gender text-sm text-gray-900">
+		{{'gender.full.' + gender().value | translate}}
+	</div>
+	<ng-container *ngIf="!isAnkerkuil; else ankerkuil">
+		<div class="measurement-column-trip-number text-sm text-gray-900">
+			{{afvisBeurtNumber().value}}
+		</div>
+	</ng-container>
+	<ng-template #ankerkuil>
+		<div class="measurement-column-ship-side text-sm text-gray-900">
+			{{(isPortside().value) ? 'Bakboord' : 'Stuurboord'}}
+		</div>
+		<div class="measurement-column-dilution text-sm text-gray-900">
+			{{dilutionFactor().value}}
+		</div>
+	</ng-template>
+	<div class="col-span-11 md:col-span-5 lg:col-span-2 text-sm text-gray-900">
+		{{comment().value}}
+	</div>
+	<div class="col-span-1 md:col-span-3 lg:col-span-1 text-right self-center text-gray-500 space-x-2">
+
+    <span *ngIf="savedMessage"
+          class="inline-block items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 animate-pulse">
+      Bewaard
+    </span>
+
+		<span *ngIf="!savedMessage"
+		      (click)="toggleIndividualMeasurement()"
+		      [class.hidden]="type().value !== 'GROUP_LENGTHS'"
+		      class="inline-block cursor-pointer"
+		      title="Omvormen naar een individuele meting"
+		      data-step="8"
+		      data-intro="Klik op dit icoon om de groepsmeting terug om te vormen naar een groepsmeting zonder individuele lengtemetingen.">
+      <svg class="w-5 h-5"
+           fill="currentColor"
+           viewBox="0 0 20 20"
+           xmlns="http://www.w3.org/2000/svg"><path
+		      d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"></path></svg>
+    </span>
+
+		<span *ngIf="editable && !savedMessage && authService.hasRole(role.DeleteMeasurement)"
+		      (click)="remove()"
+		      class="inline-block cursor-pointer"
+		      title="Verwijder lijn">
+      <svg class="w-5 h-5"
+           fill="none"
+           stroke="currentColor"
+           viewBox="0 0 24 24"
+           xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+    </span>
+
+		<span *ngIf="editable && !savedMessage && authService.hasRole(role.CreateMeasurements)"
+		      (click)="edit()"
+		      class="inline-block cursor-pointer">
+      <svg class="w-5 h-5"
+           fill="none"
+           stroke="currentColor"
+           viewBox="0 0 24 24"
+           xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+    </span>
+
+	</div>
+
+	<div [class.hidden]="!showIndividualLengthItems"
+	     class="col-span-12">
+		<vis-measurement-length-measurements-readonly [submitted]="submitted"></vis-measurement-length-measurements-readonly>
+	</div>
+</div>

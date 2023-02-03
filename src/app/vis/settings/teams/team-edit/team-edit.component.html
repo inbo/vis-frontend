@@ -1,5 +1,5 @@
 <form [formGroup]="editTeamForm">
-	<app-slide-over [isOpen]="isOpen"
+	<vis-slide-over [isOpen]="isOpen"
 	                (isOpenChange)="isOpen = false">
 		<span slot="title">Teams</span>
 		<span slot="description">Voeg een team toe.</span>
@@ -14,11 +14,11 @@
 							<div class="mt-1 space-y-1 relative">
 								<input formControlName="description"
 								       type="text">
-								<app-error-icon class="input-field-icon"
+								<vis-error-icon class="input-field-icon"
 								                [control]="description"
 								                [fieldName]="'Beschrijving'"
 								                [submitted]="submitted">
-								</app-error-icon>
+								</vis-error-icon>
 							</div>
 						</div>
 
@@ -27,9 +27,9 @@
 								Gebruikers
 							</label>
 							<div class="mt-1 space-y-1">
-								<app-multi-user-search formControlName="accounts"
+								<vis-multi-user-search formControlName="accounts"
 								                       [options$]="accounts$"
-								                       (search)="getAccounts($event)"></app-multi-user-search>
+								                       (search)="getAccounts($event)"></vis-multi-user-search>
 							</div>
 						</div>
 					</div>
@@ -39,10 +39,10 @@
 		<div class="flex-shrink-0 px-4 border-t border-gray-200 py-5 sm:px-6"
 		     slot="buttons">
 			<div class="space-x-3 flex justify-end">
-				<app-button [style]="'primary'"
+				<vis-button [style]="'primary'"
 				            (click)="save()">Bewaren
-				</app-button>
+				</vis-button>
 			</div>
 		</div>
-	</app-slide-over>
+	</vis-slide-over>
 </form>

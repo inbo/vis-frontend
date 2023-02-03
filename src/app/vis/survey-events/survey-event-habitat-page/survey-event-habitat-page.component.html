@@ -5,13 +5,13 @@
 		</h3>
 		<div *ngIf="surveyEvent$ | async as surveyEvent"
 		     class="flex justify-end">
-			<app-button [style]="'primary'"
+			<vis-button [style]="'primary'"
 			            [disabled]="surveyEvent.status !== 'ENTERED'"
 			            class="ml-3"
 			            [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'habitat', 'bewerk']"
 			            [role]="role.EditSurveyEvent"
 			            [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
-			</app-button>
+			</vis-button>
 		</div>
 	</div>
 	<div class="px-4 py-5 sm:p-6">
@@ -211,13 +211,13 @@
 	</div>
 	<div *ngIf="surveyEvent$ | async as surveyEvent"
 	     class="px-4 py-4 sm:px-6 flex justify-end">
-		<app-button [style]="'primary'"
+		<vis-button [style]="'primary'"
 		            [disabled]="surveyEvent.status !== 'ENTERED'"
 		            class="ml-3"
 		            [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'habitat', 'bewerk']"
 		            [role]="role.EditSurveyEvent"
 		            [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
-		</app-button>
+		</vis-button>
 	</div>
 </div>
 

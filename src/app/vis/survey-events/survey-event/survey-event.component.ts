@@ -5,7 +5,7 @@ import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'app-survey-event',
+  selector: 'vis-survey-event',
   templateUrl: './survey-event.component.html'
 })
 export class SurveyEventComponent implements OnInit {

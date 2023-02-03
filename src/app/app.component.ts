@@ -2,11 +2,11 @@ import {Component, OnDestroy} from '@angular/core';
 import {AuthService} from './core/auth.service';
 import {environment} from '../environments/environment';
 import {AccountService} from './services/vis.account.service';
-import {EMPTY, Observable, Subscription} from 'rxjs';
+import {EMPTY, Subscription} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-root',
+  selector: 'vis-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

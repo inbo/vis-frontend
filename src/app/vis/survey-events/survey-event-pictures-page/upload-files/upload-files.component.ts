@@ -1,11 +1,10 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
 import {PicturesService} from '../../../../services/vis.pictures.service';
-import {HttpEventType, HttpResponse} from '@angular/common/http';
+import {HttpEventType} from '@angular/common/http';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-upload-files',
+  selector: 'vis-upload-files',
   templateUrl: './upload-files.component.html'
 })
 export class UploadFilesComponent implements OnInit {

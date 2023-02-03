@@ -5,7 +5,7 @@ import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'app-settings',
+  selector: 'vis-settings',
   templateUrl: './settings.component.html'
 })
 export class SettingsComponent implements OnInit {

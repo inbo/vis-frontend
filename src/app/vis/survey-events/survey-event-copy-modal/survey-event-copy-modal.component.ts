@@ -12,7 +12,7 @@ import {FishingPointsService} from '../../../services/vis.fishing-points.service
 import {Project} from '../../../domain/project/project';
 
 @Component({
-    selector: 'app-survey-event-copy-modal',
+    selector: 'vis-survey-event-copy-modal',
     templateUrl: './survey-event-copy-modal.component.html',
 })
 export class SurveyEventCopyModalComponent implements OnInit {
@@ -72,8 +72,14 @@ export class SurveyEventCopyModalComponent implements OnInit {
         this.isOpen = true;
     }
 
-    get occurrenceDate() {
+    get occurrenceDateControl() {
         return this.copySurveyEventForm.get('occurrenceDate');
+    }
+    get methodControl() {
+        return this.copySurveyEventForm.get('method');
+    }
+    get fishingPointControl() {
+        return this.copySurveyEventForm.get('fishingPointId');
     }
 
     copySurveyEvent() {

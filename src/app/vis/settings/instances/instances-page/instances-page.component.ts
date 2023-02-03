@@ -9,7 +9,7 @@ import {AuthService} from '../../../../core/auth.service';
 import {InstanceAddComponent} from '../instance-add/instance-add.component';
 
 @Component({
-  selector: 'app-instances-page',
+  selector: 'vis-instances-page',
   templateUrl: './instances-page.component.html'
 })
 export class InstancesPageComponent implements OnInit, OnDestroy {

@@ -9,7 +9,7 @@ import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {Role} from '../../../core/_models/role';
 
 @Component({
-  selector: 'app-survey-event-habitat-page',
+  selector: 'vis-survey-event-habitat-page',
   templateUrl: './survey-event-habitat-page.component.html'
 })
 export class SurveyEventHabitatPageComponent implements OnInit, OnDestroy {

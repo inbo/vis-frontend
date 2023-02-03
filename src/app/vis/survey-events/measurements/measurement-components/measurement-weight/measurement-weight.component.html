@@ -1,0 +1,21 @@
+<div [formGroup]="form"
+     class="relative rounded-md shadow-sm">
+	<input (keydown)="keydown($event)"
+	       [class.pr-8]="(weight().dirty || weight().touched) && weight().warningMessages"
+	       [id]="'weight-' + index"
+	       [imask]="nullableNumbermask(3, 0, 99999.999)"
+	       [unmask]="'typed'"
+	       formControlName="weight"
+	       name="weight"
+	       [title]="weight()?.warningMessages"
+	       type="text">
+	<vis-warning-icon class="input-field-icon"
+	                  *ngIf="weight().hasWarningMessages() && !errorIcon.displayErrorMessage()"
+	                  [messages]="weight().getAllWarningMessages()">
+	</vis-warning-icon>
+	<vis-error-icon #errorIcon
+	                class="input-field-icon"
+	                [control]="weight()"
+	                [submitted]="submitted"
+	                onlyShowAfterSubmitted="true"></vis-error-icon>
+</div>

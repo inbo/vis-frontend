@@ -1,5 +1,5 @@
 <form [formGroup]="createProjectForm">
-	<app-slide-over (isOpenChange)="cancel()"
+	<vis-slide-over (isOpenChange)="cancel()"
 	                [(isOpen)]="isOpen">
 		<span slot="title">Nieuw project</span>
 		<div slot="content">
@@ -17,10 +17,10 @@
 								       name="code"
 								       id="code"
 								       autocomplete="name">
-								<app-error-icon class="input-field-icon"
+								<vis-error-icon class="input-field-icon"
 								                [control]="code"
 								                [submitted]="submitted"
-								                [fieldName]="'Code'"></app-error-icon>
+								                [fieldName]="'Code'"></vis-error-icon>
 							</div>
 							<p class="mt-2 text-sm text-gray-500">
 								Unieke korte code gebruikt om een project aan
@@ -42,11 +42,11 @@
 								       name="name"
 								       id="name"
 								       autocomplete="name">
-								<app-error-icon class="input-field-icon"
+								<vis-error-icon class="input-field-icon"
 								                [fieldName]="'Naam'"
 								                [control]="name"
 								                [submitted]="submitted">
-								</app-error-icon>
+								</vis-error-icon>
 							</div>
 
 						</div>
@@ -64,12 +64,12 @@
 							</div>
 							<div class="flex justify-between">
 								<p class="mt-2 text-sm text-gray-500">Beschrijf het project in een aantal zinnen</p>
-								<app-text-counter [max]="2000"
-								                  [text]="description.value"></app-text-counter>
+								<vis-text-counter [max]="2000"
+								                  [text]="description.value"></vis-text-counter>
 							</div>
-							<app-form-error-message [fieldName]="'Beschrijving'"
+							<vis-form-error-message [fieldName]="'Beschrijving'"
 							                        [control]="description"
-							                        [submitted]="submitted"></app-form-error-message>
+							                        [submitted]="submitted"></vis-form-error-message>
 						</div>
 
 						<div>
@@ -77,11 +77,11 @@
 								Startdatum *
 							</label>
 							<div class="mt-1">
-								<app-datepicker formControlName="startDate"
-								                [hideResetButton]="true"></app-datepicker>
-								<app-form-error-message [fieldName]="'Startdatum'"
+								<vis-datepicker formControlName="startDate"
+								                [hideResetButton]="true"></vis-datepicker>
+								<vis-form-error-message [fieldName]="'Startdatum'"
 								                        [control]="startDate"
-								                        [submitted]="submitted"></app-form-error-message>
+								                        [submitted]="submitted"></vis-form-error-message>
 
 							</div>
 						</div>
@@ -126,25 +126,25 @@
 								Instanties
 							</label>
 							<div class="mt-1">
-								<app-multi-select formControlName="instances"
+								<vis-multi-select formControlName="instances"
 								                  [options]="instances$ | async">
-								</app-multi-select>
+								</vis-multi-select>
 							</div>
-							<app-form-error-message [control]="instances"
+							<vis-form-error-message [control]="instances"
 							                        [fieldName]="'Instanties'"
 							                        [submitted]="submitted">
-							</app-form-error-message>
+							</vis-form-error-message>
 						</div>
 						<div>
 							<label class="block text-sm font-medium text-gray-700">
 								Team
 							</label>
 							<div class="mt-1">
-								<app-multi-select formControlName="teams"
-								                  [options]="teams$ | async"></app-multi-select>
-								<app-form-error-message [control]="teams"
+								<vis-multi-select formControlName="teams"
+								                  [options]="teams$ | async"></vis-multi-select>
+								<vis-form-error-message [control]="teams"
 								                        [fieldName]="'Teams'"
-								                        [submitted]="submitted"></app-form-error-message>
+								                        [submitted]="submitted"></vis-form-error-message>
 							</div>
 						</div>
 
@@ -171,5 +171,5 @@
         </span>
 			</div>
 		</div>
-	</app-slide-over>
+	</vis-slide-over>
 </form>

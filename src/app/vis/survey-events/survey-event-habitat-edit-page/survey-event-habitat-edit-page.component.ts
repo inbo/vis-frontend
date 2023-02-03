@@ -11,7 +11,7 @@ import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {Location} from '@angular/common';
 
 @Component({
-  selector: 'app-survey-event-habitat-edit-page',
+  selector: 'vis-survey-event-habitat-edit-page',
   templateUrl: './survey-event-habitat-edit-page.component.html'
 })
 export class SurveyEventHabitatEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {

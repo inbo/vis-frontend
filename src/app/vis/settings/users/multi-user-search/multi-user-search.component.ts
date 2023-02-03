@@ -1,16 +1,16 @@
 import {
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  forwardRef,
-  HostListener,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild
+    AfterViewChecked,
+    AfterViewInit,
+    Component,
+    ElementRef,
+    EventEmitter,
+    forwardRef,
+    HostListener,
+    Input,
+    OnDestroy,
+    OnInit,
+    Output,
+    ViewChild,
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {fromEvent, Subject, Subscription} from 'rxjs';
@@ -18,7 +18,7 @@ import {debounceTime, filter, map} from 'rxjs/operators';
 import {Account} from '../../../../domain/account/account';
 
 @Component({
-  selector: 'app-multi-user-search',
+  selector: 'vis-multi-user-search',
   templateUrl: './multi-user-search.component.html',
   providers: [
     {

@@ -18,7 +18,7 @@ import {SearchableSelectOption} from '../../../shared-ui/searchable-select/Searc
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
-    selector: 'app-fishing-point-overview-page',
+    selector: 'vis-fishing-point-overview-page',
     templateUrl: './fishing-point-overview-page.component.html',
     styleUrls: ['./fishing-point-overview-page.component.scss'],
 })
@@ -63,7 +63,7 @@ export class FishingPointOverviewPageComponent implements OnInit, OnDestroy {
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
                 private formBuilder: UntypedFormBuilder) {
-        this.titleService.setTitle('Locaties');
+        this.titleService.setTitle('Vispunten');
 
         this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
             .minQueryLength(2)

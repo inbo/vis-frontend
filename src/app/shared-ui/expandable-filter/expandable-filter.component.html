@@ -5,17 +5,17 @@
         <div class="grid gap-2 grid-cols-1 lg:grid-cols-5">
           <ng-content select="[slot=simple]"></ng-content>
           <div *ngIf="!advancedFilterIsVisible" class="lg:text-right lg:col-end-6">
-            <app-button (click)="reset(); showResetTip = true;">
+            <vis-button (click)="reset(); showResetTip = true;">
               Reset
-            </app-button>
-            <app-button [class.hidden]="hideSearchButton" (click)="filter()" [style]="'primary'">
+            </vis-button>
+            <vis-button [class.hidden]="hideSearchButton" (click)="filter()" [style]="'primary'">
               <svg class="-ml-0.5 mr-2 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                    xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
               </svg>
               Zoek
-            </app-button>
+            </vis-button>
           </div>
         </div>
 
@@ -33,19 +33,19 @@
 
             <div class="lg:text-right lg:col-end-6 xl:col-end-6">
               <span class="mt-1 inline-flex rounded-md shadow-sm">
-                <app-button (click)="reset(); showResetTip = true;">
+                <vis-button (click)="reset(); showResetTip = true;">
                   Reset
-                </app-button>
+                </vis-button>
               </span>
               <span [class.hidden]="hideSearchButton" class="mt-1 inline-flex rounded-md shadow-sm">
-                <app-button (click)="filter()" [style]="'primary'">
+                <vis-button (click)="filter()" [style]="'primary'">
                   <!-- Heroicon name: search -->
                   <svg class="-ml-0.5 mr-2 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                        xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round"
                                                                 stroke-width="2"
                                                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                   Zoek
-                </app-button>
+                </vis-button>
               </span>
             </div>
 
@@ -66,4 +66,4 @@
       {{advancedFilterIsVisible ? 'Minder' : 'Meer'}} opties</span>
   </div>
 </div>
-<app-tip [code]="'FORM_RESET'" [show]="showResetTip"></app-tip>
+<vis-tip [code]="'FORM_RESET'" [show]="showResetTip"></vis-tip>

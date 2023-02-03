@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-forbidden-page',
+  selector: 'vis-forbidden-page',
   templateUrl: './forbidden-page.component.html'
 })
 export class ForbiddenPageComponent implements OnInit {

@@ -11,7 +11,7 @@ import {TeamEditComponent} from '../team-edit/team-edit.component';
 import {take} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-teams-page',
+  selector: 'vis-teams-page',
   templateUrl: './teams-page.component.html'
 })
 export class TeamsPageComponent implements OnInit, OnDestroy {

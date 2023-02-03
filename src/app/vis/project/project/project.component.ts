@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 import {Project} from '../../../domain/project/project';
 
 @Component({
-  selector: 'app-project',
+  selector: 'vis-project',
   templateUrl: './project.component.html'
 })
 export class ProjectComponent implements OnInit {

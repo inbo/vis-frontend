@@ -3,10 +3,10 @@
     Instanties overzicht
   </h3>
   <div class="mt-3 flex sm:mt-0 sm:ml-4">
-    <app-button (click)="addInstance()" [style]="'primary'">Nieuwe instantie</app-button>
+    <vis-button (click)="addInstance()" [style]="'primary'">Nieuwe instantie</vis-button>
   </div>
 </div>
-<app-table [pager]="pager">
+<vis-table [pager]="pager">
   <thead>
     <tr>
       <th class="table-header-cell" scope="col">
@@ -18,20 +18,20 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let instance of instances | async; let index = index" [rownumber]="index" appRow>
-      <td appCell>
+    <tr *ngFor="let instance of instances | async; let index = index" [rownumber]="index" visRow>
+      <td visCell>
         <div class="flex items-center">
           <div class="text-sm font-medium text-gray-900">
             {{instance.code}}
           </div>
         </div>
       </td>
-      <td appCell>
+      <td visCell>
         {{instance.description}}
       </td>
     </tr>
   </tbody>
-</app-table>
+</vis-table>
 
-<app-instance-add></app-instance-add>
+<vis-instance-add></vis-instance-add>
 

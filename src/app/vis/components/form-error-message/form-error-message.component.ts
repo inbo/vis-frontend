@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {AbstractControl, ValidationErrors} from '@angular/forms';
 
 @Component({
-  selector: 'app-form-error-message',
+  selector: 'vis-form-error-message',
   templateUrl: './form-error-message.component.html'
 })
 export class FormErrorMessageComponent implements OnInit {

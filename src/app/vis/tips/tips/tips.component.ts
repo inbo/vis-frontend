@@ -4,7 +4,7 @@ import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 
 @Component({
-  selector: 'app-tips',
+  selector: 'vis-tips',
   templateUrl: './tips.component.html'
 })
 export class TipsComponent implements OnInit {

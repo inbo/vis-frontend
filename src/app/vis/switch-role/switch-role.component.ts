@@ -3,7 +3,7 @@ import {AuthService} from '../../core/auth.service';
 import {Role} from '../../core/_models/role';
 
 @Component({
-  selector: 'app-switch-role',
+  selector: 'vis-switch-role',
   templateUrl: './switch-role.component.html'
 })
 export class SwitchRoleComponent implements OnInit {

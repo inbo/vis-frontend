@@ -3,7 +3,7 @@ import {Title} from '@angular/platform-browser';
 import {AuthService} from '../../core/auth.service';
 
 @Component({
-  selector: 'app-welcome-page',
+  selector: 'vis-welcome-page',
   templateUrl: './welcome-page.component.html'
 })
 export class WelcomePageComponent implements OnInit {

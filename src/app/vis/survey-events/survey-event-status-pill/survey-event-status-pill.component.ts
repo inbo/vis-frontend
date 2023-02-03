@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {SurveyEventOverview} from '../../../domain/survey-event/surveyEvent';
 
 @Component({
-  selector: 'app-survey-event-status-pill',
+  selector: 'vis-survey-event-status-pill',
   templateUrl: './survey-event-status-pill.component.html'
 })
 export class SurveyEventStatusPillComponent implements OnInit {

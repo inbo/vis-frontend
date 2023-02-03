@@ -6,7 +6,7 @@ import {Taxon} from '../../../domain/taxa/taxon';
 import {ProjectService} from '../../../services/vis.project.service';
 
 @Component({
-  selector: 'app-project-fish-species-page',
+  selector: 'vis-project-fish-species-page',
   templateUrl: './project-fish-species-page.component.html'
 })
 export class ProjectFishSpeciesPageComponent implements OnInit {

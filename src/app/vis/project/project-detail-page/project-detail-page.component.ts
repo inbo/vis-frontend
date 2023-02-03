@@ -8,7 +8,7 @@ import {ProjectService} from '../../../services/vis.project.service';
 import {take} from 'rxjs/operators';
 
 @Component({
-    selector: 'app-project-detail-page',
+    selector: 'vis-project-detail-page',
     templateUrl: './project-detail-page.component.html',
 })
 export class ProjectDetailPageComponent implements OnInit, OnDestroy {

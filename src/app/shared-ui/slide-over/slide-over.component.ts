@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
 
 @Component({
-  selector: 'app-slide-over',
+  selector: 'vis-slide-over',
   templateUrl: './slide-over.component.html'
 })
 export class SlideOverComponent implements OnInit {

@@ -3,7 +3,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {MultiSelectOption} from './multi-select';
 
 @Component({
-  selector: 'app-multi-select',
+  selector: 'vis-multi-select',
   templateUrl: './multi-select.component.html',
   providers: [
     {

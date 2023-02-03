@@ -25,7 +25,7 @@ import {Municipality} from '../../../domain/fishing-point/municipality';
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
-    selector: 'app-project-survey-events-page',
+    selector: 'vis-project-survey-events-page',
     templateUrl: './project-survey-events-page.component.html',
 })
 export class ProjectSurveyEventsPageComponent implements OnInit, OnDestroy {

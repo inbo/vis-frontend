@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Subscription} from 'rxjs';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -10,7 +9,7 @@ import {Import} from '../../../domain/imports/imports';
 import {ImportsService} from '../../../services/vis.imports.service';
 
 @Component({
-  selector: 'app-imports-overview',
+  selector: 'vis-imports-overview',
   templateUrl: './imports-overview.component.html'
 })
 export class ImportsOverviewComponent implements OnInit, OnDestroy {

@@ -1,0 +1,14 @@
+<ng-container *ngIf="form" [formGroup]="form">
+  <vis-searchable-select [id]="'species-' + index"
+                         [configuration]="selectConfiguration"
+                         [passedId]="'species-' + index"
+                         [options]="taxons"
+                         formControlValueProperty="id"
+                         (keydown)="keydown($event)"
+                         (search)="getSpecies($event)"
+                         (enterPressed)="enterPressedEvent($event)"
+                         (ngModelChange)="onSpeciesChange()"
+                         class="flex-grow"
+                         formControlName="species">
+  </vis-searchable-select>
+</ng-container>

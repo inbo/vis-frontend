@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {TandemvaultPicture} from '../../../domain/tandemvault/picture';
 
 @Component({
-  selector: 'app-image-grid-item',
+  selector: 'vis-image-grid-item',
   templateUrl: './image-grid-item.component.html'
 })
 export class ImageGridItemComponent implements OnInit {

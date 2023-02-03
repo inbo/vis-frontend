@@ -1,4 +1,4 @@
-<article (fileDropped)="addFile($event)" appDnd aria-label="File Upload Modal" class="relative h-full flex flex-col">
+<article (fileDropped)="addFile($event)" visDnd aria-label="File Upload Modal" class="relative h-full flex flex-col">
   <!-- overlay -->
   <div class="w-full h-full absolute top-0 left-0 pointer-events-none z-50 flex flex-col items-center justify-center rounded-md" id="overlay">
     <i>
@@ -16,9 +16,9 @@
         <span>Drag and drop je</span>&nbsp;<span>afbeeldingen hier of</span>
       </p>
       <input #file (change)="onChange($event)" class="hidden" id="hidden-input" multiple type="file"/>
-      <app-button (click)="file.click()" [style]="'primary'" class="mt-2">
+      <vis-button (click)="file.click()" [style]="'primary'" class="mt-2">
         Upload bestanden
-      </app-button>
+      </vis-button>
     </header>
 
     <h1 class="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
@@ -63,7 +63,7 @@
     <div *ngFor="let progressInfo of progressInfos" class="relative pt-1">
       <div class="flex mb-2 items-center justify-between">
         <div>
-          <app-pill [color]="'pink'">{{ progressInfo.fileName }}</app-pill>
+          <vis-pill [color]="'pink'">{{ progressInfo.fileName }}</vis-pill>
         </div>
         <div class="text-right">
           <span class="text-xs font-semibold inline-block text-pink-800">
@@ -95,12 +95,12 @@
 
   <!-- sticky footer -->
   <footer class="flex justify-end px-8 pb-8 pt-4">
-    <app-button (click)="uploadAll()" [style]="'primary'">
+    <vis-button (click)="uploadAll()" [style]="'primary'">
       Uploaden
-    </app-button>
-    <app-button (click)="reset()" [style]="'white'" class="ml-3">
+    </vis-button>
+    <vis-button (click)="reset()" [style]="'white'" class="ml-3">
       Reset
-    </app-button>
+    </vis-button>
   </footer>
 </article>
 

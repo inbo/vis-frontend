@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
-  selector: 'app-modal',
+  selector: 'vis-modal',
   templateUrl: './modal.component.html'
 })
 export class ModalComponent implements OnInit {

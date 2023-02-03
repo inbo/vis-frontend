@@ -9,7 +9,7 @@ import {IndexType} from '../../../domain/fishing-point/index-type';
 import {FishingPointType} from '../fishing-point-create-page/fishing-point-type.enum';
 
 @Component({
-    selector: 'app-fishing-point-create-step1',
+    selector: 'vis-fishing-point-create-step1',
     templateUrl: './fishing-point-create-step1.component.html',
 })
 export class FishingPointCreateStep1Component implements OnInit, AfterViewInit {
@@ -30,7 +30,7 @@ export class FishingPointCreateStep1Component implements OnInit, AfterViewInit {
 
     constructor(private titleService: Title,
                 private fishingPointsService: FishingPointsService) {
-        this.titleService.setTitle('Locatie toevoegen');
+        this.titleService.setTitle('Vispunt toevoegen');
     }
 
     get code() {

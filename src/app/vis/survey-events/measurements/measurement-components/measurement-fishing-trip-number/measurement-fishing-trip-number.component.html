@@ -1,0 +1,14 @@
+<div class="relative"
+     [formGroup]="form">
+	<input (keydown)="keydown($event)"
+	       [id]="'afvisBeurtNumber-' + index"
+	       formControlName="afvisBeurtNumber"
+	       name="afvisBeurtNumber"
+	       type="number"/>
+	<vis-error-icon class="input-field-icon"
+	                fieldName="Afvisbeurtnummer"
+	                [control]="afvisbeurtNumber()"
+	                [submitted]="submitted"
+	                onlyShowAfterSubmitted="true">
+	</vis-error-icon>
+</div>

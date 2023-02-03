@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {NavigationLink} from '../NavigationLinks';
 
 @Component({
-  selector: 'app-sidebar-layout',
+  selector: 'vis-sidebar-layout',
   templateUrl: './sidebar-layout.component.html'
 })
 export class SidebarLayoutComponent implements OnInit {

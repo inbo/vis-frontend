@@ -3,7 +3,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {RadioOption} from './radioOption';
 
 @Component({
-  selector: 'app-radio-group',
+  selector: 'vis-radio-group',
   templateUrl: './radio-group.component.html',
   providers: [
     {

@@ -18,7 +18,7 @@ import {uniqueNewValidator} from '../survey-event-validators';
 import {startOfDay} from 'date-fns';
 
 @Component({
-    selector: 'app-survey-event-detail-edit-page',
+    selector: 'vis-survey-event-detail-edit-page',
     templateUrl: './survey-event-detail-edit-page.component.html',
 })
 export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedData {
@@ -86,7 +86,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
                             this.surveyEvent = surveyEvent;
 
                             this.occurrenceDate.patchValue(new Date(surveyEvent.occurrence));
-                            this.location.patchValue(surveyEvent.fishingPoint?.id);
+                            this.fishingPoint.patchValue(surveyEvent.fishingPoint?.id);
                             this.comment.patchValue(surveyEvent.comment);
                             this.method.patchValue(surveyEvent.method);
 
@@ -173,7 +173,7 @@ export class SurveyEventDetailEditPageComponent implements OnInit, HasUnsavedDat
         return this.surveyEventForm.get('occurrenceDate');
     }
 
-    get location() {
+    get fishingPoint() {
         return this.surveyEventForm.get('fishingPointId');
     }
 

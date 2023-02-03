@@ -6,7 +6,7 @@ import {Title} from '@angular/platform-browser';
 import {AuthService} from '../../core/auth.service';
 
 @Component({
-  selector: 'app-profile-page',
+  selector: 'vis-profile-page',
   templateUrl: './profile-page.component.html'
 })
 export class ProfilePageComponent implements OnInit {

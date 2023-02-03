@@ -1,7 +1,7 @@
 import {Directive, ElementRef, OnInit} from '@angular/core';
 
 @Directive({
-  selector: '[appHeader]'
+  selector: '[visHeader]'
 })
 export class HeaderDirective implements OnInit {
 

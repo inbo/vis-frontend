@@ -3,7 +3,7 @@ import {FormGroupDirective, UntypedFormGroup} from '@angular/forms';
 import {CheckOption} from './checkOption';
 
 @Component({
-  selector: 'app-check-group',
+  selector: 'vis-check-group',
   templateUrl: './check-group.component.html'
 })
 export class CheckGroupComponent implements OnInit {

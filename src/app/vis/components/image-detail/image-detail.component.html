@@ -70,7 +70,7 @@
           <form [formGroup]="addSpeciesTagForm" class="w-full">
 
             <div class="flex items-center w-full">
-              <app-species-search (onSearch)="getSpecies($event)" [index]="0" [taxons]="species" class="flex-grow mr-2" id="species"></app-species-search>
+              <vis-species-search (onSearch)="getSpecies($event)" [index]="0" [taxons]="species" class="flex-grow mr-2" id="species"></vis-species-search>
 
               <button (click)="addSpeciesTag(detail?.id)" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500" type="button">
                 <!-- Heroicon name: solid/plus-sm -->
@@ -84,17 +84,17 @@
       </ul>
     </div>
     <div class="grid grid-cols-2 grid-rows-2 gap-y-3">
-      <app-button class="col-span-2" (click)="tags(detail?.id)" *ngIf="canAddTags" [style]="'secondary'">
+      <vis-button class="col-span-2" (click)="tags(detail?.id)" *ngIf="canAddTags" [style]="'secondary'">
         Koppelen aan waarneming / tags bijwerken
-      </app-button>
+      </vis-button>
 
-      <app-button (click)="clearTags(detail?.id)" *ngIf="canAddTags" [style]="'secondary'">
+      <vis-button (click)="clearTags(detail?.id)" *ngIf="canAddTags" [style]="'secondary'">
         Tags verwijderen
-      </app-button>
+      </vis-button>
 
-      <app-button (click)="download(detail?.id)" [style]="'primary'">
+      <vis-button (click)="download(detail?.id)" [style]="'primary'">
         Download
-      </app-button>
+      </vis-button>
     </div>
   </div>
 </aside>

@@ -18,7 +18,7 @@ import {Method} from '../../../domain/method/method';
 import {Role} from '../../../core/_models/role';
 
 @Component({
-    selector: 'app-method-edit',
+    selector: 'vis-method-edit',
     templateUrl: './method-edit.component.html',
 })
 export class MethodEditComponent implements OnInit, OnDestroy {

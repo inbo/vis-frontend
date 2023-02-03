@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-project-tabs',
+  selector: 'vis-project-tabs',
   templateUrl: './project-tabs.component.html'
 })
 export class ProjectTabsComponent implements OnInit {

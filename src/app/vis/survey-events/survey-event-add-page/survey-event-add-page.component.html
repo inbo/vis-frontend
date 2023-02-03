@@ -17,34 +17,34 @@
 										Datum *
 									</label>
 									<div class="mt-1">
-										<app-datepicker formControlName="occurrenceDate"
+										<vis-datepicker formControlName="occurrenceDate"
 										                [minDate]="minDate"
 										                [maxDate]="maxDate">
-										</app-datepicker>
+										</vis-datepicker>
 									</div>
-									<app-form-error-message [fieldName]="'Datum'"
+									<vis-form-error-message [fieldName]="'Datum'"
 									                        [control]="occurrenceDate"
-									                        [submitted]="submitted"></app-form-error-message>
+									                        [submitted]="submitted"></vis-form-error-message>
 								</div>
 
 								<div class="relative sm:col-span-4">
 									<label for="fishingPoint"
 									       class="block text-sm font-medium text-gray-700">
-										Locatie *
+										Vispunt *
 									</label>
 									<div class="mt-1">
-										<app-searchable-select id="fishingPoint"
+										<vis-searchable-select id="fishingPoint"
 										                       passedId="fishingPoint"
-										                       placeholder="Selecteer een locatie"
+										                       placeholder="Selecteer een vispunt"
 										                       formControlName="fishingPointId"
 										                       (search)="getFishingPoints($event)"
 										                       [options]="fishingPoints"
 										                       [configuration]="searchableSelectConfig">
-										</app-searchable-select>
+										</vis-searchable-select>
 									</div>
-									<app-form-error-message [fieldName]="'Locatie'"
-									                        [control]="location"
-									                        [submitted]="submitted"></app-form-error-message>
+									<vis-form-error-message fieldName="Vispunt"
+									                        [control]="fishingPoint"
+									                        [submitted]="submitted"></vis-form-error-message>
 								</div>
 
 								<div class="relative sm:col-span-4">
@@ -53,7 +53,7 @@
 										Methode *
 									</label>
 									<div class="mt-1">
-										<app-searchable-select id="method"
+										<vis-searchable-select id="method"
 										                       passedId="method"
 										                       placeholder="Selecteer een methode"
 										                       tabIndex="-1"
@@ -61,11 +61,11 @@
 										                       [configuration]="searchableSelectConfig"
 										                       (search)="getMethods($event)"
 										                       [options]="filteredMethods">
-										</app-searchable-select>
+										</vis-searchable-select>
 									</div>
-									<app-form-error-message [fieldName]="'Methode'"
+									<vis-form-error-message [fieldName]="'Methode'"
 									                        [control]="method"
-									                        [submitted]="submitted"></app-form-error-message>
+									                        [submitted]="submitted"></vis-form-error-message>
 								</div>
 
 								<div class="sm:col-span-6">
@@ -80,31 +80,26 @@
                                                   rows="3"></textarea>
 									</div>
 									<div class="flex justify-between">
-										<app-text-counter [max]="800"
-										                  [text]="comment.value"></app-text-counter>
+										<vis-text-counter [max]="800"
+										                  [text]="comment.value"></vis-text-counter>
 									</div>
-									<app-form-error-message [fieldName]="'Commentaar'"
+									<vis-form-error-message [fieldName]="'Commentaar'"
 									                        [control]="comment"
-									                        [submitted]="submitted"></app-form-error-message>
+									                        [submitted]="submitted"></vis-form-error-message>
 								</div>
 							</div>
-							<app-form-error-message [fieldName]="'Waarneming'"
+							<vis-form-error-message [fieldName]="'Waarneming'"
 							                        [control]="form"
-							                        [submitted]="submitted"></app-form-error-message>
+							                        [submitted]="submitted"></vis-form-error-message>
 						</div>
 					</div>
 
-					<div class="py-3"
-					     *ngIf="existingSurveyEventsWithFishingPointMethodAndOccurrenceDate?.length > 0">
-						<p>Bestaande waarnemingen met deze methode, datum en vispunt zijn gevonden:</p>
-						<div *ngFor="let foundSurveyEvent of existingSurveyEventsWithFishingPointMethodAndOccurrenceDate">
-							<a class="underline text-pink-600 cursor-pointer"
-							   [routerLink]="['/projecten', foundSurveyEvent.surveyEvent.projectCode, 'waarnemingen', foundSurveyEvent.surveyEvent.surveyEventId]"
-							   target="_blank">
-								{{foundSurveyEvent.surveyEvent.surveyEventId}}
-								(Project {{foundSurveyEvent.project.name}})
-							</a>
-						</div>
+					<div class="py-3">
+						<vis-existing-survey-events-found-warning
+								[date]="occurrenceDate?.value"
+								[fishingPointId]="fishingPoint?.value"
+								[method]="method?.value">
+						</vis-existing-survey-events-found-warning>
 					</div>
 				</div>
 

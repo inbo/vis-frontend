@@ -18,7 +18,7 @@ import {FishingPointCreationStep} from './fishing-point-creation-step.enum';
 import {Location} from '@angular/common';
 
 @Component({
-    selector: 'app-fishing-point-create-page',
+    selector: 'vis-fishing-point-create-page',
     templateUrl: './fishing-point-create-page.component.html',
 })
 export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
@@ -51,7 +51,7 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
                 private activatedRoute: ActivatedRoute,
                 private authService: AuthService,
                 private location: Location) {
-        this.titleService.setTitle('Locatie toevoegen');
+        this.titleService.setTitle('Vispunt toevoegen');
     }
 
     ngOnInit(): void {

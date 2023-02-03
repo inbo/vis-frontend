@@ -5,7 +5,7 @@ import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'app-fishing-point',
+  selector: 'vis-fishing-point',
   templateUrl: './fishing-point.component.html'
 })
 export class FishingPointComponent implements OnInit {

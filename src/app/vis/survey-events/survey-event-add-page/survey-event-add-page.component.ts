@@ -1,11 +1,11 @@
-import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FishingPointsService} from '../../../services/vis.fishing-points.service';
 import {MethodsService} from '../../../services/vis.methods.service';
-import {debounceTime, filter, map, switchMap, take, tap} from 'rxjs/operators';
+import {map, take, tap} from 'rxjs/operators';
 import {Method} from '../../../domain/method/method';
 import {Location} from '@angular/common';
 import {HasUnsavedData} from '../../../core/core.interface';
@@ -13,16 +13,15 @@ import {ProjectService} from '../../../services/vis.project.service';
 import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
 import {uniqueNewValidator} from '../survey-event-validators';
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
-import {forkJoin, of, Subscription} from 'rxjs';
-import {startOfDay} from 'date-fns';
+import {of, Subscription} from 'rxjs';
 import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {Project} from '../../../domain/project/project';
 
 @Component({
-    selector: 'app-survey-event-add-page',
+    selector: 'vis-survey-event-add-page',
     templateUrl: './survey-event-add-page.component.html',
 })
-export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDestroy {
+export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData {
 
     @ViewChild(DatepickerComponent) datepicker: DatepickerComponent;
 
@@ -73,42 +72,42 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
 
         this.getMethods(null);
 
-        this.formSubscription = this.createSurveyEventForm
-            .valueChanges
-            .pipe(
-                debounceTime(500),
-                filter(() => {
-                    return this.createSurveyEventForm.valid;
-                }),
-                switchMap(() => this.surveyEventService
-                    .searchSurveyEvents(
-                        this.createSurveyEventForm.get('fishingPointId').value,
-                        this.createSurveyEventForm.get('method').value,
-                        startOfDay(new Date(this.createSurveyEventForm.get('occurrenceDate').value))),
-                ),
-                switchMap(foundSurveyEvents => {
-                    return forkJoin([
-                        of(foundSurveyEvents),
-                        ...foundSurveyEvents.map(event => this.projectService.getProject(event.projectCode)),
-                    ]);
-                }),
-            ).subscribe(
-                results => {
-                    const foundSurveyEvents: Array<SurveyEvent> = results[0] as Array<SurveyEvent>;
-                    const projects: Array<Project> = results.slice(1) as Array<Project>;
-                    this.existingSurveyEventsWithFishingPointMethodAndOccurrenceDate = foundSurveyEvents.map(surveyEvent => {
-                        return {
-                            surveyEvent,
-                            project: projects.find(project => project.code.value === surveyEvent.projectCode),
-                        };
-                    });
-                },
-            );
+        // this.formSubscription = this.createSurveyEventForm
+        //     .valueChanges
+        //     .pipe(
+        //         debounceTime(500),
+        //         filter(() => {
+        //             return this.createSurveyEventForm.valid;
+        //         }),
+        //         switchMap(() => this.surveyEventService
+        //             .searchSurveyEvents(
+        //                 this.createSurveyEventForm.get('fishingPointId').value,
+        //                 this.createSurveyEventForm.get('method').value,
+        //                 startOfDay(new Date(this.createSurveyEventForm.get('occurrenceDate').value))),
+        //         ),
+        //         switchMap(foundSurveyEvents => {
+        //             return forkJoin([
+        //                 of(foundSurveyEvents),
+        //                 ...foundSurveyEvents.map(event => this.projectService.getProject(event.projectCode)),
+        //             ]);
+        //         }),
+        //     ).subscribe(
+        //         results => {
+        //             const foundSurveyEvents: Array<SurveyEvent> = results[0] as Array<SurveyEvent>;
+        //             const projects: Array<Project> = results.slice(1) as Array<Project>;
+        //             this.existingSurveyEventsWithFishingPointMethodAndOccurrenceDate = foundSurveyEvents.map(surveyEvent => {
+        //                 return {
+        //                     surveyEvent,
+        //                     project: projects.find(project => project.code.value === surveyEvent.projectCode),
+        //                 };
+        //             });
+        //         },
+        //     );
     }
 
-    ngOnDestroy() {
-        this.formSubscription.unsubscribe();
-    }
+    // ngOnDestroy() {
+    //     this.formSubscription.unsubscribe();
+    // }
 
     getFishingPoints(searchTerm: string) {
         this.fishingPointsService
@@ -192,8 +191,8 @@ export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDe
         return this.createSurveyEventForm.get('occurrenceDate');
     }
 
-    get location() {
-        return this.createSurveyEventForm.get('location');
+    get fishingPoint() {
+        return this.createSurveyEventForm.get('fishingPointId');
     }
 
     get comment() {

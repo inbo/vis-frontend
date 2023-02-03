@@ -4,7 +4,7 @@ import {Dutch} from 'flatpickr/dist/l10n/nl';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
-  selector: 'app-daterange',
+  selector: 'vis-daterange',
   templateUrl: './daterange.component.html',
   providers: [
     {

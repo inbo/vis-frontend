@@ -1,0 +1,24 @@
+<div [formGroup]="form"
+     class="relative rounded-md shadow-sm">
+	<input (keydown)="keydown($event)"
+	       [class.bg-gray-100]="amount().value > 1"
+	       [class.focus:border-gray-500]="amount().value > 1"
+	       [class.focus:ring-gray-500]="amount().value > 1"
+	       [class.pr-8]="(length().dirty || length().touched) && length().warningMessages"
+	       [id]="'length-' + index"
+	       [imask]="nullableNumberMask(3, 0, 99999.999)"
+	       unmask="typed"
+	       [readOnly]="amount().value > 1"
+	       formControlName="length"
+	       name="length"
+	       type="text">
+	<vis-error-icon class="input-field-icon"
+	                [control]="length()"
+	                [onlyShowAfterSubmitted]="true"
+	                [submitted]="submitted">
+	</vis-error-icon>
+	<vis-warning-icon class="input-field-icon"
+	                  *ngIf="length()?.hasWarningMessages() && !(length().errors | keys)?.length"
+	                  [messages]="length().getAllWarningMessages()">
+	</vis-warning-icon>
+</div>

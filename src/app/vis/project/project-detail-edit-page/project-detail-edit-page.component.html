@@ -23,12 +23,12 @@
 										       type="text"
 										       name="code"
 										       id="code">
-										<app-error-icon class="input-field-icon"
+										<vis-error-icon class="input-field-icon"
 										                fieldName="Code"
 										                [control]="code"
 										                [ndbg]="false"
 										                [submitted]="submitted">
-										</app-error-icon>
+										</vis-error-icon>
 									</div>
 								</div>
 								<div class="sm:col-span-4">
@@ -42,10 +42,10 @@
 										       name="name"
 										       id="name"
 										       autocomplete="name">
-										<app-error-icon [fieldName]="'Naam'"
+										<vis-error-icon [fieldName]="'Naam'"
 										                class="input-field-icon"
 										                [control]="name"
-										                [submitted]="submitted"></app-error-icon>
+										                [submitted]="submitted"></vis-error-icon>
 									</div>
 								</div>
 
@@ -63,12 +63,12 @@
 									<div class="flex justify-between">
 										<p class="mt-2 text-sm text-gray-500">Beschrijf het project in een aantal
 										                                      zinnen</p>
-										<app-text-counter [max]="2000"
-										                  [text]="description.value"></app-text-counter>
+										<vis-text-counter [max]="2000"
+										                  [text]="description.value"></vis-text-counter>
 									</div>
-									<app-form-error-message [fieldName]="'Beschrijving'"
+									<vis-form-error-message [fieldName]="'Beschrijving'"
 									                        [control]="description"
-									                        [submitted]="submitted"></app-form-error-message>
+									                        [submitted]="submitted"></vis-form-error-message>
 								</div>
 
 								<div class="sm:col-span-2">
@@ -76,13 +76,13 @@
 										Startdatum *
 									</label>
 									<div class="mt-1">
-										<app-datepicker #startDatePicker
+										<vis-datepicker #startDatePicker
 										                formControlName="startDate"
 										                [maxDate]="maxProjectStartDate">
-										</app-datepicker>
-										<app-form-error-message [fieldName]="'Startdatum'"
+										</vis-datepicker>
+										<vis-form-error-message [fieldName]="'Startdatum'"
 										                        [control]="startDate"
-										                        [submitted]="submitted"></app-form-error-message>
+										                        [submitted]="submitted"></vis-form-error-message>
 										<span *ngIf="earliestSurveyEventDate"
 										      class="mt-2 text-sm text-gray-500">Vroegste waarneming datum: {{earliestSurveyEventDate | date:'dd/MM/yyyy'}}</span>
 									</div>
@@ -137,17 +137,17 @@
 										      *ngIf="loadingCollections">Bezig met het ophalen van de collecties, dit kan even duren.</span>
 									</label>
 									<div class="mt-1 relative">
-										<app-searchable-select id="tandemvaultcollectionslug"
+										<vis-searchable-select id="tandemvaultcollectionslug"
 										                       passedId="tandemvaultcollectionslug"
 										                       placeholder="Selecteer een collectie"
 										                       formControlName="tandemvaultcollectionslug"
 										                       (search)="getCollections($event)"
 										                       [options]="tandemVaultCollectionsFiltered">
-										</app-searchable-select>
+										</vis-searchable-select>
 
-										<app-form-error-message [fieldName]="'Tandemvault collectie'"
+										<vis-form-error-message [fieldName]="'Tandemvault collectie'"
 										                        [control]="tandemvaultcollectionslug"
-										                        [submitted]="submitted"></app-form-error-message>
+										                        [submitted]="submitted"></vis-form-error-message>
 										<p class="mt-2 text-sm text-gray-500">
 											Selecteer hier de collectienaam om het project te koppelen aan
 											<a class="underline"
@@ -186,11 +186,11 @@
 										Instanties
 									</label>
 									<div class="mt-1">
-										<app-multi-select formControlName="instances"
-										                  [options]="instances$ | async"></app-multi-select>
-										<app-form-error-message [control]="instances"
+										<vis-multi-select formControlName="instances"
+										                  [options]="instances$ | async"></vis-multi-select>
+										<vis-form-error-message [control]="instances"
 										                        [fieldName]="'Instanties'"
-										                        [submitted]="submitted"></app-form-error-message>
+										                        [submitted]="submitted"></vis-form-error-message>
 									</div>
 								</div>
 								<div class="sm:col-span-6">
@@ -198,11 +198,11 @@
 										Team
 									</label>
 									<div class="mt-1">
-										<app-multi-select formControlName="teams"
-										                  [options]="teams$ | async"></app-multi-select>
-										<app-form-error-message [control]="teams"
+										<vis-multi-select formControlName="teams"
+										                  [options]="teams$ | async"></vis-multi-select>
+										<vis-form-error-message [control]="teams"
 										                        [fieldName]="'Teams'"
-										                        [submitted]="submitted"></app-form-error-message>
+										                        [submitted]="submitted"></vis-form-error-message>
 									</div>
 								</div>
 							</div>
@@ -214,29 +214,29 @@
 
 				<div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
 					<div class="flex justify-end">
-						<app-button [disabled]="projectForm.dirty"
+						<vis-button [disabled]="projectForm.dirty"
 						            [disabledReason]="'Bewaar eerst je gegevens voordat je een collectie laat aanmaken.'"
 						            [style]="'white'"
 						            (click)="isModalOpen = true">Nieuwe tandemvault collectie maken
-						</app-button>
+						</vis-button>
 
-						<app-button [style]="'white'"
+						<vis-button [style]="'white'"
 						            (click)="cancel()"
 						            class="ml-3">
 							Annuleren
-						</app-button>
-						<app-button *ngIf="!project?.end"
+						</vis-button>
+						<vis-button *ngIf="!project?.end"
 						            (click)="showCloseProjectModal = true"
 						            [style]="'secondary'"
 						            class="ml-3"
 						            [role]="role.EditProject">
 							Afsluiten
-						</app-button>
-						<app-button [style]="'primary'"
+						</vis-button>
+						<vis-button [style]="'primary'"
 						            (click)="saveProject()"
 						            class="ml-3">
 							Bewaren
-						</app-button>
+						</vis-button>
 					</div>
 				</div>
 			</div>
@@ -266,13 +266,13 @@
 							Einddatum
 						</label>
 						<div class="mt-1">
-							<app-datepicker #endDatePicker
+							<vis-datepicker #endDatePicker
 							                formControlName="endDate"
 							                [minDate]="minDateClosingProject">
-							</app-datepicker>
-							<app-form-error-message [fieldName]="'Einddatum'"
+							</vis-datepicker>
+							<vis-form-error-message [fieldName]="'Einddatum'"
 							                        [control]="endDate"
-							                        [submitted]="submitted"></app-form-error-message>
+							                        [submitted]="submitted"></vis-form-error-message>
 							<p *ngIf="latestSurveyEventDate"
 							   class="my-2 text-gray-500">Laatste waarneming
 							                              datum: {{latestSurveyEventDate | date:'dd/MM/yyyy'}}
@@ -282,21 +282,21 @@
 				</form>
 
 				<div class="py-2 mt-6 flex justify-end">
-					<app-button [style]="'secondary'"
+					<vis-button [style]="'secondary'"
 					            (click)="showCloseProjectModal = false">
 						Annuleren
-					</app-button>
-					<app-button [style]="'primary'"
+					</vis-button>
+					<vis-button [style]="'primary'"
 					            class="ml-3"
 					            (click)="closeProject()">
 						Bewaren
-					</app-button>
+					</vis-button>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<app-modal (onCancel)="cancelModal()"
+	<vis-modal (onCancel)="cancelModal()"
 	           (onPrimary)="confirmClicked()"
 	           [isOpen]="isModalOpen">
 		<ng-container slot="title">
@@ -311,5 +311,5 @@
 		<ng-container slot="primary-button">
 			Aanmaken en koppelen aan project
 		</ng-container>
-	</app-modal>
+	</vis-modal>
 </div>

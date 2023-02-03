@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {Pager} from './pager';
 
 @Component({
-  selector: 'app-paging',
+  selector: 'vis-paging',
   templateUrl: './paging.component.html'
 })
 export class PagingComponent implements OnInit, OnChanges {

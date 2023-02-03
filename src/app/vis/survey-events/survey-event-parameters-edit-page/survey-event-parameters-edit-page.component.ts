@@ -10,7 +10,7 @@ import {Location} from '@angular/common';
 import {isNumeric} from 'rxjs/internal-compatibility';
 
 @Component({
-  selector: 'app-survey-event-parameters-edit-page',
+  selector: 'vis-survey-event-parameters-edit-page',
   templateUrl: './survey-event-parameters-edit-page.component.html'
 })
 export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {

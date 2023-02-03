@@ -1,6 +1,6 @@
-<app-stacked-layout [navigationLinks]="links">
+<vis-stacked-layout [navigationLinks]="links">
   <div slot="content">
-    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
+    <vis-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></vis-breadcrumb>
     <main>
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
@@ -33,7 +33,7 @@
         <div class="px-4 py-8 sm:px-0">
           <!-- This example requires Tailwind CSS v2.0+ -->
           <div class="flex flex-col">
-            <app-table>
+            <vis-table>
               <thead class="bg-gray-50">
                 <tr>
                   <th class="table-header-cell" scope="col">
@@ -51,19 +51,19 @@
                 </tr>
               </thead>
               <tbody>
-                <tr appRow>
-                  <td *ngIf="loading" appCell colspan="5">
-                    <app-loading-spinner></app-loading-spinner>
+                <tr visRow>
+                  <td *ngIf="loading" visCell colspan="5">
+                    <vis-loading-spinner></vis-loading-spinner>
                   </td>
                 </tr>
 
-                <tr *ngFor="let importItem of imports; let index = index" [rownumber]="index" appRow>
-                  <td appCell>
+                <tr *ngFor="let importItem of imports; let index = index" [rownumber]="index" visRow>
+                  <td visCell>
                     <div class="text-sm text-gray-900">{{importItem.filename}}</div>
                     <div class="text-sm text-gray-500">{{importItem.createdTime | date: 'dd/MM/yyyy'}}</div>
                   </td>
 
-                  <td appCell>
+                  <td visCell>
                     <div class="flex items-center">
                       <div class="flex-shrink-0 h-10 w-10">
                         <img [src]="importItem.photoLink" alt="" class="h-10 w-10 rounded-full">
@@ -79,20 +79,20 @@
                     </div>
                   </td>
 
-                  <td appCell>
+                  <td visCell>
                     <a [href]="importItem.webViewLink" class="text-pink-600 hover:text-pink-900" target="_blank">Open</a>
                   </td>
-                  <td [actions]="true" appCell>
+                  <td [actions]="true" visCell>
                     <a [routerLink]="['/importeren', importItem.id]" class="text-pink-600 hover:text-pink-900">Detail</a>
                   </td>
                 </tr>
 
               </tbody>
-            </app-table>
+            </vis-table>
           </div>
         </div>
       </div>
     </main>
   </div>
 
-</app-stacked-layout>
+</vis-stacked-layout>

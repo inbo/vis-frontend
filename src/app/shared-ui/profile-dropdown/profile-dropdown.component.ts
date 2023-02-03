@@ -3,7 +3,7 @@ import {AuthService} from '../../core/auth.service';
 import {Role} from '../../core/_models/role';
 
 @Component({
-  selector: 'app-profile-dropdown',
+  selector: 'vis-profile-dropdown',
   templateUrl: './profile-dropdown.component.html'
 })
 export class ProfileDropdownComponent {

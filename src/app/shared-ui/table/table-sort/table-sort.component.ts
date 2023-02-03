@@ -4,7 +4,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'app-table-sort',
+  selector: 'vis-table-sort',
   templateUrl: './table-sort.component.html'
 })
 export class TableSortComponent implements OnInit, OnDestroy {

@@ -57,19 +57,19 @@
       </div>
       <div *ngIf="showButtons" class="space-x-3 mt-5 sm:mt-4 flex justify-center sm:justify-end">
         <span *ngIf="showOptional" class="inline-flex">
-          <app-button [style]="'white'" (click)="optionalClicked()">
+          <vis-button [style]="'white'" (click)="optionalClicked()">
             <ng-content select="[slot=optional-button]"></ng-content>
-          </app-button>
+          </vis-button>
         </span>
         <span class="inline-flex">
-          <app-button [style]="'secondary'" (click)="cancel()">
+          <vis-button [style]="'secondary'" (click)="cancel()">
             Annuleren
-          </app-button>
+          </vis-button>
         </span>
         <span class="inline-flex">
-          <app-button [style]="'primary'" (click)="primaryClicked()">
+          <vis-button [style]="'primary'" (click)="primaryClicked()">
             <ng-content select="[slot=primary-button]"></ng-content>
-          </app-button>
+          </vis-button>
         </span>
       </div>
     </div>

@@ -3,7 +3,7 @@ import {UntypedFormGroup} from '@angular/forms';
 import {Tag} from './tag';
 
 @Component({
-  selector: 'app-slide-over-filter',
+  selector: 'vis-slide-over-filter',
   templateUrl: './slide-over-filter.component.html'
 })
 export class SlideOverFilterComponent implements OnInit {

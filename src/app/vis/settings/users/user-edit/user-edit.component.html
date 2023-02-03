@@ -1,5 +1,5 @@
 <form [formGroup]="editAccountTeamForm">
-  <app-slide-over [isOpen]="isOpen" (isOpenChange)="isOpen = false">
+  <vis-slide-over [isOpen]="isOpen" (isOpenChange)="isOpen = false">
     <span slot="title">Gebruiker</span>
     <span slot="description">Bewerk de instanties en teams van een gebruiker.</span>
     <div slot="content">
@@ -19,7 +19,7 @@
                 Instanties
               </label>
               <div class="mt-1 space-y-1">
-                <app-multi-select formControlName="instances" [options]="instances$ | async"></app-multi-select>
+                <vis-multi-select formControlName="instances" [options]="instances$ | async"></vis-multi-select>
               </div>
             </div>
 
@@ -28,7 +28,7 @@
                 Teams
               </label>
               <div class="mt-1 space-y-1">
-                <app-multi-select formControlName="teams" [options]="teams$ | async"></app-multi-select>
+                <vis-multi-select formControlName="teams" [options]="teams$ | async"></vis-multi-select>
               </div>
             </div>
           </div>
@@ -37,8 +37,8 @@
     </div>
     <div class="flex-shrink-0 px-4 border-t border-gray-200 py-5 sm:px-6" slot="buttons">
       <div class="space-x-3 flex justify-end">
-        <app-button (click)="save()">Bewaren</app-button>
+        <vis-button (click)="save()">Bewaren</vis-button>
       </div>
     </div>
-  </app-slide-over>
+  </vis-slide-over>
 </form>

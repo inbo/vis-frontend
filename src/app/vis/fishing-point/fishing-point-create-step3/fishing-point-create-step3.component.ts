@@ -7,7 +7,7 @@ import {TownLayerSelectionEvent} from '../../components/fishing-points-map/town-
 import {UntypedFormGroup} from '@angular/forms';
 
 @Component({
-    selector: 'app-fishing-point-create-step3',
+    selector: 'vis-fishing-point-create-step3',
     templateUrl: './fishing-point-create-step3.component.html',
 })
 export class FishingPointCreateStep3Component implements OnInit {
@@ -16,7 +16,7 @@ export class FishingPointCreateStep3Component implements OnInit {
     @Input() formGroup: UntypedFormGroup;
 
     constructor(private titleService: Title) {
-        this.titleService.setTitle('Locatie toevoegen');
+        this.titleService.setTitle('Vispunt toevoegen');
     }
 
     ngOnInit(): void {

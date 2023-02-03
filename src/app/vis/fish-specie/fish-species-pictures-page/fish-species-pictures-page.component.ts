@@ -9,7 +9,7 @@ import {Subscription} from 'rxjs';
 import {TaxonDetail} from '../../../domain/taxa/taxon-detail';
 
 @Component({
-  selector: 'app-fish-species-pictures-page',
+  selector: 'vis-fish-species-pictures-page',
   templateUrl: './fish-species-pictures-page.component.html'
 })
 export class FishSpeciesPicturesPageComponent implements OnInit, OnDestroy {

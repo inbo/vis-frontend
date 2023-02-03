@@ -1,7 +1,7 @@
 import {Directive, ElementRef, Input, OnInit} from '@angular/core';
 
 @Directive({
-  selector: '[appCell]'
+  selector: '[visCell]'
 })
 export class CellDirective implements OnInit {
 

@@ -1,7 +1,7 @@
 import {Directive, ElementRef, Input, OnInit} from '@angular/core';
 
 @Directive({
-  selector: '[appRow]'
+  selector: '[visRow]'
 })
 export class RowDirective implements OnInit {
   @Input()

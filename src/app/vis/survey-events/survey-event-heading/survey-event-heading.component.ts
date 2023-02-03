@@ -11,7 +11,7 @@ import {SurveyEventCopyModalComponent} from '../survey-event-copy-modal/survey-e
 import {Role} from '../../../core/_models/role';
 
 @Component({
-    selector: 'app-survey-event-heading',
+    selector: 'vis-survey-event-heading',
     templateUrl: './survey-event-heading.component.html',
 })
 export class SurveyEventHeadingComponent implements OnInit, OnDestroy {

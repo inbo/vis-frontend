@@ -1,9 +1,9 @@
 <div class="px-4 py-8 sm:px-0">
-	<app-fishing-points-map [projectCode]="projectCode">
-    </app-fishing-points-map>
+	<vis-fishing-points-map [projectCode]="projectCode">
+    </vis-fishing-points-map>
 </div>
 
-<app-slide-over-filter (resetClicked)="reset()"
+<vis-slide-over-filter (resetClicked)="reset()"
                        (searchClicked)="filter()"
                        [formGroup]="filterForm"
                        [tags]="tags">
@@ -15,7 +15,7 @@
 					Meetplaatscode
 				</label>
 				<div class="mt-1">
-					<app-searchable-select id="fishingPointCode"
+					<vis-searchable-select id="fishingPointCode"
 					                       passedId="fishingPointCode"
 					                       placeholder="Selecteer een meetplaatscode"
 					                       tabIndex="-1"
@@ -23,7 +23,7 @@
 					                       (search)="getFishingPointCodes($event)"
 					                       [options]="fishingPointCodes"
 					                       [configuration]="fishingPointSearchableSelectConfig">
-					</app-searchable-select>
+					</vis-searchable-select>
 				</div>
 			</div>
 
@@ -46,14 +46,14 @@
 					Waterloop
 				</label>
 				<div class="mt-1">
-					<app-searchable-select id="watercourse"
+					<vis-searchable-select id="watercourse"
 					                       passedId="watercourse"
 					                       placeholder="Selecteer een waterloop"
 					                       tabIndex="-1"
 					                       formControlName="watercourse"
 					                       (search)="getWatercourses($event)"
 					                       [options]="watercourses">
-					</app-searchable-select>
+					</vis-searchable-select>
 				</div>
 			</div>
 
@@ -63,14 +63,14 @@
 					Watervlak
 				</label>
 				<div class="mt-1">
-					<app-searchable-select id="lenticWaterbody"
+					<vis-searchable-select id="lenticWaterbody"
 					                       passedId="lenticWaterbody"
 					                       placeholder="Selecteer een watervlak"
 					                       tabIndex="-1"
 					                       formControlName="lenticWaterbody"
 					                       (search)="getLenticWaterbodies($event)"
 					                       [options]="lenticWaterbodies">
-					</app-searchable-select>
+					</vis-searchable-select>
 				</div>
 			</div>
 
@@ -80,14 +80,14 @@
 					Bekken
 				</label>
 				<div class="mt-1">
-					<app-searchable-select id="basin"
+					<vis-searchable-select id="basin"
 					                       passedId="basin"
 					                       placeholder="Selecteer een bekken"
 					                       tabIndex="-1"
 					                       formControlName="basin"
 					                       (search)="getBasins($event)"
 					                       [options]="basins">
-					</app-searchable-select>
+					</vis-searchable-select>
 				</div>
 			</div>
 
@@ -97,14 +97,14 @@
 					Provincie
 				</label>
 				<div class="mt-1">
-					<app-searchable-select id="province"
+					<vis-searchable-select id="province"
 					                       passedId="province"
 					                       placeholder="Selecteer een provincie"
 					                       tabIndex="-1"
 					                       formControlName="province"
 					                       (search)="getProvinces($event)"
 					                       [options]="provinces">
-					</app-searchable-select>
+					</vis-searchable-select>
 				</div>
 			</div>
 
@@ -114,23 +114,23 @@
 					Gemeente
 				</label>
 				<div class="mt-1">
-					<app-searchable-select id="municipality"
+					<vis-searchable-select id="municipality"
 					                       passedId="municipality"
 					                       placeholder="Selecteer een gemeente"
 					                       tabIndex="-1"
 					                       formControlName="municipality"
 					                       (search)="getMunicipalities($event)"
 					                       [options]="municipalities">
-					</app-searchable-select>
+					</vis-searchable-select>
 				</div>
 			</div>
 		</div>
 	</ng-container>
-</app-slide-over-filter>
+</vis-slide-over-filter>
 
 <div class="px-4 py-8 sm:px-0">
 	<div class="hidden lg:block">
-		<app-table [pager]="pager">
+		<vis-table [pager]="pager">
 			<thead>
 				<tr>
 					<th class="table-header-cell"
@@ -164,45 +164,45 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr appRow>
+				<tr visRow>
 					<td *ngIf="loading"
-					    appCell
+					    visCell
 					    colspan="8">
-						<app-loading-spinner></app-loading-spinner>
+						<vis-loading-spinner></vis-loading-spinner>
 					</td>
 				</tr>
 
 				<tr *ngFor="let fishingPoint of fishingPoints$ | async; let index = index"
 				    [rownumber]="index"
 				    [class.bg-pink-100]="highlightedFishingPoint === fishingPoint.id"
-				    appRow>
-					<td appCell>
+				    visRow>
+					<td visCell>
 						<a [routerLink]="['/vispunten', fishingPoint.code]"
 						   class="text-pink-600 hover:text-pink-900">{{fishingPoint.code}}</a>
 					</td>
-					<td appCell>
+					<td visCell>
 						{{fishingPoint.description}}
 					</td>
-					<td appCell>
+					<td visCell>
 						{{fishingPoint.isLentic ? fishingPoint.lenticName : fishingPoint.watercourse}}
 					</td>
-					<td appCell>
+					<td visCell>
 						{{fishingPoint.basinName}}
 					</td>
-					<td appCell>
+					<td visCell>
 						{{fishingPoint.province}}
 					</td>
-					<td appCell>
+					<td visCell>
 						{{fishingPoint.municipality}}
 					</td>
 					<td [actions]="true"
-					    appCell>
+					    visCell>
           <span (click)="zoomToFishingPoint(fishingPoint)"
                 class="cursor-pointer text-pink-600 hover:text-pink-900">Zoom</span>
 					</td>
 				</tr>
 			</tbody>
-		</app-table>
+		</vis-table>
 	</div>
 
 </div>

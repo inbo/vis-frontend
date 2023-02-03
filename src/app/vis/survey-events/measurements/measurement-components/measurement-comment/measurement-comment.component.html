@@ -1,0 +1,12 @@
+<div [formGroup]="form" class="relative">
+	<input (keydown)="keydown($event)"
+	       [id]="'comment-' + index"
+	       formControlName="comment"
+	       name="comment"
+	       type="text"/>
+	<vis-error-icon class="input-field-icon"
+	                [control]="comment()"
+	                [submitted]="submitted"
+	                [onlyShowAfterSubmitted]="true">
+	</vis-error-icon>
+</div>

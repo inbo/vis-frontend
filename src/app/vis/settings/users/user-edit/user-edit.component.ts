@@ -7,7 +7,7 @@ import {map, take} from 'rxjs/operators';
 import {MultiSelectOption} from '../../../../shared-ui/multi-select/multi-select';
 
 @Component({
-  selector: 'app-user-edit',
+  selector: 'vis-user-edit',
   templateUrl: './user-edit.component.html'
 })
 export class UserEditComponent implements OnInit {
