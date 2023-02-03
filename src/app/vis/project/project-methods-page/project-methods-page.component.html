@@ -1,6 +1,6 @@
 <div>
   <div class="hidden lg:block">
-    <app-table>
+    <vis-table>
       <thead>
         <tr>
           <th class="table-header-cell w-1/12" scope="col">
@@ -18,29 +18,29 @@
         </tr>
       </thead>
       <tbody>
-        <tr appRow>
-          <td *ngIf="loading" appCell colspan="4">
-            <app-loading-spinner></app-loading-spinner>
+        <tr visRow>
+          <td *ngIf="loading" visCell colspan="4">
+            <vis-loading-spinner></vis-loading-spinner>
           </td>
         </tr>
 
-        <tr *ngFor="let method of methods; let index = index" [rownumber]="index" appRow>
-          <td appCell>
+        <tr *ngFor="let method of methods; let index = index" [rownumber]="index" visRow>
+          <td visCell>
             {{'method.' + method.code | translate}}
           </td>
-          <td appCell>
+          <td visCell>
             {{'method.' + method.code + '.group' | translate}}
           </td>
-          <td appCell>
+          <td visCell>
             {{method.code}}
           </td>
-          <td [actions]="true" appCell>
+          <td [actions]="true" visCell>
             <a [queryParams]="{method: method.code}" [routerLink]="['/projecten', projectCode, 'waarnemingen']"
                class="text-pink-600 hover:text-pink-900" target="_blank">Filter</a>
           </td>
         </tr>
       </tbody>
-    </app-table>
+    </vis-table>
   </div>
 
   <div class="lg:hidden bg-white shadow overflow-hidden sm:rounded-md">

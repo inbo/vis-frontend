@@ -5,7 +5,7 @@ import {WarningFormControl} from '../../../../shared-ui/warning-form-control/war
 import {nullableNumberMask} from '../../length.mask';
 
 @Component({
-    selector: 'app-measurement-length',
+    selector: 'vis-measurement-length',
     templateUrl: './measurement-length.component.html',
 })
 export class MeasurementLengthComponent extends MeasurementComponentDirective implements OnInit {

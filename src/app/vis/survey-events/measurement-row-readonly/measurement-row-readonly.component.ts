@@ -9,7 +9,7 @@ import {SearchableSelectOption} from '../../../shared-ui/searchable-select/Searc
 import {WarningFormControl} from '../../../shared-ui/warning-form-control/warning.form-control';
 
 @Component({
-    selector: 'app-measurement-row-readonly',
+    selector: 'vis-measurement-row-readonly',
     templateUrl: './measurement-row-readonly.component.html',
 })
 export class MeasurementRowReadonlyComponent implements OnInit, OnDestroy {

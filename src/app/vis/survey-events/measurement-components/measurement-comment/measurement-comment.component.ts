@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 
 @Component({
-    selector: 'app-measurement-comment',
+    selector: 'vis-measurement-comment',
     templateUrl: './measurement-comment.component.html',
 })
 export class MeasurementCommentComponent extends MeasurementComponentDirective {

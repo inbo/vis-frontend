@@ -19,9 +19,9 @@
           Status
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-          <app-pill *ngIf="project" [color]="project.status === 'ACTIVE' ? 'green' : 'red'">
+          <vis-pill *ngIf="project" [color]="project.status === 'ACTIVE' ? 'green' : 'red'">
             {{project?.status === 'ACTIVE' ? 'Actief' : 'Inactief'}}
-          </app-pill>
+          </vis-pill>
         </dd>
       </div>
       <div class="sm:col-span-2">
@@ -100,21 +100,21 @@
     </dl>
   </div>
   <div class="px-4 py-4 sm:px-6 flex justify-end">
-    <app-button [style]="'white'" (click)="exportProject()" [role]="role.ExportProject">Exporteer</app-button>
-    <app-button *ngIf="project?.end"
+    <vis-button [style]="'white'" (click)="exportProject()" [role]="role.ExportProject">Exporteer</vis-button>
+    <vis-button *ngIf="project?.end"
                 (click)="reOpenProject()"
                 [style]="'secondary'"
                 class="ml-3"
                 [role]="role.EditProject"
                 [isUserLinkedToProject]="project?.canEdit">Heropenen
-    </app-button>
-    <app-button [disabled]="!!project?.end"
+    </vis-button>
+    <vis-button [disabled]="!!project?.end"
                 [disabledReason]="'Een afgesloten project kan niet bewerkt worden.'"
                 [style]="'primary'"
                 class="ml-3"
                 [role]="role.EditProject"
                 [routerLink]="['/projecten', project?.code?.value, 'bewerk']"
                 [isUserLinkedToProject]="project?.canEdit">Bewerken
-    </app-button>
+    </vis-button>
   </div>
 </div>

@@ -4,7 +4,7 @@ import {AuthService} from '../../../core/auth.service';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-stacked-layout',
+  selector: 'vis-stacked-layout',
   templateUrl: './stacked-layout.component.html'
 })
 export class StackedLayoutComponent implements OnInit {

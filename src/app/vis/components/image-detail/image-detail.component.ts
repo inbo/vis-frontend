@@ -7,7 +7,7 @@ import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {Taxon} from '../../../domain/taxa/taxon';
 
 @Component({
-    selector: 'app-image-detail',
+    selector: 'vis-image-detail',
     templateUrl: './image-detail.component.html',
 })
 export class ImageDetailComponent implements OnInit {

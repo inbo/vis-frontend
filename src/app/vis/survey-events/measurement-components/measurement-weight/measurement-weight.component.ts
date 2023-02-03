@@ -4,7 +4,7 @@ import {WarningFormControl} from '../../../../shared-ui/warning-form-control/war
 import {nullableNumberMask} from '../../length.mask';
 
 @Component({
-    selector: 'app-measurement-weight',
+    selector: 'vis-measurement-weight',
     templateUrl: './measurement-weight.component.html',
 })
 export class MeasurementWeightComponent extends MeasurementComponentDirective {

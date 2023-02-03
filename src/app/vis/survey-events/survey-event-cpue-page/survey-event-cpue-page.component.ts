@@ -7,7 +7,7 @@ import {forkJoin} from 'rxjs';
 import {isNil} from 'lodash-es';
 
 @Component({
-    selector: 'app-survey-event-cpue-page',
+    selector: 'vis-survey-event-cpue-page',
     templateUrl: './survey-event-cpue-page.component.html',
 })
 export class SurveyEventCpuePageComponent implements OnInit {

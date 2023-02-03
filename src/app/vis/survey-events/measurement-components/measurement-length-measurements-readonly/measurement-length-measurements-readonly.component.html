@@ -26,10 +26,10 @@
                   {{i + 1}}
                 </span>
 								<span class="text-gray-500 text-sm">{{item.get('length').value}}</span>
-								<app-warning-icon class="input-field-icon"
+								<vis-warning-icon class="input-field-icon"
 								                  *ngIf="individualLength(i)?.warningMessages?.between"
 								                  [messages]="[individualLength(i).warningMessages.between]">
-								</app-warning-icon>
+								</vis-warning-icon>
 							</div>
 						</div>
 						<div class="col-span-8 text-gray-500 text-sm">

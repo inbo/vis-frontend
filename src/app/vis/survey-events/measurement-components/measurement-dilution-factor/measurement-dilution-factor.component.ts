@@ -3,7 +3,7 @@ import {AbstractControl} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 
 @Component({
-    selector: 'app-measurement-dilution-factor',
+    selector: 'vis-measurement-dilution-factor',
     templateUrl: './measurement-dilution-factor.component.html',
 })
 export class MeasurementDilutionFactorComponent extends MeasurementComponentDirective {

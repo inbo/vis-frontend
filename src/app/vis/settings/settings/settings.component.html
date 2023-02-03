@@ -1,11 +1,11 @@
-<app-stacked-layout [navigationLinks]="links">
+<vis-stacked-layout [navigationLinks]="links">
   <div slot="content">
-    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
+    <vis-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></vis-breadcrumb>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-      <app-settings-tabs></app-settings-tabs>
+      <vis-settings-tabs></vis-settings-tabs>
 
       <router-outlet></router-outlet>
     </div>
   </div>
-</app-stacked-layout>
+</vis-stacked-layout>

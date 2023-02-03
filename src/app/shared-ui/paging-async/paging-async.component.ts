@@ -3,7 +3,7 @@ import {AsyncPage} from './asyncPage';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 
 @Component({
-  selector: 'app-paging-async',
+  selector: 'vis-paging-async',
   templateUrl: './paging-async.component.html'
 })
 export class PagingAsyncComponent {

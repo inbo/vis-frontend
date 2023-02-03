@@ -7,7 +7,7 @@ import {ProjectService} from '../../../services/vis.project.service';
 import {Method} from '../../../domain/method/method';
 
 @Component({
-  selector: 'app-project-methods-page',
+  selector: 'vis-project-methods-page',
   templateUrl: './project-methods-page.component.html'
 })
 export class ProjectMethodsPageComponent implements OnInit, OnDestroy {

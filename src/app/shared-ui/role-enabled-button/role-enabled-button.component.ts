@@ -7,7 +7,7 @@ import {ProjectService} from '../../services/vis.project.service';
 import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'app-button',
+  selector: 'vis-button',
   templateUrl: './role-enabled-button.component.html'
 })
 export class RoleEnabledButtonComponent implements OnInit, OnDestroy, OnChanges {

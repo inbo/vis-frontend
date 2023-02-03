@@ -8,7 +8,7 @@ import {take} from 'rxjs/operators';
 import {Team} from '../../../../domain/account/team';
 
 @Component({
-  selector: 'app-team-edit',
+  selector: 'vis-team-edit',
   templateUrl: './team-edit.component.html'
 })
 export class TeamEditComponent implements OnInit {

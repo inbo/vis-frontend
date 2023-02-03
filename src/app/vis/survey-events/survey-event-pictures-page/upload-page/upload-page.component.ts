@@ -3,7 +3,7 @@ import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'app-upload-page',
+  selector: 'vis-upload-page',
   templateUrl: './upload-page.component.html'
 })
 export class UploadPageComponent implements OnInit {

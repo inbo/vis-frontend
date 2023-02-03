@@ -29,15 +29,15 @@
         <section class="mt-8 pb-16 px-6" aria-labelledby="gallery-heading">
           <ul role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 mb-6">
             <li (click)="openDetail(picture)" class="relative" *ngFor="let picture of pictures">
-              <app-image-grid-item [picture]="picture" [selectedPicture]="selectedPicture"></app-image-grid-item>
+              <vis-image-grid-item [picture]="picture" [selectedPicture]="selectedPicture"></vis-image-grid-item>
             </li>
           </ul>
 
-          <app-paging-async class="mt-6" *ngIf="pager" [pager]="pager"></app-paging-async>
+          <vis-paging-async class="mt-6" *ngIf="pager" [pager]="pager"></vis-paging-async>
         </section>
       </div>
     </main>
 
-    <app-image-detail [detail]="detail" (downloadPicture)="download($event)" [canAddTags]="false"></app-image-detail>
+    <vis-image-detail [detail]="detail" (downloadPicture)="download($event)" [canAddTags]="false"></vis-image-detail>
   </div>
 </div>

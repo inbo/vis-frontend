@@ -1,5 +1,5 @@
 <div class="hidden lg:block">
-    <app-table>
+    <vis-table>
         <thead class="bg-gray-50">
         <tr>
             <th class="table-header-cell" scope="col">
@@ -20,27 +20,27 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngIf="(taxon | async)?.length === 0" appRow>
-            <td appCell colspan="5">
+        <tr *ngIf="(taxon | async)?.length === 0" visRow>
+            <td visCell colspan="5">
                 Geen resultaten
             </td>
         </tr>
 
-        <tr *ngFor="let item of taxon | async; let index = index;" [rownumber]="index" appRow>
-            <td appCell>
+        <tr *ngFor="let item of taxon | async; let index = index;" [rownumber]="index" visRow>
+            <td visCell>
                 {{item.code.value}}
             </td>
-            <td appCell>
+            <td visCell>
                 {{item.nameDutch}}
             </td>
-            <td appCell>
+            <td visCell>
                 {{item.nameScientific}}
             </td>
-            <td appCell>
+            <td visCell>
                 {{item.taxonGroupText}}
             </td>
-            <td [actions]="true" appCell>
-                <app-dropdown-minimal>
+            <td [actions]="true" visCell>
+                <vis-dropdown-minimal>
                     <a [routerLink]="['/vissoorten', item.id.value]"
                        class="w-full text-left text-gray-700 block px-4 py-2 text-sm" id="menu-item-0" role="menuitem"
                        tabindex="-1">Detail</a>
@@ -49,11 +49,11 @@
                        class="w-full text-left text-gray-700 block px-4 py-2 text-sm"
                        role="menuitem" tabindex="-1"
                        target="_blank">Filter</a>
-                </app-dropdown-minimal>
+                </vis-dropdown-minimal>
             </td>
         </tr>
         </tbody>
-    </app-table>
+    </vis-table>
 </div>
 
 <div class="lg:hidden bg-white shadow overflow-hidden sm:rounded-md">

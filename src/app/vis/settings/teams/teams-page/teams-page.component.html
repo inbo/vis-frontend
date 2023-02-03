@@ -4,11 +4,11 @@
     Teams overzicht
   </h3>
   <div class="mt-3 flex sm:mt-0 sm:ml-4">
-    <app-button (click)="addTeam()" [style]="'primary'">Nieuw team</app-button>
+    <vis-button (click)="addTeam()" [style]="'primary'">Nieuw team</vis-button>
   </div>
 </div>
 
-<app-table [pager]="pager">
+<vis-table [pager]="pager">
   <thead>
     <tr>
       <th class="table-header-cell" scope="col">
@@ -23,25 +23,25 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let team of teams | async; let index = index" [rownumber]="index" appRow>
-      <td appCell>
+    <tr *ngFor="let team of teams | async; let index = index" [rownumber]="index" visRow>
+      <td visCell>
         <div class="flex items-center">
           <div class="text-sm font-medium text-gray-900">
             {{team.name}}
           </div>
         </div>
       </td>
-      <td appCell>
+      <td visCell>
         {{team.description}}
       </td>
-      <td [actions]="true" appCell>
+      <td [actions]="true" visCell>
         <a (click)="editTeam(team)"
            class="cursor-pointer text-pink-600 hover:text-pink-900">Bewerken</a>
       </td>
     </tr>
   </tbody>
-</app-table>
+</vis-table>
 
-<app-team-add></app-team-add>
-<app-team-edit></app-team-edit>
+<vis-team-add></vis-team-add>
+<vis-team-edit></vis-team-edit>
 

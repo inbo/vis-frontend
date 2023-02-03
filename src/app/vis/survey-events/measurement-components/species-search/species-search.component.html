@@ -1,5 +1,5 @@
 <ng-container *ngIf="form" [formGroup]="form">
-  <app-searchable-select [id]="'species-' + index"
+  <vis-searchable-select [id]="'species-' + index"
                          [configuration]="selectConfiguration"
                          [passedId]="'species-' + index"
                          [options]="taxons"
@@ -10,5 +10,5 @@
                          (ngModelChange)="onSpeciesChange()"
                          class="flex-grow"
                          formControlName="species">
-  </app-searchable-select>
+  </vis-searchable-select>
 </ng-container>

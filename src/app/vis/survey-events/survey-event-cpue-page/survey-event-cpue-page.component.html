@@ -74,22 +74,22 @@
 
 	<div class="px-4 py-4 sm:px-6 flex justify-end">
 
-		<app-button (click)="recalculateCpue()"
+		<vis-button (click)="recalculateCpue()"
 		            [role]="role.EditSurveyEvent"
 		            [style]="'secondary'"
 		            class="ml-3">CPUE herberekenen
-		</app-button>
-		<app-button [disabled]="surveyEvent?.status !== 'ENTERED'"
+		</vis-button>
+		<vis-button [disabled]="surveyEvent?.status !== 'ENTERED'"
 		            [role]="role.EditCpueParameters"
 		            [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEventId, 'cpue', 'bewerk']"
 		            [style]="'primary'"
 		            class="ml-3">Bewerken
-		</app-button>
+		</vis-button>
 	</div>
 </div>
 
 
-<app-table class="mt-8">
+<vis-table class="mt-8">
 	<thead>
 		<tr>
 			<th class="table-header-cell"
@@ -118,21 +118,21 @@
 	<tbody>
 		<tr *ngFor="let value of taxaCpue; let index = index"
 		    [rownumber]="index"
-		    appRow>
-			<td appCell>
+		    visRow>
+			<td visCell>
 				{{value.taxonName}}
 			</td>
-			<td appCell>
+			<td visCell>
 				{{value.calculation}}
 			</td>
-			<td appCell>
+			<td visCell>
 				{{value.weightSum}}
 			</td>
-			<td appCell>
+			<td visCell>
 				{{value.taxaSum}}
 			</td>
 			<td class="font-bold"
-			    appCell>
+			    visCell>
 				<span *ngIf="value.weightCpue">{{value.weightCpue}} {{value.unit}}</span>
 				<span *ngIf="isNil(value.weightCpue)"
 				      class="text-red-500">Niet berekend</span>
@@ -140,7 +140,7 @@
 				      class="text-red-500">< 0,000001></span>
 			</td>
 			<td class="font-bold"
-			    appCell>
+			    visCell>
 				<span *ngIf="value.taxaSumCpue">{{value.taxaSumCpue}} {{value.unit}}</span>
 				<span *ngIf="isNil(value.taxaSumCpue)"
 				      class="text-red-500">Niet berekend</span>
@@ -148,7 +148,7 @@
 				      class="text-red-500">< 0,000001></span>
 			</td>
 
-			<td appCell
+			<td visCell
 			    [actions]="true">
 				<div *ngIf="!value.manualInput"
 				     title="Automatisch berekende waarden">
@@ -179,4 +179,4 @@
 			</td>
 		</tr>
 	</tbody>
-</app-table>
+</vis-table>

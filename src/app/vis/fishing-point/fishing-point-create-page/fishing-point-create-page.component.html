@@ -1,23 +1,23 @@
-<app-stacked-layout [navigationLinks]="links">
+<vis-stacked-layout [navigationLinks]="links">
 	<div slot="content">
-		<app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
+		<vis-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></vis-breadcrumb>
 		<main *ngIf="formGroup">
 			<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 				<div class="px-4 py-8 sm:px-0">
 					<nav aria-label="Progress">
 						<ol class="space-y-4 md:flex md:space-y-0 md:space-x-8">
 							<li class="md:flex-1">
-								<app-step [active]="true"
+								<vis-step [active]="true"
 								          step="Stap 1"
-								          description="Vispunt selecteren"></app-step>
+								          description="Vispunt selecteren"></vis-step>
 							</li>
 
 							<li class="md:flex-1"
 							    *ngIf="!(editMode && fishingPointType === FishingPointType.STAGNANT)">
-								<app-step [active]="FishingPointCreationStep.BLUE_LAYER === currentStep || FishingPointCreationStep.WATER_COURSE === currentStep"
+								<vis-step [active]="FishingPointCreationStep.BLUE_LAYER === currentStep || FishingPointCreationStep.WATER_COURSE === currentStep"
 								          step="Stap 2"
 								          [description]="fishingPointType === FishingPointType.FLOWING ? 'Waterloop' : 'Blauwe laag'">
-								</app-step>
+								</vis-step>
 							</li>
 						</ol>
 					</nav>
@@ -26,70 +26,70 @@
 				<div *ngIf="currentStep === FishingPointCreationStep.GENERAL"
 				     class="px-4 py-8 sm:px-0">
 
-					<app-fishing-point-create-step1 [formGroup]="formGroup"
+					<vis-fishing-point-create-step1 [formGroup]="formGroup"
 					                           [editMode]="editMode"
 					                           [canEditIndexType]="canEditIndexType"
 					                           [(fishingPointType)]="fishingPointType"
 					                           [indexTypes]="indexTypes">
-					</app-fishing-point-create-step1>
+					</vis-fishing-point-create-step1>
 
 					<div class="flex justify-end mt-5">
-						<app-button (click)="cancel()"
+						<vis-button (click)="cancel()"
 						            [style]="'primary'">
 							Annuleren
-						</app-button>
-						<app-button *ngIf="editMode"
+						</vis-button>
+						<vis-button *ngIf="editMode"
 						            [disabled]="!isGeneralStepValid()"
 						            (click)="save()"
 						            [style]="'primary'"
 						            class="ml-2">
 							Bewaren
-						</app-button>
-						<app-button *ngIf="!(editMode && fishingPointType === FishingPointType.STAGNANT)"
+						</vis-button>
+						<vis-button *ngIf="!(editMode && fishingPointType === FishingPointType.STAGNANT)"
 						            class="ml-2"
 						            [disabled]="!isGeneralStepValid()"
 						            (click)="goToNextStep()"
 						            [style]="'primary'">
 							Volgende
-						</app-button>
+						</vis-button>
 					</div>
 				</div>
 
 
 				<div *ngIf="currentStep === FishingPointCreationStep.WATER_COURSE"
 				     class="px-4 py-8 sm:px-0">
-					<app-fishing-point-create-step2 [formGroup]="formGroup"
+					<vis-fishing-point-create-step2 [formGroup]="formGroup"
 					                           [editMode]="editMode">
-					</app-fishing-point-create-step2>
+					</vis-fishing-point-create-step2>
 					<div class="flex justify-end mt-5">
-						<app-button (click)="cancel()"
+						<vis-button (click)="cancel()"
 						            [style]="'primary'">
 							Annuleren
-						</app-button>
-						<app-button class="ml-2"
+						</vis-button>
+						<vis-button class="ml-2"
 						            [disabled]="!isWaterCourseValid()"
 						            (click)="save()"
 						            [style]="'primary'">
 							Bewaren
-						</app-button>
+						</vis-button>
 					</div>
 				</div>
 
 
 				<div *ngIf="currentStep === FishingPointCreationStep.BLUE_LAYER"
 				     class="px-4 py-8 sm:px-0">
-					<app-fishing-point-create-step3 [formGroup]="formGroup"></app-fishing-point-create-step3>
+					<vis-fishing-point-create-step3 [formGroup]="formGroup"></vis-fishing-point-create-step3>
 					<div class="flex justify-end mt-5">
-						<app-button (click)="cancel()"
+						<vis-button (click)="cancel()"
 						            [style]="'primary'">
 							Annuleren
-						</app-button>
-						<app-button class="ml-2"
+						</vis-button>
+						<vis-button class="ml-2"
 						            [disabled]="!isBlueLayerValid()"
 						            (click)="save()"
 						            [style]="'primary'">
 							Bewaren
-						</app-button>
+						</vis-button>
 					</div>
 				</div>
 
@@ -97,4 +97,4 @@
 		</main>
 	</div>
 
-</app-stacked-layout>
+</vis-stacked-layout>

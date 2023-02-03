@@ -19,7 +19,7 @@ import {SurveyEvent} from '../../../domain/survey-event/surveyEvent';
 import {Project} from '../../../domain/project/project';
 
 @Component({
-    selector: 'app-survey-event-add-page',
+    selector: 'vis-survey-event-add-page',
     templateUrl: './survey-event-add-page.component.html',
 })
 export class SurveyEventAddPageComponent implements OnInit, HasUnsavedData, OnDestroy {

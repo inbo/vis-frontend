@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
-  selector: 'app-toggle-with-icon',
+  selector: 'vis-toggle-with-icon',
   templateUrl: './toggle-with-icon.component.html',
   providers: [
     {

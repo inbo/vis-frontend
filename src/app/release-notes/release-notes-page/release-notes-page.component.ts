@@ -7,7 +7,7 @@ import {Subscription} from 'rxjs';
 import {ReleaseNotesService} from '../../services/vis.release-notes.service';
 
 @Component({
-    selector: 'app-release-notes-page',
+    selector: 'vis-release-notes-page',
     templateUrl: './release-notes-page.component.html',
 })
 export class ReleaseNotesPageComponent implements OnInit, OnDestroy {

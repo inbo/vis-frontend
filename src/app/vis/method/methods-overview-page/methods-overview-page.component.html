@@ -1,6 +1,6 @@
-<app-stacked-layout [navigationLinks]="links">
+<vis-stacked-layout [navigationLinks]="links">
   <div slot="content">
-    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
+    <vis-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></vis-breadcrumb>
     <main>
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
@@ -14,7 +14,7 @@
 
         </div>
 
-        <app-expandable-filter (resetClicked)="filter()" (searchClicked)="filter()" [formGroup]="filterForm"
+        <vis-expandable-filter (resetClicked)="filter()" (searchClicked)="filter()" [formGroup]="filterForm"
                                [hideSearchButton]="true" [showAdvancedFilter]="false">
           <ng-container slot="simple">
             <div class="self-center">
@@ -42,12 +42,12 @@
               </div>
             </div>
           </ng-container>
-        </app-expandable-filter>
+        </vis-expandable-filter>
 
 
         <div class="px-4 py-8 sm:px-0">
           <div class="hidden lg:block">
-            <app-table [pager]="pager">
+            <vis-table [pager]="pager">
               <thead>
               <tr>
                 <th  class="table-header-cell w-3/12" scope="col">
@@ -65,31 +65,31 @@
               </tr>
               </thead>
               <tbody>
-              <tr appRow>
-                <td *ngIf="loading" appCell colspan="8">
-                  <app-loading-spinner></app-loading-spinner>
+              <tr visRow>
+                <td *ngIf="loading" visCell colspan="8">
+                  <vis-loading-spinner></vis-loading-spinner>
                 </td>
               </tr>
 
-              <tr *ngFor="let method of methods | async; let index = index" [rownumber]="index" appRow>
-                <td appCell>
+              <tr *ngFor="let method of methods | async; let index = index" [rownumber]="index" visRow>
+                <td visCell>
                   {{'method.' + method.code | translate}}
                 </td>
-                <td appCell>
+                <td visCell>
                   {{'method.' + method.code + '.group' | translate}}
                 </td>
-                <td appCell>
+                <td visCell>
                   {{method.code}}
                 </td>
-                <td actions="true" appCell class="font-medium">
-                  <app-button [role]="role.EditMethod" [style]="'no-style'" (click)="openEdit(method.code)" class="text-pink-600 hover:text-pink-900" type="button">
+                <td actions="true" visCell class="font-medium">
+                  <vis-button [role]="role.EditMethod" [style]="'no-style'" (click)="openEdit(method.code)" class="text-pink-600 hover:text-pink-900" type="button">
                     Bewerk
-                  </app-button>
+                  </vis-button>
                 </td>
               </tr>
 
               </tbody>
-            </app-table>
+            </vis-table>
           </div>
 
           <div class="lg:hidden bg-white shadow overflow-hidden sm:rounded-md">
@@ -116,13 +116,13 @@
                 </div>
               </li>
             </ul>
-            <app-paging-async [pager]="pager"></app-paging-async>
+            <vis-paging-async [pager]="pager"></vis-paging-async>
           </div>
         </div>
       </div>
     </main>
 
-    <app-method-edit></app-method-edit>
+    <vis-method-edit></vis-method-edit>
   </div>
 
-</app-stacked-layout>
+</vis-stacked-layout>

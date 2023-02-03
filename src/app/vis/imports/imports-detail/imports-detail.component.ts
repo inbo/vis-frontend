@@ -10,7 +10,7 @@ import {ImportDetail} from '../../../domain/imports/imports';
 import {Role} from '../../../core/_models/role';
 
 @Component({
-  selector: 'app-imports-detail',
+  selector: 'vis-imports-detail',
   templateUrl: './imports-detail.component.html'
 })
 export class ImportsDetailComponent implements OnInit, OnDestroy {

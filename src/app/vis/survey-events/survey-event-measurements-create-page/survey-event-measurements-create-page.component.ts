@@ -31,7 +31,7 @@ import {measurementAmountValidator} from './validators/measurement-amount.valida
 import {measurementWeightValidator} from './validators/measurement-weight.validator';
 
 @Component({
-    selector: 'app-survey-event-measurements-create-page',
+    selector: 'vis-survey-event-measurements-create-page',
     templateUrl: './survey-event-measurements-create-page.component.html',
 })
 export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked, HasUnsavedData {

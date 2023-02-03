@@ -8,7 +8,7 @@ import {Subscription} from 'rxjs';
 import {ProjectService} from '../../../services/vis.project.service';
 
 @Component({
-  selector: 'app-project-pictures-page',
+  selector: 'vis-project-pictures-page',
   templateUrl: './project-pictures-page.component.html'
 })
 export class ProjectPicturesPageComponent implements OnInit, OnDestroy {

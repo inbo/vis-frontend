@@ -11,7 +11,7 @@ import {
 import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
 
 @Component({
-  selector: 'app-measurement-length-measurements-readonly',
+  selector: 'vis-measurement-length-measurements-readonly',
   templateUrl: './measurement-length-measurements-readonly.component.html'
 })
 export class MeasurementLengthMeasurementsReadonlyComponent implements OnInit {

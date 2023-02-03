@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
-  selector: 'app-survey-event-tabs',
+  selector: 'vis-survey-event-tabs',
   templateUrl: './survey-event-tabs.component.html'
 })
 export class SurveyEventTabsComponent implements OnInit {

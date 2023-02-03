@@ -12,13 +12,13 @@
 	       formControlName="length"
 	       name="length"
 	       type="text">
-	<app-error-icon class="input-field-icon"
+	<vis-error-icon class="input-field-icon"
 	                [control]="length()"
 	                [onlyShowAfterSubmitted]="true"
 	                [submitted]="submitted">
-	</app-error-icon>
-	<app-warning-icon class="input-field-icon"
+	</vis-error-icon>
+	<vis-warning-icon class="input-field-icon"
 	                  *ngIf="length()?.hasWarningMessages() && !(length().errors | keys)?.length"
 	                  [messages]="length().getAllWarningMessages()">
-	</app-warning-icon>
+	</vis-warning-icon>
 </div>

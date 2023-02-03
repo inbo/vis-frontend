@@ -8,7 +8,7 @@ import {PicturesService} from '../../../../services/vis.pictures.service';
 import {ProjectService} from '../../../../services/vis.project.service';
 
 @Component({
-  selector: 'app-gallery-page',
+  selector: 'vis-gallery-page',
   templateUrl: './gallery-page.component.html'
 })
 export class GalleryPageComponent implements OnInit, OnDestroy {

@@ -1,13 +1,13 @@
 <div class="lg:flex lg:items-center lg:justify-between px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
 	<div class="flex-1 min-w-0">
-		<app-survey-event-copy-modal *ngIf="project && surveyEvent"
+		<vis-survey-event-copy-modal *ngIf="project && surveyEvent"
 		                             [project]="project"
 		                             [startDate]="project?.start"
 		                             [endDate]="project?.end"
 		                             [method]="surveyEvent.method"
 		                             [fishingPointId]="surveyEvent.fishingPoint.id"
 		                             [surveyEventId]="surveyEventId">
-		</app-survey-event-copy-modal>
+		</vis-survey-event-copy-modal>
 
 		<h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
 			Waarneming
@@ -107,19 +107,19 @@
 
 			<div class="flex flex-col lg:flex-row lg:mt-0 lg:space-x-6 flex-shrink-0 content-start">
 				<div class="text-sm text-gray-500">
-					<app-button [style]="'primary'"
+					<vis-button [style]="'primary'"
 					            [disabled]="surveyEvent?.status === 'DELETED'"
 					            (click)="copySurveyEvent()"
 					            [role]="role.CreateSurveyEvent"
 					            [isUserLinkedToProject]="surveyEvent?.canEdit">Kopieer waarneming
-					</app-button>
-					<app-button [style]="'primary'"
+					</vis-button>
+					<vis-button [style]="'primary'"
 					            [disabled]="surveyEvent?.status === 'DELETED' || surveyEvent?.status === 'VALID'"
 					            class="ml-3"
 					            [routerLink]="'metingen/toevoegen'"
 					            [role]="role.CreateMeasurements"
 					            [isUserLinkedToProject]="surveyEvent?.canEdit">Metingen toevoegen
-					</app-button>
+					</vis-button>
 				</div>
 			</div>
 		</div>

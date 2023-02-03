@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {faTimesCircle, faPlus, faMinus} from '@fortawesome/free-solid-svg-icons';
+import {faMinus, faPlus, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 import {ImportProjectDetail, ImportSurveyEvent} from '../../../../domain/imports/imports';
 
 @Component({
-  selector: 'app-imports-detail-survey-event',
+  selector: 'vis-imports-detail-survey-event',
   templateUrl: './imports-detail-survey-event.component.html'
 })
 export class ImportsDetailSurveyEventComponent implements OnInit {

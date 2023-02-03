@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {NgxTippyProps} from 'ngx-tippy-wrapper';
 
 @Component({
-    selector: 'app-warning-icon',
+    selector: 'vis-warning-icon',
     templateUrl: 'warning-icon.component.html',
     styleUrls: ['warning-icon.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

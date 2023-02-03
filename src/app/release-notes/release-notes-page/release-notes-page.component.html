@@ -1,12 +1,12 @@
-<app-stacked-layout [navigationLinks]="links">
+<vis-stacked-layout [navigationLinks]="links">
   <div slot="content">
-    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
+    <vis-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></vis-breadcrumb>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <app-release-notes-tabs [releases]="releases"></app-release-notes-tabs>
+      <vis-release-notes-tabs [releases]="releases"></vis-release-notes-tabs>
 
       <div class="prose prose prose-pink max-w-none" [innerHTML]="releaseAsHtml"></div>
     </div>
   </div>
-</app-stacked-layout>
+</vis-stacked-layout>

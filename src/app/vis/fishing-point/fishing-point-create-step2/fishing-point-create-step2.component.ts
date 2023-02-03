@@ -7,7 +7,7 @@ import {VhaBlueLayerSelectionEvent} from '../../components/fishing-points-map/vh
 import {TownLayerSelectionEvent} from '../../components/fishing-points-map/town-layer-selection-event.model';
 
 @Component({
-    selector: 'app-fishing-point-create-step2',
+    selector: 'vis-fishing-point-create-step2',
     templateUrl: './fishing-point-create-step2.component.html',
 })
 export class FishingPointCreateStep2Component implements OnInit {

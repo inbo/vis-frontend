@@ -3,7 +3,7 @@
     Gebruikers overzicht
   </h3>
 </div>
-<app-table [pager]="pager">
+<vis-table [pager]="pager">
   <thead>
     <tr>
       <th class="table-header-cell" scope="col">
@@ -24,8 +24,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let account of accounts | async; let index = index" [rownumber]="index" appRow>
-      <td appCell>
+    <tr *ngFor="let account of accounts | async; let index = index" [rownumber]="index" visRow>
+      <td visCell>
         <div class="flex items-center">
           <div class="flex-shrink-0 h-10 w-10">
             <img *ngIf="account.picture" [src]="account.picture" alt="" class="h-10 w-10 rounded-full">
@@ -46,24 +46,24 @@
           </div>
         </div>
       </td>
-      <td appCell>
+      <td visCell>
         {{account.username}}
       </td>
-      <td appCell>
+      <td visCell>
         {{account.instances.join(", ")}}
       </td>
-      <td appCell>
+      <td visCell>
         {{account.teams.join(", ")}}
       </td>
-      <td [actions]="true" appCell>
+      <td [actions]="true" visCell>
         <a (click)="editAccount(account)"
            class="cursor-pointer text-pink-600 hover:text-pink-900">Bewerken</a>
       </td>
     </tr>
   </tbody>
-</app-table>
+</vis-table>
 
-<app-user-edit (onSaved)="reload()"></app-user-edit>
+<vis-user-edit (onSaved)="reload()"></vis-user-edit>
 
-<app-team-add></app-team-add>
+<vis-team-add></vis-team-add>
 

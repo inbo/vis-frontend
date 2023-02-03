@@ -8,7 +8,7 @@ import {AccountService} from '../../../services/vis.account.service';
 import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 
 @Component({
-  selector: 'app-project-add',
+  selector: 'vis-project-add',
   templateUrl: './project-add.component.html'
 })
 export class ProjectAddComponent implements OnInit, OnDestroy {

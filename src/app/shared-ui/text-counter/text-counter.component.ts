@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-text-counter',
+  selector: 'vis-text-counter',
   templateUrl: './text-counter.component.html'
 })
 export class TextCounterComponent implements OnInit {

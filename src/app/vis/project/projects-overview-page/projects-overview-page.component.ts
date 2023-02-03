@@ -17,7 +17,7 @@ import {AccountService} from '../../../services/vis.account.service';
 import {Team} from '../../../domain/account/team';
 
 @Component({
-    selector: 'app-projects-overview-page',
+    selector: 'vis-projects-overview-page',
     templateUrl: './projects-overview-page.component.html',
 })
 export class ProjectsOverviewPageComponent implements OnInit {

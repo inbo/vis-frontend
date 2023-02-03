@@ -20,15 +20,15 @@
 	</div>
 	<div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900 flex flex-row items-center">
 		{{length().value}}
-		<app-warning-icon class="pl-0.5"
+		<vis-warning-icon class="pl-0.5"
 		                  *ngIf="length()?.hasWarningMessages()"
-		                  [messages]="length().getAllWarningMessages()"></app-warning-icon>
+		                  [messages]="length().getAllWarningMessages()"></vis-warning-icon>
 	</div>
 	<div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900 flex flex-row items-center">
 		<span>{{weight().value}}</span>
-		<app-warning-icon class="pl-0.5"
+		<vis-warning-icon class="pl-0.5"
 		                  *ngIf="weight()?.hasWarningMessages()"
-		                  [messages]="weight().getAllWarningMessages()"></app-warning-icon>
+		                  [messages]="weight().getAllWarningMessages()"></vis-warning-icon>
 	</div>
 	<div class="col-span-4 md:col-span-2 lg:col-span-1 text-sm text-gray-900">
 		{{'gender.full.' + gender().value | translate}}
@@ -101,6 +101,6 @@
 
 	<div [class.hidden]="!showIndividualLengthItems"
 	     class="col-span-12">
-		<app-measurement-length-measurements-readonly [submitted]="submitted"></app-measurement-length-measurements-readonly>
+		<vis-measurement-length-measurements-readonly [submitted]="submitted"></vis-measurement-length-measurements-readonly>
 	</div>
 </div>

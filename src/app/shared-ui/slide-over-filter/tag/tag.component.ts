@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {Tag} from '../tag';
 
 @Component({
-    selector: 'app-tag',
+    selector: 'vis-tag',
     templateUrl: './tag.component.html',
 })
 export class TagComponent {

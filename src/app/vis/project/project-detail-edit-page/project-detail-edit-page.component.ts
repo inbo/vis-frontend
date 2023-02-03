@@ -44,7 +44,7 @@ function projectEndAfterSurveyEvents(date: Date): ValidatorFn {
 }
 
 @Component({
-    selector: 'app-project-detail-edit-page',
+    selector: 'vis-project-detail-edit-page',
     templateUrl: './project-detail-edit-page.component.html',
 })
 export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUnsavedData {

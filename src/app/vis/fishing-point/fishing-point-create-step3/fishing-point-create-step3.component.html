@@ -1,27 +1,27 @@
 <div>
     <div class="grid grid-cols-6 gap-x-4 text-sm">
         <div class="col-span-6">
-            <app-fishing-points-map (loaded)="onLoaded()"
+            <vis-fishing-points-map (loaded)="onLoaded()"
                                     [zoomLevel]="17"
                                     (blueLayerSelected)="featureSelected($event)"
                                     [enableSidebar]="false"
                                     [watercoursesLayerVisible]="false"
                                     [fishingPointsLayerVisible]="false"
                                     (townLayerSelected)="townSelected($event)">
-            </app-fishing-points-map>
+            </vis-fishing-points-map>
         </div>
 
         <div class="col-span-6 bg-white overflow-hidden shadow rounded-lg mt-6">
             <div class="px-4 py-5 sm:p-6 grid grid-cols-6 gap-x-4">
                 <div class="col-span-6 md:col-span-3">
-                    <app-fishing-points-selected-feature *ngIf="townInfoValue" [properties]="townInfoValue"
+                    <vis-fishing-points-selected-feature *ngIf="townInfoValue" [properties]="townInfoValue"
                                                          [layerName]="'Gemeente van het geselecteerde punt'"
-                                                         [layerNumber]="townLayerId"></app-fishing-points-selected-feature>
+                                                         [layerNumber]="townLayerId"></vis-fishing-points-selected-feature>
                 </div>
                 <div class="col-span-6 md:col-span-3">
-                    <app-fishing-points-selected-feature *ngIf="blueLayerInfoValue" [properties]="blueLayerInfoValue"
+                    <vis-fishing-points-selected-feature *ngIf="blueLayerInfoValue" [properties]="blueLayerInfoValue"
                                                          [layerName]="'Geselecteerd watervlak'"
-                                                         [layerNumber]="vhaBlueLayerId"></app-fishing-points-selected-feature>
+                                                         [layerNumber]="vhaBlueLayerId"></vis-fishing-points-selected-feature>
                 </div>
             </div>
         </div>

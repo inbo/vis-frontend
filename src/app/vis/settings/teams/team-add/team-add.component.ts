@@ -7,7 +7,7 @@ import {Account} from '../../../../domain/account/account';
 import {Instance} from '../../../../domain/account/instance';
 
 @Component({
-  selector: 'app-team-add',
+  selector: 'vis-team-add',
   templateUrl: './team-add.component.html'
 })
 export class TeamAddComponent implements OnInit {

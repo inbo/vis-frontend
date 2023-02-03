@@ -23,7 +23,7 @@ import {measurementWeightValidator} from '../survey-event-measurements-create-pa
 import {measurementAmountValidator} from '../survey-event-measurements-create-page/validators/measurement-amount.validator';
 
 @Component({
-    selector: 'app-survey-event-measurements-page',
+    selector: 'vis-survey-event-measurements-page',
     templateUrl: './survey-event-measurements-page.component.html',
 })
 export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {

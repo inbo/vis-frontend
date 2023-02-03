@@ -1,6 +1,6 @@
-<app-stacked-layout [navigationLinks]="links">
+<vis-stacked-layout [navigationLinks]="links">
     <div slot="content">
-        <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
+        <vis-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></vis-breadcrumb>
         <main>
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
@@ -10,17 +10,17 @@
                             Project overzicht
                         </h3>
                         <div class="mt-3 flex sm:mt-0 sm:ml-4">
-                            <app-button (click)="exportProjects()" [role]="role.ExportProject">Exporteer</app-button>
-                            <app-button (click)="openAddProject()" [role]="role.CreateProject" [style]="'primary'"
+                            <vis-button (click)="exportProjects()" [role]="role.ExportProject">Exporteer</vis-button>
+                            <vis-button (click)="openAddProject()" [role]="role.CreateProject" [style]="'primary'"
                                         class="ml-3">
                                 Nieuw Project
-                            </app-button>
+                            </vis-button>
                         </div>
                     </div>
 
                 </div>
 
-                <app-expandable-filter [formGroup]="filterForm" [hideSearchButton]="true"
+                <vis-expandable-filter [formGroup]="filterForm" [hideSearchButton]="true"
                                        [showAdvancedFilterAtStartup]="advancedFilterIsVisible">
                     <ng-container slot="simple">
                         <div class="self-center">
@@ -68,17 +68,17 @@
                         </div>
 
                     </ng-container>
-                </app-expandable-filter>
+                </vis-expandable-filter>
 
 
                 <div class="px-4 py-8 sm:px-0">
                     <div class="hidden lg:block">
-                        <app-table [pager]="pager">
+                        <vis-table [pager]="pager">
                             <thead>
                             <tr>
                                 <th class="table-header-cell w-3/12" scope="col">
                                     Naam
-                                    <app-table-sort sortField="name"></app-table-sort>
+                                    <vis-table-sort sortField="name"></vis-table-sort>
                                 </th>
                                 <th class="table-header-cell w-1/12" scope="col">
                                     Team
@@ -88,7 +88,7 @@
                                 </th>
                                 <th class="table-header-cell w-2/12" scope="col">
                                     Periode
-                                    <app-table-sort sortField="period.begin"></app-table-sort>
+                                    <vis-table-sort sortField="period.begin"></vis-table-sort>
                                 </th>
                                 <th class="table-header-cell w-1/12" scope="col">
                                     <span class="sr-only">Bewerken</span>
@@ -96,31 +96,31 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr appRow>
-                                <td *ngIf="loading" appCell colspan="8">
-                                    <app-loading-spinner></app-loading-spinner>
+                            <tr visRow>
+                                <td *ngIf="loading" visCell colspan="8">
+                                    <vis-loading-spinner></vis-loading-spinner>
                                 </td>
                             </tr>
 
-                            <tr *ngFor="let project of projects | async; let index = index" [rownumber]="index" appRow>
-                                <td appCell>
+                            <tr *ngFor="let project of projects | async; let index = index" [rownumber]="index" visRow>
+                                <td visCell>
                                     <a [routerLink]="['/projecten', project.code.value]">{{project.name}}</a>
                                 </td>
-                                <td appCell>
+                                <td visCell>
                   <span *ngIf="project.teams && project.teams.length > 0">{{ project.teams[0] }} <span
                           *ngIf="project.teams.length > 1">+{{project.teams.length - 1}}</span></span>
                                 </td>
-                                <td appCell>
-                                    <app-pill [color]="project?.status === 'ACTIVE' ? 'green' : 'red'">
+                                <td visCell>
+                                    <vis-pill [color]="project?.status === 'ACTIVE' ? 'green' : 'red'">
                                         {{project?.status === 'ACTIVE' ? 'Actief' : 'Inactief'}}
-                                    </app-pill>
+                                    </vis-pill>
                                 </td>
-                                <td appCell>
+                                <td visCell>
                                     {{project.start | date:'dd/MM/yyyy'}} {{project.end ? ' - ' : ''}} {{project.end | date:'dd/MM/yyyy'}}
                                 </td>
 
-                                <td [actions]="true" appCell>
-                                    <app-dropdown-minimal>
+                                <td [actions]="true" visCell>
+                                    <vis-dropdown-minimal>
                                         <button [routerLink]="['/projecten', project.code.value]"
                                                 class="w-full text-left text-gray-700 block px-4 py-2 text-sm"
                                                 role="menuitem" tabindex="-1">Detail
@@ -135,12 +135,12 @@
                                                 class="w-full text-left text-gray-700 block px-4 py-2 text-sm"
                                                 role="menuitem" tabindex="-1">Waarneming toevoegen
                                         </button>
-                                    </app-dropdown-minimal>
+                                    </vis-dropdown-minimal>
                                 </td>
                             </tr>
 
                             </tbody>
-                        </app-table>
+                        </vis-table>
                     </div>
 
                     <div class="lg:hidden bg-white shadow overflow-hidden sm:rounded-md">
@@ -153,9 +153,9 @@
                                                 {{project.name}}
                                             </p>
                                             <div class="ml-2 flex-shrink-0 flex">
-                                                <app-pill [color]="project?.status === 'ACTIVE' ? 'green' : 'red'">
+                                                <vis-pill [color]="project?.status === 'ACTIVE' ? 'green' : 'red'">
                                                     {{project?.status === 'ACTIVE' ? 'Actief' : 'Inactief'}}
-                                                </app-pill>
+                                                </vis-pill>
                                             </div>
                                         </div>
                                         <div class="mt-2 sm:flex sm:justify-between">
@@ -186,7 +186,7 @@
                                         </div>
                                     </div>
                                     <div class="col-span-1 py-4 sm:px-6">
-                                        <app-dropdown-minimal>
+                                        <vis-dropdown-minimal>
                                             <button [routerLink]="['/projecten', project.code.value]"
                                                     class="w-full text-left text-gray-700 block px-4 py-2 text-sm"
                                                     role="menuitem" tabindex="-1">Detail
@@ -201,19 +201,19 @@
                                                     class="w-full text-left text-gray-700 block px-4 py-2 text-sm"
                                                     role="menuitem" tabindex="-1">Waarneming toevoegen
                                             </button>
-                                        </app-dropdown-minimal>
+                                        </vis-dropdown-minimal>
                                     </div>
                                 </div>
                             </li>
                         </ul>
-                        <app-paging-async [pager]="pager"></app-paging-async>
+                        <vis-paging-async [pager]="pager"></vis-paging-async>
                     </div>
 
                 </div>
             </div>
         </main>
 
-        <app-project-add></app-project-add>
+        <vis-project-add></vis-project-add>
     </div>
 
-</app-stacked-layout>
+</vis-stacked-layout>

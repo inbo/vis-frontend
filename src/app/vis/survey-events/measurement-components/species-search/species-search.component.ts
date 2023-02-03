@@ -4,7 +4,7 @@ import {SearchableSelectOption} from '../../../../shared-ui/searchable-select/Se
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
-    selector: 'app-species-search',
+    selector: 'vis-species-search',
     templateUrl: './species-search.component.html',
 })
 export class SpeciesSearchComponent extends MeasurementComponentDirective {

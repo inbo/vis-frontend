@@ -6,7 +6,7 @@ import {AccountService} from '../../../../services/vis.account.service';
 import {map, take} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-instance-add',
+  selector: 'vis-instance-add',
   templateUrl: './instance-add.component.html'
 })
 export class InstanceAddComponent implements OnInit {

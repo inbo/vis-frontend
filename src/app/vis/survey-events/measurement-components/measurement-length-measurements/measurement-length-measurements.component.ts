@@ -14,7 +14,7 @@ import {TaxonDetail} from '../../../../domain/taxa/taxon-detail';
 import {nullableNumberMask} from '../../length.mask';
 
 @Component({
-    selector: 'app-measurement-length-measurements',
+    selector: 'vis-measurement-length-measurements',
     templateUrl: './measurement-length-measurements.component.html',
 })
 export class MeasurementLengthMeasurementsComponent implements OnInit {

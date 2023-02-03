@@ -13,7 +13,7 @@ import {forkJoin, Subject} from 'rxjs';
 import {isNil} from 'lodash-es';
 
 @Component({
-    selector: 'app-survey-event-cpue-edit-page',
+    selector: 'vis-survey-event-cpue-edit-page',
     templateUrl: './survey-event-cpue-edit-page.component.html',
 })
 export class SurveyEventCpueEditPageComponent implements OnInit, HasUnsavedData, OnDestroy {

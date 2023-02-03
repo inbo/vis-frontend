@@ -1,9 +1,9 @@
 <div>
 	<div class="grid grid-cols-6 gap-x-4 text-sm">
 		<div class="col-span-6 md:col-span-4">
-			<app-fishing-points-map [canAddPoints]="true"
+			<vis-fishing-points-map [canAddPoints]="true"
 			                        [enableSidebar]="false"
-			                        (pointAdded)="pointAdded($event)"></app-fishing-points-map>
+			                        (pointAdded)="pointAdded($event)"></vis-fishing-points-map>
 		</div>
 
 		<div class="mt-4 md:mt-0 col-span-6 md:col-span-2">
@@ -19,11 +19,11 @@
 							       type="text"
 							       name="code"
 							       id="code">
-							<app-error-icon class="input-field-icon"
+							<vis-error-icon class="input-field-icon"
 							                [onlyShowAfterSubmitted]="false"
 							                [fieldName]="'Code'"
 							                [control]="code">
-							</app-error-icon>
+							</vis-error-icon>
 						</div>
 					</div>
 
@@ -37,11 +37,11 @@
 							       type="text"
 							       name="description"
 							       id="description">
-							<app-error-icon class="input-field-icon"
+							<vis-error-icon class="input-field-icon"
 							                [onlyShowAfterSubmitted]="false"
 							                [fieldName]="'Omschrijving'"
 							                [control]="description">
-							</app-error-icon>
+							</vis-error-icon>
 						</div>
 					</div>
 
@@ -62,9 +62,9 @@
 									<label class="ml-3 block text-sm font-medium text-gray-700">
 										Getijdewater
 									</label>
-									<app-form-error-message [fieldName]="'Type'"
+									<vis-form-error-message [fieldName]="'Type'"
 									                        [control]="type">
-									</app-form-error-message>
+									</vis-form-error-message>
 								</div>
 							</div>
 						</div>
@@ -125,9 +125,9 @@
 										</label>
 									</div>
 								</div>
-								<app-form-error-message [fieldName]="'Type'"
+								<vis-form-error-message [fieldName]="'Type'"
 								                        [control]="type">
-								</app-form-error-message>
+								</vis-form-error-message>
 							</div>
 						</div>
 					</ng-template>

@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {TipsService} from '../../../services/vis.tips.service';
 
 @Component({
-  selector: 'app-tips-tabs',
+  selector: 'vis-tips-tabs',
   templateUrl: './tips-tabs.component.html'
 })
 export class TipsTabsComponent implements OnInit {

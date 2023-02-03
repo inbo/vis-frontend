@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
-  selector: 'app-settings-tabs',
+  selector: 'vis-settings-tabs',
   templateUrl: './settings-tabs.component.html'
 })
 export class SettingsTabsComponent implements OnInit {

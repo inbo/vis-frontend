@@ -3,7 +3,7 @@ import {AbstractControl} from '@angular/forms';
 import {MeasurementComponentDirective} from '../measurement-component.directive';
 
 @Component({
-    selector: 'app-measurement-amount',
+    selector: 'vis-measurement-amount',
     templateUrl: './measurement-amount.component.html',
 })
 export class MeasurementAmountComponent extends MeasurementComponentDirective {

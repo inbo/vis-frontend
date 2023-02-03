@@ -7,7 +7,7 @@ import {ProjectService} from '../../../services/vis.project.service';
 import {environment} from '../../../../environments/environment';
 
 @Component({
-  selector: 'app-survey-event-pictures-page',
+  selector: 'vis-survey-event-pictures-page',
   templateUrl: './survey-event-pictures-page.component.html'
 })
 export class SurveyEventPicturesPageComponent implements OnInit, OnDestroy {

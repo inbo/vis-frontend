@@ -15,7 +15,7 @@
 	</div>
 	<div>
 		<div class="hidden lg:block">
-			<app-table>
+			<vis-table>
 				<thead>
 					<tr>
 						<th class="table-header-cell"
@@ -60,23 +60,23 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr appRow>
+					<tr visRow>
 						<td *ngIf="loading"
-						    appCell
+						    visCell
 						    colspan="7">
-							<app-loading-spinner></app-loading-spinner>
+							<vis-loading-spinner></vis-loading-spinner>
 						</td>
 					</tr>
 
 					<tr *ngFor="let measurement of existingMeasurements; let index = index"
 					    [rownumber]="index"
-					    appRow>
+					    visRow>
 						<td [condense]="true"
-						    appCell>
+						    visCell>
 							{{measurement.taxon.nameDutch}}
 						</td>
 						<td [condense]="true"
-						    appCell>
+						    visCell>
 							{{measurement.amount}}
 							<fa-icon *ngIf="measurement.type === 'GROUP'"
 							         [icon]="faWeightHanging"
@@ -88,45 +88,45 @@
 							         title="Groepsmeting met lengtemetingen"></fa-icon>
 						</td>
 						<td [condense]="true"
-						    appCell>
+						    visCell>
 							{{measurement.length}}
 						</td>
 						<td [condense]="true"
-						    appCell>
+						    visCell>
 							{{measurement.weight}}
 						</td>
 						<td [condense]="true"
-						    appCell>
+						    visCell>
 							{{'gender.' + measurement.gender | translate}}
 						</td>
 						<td *ngIf="!isAnkerkuilSurvey"
 						    [condense]="true"
-						    appCell>
+						    visCell>
 							{{measurement.afvisBeurtNumber}}
 						</td>
 						<td *ngIf="isAnkerkuilSurvey"
 						    [condense]="true"
-						    appCell>
+						    visCell>
 							{{measurement.dilutionFactor}}
 						</td>
 						<td *ngIf="isAnkerkuilSurvey"
 						    [condense]="true"
-						    appCell>
+						    visCell>
 							{{measurement.portside ? 'Bakboord' : 'Stuurboord'}}
 						</td>
 						<td [condense]="true"
-						    appCell>
+						    visCell>
 							{{measurement.comment}}
 						</td>
 					</tr>
 				</tbody>
-			</app-table>
+			</vis-table>
 		</div>
 
 		<div class="bg-white shadow overflow-hidden sm:rounded-md lg:hidden">
 			<ul class="divide-y divide-gray-200">
 				<li *ngIf="loading">
-					<app-loading-spinner></app-loading-spinner>
+					<vis-loading-spinner></vis-loading-spinner>
 				</li>
 				<li *ngFor="let measurement of existingMeasurements">
 					<a class="block hover:bg-gray-50"
@@ -278,8 +278,8 @@
 					      stroke-width="2"/>
 				</svg>
 			</button>
-			<app-tip-icon tipPage="METING">
-			</app-tip-icon>
+			<vis-tip-icon tipPage="METING">
+			</vis-tip-icon>
 		</div>
 	</div>
 	<div class="px-4 py-5 sm:p-6"
@@ -312,13 +312,13 @@
 				<div #lines
 				     *ngFor="let item of items().controls; let i = index;"
 				     formArrayName="items">
-					<app-measurement-row (newline)="addNewLine()"
+					<vis-measurement-row (newline)="addNewLine()"
 					                     (removeClicked)="remove($event)"
 					                     [formGroupName]="i"
 					                     (enterClicked)="measurementRowEnterClicked($event)"
 					                     [isAnkerkuil]="isAnkerkuilSurvey"
 					                     [submitted]="submitted">
-					</app-measurement-row>
+					</vis-measurement-row>
 				</div>
 			</div>
 		</form>
@@ -351,17 +351,17 @@
 		</div>
 	</div>
 	<div class="space-x-3 px-4 py-4 sm:px-6 flex justify-end">
-		<app-button (click)="cancel()">Annuleren</app-button>
-		<app-button (click)="createMeasurements()"
+		<vis-button (click)="cancel()">Annuleren</vis-button>
+		<vis-button (click)="createMeasurements()"
 		            [style]="'primary'"
 		            class="ml-3">Bewaren
-		</app-button>
+		</vis-button>
 	</div>
-	<app-tip *ngIf="tip$ | async as tip"
+	<vis-tip *ngIf="tip$ | async as tip"
 	         [code]="tip.code"
-	         [show]="true"></app-tip>
+	         [show]="true"></vis-tip>
 
-	<app-modal (onCancel)="cancelModal()"
+	<vis-modal (onCancel)="cancelModal()"
 	           (onPrimary)="confirmModal()"
 	           (onOptional)="doNotShowAgain()"
 	           [isOpen]="introModalOpen"
@@ -380,5 +380,5 @@
 		<ng-container slot="optional-button">
 			Niet meer tonen
 		</ng-container>
-	</app-modal>
+	</vis-modal>
 </div>

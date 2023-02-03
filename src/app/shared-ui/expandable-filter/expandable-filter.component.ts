@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {UntypedFormGroup} from '@angular/forms';
 
 @Component({
-  selector: 'app-expandable-filter',
+  selector: 'vis-expandable-filter',
   templateUrl: './expandable-filter.component.html'
 })
 export class ExpandableFilterComponent implements OnInit, OnChanges {

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
-  selector: 'app-fishing-point-tabs',
+  selector: 'vis-fishing-point-tabs',
   templateUrl: './fishing-point-tabs.component.html'
 })
 export class FishingPointTabsComponent implements OnInit {

@@ -96,17 +96,17 @@
 						</dl>
 					</div>
 					<div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-						<app-button (click)="remove()"
+						<vis-button (click)="remove()"
 						            [role]="role.CreateFishingPoint"
 						            [style]="'secondary'">
 							Verwijderen
-						</app-button>
-						<app-button [role]="role.CreateFishingPoint"
+						</vis-button>
+						<vis-button [role]="role.CreateFishingPoint"
 						            [style]="'primary'"
 						            (click)="editFishingPoint()"
 						            class="ml-2">
 							Bewerken
-						</app-button>
+						</vis-button>
 					</div>
 				</div>
 			</div>
@@ -206,14 +206,14 @@
 
 
 							<div class="sm:col-span-2">
-								<app-fishing-points-map
+								<vis-fishing-points-map
 										[canAddPoints]="false"
 										[enableSidebar]="false"
 										[disableClustering]="true"
 										[tooltipsVisible]="false"
 										[zoomLevel]="15"
 										(loaded)="setMapLoaded()">
-								</app-fishing-points-map>
+								</vis-fishing-points-map>
 							</div>
 						</dl>
 					</div>
@@ -422,7 +422,7 @@
 	</div>
 </div>
 
-<app-modal (onCancel)="cancelModal()"
+<vis-modal (onCancel)="cancelModal()"
            (onPrimary)="confirmDeleteClicked()"
            [isOpen]="isDeleteModalOpen">
 	<ng-container slot="title">
@@ -436,4 +436,4 @@
 		<span *ngIf="canDelete">Verwijderen</span>
 		<span *ngIf="!canDelete">Sluiten</span>
 	</ng-container>
-</app-modal>
+</vis-modal>

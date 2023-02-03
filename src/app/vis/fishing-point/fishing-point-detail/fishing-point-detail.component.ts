@@ -16,7 +16,7 @@ import {AuthService} from '../../../core/auth.service';
 import {FishingPointCreatePageComponent} from '../fishing-point-create-page/fishing-point-create-page.component';
 
 @Component({
-    selector: 'app-fishing-point-detail',
+    selector: 'vis-fishing-point-detail',
     templateUrl: './fishing-point-detail.component.html',
 })
 export class FishingPointDetailComponent implements OnInit {

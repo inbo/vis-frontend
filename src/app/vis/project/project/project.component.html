@@ -1,10 +1,10 @@
-<app-stacked-layout [navigationLinks]="links">
+<vis-stacked-layout [navigationLinks]="links">
   <div slot="content">
-    <app-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></app-breadcrumb>
+    <vis-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></vis-breadcrumb>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-      <app-project-heading></app-project-heading>
-      <app-project-tabs></app-project-tabs>
+      <vis-project-heading></vis-project-heading>
+      <vis-project-tabs></vis-project-tabs>
 
       <div class="px-4 py-8 sm:px-0">
         <router-outlet></router-outlet>
@@ -12,4 +12,4 @@
 
     </div>
   </div>
-</app-stacked-layout>
+</vis-stacked-layout>

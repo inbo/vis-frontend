@@ -25,7 +25,7 @@ import {measurementWeightValidator} from '../survey-event-measurements-create-pa
 import {measurementAmountValidator} from '../survey-event-measurements-create-page/validators/measurement-amount.validator';
 
 @Component({
-    selector: 'app-measurement-row',
+    selector: 'vis-measurement-row',
     templateUrl: './measurement-row.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

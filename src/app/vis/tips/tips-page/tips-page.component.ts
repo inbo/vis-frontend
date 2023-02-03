@@ -8,7 +8,7 @@ import {Tip} from '../../../domain/tip/tip';
 import {Subscription} from 'rxjs';
 
 @Component({
-    selector: 'app-tips-page',
+    selector: 'vis-tips-page',
     templateUrl: './tips-page.component.html',
 })
 export class TipsPageComponent implements OnInit, OnDestroy {

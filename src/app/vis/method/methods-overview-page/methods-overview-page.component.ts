@@ -14,7 +14,7 @@ import {debounceTime, distinctUntilChanged, skip} from 'rxjs/operators';
 import {Role} from '../../../core/_models/role';
 
 @Component({
-  selector: 'app-methods-overview-page',
+  selector: 'vis-methods-overview-page',
   templateUrl: './methods-overview-page.component.html'
 })
 export class MethodsOverviewPageComponent implements OnInit, OnDestroy {

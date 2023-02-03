@@ -5,7 +5,7 @@ import {Role} from '../../core/_models/role';
 import {takeUntil} from 'rxjs/operators';
 
 @Directive({
-  selector: '[appHasRole]'
+  selector: '[visHasRole]'
 })
 export class HasRoleDirective implements OnInit, OnDestroy {
   @Input() appHasRole: Role;

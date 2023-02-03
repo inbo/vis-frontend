@@ -10,7 +10,7 @@ import {AuthService} from '../../../../core/auth.service';
 import {Account} from '../../../../domain/account/account';
 
 @Component({
-  selector: 'app-users-page',
+  selector: 'vis-users-page',
   templateUrl: './users-page.component.html'
 })
 export class UsersPageComponent implements OnInit {

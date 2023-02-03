@@ -9,7 +9,7 @@ import {AlertService} from '../../../_alert';
 import {Role} from '../../../core/_models/role';
 
 @Component({
-    selector: 'app-project-heading',
+    selector: 'vis-project-heading',
     templateUrl: './project-heading.component.html',
 })
 export class ProjectHeadingComponent implements OnInit, OnDestroy {

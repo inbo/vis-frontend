@@ -13,7 +13,7 @@ import {TaxaService} from '../../../services/vis.taxa.service';
 import {debounceTime, distinctUntilChanged, skip} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-fish-species-overview-page',
+  selector: 'vis-fish-species-overview-page',
   templateUrl: './fish-species-overview-page.component.html'
 })
 export class FishSpeciesOverviewPageComponent implements OnInit, OnDestroy {

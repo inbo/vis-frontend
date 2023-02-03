@@ -5,7 +5,7 @@ import {map} from 'rxjs/operators';
 import {TipsService} from '../../services/vis.tips.service';
 
 @Component({
-  selector: 'app-tip',
+  selector: 'vis-tip',
   templateUrl: './tip.component.html'
 })
 export class TipComponent implements OnInit, OnDestroy {

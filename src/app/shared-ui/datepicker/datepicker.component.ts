@@ -5,7 +5,7 @@ import {Dutch} from 'flatpickr/dist/l10n/nl.js';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
-    selector: 'app-datepicker',
+    selector: 'vis-datepicker',
     templateUrl: './datepicker.component.html',
     providers: [
         {

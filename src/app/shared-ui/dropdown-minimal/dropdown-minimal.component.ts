@@ -1,7 +1,7 @@
 import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 
 @Component({
-  selector: 'app-dropdown-minimal',
+  selector: 'vis-dropdown-minimal',
   templateUrl: './dropdown-minimal.component.html'
 })
 export class DropdownMinimalComponent implements OnInit {

@@ -17,7 +17,7 @@ import {ClipboardService} from 'ngx-clipboard';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'app-dashboard-page',
+  selector: 'vis-dashboard-page',
   templateUrl: './dashboard-page.component.html'
 })
 export class DashboardPageComponent implements OnInit, OnDestroy {

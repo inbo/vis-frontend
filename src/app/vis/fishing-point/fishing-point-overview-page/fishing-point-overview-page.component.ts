@@ -18,7 +18,7 @@ import {SearchableSelectOption} from '../../../shared-ui/searchable-select/Searc
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
-    selector: 'app-fishing-point-overview-page',
+    selector: 'vis-fishing-point-overview-page',
     templateUrl: './fishing-point-overview-page.component.html',
     styleUrls: ['./fishing-point-overview-page.component.scss'],
 })

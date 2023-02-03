@@ -1,23 +1,23 @@
 import {
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  forwardRef,
-  HostListener,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild
+    AfterViewChecked,
+    AfterViewInit,
+    Component,
+    ElementRef,
+    EventEmitter,
+    forwardRef,
+    HostListener,
+    Input,
+    OnDestroy,
+    OnInit,
+    Output,
+    ViewChild,
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {fromEvent, Subject, Subscription} from 'rxjs';
 import {debounceTime, filter, map} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-multi-text-search',
+  selector: 'vis-multi-text-search',
   templateUrl: './multi-text-search.component.html',
   providers: [
     {

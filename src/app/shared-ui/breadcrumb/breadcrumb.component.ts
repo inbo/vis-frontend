@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {BreadcrumbLink} from './BreadcrumbLinks';
 
 @Component({
-  selector: 'app-breadcrumb',
+  selector: 'vis-breadcrumb',
   templateUrl: './breadcrumb.component.html'
 })
 export class BreadcrumbComponent implements OnInit {

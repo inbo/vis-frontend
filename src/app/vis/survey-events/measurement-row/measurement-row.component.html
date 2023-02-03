@@ -7,7 +7,7 @@
 		     data-step="4"
 		     data-intro="Dit icoon toont aan dat het een groepmeting is."
 		     data-position="bottom-right-aligned">
-			<app-species-search (arrowPressed)="navigateOnArrow($event)"
+			<vis-species-search (arrowPressed)="navigateOnArrow($event)"
 			                    (changed)="onSpeciesChange()"
 			                    (onSearch)="filterSpecies($event)"
 			                    [index]="formGroupName"
@@ -15,13 +15,13 @@
 			                    class="flex-grow relative"
 			                    data-step="2"
 			                    data-intro="Klik hier om een soort te zoeken en te selecteren.">
-			</app-species-search>
-			<app-error-icon class="input-field-icon"
+			</vis-species-search>
+			<vis-error-icon class="input-field-icon"
 			                fieldName="Soort"
 			                [control]="getSpecies()"
 			                [submitted]="submitted"
 			                onlyShowAfterSubmitted="true">
-			</app-error-icon>
+			</vis-error-icon>
 			<fa-icon [class.hidden]="getType()?.value !== 'GROUP'"
 			         [icon]="faWeightHanging"
 			         class="self-center text-gray-500 pl-2"
@@ -33,66 +33,66 @@
 		</div>
 	</div>
 	<div class="col-span-4 md:col-span-2 lg:col-span-1">
-		<app-measurement-amount (arrowPressed)="navigateOnArrow($event)"
+		<vis-measurement-amount (arrowPressed)="navigateOnArrow($event)"
 		                        (enterPressed)="enterPressed($event)"
 		                        [index]="formGroupName"
 		                        [submitted]="submitted"
 		                        data-step="3"
 		                        data-intro="Pas hier het aantal aan. Indien het aantal groter is dan 1, wordt dit een groepsmeting.">
-		</app-measurement-amount>
+		</vis-measurement-amount>
 	</div>
 	<div class="col-span-4 md:col-span-3 lg:col-span-1">
-		<app-measurement-length (arrowPressed)="navigateOnArrow($event)"
+		<vis-measurement-length (arrowPressed)="navigateOnArrow($event)"
 		                        (enterPressed)="enterPressed($event)"
 		                        [submitted]="submitted"
 		                        [index]="formGroupName">
-		</app-measurement-length>
+		</vis-measurement-length>
 	</div>
 	<div class="col-span-4 md:col-span-3 lg:col-span-1">
-		<app-measurement-weight (arrowPressed)="navigateOnArrow($event)"
+		<vis-measurement-weight (arrowPressed)="navigateOnArrow($event)"
 		                        (enterPressed)="enterPressed($event)"
 		                        [submitted]="submitted"
 		                        [index]="formGroupName">
-		</app-measurement-weight>
+		</vis-measurement-weight>
 	</div>
 	<div class="col-span-4 md:col-span-2 lg:col-span-1">
-		<app-measurement-gender (arrowPressed)="navigateOnArrow($event)"
+		<vis-measurement-gender (arrowPressed)="navigateOnArrow($event)"
 		                        (enterPressed)="enterPressed($event)"
 		                        [index]="formGroupName">
-		</app-measurement-gender>
+		</vis-measurement-gender>
 	</div>
 	<ng-container *ngIf="!isAnkerkuil; else ankerkuil">
 		<div class="col-span-4 md:col-span-2 lg:col-span-1">
-			<app-measurement-fishing-trip-number (arrowPressed)="navigateOnArrow($event)"
+			<vis-measurement-fishing-trip-number (arrowPressed)="navigateOnArrow($event)"
 			                                     (enterPressed)="enterPressed($event)"
 			                                     [submitted]="submitted"
 			                                     [index]="formGroupName">
-			</app-measurement-fishing-trip-number>
+			</vis-measurement-fishing-trip-number>
 		</div>
 	</ng-container>
 	<ng-template #ankerkuil>
 		<div class="col-span-4 md:col-span-2 lg:col-span-1">
-			<app-measurement-ship-side (arrowPressed)="navigateOnArrow($event)"
+			<vis-measurement-ship-side (arrowPressed)="navigateOnArrow($event)"
 			                           (enterPressed)="enterPressed($event)"
 			                           [index]="formGroupName">
-			</app-measurement-ship-side>
+			</vis-measurement-ship-side>
 		</div>
 		<div class="col-span-4 md:col-span-2 lg:col-span-1">
-			<app-measurement-dilution-factor (arrowPressed)="navigateOnArrow($event)"
+			<vis-measurement-dilution-factor (arrowPressed)="navigateOnArrow($event)"
 			                                 (enterPressed)="enterPressed($event)"
 			                                 (tabPressed)="tabPressed()"
 			                                 [submitted]="submitted"
 			                                 [index]="formGroupName">
-			</app-measurement-dilution-factor>
+			</vis-measurement-dilution-factor>
 		</div>
 	</ng-template>
 	<div class="col-span-11 md:col-span-5 lg:col-span-2">
-		<app-measurement-comment (arrowPressed)="navigateOnArrow($event)"
+		<vis-measurement-comment (arrowPressed)="navigateOnArrow($event)"
 		                         (enterPressed)="enterPressed($event)"
 		                         (tabPressed)="tabPressed()"
 		                         [submitted]="submitted"
 		                         [index]="formGroupName">
-		</app-measurement-comment>
+		</vis-measurement-comment>
 	</div>
 	<div class="col-span-1 md:col-span-3 lg:col-span-1 text-right self-center text-gray-500 space-x-2"
 	     data-step="6"
@@ -185,9 +185,9 @@
 
 	<div [class.hidden]="!showIndividualLengthItems"
 	     class="col-span-12">
-		<app-measurement-length-measurements [index]="formGroupName"
+		<vis-measurement-length-measurements [index]="formGroupName"
 		                                     [taxon]="taxon"
 		                                     [submitted]="submitted">
-		</app-measurement-length-measurements>
+		</vis-measurement-length-measurements>
 	</div>
 </div>

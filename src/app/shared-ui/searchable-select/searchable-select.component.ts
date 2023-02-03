@@ -21,7 +21,7 @@ import {SearchableSelectConfig, SearchableSelectConfigBuilder} from './Searchabl
 import {inRange, isEqual} from 'lodash-es';
 
 @Component({
-    selector: 'app-searchable-select',
+    selector: 'vis-searchable-select',
     templateUrl: './searchable-select.component.html',
     styleUrls: ['/searchable-select.component.scss'],
 })

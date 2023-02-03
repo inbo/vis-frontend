@@ -25,7 +25,7 @@ import {FishingPointsService} from '../../../services/vis.fishing-points.service
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
-    selector: 'app-survey-events-overview-page',
+    selector: 'vis-survey-events-overview-page',
     templateUrl: './survey-events-overview-page.component.html',
 })
 export class SurveyEventsOverviewPageComponent implements OnInit, OnDestroy {

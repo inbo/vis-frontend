@@ -7,7 +7,7 @@ import {take} from 'rxjs/operators';
 const EXCLUDE_URLS = ['', 'forbidden', 'not-found', 'internal-server-error', 'service-unavailable'];
 
 @Component({
-  selector: 'app-release-notes-popup',
+  selector: 'vis-release-notes-popup',
   templateUrl: './release-notes-popup.component.html'
 })
 export class ReleaseNotesPopupComponent implements OnInit, OnDestroy {

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-pill',
+  selector: 'vis-pill',
   templateUrl: './pill.component.html'
 })
 export class PillComponent implements OnInit {

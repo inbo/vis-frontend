@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {AsyncPage} from '../../../shared-ui/paging-async/asyncPage';
 import {Import} from '../../../domain/imports/imports';
 import {Subscription} from 'rxjs';
 import {Title} from '@angular/platform-browser';
@@ -10,7 +9,7 @@ import {ImportsService} from '../../../services/vis.imports.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
-  selector: 'app-imports-overview-processed',
+  selector: 'vis-imports-overview-processed',
   templateUrl: './imports-overview-processed.component.html'
 })
 export class ImportsOverviewProcessedComponent implements OnInit, OnDestroy {

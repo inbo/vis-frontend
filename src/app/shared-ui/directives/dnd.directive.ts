@@ -1,14 +1,7 @@
-import {
-  Directive,
-  Output,
-  Input,
-  EventEmitter,
-  HostBinding,
-  HostListener
-} from '@angular/core';
+import {Directive, EventEmitter, HostBinding, HostListener, Output} from '@angular/core';
 
 @Directive({
-  selector: '[appDnd]'
+  selector: '[visDnd]'
 })
 export class DndDirective {
   @HostBinding('class.fileover') fileOver: boolean;

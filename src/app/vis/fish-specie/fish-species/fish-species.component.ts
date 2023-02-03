@@ -6,7 +6,7 @@ import {ActivatedRoute} from '@angular/router';
 import {TaxaService} from '../../../services/vis.taxa.service';
 
 @Component({
-  selector: 'app-fish-species',
+  selector: 'vis-fish-species',
   templateUrl: './fish-species.component.html'
 })
 export class FishSpeciesComponent implements OnInit {

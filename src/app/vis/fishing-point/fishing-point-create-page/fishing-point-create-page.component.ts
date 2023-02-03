@@ -18,7 +18,7 @@ import {FishingPointCreationStep} from './fishing-point-creation-step.enum';
 import {Location} from '@angular/common';
 
 @Component({
-    selector: 'app-fishing-point-create-page',
+    selector: 'vis-fishing-point-create-page',
     templateUrl: './fishing-point-create-page.component.html',
 })
 export class FishingPointCreatePageComponent implements OnInit, OnDestroy {

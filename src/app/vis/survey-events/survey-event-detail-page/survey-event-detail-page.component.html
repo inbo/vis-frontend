@@ -20,7 +20,7 @@
 					Status
 				</dt>
 				<dd class="mt-1 text-sm text-gray-900">
-					<app-survey-event-status-pill [surveyEvent]="surveyEvent"></app-survey-event-status-pill>
+					<vis-survey-event-status-pill [surveyEvent]="surveyEvent"></vis-survey-event-status-pill>
 				</dd>
 			</div>
 			<div class="sm:col-span-1">
@@ -159,38 +159,38 @@
 		</dl>
 	</div>
 	<div class="px-4 py-4 sm:px-6 flex justify-end">
-		<app-button *ngIf="canDeleteSurveyEvent()"
+		<vis-button *ngIf="canDeleteSurveyEvent()"
 		            (click)="deleteSurveyEvent()"
 		            [style]="'secondary'"
 		            class="ml-3"
 		            [role]="role.DeleteSurveyEvent"
 		            [isUserLinkedToProject]="surveyEvent?.canEdit">Verwijderen
-		</app-button>
-		<app-button *ngIf="canValidateSurveyEvent()"
+		</vis-button>
+		<vis-button *ngIf="canValidateSurveyEvent()"
 		            (click)="validateSurveyEvent()"
 		            [style]="'secondary'"
 		            class="ml-3"
 		            [role]="role.ValidateSurveyEvent"
 		            [isUserLinkedToProject]="surveyEvent?.canEdit">Valideer
-		</app-button>
-		<app-button *ngIf="canRestoreSurveyEvent()"
+		</vis-button>
+		<vis-button *ngIf="canRestoreSurveyEvent()"
 		            (click)="reopenSurveyEvent()"
 		            [style]="'secondary'"
 		            class="ml-3"
 		            [role]="role.EditSurveyEvent"
 		            [isUserLinkedToProject]="surveyEvent?.canEdit">Heropenen
-		</app-button>
-		<app-button *ngIf="surveyEvent?.status === 'ENTERED'"
+		</vis-button>
+		<vis-button *ngIf="surveyEvent?.status === 'ENTERED'"
 		            [style]="'primary'"
 		            [disabled]="surveyEvent?.status !== 'ENTERED'"
 		            class="ml-3"
 		            [routerLink]="['/projecten', projectCode, 'waarnemingen', surveyEvent?.surveyEventId, 'bewerk']"
 		            [role]="role.EditSurveyEvent"
 		            [isUserLinkedToProject]="surveyEvent?.canEdit">Bewerken
-		</app-button>
+		</vis-button>
 	</div>
 
-	<app-modal (onCancel)="cancelModal()"
+	<vis-modal (onCancel)="cancelModal()"
 	           (onPrimary)="confirmClicked()"
 	           [isOpen]="isModalOpen">
 		<ng-container slot="title">
@@ -202,5 +202,5 @@
 		<ng-container slot="primary-button">
 			Verwijderen
 		</ng-container>
-	</app-modal>
+	</vis-modal>
 </div>

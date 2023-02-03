@@ -8,7 +8,7 @@ import {ActivatedRoute} from '@angular/router';
 import {PicturesService} from '../../../services/vis.pictures.service';
 
 @Component({
-  selector: 'app-fishing-point-pictures-page',
+  selector: 'vis-fishing-point-pictures-page',
   templateUrl: './fishing-point-pictures-page.component.html'
 })
 export class FishingPointPicturesPageComponent implements OnInit, OnDestroy {

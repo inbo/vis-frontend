@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ImportMeasurement} from '../../../../domain/imports/imports';
 
 @Component({
-  selector: 'app-imports-detail-measurement',
+  selector: 'vis-imports-detail-measurement',
   templateUrl: './imports-detail-measurement.component.html'
 })
 export class ImportsDetailMeasurementComponent implements OnInit {

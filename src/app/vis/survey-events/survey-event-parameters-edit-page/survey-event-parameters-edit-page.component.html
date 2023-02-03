@@ -184,11 +184,11 @@
         </form>
     </div>
     <div class="px-4 py-4 sm:px-6 flex justify-end">
-        <app-button (click)="cancel()">Annuleren</app-button>
-        <app-button [style]="'primary'" class="ml-3" (click)="saveParameters()">Bewaren</app-button>
+        <vis-button (click)="cancel()">Annuleren</vis-button>
+        <vis-button [style]="'primary'" class="ml-3" (click)="saveParameters()">Bewaren</vis-button>
     </div>
 
-    <app-modal [showIcon]="false" (onCancel)="cancelModal()" (onPrimary)="confirmClicked()" [isOpen]="isModalOpen">
+    <vis-modal [showIcon]="false" (onCancel)="cancelModal()" (onPrimary)="confirmClicked()" [isOpen]="isModalOpen">
         <ng-container slot="title">
             Stroomsnelheid berekenen
         </ng-container>
@@ -213,5 +213,5 @@
         <ng-container slot="primary-button">
             Bereken
         </ng-container>
-    </app-modal>
+    </vis-modal>
 </div>

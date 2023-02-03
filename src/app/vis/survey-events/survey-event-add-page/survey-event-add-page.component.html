@@ -17,14 +17,14 @@
 										Datum *
 									</label>
 									<div class="mt-1">
-										<app-datepicker formControlName="occurrenceDate"
+										<vis-datepicker formControlName="occurrenceDate"
 										                [minDate]="minDate"
 										                [maxDate]="maxDate">
-										</app-datepicker>
+										</vis-datepicker>
 									</div>
-									<app-form-error-message [fieldName]="'Datum'"
+									<vis-form-error-message [fieldName]="'Datum'"
 									                        [control]="occurrenceDate"
-									                        [submitted]="submitted"></app-form-error-message>
+									                        [submitted]="submitted"></vis-form-error-message>
 								</div>
 
 								<div class="relative sm:col-span-4">
@@ -33,18 +33,18 @@
 										Locatie *
 									</label>
 									<div class="mt-1">
-										<app-searchable-select id="fishingPoint"
+										<vis-searchable-select id="fishingPoint"
 										                       passedId="fishingPoint"
 										                       placeholder="Selecteer een locatie"
 										                       formControlName="fishingPointId"
 										                       (search)="getFishingPoints($event)"
 										                       [options]="fishingPoints"
 										                       [configuration]="searchableSelectConfig">
-										</app-searchable-select>
+										</vis-searchable-select>
 									</div>
-									<app-form-error-message [fieldName]="'Locatie'"
+									<vis-form-error-message [fieldName]="'Locatie'"
 									                        [control]="location"
-									                        [submitted]="submitted"></app-form-error-message>
+									                        [submitted]="submitted"></vis-form-error-message>
 								</div>
 
 								<div class="relative sm:col-span-4">
@@ -53,7 +53,7 @@
 										Methode *
 									</label>
 									<div class="mt-1">
-										<app-searchable-select id="method"
+										<vis-searchable-select id="method"
 										                       passedId="method"
 										                       placeholder="Selecteer een methode"
 										                       tabIndex="-1"
@@ -61,11 +61,11 @@
 										                       [configuration]="searchableSelectConfig"
 										                       (search)="getMethods($event)"
 										                       [options]="filteredMethods">
-										</app-searchable-select>
+										</vis-searchable-select>
 									</div>
-									<app-form-error-message [fieldName]="'Methode'"
+									<vis-form-error-message [fieldName]="'Methode'"
 									                        [control]="method"
-									                        [submitted]="submitted"></app-form-error-message>
+									                        [submitted]="submitted"></vis-form-error-message>
 								</div>
 
 								<div class="sm:col-span-6">
@@ -80,17 +80,17 @@
                                                   rows="3"></textarea>
 									</div>
 									<div class="flex justify-between">
-										<app-text-counter [max]="800"
-										                  [text]="comment.value"></app-text-counter>
+										<vis-text-counter [max]="800"
+										                  [text]="comment.value"></vis-text-counter>
 									</div>
-									<app-form-error-message [fieldName]="'Commentaar'"
+									<vis-form-error-message [fieldName]="'Commentaar'"
 									                        [control]="comment"
-									                        [submitted]="submitted"></app-form-error-message>
+									                        [submitted]="submitted"></vis-form-error-message>
 								</div>
 							</div>
-							<app-form-error-message [fieldName]="'Waarneming'"
+							<vis-form-error-message [fieldName]="'Waarneming'"
 							                        [control]="form"
-							                        [submitted]="submitted"></app-form-error-message>
+							                        [submitted]="submitted"></vis-form-error-message>
 						</div>
 					</div>
 

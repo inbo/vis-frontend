@@ -15,7 +15,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {mapTo} from 'rxjs/operators';
 
 @Component({
-    selector: 'app-error-icon',
+    selector: 'vis-error-icon',
     templateUrl: 'error-icon.component.html',
     styleUrls: ['error-icon.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

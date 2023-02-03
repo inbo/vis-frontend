@@ -8,7 +8,7 @@ import {switchMap, take, takeUntil, tap} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 
 @Component({
-    selector: 'app-survey-event-detail-page',
+    selector: 'vis-survey-event-detail-page',
     templateUrl: './survey-event-detail-page.component.html',
 })
 
