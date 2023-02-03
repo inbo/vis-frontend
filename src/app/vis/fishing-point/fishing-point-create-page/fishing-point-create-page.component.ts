@@ -51,7 +51,7 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
                 private activatedRoute: ActivatedRoute,
                 private authService: AuthService,
                 private location: Location) {
-        this.titleService.setTitle('Locatie toevoegen');
+        this.titleService.setTitle('Vispunt toevoegen');
     }
 
     ngOnInit(): void {

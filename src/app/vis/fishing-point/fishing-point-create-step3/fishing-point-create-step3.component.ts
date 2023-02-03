@@ -16,7 +16,7 @@ export class FishingPointCreateStep3Component implements OnInit {
     @Input() formGroup: UntypedFormGroup;
 
     constructor(private titleService: Title) {
-        this.titleService.setTitle('Locatie toevoegen');
+        this.titleService.setTitle('Vispunt toevoegen');
     }
 
     ngOnInit(): void {

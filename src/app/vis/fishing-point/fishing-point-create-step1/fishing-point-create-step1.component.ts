@@ -30,7 +30,7 @@ export class FishingPointCreateStep1Component implements OnInit, AfterViewInit {
 
     constructor(private titleService: Title,
                 private fishingPointsService: FishingPointsService) {
-        this.titleService.setTitle('Locatie toevoegen');
+        this.titleService.setTitle('Vispunt toevoegen');
     }
 
     get code() {

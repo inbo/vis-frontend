@@ -63,7 +63,7 @@ export class FishingPointOverviewPageComponent implements OnInit, OnDestroy {
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
                 private formBuilder: UntypedFormBuilder) {
-        this.titleService.setTitle('Locaties');
+        this.titleService.setTitle('Vispunten');
 
         this.fishingPointSearchableSelectConfig = new SearchableSelectConfigBuilder()
             .minQueryLength(2)

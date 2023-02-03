@@ -18,7 +18,7 @@ export class FishingPointCreateStep2Component implements OnInit {
     @Input() editMode = false;
 
     constructor(private titleService: Title) {
-        this.titleService.setTitle('Locatie toevoegen');
+        this.titleService.setTitle('Vispunt toevoegen');
     }
 
     ngOnInit(): void {
