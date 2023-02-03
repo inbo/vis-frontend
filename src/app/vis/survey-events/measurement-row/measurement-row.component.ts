@@ -23,6 +23,7 @@ import {valueBetweenWarning} from '../survey-event-measurements-create-page/vali
 import {WarningFormControl} from '../../../shared-ui/warning-form-control/warning.form-control';
 import {measurementWeightValidator} from '../survey-event-measurements-create-page/validators/measurement-weight.validator';
 import {measurementAmountValidator} from '../survey-event-measurements-create-page/validators/measurement-amount.validator';
+import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../shared-ui/searchable-select/SearchableSelectConfig';
 
 @Component({
     selector: 'vis-measurement-row',
@@ -30,6 +31,11 @@ import {measurementAmountValidator} from '../survey-event-measurements-create-pa
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MeasurementRowComponent implements OnInit, OnDestroy {
+
+    readonly speciesSelectConfiguration: SearchableSelectConfig = new SearchableSelectConfigBuilder()
+        .minQueryLength(0)
+        .searchPlaceholder('Begin met typen om te zoeken')
+        .build();
 
     faWeightHanging = faWeightHanging;
     faRulerHorizontal = faRulerHorizontal;
@@ -178,7 +184,12 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
     focusElement(field: string, index: number) {
         const element = document.getElementById(field + '-' + index + (field === 'species' ? '-button' : ''));
         if (element !== null) {
-            setTimeout(() => element.focus(), 0);
+            setTimeout(() => {
+                element.focus();
+                if (element instanceof HTMLInputElement) {
+                    (element as HTMLInputElement).select();
+                }
+            }, 0);
         }
     }
 

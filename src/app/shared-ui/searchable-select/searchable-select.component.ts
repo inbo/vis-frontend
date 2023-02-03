@@ -26,6 +26,14 @@ import {inRange, isEqual} from 'lodash-es';
     styleUrls: ['/searchable-select.component.scss'],
 })
 export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAccessor, OnChanges, AfterViewInit {
+    get open(): boolean {
+        return this._open;
+    }
+
+    set open(value: boolean) {
+        this._open = value;
+        this.cdr.detectChanges();
+    }
     @ViewChild('searchBox') searchBox: ElementRef<HTMLInputElement>;
     @ViewChild('valuesList') valuesList: ElementRef;
     @ViewChild('selectButton') selectButton: ElementRef;
@@ -52,7 +60,7 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
         ngControl.valueAccessor = this;
     }
 
-    open = false;
+    private _open = false;
 
     private _options: SearchableSelectOption<T>[];
 
@@ -83,6 +91,7 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
             () => {
                 this.toggle();
                 setTimeout(() => {
+                    console.log('scrolling and focusing');
                     this.valuesList?.nativeElement?.scrollIntoView({behavior: 'smooth', block: 'start'});
                     this.searchBox?.nativeElement?.focus();
                 });

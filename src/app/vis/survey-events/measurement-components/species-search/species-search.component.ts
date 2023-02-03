@@ -20,7 +20,7 @@ export class SpeciesSearchComponent extends MeasurementComponentDirective {
     fieldName = 'species';
 
     keydown($event: KeyboardEvent) {
-        if ($event.key === 'Enter') {
+        if (['Enter', 'Tab', 'ArrowLeft', 'ArrowRight'].includes($event.key)) {
             return;
         }
         super.keydown($event);
@@ -34,9 +34,8 @@ export class SpeciesSearchComponent extends MeasurementComponentDirective {
         this.onSearch.emit($event);
     }
 
-    enterPressedEvent($event: any) {
-        if (!$event.open) {
-            // @ts-ignore
+    enterPressedEvent($event: {open: boolean, event: KeyboardEvent}) {
+        if ($event.open) {
             super.keydown($event.event);
         }
     }
