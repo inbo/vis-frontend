@@ -36,9 +36,6 @@ import {measurementWeightValidator} from './validators/measurement-weight.valida
     styleUrls: ['../measurements-shared.scss'],
 })
 export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked, HasUnsavedData {
-    get measurementRows(): QueryList<MeasurementRowComponent> {
-        return this._measurementRows;
-    }
 
     @ViewChildren(MeasurementRowComponent)
     set measurementRows(value: QueryList<MeasurementRowComponent>) {
@@ -52,15 +49,12 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
     @ViewChildren(MeasurementRowComponent, {read: ElementRef}) measurementRowDOMElements: QueryList<ElementRef<HTMLElement>>;
 
-    private _measurementRows: QueryList<MeasurementRowComponent>;
-    faRulerHorizontal = faRulerHorizontal;
-    faWeightHanging = faWeightHanging;
+    readonly faRulerHorizontal = faRulerHorizontal;
+    readonly faWeightHanging = faWeightHanging;
 
     introModalOpen = false;
     introJs: IntroJs;
-
     tip$: Observable<Tip>;
-
     existingMeasurements: Measurement[];
     measurementsForm: FormGroup;
     submitted = false;
@@ -68,6 +62,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     loading = false;
     isAnkerkuilSurvey = false;
 
+    private _measurementRows: QueryList<MeasurementRowComponent>;
     private firstOneHasBeenFocused = false;
     private scrollIntoView = false;
     private subscription = new Subscription();
@@ -103,7 +98,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
                 .subscribe(() => {
                     this.addNewLine();
                     setTimeout(() => {
-                        document.getElementById(`species-${this.items().length - 1}-button`).focus();
+                        document.getElementById(`species-${(this.getPreviousIndex())}-button`).focus();
                     }, 0);
                 }),
         );
@@ -121,7 +116,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
     ngAfterViewChecked() {
         if (this.scrollIntoView) {
-            document.getElementById('species-' + (this.items().length - 1))?.scrollIntoView();
+            document.getElementById('species-' + this.getPreviousIndex())?.scrollIntoView();
             this.scrollIntoView = false;
         }
     }
@@ -141,7 +136,7 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
             weight: new WarningFormControl(null, [Validators.min(0)]),
             gender: new FormControl<string>(gender ?? 'UNKNOWN'),
             isPortside: new FormControl<boolean>(isPortside ?? true),
-            afvisBeurtNumber: new FormControl<number>(1),
+            afvisBeurtNumber: new FormControl<number>(afvisbeurt || 1),
             dilutionFactor: new FormControl<number>(dilutionFactor == null ? 1 : dilutionFactor, [Validators.min(0)]),
             comment: new FormControl<string>(comment ?? '', [Validators.maxLength(2000)]),
             individualLengths: this.formBuilder.array([]),
@@ -169,19 +164,23 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     }
 
     getPreviousSpecies() {
-        return this.species(this.items().length - 1).value;
+        return this.species(this.getPreviousIndex()).value;
     }
 
     getPreviousGender() {
-        return this.gender(this.items().length - 1).value;
+        return this.gender(this.getPreviousIndex()).value;
     }
 
     getPreviousAfvisbeurt() {
-        return this.afvisBeurtNumber(this.items().length - 1).value;
+        return this.afvisBeurtNumber(this.getPreviousIndex()).value;
+    }
+
+    private getPreviousIndex() {
+        return this.items().length - 1;
     }
 
     getPreviousComment() {
-        return this.comment(this.items().length - 1).value;
+        return this.comment(this.getPreviousIndex()).value;
     }
 
     createMeasurements() {
@@ -221,16 +220,8 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         this.items().removeAt(i);
     }
 
-    private isKeyTab(key: string) {
-        return key === 'Tab';
-    }
-
     private isKeyLowerM(key: string) {
         return key === 'm';
-    }
-
-    private isLastIndex(i: number) {
-        return this.items() === undefined || (i + 1) === this.items().length;
     }
 
     species(index: number) {
@@ -259,14 +250,6 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
 
     comment(index: number) {
         return this.items().at(index).get('comment');
-    }
-
-    isNormalType(index: number) {
-        return this.items().at(index).get('type').value === 'NORMAL';
-    }
-
-    isGroupType(index: number) {
-        return this.items().at(index).get('type').value === 'GROUP';
     }
 
     showExistingMeasurementsClick() {
@@ -369,11 +352,11 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     }
 
     private getPreviousPortside() {
-        return this.isPortside(this.items().length - 1).value ?? true;
+        return this.isPortside(this.getPreviousIndex()).value ?? true;
     }
 
     private getPreviousDilutionFactor() {
-        return this.dilutionFactor(this.items().length - 1).value;
+        return this.dilutionFactor(this.getPreviousIndex()).value;
     }
 
     private isPortside(index: number) {
