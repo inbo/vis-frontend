@@ -20,6 +20,7 @@ import {TaxonDetail} from '../../../../domain/taxa/taxon-detail';
 import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
 import {measurementWeightValidator} from '../survey-event-measurements-create-page/validators/measurement-weight.validator';
 import {measurementAmountValidator} from '../survey-event-measurements-create-page/validators/measurement-amount.validator';
+import {weightBetweenWarning} from '../survey-event-measurements-create-page/validators/weight-between.warning-validator';
 
 @Component({
     selector: 'vis-survey-event-measurements-page',
@@ -95,7 +96,6 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
             ]),
             weight: new WarningFormControl(measurement.weight, [
                 Validators.min(0),
-                (measurement.taxon ? valueBetweenWarning(measurement.taxon?.weightMin, measurement.taxon?.weightMax, this.changeDetectorRef) : () => null),
             ]),
             gender: new FormControl<string>(measurement.gender ? measurement.gender : 'UNKNOWN'),
             afvisBeurtNumber: new FormControl<number>(measurement.afvisBeurtNumber, [Validators.min(1), Validators.max(10)]),
@@ -106,6 +106,7 @@ export class SurveyEventMeasurementsPageComponent implements OnInit, OnDestroy {
         }, {
             validators: [
                 weightLengthRatioValidator(measurement.taxon, this.changeDetectorRef),
+                weightBetweenWarning(measurement.taxon, this.changeDetectorRef),
                 measurementAmountValidator(this.changeDetectorRef),
                 measurementWeightValidator(this.changeDetectorRef),
             ],

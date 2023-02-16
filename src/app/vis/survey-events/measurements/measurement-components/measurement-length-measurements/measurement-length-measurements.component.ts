@@ -143,7 +143,11 @@ export class MeasurementLengthMeasurementsComponent implements OnInit {
 
     private createIndividualLength(comment?: string): UntypedFormGroup {
         return this.formBuilder.group({
-            length: new WarningFormControl(null, [Validators.min(0), Validators.required, this.taxon ? valueBetweenWarning(this.taxon.lengthMin, this.taxon.lengthMax, this.changeDetectorRef) : () => null]),
+            length: new WarningFormControl(null, [
+                Validators.min(0),
+                Validators.required,
+                this.taxon ? valueBetweenWarning(this.taxon.lengthMin, this.taxon.lengthMax, this.changeDetectorRef) : () => null,
+            ]),
             comment: new UntypedFormControl(comment ?? '', Validators.maxLength(2000)),
         });
     }

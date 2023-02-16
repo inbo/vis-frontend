@@ -27,7 +27,7 @@ export function weightLengthRatioValidator(taxon: TaxonDetail, cdr: ChangeDetect
         const minWeight = taxon.minGewichtLengteFactor * Math.pow(length, taxon.minGewichtLengteExponent) + (taxon.minGewichtLengteConstante ?? 0);
         const maxWeight = taxon.maxGewichtLengteFactor * Math.pow(length, taxon.maxGewichtLengteExponent) + (taxon.maxGewichtLengteConstante ?? 0);
 
-        const isNotWithinRatio = weight < minWeight || weight > maxWeight;
+        const isNotWithinRatio = weight < minWeight ||   weight > maxWeight;
         delete weightField?.warningMessages?.ratio;
         weightField.warningMessages = {
             ...(weightField.warningMessages || {}),
