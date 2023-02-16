@@ -24,6 +24,7 @@ import {WarningFormControl} from '../../../../shared-ui/warning-form-control/war
 import {measurementWeightValidator} from '../survey-event-measurements-create-page/validators/measurement-weight.validator';
 import {measurementAmountValidator} from '../survey-event-measurements-create-page/validators/measurement-amount.validator';
 import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../../shared-ui/searchable-select/SearchableSelectConfig';
+import {weightBetweenWarning} from '../survey-event-measurements-create-page/validators/weight-between.warning-validator';
 
 @Component({
     selector: 'vis-measurement-row',
@@ -277,14 +278,19 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
         this.getLength().setValidators([Validators.min(0)]);
 
         if (taxon) {
-            this.getWeight().addValidators(valueBetweenWarning(taxon.weightMin, taxon.weightMax, this.changeDetectorRef));
             this.getLength().addValidators(valueBetweenWarning(taxon.lengthMin, taxon.lengthMax, this.changeDetectorRef));
             this.getIndividualLengths().controls.forEach(control => {
                 control.get('length').addValidators(valueBetweenWarning(taxon.lengthMin, taxon.lengthMax, this.changeDetectorRef));
             });
         }
 
-        this.measurementForm.setValidators([weightLengthRatioValidator(taxon, this.changeDetectorRef), measurementWeightValidator(this.changeDetectorRef), measurementAmountValidator(this.changeDetectorRef)]);
+        this.measurementForm.setValidators(
+            [
+                weightLengthRatioValidator(taxon, this.changeDetectorRef),
+                measurementWeightValidator(this.changeDetectorRef),
+                measurementAmountValidator(this.changeDetectorRef),
+                weightBetweenWarning(taxon, this.changeDetectorRef),
+            ]);
         this.getWeight().updateValueAndValidity();
         this.getLength().updateValueAndValidity();
         this.measurementForm.updateValueAndValidity();

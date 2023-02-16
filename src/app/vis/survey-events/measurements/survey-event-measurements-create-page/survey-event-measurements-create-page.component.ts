@@ -37,21 +37,10 @@ import {measurementWeightValidator} from './validators/measurement-weight.valida
 })
 export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked, HasUnsavedData {
 
-    @ViewChildren(MeasurementRowComponent)
-    set measurementRows(value: QueryList<MeasurementRowComponent>) {
-        if (value?.length > 0 && !this.firstOneHasBeenFocused) {
-            value.first.focusElement('species', 0);
-            this.firstOneHasBeenFocused = true;
-        }
-        this._measurementRows = value;
-    }
-
     @ViewChildren('lines') lines: QueryList<HTMLDivElement>;
     @ViewChildren(MeasurementRowComponent, {read: ElementRef}) measurementRowDOMElements: QueryList<ElementRef<HTMLElement>>;
-
     readonly faRulerHorizontal = faRulerHorizontal;
     readonly faWeightHanging = faWeightHanging;
-
     introModalOpen = false;
     introJs: IntroJs;
     tip$: Observable<Tip>;
@@ -61,8 +50,6 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     showExistingMeasurements = false;
     loading = false;
     isAnkerkuilSurvey = false;
-
-    private _measurementRows: QueryList<MeasurementRowComponent>;
     private firstOneHasBeenFocused = false;
     private scrollIntoView = false;
     private subscription = new Subscription();
@@ -76,6 +63,17 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
                 private tipsService: TipsService,
                 private _location: Location,
                 private changeDetectorRef: ChangeDetectorRef) {
+    }
+
+    private _measurementRows: QueryList<MeasurementRowComponent>;
+
+    @ViewChildren(MeasurementRowComponent)
+    set measurementRows(value: QueryList<MeasurementRowComponent>) {
+        if (value?.length > 0 && !this.firstOneHasBeenFocused) {
+            value.first.focusElement('species', 0);
+            this.firstOneHasBeenFocused = true;
+        }
+        this._measurementRows = value;
     }
 
     ngOnInit(): void {
@@ -175,16 +173,11 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
         return this.afvisBeurtNumber(this.getPreviousIndex()).value;
     }
 
-    private getPreviousIndex() {
-        return this.items().length - 1;
-    }
-
     getPreviousComment() {
         return this.comment(this.getPreviousIndex()).value;
     }
 
     createMeasurements() {
-        0;
         if (this.measurementsForm.invalid) {
             this.submitted = true;
             return;
@@ -218,10 +211,6 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
             return;
         }
         this.items().removeAt(i);
-    }
-
-    private isKeyLowerM(key: string) {
-        return key === 'm';
     }
 
     species(index: number) {
@@ -349,6 +338,14 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
                 nextRow.focusElement(event.fieldName, nextRow.formGroupName);
             }
         }
+    }
+
+    private getPreviousIndex() {
+        return this.items().length - 1;
+    }
+
+    private isKeyLowerM(key: string) {
+        return key === 'm';
     }
 
     private getPreviousPortside() {
