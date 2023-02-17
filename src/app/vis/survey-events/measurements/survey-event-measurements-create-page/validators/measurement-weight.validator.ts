@@ -6,17 +6,22 @@ export const measurementWeightValidator = (changeDetectorRef: ChangeDetectorRef)
     return (measurementFormGroup: FormGroup) => {
         const amountFormControl = measurementFormGroup.get('amount');
         const weightFormControl = measurementFormGroup.get('weight');
+        const lengthFormControl = measurementFormGroup.get('length');
 
-        if (isNil(amountFormControl) || isNil(weightFormControl)) {
+        if (isNil(amountFormControl) || isNil(weightFormControl) || isNil(lengthFormControl)) {
             return null;
         }
 
         const amount = amountFormControl.value;
         const weight = weightFormControl.value;
+        const length = lengthFormControl.value;
 
         let errors = null;
 
-        if (amount > 1 && isNil(weight)) {
+        let lengthIsFilledIn = !isNil(length) && length !== '';
+        let amountIsGreaterThan1 = amount > 1;
+        let weightIsNotFilledIn = isNil(weight) || weight === '';
+        if (amountIsGreaterThan1 && lengthIsFilledIn && weightIsNotFilledIn) {
             errors = {
                 measurementWeight: true,
             };
