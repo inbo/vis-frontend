@@ -246,7 +246,7 @@
     "uniqueCode": "Code moet uniek zijn",
     "min": "{{fieldName}} moet groter of gelijk zijn aan {{min}}",
     "max": "{{fieldName}} moet kleiner of gelijk zijn aan {{max}",
-    "measurementWeight": "Gewicht is verplicht als aantal > 1.",
+    "measurementWeight": "Gewicht is verplicht als lengte is ingevuld en aantal > 1",
     "measurementAmount": "Aantal > 0 is verplicht als lengte is ingevuld.",
     "projectStartAfterSurveyEvents": "Bestaande waarneming data mogen niet voor de project start datum vallen.",
     "projectEndBeforeSurveyEvents": "Bestaande waarneming data mogen niet na de project eind datum vallen.",
