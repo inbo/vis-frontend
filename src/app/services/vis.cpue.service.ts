@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {VisService} from './vis.service';
 import {Observable} from 'rxjs';
-import {withCache} from '@ngneat/cashew';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,7 @@ export class CpueService extends VisService {
   }
 
   listAllParameters() {
-    return this.http.get<string[]>(`${environment.apiUrl}/api/cpue/parameters`, {context: withCache()});
+    return this.http.get<string[]>(`${environment.apiUrl}/api/cpue/parameters`);
   }
 
   testCalculation(formData: any) {

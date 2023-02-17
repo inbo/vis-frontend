@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnChanges,
+    OnInit,
+    SimpleChanges,
+} from '@angular/core';
 import {debounceTime, distinctUntilChanged, filter, switchMap} from 'rxjs/operators';
 import {startOfDay} from 'date-fns';
 import {forkJoin, of, Subject} from 'rxjs';
