@@ -28,6 +28,7 @@ export class ExistingSurveyEventsFoundWarningComponent implements OnChanges, OnI
     @Input() method: string;
     @Input() fishingPointId: number;
     @Input() date: Date;
+    @Input() filterSurveyEventId: number;
 
     existingSurveyEventsWithFishingPointMethodAndOccurrenceDate: { surveyEvent: SurveyEvent; project: Array<SurveyEvent> | Project }[];
 
@@ -55,6 +56,13 @@ export class ExistingSurveyEventsFoundWarningComponent implements OnChanges, OnI
             ).subscribe(
             ([foundSurveyEvents, ...projects]: [Array<SurveyEvent>, ...Array<Project>]) => {
                 this.existingSurveyEventsWithFishingPointMethodAndOccurrenceDate = foundSurveyEvents
+                    .filter(surveyEvent => {
+                        if (this.filterSurveyEventId && this.filterSurveyEventId == surveyEvent.surveyEventId) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    })
                     .map(surveyEvent => ({
                         surveyEvent,
                         project: projects.find(project => project.code.value === surveyEvent.projectCode),
