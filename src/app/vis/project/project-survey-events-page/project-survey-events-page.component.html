@@ -128,7 +128,7 @@
 					        id="method">
 						<option [ngValue]="null">Methode selecteren...</option>
 						<option *ngFor="let method of methods$ | async"
-						        [value]="method.code">{{'method.' + method.code | translate}}</option>
+						        [value]="method.code">{{method.description}}</option>
 					</select>
 				</div>
 			</div>
