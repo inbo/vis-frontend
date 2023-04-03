@@ -48,14 +48,15 @@
     "ng-refs": "10.0.0",
     "ng-transition": "10.0.0",
     "ngx-clipboard": "14.0.1",
-    "ngx-mask": "^15.0.2",
+    "ngx-mask": "15.0.2",
     "ngx-pipes": "3.2.0",
     "ngx-tippy-wrapper": "6.1.0",
     "ngx-toastr": "16.0.2",
-    "rxjs": "6.6.7",
+    "ngx-translate-multi-http-loader": "^9.3.2",
+    "rxjs": "7.8.0",
     "tailwindcss": "2.1.4",
     "tippy.js": "6.3.7",
-    "tslib": "2.0.0",
+    "tslib": "2.4.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -78,14 +79,14 @@
     "cross-env": "7.0.3",
     "jasmine-core": "3.6.0",
     "jasmine-spec-reporter": "5.0.0",
-    "karma": "6.3.2",
+    "karma": "6.3.16",
     "karma-chrome-launcher": "3.1.0",
     "karma-coverage-istanbul-reporter": "3.0.2",
     "karma-jasmine": "4.0.0",
     "karma-jasmine-html-reporter": "1.5.0",
     "ts-node": "8.3.0",
     "tslint": "6.1.0",
-    "typescript": "4.9.4"
+    "typescript": "4.9.5"
   },
   "overrides": {
     "autoprefixer": "10.4.5",
