@@ -86,7 +86,7 @@ export class AppModule {
 export function HttpLoaderFactory(http: HttpBackend) {
     return new MultiTranslateHttpLoader(http, [
         {prefix: './assets/i18n/', suffix: '.json'},
-        {prefix: `${environment.apiUrl}/translations/`, suffix: ''},
+        {prefix: `${environment.apiUrl}/translations/`,  suffix: '.json'},
     ]);
 }
 
