@@ -7,7 +7,6 @@ import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {SurveyEventsService} from '../../../services/vis.surveyevents.service';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {Location} from '@angular/common';
-import {isNumeric} from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'vis-survey-event-parameters-edit-page',
@@ -216,7 +215,7 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
   }
 
   calculateAvgDepth() {
-    if (isNumeric(this.minDepth.value) && isNumeric(this.maxDepth.value)) {
+    if (this.isFiniteNumber(this.minDepth.value) && this.isFiniteNumber(this.maxDepth.value)) {
       const min = this.minDepth.value as number;
       const max = this.maxDepth.value as number;
       const sum = +min + +max;
@@ -224,6 +223,10 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
       const value = Math.round( avg * 100 + Number.EPSILON ) / 100;
       this.averageDepth.patchValue(value.toString());
     }
+  }
+
+  private isFiniteNumber(value: unknown): boolean {
+      return (value != null && value !== '' && !isNaN(Number(value.toString())) && Number.isFinite(+value));
   }
 
   openFlowRatePopup() {

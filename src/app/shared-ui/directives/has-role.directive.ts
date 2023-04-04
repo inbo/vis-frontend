@@ -10,7 +10,7 @@ import {takeUntil} from 'rxjs/operators';
 export class HasRoleDirective implements OnInit, OnDestroy {
   @Input() visHasRole: Role;
 
-  stop$ = new Subject();
+  stop$ = new Subject<void>();
 
   isVisible = false;
 
