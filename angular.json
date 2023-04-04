@@ -24,7 +24,6 @@
               "esri-leaflet-renderers",
               "@asymmetrik/ngx-leaflet",
               "@asymmetrik/ngx-leaflet-markercluster",
-              "deepmerge",
               "lodash",
               "esri-leaflet-geocoder",
               "leaflet-defaulticon-compatibility",
