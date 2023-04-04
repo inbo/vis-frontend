@@ -12,7 +12,7 @@ import {NgxTippyProps, NgxTippyService} from 'ngx-tippy-wrapper';
 import {AbstractControl} from '@angular/forms';
 import {merge, Subscription} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
-import {mapTo} from 'rxjs/operators';
+import {map, mapTo} from 'rxjs/operators';
 
 @Component({
     selector: 'vis-error-icon',
@@ -49,8 +49,8 @@ export class ErrorIconComponent implements OnDestroy, OnChanges {
         if (controlChange) {
             this.formSubscription?.unsubscribe();
             this.formSubscription = merge(
-                this.control.root.statusChanges.pipe(mapTo('root status changed')),
-                this.control.root.valueChanges.pipe(mapTo('root value changed')),
+                this.control.root.statusChanges.pipe(map(() => 'root status changed')),
+                this.control.root.valueChanges.pipe(map(() => 'root value changed')),
             ).subscribe(status => {
                 this.updateErrors();
             });

@@ -82,8 +82,8 @@ export class SearchableSelectComponent<T> implements OnDestroy, ControlValueAcce
 
     ngAfterViewInit(): void {
         merge(
-            fromEvent(this.selectButton.nativeElement, 'click').pipe(mapTo('click')),
-            fromEvent(this.selectButton.nativeElement, 'focus').pipe(mapTo('focus')),
+            fromEvent(this.selectButton.nativeElement, 'click').pipe(map(() => 'click')),
+            fromEvent(this.selectButton.nativeElement, 'focus').pipe(map(() => 'focus')),
         ).pipe(
             takeUntil(this.destroy),
             throttleTime(1000, asyncScheduler, {leading: true, trailing: false}),

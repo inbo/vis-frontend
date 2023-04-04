@@ -205,15 +205,16 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         const formData = this.projectForm.getRawValue();
 
         this.subscription.add(
-            this.projectService.updateProject(this.project.code.value, formData).subscribe(
-                (response) => {
-                    this.project = response;
-                    this.projectForm.reset();
-                    this.projectService.next(response);
-                    this.router.navigate(['/projecten', this.project.code.value]);
-                },
-                (error) => console.log(error),
-            ),
+            this.projectService.updateProject(this.project.code.value, formData)
+                .subscribe({
+                    next: (response) => {
+                        this.project = response;
+                        this.projectForm.reset();
+                        this.projectService.next(response);
+                        this.router.navigate(['/projecten', this.project.code.value]);
+                    },
+                    error: (error) => console.log(error),
+                }),
         );
     }
 

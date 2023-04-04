@@ -91,12 +91,13 @@ export class SurveyEventParametersEditPageComponent implements OnInit, OnDestroy
 
     this.subscription.add(
       this.surveyEventsService.updateParameters(this.activatedRoute.parent.snapshot.params.projectCode, this.surveyEventId, formData)
-        .subscribe(() => {
-            this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
-              this.activatedRoute.parent.snapshot.params.surveyEventId, 'waterkwaliteitsparameters']);
-          },
-          (error) => console.log(error)
-        )
+          .subscribe({
+              next: () => {
+                  this.router.navigate(['/projecten', this.activatedRoute.parent.snapshot.params.projectCode, 'waarnemingen',
+                      this.activatedRoute.parent.snapshot.params.surveyEventId, 'waterkwaliteitsparameters']);
+              },
+              error: (error) => console.log(error),
+          }),
     );
   }
 

@@ -1,6 +1,6 @@
 /// <reference types='@runette/leaflet-fullscreen' />
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
+import {map, Observable, Subscription} from 'rxjs';
 import * as L from 'leaflet';
 import {
     featureGroup,
@@ -212,7 +212,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                     this.layerMetadata.set(LayerId.FISHING_POINT_LAYER, {name: 'Vispunt'});
 
                 }),
-                mapTo(undefined),
+                map(() => undefined),
             );
     }
 

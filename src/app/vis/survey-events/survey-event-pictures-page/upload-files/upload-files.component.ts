@@ -58,15 +58,16 @@ export class UploadFilesComponent implements OnInit {
     this.progressInfos[idx] = {value: 0, fileName: file.name};
 
     if (file) {
-      this.picturesService.upload(file, this.projectCode, this.surveyEventId).subscribe(
-        (event: any) => {
+      this.picturesService.upload(file, this.projectCode, this.surveyEventId).subscribe({
+        next: (event: any) => {
           if (event.type === HttpEventType.UploadProgress) {
             this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
           }
         },
-        (err: any) => {
+        error: (err: any) => {
           this.progressInfos[idx].value = 0;
-        });
+        }
+      });
     }
   }
 

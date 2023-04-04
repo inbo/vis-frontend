@@ -91,12 +91,9 @@ function HttpLoaderFactory(http: HttpClient) {
 
 function initializeTranslations(translate: TranslateService) {
     return () => new Promise<any>((resolve: any) => {
-        translate.use('nl').subscribe(() => {
-            console.log(`Successfully initialized 'nl' language.'`);
-        }, err => {
-            console.error(`Problem with 'nl' language initialization.'`);
-        }, () => {
-            resolve(null);
+        translate.use('nl').subscribe({
+            next: () => console.log(`Successfully initialized 'nl' language.'`),
+            error: err => console.error(`Problem with 'nl' language initialization.'`, err)
         });
     });
 }

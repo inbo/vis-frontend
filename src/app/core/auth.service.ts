@@ -96,7 +96,7 @@ export class AuthService implements OnDestroy {
   public runInitialLoginSequence(): Promise<void> {
     if (environment.showDebugInformation && location.hash) {
       console.log('Encountered hash fragment, plotting as table...');
-      console.table(location.hash.substr(1).split('&').map(kvp => kvp.split('=')));
+      console.table(location.hash.substring(1).split('&').map(kvp => kvp.split('=')));
     }
 
     // 0. LOAD CONFIG:

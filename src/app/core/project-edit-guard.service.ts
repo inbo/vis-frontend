@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {ProjectService} from '../services/vis.project.service';
+import {lastValueFrom} from 'rxjs';
 
 @Injectable()
 export class ProjectEditGuard implements CanActivate {
@@ -8,7 +9,7 @@ export class ProjectEditGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-    return this.projectService.canEdit(this.getProjectCode(route)).toPromise();
+    return lastValueFrom(this.projectService.canEdit(this.getProjectCode(route)));
   }
 
   private getProjectCode(route: ActivatedRouteSnapshot) {
