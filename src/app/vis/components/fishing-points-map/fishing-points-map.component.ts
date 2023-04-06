@@ -1,6 +1,6 @@
 /// <reference types='@runette/leaflet-fullscreen' />
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import {map, Observable, Subscription} from 'rxjs';
+import {filter, finalize, from, map, Observable, Subscription} from 'rxjs';
 import * as L from 'leaflet';
 import {
     featureGroup,
@@ -20,9 +20,9 @@ import * as esri_geo from 'esri-leaflet-geocoder';
 import 'leaflet.locatecontrol';
 import {dynamicMapLayer, DynamicMapLayer, featureLayer} from 'esri-leaflet';
 import {FishingPointsService} from '../../../services/vis.fishing-points.service';
-import {mapTo, switchMap, take, tap} from 'rxjs/operators';
+import {switchMap, take, tap} from 'rxjs/operators';
 import {VhaUrl} from '../../../domain/fishing-point/vha-version';
-import {FishingPoint} from '../../../domain/fishing-point/fishing-point';
+import {FishingPoint, FishingPointFeature} from '../../../domain/fishing-point/fishing-point';
 import {LayerId} from './layer-id.enum';
 import {VhaBlueLayerSelectionEvent} from './vha-blue-layer-selection-event.model';
 import {GeoJsonProperties} from 'geojson';
@@ -50,7 +50,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     @Input() watercoursesLayerVisible = true;
     @Input() townsLayerVisible = true;
     @Input() tooltipsVisible = true;
-    @Input() filter: any;
+    @Input() invalidLambertCoordsVisible = false; // Hide fishing points with invalid Lambert coordinates. See: #515
+    @Input() filterCriteria: any;
     @Input() highlightPoint: FishingPoint;
     @Input() enableSidebar = true;
     @Input() disableInteraction = false;
@@ -159,61 +160,67 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    updateFishingPointsLayer(filter: any): Observable<void> {
+    updateFishingPointsLayer(filterCriteria: any): Observable<void> {
         this.fishingPointsLayer.clearLayers();
 
         return this.fishingPointsService
-            .getFishingPointsFeatures(this.projectCode, filter)
+            .getFishingPointsFeatures(this.projectCode, filterCriteria)
             .pipe(
                 take(1),
-                tap(fishingPointFeatures => {
-                    fishingPointFeatures.forEach(fishingPointFeature => {
-                        const latlng = latLng(fishingPointFeature.lat, fishingPointFeature.lng);
-                        const marker = L.marker(latlng, {icon: this.defaultMarkerIcon});
+                switchMap(from),
+                filter((fishingPointFeature: FishingPointFeature) =>
+                    this.invalidLambertCoordsVisible || this.inLambertCoordinateRange(fishingPointFeature.x, fishingPointFeature.y),
+                ),
+                tap((fishingPointFeature: FishingPointFeature) => {
+                    const latlng = latLng(fishingPointFeature.lat, fishingPointFeature.lng);
+                    const fishingPointMarker = L.marker(latlng, {icon: this.defaultMarkerIcon});
 
-                        const fishingPointLabel = document.createElement('div');
-                        fishingPointLabel.innerHTML = `<p>${fishingPointFeature.code}</p>
+                    const fishingPointLabel = document.createElement('div');
+                    fishingPointLabel.innerHTML = `<p>${fishingPointFeature.code}</p>
                                               <p>${fishingPointFeature.watercourse || ''}</p>`;
-                        fishingPointLabel.style.textAlign = 'center';
-                        marker
-                            .bindTooltip(
-                                tooltip({
-                                    direction: 'top',
-                                    permanent: true,
-                                    offset: [0, -7],
-                                }).setContent(fishingPointLabel));
+                    fishingPointLabel.style.textAlign = 'center';
+                    fishingPointMarker
+                        .bindTooltip(
+                            tooltip({
+                                direction: 'top',
+                                permanent: true,
+                                offset: [0, -7],
+                            }).setContent(fishingPointLabel));
 
-                        marker.on('click', async (event: LeafletMouseEvent) => {
-                            L.DomEvent.stopPropagation(event);
-                            this.clearAllHightLights();
-                            this.clickedLatlng = event.latlng;
-                            const layer = event.target;
+                    fishingPointMarker.on('click', async (event: LeafletMouseEvent) => {
+                        L.DomEvent.stopPropagation(event);
+                        this.clearAllHightLights();
+                        this.clickedLatlng = event.latlng;
+                        const layer = event.target;
 
-                            this.highlightCirclemarker(layer);
+                        this.highlightCirclemarker(layer);
 
-                            const filteredProperties = {};
-                            filteredProperties['CODE'] = fishingPointFeature.code;
-                            filteredProperties['DESCRIPTION'] = fishingPointFeature.description;
-                            filteredProperties['X'] = fishingPointFeature.x;
-                            filteredProperties['Y'] = fishingPointFeature.y;
-                            filteredProperties['lat'] = fishingPointFeature.lat;
-                            filteredProperties['lng'] = fishingPointFeature.lng;
+                        const filteredProperties = {};
+                        filteredProperties['CODE'] = fishingPointFeature.code;
+                        filteredProperties['DESCRIPTION'] = fishingPointFeature.description;
+                        filteredProperties['X'] = fishingPointFeature.x;
+                        filteredProperties['Y'] = fishingPointFeature.y;
+                        filteredProperties['lat'] = fishingPointFeature.lat;
+                        filteredProperties['lng'] = fishingPointFeature.lng;
 
-                            // const townInformation = await this.getTownNameForCoordinates(this.clickedLatlng);
-                            this.updateSelections(this.clickedLatlng, false);
-                            this.selected.set(LayerId.FISHING_POINT_LAYER, filteredProperties);
+                        // const townInformation = await this.getTownNameForCoordinates(this.clickedLatlng);
+                        this.updateSelections(this.clickedLatlng, false);
+                        this.selected.set(LayerId.FISHING_POINT_LAYER, filteredProperties);
 
-                            this.openSelection();
-                        });
-
-                        marker.addTo(this.fishingPointsLayer);
-
+                        this.openSelection();
                     });
-                    this.layerMetadata.set(LayerId.FISHING_POINT_LAYER, {name: 'Vispunt'});
+
+                    fishingPointMarker.addTo(this.fishingPointsLayer);
 
                 }),
-                map(() => undefined),
+                finalize(() => this.layerMetadata.set(LayerId.FISHING_POINT_LAYER, {name: 'Vispunt'})),
+                map(() => undefined), // Match return type: `Observable<void>`
             );
+    }
+
+    // Test if x, y are within Lambert72 and Lambert 2008 coordinates range.
+    private inLambertCoordinateRange(x: number, y: number) {
+        return x >= 20_000 && x <= 800_000 && y >= 20_000 && y <= 800_000;
     }
 
     mapReady(map: LeafletMap) {
@@ -388,8 +395,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         }
     }
 
-    private highlightCirclemarker(marker: L.Marker) {
-        marker.setIcon(this.selectedMarkerIcon);
+    private highlightCirclemarker(selectedMarker: L.Marker) {
+        selectedMarker.setIcon(this.selectedMarkerIcon);
     }
 
     private clearAllHightLights(): void {
@@ -411,7 +418,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                 take(1),
                 tap(version => this.initLegend(version)),
                 tap(version => this.initializeLayers(version)),
-                switchMap(() => this.updateFishingPointsLayer(this.filter)),
+                switchMap(() => this.updateFishingPointsLayer(this.filterCriteria)),
                 tap(() => {
                     if (this.tooltipsVisible !== this.showTooltips) {
                         this.toggleTooltips();
