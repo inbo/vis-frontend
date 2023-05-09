@@ -97,7 +97,6 @@ export interface ImportSurveyEventMethod {
 
 export interface ImportSurveyEventComment {
   value: string;
-  valid: boolean;
 }
 
 export interface CreateImportFileResult {
