@@ -42,7 +42,15 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             this.router.navigateByUrl('/service-unavailable');
           }
           if (error.status === 400) {
-            return of(new HttpResponse({body: {code: 400}}));
+              // TODO: Show toast message with error message from BE.
+              // See line 60 how errors are currently handled for status 500
+              // How will the backend send the error message?
+              // - A translation key, or the translated message?
+              // - Which property? error.title, error.message?
+
+              // const toastrService = this.injector.get(ToastrService);
+              // toastrService.error(error.error.message);
+              return of(new HttpResponse({body: {code: 400}}));
           }
           if (error.status === 403) {
             this.router.navigateByUrl('/forbidden');
