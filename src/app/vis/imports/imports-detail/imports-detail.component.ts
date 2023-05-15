@@ -31,6 +31,7 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
   public importDetail: ImportDetail = {documentTitle: '', url: '', items: []};
 
   id: string;
+  hasInvalidDocument = true;
 
   constructor(private titleService: Title, private importsService: ImportsService, private activatedRoute: ActivatedRoute,
               private router: Router) {
@@ -39,6 +40,7 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
     this.importsService.getImport(this.id).subscribe(value => {
       this.importDetail = value;
       this.loading = false;
+      this.setIsDocumentValid();
     });
   }
 
@@ -51,8 +53,17 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
 
   doImport() {
     this.importsService.doImport(this.id).subscribe(value => {
-      console.log(value);
+      console.log(value); // TODO remove? backend returns void
     });
   }
 
+  private setIsDocumentValid(): void {
+      // TODO: this should preferably be set by the backend.
+      this.hasInvalidDocument = !this.importDetail.items || this.importDetail.items.filter(item => {
+          const hasInvalidSurveyEvent = item.surveyEvents.filter(surveyEvent => {
+              return !(surveyEvent.fishingPoint.valid && surveyEvent.method.valid && surveyEvent.occurrence.valid && !surveyEvent.existingSurveyEventId);
+          }).length > 0;
+          return !item.project.valid || hasInvalidSurveyEvent;
+      }).length > 0;
+  }
 }
