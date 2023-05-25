@@ -36,20 +36,14 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           // The backend returned an unsuccessful response code.
           // The response body may contain clues as to what went wrong,
           console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
-
+          const translateService = this.injector.get(TranslateService);
+          const toastrService = this.injector.get(ToastrService);
 
           if (error.status === 0) {
             this.router.navigateByUrl('/service-unavailable');
           }
           if (error.status === 400) {
-              // TODO: Show toast message with error message from BE.
-              // See line 60 how errors are currently handled for status 500
-              // How will the backend send the error message?
-              // - A translation key, or the translated message?
-              // - Which property? error.title, error.message?
-
-              // const toastrService = this.injector.get(ToastrService);
-              // toastrService.error(error.error.message);
+              toastrService.error(error.error, translateService.instant('error.bad-request'));
               return of(new HttpResponse({body: {code: 400}}));
           }
           if (error.status === 403) {
@@ -59,8 +53,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             this.router.navigateByUrl('/not-found', {replaceUrl: true});
           }
           if (error.status === 500) {
-            const translateService = this.injector.get(TranslateService);
-            const toastrService = this.injector.get(ToastrService);
             toastrService.error(translateService.instant('general-error.message'), translateService.instant('general-error.title'));
           }
           if (error.status === 503) {

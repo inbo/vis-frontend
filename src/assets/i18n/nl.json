@@ -238,7 +238,8 @@
   "error": {
     "forbidden": "Sorry, u hebt niet de juiste rechten om deze pagina te zien. Contacteer een verantwoordelijke als u denkt dat dit een fout is.",
     "internal-server-error": "Sorry, er is een onverwachte fout opgetreden. Contacteer een verantwoordelijke.",
-    "not-found": "Sorry, de pagina die u zoekt is niet gevonden."
+    "not-found": "Sorry, de pagina die u zoekt is niet gevonden.",
+    "bad-request": "Ongeldige aanvraag: Controleer uw invoer en probeer het opnieuw."
   },
   "errorMessage": {
     "required": "{{fieldName}} is verplicht.",
@@ -252,6 +253,10 @@
     "projectEndBeforeSurveyEvents": "Bestaande waarneming data mogen niet na de project eind datum vallen.",
     "invalidCalculation": "De berekening is ongeldige.",
     "uniqueSurveyEvent": "Datum, vispunt en methode moeten uniek zijn."
+  },
+  "import-tab": {
+    "error": "Bestand werd eerder geïmporteerd.",
+    "success": "Bestand werd geïmporteerd."
   },
   "COMMON": "Algemeen",
   "METING": "Metingen",

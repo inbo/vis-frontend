@@ -31,9 +31,8 @@ export class ImportsService extends VisService {
     return this.http.get<ImportDetail>(`${environment.apiUrl}/api/imports/${id}`, {});
   }
 
-  //TODO show successful message
-  doImport(id: string): Observable<void> {
-    return this.http.post<void>(`${environment.apiUrl}/api/imports/${id}/import`, {});
+  doImport(id: string): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/api/imports/${id}/import`, {});
   }
 
   createFile(projectCode: any): Observable<CreateImportFileResult> {
