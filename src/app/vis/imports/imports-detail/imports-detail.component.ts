@@ -2,13 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {Subscription} from 'rxjs';
+import {lastValueFrom, Subscription} from 'rxjs';
 import {Title} from '@angular/platform-browser';
 import {ImportsService} from '../../../services/vis.imports.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ImportDetail} from '../../../domain/imports/imports';
 import {Role} from '../../../core/_models/role';
-import {HttpErrorResponse} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 import {AlertService} from '../../../_alert';
 
@@ -35,6 +34,7 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
 
   id: string;
   hasInvalidDocument = true;
+  projectId: string;
 
   constructor(private titleService: Title, private importsService: ImportsService, private activatedRoute: ActivatedRoute,
               private router: Router, private toastr: ToastrService,
@@ -45,6 +45,7 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
       this.importDetail = value;
       this.loading = false;
       this.setIsDocumentValid();
+      this.projectId = this.importDetail.items[0].project.code
     },
         error => {
         alertService.error('Validatie fouten', 'Het bewaren is niet gelukt, controleer alle gegevens of contacteer een verantwoordelijke.')
@@ -62,7 +63,13 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
   doImport() {
     this.importsService.doImport(this.id).subscribe({
         next: () => {
-            this.alertService.success('Het importeren is gelukt', "De gegevens zijn opgeslagen", false);
+                this.router.navigate(['/projecten', this.projectId]).then(() => {
+                    this.alertService.success('Het importeren is gelukt', "De gegevens zijn opgeslagen", true);
+            });
+        },
+        error: (error) => {
+            console.error('Import error:', error);
+            this.alertService.error('Er is een fout opgetreden tijdens het importeren.', 'Fout');
         }
     });
   }
