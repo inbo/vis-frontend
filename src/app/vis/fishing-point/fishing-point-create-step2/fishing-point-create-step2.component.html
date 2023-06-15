@@ -54,6 +54,16 @@
 							</vis-error-icon>
 						</div>
 					</div>
+                    <div *ngIf="formGroup.contains('noPointOnMap')">
+                        <div class="flex items-center">
+                            <input formControlName="noPointOnMap" type="checkbox">
+                            <label class="ml-3 block text-sm font-medium text-red-600">Geen Overeenkomstige VHAG waterloop beschikbaar</label>
+                        </div>
+                        <div class="flex mt-2 ml-3">
+                            <vis-warning-icon [messages]="['Uitzonderlijke gevallen']"></vis-warning-icon>
+                            <div class="ml-2 text-sm text-red-600">Deze optie is enkel te gebruiken in uitzonderlijke gevallen, waarbij geen VHAG waterloop is opgenomen. Bvb. gelegen buiten Vlaanderen, gracht, taploop.</div>
+                        </div>
+                    </div>
 				</div>
 			</form>
 		</div>
@@ -75,10 +85,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-span-6 overflow-hidden text-right">
-			<p *ngIf="!editMode && vhaInfoEmpty()"
-			   class="mt-2 text-sm text-red-600">Het is verplicht om een waterloop op de kaart
-			                                     te kiezen</p>
-		</div>
+			<div class="col-span-6 overflow-hidden text-right">
+				<p *ngIf="!editMode && vhaInfoEmpty && !noPointOnMap"
+					 class="mt-2 text-sm text-red-600">Het is verplicht om een waterloop op de kaart te kiezen</p>
+			</div>
+			<div class="col-span-6 md:col-end-7 md:col-span-3 overflow-hidden text-right">
+					<p *ngIf="noPointOnMap"
+             class="mt-2 text-sm text-red-600">Indien geen waterloop werd aangeklikt is het belangrijk dat u de naam van de waterloop vermeld in de omschrijving van het vispunt. Indien u dit nog niet deed dient u na het bewaren het vispunt opnieuw te bewerken.
+          </p>
+      </div>
 	</div>
 </div>

@@ -1,5 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {Title} from '@angular/platform-browser';
+import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
 import {latLng} from 'leaflet';
 import {UntypedFormGroup} from '@angular/forms';
@@ -9,6 +8,7 @@ import {TownLayerSelectionEvent} from '../../components/fishing-points-map/town-
 @Component({
     selector: 'vis-fishing-point-create-step2',
     templateUrl: './fishing-point-create-step2.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FishingPointCreateStep2Component implements OnInit {
 
@@ -17,14 +17,11 @@ export class FishingPointCreateStep2Component implements OnInit {
     @Input() formGroup: UntypedFormGroup;
     @Input() editMode = false;
 
-    constructor(private titleService: Title) {
-        this.titleService.setTitle('Vispunt toevoegen');
-    }
-
     ngOnInit(): void {
         const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
         this.map.replaceNewFishingPointMarker(latlng);
         this.map.setCenter(latlng);
+        this.formGroup.get('isLentic').patchValue(false)
     }
 
     mapLoaded() {
@@ -81,7 +78,15 @@ export class FishingPointCreateStep2Component implements OnInit {
         return this.formGroup.get('vhaInfo').value;
     }
 
-    vhaInfoEmpty() {
+    get vhaInfoEmpty() {
         return this.formGroup.get('vhaInfo').invalid;
+    }
+
+    get noPointOnMap() {
+        return this.formGroup.get('noPointOnMap')?.value;
+    }
+
+    get isLentic() {
+        return this.formGroup.get('isLentic')?.value;
     }
 }

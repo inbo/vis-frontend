@@ -3,6 +3,7 @@ export enum Role {
     CreateProject = 'AANMAAK_PROJECT',
     ExportProject = 'EXPORT_PROJECT',
     CreateFishingPoint = 'AANMAAK_VISPUNT',
+    CreateFishingPointWithoutPointOnMap = 'AANMAAK_VISPUNT_LOS',
     CreateSurveyEvent = 'AANMAAK_WAARNEMING',
     EditSurveyEvent = 'BEWERK_WAARNEMING',
     ValidateSurveyEvent = 'VALIDEER_WAARNEMING',
