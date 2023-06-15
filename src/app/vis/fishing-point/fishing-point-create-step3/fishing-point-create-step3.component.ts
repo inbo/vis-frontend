@@ -1,6 +1,5 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
-import {Title} from '@angular/platform-browser';
 import {latLng} from 'leaflet';
 import {VhaBlueLayerSelectionEvent} from '../../components/fishing-points-map/vha-blue-layer-selection-event.model';
 import {TownLayerSelectionEvent} from '../../components/fishing-points-map/town-layer-selection-event.model';
@@ -15,14 +14,11 @@ export class FishingPointCreateStep3Component implements OnInit {
 
     @Input() formGroup: UntypedFormGroup;
 
-    constructor(private titleService: Title) {
-        this.titleService.setTitle('Vispunt toevoegen');
-    }
-
     ngOnInit(): void {
         const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
         this.map.replaceNewFishingPointMarker(latlng);
         this.map.setCenter(latlng);
+        this.formGroup.get('isLentic').patchValue(true)
     }
 
     featureSelected(event: VhaBlueLayerSelectionEvent) {
@@ -30,6 +26,7 @@ export class FishingPointCreateStep3Component implements OnInit {
         this.formGroup.get('blueLayerInfo').patchValue(event.infoProperties);
         this.formGroup.get('snappedLat').patchValue(event.coordinates.lat);
         this.formGroup.get('snappedLng').patchValue(event.coordinates.lng);
+        this.formGroup.get('noPointOnMap').patchValue(false);
     }
 
     townSelected(event: TownLayerSelectionEvent) {
@@ -59,7 +56,15 @@ export class FishingPointCreateStep3Component implements OnInit {
         return this.formGroup.get('blueLayerInfo').value;
     }
 
-    blueLayerInfoEmpty() {
+    get blueLayerInfoEmpty() {
         return this.formGroup.get('blueLayerInfo').invalid;
+    }
+
+    get noPointOnMap() {
+        return this.formGroup.get('noPointOnMap')?.value;
+    }
+
+    get isLentic() {
+        return this.formGroup.get('isLentic')?.value;
     }
 }

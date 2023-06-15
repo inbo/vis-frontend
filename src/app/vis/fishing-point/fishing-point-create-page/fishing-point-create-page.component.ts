@@ -4,7 +4,14 @@ import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
 import {Title} from '@angular/platform-browser';
 import 'esri-leaflet-renderers';
-import {AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {
+    AbstractControl,
+    AsyncValidatorFn,
+    UntypedFormBuilder,
+    UntypedFormGroup,
+    ValidationErrors,
+    Validators,
+} from '@angular/forms';
 import {Observable, of, Subscription} from 'rxjs';
 import {FishingPointsService} from '../../../services/vis.fishing-points.service';
 import {map, take, tap} from 'rxjs/operators';
@@ -41,6 +48,7 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
     fishingPointType = FishingPointType.STAGNANT;
     canEditIndexType = false;
     indexTypes: Array<IndexType> = [];
+    hasRoleCreateFishingPointWithoutPointOnMap = false;
 
     private subscription = new Subscription();
 
@@ -56,6 +64,7 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.canEditIndexType = this.authService.hasRole(Role.EditIndexType);
+        this.hasRoleCreateFishingPointWithoutPointOnMap = this.authService.hasRole(Role.CreateFishingPointWithoutPointOnMap);
         let initialization: Observable<FishingPoint> = of({} as FishingPoint);
         let controlsConfig: { [key: string]: any } = {
             lat: [null, [Validators.required, Validators.pattern('^(\\-?([0-8]?[0-9](\\.\\d+)?|90(.[0]+)?))')]],
@@ -65,6 +74,7 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
             description: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
             incline: [null, [Validators.min(0), Validators.max(99999.999)]],
             width: [null, [Validators.min(0), Validators.max(99999.999)]],
+            isLentic: [],
         };
         if (this.activatedRoute.snapshot.queryParamMap.has(FishingPointCreatePageComponent.FISHING_POINT_ID_QP)) {
             const fishingPointId = this.activatedRoute.snapshot.queryParamMap.get(FishingPointCreatePageComponent.FISHING_POINT_ID_QP);
@@ -111,8 +121,10 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
                     townInfo: [null, [Validators.required]],
                     snappedLat: [null],
                     snappedLng: [null],
+                    ...(this.hasRoleCreateFishingPointWithoutPointOnMap ? {noPointOnMap: [false]} : {}),
                     code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(15)],
                         [this.codeValidator(fishingPoint)]],
+                    isLentic: [null],
                 },
             );
             this.formGroup.patchValue(fishingPoint);
@@ -150,16 +162,28 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
         if (this.editMode) {
             return true;
         }
-        return this.isGeneralStepValid()
-            && this.formGroup?.get('vhaInfo').valid
-            && this.formGroup?.get('townInfo').valid;
+        if (this.hasRoleCreateFishingPointWithoutPointOnMap) {
+            return this.isGeneralStepValid()
+            && this.formGroup?.get('noPointOnMap').value;
+        } else {
+            return this.isGeneralStepValid()
+                && this.formGroup?.get('vhaInfo').valid
+                && this.formGroup?.get('townInfo').valid;
+        }
     }
 
     isBlueLayerValid(): boolean {
-        return this.isGeneralStepValid()
-            && this.formGroup?.get('blueLayerInfo').valid
-            && this.formGroup?.get('townInfo').valid;
-    }
+			const blueLayerInfoValid = this.formGroup?.get('blueLayerInfo').valid;
+			const townInfoValid = this.formGroup?.get('townInfo').valid;
+			const noPointOnMap = this.formGroup?.get('noPointOnMap').value;
+
+			if (this.hasRoleCreateFishingPointWithoutPointOnMap) {
+				if (noPointOnMap) {
+					return this.isGeneralStepValid();
+				}
+			}
+            return this.isGeneralStepValid() && blueLayerInfoValid && townInfoValid;
+		}
 
     goToNextStep(): void {
         if (this.editMode && this.fishingPointType === FishingPointType.STAGNANT) {
@@ -170,6 +194,7 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
             this.currentStep = FishingPointCreationStep.BLUE_LAYER;
         } else {
             this.currentStep = FishingPointCreationStep.WATER_COURSE;
+            this.titleService.setTitle('Vispunt toevoegen');
         }
     }
 

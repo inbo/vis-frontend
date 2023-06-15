@@ -2,6 +2,7 @@
     <div class="grid grid-cols-6 gap-x-4 text-sm">
         <div class="col-span-6">
             <vis-fishing-points-map (loaded)="onLoaded()"
+																		[disableInteraction]="noPointOnMap"
                                     [zoomLevel]="17"
                                     (blueLayerSelected)="featureSelected($event)"
                                     [enableSidebar]="false"
@@ -18,18 +19,29 @@
                                                          [layerName]="'Gemeente van het geselecteerde punt'"
                                                          [layerNumber]="townLayerId"></vis-fishing-points-selected-feature>
                 </div>
-                <div class="col-span-6 md:col-span-3">
+                <form [formGroup]="formGroup" class="col-span-6 md:col-span-3">
                     <vis-fishing-points-selected-feature *ngIf="blueLayerInfoValue" [properties]="blueLayerInfoValue"
                                                          [layerName]="'Geselecteerd watervlak'"
                                                          [layerNumber]="vhaBlueLayerId"></vis-fishing-points-selected-feature>
-                </div>
-            </div>
-        </div>
+									<div class="mt-6" *ngIf="formGroup.contains('noPointOnMap') && blueLayerInfoEmpty">
+										<div class="flex items-center">
+											<input formControlName="noPointOnMap" type="checkbox">
+											<label class="ml-3 block text-sm font-medium text-red-600">Geen overeenkomstig watervlak beschikbaar</label>
+										</div>
+										<div class="flex mt-2 ml-3">
+											<vis-warning-icon [messages]="['Uitzonderlijke gevallen']"></vis-warning-icon>
+											<div class="ml-2 text-sm text-red-600">Deze optie is enkel te gebruiken in uitzonderlijke gevallen, waarbij geen watervlak is opgenomen. Bvb. gelegen buiten Vlaanderen. Correcties op de watervlakkenlaag zijn te melden aan visapplicatie@inbo.be</div>
+										</div>
+									</div>
+                </form>
+          </div>
 
-        <div class="col-span-6 overflow-hidden text-right">
-            <p *ngIf="blueLayerInfoEmpty()" class="mt-2 text-sm text-red-600">Het is verplicht om een watervlak op de
-                kaart
-                te kiezen</p>
+        </div>
+        <div class="col-span-6 md:col-end-7 md:col-span-3 overflow-hidden text-right">
+            <p *ngIf="blueLayerInfoEmpty && !noPointOnMap" class="mt-2 text-sm text-red-600">Het is verplicht om een watervlak op de kaart te kiezen</p>
+						<p *ngIf="noPointOnMap"
+							 class="mt-2 text-sm text-red-600">Indien geen watervlak werd aangeklikt is het belangrijk dat u de naam van het waterlichaam vermeld in de omschrijving van het vispunt. Indien u dit nog niet deed dient u na het bewaren het vispunt opnieuw te bewerken.
+						</p>
         </div>
     </div>
 </div>
