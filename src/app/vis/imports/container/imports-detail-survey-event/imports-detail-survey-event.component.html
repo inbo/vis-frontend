@@ -10,8 +10,7 @@
     <div class="col-span-2">
       {{surveyEvent.occurrence.valid ? (surveyEvent.occurrence.value | date: 'dd/MM/yyyy') : surveyEvent.occurrence.originalValue }}
       <div [class.hidden]="surveyEvent.occurrence.valid" class="mt-1 text-sm text-red-600">
-        Geen geldig formaat
-<!--      TODO:    {{surveyEvent.occurrence.error}}-->
+          {{ 'surveyEvent.occurrence.exception' || 'Geen geldig formaat' | translate }}
       </div>
     </div>
     <div class="col-span-3">
@@ -35,10 +34,6 @@
         </svg>
       </a>
     </div>
-    <!--grid grid-cols-12
-        <div class="mt-2 text-sm text-red-600">
-          De projectcode bestaat niet.
-        </div>-->
   </div>
 
   <div [class.hidden]="!showMeasurements" class="flex flex-col pb-6">

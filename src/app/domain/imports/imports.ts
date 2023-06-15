@@ -87,7 +87,7 @@ export interface ImportSurveyEventOccurrence {
   originalValue: string;
   value: Date;
   valid: boolean;
-
+  exception: string;
 }
 
 export interface ImportSurveyEventMethod {

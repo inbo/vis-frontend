@@ -8,6 +8,9 @@
     "INACTIVE": "Inactief"
   },
   "surveyEvent": {
+    "occurrence": {
+      "exception": "Datum voor startdatum project"
+    },
     "sortOption": {
       "occurrence": "Datum",
       "method": "Methode",
