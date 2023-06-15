@@ -1,29 +1,37 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {faMinus, faPlus, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
+import {Component, Input} from '@angular/core';
+import {faMinus, faPlus, faTimesCircle, faExclamation} from '@fortawesome/free-solid-svg-icons';
 import {ImportProjectDetail, ImportSurveyEvent} from '../../../../domain/imports/imports';
 
 @Component({
-  selector: 'vis-imports-detail-survey-event',
-  templateUrl: './imports-detail-survey-event.component.html'
+	selector: 'vis-imports-detail-survey-event',
+	templateUrl: './imports-detail-survey-event.component.html',
 })
-export class ImportsDetailSurveyEventComponent implements OnInit {
-  faTimesCircle = faTimesCircle;
-  faPlus = faPlus;
-  faMinus = faMinus;
+export class ImportsDetailSurveyEventComponent {
+	@Input() importOverview: ImportProjectDetail;
+	@Input() set surveyEvent(value: ImportSurveyEvent) {
+		this._surveyEvent = value;
+		const invalidMeasurement = value.measurements?.find(measurement => !measurement.valid);
+		if (invalidMeasurement) {
+			this.hasInvalidMeasurement = true;
+		} else {
+			this.hasInvalidMeasurement = false;
+		}
+	}
 
-  showMeasurements = false;
+	get surveyEvent(): ImportSurveyEvent {
+		return this._surveyEvent;
+	}
 
-  @Input() importOverview: ImportProjectDetail;
-  @Input() surveyEvent: ImportSurveyEvent;
+	faTimesCircle = faTimesCircle;
+	faPlus = faPlus;
+	faMinus = faMinus;
+	faExclamation = faExclamation;
+	showMeasurements = false;
+	hasInvalidMeasurement = false;
 
-  constructor() {
-  }
+	private _surveyEvent: ImportSurveyEvent;
 
-  ngOnInit(): void {
-  }
-
-  toggleShowMeasurements() {
-    this.showMeasurements = !this.showMeasurements;
-  }
-
+	toggleShowMeasurements() {
+		this.showMeasurements = !this.showMeasurements;
+	}
 }

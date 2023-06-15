@@ -1,9 +1,12 @@
 <div>
   <div class="grid grid-cols-12 self-start">
-    <button type="button" (click)="toggleShowMeasurements()" class="w-5 h-5">
-      <fa-icon [class.hidden]="!showMeasurements" [icon]="faMinus" class="self-center text-gray-300" title="Verberg metingen"></fa-icon>
-      <fa-icon [class.hidden]="showMeasurements" [icon]="faPlus" class="self-center text-gray-300" title="Toon metingen"></fa-icon>
-    </button>
+    <button type="button" (click)="toggleShowMeasurements()" class="w-5 h-5 flex">
+			<fa-icon [class.hidden]="!showMeasurements" [icon]="faMinus" class="self-center text-gray-300" ngxTippy data-tippy-content="Verberg metingen"></fa-icon>
+      <fa-icon [class.hidden]="showMeasurements" [icon]="faPlus" class="self-center text-gray-300" ngxTippy data-tippy-content="Toon metingen"></fa-icon>
+			<fa-icon *ngIf="hasInvalidMeasurement" [icon]="faExclamation" class="self-center text-red-400 pl-3" ngxTippy
+							 data-tippy-content="Er is een probleem met de metingen van deze waarneming. Klap open voor details."></fa-icon>
+		</button>
+
     <div class="col-span-2">
       {{surveyEvent.occurrence.valid ? (surveyEvent.occurrence.value | date: 'dd/MM/yyyy') : surveyEvent.occurrence.originalValue }}
       <div [class.hidden]="surveyEvent.occurrence.valid" class="mt-1 text-sm text-red-600">
@@ -11,7 +14,7 @@
 <!--      TODO:    {{surveyEvent.occurrence.error}}-->
       </div>
     </div>
-    <div class="col-span-2">
+    <div class="col-span-3">
       {{surveyEvent.method.valid ? surveyEvent.method.originalValue : surveyEvent.method.originalValue }}
       <div [class.hidden]="surveyEvent.method.valid" class="mt-1 text-sm text-red-600">
         Niet gevonden
