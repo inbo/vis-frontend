@@ -7,9 +7,16 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FishingPoint} from '../../../domain/fishing-point/fishing-point';
 import {LatLng} from 'leaflet';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
-import {AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, take} from 'rxjs/operators';
+import {
+    AbstractControl,
+    AsyncValidatorFn,
+    UntypedFormBuilder,
+    UntypedFormGroup,
+    ValidationErrors,
+    Validators,
+} from '@angular/forms';
+import {Observable, switchMap} from 'rxjs';
+import {map, take, tap} from 'rxjs/operators';
 import {Role} from '../../../core/_models/role';
 import {IndexType} from '../../../domain/fishing-point/index-type';
 import {AuthService} from '../../../core/auth.service';
@@ -133,28 +140,29 @@ export class FishingPointDetailComponent implements OnInit {
         const code = this.activatedRoute.snapshot.params.code;
         this.fishingPointsService
             .findByCode(code)
-            .subscribe(value => {
-                this.fishingPoint = value;
-                const latlng = new LatLng(this.fishingPoint.lat, this.fishingPoint.lng);
-                this.fishingPointsMap.setCenter(latlng);
+            .pipe(
+                tap(value => {
+                    this.fishingPoint = value;
+                    const latlng = new LatLng(this.fishingPoint.lat, this.fishingPoint.lng);
+                    this.fishingPointsMap.setCenter(latlng);
 
-                this.formGroup = this.formBuilder.group(
-                    {
-                        code: [value.code, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator()]],
-                        description: [value.description, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
-                        slope: [value.incline ? value.incline.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
-                        width: [value.width ? value.width.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
-                        brackishWater: [value.brackishWater, [Validators.min(0), Validators.max(99999.999)]],
-                        tidalWater: [value.tidalWater, [Validators.min(0), Validators.max(99999.999)]],
-                        indexType: [value.fishingIndexType],
-                    },
-                );
-                this.editQueryParams = {[this.EDIT_FISHING_POINT_ID_QP]: value.id};
-                if (this.mapLoaded) {
-                    this.highlightFishingPoint();
-                } else {
-                    this.fishingPointsMap.loaded.pipe(take(1)).subscribe(() => this.highlightFishingPoint());
-                }
+                    this.formGroup = this.formBuilder.group(
+                        {
+                            code: [value.code, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator()]],
+                            description: [value.description, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
+                            slope: [value.incline ? value.incline.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
+                            width: [value.width ? value.width.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
+                            brackishWater: [value.brackishWater, [Validators.min(0), Validators.max(99999.999)]],
+                            tidalWater: [value.tidalWater, [Validators.min(0), Validators.max(99999.999)]],
+                            indexType: [value.fishingIndexType],
+                        },
+                    );
+                    this.editQueryParams = {[this.EDIT_FISHING_POINT_ID_QP]: value.id};
+                }),
+                switchMap(() => this.fishingPointsMap.loaded),
+            )
+            .subscribe(() => {
+                this.highlightFishingPoint();
             });
 
         this.indexTypes$ = this.fishingPointsService.listIndexTypes();
