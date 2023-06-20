@@ -24,6 +24,8 @@ export interface ProjectDetail {
   code: string;
   name: string;
   description: string;
+  startDate: string;
+  endDate?: string;
   valid: boolean;
 }
 

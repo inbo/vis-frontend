@@ -21,7 +21,6 @@ export class FishingPointCreateStep2Component implements OnInit {
         const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
         this.map.replaceNewFishingPointMarker(latlng);
         this.map.setCenter(latlng);
-        this.formGroup.get('isLentic').patchValue(false)
     }
 
     mapLoaded() {
@@ -34,6 +33,7 @@ export class FishingPointCreateStep2Component implements OnInit {
         this.formGroup.get('vhaInfo').patchValue(event.infoProperties);
         this.formGroup.get('snappedLat').patchValue(event.coordinates.lat);
         this.formGroup.get('snappedLng').patchValue(event.coordinates.lng);
+        this.formGroup.get('noPointOnMap').patchValue(false);
     }
 
     townSelected(event: TownLayerSelectionEvent) {

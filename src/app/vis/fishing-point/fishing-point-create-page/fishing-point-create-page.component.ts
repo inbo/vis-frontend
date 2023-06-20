@@ -74,7 +74,7 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
             description: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
             incline: [null, [Validators.min(0), Validators.max(99999.999)]],
             width: [null, [Validators.min(0), Validators.max(99999.999)]],
-            isLentic: [],
+            isLentic: [this.fishingPointType === FishingPointType.STAGNANT],
         };
         if (this.activatedRoute.snapshot.queryParamMap.has(FishingPointCreatePageComponent.FISHING_POINT_ID_QP)) {
             const fishingPointId = this.activatedRoute.snapshot.queryParamMap.get(FishingPointCreatePageComponent.FISHING_POINT_ID_QP);
@@ -114,6 +114,7 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
                 {
                     ...controlsConfig,
                     ...(fishingPoint.id ? {id: [fishingPoint.id]} : {}),
+                    ...(this.hasRoleCreateFishingPointWithoutPointOnMap ? {noPointOnMap: [false]} : {}),
                     vhaBlueLayerId: [null],
                     vhaInfo: [null, [Validators.required]],
                     blueLayerInfo: [null, [Validators.required]],
@@ -121,10 +122,8 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
                     townInfo: [null, [Validators.required]],
                     snappedLat: [null],
                     snappedLng: [null],
-                    ...(this.hasRoleCreateFishingPointWithoutPointOnMap ? {noPointOnMap: [false]} : {}),
                     code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(15)],
                         [this.codeValidator(fishingPoint)]],
-                    isLentic: [null],
                 },
             );
             this.formGroup.patchValue(fishingPoint);
@@ -149,9 +148,9 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
             && this.formGroup?.get('description').valid;
         if (this.editMode) {
             result = result
-                && this.formGroup?.get('brackishWater').valid
-                && this.formGroup?.get('tidalWater').valid
-                && this.formGroup?.get('fishingIndexType').valid;
+                && this.formGroup?.get('brackishWater')?.valid
+                && this.formGroup?.get('tidalWater')?.valid
+                && this.formGroup?.get('fishingIndexType')?.valid;
         } else {
             result = result && this.fishingPointType !== undefined;
         }
@@ -159,31 +158,32 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
     }
 
     isWaterCourseValid(): boolean {
+        const noPointOnMap = this.formGroup?.get('noPointOnMap')?.value;
         if (this.editMode) {
             return true;
         }
         if (this.hasRoleCreateFishingPointWithoutPointOnMap) {
-            return this.isGeneralStepValid()
-            && this.formGroup?.get('noPointOnMap').value;
+            if (noPointOnMap) {
+                return this.isGeneralStepValid();
+            }
         } else {
             return this.isGeneralStepValid()
-                && this.formGroup?.get('vhaInfo').valid
-                && this.formGroup?.get('townInfo').valid;
+                && this.formGroup?.get('vhaInfo')?.valid
+                && this.formGroup?.get('townInfo')?.valid;
         }
     }
 
     isBlueLayerValid(): boolean {
-			const blueLayerInfoValid = this.formGroup?.get('blueLayerInfo').valid;
-			const townInfoValid = this.formGroup?.get('townInfo').valid;
-			const noPointOnMap = this.formGroup?.get('noPointOnMap').value;
-
-			if (this.hasRoleCreateFishingPointWithoutPointOnMap) {
-				if (noPointOnMap) {
-					return this.isGeneralStepValid();
-				}
-			}
-            return this.isGeneralStepValid() && blueLayerInfoValid && townInfoValid;
-		}
+        const noPointOnMap = this.formGroup?.get('noPointOnMap')?.value;
+        if (this.hasRoleCreateFishingPointWithoutPointOnMap) {
+            if (noPointOnMap) {
+                return this.isGeneralStepValid();
+            }
+        }
+        return this.isGeneralStepValid()
+            && this.formGroup?.get('blueLayerInfo')?.valid
+            && this.formGroup?.get('townInfo')?.valid;
+    }
 
     goToNextStep(): void {
         if (this.editMode && this.fishingPointType === FishingPointType.STAGNANT) {

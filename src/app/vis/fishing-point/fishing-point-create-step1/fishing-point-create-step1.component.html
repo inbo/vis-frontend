@@ -105,20 +105,18 @@
 							<div class="mt-1">
 								<div class="flex flex-col space-y-4">
 									<div class="flex items-center">
-										<input name="fishingPointType"
-										       (change)="fishingPointType = FishingPointType.FLOWING; fishingPointTypeChange.emit($event.target.value) //noinspection UnresolvedVariable"
-										       [value]="FishingPointType.FLOWING"
-										       [checked]="fishingPointType === FishingPointType.FLOWING"
+										<input formControlName="isLentic"
+										       (ngModelChange)="onIsLenticModelChange($event)"
+										       [value]="false"
 										       type="radio">
 										<label class="ml-3 block text-sm font-medium text-gray-700">
 											Stromend water
 										</label>
 									</div>
 									<div class="flex items-center">
-										<input name="fishingPointType"
-										       [checked]="fishingPointType === FishingPointType.STAGNANT"
-										       (change)="fishingPointType = FishingPointType.STAGNANT; fishingPointTypeChange.emit($event.target.value) //noinspection UnresolvedVariable"
-										       [value]="FishingPointType.STAGNANT"
+										<input formControlName="isLentic"
+                                               [value]="true"
+                                               (ngModelChange)="onIsLenticModelChange($event)"
 										       type="radio">
 										<label class="ml-3 block text-sm font-medium text-gray-700">
 											Stilstaand water

@@ -13,12 +13,12 @@ export class FishingPointCreateStep3Component implements OnInit {
     @ViewChild(FishingPointsMapComponent, {static: true}) map: FishingPointsMapComponent;
 
     @Input() formGroup: UntypedFormGroup;
+    @Input() editMode: boolean;
 
     ngOnInit(): void {
         const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
         this.map.replaceNewFishingPointMarker(latlng);
         this.map.setCenter(latlng);
-        this.formGroup.get('isLentic').patchValue(true)
     }
 
     featureSelected(event: VhaBlueLayerSelectionEvent) {

@@ -9,7 +9,7 @@
   },
   "surveyEvent": {
     "occurrence": {
-      "exception": "Datum voor startdatum project"
+      "exception": "Datum voor startdatum project: {{ date }}"
     },
     "sortOption": {
       "occurrence": "Datum",

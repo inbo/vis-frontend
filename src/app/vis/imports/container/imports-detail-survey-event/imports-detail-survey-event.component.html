@@ -10,7 +10,7 @@
     <div class="col-span-2">
       {{surveyEvent.occurrence.valid ? (surveyEvent.occurrence.value | date: 'dd/MM/yyyy') : surveyEvent.occurrence.originalValue }}
       <div [class.hidden]="surveyEvent.occurrence.valid" class="mt-1 text-sm text-red-600">
-          {{ 'surveyEvent.occurrence.exception' || 'Geen geldig formaat' | translate }}
+          {{ surveyEvent.occurrence.exception ? ('surveyEvent.occurrence.exception' | translate: {date: importOverview.project.startDate | date: 'dd/MM/yyyy'}) : 'Geen geldig formaat' }}
       </div>
     </div>
     <div class="col-span-3">

@@ -72,6 +72,11 @@ export class FishingPointCreateStep1Component implements OnInit, AfterViewInit {
             || (this.formGroup.get('lng').invalid);
     }
 
+    onIsLenticModelChange(isLentic: boolean): void {
+        this.fishingPointType = isLentic ? FishingPointType.STAGNANT : FishingPointType.FLOWING;
+        this.fishingPointTypeChange.emit(this.fishingPointType) //noinspection UnresolvedVariable
+    }
+
     private getLatLngFromForm() {
         return latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
     }
