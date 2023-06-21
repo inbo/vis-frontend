@@ -166,11 +166,10 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
             if (noPointOnMap) {
                 return this.isGeneralStepValid();
             }
-        } else {
-            return this.isGeneralStepValid()
-                && this.formGroup?.get('vhaInfo')?.valid
-                && this.formGroup?.get('townInfo')?.valid;
         }
+        return this.isGeneralStepValid()
+            && this.formGroup?.get('vhaInfo')?.valid
+            && this.formGroup?.get('townInfo')?.valid;
     }
 
     isBlueLayerValid(): boolean {
