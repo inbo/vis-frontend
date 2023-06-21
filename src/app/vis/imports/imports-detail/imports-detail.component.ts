@@ -10,6 +10,7 @@ import {ImportDetail} from '../../../domain/imports/imports';
 import {Role} from '../../../core/_models/role';
 import {ToastrService} from 'ngx-toastr';
 import {AlertService} from '../../../_alert';
+import {AuthService} from '../../../core/auth.service';
 
 @Component({
   selector: 'vis-imports-detail',
@@ -35,10 +36,12 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
   id: string;
   hasInvalidDocument = true;
   projectId: string;
+  hasCreateSurveyEventRole: boolean;
 
   constructor(private titleService: Title, private importsService: ImportsService, private activatedRoute: ActivatedRoute,
               private router: Router, private toastr: ToastrService,
-              private alertService: AlertService) {
+              private alertService: AlertService, private authService: AuthService) {
+      this.hasCreateSurveyEventRole = this.authService.hasRole(Role.CreateSurveyEvent);
     this.titleService.setTitle('Imports');
     this.id = this.activatedRoute.snapshot.params.id;
     this.importsService.getImport(this.id).subscribe(value => {

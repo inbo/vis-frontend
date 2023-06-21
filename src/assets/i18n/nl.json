@@ -7,9 +7,12 @@
     "ACTIVE": "Actief",
     "INACTIVE": "Inactief"
   },
+  "permissions": {
+    "missingRole": "Onvoldoende rechten om deze actie uit te voeren."
+  },
   "surveyEvent": {
     "occurrence": {
-      "exception": "Datum voor startdatum project: {{ date }}"
+      "exception": "Datum voor startdatum project: {{date}}"
     },
     "sortOption": {
       "occurrence": "Datum",
