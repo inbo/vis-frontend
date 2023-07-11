@@ -13,5 +13,5 @@ export const authConfig: AuthConfig = {
   sessionChecksEnabled: true,
   showDebugInformation: environment.showDebugInformation,
   clearHashAfterLogin: false,
-  nonceStateSeparator : 'semicolon'
+  nonceStateSeparator : ';'
 };
