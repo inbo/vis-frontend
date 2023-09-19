@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnDestroy,
+    OnInit,
+    Output,
+} from '@angular/core';
 import {SearchableSelectOption} from '../../../../shared-ui/searchable-select/SearchableSelectOption';
 import {TaxaService} from '../../../../services/vis.taxa.service';
 import {
@@ -23,7 +32,10 @@ import {valueBetweenWarning} from '../survey-event-measurements-create-page/vali
 import {WarningFormControl} from '../../../../shared-ui/warning-form-control/warning.form-control';
 import {measurementWeightValidator} from '../survey-event-measurements-create-page/validators/measurement-weight.validator';
 import {measurementAmountValidator} from '../survey-event-measurements-create-page/validators/measurement-amount.validator';
-import {SearchableSelectConfig, SearchableSelectConfigBuilder} from '../../../../shared-ui/searchable-select/SearchableSelectConfig';
+import {
+    SearchableSelectConfig,
+    SearchableSelectConfigBuilder,
+} from '../../../../shared-ui/searchable-select/SearchableSelectConfig';
 import {weightBetweenWarning} from '../survey-event-measurements-create-page/validators/weight-between.warning-validator';
 
 @Component({
@@ -199,7 +211,6 @@ export class MeasurementRowComponent implements OnInit, OnDestroy {
 
     toGroupMeasurement() {
         this.measurementForm.get('length').patchValue(null);
-        this.measurementForm.get('gender').patchValue(null);
         this.measurementForm.get('type').patchValue('GROUP_LENGTHS');
 
         this.getIndividualLengths().clear();
