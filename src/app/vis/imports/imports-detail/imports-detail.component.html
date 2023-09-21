@@ -51,11 +51,42 @@
               </a>
             </div>
           </div>
-
         </div>
 
+          <div *ngIf="!loading && uniqueFishingPoints.length > 0" class="bg-white px-4 py-5 sm:px-6 shadow overflow-hidden rounded-md divide-y divide-gray-200">
+              <div class="grid grid-cols-7 self-start">
+                  <div class="font-bold">
+                      Meetplaatscode
+                  </div>
+                  <div class="font-bold">
+                      Omschrijving
+                  </div>
+                  <div class="font-bold">
+                      Stilstaand
+                  </div>
+                  <div class="font-bold">
+                      Lat
+                  </div>
+                  <div class="font-bold">
+                      Long
+                  </div>
+                  <div class="font-bold">
+                      Match success
+                  </div>
+                  <div class="font-bold">
+                      Gematched waterlichaam
+                  </div>
+
+                  <ng-container *ngFor="let fp of uniqueFishingPoints">
+                      <div *ngFor="let detail of fp.details" [ngClass]="!detail.valid ? 'text-red-500' : ''">
+                          {{detail.value}}
+                      </div>
+                  </ng-container>
+              </div>
+          </div>
+
         <div class="px-4 py-8 sm:px-0">
-          <ul class="space-y-3" role="list">
+            <ul class="space-y-3" role="list">
             <li *ngFor="let importOverview of importDetail.items" class="bg-white shadow overflow-hidden rounded-md divide-y divide-gray-200">
               <div class="bg-white px-4 py-5 sm:px-6" *ngIf="importOverview.project.code">
                 <h3 class="text-lg leading-6 font-medium text-gray-900 flex">
@@ -72,7 +103,16 @@
                 </p>
               </div>
 
-              <div class="bg-white px-4 py-5 sm:px-6" *ngIf="!importOverview.project.code">
+                <div class="bg-white px-4 py-5 sm:px-6" *ngIf="!importOverview.project.originalValue">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 flex">
+                        Geen projectnaam ingegeven
+                    </h3>
+                    <div class="mt-2 text-sm text-red-600">
+                        De projectcode bestaat niet.
+                    </div>
+                </div>
+
+              <div class="bg-white px-4 py-5 sm:px-6" *ngIf="importOverview.project.originalValue && !importOverview.project.code">
                 <h3 class="text-lg leading-6 font-medium text-gray-900 flex">
                   Onbekend project met naam: {{importOverview.project.originalValue}}
                 </h3>

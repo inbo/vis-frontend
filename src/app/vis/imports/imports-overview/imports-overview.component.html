@@ -58,9 +58,12 @@
                 </tr>
 
                 <tr *ngFor="let importItem of imports; let index = index" [rownumber]="index" visRow>
-                  <td visCell>
-                    <div class="text-sm text-gray-900">{{importItem.filename}}</div>
-                    <div class="text-sm text-gray-500">{{importItem.createdTime | date: 'dd/MM/yyyy'}}</div>
+                  <td visCell class="flex">
+                      <img class="small-icon mr-2 pr-1" *ngIf="importItem.filename.includes('.xls')" src="assets/icons/xlsicon.svg" alt="Microsoft Excel Icon">
+                      <div>
+                          <div class="text-sm text-gray-900">{{importItem.filename}}</div>
+                          <div class="text-sm text-gray-500">{{importItem.createdTime | date: 'dd/MM/yyyy'}}</div>
+                      </div>
                   </td>
 
                   <td visCell>

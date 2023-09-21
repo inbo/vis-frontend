@@ -42,7 +42,7 @@ export class ImportsOverviewComponent implements OnInit, OnDestroy {
   }
 
   getImports(page: number, size: number) {
-    this.loading = true;
+    this.loading = false;
     this.imports = [];
     this.subscription.add(
       this.importsService.getImports(page, size).subscribe((value) => {

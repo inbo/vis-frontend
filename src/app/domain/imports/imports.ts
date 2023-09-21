@@ -78,9 +78,14 @@ export interface ImportComment {
   originalValue: string;
 }
 
-
+export interface FishingPointDetail {
+    name: string;
+    valid: boolean;
+    value: any;
+}
 export interface ImportSurveyEventFishingPoint {
   value: string;
+  details?: FishingPointDetail[];
   id: number;
   valid: boolean;
 }

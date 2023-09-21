@@ -6,7 +6,7 @@ import {lastValueFrom, Subscription} from 'rxjs';
 import {Title} from '@angular/platform-browser';
 import {ImportsService} from '../../../services/vis.imports.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ImportDetail} from '../../../domain/imports/imports';
+import {ImportDetail, ImportSurveyEventFishingPoint} from '../../../domain/imports/imports';
 import {Role} from '../../../core/_models/role';
 import {ToastrService} from 'ngx-toastr';
 import {AlertService} from '../../../_alert';
@@ -37,6 +37,7 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
   hasInvalidDocument = true;
   projectId: string;
   hasCreateSurveyEventRole: boolean;
+  uniqueFishingPoints: ImportSurveyEventFishingPoint[] = [];
 
   constructor(private titleService: Title, private importsService: ImportsService, private activatedRoute: ActivatedRoute,
               private router: Router, private toastr: ToastrService,
@@ -48,7 +49,8 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
       this.importDetail = value;
       this.loading = false;
       this.setIsDocumentValid();
-      this.projectId = this.importDetail.items[0].project.code
+      this.projectId = this.importDetail.items[0].project.code;
+      this.setFishingPointDetails();
     },
         error => {
         alertService.error('Validatie fouten', 'Het bewaren is niet gelukt, controleer alle gegevens of contacteer een verantwoordelijke.')
@@ -87,4 +89,15 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
           return !item.project.valid || hasInvalidSurveyEvent;
       }).length > 0;
   }
+
+    private setFishingPointDetails() {
+        this.importDetail.items.forEach(project => {
+            project.surveyEvents.forEach(event => {
+                const fp = this.uniqueFishingPoints.find(fp => fp.id === event.fishingPoint.id);
+                if(!fp) {
+                    this.uniqueFishingPoints.push(event.fishingPoint);
+                }
+            })
+        })
+    }
 }
