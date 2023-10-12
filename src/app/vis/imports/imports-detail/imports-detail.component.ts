@@ -93,7 +93,7 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
     private setFishingPointDetails() {
         this.importDetail.items.forEach(project => {
             project.surveyEvents.forEach(event => {
-                const fp = this.uniqueFishingPoints.find(fp => fp.id === event.fishingPoint.id);
+                const fp = this.uniqueFishingPoints.find(fp => fp.value === event.fishingPoint.value);
                 if(!fp) {
                     this.uniqueFishingPoints.push(event.fishingPoint);
                 }
