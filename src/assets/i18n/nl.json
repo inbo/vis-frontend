@@ -238,7 +238,8 @@
       "Factor": "Factor stroomsnelheidsmeter",
       "Turnoverwaarde": "Turnoverwaarde stroomsnelheidsmeter",
       "AfgevistVolumeBakboord": "Afgevist volume bakboord (m³)",
-      "AfgevistVolumeStuurboord": "Afgevist volume stuurboord (m³)"
+      "AfgevistVolumeStuurboord": "Afgevist volume stuurboord (m³)",
+      "AREA_HA": "Oppervlakte afgevist (ha)"
     }
   },
   "error": {
