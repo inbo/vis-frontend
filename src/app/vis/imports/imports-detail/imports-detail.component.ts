@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
-import {lastValueFrom, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {Title} from '@angular/platform-browser';
 import {ImportsService} from '../../../services/vis.imports.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -80,15 +80,23 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
   }
 
     private setIsDocumentValid(): void {
-      // TODO: this should preferably be set by the backend.
-      this.hasInvalidDocument = !this.importDetail.items || this.importDetail.items.filter(item => {
-          const hasInvalidSurveyEvent = item.surveyEvents.filter(surveyEvent => {
-              const notValidMeasurements = surveyEvent.measurements.filter(measurement => {return !measurement.valid}).length > 0;
-              return !(surveyEvent.fishingPoint.valid && surveyEvent.method.valid && surveyEvent.occurrence.valid && !surveyEvent.existingSurveyEventId) || notValidMeasurements;
-          }).length > 0;
-          return !item.project.valid || hasInvalidSurveyEvent;
-      }).length > 0;
-  }
+        // Check if any item has invalid details
+        this.hasInvalidDocument = this.importDetail.items.some(item => {
+            // Check if the project is not valid
+            if (!item.project.valid) {
+                return true;
+            }
+
+            // Check if any survey event is invalid
+            return item.surveyEvents.some(surveyEvent => {
+                // Check if any of the conditions make the survey event invalid
+                return !(surveyEvent.fishingPoint.valid && surveyEvent.method.valid &&
+                        surveyEvent.occurrence.valid && !surveyEvent.existingSurveyEventId) ||
+                    surveyEvent.measurements.some(measurement => !measurement.valid);
+            });
+        });
+    }
+
 
     private setFishingPointDetails() {
         this.importDetail.items.forEach(project => {
