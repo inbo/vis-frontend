@@ -54,7 +54,10 @@
         </div>
 
           <div *ngIf="!loading && uniqueFishingPoints.length > 0" class="bg-white px-4 py-5 sm:px-6 shadow overflow-hidden rounded-md divide-y divide-gray-200">
-              <div class="grid grid-cols-7 self-start" style="grid-template-columns: 150px 1fr 100px repeat(2, 1fr) 150px 1fr;">
+              <h2 class="font-bold mb-3">VISPUNTEN</h2>
+
+              <div class="grid grid-cols-7 self-start" style="grid-template-columns: 150px 1fr 100px repeat(2, 1fr) 150px 1fr; border-top-width: 0">
+
                   <div class="font-bold">
                       Meetplaatscode
                   </div>
@@ -88,8 +91,11 @@
         <div class="px-4 py-8 sm:px-0">
             <ul class="space-y-3" role="list">
             <li *ngFor="let importOverview of importDetail.items" class="bg-white shadow overflow-hidden rounded-md divide-y divide-gray-200">
-              <div class="bg-white px-4 py-5 sm:px-6" *ngIf="importOverview.project.code">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 flex">
+
+                <div class="bg-white px-4 py-5 sm:px-6" *ngIf="importOverview.project.code">
+                    <h2 class="font-bold mb-3">PROJECTEN</h2>
+
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 flex">
                   {{importOverview.project.name}}
                   <a class="text-gray-400 self-center" [routerLink]="['/projecten', importOverview.project.code]"  target="_blank">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
