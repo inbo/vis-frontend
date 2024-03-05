@@ -12,7 +12,11 @@
   },
   "surveyEvent": {
     "occurrence": {
-      "exception": "Datum voor startdatum project: {{date}}"
+      "empty": "Datum is verplicht.",
+      "format": {
+        "invalid": "Datum moet in formaat dd-mm-jjjj of dd/mm/jjjj of jjjj/mm/dd zijn."
+      },
+      "exception": "Datum moet binnen projectperiode vallen: {{date}}"
     },
     "sortOption": {
       "occurrence": "Datum",

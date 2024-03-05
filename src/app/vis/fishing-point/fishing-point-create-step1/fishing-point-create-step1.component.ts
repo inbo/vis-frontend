@@ -104,7 +104,8 @@ export class FishingPointCreateStep1Component implements OnInit, AfterViewInit {
                 this.convertCoordinates(this.formGroup.get('lat').value, value, 'latlng');
             });
 
-        this.formGroup.get('x').valueChanges.pipe(debounceTime(300))
+        this.formGroup.get('x').valueChanges
+            .pipe(debounceTime(300))
             .subscribe(value => {
                 if (this.formGroup.get('x').invalid || this.formGroup.get('y').invalid) {
                     return;
