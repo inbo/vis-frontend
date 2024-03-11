@@ -1,7 +1,7 @@
 <div class="flex flex-col">
   <vis-table>
-    <thead>
-    <tr visRow>
+    <thead class="bg-gray-50">
+    <tr>
       <th class="table-header-cell" scope="col">
         Titel / aangemaakt op
       </th>
@@ -24,9 +24,13 @@
     </tr>
 
     <tr *ngFor="let importItem of imports; let index = index" [rownumber]="index" visRow>
-      <td visCell>
-        <div class="text-sm text-gray-900">{{importItem.filename}}</div>
-        <div class="text-sm text-gray-500">{{importItem.createdTime | date: 'dd/MM/yyyy'}}</div>
+      <td visCell class="flex">
+        <img class="small-icon mr-2 pr-1" *ngIf="importItem.filename.includes('.xls')" src="assets/icons/xlsicon.svg"
+             alt="Microsoft Excel Icon">
+        <div>
+          <div class="text-sm text-gray-900">{{importItem.filename}}</div>
+          <div class="text-sm text-gray-500">{{importItem.createdTime | date: 'dd/MM/yyyy'}}</div>
+        </div>
       </td>
 
       <td visCell>
@@ -49,7 +53,7 @@
         <a [href]="importItem.webViewLink" class="text-pink-600 hover:text-pink-900" target="_blank">Open</a>
       </td>
       <td [actions]="true" visCell>
-        <a [routerLink]="['/importeren/afgesloten', importItem.id]" class="text-pink-600 hover:text-pink-900">Detail</a>
+        <a [routerLink]="['/importeren/open', importItem.id]" class="text-pink-600 hover:text-pink-900">Detail</a>
       </td>
     </tr>
 

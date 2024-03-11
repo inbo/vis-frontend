@@ -1,62 +1,65 @@
-<vis-stacked-layout [navigationLinks]="links">
-  <div slot="content">
-    <vis-breadcrumb [breadcrumbLinks]="breadcrumbLinks"></vis-breadcrumb>
-    <main>
-      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+<main class="max-w-7xl mx-auto">
+  <div class="px-4 pb-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
+    <div class="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">
+        {{importDetail.documentTitle ?? 'Niet beschikbaar'}}
+      </h3>
+      <div class="mt-3 flex sm:mt-0 sm:ml-4" *ngIf="!isReadOnly">
+        <a [href]="!loading ? (importDetail.url || 'https://docs.google.com/spreadsheets/d/'+id) : null"
+           target="_blank"
+           [class]="!loading ? 'inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500' : 'inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white opacity-50 cursor-not-allowed'"
+           (click)="loading && $event.preventDefault()"
+           class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+          Bewerk google sheet
+        </a>
+        <vis-button [disabled]="hasInvalidDocument"
+                    [ngxTippy]="!hasCreateSurveyEventRole ? ('permissions.missingRole' | translate) : null"
+                    [role]="role.CreateSurveyEvent" [style]="'primary'" class="ml-3" (click)="doImport()">
+          Importeren
+        </vis-button>
+      </div>
+    </div>
+  </div>
 
+  <div *ngIf="loading">
+    <div class="flex">
+      <vis-loading-spinner></vis-loading-spinner>
+      <span class="ml-1">Bezig met het laden van de google sheet...</span>
+    </div>
+  </div>
 
-        <div class="px-4 py-8 sm:px-8 -my-2 sm:-mx-6 lg:-mx-8">
+  <div *ngIf="!loading && importDetail && importDetail.items?.length === 0">
+    <div class="text-center">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+           aria-hidden="true">
+        <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+      </svg>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">Geen metingen</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        Start met metingen toe te voegen in de google sheets.
+      </p>
+      <div class="mt-6">
+        <a [href]="importDetail.url || 'https://docs.google.com/spreadsheets/d/'+id" target="_blank"
+           class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+          <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+               aria-hidden="true">
+            <path fill-rule="evenodd"
+                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                  clip-rule="evenodd"/>
+          </svg>
+          Bewerk google sheet
+        </a>
+      </div>
+    </div>
+  </div>
 
-          <div class="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-              Import bestand: {{importDetail.documentTitle}}
-            </h3>
-            <div class="mt-3 flex sm:mt-0 sm:ml-4">
-              <a [href]="importDetail.url || 'https://docs.google.com/spreadsheets/d/'+id" target="_blank" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-                Bewerk google sheet
-              </a>
-              <vis-button [disabled]="hasInvalidDocument"
-                          [ngxTippy]="!hasCreateSurveyEventRole ? ('permissions.missingRole' | translate) : null"
-                          [role]="role.CreateSurveyEvent" [style]="'primary'" class="ml-3" (click)="doImport()">
-                Importeren
-              </vis-button>
-            </div>
-          </div>
+  <div *ngIf="!loading && uniqueFishingPoints.length > 0 && importDetail.documentTitle.includes('.xls')"
+       class="bg-white px-4 py-5 sm:px-6 shadow overflow-hidden rounded-md divide-y divide-gray-200">
+    <h2 class="font-bold mb-3">VISPUNTEN</h2>
 
-        </div>
-
-
-        <div *ngIf="loading">
-          <div class="flex">
-            <vis-loading-spinner></vis-loading-spinner>
-            <span class="ml-1">Bezig met het verwerken van de google sheet ...</span>
-          </div>
-        </div>
-
-        <div *ngIf="!loading && importDetail && importDetail.items?.length === 0">
-          <div class="text-center">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-            </svg>
-            <h3 class="mt-2 text-sm font-medium text-gray-900">Geen metingen</h3>
-            <p class="mt-1 text-sm text-gray-500">
-              Start met metingen toe te voegen in de google sheets.
-            </p>
-            <div class="mt-6">
-              <a [href]="importDetail.url || 'https://docs.google.com/spreadsheets/d/'+id" target="_blank" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-                <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                </svg>
-                Bewerk google sheet
-              </a>
-            </div>
-          </div>
-        </div>
-
-          <div *ngIf="!loading && uniqueFishingPoints.length > 0 && importDetail.documentTitle.includes('.xls')" class="bg-white px-4 py-5 sm:px-6 shadow overflow-hidden rounded-md divide-y divide-gray-200">
-              <h2 class="font-bold mb-3">VISPUNTEN</h2>
-
-              <div class="grid grid-cols-7 self-start" style="grid-template-columns: 150px 1fr 100px repeat(2, 1fr) 150px 1fr; border-top-width: 0">
+    <div class="grid grid-cols-7 self-start"
+         style="grid-template-columns: 150px 1fr 100px repeat(2, 1fr) 150px 1fr; border-top-width: 0">
 
                   <div class="font-bold">
                       Meetplaatscode
@@ -73,7 +76,7 @@
                   <div class="font-bold">
                       Y
                   </div>
-                  <div class="font-bold">
+                  <div class="font-bold" id="match_succes">
                       Match success
                   </div>
                   <div class="font-bold">
@@ -81,7 +84,7 @@
                   </div>
 
                   <ng-container *ngFor="let fp of uniqueFishingPoints">
-                      <div *ngFor="let detail of fp.details" [ngClass]="!detail.valid ? 'text-red-500' : ''">
+                      <div *ngFor="let detail of fp.details; let i=index" [ngClass]="!detail.valid ? 'text-red-500' : ''">
                           <ng-container *ngIf="!isNull(detail.value); else noValue">
                               {{ detail.value }}
                           </ng-container>
@@ -92,61 +95,62 @@
               </div>
           </div>
 
-        <div class="px-4 py-8 sm:px-0">
-            <ul class="space-y-3" role="list">
-            <li *ngFor="let importOverview of importDetail.items" class="bg-white shadow overflow-hidden rounded-md divide-y divide-gray-200">
+  <div class="px-4 py-8 sm:px-0">
+    <ul class="space-y-3" role="list">
+      <li *ngFor="let importOverview of importDetail.items"
+          class="bg-white shadow overflow-hidden rounded-md divide-y divide-gray-200">
 
-                <div class="bg-white px-4 py-5 sm:px-6" *ngIf="importOverview.project.code">
-                    <h2 class="font-bold mb-3">PROJECTEN</h2>
+        <div class="bg-white px-4 py-5 sm:px-6" *ngIf="importOverview.project.code">
+          <h2 class="font-bold mb-3">PROJECTEN</h2>
 
-                    <h3 class="text-lg leading-6 font-medium text-gray-900 flex">
-                  {{importOverview.project.name}}
-                  <a class="text-gray-400 self-center" [routerLink]="['/projecten', importOverview.project.code]"  target="_blank">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
-                      <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
-                    </svg>
-                  </a>
-                </h3>
-                <p class="mt-1 text-sm text-gray-500">
-                  {{importOverview.project.description}}
-                </p>
-              </div>
-
-                <div class="bg-white px-4 py-5 sm:px-6" *ngIf="!importOverview.project.originalValue">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900 flex">
-                        Geen projectnaam ingegeven
-                    </h3>
-                    <div class="mt-2 text-sm text-red-600">
-                        De projectcode bestaat niet.
-                    </div>
-                </div>
-
-              <div class="bg-white px-4 py-5 sm:px-6" *ngIf="importOverview.project.originalValue && !importOverview.project.code">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 flex">
-                  Onbekend project met naam: {{importOverview.project.originalValue}}
-                </h3>
-                <div class="mt-2 text-sm text-red-600">
-                  De projectcode bestaat niet.
-                </div>
-              </div>
-
-              <div class="px-4 py-5 sm:p-6">
-                <vis-imports-detail-survey-event class="space-y-1" *ngFor="let surveyEvent of importOverview.surveyEvents" [importOverview]="importOverview" [surveyEvent]="surveyEvent"></vis-imports-detail-survey-event>
-              </div>
-            </li>
-          </ul>
-
-          <div *ngIf="!loading" class="flex justify-end mt-3 border-t border-gray-200 py-4">
-            <vis-button
-                    [ngxTippy]="!hasCreateSurveyEventRole ? ('permissions.missingRole' | translate) : null"
-                    [disabled]="hasInvalidDocument" [role]="role.CreateSurveyEvent" (click)="doImport()" [style]="'primary'">Importeren</vis-button>
-          </div>
-
-
+          <h3 class="text-lg leading-6 font-medium text-gray-900 flex">
+            {{importOverview.project.name}}
+            <a class="text-gray-400 self-center" [routerLink]="['/projecten', importOverview.project.code]"
+               target="_blank">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
+              </svg>
+            </a>
+          </h3>
+          <p class="mt-1 text-sm text-gray-500">
+            {{importOverview.project.description}}
+          </p>
         </div>
-      </div>
-    </main>
-  </div>
 
-</vis-stacked-layout>
+        <div class="bg-white px-4 py-5 sm:px-6" *ngIf="!importOverview.project.originalValue">
+          <h3 class="text-lg leading-6 font-medium text-gray-900 flex">
+            Geen projectnaam ingegeven
+          </h3>
+          <div class="mt-2 text-sm text-red-600">
+            De projectcode bestaat niet.
+          </div>
+        </div>
+
+        <div class="bg-white px-4 py-5 sm:px-6"
+             *ngIf="importOverview.project.originalValue && !importOverview.project.code">
+          <h3 class="text-lg leading-6 font-medium text-gray-900 flex">
+            Onbekend project met naam: {{importOverview.project.originalValue}}
+          </h3>
+          <div class="mt-2 text-sm text-red-600">
+            De projectcode bestaat niet.
+          </div>
+        </div>
+
+        <div class="px-4 py-5 sm:p-6">
+          <vis-imports-detail-survey-event class="space-y-1" *ngFor="let surveyEvent of importOverview.surveyEvents"
+                                           [importOverview]="importOverview"
+                                           [surveyEvent]="surveyEvent"></vis-imports-detail-survey-event>
+        </div>
+      </li>
+    </ul>
+
+    <div *ngIf="!loading && !isReadOnly" class="flex justify-end mt-3 border-t border-gray-200 py-4">
+      <vis-button
+              [ngxTippy]="!hasCreateSurveyEventRole ? ('permissions.missingRole' | translate) : null"
+              [disabled]="hasInvalidDocument" [role]="role.CreateSurveyEvent" (click)="doImport()"
+              [style]="'primary'">Importeren
+      </vis-button>
+    </div>
+  </div>
+</main>

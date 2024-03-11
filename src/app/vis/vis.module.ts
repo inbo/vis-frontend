@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule, DatePipe} from '@angular/common';
+import {CommonModule, DatePipe, NgOptimizedImage} from '@angular/common';
 
 import {VisRoutingModule} from './vis-routing.module';
 import {DashboardPageComponent} from './dashboard-page/dashboard-page.component';
@@ -22,14 +22,10 @@ import {SurveyEventDetailPageComponent} from './survey-events/survey-event-detai
 import {SurveyEventTabsComponent} from './survey-events/survey-event-tabs/survey-event-tabs.component';
 import {SurveyEventParametersPageComponent} from './survey-events/survey-event-parameters-page/survey-event-parameters-page.component';
 import {SurveyEventHabitatPageComponent} from './survey-events/survey-event-habitat-page/survey-event-habitat-page.component';
-import {
-    SurveyEventMeasurementsCreatePageComponent,
-} from './survey-events/measurements/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
+import {SurveyEventMeasurementsCreatePageComponent} from './survey-events/measurements/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {SurveyEventHabitatEditPageComponent} from './survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component';
 import {FishSpeciesDetailPageComponent} from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
-import {
-    SurveyEventParametersEditPageComponent,
-} from './survey-events/survey-event-parameters-edit-page/survey-event-parameters-edit-page.component';
+import {SurveyEventParametersEditPageComponent} from './survey-events/survey-event-parameters-edit-page/survey-event-parameters-edit-page.component';
 import {SharedUiModule} from '../shared-ui/shared-ui.module';
 import {IMaskModule} from 'angular-imask';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -67,32 +63,16 @@ import {SurveyEventAddPageComponent} from './survey-events/survey-event-add-page
 import {SurveyEventCopyModalComponent} from './survey-events/survey-event-copy-modal/survey-event-copy-modal.component';
 import {FishingPointDetailComponent} from './fishing-point/fishing-point-detail/fishing-point-detail.component';
 import {MeasurementRowComponent} from './survey-events/measurements/measurement-row/measurement-row.component';
-import {
-    SurveyEventMeasurementsPageComponent,
-} from './survey-events/measurements/survey-event-measurements-page/survey-event-measurements-page.component';
+import {SurveyEventMeasurementsPageComponent} from './survey-events/measurements/survey-event-measurements-page/survey-event-measurements-page.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {SpeciesSearchComponent} from './survey-events/measurements/measurement-components/species-search/species-search.component';
-import {
-    MeasurementLengthComponent,
-} from './survey-events/measurements/measurement-components/measurement-length/measurement-length.component';
-import {
-    MeasurementWeightComponent,
-} from './survey-events/measurements/measurement-components/measurement-weight/measurement-weight.component';
-import {
-    MeasurementGenderComponent,
-} from './survey-events/measurements/measurement-components/measurement-gender/measurement-gender.component';
-import {
-    MeasurementAmountComponent,
-} from './survey-events/measurements/measurement-components/measurement-amount/measurement-amount.component';
-import {
-    MeasurementFishingTripNumberComponent,
-} from './survey-events/measurements/measurement-components/measurement-fishing-trip-number/measurement-fishing-trip-number.component';
-import {
-    MeasurementCommentComponent,
-} from './survey-events/measurements/measurement-components/measurement-comment/measurement-comment.component';
-import {
-    MeasurementLengthMeasurementsComponent,
-} from './survey-events/measurements/measurement-components/measurement-length-measurements/measurement-length-measurements.component';
+import {MeasurementLengthComponent} from './survey-events/measurements/measurement-components/measurement-length/measurement-length.component';
+import {MeasurementWeightComponent} from './survey-events/measurements/measurement-components/measurement-weight/measurement-weight.component';
+import {MeasurementGenderComponent} from './survey-events/measurements/measurement-components/measurement-gender/measurement-gender.component';
+import {MeasurementAmountComponent} from './survey-events/measurements/measurement-components/measurement-amount/measurement-amount.component';
+import {MeasurementFishingTripNumberComponent} from './survey-events/measurements/measurement-components/measurement-fishing-trip-number/measurement-fishing-trip-number.component';
+import {MeasurementCommentComponent} from './survey-events/measurements/measurement-components/measurement-comment/measurement-comment.component';
+import {MeasurementLengthMeasurementsComponent} from './survey-events/measurements/measurement-components/measurement-length-measurements/measurement-length-measurements.component';
 import {MeasurementRowReadonlyComponent} from './survey-events/measurements/measurement-row-readonly/measurement-row-readonly.component';
 import {ImportsOverviewComponent} from './imports/imports-overview/imports-overview.component';
 import {ImportsDetailComponent} from './imports/imports-detail/imports-detail.component';
@@ -103,9 +83,7 @@ import {TeamEditComponent} from './settings/teams/team-edit/team-edit.component'
 import {MethodEditComponent} from './method/method-edit/method-edit.component';
 import {SurveyEventCpuePageComponent} from './survey-events/survey-event-cpue-page/survey-event-cpue-page.component';
 import {SurveyEventCpueEditPageComponent} from './survey-events/survey-event-cpue-edit-page/survey-event-cpue-edit-page.component';
-import {
-    FishingPointsSelectedFeatureComponent,
-} from './components/fishing-points-selected-feature/fishing-points-selected-feature.component';
+import {FishingPointsSelectedFeatureComponent} from './components/fishing-points-selected-feature/fishing-points-selected-feature.component';
 import {HasUnsavedDataGuard} from '../core/unsaved-changes-guard.service';
 import {SurveyEventPicturesPageComponent} from './survey-events/survey-event-pictures-page/survey-event-pictures-page.component';
 import {UploadFilesComponent} from './survey-events/survey-event-pictures-page/upload-files/upload-files.component';
@@ -119,139 +97,134 @@ import {FishSpeciesPicturesPageComponent} from './fish-specie/fish-species-pictu
 import {FishingPointComponent} from './fishing-point/fishing-point/fishing-point.component';
 import {FishingPointTabsComponent} from './fishing-point/fishing-point-tabs/fishing-point-tabs.component';
 import {FishingPointPicturesPageComponent} from './fishing-point/fishing-point-pictures-page/fishing-point-pictures-page.component';
-import {
-    MeasurementLengthMeasurementsReadonlyComponent,
-} from './survey-events/measurements/measurement-components/measurement-length-measurements-readonly/measurement-length-measurements-readonly.component';
+import {MeasurementLengthMeasurementsReadonlyComponent} from './survey-events/measurements/measurement-components/measurement-length-measurements-readonly/measurement-length-measurements-readonly.component';
 import {NgxLeafletFullscreenModule} from '@runette/ngx-leaflet-fullscreen';
 import {UploadInformationComponent} from './survey-events/survey-event-pictures-page/upload-information/upload-information.component';
 import {NgxTippyModule} from 'ngx-tippy-wrapper';
-import {
-    MeasurementShipSideComponent,
-} from './survey-events/measurements/measurement-components/measurement-ship-side/measurement-ship-side.component';
-import {
-    MeasurementDilutionFactorComponent,
-} from './survey-events/measurements/measurement-components/measurement-dilution-factor/measurement-dilution-factor.component';
+import {MeasurementShipSideComponent} from './survey-events/measurements/measurement-components/measurement-ship-side/measurement-ship-side.component';
+import {MeasurementDilutionFactorComponent} from './survey-events/measurements/measurement-components/measurement-dilution-factor/measurement-dilution-factor.component';
 import {NgArrayPipesModule, NgObjectPipesModule} from 'ngx-pipes';
-import {
-    ExistingSurveyEventsFoundWarningComponent,
-} from './survey-events/existing-survey-events-found-warning/existing-survey-events-found-warning.component';
+import {ExistingSurveyEventsFoundWarningComponent} from './survey-events/existing-survey-events-found-warning/existing-survey-events-found-warning.component';
+import {ImportsOverviewOpenComponent} from './imports/imports-overview-open/imports-overview-open.component';
 
 @NgModule({
-    exports: [
-        SwitchRoleComponent,
-        SpeciesSearchComponent,
-    ],
-    declarations: [
-        DashboardPageComponent,
-        ProjectsOverviewPageComponent,
-        FishingPointOverviewPageComponent,
-        FishSpeciesOverviewPageComponent,
-        MethodsOverviewPageComponent,
-        ProfilePageComponent,
-        ProjectDetailPageComponent,
-        ProjectSurveyEventsPageComponent,
-        ProjectFishingPointsPageComponent,
-        ProjectMethodsPageComponent,
-        ProjectFishSpeciesPageComponent,
-        ProjectPicturesPageComponent,
-        ProjectTabsComponent,
-        ProjectDetailEditPageComponent,
-        ProjectAddComponent,
-        SurveyEventStatusPillComponent,
-        SurveyEventDetailPageComponent,
-        SurveyEventTabsComponent,
-        SurveyEventParametersPageComponent,
-        SurveyEventHabitatPageComponent,
-        SurveyEventMeasurementsPageComponent,
-        SurveyEventHabitatEditPageComponent,
-        FishSpeciesDetailPageComponent,
-        SurveyEventParametersEditPageComponent,
-        FishingPointCreatePageComponent,
-        FishingPointCreateStep1Component,
-        FishingPointCreateStep2Component,
-        FishingPointCreateStep3Component,
-        ProjectHeadingComponent,
-        SurveyEventHeadingComponent,
-        SurveyEventComponent,
-        ProjectComponent,
-        SwitchRoleComponent,
-        SurveyEventMeasurementsCreatePageComponent,
-        FishingPointsMapComponent,
-        FormErrorMessageComponent,
-        SurveyEventsOverviewPageComponent,
-        TipsComponent,
-        TipsTabsComponent,
-        TipsPageComponent,
-        UsersPageComponent,
-        UserEditComponent,
-        TeamAddComponent,
-        MultiUserSearchComponent,
-        SettingsComponent,
-        SettingsTabsComponent,
-        TeamsPageComponent,
-        InstancesPageComponent,
-        InstanceAddComponent,
-        SurveyEventDetailEditPageComponent,
-        SurveyEventAddPageComponent,
-        SurveyEventCopyModalComponent,
-        FishingPointDetailComponent,
-        MeasurementRowComponent,
-        SpeciesSearchComponent,
-        MeasurementLengthComponent,
-        MeasurementWeightComponent,
-        MeasurementGenderComponent,
-        MeasurementAmountComponent,
-        MeasurementShipSideComponent,
-        MeasurementDilutionFactorComponent,
-        MeasurementFishingTripNumberComponent,
-        MeasurementCommentComponent,
-        MeasurementLengthMeasurementsComponent,
-        MeasurementRowReadonlyComponent,
-        ImportsOverviewComponent,
-        ImportsDetailComponent,
-        ImportsOverviewProcessedComponent,
-        ImportsDetailSurveyEventComponent,
-        ImportsDetailMeasurementComponent,
-        TeamEditComponent,
-        MethodEditComponent,
-        SurveyEventCpuePageComponent,
-        SurveyEventCpueEditPageComponent,
-        FishingPointsSelectedFeatureComponent,
-        SurveyEventPicturesPageComponent,
-        UploadFilesComponent,
-        GalleryPageComponent,
-        UploadPageComponent,
-        UploadInformationComponent,
-        ImageGridItemComponent,
-        ImageDetailComponent,
-        FishSpeciesTabsComponent,
-        FishSpeciesComponent,
-        FishSpeciesPicturesPageComponent,
-        FishingPointComponent,
-        FishingPointTabsComponent,
-        FishingPointPicturesPageComponent,
-        MeasurementLengthMeasurementsReadonlyComponent,
-        ExistingSurveyEventsFoundWarningComponent,
-    ],
-    imports: [
-        CommonModule,
-        VisRoutingModule,
-        SharedUiModule,
-        IMaskModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        LeafletModule,
-        LeafletMarkerClusterModule,
-        NgTransitionModule,
-        ClipboardModule,
-        FontAwesomeModule,
-        NgxLeafletFullscreenModule,
-        NgxTippyModule,
-        NgArrayPipesModule,
-        NgObjectPipesModule,
-    ],
-    providers: [DatePipe, HasUnsavedDataGuard],
+  exports: [
+    SwitchRoleComponent,
+    SpeciesSearchComponent,
+  ],
+  declarations: [
+    DashboardPageComponent,
+    ProjectsOverviewPageComponent,
+    FishingPointOverviewPageComponent,
+    FishSpeciesOverviewPageComponent,
+    MethodsOverviewPageComponent,
+    ProfilePageComponent,
+    ProjectDetailPageComponent,
+    ProjectSurveyEventsPageComponent,
+    ProjectFishingPointsPageComponent,
+    ProjectMethodsPageComponent,
+    ProjectFishSpeciesPageComponent,
+    ProjectPicturesPageComponent,
+    ProjectTabsComponent,
+    ProjectDetailEditPageComponent,
+    ProjectAddComponent,
+    SurveyEventStatusPillComponent,
+    SurveyEventDetailPageComponent,
+    SurveyEventTabsComponent,
+    SurveyEventParametersPageComponent,
+    SurveyEventHabitatPageComponent,
+    SurveyEventMeasurementsPageComponent,
+    SurveyEventHabitatEditPageComponent,
+    FishSpeciesDetailPageComponent,
+    SurveyEventParametersEditPageComponent,
+    FishingPointCreatePageComponent,
+    FishingPointCreateStep1Component,
+    FishingPointCreateStep2Component,
+    FishingPointCreateStep3Component,
+    ProjectHeadingComponent,
+    SurveyEventHeadingComponent,
+    SurveyEventComponent,
+    ProjectComponent,
+    SwitchRoleComponent,
+    SurveyEventMeasurementsCreatePageComponent,
+    FishingPointsMapComponent,
+    FormErrorMessageComponent,
+    SurveyEventsOverviewPageComponent,
+    TipsComponent,
+    TipsTabsComponent,
+    TipsPageComponent,
+    UsersPageComponent,
+    UserEditComponent,
+    TeamAddComponent,
+    MultiUserSearchComponent,
+    SettingsComponent,
+    SettingsTabsComponent,
+    TeamsPageComponent,
+    InstancesPageComponent,
+    InstanceAddComponent,
+    SurveyEventDetailEditPageComponent,
+    SurveyEventAddPageComponent,
+    SurveyEventCopyModalComponent,
+    FishingPointDetailComponent,
+    MeasurementRowComponent,
+    SpeciesSearchComponent,
+    MeasurementLengthComponent,
+    MeasurementWeightComponent,
+    MeasurementGenderComponent,
+    MeasurementAmountComponent,
+    MeasurementShipSideComponent,
+    MeasurementDilutionFactorComponent,
+    MeasurementFishingTripNumberComponent,
+    MeasurementCommentComponent,
+    MeasurementLengthMeasurementsComponent,
+    MeasurementRowReadonlyComponent,
+    ImportsOverviewComponent,
+    ImportsDetailComponent,
+    ImportsOverviewOpenComponent,
+    ImportsOverviewProcessedComponent,
+    ImportsDetailSurveyEventComponent,
+    ImportsDetailMeasurementComponent,
+    TeamEditComponent,
+    MethodEditComponent,
+    SurveyEventCpuePageComponent,
+    SurveyEventCpueEditPageComponent,
+    FishingPointsSelectedFeatureComponent,
+    SurveyEventPicturesPageComponent,
+    UploadFilesComponent,
+    GalleryPageComponent,
+    UploadPageComponent,
+    UploadInformationComponent,
+    ImageGridItemComponent,
+    ImageDetailComponent,
+    FishSpeciesTabsComponent,
+    FishSpeciesComponent,
+    FishSpeciesPicturesPageComponent,
+    FishingPointComponent,
+    FishingPointTabsComponent,
+    FishingPointPicturesPageComponent,
+    MeasurementLengthMeasurementsReadonlyComponent,
+    ExistingSurveyEventsFoundWarningComponent,
+  ],
+  imports: [
+    CommonModule,
+    VisRoutingModule,
+    SharedUiModule,
+    IMaskModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    LeafletModule,
+    LeafletMarkerClusterModule,
+    NgTransitionModule,
+    ClipboardModule,
+    FontAwesomeModule,
+    NgxLeafletFullscreenModule,
+    NgxTippyModule,
+    NgArrayPipesModule,
+    NgObjectPipesModule,
+    NgOptimizedImage,
+  ],
+  providers: [DatePipe, HasUnsavedDataGuard],
 })
 export class VisModule {
 }

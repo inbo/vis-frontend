@@ -13,15 +13,11 @@ import {ProjectFishSpeciesPageComponent} from './project/project-fish-species-pa
 import {ProjectPicturesPageComponent} from './project/project-pictures-page/project-pictures-page.component';
 import {SurveyEventDetailPageComponent} from './survey-events/survey-event-detail-page/survey-event-detail-page.component';
 import {SurveyEventParametersPageComponent} from './survey-events/survey-event-parameters-page/survey-event-parameters-page.component';
-import {
-    SurveyEventParametersEditPageComponent,
-} from './survey-events/survey-event-parameters-edit-page/survey-event-parameters-edit-page.component';
+import {SurveyEventParametersEditPageComponent} from './survey-events/survey-event-parameters-edit-page/survey-event-parameters-edit-page.component';
 import {SurveyEventHabitatPageComponent} from './survey-events/survey-event-habitat-page/survey-event-habitat-page.component';
 import {SurveyEventHabitatEditPageComponent} from './survey-events/survey-event-habitat-edit-page/survey-event-habitat-edit-page.component';
 // tslint:disable-next-line:max-line-length
-import {
-    SurveyEventMeasurementsPageComponent,
-} from './survey-events/measurements/survey-event-measurements-page/survey-event-measurements-page.component';
+import {SurveyEventMeasurementsPageComponent} from './survey-events/measurements/survey-event-measurements-page/survey-event-measurements-page.component';
 import {FishingPointOverviewPageComponent} from './fishing-point/fishing-point-overview-page/fishing-point-overview-page.component';
 import {FishSpeciesOverviewPageComponent} from './fish-specie/fish-species-overview-page/fish-species-overview-page.component';
 import {FishSpeciesDetailPageComponent} from './fish-specie/fish-species-detail-page/fish-species-detail-page.component';
@@ -32,9 +28,7 @@ import {Role} from '../core/_models/role';
 import {FishingPointCreatePageComponent} from './fishing-point/fishing-point-create-page/fishing-point-create-page.component';
 import {SurveyEventComponent} from './survey-events/survey-event/survey-event.component';
 import {ProjectComponent} from './project/project/project.component';
-import {
-    SurveyEventMeasurementsCreatePageComponent,
-} from './survey-events/measurements/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
+import {SurveyEventMeasurementsCreatePageComponent} from './survey-events/measurements/survey-event-measurements-create-page/survey-event-measurements-create-page.component';
 import {SurveyEventsOverviewPageComponent} from './survey-events/survey-events-overview-page/survey-events-overview-page.component';
 import {TipsComponent} from './tips/tips/tips.component';
 import {TipsPageComponent} from './tips/tips-page/tips-page.component';
@@ -61,6 +55,7 @@ import {FishSpeciesPicturesPageComponent} from './fish-specie/fish-species-pictu
 import {FishingPointComponent} from './fishing-point/fishing-point/fishing-point.component';
 import {FishingPointPicturesPageComponent} from './fishing-point/fishing-point-pictures-page/fishing-point-pictures-page.component';
 import {UploadInformationComponent} from './survey-events/survey-event-pictures-page/upload-information/upload-information.component';
+import {ImportsOverviewOpenComponent} from './imports/imports-overview-open/imports-overview-open.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -73,32 +68,32 @@ const routes: Routes = [
         path: '',
         component: ProjectDetailPageComponent,
         canActivate: [AuthGuardWithForcedLogin],
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'bewerk',
         component: ProjectDetailEditPageComponent,
         canActivate: [AuthGuardWithForcedLogin, RoleGuard, ProjectEditGuard],
         canDeactivate: [HasUnsavedDataGuard],
-        data: {roles: [Role.EditProject]}
+        data: {roles: [Role.EditProject]},
       },
       {
         path: 'waarnemingen',
         component: ProjectSurveyEventsPageComponent,
-        canActivate: [AuthGuardWithForcedLogin]
+        canActivate: [AuthGuardWithForcedLogin],
       },
       {
         path: 'waarnemingen/toevoegen',
         component: SurveyEventAddPageComponent,
         canActivate: [AuthGuardWithForcedLogin, RoleGuard, ProjectEditGuard],
         canDeactivate: [HasUnsavedDataGuard],
-        data: {roles: [Role.CreateSurveyEvent]}
+        data: {roles: [Role.CreateSurveyEvent]},
       },
       {path: 'vispunten', component: ProjectFishingPointsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
       {path: 'methoden', component: ProjectMethodsPageComponent, canActivate: [AuthGuardWithForcedLogin]},
       {path: 'vissoorten', component: ProjectFishSpeciesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
       {path: 'afbeeldingen', component: ProjectPicturesPageComponent, canActivate: [AuthGuardWithForcedLogin]},
-    ]
+    ],
   },
   {
     path: 'projecten/:projectCode/waarnemingen/:surveyEventId',
@@ -108,66 +103,70 @@ const routes: Routes = [
         path: '',
         component: SurveyEventDetailPageComponent,
         canActivate: [AuthGuardWithForcedLogin],
-        data: {name: 'Algemeen', url: ''}
+        data: {name: 'Algemeen', url: ''},
       },
       {
         path: 'bewerk',
         component: SurveyEventDetailEditPageComponent,
         canActivate: [AuthGuardWithForcedLogin, RoleGuard, ProjectEditGuard],
         canDeactivate: [HasUnsavedDataGuard],
-        data: {roles: [Role.EditSurveyEvent]}
+        data: {roles: [Role.EditSurveyEvent]},
       },
       {
         path: 'waterkwaliteitsparameters',
         component: SurveyEventParametersPageComponent,
         canActivate: [AuthGuardWithForcedLogin],
-        data: {name: 'Waterkwaliteitsparameters', url: 'waterkwaliteitsparameters'}
+        data: {name: 'Waterkwaliteitsparameters', url: 'waterkwaliteitsparameters'},
       },
       {
         path: 'waterkwaliteitsparameters/bewerk',
         component: SurveyEventParametersEditPageComponent,
         canActivate: [AuthGuardWithForcedLogin, RoleGuard],
         canDeactivate: [HasUnsavedDataGuard],
-        data: {name: 'Waterkwaliteitsparameters', url: 'waterkwaliteitsparameters/bewerk', roles: [Role.EditSurveyEvent]}
+        data: {
+          name: 'Waterkwaliteitsparameters',
+          url: 'waterkwaliteitsparameters/bewerk',
+          roles: [Role.EditSurveyEvent],
+        },
       },
       {
         path: 'habitat',
         component: SurveyEventHabitatPageComponent,
         canActivate: [AuthGuardWithForcedLogin],
-        data: {name: 'Hebitat', url: 'habitat'}
+        data: {name: 'Hebitat', url: 'habitat'},
       },
       {
         path: 'habitat/bewerk',
         component: SurveyEventHabitatEditPageComponent,
         canActivate: [AuthGuardWithForcedLogin, RoleGuard],
         canDeactivate: [HasUnsavedDataGuard],
-        data: {name: 'Hebitat', url: 'habitat/bewerk', roles: [Role.EditSurveyEvent]}
+        data: {name: 'Hebitat', url: 'habitat/bewerk', roles: [Role.EditSurveyEvent]},
       },
       {
         path: 'metingen',
         component: SurveyEventMeasurementsPageComponent,
         canActivate: [AuthGuardWithForcedLogin],
-        data: {name: 'Metingen', url: 'metingen'}
+        data: {name: 'Metingen', url: 'metingen'},
       },
       {
         path: 'metingen/toevoegen',
         component: SurveyEventMeasurementsCreatePageComponent,
         canActivate: [AuthGuardWithForcedLogin, RoleGuard],
         canDeactivate: [HasUnsavedDataGuard],
-        data: {name: 'Metingen', url: 'metingen/toevoegen', roles: [Role.CreateMeasurements]}
+        data: {name: 'Metingen', url: 'metingen/toevoegen', roles: [Role.CreateMeasurements]},
       },
       {
         path: 'cpue',
         component: SurveyEventCpuePageComponent,
         canActivate: [AuthGuardWithForcedLogin],
-        data: {name: 'cpue', url: 'cpue'}
+        data: {name: 'cpue', url: 'cpue'},
       },
       {
         path: 'cpue/bewerk',
         component: SurveyEventCpueEditPageComponent,
         canActivate: [AuthGuardWithForcedLogin, RoleGuard],
         canDeactivate: [HasUnsavedDataGuard],
-        data: {name: 'cpue', url: 'cpue/bewerk', roles: [Role.EditCpueParameters]}
+        data: {name: 'cpue', url: 'cpue/bewerk', roles: [Role.EditCpueParameters]},
       },
       {
         path: 'afbeeldingen',
@@ -177,43 +176,43 @@ const routes: Routes = [
             path: '',
             component: GalleryPageComponent,
             canActivate: [AuthGuardWithForcedLogin],
-            data: {name: 'Afbeeldingen', url: 'afbeeldingen'}
+            data: {name: 'Afbeeldingen', url: 'afbeeldingen'},
           },
           {
             path: 'project',
             component: GalleryPageComponent,
             canActivate: [AuthGuardWithForcedLogin],
-            data: {name: 'Afbeeldingen', url: 'project'}
+            data: {name: 'Afbeeldingen', url: 'project'},
           },
           {
             path: 'upload',
             component: UploadPageComponent,
             canActivate: [AuthGuardWithForcedLogin],
-            data: {name: 'Afbeeldingen', url: 'upload'}
+            data: {name: 'Afbeeldingen', url: 'upload'},
           },
           {
             path: 'info',
             component: UploadInformationComponent,
             canActivate: [AuthGuardWithForcedLogin],
-            data: {name: 'Afbeeldingen', url: 'info'}
-          }
-        ]
+            data: {name: 'Afbeeldingen', url: 'info'},
+          },
+        ],
       },
 
-    ]
+    ],
   },
   {
     path: 'vispunten',
     component: FishingPointOverviewPageComponent,
-    canActivate: [AuthGuardWithForcedLogin]
+    canActivate: [AuthGuardWithForcedLogin],
   },
   {
     path: 'vispunten/create',
     component: FishingPointCreatePageComponent,
     canActivate: [AuthGuardWithForcedLogin, AuthGuardRole],
     data: {
-      role: Role.CreateFishingPoint
-    }
+      role: Role.CreateFishingPoint,
+    },
   },
   {
     path: 'vispunten/:code',
@@ -224,16 +223,16 @@ const routes: Routes = [
         component: FishingPointDetailComponent,
         canActivate: [AuthGuardWithForcedLogin],
         pathMatch: 'full',
-        data: {name: 'Details', url: ''}
+        data: {name: 'Details', url: ''},
       },
       {
         path: 'afbeeldingen',
         component: FishingPointPicturesPageComponent,
         canActivate: [AuthGuardWithForcedLogin],
         pathMatch: 'full',
-        data: {name: 'Afbeeldingen', url: 'afbeeldingen'}
-      }
-    ]
+        data: {name: 'Afbeeldingen', url: 'afbeeldingen'},
+      },
+    ],
   },
 
 
@@ -247,16 +246,16 @@ const routes: Routes = [
         component: FishSpeciesDetailPageComponent,
         canActivate: [AuthGuardWithForcedLogin],
         pathMatch: 'full',
-        data: {name: 'Details', url: ''}
+        data: {name: 'Details', url: ''},
       },
       {
         path: 'afbeeldingen',
         component: FishSpeciesPicturesPageComponent,
         canActivate: [AuthGuardWithForcedLogin],
         pathMatch: 'full',
-        data: {name: 'Afbeeldingen', url: 'afbeeldingen'}
-      }
-    ]
+        data: {name: 'Afbeeldingen', url: 'afbeeldingen'},
+      },
+    ],
   },
   {path: 'methoden', component: MethodsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
   {path: 'waarnemingen', component: SurveyEventsOverviewPageComponent, canActivate: [AuthGuardWithForcedLogin]},
@@ -266,8 +265,8 @@ const routes: Routes = [
     component: UsersPageComponent,
     canActivate: [AuthGuardWithForcedLogin, AuthGuardRole],
     data: {
-      role: Role.UserAdmin
-    }
+      role: Role.UserAdmin,
+    },
   },
   {
     path: 'tips/:tipPage', component: TipsComponent,
@@ -276,9 +275,9 @@ const routes: Routes = [
         path: '',
         component: TipsPageComponent,
         canActivate: [AuthGuardWithForcedLogin],
-        pathMatch: 'full'
-      }
-    ]
+        pathMatch: 'full',
+      },
+    ],
   },
   {
     path: 'instellingen',
@@ -289,49 +288,74 @@ const routes: Routes = [
       {
         path: 'gebruikers',
         component: UsersPageComponent,
-        canActivate: [AuthGuardWithForcedLogin]
+        canActivate: [AuthGuardWithForcedLogin],
       },
       {
         path: 'instanties',
         component: InstancesPageComponent,
-        canActivate: [AuthGuardWithForcedLogin]
+        canActivate: [AuthGuardWithForcedLogin],
       },
       {
         path: 'teams',
         component: TeamsPageComponent,
-        canActivate: [AuthGuardWithForcedLogin]
-      }
-    ]
+        canActivate: [AuthGuardWithForcedLogin],
+      },
+    ],
   },
   {
     path: 'importeren',
     component: ImportsOverviewComponent,
     canActivate: [AuthGuardWithForcedLogin, RoleGuard],
     data: {
-      roles: [Role.ReadImportfiles]
-    }
-  },
-  {
-    path: 'importeren/verwerkt',
-    component: ImportsOverviewProcessedComponent,
-    canActivate: [AuthGuardWithForcedLogin, RoleGuard],
-    data: {
-      roles: [Role.ReadImportfiles]
-    }
-  },
-  {
-    path: 'importeren/:id',
-    component: ImportsDetailComponent,
-    canActivate: [AuthGuardWithForcedLogin, RoleGuard],
-    data: {
-      roles: [Role.ReadImportfiles]
-    }
+      roles: [Role.ReadImportfiles],
+    },
+    children: [
+      {
+        path: '',
+        redirectTo: 'open',
+        pathMatch: 'full',
+      },
+      {
+        path: 'open',
+        component: ImportsOverviewOpenComponent,
+        canActivate: [AuthGuardWithForcedLogin, RoleGuard],
+        data: {
+          roles: [Role.ReadImportfiles],
+        },
+      },
+      {
+        path: 'open/:importId',
+        component: ImportsDetailComponent,
+        canActivate: [AuthGuardWithForcedLogin, RoleGuard],
+        data: {
+          roles: [Role.ReadImportfiles],
+          breadcrumbPrefix: 'Google Sheet ID: ',
+        },
+      },
+      {
+        path: 'afgesloten',
+        component: ImportsOverviewProcessedComponent,
+        canActivate: [AuthGuardWithForcedLogin, RoleGuard],
+        data: {
+          roles: [Role.ReadImportfiles],
+        },
+      },
+      {
+        path: 'afgesloten/:importId',
+        component: ImportsDetailComponent,
+        canActivate: [AuthGuardWithForcedLogin, RoleGuard],
+        data: {
+          roles: [Role.ReadImportfiles],
+          breadcrumbPrefix: 'Google Sheet ID: ',
+        },
+      },
+    ],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class VisRoutingModule {
 }

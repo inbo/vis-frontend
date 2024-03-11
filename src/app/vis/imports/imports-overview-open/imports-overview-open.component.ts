@@ -1,14 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Import} from '../../../domain/imports/imports';
 import {Subscription} from 'rxjs';
-import {ImportsService} from '../../../services/vis.imports.service';
 import {ActivatedRoute} from '@angular/router';
+import {Import} from '../../../domain/imports/imports';
+import {ImportsService} from '../../../services/vis.imports.service';
 
 @Component({
-  selector: 'vis-imports-overview-processed',
-  templateUrl: './imports-overview-processed.component.html',
+  selector: 'vis-imports-overview',
+  templateUrl: './imports-overview-open.component.html',
 })
-export class ImportsOverviewProcessedComponent implements OnInit, OnDestroy {
+export class ImportsOverviewOpenComponent implements OnInit, OnDestroy {
 
   loading = false;
   imports: Import[];
@@ -22,7 +22,7 @@ export class ImportsOverviewProcessedComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription.add(
         this.activatedRoute.queryParams.subscribe((params) => {
-          this.getProcessedImports(params.page ? params.page : 1, params.size ? params.size : 20);
+          this.getOpenImports(params.page ? params.page : 1, params.size ? params.size : 20);
         }),
     );
   }
@@ -31,15 +31,14 @@ export class ImportsOverviewProcessedComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  getProcessedImports(page: number, size: number) {
+  getOpenImports(page: number, size: number) {
     this.loading = true;
     this.imports = [];
-    this.importsService.getProcessedImports(page, size).subscribe({
+    this.importsService.getImports(page, size).subscribe({
       next: (value) => {
         this.imports = value.content;
         this.loading = false;
       },
     });
   }
-
 }
