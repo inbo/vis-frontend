@@ -84,7 +84,7 @@
 
                   <ng-container *ngFor="let fp of uniqueFishingPoints">
                       <div *ngFor="let detail of fp.details; let i=index" [ngClass]="!detail.valid ? 'text-red-500' : ''">
-                          <ng-container *ngIf="!isNull(detail.value); else noValue">
+                          <ng-container *ngIf="detail.value; else noValue">
                               {{ detail.value }}
                           </ng-container>
                           <!-- Template for when detail.value is null or undefined -->
