@@ -83,15 +83,26 @@
                   </div>
 
                   <ng-container *ngFor="let fp of uniqueFishingPoints">
-                      <div *ngFor="let detail of fp.details; let i=index" [ngClass]="!detail.valid ? 'text-red-500' : ''">
-                          <ng-container *ngIf="detail.value; else noValue">
+                    <div *ngFor="let detail of fp.details; let i=index" [ngClass]="!detail.valid ? 'text-red-500' : ''">
+                      <div class="relative flex items-center">
+                        <ng-container *ngIf="detail.value; else noValue">
+                          <div *ngIf="detail.value === 'Niets gevonden'; else normalDetailValue">
+                            <span class="cursor-pointer relative inline-flex items-center"
+                                  ngxTippy="Dit vispunt kon niet automatisch worden aangemaakt. Gelieve dit punt via de applicatie aan te maken en het importeren vervolgens opnieuw te proberen.">
                               {{ detail.value }}
-                          </ng-container>
-                          <!-- Template for when detail.value is null or undefined -->
-                          <ng-template #noValue>Moet ingevuld worden</ng-template>
+                            </span>
+                          </div>
+                          <ng-template #normalDetailValue>
+                            {{ detail.value }}
+                          </ng-template>
+                        </ng-container>
+                        <!-- Template for when detail.value is null or undefined -->
+                        <ng-template #noValue>Moet ingevuld worden</ng-template>
                       </div>
+                    </div>
                   </ng-container>
-              </div>
+
+    </div>
           </div>
 
   <div class="px-4 py-8 sm:px-0">

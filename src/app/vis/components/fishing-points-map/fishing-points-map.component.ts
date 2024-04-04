@@ -304,7 +304,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
 
     public updateBlueLayerSelection(coordinate: LatLng, highlight: boolean) {
         if (this.map.hasLayer(this.blueLayer)) {
-            this.blueLayer.identify().on(this.map).layers(`visible:${LayerId.BLUE_LAYER}`).at(coordinate).run((error, featureCollection) => {
+            this.blueLayer.identify().on(this.map).layers(`visible:${LayerId.BLUE_LAYER}`).at(coordinate)
+                .run((error, featureCollection) => {
                 if (error) {
                     return;
                 }
