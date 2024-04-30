@@ -73,7 +73,7 @@ export class ProjectHeadingComponent implements OnInit, OnDestroy {
         this.importsService.createFile(this.activatedRoute.snapshot.params.projectCode)
             .subscribe(value => {
                 this.isImporting = false;
-                this.alertService.success('Spreadsheet aangemaakt', 'Bewerk de aangemaakte spreadsheet <a class="underline" href="/importeren/' + value.spreadsheetId + '">hier</a>.', false);
+                this.alertService.success('Spreadsheet aangemaakt', 'Bewerk de aangemaakte spreadsheet <a class="underline" href="/importeren/open/' + value.spreadsheetId + '">hier</a>.', false);
             });
     }
 }
