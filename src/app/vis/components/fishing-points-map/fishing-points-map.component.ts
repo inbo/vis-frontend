@@ -1,19 +1,28 @@
 /// <reference types='@runette/leaflet-fullscreen' />
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import {filter, finalize, from, map, Observable, Subscription} from 'rxjs';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
+import {finalize, map, Observable, Subscription} from 'rxjs';
 import * as L from 'leaflet';
 import {
-    featureGroup,
-    GeoJSON,
-    LatLng,
-    latLng,
-    Layer,
-    layerGroup,
-    LeafletMouseEvent,
-    Map as LeafletMap,
-    MapOptions,
-    marker,
-    tooltip,
+  featureGroup,
+  GeoJSON,
+  LatLng,
+  latLng,
+  Layer,
+  layerGroup,
+  LeafletMouseEvent,
+  Map as LeafletMap,
+  MapOptions,
+  marker,
+  tooltip,
 } from 'leaflet';
 import 'leaflet-defaulticon-compatibility';
 import * as esri_geo from 'esri-leaflet-geocoder';
@@ -167,11 +176,11 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
             .getFishingPointsFeatures(this.projectCode, filterCriteria)
             .pipe(
                 take(1),
-                switchMap(from),
-                filter((fishingPointFeature: FishingPointFeature) =>
-                    this.invalidLambertCoordsVisible || this.inLambertCoordinateRange(fishingPointFeature.x, fishingPointFeature.y),
+                map((fishingPointFeatures: FishingPointFeature[]) =>
+                     fishingPointFeatures.filter(fishingPointFeature => this.invalidLambertCoordsVisible || this.inLambertCoordinateRange(fishingPointFeature.x, fishingPointFeature.y)),
                 ),
-                tap((fishingPointFeature: FishingPointFeature) => {
+                tap((fishingPointFeatures: FishingPointFeature[]) => {
+                  fishingPointFeatures.forEach(fishingPointFeature => {
                     const latlng = latLng(fishingPointFeature.lat, fishingPointFeature.lng);
                     const fishingPointMarker = L.marker(latlng, {icon: this.defaultMarkerIcon});
 
@@ -182,36 +191,36 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
                     fishingPointMarker
                         .bindTooltip(
                             tooltip({
-                                direction: 'top',
-                                permanent: true,
-                                offset: [0, -7],
+                              direction: 'top',
+                              permanent: true,
+                              offset: [0, -7],
                             }).setContent(fishingPointLabel));
 
                     fishingPointMarker.on('click', async (event: LeafletMouseEvent) => {
-                        L.DomEvent.stopPropagation(event);
-                        this.clearAllHightLights();
-                        this.clickedLatlng = event.latlng;
-                        const layer = event.target;
+                      L.DomEvent.stopPropagation(event);
+                      this.clearAllHightLights();
+                      this.clickedLatlng = event.latlng;
+                      const layer = event.target;
 
-                        this.highlightCirclemarker(layer);
+                      this.highlightCirclemarker(layer);
 
-                        const filteredProperties = {};
-                        filteredProperties['CODE'] = fishingPointFeature.code;
-                        filteredProperties['DESCRIPTION'] = fishingPointFeature.description;
-                        filteredProperties['X'] = fishingPointFeature.x;
-                        filteredProperties['Y'] = fishingPointFeature.y;
-                        filteredProperties['lat'] = fishingPointFeature.lat;
-                        filteredProperties['lng'] = fishingPointFeature.lng;
+                      const filteredProperties = {};
+                      filteredProperties['CODE'] = fishingPointFeature.code;
+                      filteredProperties['DESCRIPTION'] = fishingPointFeature.description;
+                      filteredProperties['X'] = fishingPointFeature.x;
+                      filteredProperties['Y'] = fishingPointFeature.y;
+                      filteredProperties['lat'] = fishingPointFeature.lat;
+                      filteredProperties['lng'] = fishingPointFeature.lng;
 
-                        // const townInformation = await this.getTownNameForCoordinates(this.clickedLatlng);
-                        this.updateSelections(this.clickedLatlng, false);
-                        this.selected.set(LayerId.FISHING_POINT_LAYER, filteredProperties);
+                      // const townInformation = await this.getTownNameForCoordinates(this.clickedLatlng);
+                      this.updateSelections(this.clickedLatlng, false);
+                      this.selected.set(LayerId.FISHING_POINT_LAYER, filteredProperties);
 
-                        this.openSelection();
+                      this.openSelection();
                     });
 
                     fishingPointMarker.addTo(this.fishingPointsLayer);
-
+                  });
                 }),
                 finalize(() => this.layerMetadata.set(LayerId.FISHING_POINT_LAYER, {name: 'Vispunt'})),
                 map(() => undefined), // Match return type: `Observable<void>`
