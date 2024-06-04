@@ -1,11 +1,20 @@
 import {Inject, Injectable, Injector} from '@angular/core';
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpHeaders,
+  HttpInterceptor,
+  HttpRequest,
+  HttpResponse,
+} from '@angular/common/http';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {TranslateService} from '@ngx-translate/core';
 
+export const AlertSkip = 'X-Skip-Alert';
 export const InterceptorSkip = 'X-Skip-Interceptor';
 export const InterceptorSkipHeader = new HttpHeaders({
   'X-Skip-Interceptor': ''
@@ -43,7 +52,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             this.router.navigateByUrl('/service-unavailable');
           }
           if (error.status === 400) {
-              toastrService.error(error.error, translateService.instant('error.bad-request'));
+              if (!request?.headers.has(AlertSkip)) {
+                toastrService.error(error.error, translateService.instant('error.bad-request'));
+              }
               return of(new HttpResponse({body: {code: 400}}));
           }
           if (error.status === 403) {

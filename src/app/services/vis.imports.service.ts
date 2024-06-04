@@ -5,6 +5,7 @@ import {AsyncPage} from '../shared-ui/paging-async/asyncPage';
 import {VisService} from './vis.service';
 import {CreateImportFileResult, Import, ImportDetail} from '../domain/imports/imports';
 import {Observable} from 'rxjs';
+import {AlertSkip} from '../core/http.error.interceptor';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,9 @@ export class ImportsService extends VisService {
   }
 
   doImport(id: string): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/api/imports/${id}/import`, {});
+    return this.http.post<any>(`${environment.apiUrl}/api/imports/${id}/import`, {}, {headers: {
+      [AlertSkip]: ''
+      }});
   }
 
   createFile(projectCode: any): Observable<CreateImportFileResult> {

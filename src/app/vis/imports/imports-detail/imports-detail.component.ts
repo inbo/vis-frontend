@@ -9,12 +9,16 @@ import {ToastrService} from 'ngx-toastr';
 import {AlertService} from '../../../_alert';
 import {AuthService} from '../../../core/auth.service';
 import {switchMap} from 'rxjs/operators';
+import {faExclamation} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'vis-imports-detail',
   templateUrl: './imports-detail.component.html',
 })
 export class ImportsDetailComponent implements OnInit, OnDestroy {
+
+  readonly faExclamation = faExclamation;
+
   role = Role;
   loading = true;
   importDetail: ImportDetail = {documentTitle: '', url: '', items: []};
@@ -24,6 +28,7 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
   hasCreateSurveyEventRole: boolean;
   uniqueFishingPoints: ImportSurveyEventFishingPoint[] = [];
   isReadOnly = false;
+  isImporting = false;
 
   private subscription = new Subscription();
 
@@ -78,13 +83,22 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
   }
 
   doImport() {
+    this.isImporting = true;
     this.importsService.doImport(this.id).subscribe({
-      next: () => {
-        this.router.navigate(['/projecten', this.projectId]).then(() => {
-          this.alertService.success('Het importeren is gelukt', 'De gegevens zijn opgeslagen', true);
-        });
+      next: (response) => {
+        this.isImporting = false;
+        // TODO: error interceptor is too generic and does not allow for use cases
+        //  where you don't want to go to forbidden page, but simply show an alert.
+        if (response?.code === 400) {
+          this.alertService.error('Fout', 'Je hebt niet de juiste rechten om gegevens te importeren in dit project. Laat dit uitvoeren door iemand van het team betrokken bij dit project.', false);
+        } else {
+          this.router.navigate(['/projecten', this.projectId]).then(() => {
+            this.alertService.success('Het importeren is gelukt', 'De gegevens zijn opgeslagen', true);
+          });
+        }
       },
       error: (error) => {
+        this.isImporting = false;
         console.error('Import error:', error);
         this.alertService.error('Er is een fout opgetreden tijdens het importeren.', 'Fout');
       },
@@ -141,4 +155,5 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
   isNull(value: any): boolean {
     return value === null;
   }
+
 }
