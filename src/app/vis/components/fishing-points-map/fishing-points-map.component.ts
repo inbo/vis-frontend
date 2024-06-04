@@ -616,8 +616,8 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         // Issue: #242, Add arrondissement to town layer feature properties for towns in Brussels
         if (layerId === LayerId.TOWN_LAYER) {
             if (featureProperties[TOWN_LAYER_FIELD.NISCODE]?.startsWith('21')) {
-                featureProperties[TOWN_LAYER_FIELD.NISCODE_PR] = '21000';
-                featureProperties[TOWN_LAYER_FIELD.PROVINCIE] = 'Hoofdstedelijk gewest Brussel';
+                featureProperties[TOWN_LAYER_FIELD.NISCODE_PR] = '04000';
+                featureProperties[TOWN_LAYER_FIELD.PROVINCIE] = 'Brussels Hoofdstedelijk Gewest';
             }
         }
         return featureProperties;
