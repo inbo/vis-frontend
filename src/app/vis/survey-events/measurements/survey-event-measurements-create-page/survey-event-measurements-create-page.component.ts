@@ -1,14 +1,14 @@
 import {
-    AfterViewChecked,
-    AfterViewInit,
-    ChangeDetectorRef,
-    Component,
-    ElementRef,
-    HostListener,
-    OnDestroy,
-    OnInit,
-    QueryList,
-    ViewChildren,
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormControl, FormGroup, UntypedFormBuilder, Validators} from '@angular/forms';
@@ -50,6 +50,8 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
     showExistingMeasurements = false;
     loading = false;
     isAnkerkuilSurvey = false;
+    isCreateMeasurementsPending = false;
+
     private firstOneHasBeenFocused = false;
     private scrollIntoView = false;
     private subscription = new Subscription();
@@ -190,10 +192,12 @@ export class SurveyEventMeasurementsCreatePageComponent implements OnInit, OnDes
             }
         });
 
+        this.isCreateMeasurementsPending = true;
         this.subscription.add(this.surveyEventsService.createMeasurements(measurements, this.activatedRoute.parent.snapshot.params.projectCode,
             this.activatedRoute.parent.snapshot.params.surveyEventId)
             .subscribe(value => {
-                // TODO exception is caught in http.error.interceptor and then mapped to a custom result that is not typesafe
+              this.isCreateMeasurementsPending = false;
+              // TODO exception is caught in http.error.interceptor and then mapped to a custom result that is not typesafe
                 // @ts-ignore
                 if (value?.code === 400) {
                     this.alertService.error('Validatie fouten', 'Het bewaren is niet gelukt, controleer alle gegevens of contacteer een verantwoordelijke.');

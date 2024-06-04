@@ -353,6 +353,7 @@
 	<div class="space-x-3 px-4 py-4 sm:px-6 flex justify-end">
 		<vis-button (click)="cancel()">Annuleren</vis-button>
 		<vis-button (click)="createMeasurements()"
+                [disabled]="isCreateMeasurementsPending"
 		            [style]="'primary'"
 		            class="ml-3">Bewaren
 		</vis-button>
