@@ -79,7 +79,7 @@ export interface ImportComment {
 }
 
 export interface FishingPointDetail {
-    name: string;
+    parameterName: string;
     valid: boolean;
     value: any;
 }

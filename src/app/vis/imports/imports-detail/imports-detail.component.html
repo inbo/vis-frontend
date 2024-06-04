@@ -83,21 +83,29 @@
                   </div>
 
                   <ng-container *ngFor="let fp of uniqueFishingPoints">
-                    <div *ngFor="let detail of fp.details; let i=index" [ngClass]="!detail.valid ? 'text-red-500' : ''">
+                    <div *ngFor="let detail of fp.details; let i=index" [ngClass]="{'text-red-500': !detail.valid}">
                       <div class="relative flex items-center">
-                        <ng-container *ngIf="detail.value; else noValue">
-                          <div *ngIf="detail.value === 'Niets gevonden'; else normalDetailValue">
+                        <ng-container *ngIf="showTooltipForValue(detail)">
+                          <span *ngIf="detail.valid; else highlightError">{{ detail.value }}</span>
+                          <ng-template #highlightError>
                             <span class="cursor-pointer relative inline-flex items-center"
-                                  ngxTippy="Dit vispunt kon niet automatisch worden aangemaakt. Gelieve dit punt via de applicatie aan te maken en het importeren vervolgens opnieuw te proberen.">
+                                  [ngxTippy]="getTooltipForValue(detail)">
                               {{ detail.value }}
                             </span>
-                          </div>
-                          <ng-template #normalDetailValue>
-                            {{ detail.value }}
                           </ng-template>
                         </ng-container>
-                        <!-- Template for when detail.value is null or undefined -->
-                        <ng-template #noValue>Moet ingevuld worden</ng-template>
+                        <ng-container *ngIf="!detail.value">
+                          Moet ingevuld worden
+                        </ng-container>
+                        <ng-container *ngIf="detail.value === 'Niets gevonden'">
+                          <span class="cursor-pointer relative inline-flex items-center"
+                                ngxTippy="Dit vispunt kon niet automatisch worden aangemaakt. Gelieve dit punt via de applicatie aan te maken en het importeren vervolgens opnieuw te proberen.">
+                            {{ detail.value }}
+                          </span>
+                        </ng-container>
+                        <ng-container *ngIf="isRegularParameter(detail)">
+                          {{ detail.value }}
+                        </ng-container>
                       </div>
                     </div>
                   </ng-container>

@@ -3,7 +3,7 @@ import {filter, Subscription} from 'rxjs';
 import {Title} from '@angular/platform-browser';
 import {ImportsService} from '../../../services/vis.imports.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ImportDetail, ImportSurveyEventFishingPoint} from '../../../domain/imports/imports';
+import {FishingPointDetail, ImportDetail, ImportSurveyEventFishingPoint} from '../../../domain/imports/imports';
 import {Role} from '../../../core/_models/role';
 import {ToastrService} from 'ngx-toastr';
 import {AlertService} from '../../../_alert';
@@ -89,6 +89,23 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
         this.alertService.error('Er is een fout opgetreden tijdens het importeren.', 'Fout');
       },
     });
+  }
+
+  showTooltipForValue(detail: FishingPointDetail): boolean {
+    return ['X', 'Y', 'Gematched waterlichaam'].includes(detail.parameterName) && detail.value !== 'Niets gevonden';
+  }
+
+  getTooltipForValue(detail: FishingPointDetail): string {
+    if (detail.parameterName === 'X' || detail.parameterName === 'Y') {
+      return 'De meetplaatscode bestaat reeds in de databank, maar de opgegeven coördinaten wijken hiervan af. Gelieven na te kijken. Mogelijk ligt dit aan de nauwkeurigheid van de coördinaten of gaat het om een ander vispunt.';
+    } else if (detail.parameterName === 'Gematched waterlichaam') {
+      return 'De meetplaatscode bestaat reeds in de databank, maar de opgegeven waterlichaamcode wijkt hiervan af. Gelieven na te kijken. Mogelijk gaat het om een verschillend vispunt en dient u een andere meetplaatscode te hanteren.';
+    }
+    return '';
+  }
+
+  isRegularParameter(detail: FishingPointDetail): boolean {
+    return detail.value && detail.value !== 'Niets gevonden' && !this.showTooltipForValue(detail);
   }
 
   private setIsDocumentValid(): void {
