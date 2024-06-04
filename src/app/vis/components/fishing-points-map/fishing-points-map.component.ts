@@ -617,7 +617,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
         if (layerId === LayerId.TOWN_LAYER) {
             if (featureProperties[TOWN_LAYER_FIELD.NISCODE]?.startsWith('21')) {
                 featureProperties[TOWN_LAYER_FIELD.NISCODE_PR] = '21000';
-                featureProperties[TOWN_LAYER_FIELD.PROVINCIE] = 'Arrondissement Brussel Hoofdstad';
+                featureProperties[TOWN_LAYER_FIELD.PROVINCIE] = 'Hoofdstedelijk gewest Brussel';
             }
         }
         return featureProperties;
