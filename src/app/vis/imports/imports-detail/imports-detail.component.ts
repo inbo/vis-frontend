@@ -151,9 +151,4 @@ export class ImportsDetailComponent implements OnInit, OnDestroy {
       });
     });
   }
-
-  isNull(value: any): boolean {
-    return value === null;
-  }
-
 }

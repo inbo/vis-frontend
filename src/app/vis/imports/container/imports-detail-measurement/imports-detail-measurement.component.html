@@ -22,9 +22,10 @@
     {{measurement.amount.originalValue}}
   </div>
   <div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900">
-    {{measurement.valid ? measurement.length.originalValue : measurement.length.originalValue}}
-      <div [class.hidden]="measurement.valid" class="mt-1 text-sm text-red-600">
-          Lengte moet leeg zijn als het aantal groter dan 1 is
+    {{measurement.length.originalValue}}
+    <div [class.hidden]="measurement.valid || (measurement.length.originalValue.length < 1 && +measurement.amount.originalValue > 1)"
+         class="mt-1 text-sm text-red-600">
+    Lengte moet leeg zijn als het aantal groter dan 1 is
       </div>
   </div>
   <div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900">

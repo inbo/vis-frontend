@@ -81,6 +81,8 @@ export interface ImportComment {
 export interface FishingPointDetail {
     parameterName: string;
     valid: boolean;
+    validCoordinates: boolean;
+    validWaterlichaam: boolean;
     value: any;
 }
 export interface ImportSurveyEventFishingPoint {
