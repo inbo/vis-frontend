@@ -34,7 +34,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
     })));
 
     this.teams$ = this.accountService.listTeams().pipe(map(values => values.map(value => {
-      return {value: value.name, displayValue: value.name};
+      return {value: value.code, displayValue: value.name};
     })));
 
     this.createProjectForm = this.formBuilder.group({

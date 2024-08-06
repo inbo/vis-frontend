@@ -32,7 +32,7 @@ export class UserEditComponent implements OnInit {
     })));
 
     this.teams$ = this.accountService.listTeams().pipe(map(values => values.map(value => {
-      return {value: value.name, displayValue: value.name};
+      return {value: value.code, displayValue: value.name};
     })));
 
 

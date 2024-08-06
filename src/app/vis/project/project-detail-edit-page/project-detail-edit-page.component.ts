@@ -92,7 +92,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
         })));
 
         this.teams$ = this.accountService.listTeams().pipe(take(1), map(values => values.map(value => {
-            return {value: value.name, displayValue: value.name};
+              return {value: value.code, displayValue: value.name};
         })));
 
         this.closeProjectForm = this.formBuilder.group({
