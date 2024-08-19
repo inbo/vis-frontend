@@ -45,7 +45,8 @@
           Teams
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
-          {{project?.teams.join(", ")}}
+          <span *ngFor="let team of project?.teams; last as isLast">
+            {{team | visProjectTeamFormat:true}}<span *ngIf="!isLast">, </span></span>
         </dd>
       </div>
 

@@ -107,7 +107,7 @@
                                     <a [routerLink]="['/projecten', project.code.value]">{{project.name}}</a>
                                 </td>
                                 <td visCell>
-                  <span *ngIf="project.teams && project.teams.length > 0">{{ project.teams[0] }} <span
+                  <span *ngIf="project.teams && project.teams.length > 0">{{ project.teams[0] | visProjectTeamFormat }} <span
                           *ngIf="project.teams.length > 1">+{{project.teams.length - 1}}</span></span>
                                 </td>
                                 <td visCell>

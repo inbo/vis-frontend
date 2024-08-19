@@ -106,6 +106,7 @@ import {MeasurementDilutionFactorComponent} from './survey-events/measurements/m
 import {NgArrayPipesModule, NgObjectPipesModule} from 'ngx-pipes';
 import {ExistingSurveyEventsFoundWarningComponent} from './survey-events/existing-survey-events-found-warning/existing-survey-events-found-warning.component';
 import {ImportsOverviewOpenComponent} from './imports/imports-overview-open/imports-overview-open.component';
+import {ProjectTeamFormatPipe} from '../shared-ui/pipes/project-team-format.pipe';
 
 @NgModule({
   exports: [
@@ -223,6 +224,7 @@ import {ImportsOverviewOpenComponent} from './imports/imports-overview-open/impo
     NgArrayPipesModule,
     NgObjectPipesModule,
     NgOptimizedImage,
+    ProjectTeamFormatPipe,
   ],
   providers: [DatePipe, HasUnsavedDataGuard],
 })

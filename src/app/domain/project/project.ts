@@ -2,6 +2,11 @@ export interface ProjectCode {
   value: string;
 }
 
+export interface ProjectTeam {
+  instanceCode: string;
+  code: string;
+}
+
 export interface Project {
   projectId: number;
   code: ProjectCode;
@@ -16,7 +21,7 @@ export interface Project {
   end: Date;
   lengthType: string;
   contact: string;
-  teams: string[];
+  teams: ProjectTeam[];
   instances: string[];
   canEdit: boolean;
   createUser: string;

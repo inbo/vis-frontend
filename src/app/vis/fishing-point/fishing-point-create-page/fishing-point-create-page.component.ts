@@ -184,6 +184,10 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
             && this.formGroup?.get('townInfo')?.valid;
     }
 
+    goToPreviousStep(): void {
+      this.currentStep = FishingPointCreationStep.GENERAL;
+    }
+
     goToNextStep(): void {
         if (this.editMode && this.fishingPointType === FishingPointType.STAGNANT) {
             this.save();

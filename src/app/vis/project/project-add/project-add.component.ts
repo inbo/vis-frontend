@@ -1,11 +1,22 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  FormControl,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import {Router} from '@angular/router';
-import {Observable, Subscription} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {combineLatest, Observable, Subscription} from 'rxjs';
+import {map, take} from 'rxjs/operators';
 import {ProjectService} from '../../../services/vis.project.service';
 import {AccountService} from '../../../services/vis.account.service';
 import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
+import {ProjectTeam} from '../../../domain/project/project';
+import {ProjectTeamFormSyncService} from '../../../services/forms/project-team-form-sync.service';
+import {instanceToSelectOption, teamToProjectTeamSelectOption} from '../../../shared-ui/utils/select-options.util';
 
 @Component({
   selector: 'vis-project-add',
@@ -24,18 +35,20 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   constructor(private projectService: ProjectService, private formBuilder: UntypedFormBuilder, private router: Router,
-              private accountService: AccountService) {
-
+              private accountService: AccountService,
+              private projectTeamFormSyncService: ProjectTeamFormSyncService) {
   }
 
   ngOnInit(): void {
-    this.instances$ = this.accountService.listInstances().pipe(map(values => values.map(value => {
-      return {value: value.code, displayValue: value.code};
-    })));
+    this.instances$ = this.accountService.listInstances().pipe(
+        take(1),
+        map(values => values.map(instanceToSelectOption))
+    );
 
-    this.teams$ = this.accountService.listTeams().pipe(map(values => values.map(value => {
-      return {value: value.code, displayValue: value.name};
-    })));
+    this.teams$ = this.accountService.listTeams().pipe(
+        take(1),
+        map(values => values.map(teamToProjectTeamSelectOption))
+    );
 
     this.createProjectForm = this.formBuilder.group({
       code: [null, [Validators.required, Validators.maxLength(15)], [this.codeValidator()]],
@@ -47,10 +60,16 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
       teams: [[]],
       instances: [[]]
     });
+
+    this.projectTeamFormSyncService.syncTeamsAndInstances(
+        this.createProjectForm.get('teams') as FormControl<ProjectTeam[]>,
+        this.createProjectForm.get('instances') as FormControl<string[]>,
+        this.subscription
+    );
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 
   open() {

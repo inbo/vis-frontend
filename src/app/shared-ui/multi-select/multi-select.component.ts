@@ -1,6 +1,7 @@
 import {Component, ElementRef, forwardRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {MultiSelectOption} from './multi-select';
+import {isBoolean} from 'lodash-es';
 
 @Component({
   selector: 'vis-multi-select',
@@ -20,6 +21,7 @@ export class MultiSelectComponent implements OnInit, ControlValueAccessor {
 
   @Input() options: MultiSelectOption[] = [];
   @Input() formControlName: string;
+  @Input() disabled = false;
 
   isOpen = false;
   selectedValues: any[] = [];
@@ -61,10 +63,10 @@ export class MultiSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   select(option: MultiSelectOption) {
-    if (!this.isSelected(option)) {
+    if (!this.isSelected(option.value)) {
       this.selectedValues.push(option.value);
     } else {
-      this.selectedValues = this.selectedValues.filter(value => value !== option.value);
+      this.selectedValues = this.selectedValues.filter(value => !this.isEqual(value, option.value));
     }
     this.onChange(this.selectedValues);
 
@@ -74,22 +76,22 @@ export class MultiSelectComponent implements OnInit, ControlValueAccessor {
   @HostListener('document:click', ['$event'])
   clickout(event) {
     if (!this.selectBoxDiv.nativeElement.contains(event.target) &&
-      !this.valuesList.nativeElement.contains(event.target)) {
+        !this.valuesList.nativeElement.contains(event.target)) {
       this.isOpen = false;
       this.markAsTouched();
     }
   }
 
-  isSelected(id: MultiSelectOption) {
+  isSelected(option: MultiSelectOption) {
     if (!this.selectedValues) {
-      return;
+      return false;
     }
 
-    return this.selectedValues.some(value => value === id.value);
+    return this.selectedValues.some(selectedValue => this.isEqual(selectedValue, option.value));
   }
 
-  remove(id: MultiSelectOption) {
-    this.selectedValues = this.selectedValues.filter(value => value !== id.value);
+  remove(option: MultiSelectOption) {
+    this.selectedValues = this.selectedValues.filter(selectedValue => !this.isEqual(selectedValue, option.value));
     this.onChange(this.selectedValues);
 
     this.markAsTouched();
@@ -100,6 +102,10 @@ export class MultiSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   selectedValuesAsDisplayValues() {
-    return this.options?.filter(value => this.selectedValues.indexOf(value.value) >= 0);
+    return this.options?.filter(option => this.selectedValues.some(value => this.isEqual(value, option.value)));
+  }
+
+  private isEqual(value1: any, value2: any): boolean {
+    return JSON.stringify(value1) === JSON.stringify(value2);
   }
 }

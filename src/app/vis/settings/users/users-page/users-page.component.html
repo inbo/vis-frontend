@@ -53,7 +53,8 @@
         {{account.instances.join(", ")}}
       </td>
       <td visCell>
-        {{account.teams.join(", ")}}
+        <span *ngFor="let team of account?.teams; last as isLast">
+            {{team | visProjectTeamFormat:true}}<span *ngIf="!isLast">, </span></span>
       </td>
       <td [actions]="true" visCell>
         <a (click)="editAccount(account)"

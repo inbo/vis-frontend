@@ -1,27 +1,29 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Project} from '../../../domain/project/project';
+import {Project, ProjectTeam} from '../../../domain/project/project';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
-    AbstractControl,
-    AsyncValidatorFn,
-    UntypedFormBuilder,
-    UntypedFormGroup,
-    ValidationErrors,
-    ValidatorFn,
-    Validators,
+  AbstractControl,
+  AsyncValidatorFn, FormControl,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
 } from '@angular/forms';
 import {HasUnsavedData} from '../../../core/core.interface';
 import {EMPTY, Observable, Subscription} from 'rxjs';
 import {ProjectService} from '../../../services/vis.project.service';
 import {Role} from '../../../core/_models/role';
 import {AccountService} from '../../../services/vis.account.service';
-import {map, take} from 'rxjs/operators';
+import {map, take, tap} from 'rxjs/operators';
 import {MultiSelectOption} from '../../../shared-ui/multi-select/multi-select';
 import {Location} from '@angular/common';
 import {DatepickerComponent} from '../../../shared-ui/datepicker/datepicker.component';
 import {PicturesService} from '../../../services/vis.pictures.service';
 import {SearchableSelectOption} from '../../../shared-ui/searchable-select/SearchableSelectOption';
+import {ProjectTeamFormSyncService} from '../../../services/forms/project-team-form-sync.service';
+import {instanceToSelectOption, teamToProjectTeamSelectOption} from '../../../shared-ui/utils/select-options.util';
 
 function projectStartBeforeSurveyEvents(date: Date): ValidatorFn {
     return (c: AbstractControl) => {
@@ -67,13 +69,15 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     teams$: Observable<MultiSelectOption[]>;
     instances$: Observable<MultiSelectOption[]>;
 
-    private subscription = new Subscription();
     tandemVaultCollections: SearchableSelectOption<string>[] = [];
     tandemVaultCollectionsFiltered: SearchableSelectOption<string>[] = [];
     loadingCollections = true;
     isModalOpen = false;
     minDateClosingProject: Date;
     maxProjectStartDate: Date;
+
+    private teamsSubscription: Subscription;
+    private subscription = new Subscription();
 
     constructor(private titleService: Title,
                 private projectService: ProjectService,
@@ -82,18 +86,21 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
                 private formBuilder: UntypedFormBuilder,
                 private accountService: AccountService,
                 private _location: Location,
-                private pictureService: PicturesService) {
+                private pictureService: PicturesService,
+                private projectTeamFormSyncService: ProjectTeamFormSyncService) {
 
     }
 
     ngOnInit(): void {
-        this.instances$ = this.accountService.listInstances().pipe(take(1), map(values => values.map(value => {
-            return {value: value.code, displayValue: value.code};
-        })));
+        this.instances$ = this.accountService.listInstances().pipe(
+            take(1),
+            map(values => values.map(instanceToSelectOption))
+        );
 
-        this.teams$ = this.accountService.listTeams().pipe(take(1), map(values => values.map(value => {
-              return {value: value.code, displayValue: value.name};
-        })));
+        this.teams$ = this.accountService.listTeams().pipe(
+          take(1),
+          map(values => values.map(teamToProjectTeamSelectOption))
+        );
 
         this.closeProjectForm = this.formBuilder.group({
             endDate: [null, [Validators.required]],
@@ -111,6 +118,12 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
                 teams: [[]],
                 instances: [[]],
             });
+
+        this.projectTeamFormSyncService.syncTeamsAndInstances(
+            this.projectForm.get('teams') as FormControl<ProjectTeam[]>,
+            this.projectForm.get('instances') as FormControl<string[]>,
+            this.subscription
+        );
 
         this.projectService.getEarliestSurveyEventOccurrenceDate(this.activatedRoute.parent.snapshot.params.projectCode)
             .pipe(take(1))
@@ -171,7 +184,8 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     }
 
     ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+        this.subscription?.unsubscribe();
+        this.teamsSubscription?.unsubscribe();
     }
 
     codeValidator(): AsyncValidatorFn {

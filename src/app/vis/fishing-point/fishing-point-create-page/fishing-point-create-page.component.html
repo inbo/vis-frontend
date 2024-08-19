@@ -66,6 +66,11 @@
 						            [style]="'primary'">
 							Annuleren
 						</vis-button>
+            <vis-button class="ml-2"
+                        (click)="goToPreviousStep()"
+                        [style]="'primary'">
+              Vorige
+            </vis-button>
 						<vis-button class="ml-2"
 						            [disabled]="!isWaterCourseValid()"
 						            (click)="save()"
@@ -84,6 +89,11 @@
 						            [style]="'primary'">
 							Annuleren
 						</vis-button>
+            <vis-button class="ml-2"
+                        (click)="goToPreviousStep()"
+                        [style]="'primary'">
+              Vorige
+            </vis-button>
 						<vis-button class="ml-2"
 						            [disabled]="!isBlueLayerValid()"
 						            (click)="save()"
