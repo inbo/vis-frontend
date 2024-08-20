@@ -57,13 +57,13 @@
                     <div *ngIf="editMode && !this.formGroup.get('snappedLat').value">
                         <div class="flex items-center">
                             <input type="checkbox" class="disabled disabled:opacity-60" [disabled]="true" checked>
-                            <label class="ml-3 block text-sm font-medium text-gray-400">Geen Overeenkomstige VHAG waterloop beschikbaar</label>
+                            <label class="ml-3 block text-sm font-medium text-gray-400">Geen overeenkomstige VHAG waterloop beschikbaar</label>
                         </div>
                     </div>
                     <div *ngIf="formGroup.contains('noPointOnMap') && !editMode">
                         <div class="flex items-center">
                             <input formControlName="noPointOnMap" type="checkbox">
-                            <label class="ml-3 block text-sm font-medium text-red-600">Geen Overeenkomstige VHAG waterloop beschikbaar</label>
+                            <label class="ml-3 block text-sm font-medium text-red-600">Geen overeenkomstige VHAG waterloop beschikbaar</label>
                         </div>
                         <div class="flex mt-2 ml-3">
                             <vis-warning-icon [messages]="['Uitzonderlijke gevallen']"></vis-warning-icon>
@@ -71,6 +71,19 @@
                         </div>
                     </div>
 				</div>
+
+        <div class="mt-4" *ngIf="!townInfoValue">
+          <label for="countryCode" class="block text-sm font-medium text-gray-700">Kies een land</label>
+          <select formControlName="countryCode" id="countryCode" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <option value="FR">Frankrijk</option>
+            <option value="DE">Duitsland</option>
+            <option value="NL">Nederland</option>
+          </select>
+          <div *ngIf="submitted && countryCodeFormControl?.invalid" class="text-red-600 text-sm mt-1">
+            <span *ngIf="countryCodeFormControl?.errors?.required">Land is verplicht.</span>
+          </div>
+        </div>
+
 			</form>
 		</div>
 
@@ -91,6 +104,7 @@
 				</div>
 			</div>
 		</div>
+
 			<div class="col-span-6 overflow-hidden text-right">
 				<p *ngIf="!editMode && vhaInfoEmpty && !noPointOnMap"
 					 class="mt-2 text-sm text-red-600">Het is verplicht om een waterloop op de kaart te kiezen</p>
