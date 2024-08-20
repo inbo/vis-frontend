@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NavigationLink} from '../../../shared-ui/layouts/NavigationLinks';
 import {GlobalConstants} from '../../../GlobalConstants';
 import {BreadcrumbLink} from '../../../shared-ui/breadcrumb/BreadcrumbLinks';
@@ -23,6 +23,7 @@ import {IndexType} from '../../../domain/fishing-point/index-type';
 import {FishingPointType} from './fishing-point-type.enum';
 import {FishingPointCreationStep} from './fishing-point-creation-step.enum';
 import {Location} from '@angular/common';
+import {FishingPointCreateStep1Component} from '../fishing-point-create-step1/fishing-point-create-step1.component';
 
 @Component({
     selector: 'vis-fishing-point-create-page',
@@ -33,6 +34,8 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
     static readonly FISHING_POINT_ID_QP = 'fishingPointId';
     readonly FishingPointType = FishingPointType;
     readonly FishingPointCreationStep = FishingPointCreationStep;
+
+    @ViewChild(FishingPointCreateStep1Component) step1: FishingPointCreateStep1Component;
 
     editMode = false;
     links: Array<NavigationLink> = GlobalConstants.links;
@@ -49,6 +52,8 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
     canEditIndexType = false;
     indexTypes: Array<IndexType> = [];
     hasRoleCreateFishingPointWithoutPointOnMap = false;
+    submitted = false;
+    redraw = false;
 
     private subscription = new Subscription();
 
@@ -122,6 +127,7 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
                     townInfo: [null, [Validators.required]],
                     snappedLat: [null],
                     snappedLng: [null],
+                    countryCode: [null],
                     code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(15)],
                         [this.codeValidator(fishingPoint)]],
                 },
@@ -185,6 +191,7 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
     }
 
     goToPreviousStep(): void {
+      this.redraw = true;
       this.currentStep = FishingPointCreationStep.GENERAL;
     }
 
@@ -202,6 +209,11 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
     }
 
     save() {
+        this.submitted = true;
+        if (this.formGroup.get('countryCode').invalid) {
+          console.error('countryCode: invalid', this.formGroup.get('countryCode').valid);
+          return;
+        }
         if (this.editMode) {
             this.fishingPointsService
                 .updateFishingPoint(this.formGroup.get('id').value, this.formGroup.getRawValue())
@@ -223,5 +235,9 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
 
     cancel() {
         this.location.back();
+    }
+
+    redrawDone() {
+      this.redraw = false;
     }
 }

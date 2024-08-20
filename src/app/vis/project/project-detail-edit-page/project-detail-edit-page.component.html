@@ -189,6 +189,7 @@
 										<vis-multi-select formControlName="instances"
 										                  [options]="instances$ | async"></vis-multi-select>
 										<vis-form-error-message [control]="instances"
+                                            *ngIf="submitted"
 										                        [fieldName]="'Instanties'"
 										                        [submitted]="submitted"></vis-form-error-message>
 									</div>
@@ -233,6 +234,7 @@
 							Afsluiten
 						</vis-button>
 						<vis-button [style]="'primary'"
+                        [disabled]="savePending"
 						            (click)="saveProject()"
 						            class="ml-3">
 							Bewaren

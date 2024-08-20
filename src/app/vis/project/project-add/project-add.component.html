@@ -131,6 +131,7 @@
 								</vis-multi-select>
 							</div>
 							<vis-form-error-message [control]="instances"
+                                      *ngIf="submitted"
 							                        [fieldName]="'Instanties'"
 							                        [submitted]="submitted">
 							</vis-form-error-message>

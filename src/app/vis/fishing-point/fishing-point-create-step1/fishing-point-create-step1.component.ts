@@ -20,17 +20,23 @@ export class FishingPointCreateStep1Component implements OnInit, AfterViewInit {
 
     @Input() formGroup: UntypedFormGroup;
     @Input() editMode: boolean;
+    @Input() redraw: boolean;
     @Input() canEditIndexType: boolean;
     @Input() indexTypes: Array<IndexType>;
     @Input() fishingPointType: FishingPointType;
 
     @Output() fishingPointTypeChange = new EventEmitter<FishingPointType>();
+    @Output() redrawDone = new EventEmitter<void>();
 
     convertingCoordinates = false;
 
     constructor(private titleService: Title,
                 private fishingPointsService: FishingPointsService) {
         this.titleService.setTitle('Vispunt toevoegen');
+    }
+
+    get countryCode() {
+      return this.formGroup.get('countryCode');
     }
 
     get code() {
@@ -50,16 +56,23 @@ export class FishingPointCreateStep1Component implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        if (this.editMode) {
-            this.map.replaceNewFishingPointMarker(this.getLatLngFromForm());
-            this.map.zoomTo(this.getLatLngFromForm());
+        if (this.editMode || this.redraw) {
+            this.redrawFishingPoint();
+            if (this.redraw) {
+               this.redrawDone.emit();
+            }
         }
     }
 
-    pointAdded(e: LatLng) {
-        this.formGroup.get('lat').patchValue(e.lat, {emitEvent: false});
-        this.formGroup.get('lng').patchValue(e.lng, {emitEvent: false});
-        this.convertCoordinates(e.lat, e.lng, 'latlng');
+    redrawFishingPoint() {
+      this.map.replaceNewFishingPointMarker(this.getLatLngFromForm());
+      this.map.zoomTo(this.getLatLngFromForm());
+    }
+
+    pointAdded(coord: LatLng) {
+        this.formGroup.get('lat').patchValue(coord.lat, {emitEvent: false});
+        this.formGroup.get('lng').patchValue(coord.lng, {emitEvent: false});
+        this.convertCoordinates(coord.lat, coord.lng, 'latlng');
     }
 
     coordinatesAreInvalid() {
@@ -74,7 +87,7 @@ export class FishingPointCreateStep1Component implements OnInit, AfterViewInit {
 
     onIsLenticModelChange(isLentic: boolean): void {
         this.fishingPointType = isLentic ? FishingPointType.STAGNANT : FishingPointType.FLOWING;
-        this.fishingPointTypeChange.emit(this.fishingPointType) //noinspection UnresolvedVariable
+        this.fishingPointTypeChange.emit(this.fishingPointType); //noinspection UnresolvedVariable
     }
 
     private getLatLngFromForm() {

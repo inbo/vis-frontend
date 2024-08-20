@@ -75,6 +75,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
     isModalOpen = false;
     minDateClosingProject: Date;
     maxProjectStartDate: Date;
+    savePending = false;
 
     private teamsSubscription: Subscription;
     private subscription = new Subscription();
@@ -116,7 +117,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
                 contact: [''],
                 tandemvaultcollectionslug: [null, [Validators.maxLength(255)]],
                 teams: [[]],
-                instances: [[]],
+                instances: [[], [Validators.required]],
             });
 
         this.projectTeamFormSyncService.syncTeamsAndInstances(
@@ -218,6 +219,7 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
 
         const formData = this.projectForm.getRawValue();
 
+        this.savePending = true;
         this.subscription.add(
             this.projectService.updateProject(this.project.code.value, formData)
                 .subscribe({
@@ -226,8 +228,12 @@ export class ProjectDetailEditPageComponent implements OnInit, OnDestroy, HasUns
                         this.projectForm.reset();
                         this.projectService.next(response);
                         this.router.navigate(['/projecten', this.project.code.value]);
+                        this.savePending = false;
                     },
-                    error: (error) => console.log(error),
+                    error: (error) => {
+                      console.log(error);
+                      this.savePending = false;
+                    },
                 }),
         );
     }

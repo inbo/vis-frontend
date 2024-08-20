@@ -3,7 +3,7 @@ import {FishingPointsMapComponent} from '../../components/fishing-points-map/fis
 import {latLng} from 'leaflet';
 import {VhaBlueLayerSelectionEvent} from '../../components/fishing-points-map/vha-blue-layer-selection-event.model';
 import {TownLayerSelectionEvent} from '../../components/fishing-points-map/town-layer-selection-event.model';
-import {UntypedFormGroup} from '@angular/forms';
+import {UntypedFormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'vis-fishing-point-create-step3',
@@ -14,11 +14,13 @@ export class FishingPointCreateStep3Component implements OnInit {
 
     @Input() formGroup: UntypedFormGroup;
     @Input() editMode: boolean;
+    @Input() submitted: boolean;
 
     ngOnInit(): void {
         const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
         this.map.replaceNewFishingPointMarker(latlng);
         this.map.setCenter(latlng);
+        this.setupCountryCodeValidation();
     }
 
     featureSelected(event: VhaBlueLayerSelectionEvent) {
@@ -67,4 +69,25 @@ export class FishingPointCreateStep3Component implements OnInit {
     get isLentic() {
         return this.formGroup.get('isLentic')?.value;
     }
+
+    get countryCodeFormControl() {
+      return this.formGroup.get('countryCode');
+    }
+
+  private setupCountryCodeValidation() {
+    this.formGroup.get('townInfo')?.valueChanges.subscribe((value) => {
+      this.updateCountryCodeValidators(value);
+    });
+  }
+
+  private updateCountryCodeValidators(townInfoValue: any) {
+    const countryCodeControl = this.formGroup.get('countryCode');
+
+    if (!townInfoValue) {
+      countryCodeControl?.setValidators(Validators.required);
+    } else {
+      countryCodeControl?.clearValidators();
+    }
+    countryCodeControl?.updateValueAndValidity();
+  }
 }

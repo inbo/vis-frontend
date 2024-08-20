@@ -27,6 +27,8 @@
 				     class="px-4 py-8 sm:px-0">
 
 					<vis-fishing-point-create-step1 [formGroup]="formGroup"
+                                          [redraw]="redraw"
+                                          (redrawDone)="redrawDone()"
 					                           [editMode]="editMode"
 					                           [canEditIndexType]="canEditIndexType"
 					                           [(fishingPointType)]="fishingPointType"
@@ -59,7 +61,7 @@
 				<div *ngIf="currentStep === FishingPointCreationStep.WATER_COURSE"
 				     class="px-4 py-8 sm:px-0">
 					<vis-fishing-point-create-step2 [formGroup]="formGroup"
-					                           [editMode]="editMode">
+					                                [editMode]="editMode">
 					</vis-fishing-point-create-step2>
 					<div class="flex justify-end mt-5">
 						<vis-button (click)="cancel()"
@@ -83,7 +85,9 @@
 
 				<div *ngIf="currentStep === FishingPointCreationStep.BLUE_LAYER"
 				     class="px-4 py-8 sm:px-0">
-					<vis-fishing-point-create-step3 [formGroup]="formGroup" [editMode]="editMode"></vis-fishing-point-create-step3>
+					<vis-fishing-point-create-step3 [formGroup]="formGroup"
+                                          [submitted]="submitted"
+                                          [editMode]="editMode"></vis-fishing-point-create-step3>
 					<div class="flex justify-end mt-5">
 						<vis-button (click)="cancel()"
 						            [style]="'primary'">

@@ -7,6 +7,7 @@ export interface FishingPoint {
   tidalWater: boolean;
   brackishWater: boolean;
   fishingIndexType: string;
+  countryCode: string;
 
   createUser: string;
   createDate: Date;

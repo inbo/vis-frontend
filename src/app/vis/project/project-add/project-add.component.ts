@@ -58,7 +58,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
       startDate: [null, [Validators.required]],
       contact: [''],
       teams: [[]],
-      instances: [[]]
+      instances: [[], [Validators.required]]
     });
 
     this.projectTeamFormSyncService.syncTeamsAndInstances(

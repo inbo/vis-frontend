@@ -107,6 +107,7 @@ import {NgArrayPipesModule, NgObjectPipesModule} from 'ngx-pipes';
 import {ExistingSurveyEventsFoundWarningComponent} from './survey-events/existing-survey-events-found-warning/existing-survey-events-found-warning.component';
 import {ImportsOverviewOpenComponent} from './imports/imports-overview-open/imports-overview-open.component';
 import {ProjectTeamFormatPipe} from '../shared-ui/pipes/project-team-format.pipe';
+import {CountryCodeToNamePipe} from '../shared-ui/pipes/country-code-to-name.pipe';
 
 @NgModule({
   exports: [
@@ -225,6 +226,7 @@ import {ProjectTeamFormatPipe} from '../shared-ui/pipes/project-team-format.pipe
     NgObjectPipesModule,
     NgOptimizedImage,
     ProjectTeamFormatPipe,
+    CountryCodeToNamePipe,
   ],
   providers: [DatePipe, HasUnsavedDataGuard],
 })
