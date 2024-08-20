@@ -148,7 +148,7 @@ export class FishingPointDetailComponent implements OnInit {
 
                     this.formGroup = this.formBuilder.group(
                         {
-                            code: [value.code, [Validators.required, Validators.minLength(1), Validators.maxLength(15)], [this.codeValidator()]],
+                            code: [value.code, [Validators.required, Validators.minLength(1), Validators.maxLength(30)], [this.codeValidator()]],
                             description: [value.description, [Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
                             slope: [value.incline ? value.incline.toString() : null, [Validators.min(0), Validators.max(99999.999)]],
                             width: [value.width ? value.width.toString() : null, [Validators.min(0), Validators.max(99999.999)]],

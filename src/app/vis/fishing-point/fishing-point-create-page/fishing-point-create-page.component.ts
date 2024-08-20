@@ -128,7 +128,7 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
                     snappedLat: [null],
                     snappedLng: [null],
                     countryCode: [null],
-                    code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(15)],
+                    code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(30)],
                         [this.codeValidator(fishingPoint)]],
                 },
             );

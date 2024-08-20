@@ -6,10 +6,10 @@ import {Pipe, PipeTransform} from '@angular/core';
 })
 export class CountryCodeToNamePipe implements PipeTransform {
   countryDescriptions = {
+    BE: 'België',
     FR: 'Frankrijk',
     DE: 'Duitsland',
     NL: 'Nederland',
-    LU: 'Luxemburg',
   };
 
   transform(code: string): string {
