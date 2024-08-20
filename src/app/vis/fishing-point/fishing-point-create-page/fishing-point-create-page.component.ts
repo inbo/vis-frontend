@@ -174,8 +174,7 @@ export class FishingPointCreatePageComponent implements OnInit, OnDestroy {
             }
         }
         return this.isGeneralStepValid()
-            && this.formGroup?.get('vhaInfo')?.valid
-            && this.formGroup?.get('townInfo')?.valid;
+            && this.formGroup?.get('vhaInfo')?.valid;
     }
 
     isBlueLayerValid(): boolean {

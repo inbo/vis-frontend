@@ -2,6 +2,7 @@
 	<div class="grid grid-cols-6 gap-x-4 text-sm">
 		<div class="col-span-6 md:col-span-4">
 			<vis-fishing-points-map [zoomLevel]="17"
+                              (onMapClick)="onMapClick()"
 			                        (loaded)="mapLoaded()"
 			                        (townLayerSelected)="townSelected($event)"
 			                        (vhaLayerSelected)="featureSelected($event)"
@@ -60,7 +61,17 @@
                             <label class="ml-3 block text-sm font-medium text-gray-400">Geen overeenkomstige VHAG waterloop beschikbaar</label>
                         </div>
                     </div>
-                    <div *ngIf="formGroup.contains('noPointOnMap') && !editMode">
+                    <div *ngIf="!editMode && !vhaInfoEmpty">
+                      <div class="flex items-center">
+                        <input type="checkbox" class="disabled disabled:opacity-60" [disabled]="true">
+                        <label class="ml-3 block text-sm font-medium text-gray-400">Geen overeenkomstige VHAG waterloop beschikbaar</label>
+                      </div>
+                      <div class="flex mt-2 ml-3">
+                        <vis-warning-icon [messages]="['Uitzonderlijke gevallen']"></vis-warning-icon>
+                        <div class="ml-2 text-sm text-red-600">Deze optie is enkel te gebruiken in uitzonderlijke gevallen, waarbij geen VHAG waterloop is opgenomen. Bvb. gelegen buiten Vlaanderen, gracht, taploop.</div>
+                      </div>
+                    </div>
+                    <div *ngIf="formGroup.contains('noPointOnMap') && !editMode && vhaInfoEmpty">
                         <div class="flex items-center">
                             <input formControlName="noPointOnMap" type="checkbox">
                             <label class="ml-3 block text-sm font-medium text-red-600">Geen overeenkomstige VHAG waterloop beschikbaar</label>

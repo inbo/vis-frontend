@@ -65,6 +65,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     @Input() enableSidebar = true;
     @Input() disableInteraction = false;
     @Input() disableClustering = false;
+    @Output() onMapClick = new EventEmitter<LatLng>();
     @Output() pointAdded = new EventEmitter<LatLng>();
     @Output() nearbyWatercoursesFound = new EventEmitter<any>();
     @Output() loaded = new EventEmitter<any>();
@@ -282,6 +283,7 @@ export class FishingPointsMapComponent implements OnInit, OnDestroy {
     }
 
     clickMap(e: LeafletMouseEvent) {
+        this.onMapClick.emit(e.latlng);
         this.clearAllHightLights();
         this.clickedLatlng = e.latlng;
         this.updateSelections(e.latlng);

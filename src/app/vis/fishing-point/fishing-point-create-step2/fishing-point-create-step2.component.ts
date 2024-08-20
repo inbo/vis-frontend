@@ -1,9 +1,10 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FishingPointsMapComponent} from '../../components/fishing-points-map/fishing-points-map.component';
-import {latLng} from 'leaflet';
+import {LatLng, latLng} from 'leaflet';
 import {UntypedFormGroup, Validators} from '@angular/forms';
 import {VhaBlueLayerSelectionEvent} from '../../components/fishing-points-map/vha-blue-layer-selection-event.model';
 import {TownLayerSelectionEvent} from '../../components/fishing-points-map/town-layer-selection-event.model';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'vis-fishing-point-create-step2',
@@ -18,13 +19,14 @@ export class FishingPointCreateStep2Component implements OnInit {
     @Input() editMode = false;
     @Input() submitted: boolean;
 
+    private subscription = new Subscription();
 
-  ngOnInit(): void {
+    ngOnInit(): void {
         const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
         this.map.replaceNewFishingPointMarker(latlng);
         this.map.setCenter(latlng);
         this.setupCountryCodeValidation();
-  }
+    }
 
     mapLoaded() {
         const latlng = latLng(this.formGroup.get('lat').value, this.formGroup.get('lng').value);
@@ -32,6 +34,7 @@ export class FishingPointCreateStep2Component implements OnInit {
     }
 
     featureSelected(event: VhaBlueLayerSelectionEvent) {
+        this.clearFeatureSelection();
         this.formGroup.get('vhaBlueLayerId').patchValue(event.layerId);
         this.formGroup.get('vhaInfo').patchValue(event.infoProperties);
         this.formGroup.get('snappedLat').patchValue(event.coordinates.lat);
@@ -40,8 +43,22 @@ export class FishingPointCreateStep2Component implements OnInit {
     }
 
     townSelected(event: TownLayerSelectionEvent) {
+        this.clearTownSelection();
         this.formGroup.get('townLayerId').patchValue(event.layerId);
         this.formGroup.get('townInfo').patchValue(event.infoProperties);
+    }
+
+    clearFeatureSelection() {
+        this.formGroup.get('vhaBlueLayerId').patchValue(null);
+        this.formGroup.get('vhaInfo').patchValue(null);
+        this.formGroup.get('snappedLat').patchValue(null);
+        this.formGroup.get('snappedLng').patchValue(null);
+        this.formGroup.get('noPointOnMap').patchValue(false);
+    }
+
+    clearTownSelection() {
+        this.formGroup.get('townLayerId').patchValue(null);
+        this.formGroup.get('townInfo').patchValue(null);
     }
 
     numberMask(scale: number, min: number, max: number) {
@@ -97,10 +114,15 @@ export class FishingPointCreateStep2Component implements OnInit {
     return this.formGroup.get('countryCode');
   }
 
+  onMapClick() {
+    this.clearFeatureSelection();
+    this.clearTownSelection();
+  }
+
   private setupCountryCodeValidation() {
-    this.formGroup.get('townInfo')?.valueChanges.subscribe((value) => {
+    this.subscription.add(this.formGroup.get('townInfo')?.valueChanges.subscribe((value) => {
       this.updateCountryCodeValidators(value);
-    });
+    }));
   }
 
   private updateCountryCodeValidators(townInfoValue: any) {

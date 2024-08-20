@@ -61,6 +61,7 @@
 				<div *ngIf="currentStep === FishingPointCreationStep.WATER_COURSE"
 				     class="px-4 py-8 sm:px-0">
 					<vis-fishing-point-create-step2 [formGroup]="formGroup"
+                                          [submitted]="submitted"
 					                                [editMode]="editMode">
 					</vis-fishing-point-create-step2>
 					<div class="flex justify-end mt-5">
