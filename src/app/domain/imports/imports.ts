@@ -43,6 +43,8 @@ export interface ImportMeasurement {
   amount: ImportAmount;
   weight: ImportWeight;
   length: ImportLength;
+  lengthMin: ImportLength;
+  lengthMax: ImportLength;
   totalWeight: ImportTotalWeight;
   comment: ImportComment;
   valid: boolean;

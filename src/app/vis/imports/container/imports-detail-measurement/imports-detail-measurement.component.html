@@ -26,10 +26,40 @@
     <div *ngIf="+measurement.length.originalValue > 0 && +measurement.amount.originalValue > 1"
          class="mt-1 text-sm text-red-600">
     Lengte moet leeg zijn als het aantal groter dan 1 is
-      </div>
+    </div>
+    <div *ngIf="+measurement.length.originalValue <= 0 && +measurement.amount.originalValue === 1"
+         class="mt-1 text-sm text-red-600">
+    Lengte moet ingevuld zijn als het aantal gelijk aan 1 is
+    </div>
+  </div>
+  <div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900">
+    {{measurement.lengthMin.originalValue}}
+    <div *ngIf="+measurement.lengthMin.originalValue <=0 && +measurement.amount.originalValue > 1"
+         class="mt-1 text-sm text-red-600">
+    Lengte min moet ingevuld zijn als het aantal groter dan 1 is
+    </div>
+    <div *ngIf="+measurement.lengthMin.originalValue > 0 && +measurement.amount.originalValue === 1"
+         class="mt-1 text-sm text-red-600">
+      Lengte min moet leeg zijn als het aantal groter dan 1 is
+    </div>
+  </div>
+  <div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900">
+    {{measurement.lengthMax.originalValue}}
+    <div *ngIf="+measurement.lengthMax.originalValue <= 0 && +measurement.amount.originalValue > 1"
+         class="mt-1 text-sm text-red-600">
+      Lengte max moet ingevuld zijn als het aantal groter dan 1 is
+    </div>
+    <div *ngIf="+measurement.lengthMax.originalValue > 0 && +measurement.amount.originalValue === 1"
+         class="mt-1 text-sm text-red-600">
+      Lengte max moet leeg zijn als het aantal groter dan 1 is
+    </div>
   </div>
   <div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900">
     {{measurement.weight.originalValue}}
+    <div *ngIf="+measurement.weight.originalValue <= 0 && +measurement.amount.originalValue > 1"
+         class="mt-1 text-sm text-red-600">
+      Gewicht moet ingevuld zijn als het aantal groter dan 1 is
+    </div>
   </div>
   <div class="col-span-11 md:col-span-5 lg:col-span-2 text-sm text-gray-900">
     {{measurement.comment.originalValue}}
