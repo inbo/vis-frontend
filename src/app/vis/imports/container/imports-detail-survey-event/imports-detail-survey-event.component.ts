@@ -1,37 +1,38 @@
 import {Component, Input} from '@angular/core';
-import {faMinus, faPlus, faTimesCircle, faExclamation} from '@fortawesome/free-solid-svg-icons';
+import {faExclamation, faMinus, faPlus, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 import {ImportProjectDetail, ImportSurveyEvent} from '../../../../domain/imports/imports';
 
 @Component({
-	selector: 'vis-imports-detail-survey-event',
-	templateUrl: './imports-detail-survey-event.component.html',
+  selector: 'vis-imports-detail-survey-event',
+  templateUrl: './imports-detail-survey-event.component.html',
 })
 export class ImportsDetailSurveyEventComponent {
-	@Input() importOverview: ImportProjectDetail;
-	@Input() set surveyEvent(value: ImportSurveyEvent) {
-		this._surveyEvent = value;
-		const invalidMeasurement = value.measurements?.find(measurement => !measurement.valid);
-		if (invalidMeasurement) {
-			this.hasInvalidMeasurement = true;
-		} else {
-			this.hasInvalidMeasurement = false;
-		}
-	}
+  @Input() importOverview: ImportProjectDetail;
 
-	get surveyEvent(): ImportSurveyEvent {
-		return this._surveyEvent;
-	}
+  @Input() set surveyEvent(value: ImportSurveyEvent) {
+    this._surveyEvent = value;
+    const invalidMeasurement = value.measurements?.find(measurement => !measurement.valid);
+    if (invalidMeasurement) {
+      this.hasInvalidMeasurement = true;
+    } else {
+      this.hasInvalidMeasurement = false;
+    }
+  }
 
-	faTimesCircle = faTimesCircle;
-	faPlus = faPlus;
-	faMinus = faMinus;
-	faExclamation = faExclamation;
-	showMeasurements = false;
-	hasInvalidMeasurement = false;
+  get surveyEvent(): ImportSurveyEvent {
+    return this._surveyEvent;
+  }
 
-	private _surveyEvent: ImportSurveyEvent;
+  faTimesCircle = faTimesCircle;
+  faPlus = faPlus;
+  faMinus = faMinus;
+  faExclamation = faExclamation;
+  showMeasurements = false;
+  hasInvalidMeasurement = false;
 
-	toggleShowMeasurements() {
-		this.showMeasurements = !this.showMeasurements;
-	}
+  private _surveyEvent: ImportSurveyEvent;
+
+  toggleShowMeasurements() {
+    this.showMeasurements = !this.showMeasurements;
+  }
 }

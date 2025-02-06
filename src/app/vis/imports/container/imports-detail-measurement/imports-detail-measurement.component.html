@@ -3,9 +3,10 @@
   <div class="col-span-12 md:col-span-4 lg:col-span-3">
     <div class="relative text-sm text-gray-900">
       <span class="flex">
-        {{measurement.taxon.originalValue}}
+        {{ measurement.taxon.originalValue }}
 
-        <a *ngIf="measurement.taxon.taxonId" class="text-gray-400 self-center" [routerLink]="['/vissoorten', measurement.taxon.taxonId]"  target="_blank">
+        <a *ngIf="measurement.taxon.taxonId" class="text-gray-400 self-center"
+           [routerLink]="['/vissoorten', measurement.taxon.taxonId]" target="_blank">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
             <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
@@ -19,50 +20,51 @@
     </div>
   </div>
   <div class="col-span-4 md:col-span-2 lg:col-span-1 text-sm text-gray-900">
-    {{measurement.amount.originalValue}}
+    {{ measurement.amount.originalValue }}
+    <div *ngIf="+measurement.amount.originalValue <=0 && (+measurement.length.originalValue > 0 || +measurement.weight.originalValue > 0)"
+         class="mt-1 text-sm text-red-600">
+      Aantal moet ingevuld zijn als de lengte en/of het gewicht ingevuld is.
+    </div>
   </div>
   <div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900">
-    {{measurement.length.originalValue}}
+    {{ measurement.length.originalValue }}
     <div *ngIf="+measurement.length.originalValue > 0 && +measurement.amount.originalValue > 1"
          class="mt-1 text-sm text-red-600">
-    Lengte moet leeg zijn als het aantal groter dan 1 is
-    </div>
-    <div *ngIf="+measurement.length.originalValue <= 0 && +measurement.amount.originalValue === 1"
-         class="mt-1 text-sm text-red-600">
-    Lengte moet ingevuld zijn als het aantal gelijk aan 1 is
+      Lengte moet leeg zijn als het aantal groter dan 1 is
     </div>
   </div>
   <div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900">
-    {{measurement.lengthMin.originalValue}}
-    <div *ngIf="+measurement.lengthMin.originalValue <=0 && +measurement.amount.originalValue > 1"
+    {{ measurement.lengthMin.originalValue }}
+    <div *ngIf="+measurement.lengthMin.originalValue <=0 && +measurement.amount.originalValue > 1 && +measurement.lengthMax.originalValue > 0"
          class="mt-1 text-sm text-red-600">
-    Lengte min moet ingevuld zijn als het aantal groter dan 1 is
+      Lengte min is verplicht als het aantal groter dan 1 is en lengte max ingevuld is
     </div>
     <div *ngIf="+measurement.lengthMin.originalValue > 0 && +measurement.amount.originalValue === 1"
          class="mt-1 text-sm text-red-600">
-      Lengte min moet leeg zijn als het aantal groter dan 1 is
+      Lengte min moet leeg zijn als het aantal gelijk aan 1 is
     </div>
   </div>
   <div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900">
-    {{measurement.lengthMax.originalValue}}
-    <div *ngIf="+measurement.lengthMax.originalValue <= 0 && +measurement.amount.originalValue > 1"
+    {{ measurement.lengthMax.originalValue }}
+    <div *ngIf="+measurement.lengthMax.originalValue <= 0 && +measurement.amount.originalValue > 1 && +measurement.lengthMin.originalValue > 0"
          class="mt-1 text-sm text-red-600">
-      Lengte max moet ingevuld zijn als het aantal groter dan 1 is
+      Lengte max moet ingevuld zijn als het aantal groter dan 1 is en lengte min ingevuld is
     </div>
     <div *ngIf="+measurement.lengthMax.originalValue > 0 && +measurement.amount.originalValue === 1"
          class="mt-1 text-sm text-red-600">
-      Lengte max moet leeg zijn als het aantal groter dan 1 is
+      Lengte max moet leeg zijn als het aantal gelijk aan 1 is
     </div>
   </div>
   <div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900">
-    {{measurement.weight.originalValue}}
-    <div *ngIf="+measurement.weight.originalValue <= 0 && +measurement.amount.originalValue > 1"
+    {{ measurement.weight.originalValue }}
+    <div *ngIf="+measurement.weight.originalValue <= 0 && +measurement.amount.originalValue > 1 && +measurement.lengthMin.originalValue > 0 && +measurement.lengthMax.originalValue > 0"
          class="mt-1 text-sm text-red-600">
-      Gewicht moet ingevuld zijn als het aantal groter dan 1 is
+      Gewicht moet ingevuld zijn als het aantal groter dan 1 is en als zowel de minimum- als de maximumlengte
+      ingevuld zijn.
     </div>
   </div>
   <div class="col-span-11 md:col-span-5 lg:col-span-2 text-sm text-gray-900">
-    {{measurement.comment.originalValue}}
+    {{ measurement.comment.originalValue }}
   </div>
   <div class="col-span-1 md:col-span-3 lg:col-span-2 text-right self-center text-gray-500 space-x-2">
 
