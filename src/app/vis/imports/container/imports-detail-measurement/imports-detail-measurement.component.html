@@ -21,10 +21,15 @@
   </div>
   <div class="col-span-4 md:col-span-2 lg:col-span-1 text-sm text-gray-900">
     {{ measurement.amount.originalValue }}
-    <div *ngIf="+measurement.amount.originalValue <=0 && ((+measurement.length.originalValue > 0 || +measurement.weight.originalValue > 0)
-    || ((+measurement.lengthMin.originalValue > 0 && +measurement.lengthMin.originalValue > 0) || +measurement.weight.originalValue > 0))"
+    <div *ngIf="+measurement.amount.originalValue <=0 && ((+measurement.length.originalValue > 0 && +measurement.weight.originalValue > 0)
+    || ((+measurement.lengthMin.originalValue > 0 && +measurement.lengthMin.originalValue > 0) && +measurement.weight.originalValue > 0))"
          class="mt-1 text-sm text-red-600">
-      Aantal moet ingevuld zijn als de lengte en/of het gewicht ingevuld is.
+      Aantal moet ingevuld zijn als de lengte en het gewicht ingevuld is.
+    </div>
+    <div *ngIf="+measurement.amount.originalValue <=0 && ((+measurement.length.originalValue > 0 && +measurement.weight.originalValue <= 0)
+    || ((+measurement.lengthMin.originalValue > 0 && +measurement.lengthMin.originalValue > 0) && +measurement.weight.originalValue <= 0))"
+         class="mt-1 text-sm text-red-600">
+      Aantal moet ingevuld zijn als de lengte ingevuld is.
     </div>
   </div>
   <div class="col-span-4 md:col-span-3 lg:col-span-1 text-sm text-gray-900">
