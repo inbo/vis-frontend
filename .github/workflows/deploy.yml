@@ -1,0 +1,33 @@
+name: Deploy
+
+run-name: Deploy ${{ inputs.version }} to ${{ inputs.environment }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to target"
+        required: true
+        type: choice
+        options:
+          - dev
+          - uat
+          - prod
+      version:
+        type: string
+        required: true
+        description: "version to deploy"
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy version flow
+    uses: inbo/inbo-github-actions/.github/workflows/frontend-deploy.yml@2-frontend-deploy
+    secrets: inherit
+    with:
+      app-id: waterbirds
+      version: ${{ inputs.version }}
+      environment: ${{ inputs.environment }}
+      dist-path: dist

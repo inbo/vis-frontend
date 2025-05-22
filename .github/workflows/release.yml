@@ -1,0 +1,39 @@
+name: Release
+run-name: Release version ${{ inputs.release-version }}
+on:
+  push:
+    tags:
+      - 'v[0-9]+(\.[0-9]+)?(\.[0-9]+)?'
+  workflow_dispatch:
+    inputs:
+      release-version:
+        description: 'Version to release (vX[.Y[.Z]])'
+        required: true
+        type: string
+      branch:
+        description: 'Branch to create release from (main or release/*)'
+        required: true
+        type: string
+        default: 'main'
+
+permissions:
+  contents: write
+
+env:
+  version: ${{ github.ref_name || inputs.release-version }}
+  ref: ${{ github.ref_name || inputs.branch }}
+
+jobs:
+  create-release:
+    name: Create Release ${{ inputs.release-version }}
+    uses: inbo/inbo-github-actions/.github/workflows/frontend-create-release.yml@2-frontend-deploy
+    permissions:
+      contents: write
+    secrets: inherit
+    with:
+      app-id: waterbirds
+      release-version: ${{ inputs.release-version }}
+      release-branch: ${{ inputs.branch }}
+      version-file-path: src/app/services/version.ts
+      skip-lint: true  # no linting setup for now
+      skip-test: true  # no tests defined for now

@@ -1,0 +1,36 @@
+name: CI & CD
+
+run-name: >
+  ${{
+    github.event_name == 'push' && format('CI/CD - {0}', github.ref_name)
+    || format('CI - PR #{0} from {1}', github.event.pull_request.number, github.head_ref)
+  }}
+
+on:
+  pull_request:
+    types: [ opened, edited, synchronize ]
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci-cd:
+    name: CI & CD flow
+    uses: inbo/inbo-github-actions/.github/workflows/frontend-ci-cd.yml@2-frontend-deploy
+    permissions:
+      contents: write
+    secrets: inherit
+    with:
+      app-id: vis
+      environment: dev
+      dist-path: dist
+      version-file-path: src/app/services/version.ts
+      skip-lint: true  # no linting setup for now
+      skip-test: true  # no tests defined for now
