@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --output-path=dist/local",
+    "build": "ng build --output-path=dist",
     "build:dev": "ng build --configuration=dev --output-path=dist",
     "build:uat": "ng build --configuration=uat --output-path=dist",
     "build:prd": "ng build --configuration=production --output-path=dist",
